@@ -21,7 +21,7 @@ class CuppaApp extends StatelessWidget {
           : kDefaultTheme,
       home: new Scaffold(
           appBar: new PlatformAdaptiveAppBar(
-            title: new Text('Cuppa'),
+            title: new Text('  Cuppa  '),
             platform: Theme.of(context).platform,
           ),
           body: new TimerWidget()),
