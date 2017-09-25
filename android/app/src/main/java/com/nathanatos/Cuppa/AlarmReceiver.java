@@ -29,9 +29,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
             notificationChannel = new NotificationChannel(CHANNEL,
-                    "Cuppa Timer",
+                    "Timer notifications",
                     NotificationManager.IMPORTANCE_HIGH);
-            notificationChannel.setDescription("Notifications for brewing completion");
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.GREEN);
             notificationChannel.enableVibration(true);
