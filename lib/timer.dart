@@ -74,46 +74,32 @@ class _TimerWidgetState extends State<TimerWidget> {
     });
   }
 
-  void _setTimer() {
-    _cupImage = cupImageBegin;
-    _timerEndTime =
-        new DateTime.now().add(new Duration(seconds: _timerSeconds + 1));
-    _timer = new Timer.periodic(new Duration(seconds: 1), _decrementTimer);
-    _sendNotification(_timerSeconds);
+  void _setTimer(String teaName) {
+    setState(() {
+      if (!_timerActive) {
+        _timerActive = true;
+        _whichActive = teaName;
+        _timerSeconds = teaTimerSeconds[teaName];
+        _cupImage = cupImageBegin;
+        _timerEndTime =
+            new DateTime.now().add(new Duration(seconds: _timerSeconds + 1));
+        _timer = new Timer.periodic(new Duration(seconds: 1), _decrementTimer);
+        _sendNotification(_timerSeconds);
+      }
+    });
   }
 
   // Button handlers
   void _handleTapboxBlackChanged(bool newValue) {
-    setState(() {
-      if (!_timerActive) {
-        _timerActive = true;
-        _whichActive = BLACK;
-        _timerSeconds = teaTimerSeconds[BLACK];
-        _setTimer();
-      }
-    });
+    _setTimer(BLACK);
   }
 
   void _handleTapboxGreenChanged(bool newValue) {
-    setState(() {
-      if (!_timerActive) {
-        _timerActive = true;
-        _whichActive = GREEN;
-        _timerSeconds = teaTimerSeconds[GREEN];
-        _setTimer();
-      }
-    });
+    _setTimer(GREEN);
   }
 
   void _handleTapboxHerbalChanged(bool newValue) {
-    setState(() {
-      if (!_timerActive) {
-        _timerActive = true;
-        _whichActive = HERBAL;
-        _timerSeconds = teaTimerSeconds[HERBAL];
-        _setTimer();
-      }
-    });
+    _setTimer(HERBAL);
   }
 
   void _handleTapboxCancelPressed(bool newValue) {
