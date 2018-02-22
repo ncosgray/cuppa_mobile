@@ -3,7 +3,7 @@
     android:versionCode="4"
     android:versionName="1.0">
 
-    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="26" />
+    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="27" />
 
     <!-- The INTERNET permission is required for development. Specifically,
          flutter needs it to communicate with the running application
