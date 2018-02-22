@@ -1,5 +1,7 @@
 package com.nathanatos.Cuppa;
 
+import android.media.AudioAttributes;
+import android.net.Uri;
 import android.os.Build;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -36,6 +38,14 @@ public class AlarmReceiver extends BroadcastReceiver {
             notificationChannel.enableVibration(true);
             notificationChannel.setShowBadge(true);
             notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+
+            // Set custom sound
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
+                    .build();
+            notificationChannel.setSound(Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.spoon), audioAttributes);
+
             notificationManager.createNotificationChannel(notificationChannel);
 
             // Build notification with channel
@@ -43,7 +53,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
         else
         {
-            // Build notification without channel for pre-O
+            // Build notification without channel for pre-Oreo
             builder = new Notification.Builder(context);
         }
 
@@ -51,10 +61,17 @@ public class AlarmReceiver extends BroadcastReceiver {
         Notification notification = builder.setContentTitle("Brewing complete")
                 .setContentText("Your tea is now ready!")
                 .setSmallIcon(R.drawable.ic_stat_name)
-                .setPriority(Notification.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent).build();
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notification.defaults |= Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND;
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+        {
+            // Set custom sound and other options directly on notification for pre-Oreo
+            notification.sound = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.spoon);
+            notification.priority = Notification.PRIORITY_HIGH;
+            notification.defaults |= Notification.DEFAULT_VIBRATE;
+        }
+
         notificationManager.notify(0, notification);
     }
 }
