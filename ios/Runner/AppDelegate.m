@@ -47,7 +47,7 @@
     UNMutableNotificationContent *content = [UNMutableNotificationContent new];
     content.title = @"Brewing complete";
     content.body = @"Your tea is now ready!";
-    content.sound = [UNNotificationSound defaultSound];
+    content.sound = [UNNotificationSound soundNamed:@"spoon.aiff"];
     [content setValue:@YES forKey:@"shouldAlwaysAlertWhileAppIsForeground"];
             
     // Configure the notification schedule
