@@ -11,3 +11,5 @@ GeneratedPluginRegistrant.java
 /gradle
 /gradlew
 /gradlew.bat
+
+/key.properties
