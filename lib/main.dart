@@ -1,11 +1,12 @@
-// Cuppa: a simple tea timer app for Android and iOS
-// By Nathan Cosgray
-// www.nathanatos.com/software
+// Cuppa main.dart
+// Author: Nathan Cosgray | https://www.nathanatos.com
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'platform_adaptive.dart';
 import 'timer.dart';
+
+// Cuppa: a simple tea timer app for Android and iOS
 
 void main() {
   runApp(new CuppaApp());
