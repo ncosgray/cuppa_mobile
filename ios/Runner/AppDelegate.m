@@ -37,7 +37,10 @@
                                   NSLog(@"Error while getting authorization to send notifications");
                               }
                           }];
-						  
+
+  // Set up delegate to receive notification while app is in foreground
+  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
@@ -48,8 +51,7 @@
     content.title = @"Brewing complete";
     content.body = @"Your tea is now ready!";
     content.sound = [UNNotificationSound soundNamed:@"sound/spoon.aiff"];
-    [content setValue:@YES forKey:@"shouldAlwaysAlertWhileAppIsForeground"];
-            
+
     // Configure the notification schedule
     UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:secs
                                                                                                             repeats:NO];
@@ -71,6 +73,11 @@
     // Remove our notifications
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     [center removeAllPendingNotificationRequests];
+}
+
+// iOS platform: handle notification while app is in foreground
+- (void)userNotificationCenter:(UNUserNotificationCenter* )center willPresentNotification:(UNNotification* )notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+    completionHandler(UNNotificationPresentationOptionAlert);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
