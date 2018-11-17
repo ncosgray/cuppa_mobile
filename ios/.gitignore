@@ -23,6 +23,7 @@ GeneratedPluginRegistrant.m
 !default.perspectivev3
 
 xcuserdata
+xcshareddata
 
 *.moved-aside
 
@@ -39,3 +40,7 @@ Icon?
 /ServiceDefinitions.json
 
 Pods/
+
+isolate_snapshot_data
+kernel_blob.bin
+vm_snapshot_data
