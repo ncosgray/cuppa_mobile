@@ -1,7 +1,3 @@
-// Cuppa: a simple tea timer app for Android and iOS
-// By Nathan Cosgray
-// www.nathanatos.com/software
-
 // Taken from https://github.com/efortuna/memechat with modifications:
 // - For Android buttons include text as well as icon
 // - Change theme colors
