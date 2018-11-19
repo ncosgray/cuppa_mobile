@@ -5,6 +5,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:after_layout/after_layout.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Cuppa: timer classes
 
@@ -13,7 +15,7 @@ class TimerWidget extends StatefulWidget {
   _TimerWidgetState createState() => new _TimerWidgetState();
 }
 
-class _TimerWidgetState extends State<TimerWidget> {
+class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWidget> {
   // Tea names
   static String BLACK = 'BLACK';
   static String GREEN = 'GREEN';
@@ -30,6 +32,10 @@ class _TimerWidgetState extends State<TimerWidget> {
   static String cupImageDefault = 'images/Cuppa_hires_default.png';
   static String cupImageBegin = 'images/Cuppa_hires_light.png';
   static String cupImageEnd = 'images/Cuppa_hires_dark.png';
+
+  // Prefs keys
+  static String prefNextTeaName = 'Cuppa_next_tea_name';
+  static String prefNextAlarm = 'Cuppa_next_alarm';
 
   // State variables
   bool _timerActive = false;
@@ -69,23 +75,63 @@ class _TimerWidgetState extends State<TimerWidget> {
         _cupImage = cupImageDefault;
         _timerSeconds = 0;
         _timer.cancel();
+        _clearPrefs();
       }
     });
   }
 
-  void _setTimer(String teaName) {
+  void _setTimer(String teaName, [int secs = 0]) {
     setState(() {
-      if (!_timerActive) {
-        _timerActive = true;
-        _whichActive = teaName;
+      if (!_timerActive) _timerActive = true;
+      _whichActive = teaName;
+      if (secs == 0) {
+        // Set up new timer
         _timerSeconds = teaTimerSeconds[teaName];
-        _cupImage = cupImageBegin;
-        _timerEndTime =
-            new DateTime.now().add(new Duration(seconds: _timerSeconds + 1));
-        _timer = new Timer.periodic(new Duration(seconds: 1), _decrementTimer);
         _sendNotification(_timerSeconds);
       }
+      else {
+        // Resume timer from stored prefs
+        _timerSeconds = secs;
+      }
+      _cupImage = cupImageBegin;
+      _timer = new Timer.periodic(new Duration(seconds: 1), _decrementTimer);
+      _timerEndTime =
+          new DateTime.now().add(new Duration(seconds: _timerSeconds + 1));
+      _setPrefs(teaName, _timerEndTime);
     });
+  }
+
+  // Prefs functions
+  void _setPrefs(String teaName, DateTime timerEndTime) async {
+    // Store alarm info in prefs to persist when app is closed
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(prefNextTeaName, teaName);
+    prefs.setString(prefNextAlarm, timerEndTime.toString());
+  }
+
+  void _checkPrefs() async {
+    // Fetch next alarm info from prefs and resume if any
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String nextTeaName = prefs.getString(prefNextTeaName) ?? '';
+    String nextAlarm = prefs.getString(prefNextAlarm) ?? '';
+    if (DateTime.tryParse(nextAlarm) != null) {
+      Duration diff = DateTime.parse(nextAlarm).difference(DateTime.now());
+      if (diff.inSeconds > 0) {
+        _setTimer(nextTeaName, diff.inSeconds);
+      }
+      else {
+        _clearPrefs();
+      }
+    }
+    else {
+      _clearPrefs();
+    }
+  }
+
+  void _clearPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(prefNextTeaName, '');
+    prefs.setString(prefNextAlarm, '');
   }
 
   // Button handlers
@@ -108,6 +154,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       _timerEndTime = new DateTime.now();
       _decrementTimer(_timer);
       _cancelNotification();
+      _clearPrefs();
     });
   }
 
@@ -202,6 +249,12 @@ class _TimerWidgetState extends State<TimerWidget> {
         ],
       ),
     );
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    // Check for an existing timer
+    _checkPrefs();
   }
 }
 

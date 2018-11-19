@@ -4,6 +4,8 @@ description: A simple tea timer app for Android and iOS.
 dependencies:
   flutter:
     sdk: flutter
+  after_layout:
+  shared_preferences:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
