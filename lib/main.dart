@@ -20,6 +20,9 @@ class CuppaApp extends StatelessWidget {
       theme: defaultTargetPlatform == TargetPlatform.iOS
           ? kIOSTheme
           : kDefaultTheme,
+      darkTheme: defaultTargetPlatform == TargetPlatform.iOS
+          ? kIOSTheme
+          : kDarkTheme,
       home: new Scaffold(
           appBar: new PlatformAdaptiveAppBar(
             title: new Text('  Cuppa  '),

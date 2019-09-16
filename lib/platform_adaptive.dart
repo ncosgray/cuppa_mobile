@@ -13,11 +13,21 @@ final ThemeData kIOSTheme = new ThemeData(
   primarySwatch: Colors.blue,
   primaryColor: Colors.grey[100],
   primaryColorBrightness: Brightness.light,
+  buttonColor: Colors.black54,
 );
 
 final ThemeData kDefaultTheme = new ThemeData(
   primarySwatch: Colors.blue,
   accentColor: Colors.blueAccent[400],
+  buttonColor: Colors.black54,
+  brightness: Brightness.light,
+);
+
+final ThemeData kDarkTheme = new ThemeData(
+  primarySwatch: Colors.blue,
+  accentColor: Colors.blueAccent[400],
+  buttonColor: Colors.grey,
+  brightness: Brightness.dark,
 );
 
 /// App bar that uses iOS styling on iOS

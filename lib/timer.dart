@@ -211,7 +211,7 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
                       active: _whichActive == BLACK ? true : false,
                       fade:
                           !_timerActive || _whichActive == BLACK ? false : true,
-                      buttonColor: Colors.black54,
+                      buttonColor: Theme.of(context).buttonColor,
                       onPressed: _handleTapboxBlackChanged),
                   new TeaButton(
                       name: GREEN,
@@ -340,13 +340,13 @@ class CancelButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             new Icon(Icons.cancel,
-                color: active ? Colors.blue : Colors.black12),
+                color: active ? Colors.blue : Theme.of(context).buttonColor),
             new Text(
               CANCEL,
               style: new TextStyle(
                 fontSize: 10.0,
                 fontWeight: FontWeight.w400,
-                color: active ? Colors.blue : Colors.black12,
+                color: active ? Colors.blue : Theme.of(context).buttonColor,
               ),
             ),
           ],
