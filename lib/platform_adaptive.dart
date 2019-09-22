@@ -1,6 +1,7 @@
 // Taken from https://github.com/efortuna/memechat with modifications:
 // - For Android buttons include text as well as icon
 // - Change theme colors
+// - Add dark themes for Android and iOS
 
 // Copyright 2017, the Flutter project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
@@ -10,10 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 final ThemeData kIOSTheme = new ThemeData(
-  primarySwatch: Colors.blue,
   primaryColor: Colors.grey[100],
-  primaryColorBrightness: Brightness.light,
   buttonColor: Colors.black54,
+  brightness: Brightness.light,
+);
+
+final ThemeData kIOSDarkTheme = new ThemeData(
+  primaryColor: Colors.grey[900],
+  buttonColor: Colors.grey,
+  brightness: Brightness.dark,
 );
 
 final ThemeData kDefaultTheme = new ThemeData(
