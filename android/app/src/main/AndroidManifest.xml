@@ -14,7 +14,7 @@
 
         <activity android:name=".MainActivity"
                   android:launchMode="singleTop"
-                  android:theme="@android:style/Theme.Light.NoTitleBar"
+                  android:theme="@android:style/Theme.NoTitleBar"
                   android:screenOrientation="portrait"
                   android:hardwareAccelerated="true">
             <intent-filter>
