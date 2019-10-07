@@ -45,3 +45,5 @@ Podfile.lock
 isolate_snapshot_data
 kernel_blob.bin
 vm_snapshot_data
+flutter_export_environment.sh
+
