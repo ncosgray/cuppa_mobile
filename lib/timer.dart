@@ -183,6 +183,7 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
                 child: new Center(
                   child: new Text(
                     formatTimer(_timerSeconds),
+                    textScaleFactor: 1.0,
                     style: timerStyle,
                   ),
                 ),
@@ -305,6 +306,7 @@ class TeaButton extends StatelessWidget {
                 ),
                 new Text(
                   name,
+                  textScaleFactor: 1.0,
                   style: new TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14.0,
@@ -343,6 +345,7 @@ class CancelButton extends StatelessWidget {
                 color: active ? Colors.blue : Theme.of(context).buttonColor),
             new Text(
               CANCEL,
+              textScaleFactor: 1.0,
               style: new TextStyle(
                 fontSize: 10.0,
                 fontWeight: FontWeight.w400,
