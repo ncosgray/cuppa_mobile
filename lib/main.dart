@@ -16,6 +16,12 @@ class CuppaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      builder: (context, child) {
+        return MediaQuery(
+          child: child,
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+        );
+      },
       title: 'Cuppa',
       theme: defaultTargetPlatform == TargetPlatform.iOS
           ? kIOSTheme
