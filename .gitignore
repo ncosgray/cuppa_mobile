@@ -10,3 +10,4 @@ pubspec.lock
 .flutter-plugins*
 .metadata
 package_config.json
+.dart_tool/
