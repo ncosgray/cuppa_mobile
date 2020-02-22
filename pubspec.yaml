@@ -21,6 +21,7 @@ dependencies:
     sdk: flutter
   after_layout:
   shared_preferences:
+  quick_actions:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

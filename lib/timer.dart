@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:quick_actions/quick_actions.dart';
 
 // Cuppa: timer classes
 
@@ -156,6 +157,54 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
       _cancelNotification();
       _clearPrefs();
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Handle quick action selection
+    final QuickActions quickActions = QuickActions();
+    quickActions.initialize((String shortcutType) {
+      setState(() {
+        if (shortcutType != null)
+          switch(shortcutType) {
+            case 'shortcutBlack': {
+              _setTimer(BLACK);
+            }
+            break;
+
+            case 'shortcutGreen': {
+              _setTimer(GREEN);
+            }
+            break;
+
+            case 'shortcutHerbal': {
+              _setTimer(HERBAL);
+            }
+            break;
+          }
+      });
+    });
+
+    // Add quick action shortcuts
+    quickActions.setShortcutItems(<ShortcutItem>[
+      const ShortcutItem(
+        type: 'shortcutHerbal',
+        localizedTitle: 'Herbal tea',
+        //icon: 'ic_shortcut_herbal',
+      ),
+      const ShortcutItem(
+        type: 'shortcutGreen',
+        localizedTitle: 'Green tea',
+        //icon: 'ic_shortcut_green',
+      ),
+      const ShortcutItem(
+        type: 'shortcutBlack',
+        localizedTitle: 'Black tea',
+        //icon: 'ic_shortcut_black',
+      ),
+    ]);
   }
 
   @override
