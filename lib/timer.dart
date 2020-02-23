@@ -192,17 +192,17 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
       const ShortcutItem(
         type: 'shortcutHerbal',
         localizedTitle: 'Herbal tea',
-        //icon: 'ic_shortcut_herbal',
+        icon: 'shortcut_herbal',
       ),
       const ShortcutItem(
         type: 'shortcutGreen',
         localizedTitle: 'Green tea',
-        //icon: 'ic_shortcut_green',
+        icon: 'shortcut_green',
       ),
       const ShortcutItem(
         type: 'shortcutBlack',
         localizedTitle: 'Black tea',
-        //icon: 'ic_shortcut_black',
+        icon: 'shortcut_black',
       ),
     ]);
   }
