@@ -190,9 +190,9 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
     // Add quick action shortcuts
     quickActions.setShortcutItems(<ShortcutItem>[
       const ShortcutItem(
-        type: 'shortcutHerbal',
-        localizedTitle: 'Herbal tea',
-        icon: 'shortcut_herbal',
+        type: 'shortcutBlack',
+        localizedTitle: 'Black tea',
+        icon: 'shortcut_black',
       ),
       const ShortcutItem(
         type: 'shortcutGreen',
@@ -200,9 +200,9 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
         icon: 'shortcut_green',
       ),
       const ShortcutItem(
-        type: 'shortcutBlack',
-        localizedTitle: 'Black tea',
-        icon: 'shortcut_black',
+        type: 'shortcutHerbal',
+        localizedTitle: 'Herbal tea',
+        icon: 'shortcut_herbal',
       ),
     ]);
   }
