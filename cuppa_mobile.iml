@@ -15,6 +15,12 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/quick_actions/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/quick_actions/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/quick_actions/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/quick_actions/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/quick_actions/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/quick_actions/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/shared_preferences/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/shared_preferences/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/shared_preferences/build" />
