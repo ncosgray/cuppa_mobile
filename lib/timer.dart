@@ -29,6 +29,13 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
     HERBAL: 300,
   };
 
+  // Brewing complete text
+  var teaTimerText = {
+    BLACK: 'Black tea is now ready!',
+    GREEN: 'Green tea is now ready!',
+    HERBAL: 'Herbal tea is now ready!',
+  };
+
   // Cup images
   static String cupImageDefault = 'images/Cuppa_hires_default.png';
   static String cupImageBegin = 'images/Cuppa_hires_light.png';
@@ -49,9 +56,12 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
   // Notification channels
   static const platform =
       const MethodChannel('com.nathanatos.Cuppa/notification');
-  Future<Null> _sendNotification(int secs) async {
+  Future<Null> _sendNotification(int secs, String text) async {
     try {
-      platform.invokeMethod('setupNotification', secs);
+      platform.invokeMethod('setupNotification', <String, dynamic>{
+        'secs': secs,
+        'text': text,
+      });
     } on PlatformException catch (e) {
       return;
     }
@@ -88,7 +98,7 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
       if (secs == 0) {
         // Set up new timer
         _timerSeconds = teaTimerSeconds[teaName];
-        _sendNotification(_timerSeconds);
+        _sendNotification(_timerSeconds, teaTimerText[teaName]);
       }
       else {
         // Resume timer from stored prefs
