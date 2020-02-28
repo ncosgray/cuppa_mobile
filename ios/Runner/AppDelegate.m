@@ -44,7 +44,7 @@
 }
 
 // iOS platform: handle send notification
-- (void)sendNotification:(int)secs :(NSString*)text :(NSString*)title {
+- (void)sendNotification:(int)secs :(NSString*)title :(NSString*)text {
     // Set up notification content
     UNMutableNotificationContent *content = [UNMutableNotificationContent new];
     content.title = title;
