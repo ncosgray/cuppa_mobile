@@ -15,8 +15,9 @@
     [notificationChannel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
         if ([@"setupNotification" isEqualToString:call.method]) {
             int secsVal = [call.arguments[@"secs"] intValue];
+            NSString* titleVal = call.arguments[@"title"];
             NSString* textVal = call.arguments[@"text"];
-            [self sendNotification: secsVal :textVal];
+            [self sendNotification: secsVal :titleVal :textVal];
         }
         else if ([@"cancelNotification" isEqualToString:call.method]) {
             [self cancelNotification];
@@ -43,10 +44,10 @@
 }
 
 // iOS platform: handle send notification
-- (void)sendNotification:(int)secs :(NSString*)text {
+- (void)sendNotification:(int)secs :(NSString*)text :(NSString*)title {
     // Set up notification content
     UNMutableNotificationContent *content = [UNMutableNotificationContent new];
-    content.title = @"Brewing complete";
+    content.title = title;
     content.body = text;
     content.sound = [UNNotificationSound soundNamed:@"sound/spoon.aiff"];
     
