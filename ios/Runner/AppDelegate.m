@@ -14,8 +14,9 @@
                                                  binaryMessenger:flutterController];
     [notificationChannel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
         if ([@"setupNotification" isEqualToString:call.method]) {
-            NSString* secsVal = call.arguments;
-            [self sendNotification:[secsVal intValue]];
+            int secsVal = [call.arguments[@"secs"] intValue];
+            NSString* textVal = call.arguments[@"text"];
+            [self sendNotification: secsVal :textVal];
         }
         else if ([@"cancelNotification" isEqualToString:call.method]) {
             [self cancelNotification];
@@ -42,11 +43,11 @@
 }
 
 // iOS platform: handle send notification
-- (void)sendNotification:(int)secs {
+- (void)sendNotification:(int)secs :(NSString*)text {
     // Set up notification content
     UNMutableNotificationContent *content = [UNMutableNotificationContent new];
     content.title = @"Brewing complete";
-    content.body = @"Your tea is now ready!";
+    content.body = text;
     content.sound = [UNNotificationSound soundNamed:@"sound/spoon.aiff"];
     
     // Configure the notification schedule
