@@ -30,6 +30,7 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
   };
 
   // Brewing complete text
+  static String teaTimerTitle = 'Brewing complete...';
   var teaTimerText = {
     BLACK: 'Black tea is now ready!',
     GREEN: 'Green tea is now ready!',
@@ -56,10 +57,11 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
   // Notification channels
   static const platform =
       const MethodChannel('com.nathanatos.Cuppa/notification');
-  Future<Null> _sendNotification(int secs, String text) async {
+  Future<Null> _sendNotification(int secs, String title, String text) async {
     try {
       platform.invokeMethod('setupNotification', <String, dynamic>{
         'secs': secs,
+        'title': title,
         'text': text,
       });
     } on PlatformException catch (e) {
@@ -98,7 +100,7 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
       if (secs == 0) {
         // Set up new timer
         _timerSeconds = teaTimerSeconds[teaName];
-        _sendNotification(_timerSeconds, teaTimerText[teaName]);
+        _sendNotification(_timerSeconds, teaTimerTitle, teaTimerText[teaName]);
       }
       else {
         // Resume timer from stored prefs
