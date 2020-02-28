@@ -58,8 +58,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
         // Create the notification
+        String title = intent.getStringExtra("title");
         String text = intent.getStringExtra("text");
-        Notification notification = builder.setContentTitle("Brewing complete")
+        Notification notification = builder.setContentTitle(title)
                 .setContentText(text)
                 .setSmallIcon(R.drawable.ic_stat_name)
                 .setContentIntent(pendingIntent).build();

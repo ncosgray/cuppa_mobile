@@ -30,8 +30,9 @@ public class MainActivity extends FlutterActivity {
                 public void onMethodCall(MethodCall call, Result result) {
                     if (call.method.equals("setupNotification")) {
                         int secs = call.argument("secs");
+                        String title = call.argument("title");
                         String text = call.argument("text");
-                        sendNotification(secs, text);
+                        sendNotification(secs, title, text);
                     }
                     else if (call.method.equals("cancelNotification")) {
                         cancelNotification();
@@ -45,13 +46,14 @@ public class MainActivity extends FlutterActivity {
     }
 
     // Android platform: handle send notification via alarm
-    private void sendNotification(int secs, String text)
+    private void sendNotification(int secs, String title, String text)
     {
         // Set up alarm
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
         notificationIntent.addCategory("android.intent.category.DEFAULT");
         notificationIntent.setClass(this, AlarmReceiver.class);
+        notificationIntent.putExtra("title", title);
         notificationIntent.putExtra("text", text);
         PendingIntent broadcast = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
