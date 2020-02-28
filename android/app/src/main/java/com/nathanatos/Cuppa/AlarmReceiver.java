@@ -58,8 +58,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
         // Create the notification
+        String text = intent.getStringExtra("text");
         Notification notification = builder.setContentTitle("Brewing complete")
-                .setContentText("Your tea is now ready!")
+                .setContentText(text)
                 .setSmallIcon(R.drawable.ic_stat_name)
                 .setContentIntent(pendingIntent).build();
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
