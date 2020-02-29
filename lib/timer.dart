@@ -18,15 +18,29 @@ class TimerWidget extends StatefulWidget {
 
 class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWidget> {
   // Tea names
-  static String BLACK = 'BLACK';
-  static String GREEN = 'GREEN';
-  static String HERBAL = 'HERBAL';
+  static const String BLACK = 'BLACK';
+  static const String GREEN = 'GREEN';
+  static const String HERBAL = 'HERBAL';
 
   // Tea steep times
   var teaTimerSeconds = {
     BLACK: 240,
     GREEN: 150,
     HERBAL: 300,
+  };
+
+  // Button names
+  var teaButton = {
+    BLACK: 'BLACK',
+    GREEN: 'GREEN',
+    HERBAL: 'HERBAL',
+  };
+
+  // Tea full names
+  var teaFullName = {
+    BLACK: 'Black tea',
+    GREEN: 'Green tea',
+    HERBAL: 'Herbal tea',
   };
 
   // Brewing complete text
@@ -38,13 +52,13 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
   };
 
   // Cup images
-  static String cupImageDefault = 'images/Cuppa_hires_default.png';
-  static String cupImageBegin = 'images/Cuppa_hires_light.png';
-  static String cupImageEnd = 'images/Cuppa_hires_dark.png';
+  static final String cupImageDefault = 'images/Cuppa_hires_default.png';
+  static final String cupImageBegin = 'images/Cuppa_hires_light.png';
+  static final String cupImageEnd = 'images/Cuppa_hires_dark.png';
 
   // Prefs keys
-  static String prefNextTeaName = 'Cuppa_next_tea_name';
-  static String prefNextAlarm = 'Cuppa_next_alarm';
+  static final String prefNextTeaName = 'Cuppa_next_tea_name';
+  static final String prefNextAlarm = 'Cuppa_next_alarm';
 
   // State variables
   bool _timerActive = false;
@@ -201,19 +215,19 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
 
     // Add quick action shortcuts
     quickActions.setShortcutItems(<ShortcutItem>[
-      const ShortcutItem(
+      ShortcutItem(
         type: 'shortcutBlack',
-        localizedTitle: 'Black tea',
+        localizedTitle: teaFullName[BLACK],
         icon: 'shortcut_black',
       ),
-      const ShortcutItem(
+      ShortcutItem(
         type: 'shortcutGreen',
-        localizedTitle: 'Green tea',
+        localizedTitle: teaFullName[GREEN],
         icon: 'shortcut_green',
       ),
-      const ShortcutItem(
+      ShortcutItem(
         type: 'shortcutHerbal',
-        localizedTitle: 'Herbal tea',
+        localizedTitle: teaFullName[HERBAL],
         icon: 'shortcut_herbal',
       ),
     ]);
@@ -268,21 +282,21 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   new TeaButton(
-                      name: BLACK,
+                      name: teaButton[BLACK],
                       active: _whichActive == BLACK ? true : false,
                       fade:
                           !_timerActive || _whichActive == BLACK ? false : true,
                       buttonColor: Theme.of(context).buttonColor,
                       onPressed: _handleTapboxBlackChanged),
                   new TeaButton(
-                      name: GREEN,
+                      name: teaButton[GREEN],
                       active: _whichActive == GREEN ? true : false,
                       fade:
                           !_timerActive || _whichActive == GREEN ? false : true,
                       buttonColor: Colors.green,
                       onPressed: _handleTapboxGreenChanged),
                   new TeaButton(
-                      name: HERBAL,
+                      name: teaButton[HERBAL],
                       active: _whichActive == HERBAL ? true : false,
                       fade: !_timerActive || _whichActive == HERBAL
                           ? false
@@ -385,7 +399,7 @@ class CancelButton extends StatelessWidget {
   CancelButton({Key key, this.active: false, @required this.onPressed})
       : super(key: key);
 
-  static String CANCEL = 'CANCEL';
+  static String cancelButton = 'CANCEL';
 
   final bool active;
   final ValueChanged<bool> onPressed;
@@ -403,7 +417,7 @@ class CancelButton extends StatelessWidget {
             new Icon(Icons.cancel,
                 color: active ? Colors.blue : Theme.of(context).buttonColor),
             new Text(
-              CANCEL,
+              cancelButton,
               style: new TextStyle(
                 fontSize: 10.0,
                 fontWeight: FontWeight.w400,
