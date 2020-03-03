@@ -91,6 +91,46 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
     }
   }
 
+  // Confirmation dialog
+  Future<bool> _confirmTimer() {
+    if (_timerActive) {
+      return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Warning!'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('There is an active timer.'),
+                  Text('Cancel and start a new timer?'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Yes'),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              ),
+              FlatButton(
+                child: Text('No'),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+    else {
+      return Future.value(true);
+    }
+  }
+
   // Timer functions
   void _decrementTimer(Timer t) {
     setState(() {
@@ -114,7 +154,8 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
       if (secs == 0) {
         // Set up new timer
         _timerSeconds = teaTimerSeconds[teaName];
-        _sendNotification(_timerSeconds, teaTimerTitle, teaTimerText[teaName]);
+        _sendNotification(
+            _timerSeconds, teaTimerTitle, teaTimerText[teaName]);
       }
       else {
         // Resume timer from stored prefs
@@ -162,16 +203,16 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
   }
 
   // Button handlers
-  void _handleTapboxBlackChanged(bool newValue) {
-    _setTimer(BLACK);
+  void _handleTapboxBlackChanged(bool newValue) async {
+    if (await _confirmTimer()) _setTimer(BLACK);
   }
 
-  void _handleTapboxGreenChanged(bool newValue) {
-    _setTimer(GREEN);
+  void _handleTapboxGreenChanged(bool newValue) async {
+    if (await _confirmTimer()) _setTimer(GREEN);
   }
 
-  void _handleTapboxHerbalChanged(bool newValue) {
-    _setTimer(HERBAL);
+  void _handleTapboxHerbalChanged(bool newValue) async {
+    if (await _confirmTimer()) _setTimer(HERBAL);
   }
 
   void _handleTapboxCancelPressed(bool newValue) {
@@ -192,24 +233,26 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
     // Handle quick action selection
     final QuickActions quickActions = QuickActions();
     quickActions.initialize((String shortcutType) {
-      setState(() {
-        if (shortcutType != null)
-          switch(shortcutType) {
-            case 'shortcutBlack': {
-              _setTimer(BLACK);
-            }
-            break;
-
-            case 'shortcutGreen': {
-              _setTimer(GREEN);
-            }
-            break;
-
-            case 'shortcutHerbal': {
-              _setTimer(HERBAL);
-            }
-            break;
+      setState(() async {
+        if (shortcutType != null) {
+          switch (shortcutType) {
+            case 'shortcutBlack':
+              {
+                if (await _confirmTimer()) _setTimer(BLACK);
+              }
+              break;
+            case 'shortcutGreen':
+              {
+                if (await _confirmTimer()) _setTimer(GREEN);
+              }
+              break;
+            case 'shortcutHerbal':
+              {
+                if (await _confirmTimer()) _setTimer(HERBAL);
+              }
+              break;
           }
+        }
       });
     });
 
