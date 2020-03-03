@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:after_layout/after_layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:quick_actions/quick_actions.dart';
 
@@ -16,7 +15,7 @@ class TimerWidget extends StatefulWidget {
   _TimerWidgetState createState() => new _TimerWidgetState();
 }
 
-class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWidget> {
+class _TimerWidgetState extends State<TimerWidget> {
   // Tea names
   static const String BLACK = 'BLACK';
   static const String GREEN = 'GREEN';
@@ -230,6 +229,9 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
   void initState() {
     super.initState();
 
+    // Check for an existing timer
+    _checkPrefs();
+
     // Handle quick action selection
     final QuickActions quickActions = QuickActions();
     quickActions.initialize((String shortcutType) {
@@ -367,12 +369,6 @@ class _TimerWidgetState extends State<TimerWidget> with AfterLayoutMixin<TimerWi
         ],
       ),
     );
-  }
-
-  @override
-  void afterFirstLayout(BuildContext context) {
-    // Check for an existing timer
-    _checkPrefs();
   }
 }
 
