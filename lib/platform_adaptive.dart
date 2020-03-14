@@ -1,11 +1,9 @@
-// Taken from https://github.com/efortuna/memechat with modifications:
-// - For Android buttons include text as well as icon
-// - Change theme colors
-// - Add dark themes for Android and iOS
+// Cuppa platform_adaptive.dart
+// Author: Nathan Cosgray | https://www.nathanatos.com
 
-// Copyright 2017, the Flutter project authors.  Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Light and dark themes for Android and iOS
+// PlatformAdaptiveAppBar from https://github.com/efortuna/memechat
+// PlatformAdaptiveDialog chooses showDialog type by context platform
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,7 +34,7 @@ final ThemeData kDarkTheme = new ThemeData(
   brightness: Brightness.dark,
 );
 
-/// App bar that uses iOS styling on iOS
+// App bar that uses iOS styling on iOS
 class PlatformAdaptiveAppBar extends AppBar {
   PlatformAdaptiveAppBar({
     Key key,
@@ -53,63 +51,67 @@ class PlatformAdaptiveAppBar extends AppBar {
         );
 }
 
-/// Button that is Material on Android and Cupertino on iOS
-/// On Android an icon button with text; on iOS, only text is used
-class PlatformAdaptiveButton extends StatelessWidget {
-  PlatformAdaptiveButton({Key key, this.child, this.icon, this.onPressed})
-      : super(key: key);
-  final Widget child;
-  final Widget icon;
-  final VoidCallback onPressed;
+// Alert dialog that is Material on Android and Cupertino on iOS
+class PlatformAdaptiveDialog extends StatelessWidget {
+  PlatformAdaptiveDialog({
+    Key key,
+    this.title,
+    this.content,
+    this.buttonTextTrue,
+    this.buttonTextFalse,
+  })
+      : super(
+        key: key,
+      );
+
+  final Widget title;
+  final Widget content;
+  final String buttonTextTrue;
+  final String buttonTextFalse;
 
   @override
   Widget build(BuildContext context) {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
-      return new CupertinoButton(
-        child: child,
-        onPressed: onPressed,
-      );
-    } else {
-      return new IconButton(
-        padding: const EdgeInsets.all(0.0),
-        icon: new Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [icon, child]),
-        onPressed: onPressed,
+      return new CupertinoAlertDialog(
+        title: title,
+        content: content,
+        actions: <Widget>[
+          CupertinoDialogAction(
+            child: Text(buttonTextTrue),
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+          ),
+          CupertinoDialogAction(
+            child: Text(buttonTextFalse),
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+          ),
+        ],
       );
     }
-  }
-}
-
-class PlatformAdaptiveContainer extends StatelessWidget {
-  final Widget child;
-  final EdgeInsets margin;
-
-  PlatformAdaptiveContainer({Key key, this.child, this.margin})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      child: child,
-      margin: margin,
-      decoration: Theme.of(context).platform == TargetPlatform.iOS
-          ? new BoxDecoration(
-              border: new Border(top: new BorderSide(color: Colors.grey[200])))
-          : null,
-    );
-  }
-}
-
-class PlatformChooser extends StatelessWidget {
-  PlatformChooser({Key key, this.iosChild, this.defaultChild});
-  final Widget iosChild;
-  final Widget defaultChild;
-
-  @override
-  Widget build(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) return iosChild;
-    return defaultChild;
+    else {
+      return new AlertDialog(
+        title: title,
+        content: content,
+        actions: <Widget>[
+          FlatButton(
+            child: Text(buttonTextTrue),
+            textColor: Colors.blue,
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+          ),
+          FlatButton(
+            child: Text(buttonTextFalse),
+            textColor: Colors.blue,
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+          ),
+        ],
+      );
+    }
   }
 }
