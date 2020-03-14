@@ -234,28 +234,26 @@ class _TimerWidgetState extends State<TimerWidget> {
 
     // Handle quick action selection
     final QuickActions quickActions = QuickActions();
-    quickActions.initialize((String shortcutType) {
-      setState(() async {
-        if (shortcutType != null) {
-          switch (shortcutType) {
-            case 'shortcutBlack':
-              {
-                if (await _confirmTimer()) _setTimer(BLACK);
-              }
-              break;
-            case 'shortcutGreen':
-              {
-                if (await _confirmTimer()) _setTimer(GREEN);
-              }
-              break;
-            case 'shortcutHerbal':
-              {
-                if (await _confirmTimer()) _setTimer(HERBAL);
-              }
-              break;
-          }
+    quickActions.initialize((String shortcutType) async {
+      if (shortcutType != null) {
+        switch (shortcutType) {
+          case 'shortcutBlack':
+            {
+              if (await _confirmTimer()) _setTimer(BLACK);
+            }
+            break;
+          case 'shortcutGreen':
+            {
+              if (await _confirmTimer()) _setTimer(GREEN);
+            }
+            break;
+          case 'shortcutHerbal':
+            {
+              if (await _confirmTimer()) _setTimer(HERBAL);
+            }
+            break;
         }
-      });
+      }
     });
 
     // Add quick action shortcuts
