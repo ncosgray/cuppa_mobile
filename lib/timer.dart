@@ -91,6 +91,11 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   // Confirmation dialog
+  static String confirmTitle = 'Warning!';
+  static String confirmMessageLine1 = 'There is an active timer.';
+  static String confirmMessageLine2 = 'Cancel and start a new timer?';
+  static String confirmYes = 'Yes';
+  static String confirmNo = 'No';
   Future<bool> _confirmTimer() {
     if (_timerActive) {
       return showDialog(
@@ -98,24 +103,24 @@ class _TimerWidgetState extends State<TimerWidget> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Warning!'),
+            title: Text(confirmTitle),
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
-                  Text('There is an active timer.'),
-                  Text('Cancel and start a new timer?'),
+                  Text(confirmMessageLine1),
+                  Text(confirmMessageLine2),
                 ],
               ),
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text('Yes'),
+                child: Text(confirmYes),
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
               ),
               FlatButton(
-                child: Text('No'),
+                child: Text(confirmNo),
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
