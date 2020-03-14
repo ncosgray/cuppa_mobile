@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:quick_actions/quick_actions.dart';
+import 'platform_adaptive.dart';
 
 // Cuppa: timer classes
 
@@ -102,7 +103,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return AlertDialog(
+          return PlatformAdaptiveDialog(
             title: Text(confirmTitle),
             content: SingleChildScrollView(
               child: ListBody(
@@ -112,22 +113,10 @@ class _TimerWidgetState extends State<TimerWidget> {
                 ],
               ),
             ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text(confirmYes),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-              ),
-              FlatButton(
-                child: Text(confirmNo),
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-              ),
-            ],
+            buttonTextTrue: confirmYes,
+            buttonTextFalse: confirmNo,
           );
-        },
+        }
       );
     }
     else {
