@@ -44,6 +44,8 @@ void main() {
 }
 
 class CuppaApp extends StatelessWidget {
+  static final String appTitle = 'Cuppa';
+
   @override
   Widget build(BuildContext context) {
     TargetPlatform platform = Theme.of(context).platform;
@@ -55,12 +57,12 @@ class CuppaApp extends StatelessWidget {
           data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
         );
       },
-      title: 'Cuppa',
+      title: appTitle,
       theme: getPlatformAdaptiveTheme(platform),
       darkTheme: getPlatformAdaptiveDarkTheme(platform),
       home: new Scaffold(
           appBar: new PlatformAdaptiveAppBar(
-            title: new Text('Cuppa'),
+            title: new Text(appTitle),
             platform: platform,
           ),
           body: new TimerWidget()),
