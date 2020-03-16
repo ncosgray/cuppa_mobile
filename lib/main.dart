@@ -55,10 +55,10 @@ class CuppaApp extends StatelessWidget {
         );
       },
       title: 'Cuppa',
-      theme: defaultTargetPlatform == TargetPlatform.iOS
+      theme: Theme.of(context).platform == TargetPlatform.iOS
           ? kIOSTheme
           : kDefaultTheme,
-      darkTheme: defaultTargetPlatform == TargetPlatform.iOS
+      darkTheme: Theme.of(context).platform == TargetPlatform.iOS
           ? kIOSDarkTheme
           : kDarkTheme,
       home: new Scaffold(
