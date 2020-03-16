@@ -41,31 +41,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+// iOS themes
 final ThemeData kIOSTheme = new ThemeData(
   primaryColor: Colors.grey[100],
   buttonColor: Colors.black54,
   brightness: Brightness.light,
 );
-
 final ThemeData kIOSDarkTheme = new ThemeData(
   primaryColor: Colors.grey[900],
   buttonColor: Colors.grey,
   brightness: Brightness.dark,
 );
 
+// Android themes
 final ThemeData kDefaultTheme = new ThemeData(
   primarySwatch: Colors.blue,
   accentColor: Colors.blueAccent[400],
   buttonColor: Colors.black54,
   brightness: Brightness.light,
 );
-
 final ThemeData kDarkTheme = new ThemeData(
   primarySwatch: Colors.blue,
   accentColor: Colors.blueAccent[400],
   buttonColor: Colors.grey,
   brightness: Brightness.dark,
 );
+
+// Get theme appropriate to platform
+ThemeData getPlatformAdaptiveTheme(TargetPlatform platform) {
+  return platform == TargetPlatform.iOS ? kIOSTheme : kDefaultTheme;
+}
+ThemeData getPlatformAdaptiveDarkTheme(TargetPlatform platform) {
+  return platform == TargetPlatform.iOS ? kIOSDarkTheme : kDarkTheme;
+}
 
 // App bar that uses iOS styling on iOS
 class PlatformAdaptiveAppBar extends AppBar {
