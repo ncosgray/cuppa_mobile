@@ -35,7 +35,6 @@
 
 // Cuppa: a simple tea timer app for Android and iOS
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'platform_adaptive.dart';
 import 'timer.dart';
@@ -47,6 +46,8 @@ void main() {
 class CuppaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    TargetPlatform platform = Theme.of(context).platform;
+
     return new MaterialApp(
       builder: (context, child) {
         return MediaQuery(
@@ -55,16 +56,12 @@ class CuppaApp extends StatelessWidget {
         );
       },
       title: 'Cuppa',
-      theme: Theme.of(context).platform == TargetPlatform.iOS
-          ? kIOSTheme
-          : kDefaultTheme,
-      darkTheme: Theme.of(context).platform == TargetPlatform.iOS
-          ? kIOSDarkTheme
-          : kDarkTheme,
+      theme: getPlatformAdaptiveTheme(platform),
+      darkTheme: getPlatformAdaptiveDarkTheme(platform),
       home: new Scaffold(
           appBar: new PlatformAdaptiveAppBar(
             title: new Text('  Cuppa  '),
-            platform: Theme.of(context).platform,
+            platform: platform,
           ),
           body: new TimerWidget()),
     );
