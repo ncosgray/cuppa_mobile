@@ -60,7 +60,7 @@ class CuppaApp extends StatelessWidget {
       darkTheme: getPlatformAdaptiveDarkTheme(platform),
       home: new Scaffold(
           appBar: new PlatformAdaptiveAppBar(
-            title: new Text('  Cuppa  '),
+            title: new Text('Cuppa'),
             platform: platform,
           ),
           body: new TimerWidget()),
