@@ -6,30 +6,7 @@
  -------------------------------------------------------------------------------
  Copyright (c) 2017-2020 Nathan Cosgray. All rights reserved.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions are met:
-
- 1.  Redistributions of source code must retain the above copyright notice, this
-     list of conditions and the following disclaimer.
-
- 2.  Redistributions in binary form must reproduce the above copyright notice,
-     this list of conditions and the following disclaimer in the documentation
-     and/or other materials provided with the distribution.
-
- 3.  Neither the name of Nathanatos Software nor the names of its contributors
-     may be used to endorse or promote products derived from this software
-     without specific prior written permission.
-
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- DISCLAIMED. IN NO EVENT SHALL THE COMPANY OR CONTRIBUTORS BE LIABLE FOR ANY
- DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
- ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
 */
 
@@ -136,26 +113,24 @@ class _TimerWidgetState extends State<TimerWidget> {
   Future<bool> _confirmTimer() {
     if (_timerActive) {
       return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return PlatformAdaptiveDialog(
-            title: Text(confirmTitle),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(confirmMessageLine1),
-                  Text(confirmMessageLine2),
-                ],
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return PlatformAdaptiveDialog(
+              title: Text(confirmTitle),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text(confirmMessageLine1),
+                    Text(confirmMessageLine2),
+                  ],
+                ),
               ),
-            ),
-            buttonTextTrue: confirmYes,
-            buttonTextFalse: confirmNo,
-          );
-        }
-      );
-    }
-    else {
+              buttonTextTrue: confirmYes,
+              buttonTextFalse: confirmNo,
+            );
+          });
+    } else {
       return Future.value(true);
     }
   }
@@ -183,10 +158,8 @@ class _TimerWidgetState extends State<TimerWidget> {
       if (secs == 0) {
         // Set up new timer
         _timerSeconds = teaTimerSeconds[teaName];
-        _sendNotification(
-            _timerSeconds, teaTimerTitle, teaTimerText[teaName]);
-      }
-      else {
+        _sendNotification(_timerSeconds, teaTimerTitle, teaTimerText[teaName]);
+      } else {
         // Resume timer from stored prefs
         _timerSeconds = secs;
       }
@@ -215,12 +188,10 @@ class _TimerWidgetState extends State<TimerWidget> {
       Duration diff = DateTime.parse(nextAlarm).difference(DateTime.now());
       if (diff.inSeconds > 0) {
         _setTimer(nextTeaName, diff.inSeconds);
-      }
-      else {
+      } else {
         _clearPrefs();
       }
-    }
-    else {
+    } else {
       _clearPrefs();
     }
   }
