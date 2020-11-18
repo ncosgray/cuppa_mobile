@@ -6,3 +6,5 @@
 * Android 4.1 or later
 * Open-source mobile app built on the [Flutter](http://flutter.io) framework
 * Development environment: Flutter, Android Studio with Flutter and Dart plugins, CocoaPods
+
+**This project is licensed under the terms of the BSD license.**
