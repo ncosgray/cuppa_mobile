@@ -22,10 +22,11 @@ void main() {
 
 class CuppaApp extends StatelessWidget {
   static final String appTitle = 'Cuppa';
+  static TargetPlatform appPlatform;
 
   @override
   Widget build(BuildContext context) {
-    TargetPlatform platform = Theme.of(context).platform;
+    appPlatform = Theme.of(context).platform;
 
     return new MaterialApp(
       builder: (context, child) {
@@ -35,8 +36,8 @@ class CuppaApp extends StatelessWidget {
         );
       },
       title: appTitle,
-      theme: getPlatformAdaptiveTheme(platform),
-      darkTheme: getPlatformAdaptiveDarkTheme(platform),
+      theme: getPlatformAdaptiveTheme(appPlatform),
+      darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
       home: TimerRoute(),
     );
   }
@@ -48,7 +49,7 @@ class TimerRoute extends StatelessWidget {
     return Scaffold(
         appBar: new PlatformAdaptiveAppBar(
           title: new Text(CuppaApp.appTitle),
-          platform: Theme.of(context).platform,
+          platform: CuppaApp.appPlatform,
         ),
         body: new TimerWidget());
   }
