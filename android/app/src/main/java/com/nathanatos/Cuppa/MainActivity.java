@@ -8,41 +8,34 @@ import android.os.Bundle;
 
 import java.util.Calendar;
 
-import io.flutter.app.FlutterActivity;
-import io.flutter.plugin.common.MethodCall;
+import androidx.annotation.NonNull;
+import io.flutter.embedding.android.FlutterActivity;
+import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
-import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
 public class MainActivity extends FlutterActivity {
     private static final String CHANNEL = "com.nathanatos.Cuppa/notification";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        GeneratedPluginRegistrant.registerWith(this);
+    public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
+        GeneratedPluginRegistrant.registerWith(flutterEngine);
 
-        // Android platform: set up channels
-        new MethodChannel(getFlutterView(), CHANNEL).setMethodCallHandler(
-            new MethodCallHandler() {
-                @Override
-                public void onMethodCall(MethodCall call, Result result) {
-                    if (call.method.equals("setupNotification")) {
-                        int secs = call.argument("secs");
-                        String title = call.argument("title");
-                        String text = call.argument("text");
-                        sendNotification(secs, title, text);
-                    }
-                    else if (call.method.equals("cancelNotification")) {
-                        cancelNotification();
-                    }
-                    else {
-                        result.notImplemented();
-                    }
-                }
-            }
-        );
+        new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL)
+                .setMethodCallHandler(
+                        (call, result) -> {
+                            if (call.method.equals("setupNotification")) {
+                                int secs = call.argument("secs");
+                                String title = call.argument("title");
+                                String text = call.argument("text");
+                                sendNotification(secs, title, text);
+                            } else if (call.method.equals("cancelNotification")) {
+                                cancelNotification();
+                            } else {
+                                result.notImplemented();
+                            }
+                        }
+                );
     }
 
     // Android platform: handle send notification via alarm
