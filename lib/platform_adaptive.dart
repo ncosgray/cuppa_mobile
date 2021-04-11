@@ -112,16 +112,20 @@ class PlatformAdaptiveDialog extends StatelessWidget {
         title: title,
         content: content,
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(buttonTextTrue),
-            textColor: Colors.blue,
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+            ),
             onPressed: () {
               Navigator.of(context).pop(true);
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text(buttonTextFalse),
-            textColor: Colors.blue,
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+            ),
             onPressed: () {
               Navigator.of(context).pop(false);
             },
