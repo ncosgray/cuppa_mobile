@@ -22,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:quick_actions/quick_actions.dart';
+import 'main.dart';
 import 'platform_adaptive.dart';
 
 class TimerWidget extends StatefulWidget {
@@ -117,6 +118,7 @@ class _TimerWidgetState extends State<TimerWidget> {
           barrierDismissible: false,
           builder: (BuildContext context) {
             return PlatformAdaptiveDialog(
+              platform: CuppaApp.appPlatform,
               title: Text(confirmTitle),
               content: SingleChildScrollView(
                 child: ListBody(
@@ -204,18 +206,15 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Button handlers
   void _handleTapboxBlackChanged(bool newValue) async {
-    if (_whichActive != BLACK)
-      if (await _confirmTimer()) _setTimer(BLACK);
+    if (_whichActive != BLACK) if (await _confirmTimer()) _setTimer(BLACK);
   }
 
   void _handleTapboxGreenChanged(bool newValue) async {
-    if (_whichActive != GREEN)
-      if (await _confirmTimer()) _setTimer(GREEN);
+    if (_whichActive != GREEN) if (await _confirmTimer()) _setTimer(GREEN);
   }
 
   void _handleTapboxHerbalChanged(bool newValue) async {
-    if (_whichActive != HERBAL)
-      if (await _confirmTimer()) _setTimer(HERBAL);
+    if (_whichActive != HERBAL) if (await _confirmTimer()) _setTimer(HERBAL);
   }
 
   void _handleTapboxCancelPressed(bool newValue) {

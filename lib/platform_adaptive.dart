@@ -73,6 +73,7 @@ class PlatformAdaptiveAppBar extends AppBar {
 class PlatformAdaptiveDialog extends StatelessWidget {
   PlatformAdaptiveDialog({
     Key key,
+    this.platform,
     this.title,
     this.content,
     this.buttonTextTrue,
@@ -81,6 +82,7 @@ class PlatformAdaptiveDialog extends StatelessWidget {
           key: key,
         );
 
+  final TargetPlatform platform;
   final Widget title;
   final Widget content;
   final String buttonTextTrue;
@@ -88,7 +90,7 @@ class PlatformAdaptiveDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (platform == TargetPlatform.iOS) {
       return new CupertinoAlertDialog(
         title: title,
         content: content,
