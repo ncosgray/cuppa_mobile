@@ -12,9 +12,11 @@
 
 // Cuppa preferences
 // - Tea definitions
-// - Build prefs interface
+// - Handle shared prefs
+// - Build prefs interface and interactivity
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Teas {
   // Tea names
@@ -50,6 +52,37 @@ class Teas {
     GREEN: 'Green tea is now ready!',
     HERBAL: 'Herbal tea is now ready!',
   };
+}
+
+class Prefs {
+  // Next alarm info
+  static String nextTeaName;
+  static String nextAlarm;
+
+  // Shared prefs next alarm info keys
+  static final String prefNextTeaName = 'Cuppa_next_tea_name';
+  static final String prefNextAlarm = 'Cuppa_next_alarm';
+
+  // Store next alarm info in shared prefs to persist when app is closed
+  static void setNextAlarm(String teaName, DateTime timerEndTime) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(prefNextTeaName, teaName);
+    prefs.setString(prefNextAlarm, timerEndTime.toString());
+  }
+
+  // Fetch next alarm info from shared prefs
+  static void getNextAlarm() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    nextTeaName = prefs.getString(prefNextTeaName) ?? '';
+    nextAlarm = prefs.getString(prefNextAlarm) ?? '';
+  }
+
+  // Clear shared prefs next alarm info
+  static void clearNextAlarm() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(prefNextTeaName, '');
+    prefs.setString(prefNextAlarm, '');
+  }
 }
 
 class PrefsWidget extends StatefulWidget {

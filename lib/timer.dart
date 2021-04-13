@@ -19,7 +19,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'main.dart';
 import 'prefs.dart';
@@ -35,10 +34,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   static final String cupImageDefault = 'images/Cuppa_hires_default.png';
   static final String cupImageBegin = 'images/Cuppa_hires_light.png';
   static final String cupImageEnd = 'images/Cuppa_hires_dark.png';
-
-  // Prefs keys
-  static final String prefNextTeaName = 'Cuppa_next_tea_name';
-  static final String prefNextAlarm = 'Cuppa_next_alarm';
 
   // State variables
   bool _timerActive = false;
@@ -114,7 +109,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         _cupImage = cupImageDefault;
         _timerSeconds = 0;
         _timer.cancel();
-        _clearPrefs();
+        Prefs.clearNextAlarm();
       }
     });
   }
@@ -136,39 +131,8 @@ class _TimerWidgetState extends State<TimerWidget> {
       _timer = new Timer.periodic(new Duration(seconds: 1), _decrementTimer);
       _timerEndTime =
           new DateTime.now().add(new Duration(seconds: _timerSeconds + 1));
-      _setPrefs(teaName, _timerEndTime);
+      Prefs.setNextAlarm(teaName, _timerEndTime);
     });
-  }
-
-  // Prefs functions
-  void _setPrefs(String teaName, DateTime timerEndTime) async {
-    // Store alarm info in prefs to persist when app is closed
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(prefNextTeaName, teaName);
-    prefs.setString(prefNextAlarm, timerEndTime.toString());
-  }
-
-  void _checkPrefs() async {
-    // Fetch next alarm info from prefs and resume if any
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String nextTeaName = prefs.getString(prefNextTeaName) ?? '';
-    String nextAlarm = prefs.getString(prefNextAlarm) ?? '';
-    if (DateTime.tryParse(nextAlarm) != null) {
-      Duration diff = DateTime.parse(nextAlarm).difference(DateTime.now());
-      if (diff.inSeconds > 0) {
-        _setTimer(nextTeaName, diff.inSeconds);
-      } else {
-        _clearPrefs();
-      }
-    } else {
-      _clearPrefs();
-    }
-  }
-
-  void _clearPrefs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(prefNextTeaName, '');
-    prefs.setString(prefNextAlarm, '');
   }
 
   // Button handlers
@@ -194,7 +158,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       _timerEndTime = new DateTime.now();
       _decrementTimer(_timer);
       _cancelNotification();
-      _clearPrefs();
+      Prefs.clearNextAlarm();
     });
   }
 
@@ -202,8 +166,19 @@ class _TimerWidgetState extends State<TimerWidget> {
   void initState() {
     super.initState();
 
-    // Check for an existing timer
-    _checkPrefs();
+    // Check for an existing timer and resume if needed
+    Prefs.getNextAlarm();
+    if (DateTime.tryParse(Prefs.nextAlarm) != null) {
+      Duration diff =
+          DateTime.parse(Prefs.nextAlarm).difference(DateTime.now());
+      if (diff.inSeconds > 0) {
+        _setTimer(Prefs.nextTeaName, diff.inSeconds);
+      } else {
+        Prefs.clearNextAlarm();
+      }
+    } else {
+      Prefs.clearNextAlarm();
+    }
 
     // Handle quick action selection
     final QuickActions quickActions = QuickActions();
