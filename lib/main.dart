@@ -4,7 +4,7 @@
  Class:    main.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2020 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2021 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -15,6 +15,7 @@
 import 'package:flutter/material.dart';
 import 'platform_adaptive.dart';
 import 'timer.dart';
+import 'prefs.dart';
 
 void main() {
   runApp(new CuppaApp());
@@ -48,9 +49,31 @@ class TimerRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: new PlatformAdaptiveAppBar(
-          title: new Text(CuppaApp.appTitle),
+            title: new Text(CuppaApp.appTitle),
+            platform: CuppaApp.appPlatform,
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PrefsRoute()),
+                  );
+                },
+              ),
+            ]),
+        body: new TimerWidget());
+  }
+}
+
+class PrefsRoute extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: new PlatformAdaptiveAppBar(
+          title: new Text(CuppaApp.appTitle + ' Preferences'),
           platform: CuppaApp.appPlatform,
         ),
-        body: new TimerWidget());
+        body: new PrefsWidget());
   }
 }
