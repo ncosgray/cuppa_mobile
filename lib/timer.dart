@@ -4,14 +4,13 @@
  Class:    timer.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2020 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2021 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
 */
 
 // Cuppa timer widgets and logic
-// - Tea definitions
 // - Build interface and interactivity
 // - Start, confirm, cancel timers
 // - Notification channels for platform code
@@ -23,6 +22,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'main.dart';
+import 'prefs.dart';
 import 'platform_adaptive.dart';
 
 class TimerWidget extends StatefulWidget {
@@ -31,40 +31,6 @@ class TimerWidget extends StatefulWidget {
 }
 
 class _TimerWidgetState extends State<TimerWidget> {
-  // Tea names
-  static const String BLACK = 'BLACK';
-  static const String GREEN = 'GREEN';
-  static const String HERBAL = 'HERBAL';
-
-  // Tea steep times
-  var teaTimerSeconds = {
-    BLACK: 240,
-    GREEN: 150,
-    HERBAL: 300,
-  };
-
-  // Button names
-  var teaButton = {
-    BLACK: 'BLACK',
-    GREEN: 'GREEN',
-    HERBAL: 'HERBAL',
-  };
-
-  // Tea full names
-  var teaFullName = {
-    BLACK: 'Black tea',
-    GREEN: 'Green tea',
-    HERBAL: 'Herbal tea',
-  };
-
-  // Brewing complete text
-  static String teaTimerTitle = 'Brewing complete...';
-  var teaTimerText = {
-    BLACK: 'Black tea is now ready!',
-    GREEN: 'Green tea is now ready!',
-    HERBAL: 'Herbal tea is now ready!',
-  };
-
   // Cup images
   static final String cupImageDefault = 'images/Cuppa_hires_default.png';
   static final String cupImageBegin = 'images/Cuppa_hires_light.png';
@@ -159,8 +125,9 @@ class _TimerWidgetState extends State<TimerWidget> {
       _whichActive = teaName;
       if (secs == 0) {
         // Set up new timer
-        _timerSeconds = teaTimerSeconds[teaName];
-        _sendNotification(_timerSeconds, teaTimerTitle, teaTimerText[teaName]);
+        _timerSeconds = Teas.teaTimerSeconds[teaName];
+        _sendNotification(
+            _timerSeconds, Teas.teaTimerTitle, Teas.teaTimerText[teaName]);
       } else {
         // Resume timer from stored prefs
         _timerSeconds = secs;
@@ -206,15 +173,18 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Button handlers
   void _handleTapboxBlackChanged(bool newValue) async {
-    if (_whichActive != BLACK) if (await _confirmTimer()) _setTimer(BLACK);
+    if (_whichActive != Teas.BLACK) if (await _confirmTimer())
+      _setTimer(Teas.BLACK);
   }
 
   void _handleTapboxGreenChanged(bool newValue) async {
-    if (_whichActive != GREEN) if (await _confirmTimer()) _setTimer(GREEN);
+    if (_whichActive != Teas.GREEN) if (await _confirmTimer())
+      _setTimer(Teas.GREEN);
   }
 
   void _handleTapboxHerbalChanged(bool newValue) async {
-    if (_whichActive != HERBAL) if (await _confirmTimer()) _setTimer(HERBAL);
+    if (_whichActive != Teas.HERBAL) if (await _confirmTimer())
+      _setTimer(Teas.HERBAL);
   }
 
   void _handleTapboxCancelPressed(bool newValue) {
@@ -242,17 +212,17 @@ class _TimerWidgetState extends State<TimerWidget> {
         switch (shortcutType) {
           case 'shortcutBlack':
             {
-              if (await _confirmTimer()) _setTimer(BLACK);
+              if (await _confirmTimer()) _setTimer(Teas.BLACK);
             }
             break;
           case 'shortcutGreen':
             {
-              if (await _confirmTimer()) _setTimer(GREEN);
+              if (await _confirmTimer()) _setTimer(Teas.GREEN);
             }
             break;
           case 'shortcutHerbal':
             {
-              if (await _confirmTimer()) _setTimer(HERBAL);
+              if (await _confirmTimer()) _setTimer(Teas.HERBAL);
             }
             break;
         }
@@ -263,17 +233,17 @@ class _TimerWidgetState extends State<TimerWidget> {
     quickActions.setShortcutItems(<ShortcutItem>[
       ShortcutItem(
         type: 'shortcutBlack',
-        localizedTitle: teaFullName[BLACK],
+        localizedTitle: Teas.teaFullName[Teas.BLACK],
         icon: 'shortcut_black',
       ),
       ShortcutItem(
         type: 'shortcutGreen',
-        localizedTitle: teaFullName[GREEN],
+        localizedTitle: Teas.teaFullName[Teas.GREEN],
         icon: 'shortcut_green',
       ),
       ShortcutItem(
         type: 'shortcutHerbal',
-        localizedTitle: teaFullName[HERBAL],
+        localizedTitle: Teas.teaFullName[Teas.HERBAL],
         icon: 'shortcut_herbal',
       ),
     ]);
@@ -328,23 +298,25 @@ class _TimerWidgetState extends State<TimerWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   new TeaButton(
-                      name: teaButton[BLACK],
-                      active: _whichActive == BLACK ? true : false,
-                      fade:
-                          !_timerActive || _whichActive == BLACK ? false : true,
+                      name: Teas.teaButton[Teas.BLACK],
+                      active: _whichActive == Teas.BLACK ? true : false,
+                      fade: !_timerActive || _whichActive == Teas.BLACK
+                          ? false
+                          : true,
                       buttonColor: Theme.of(context).buttonColor,
                       onPressed: _handleTapboxBlackChanged),
                   new TeaButton(
-                      name: teaButton[GREEN],
-                      active: _whichActive == GREEN ? true : false,
-                      fade:
-                          !_timerActive || _whichActive == GREEN ? false : true,
+                      name: Teas.teaButton[Teas.GREEN],
+                      active: _whichActive == Teas.GREEN ? true : false,
+                      fade: !_timerActive || _whichActive == Teas.GREEN
+                          ? false
+                          : true,
                       buttonColor: Colors.green,
                       onPressed: _handleTapboxGreenChanged),
                   new TeaButton(
-                      name: teaButton[HERBAL],
-                      active: _whichActive == HERBAL ? true : false,
-                      fade: !_timerActive || _whichActive == HERBAL
+                      name: Teas.teaButton[Teas.HERBAL],
+                      active: _whichActive == Teas.HERBAL ? true : false,
+                      fade: !_timerActive || _whichActive == Teas.HERBAL
                           ? false
                           : true,
                       buttonColor: Colors.orange,
