@@ -180,6 +180,9 @@ class _TimerWidgetState extends State<TimerWidget> {
       Prefs.clearNextAlarm();
     }
 
+    // Load tea steep times
+    Prefs.getTeas();
+
     // Handle quick action selection
     final QuickActions quickActions = QuickActions();
     quickActions.initialize((String shortcutType) async {

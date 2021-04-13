@@ -55,6 +55,32 @@ class Teas {
 }
 
 class Prefs {
+  // Shared prefs tea steep times keys
+  static var prefTeaSeconds = {
+    Teas.BLACK: 'Cuppa_tea_secs_black',
+    Teas.GREEN: 'Cuppa_tea_secs_green',
+    Teas.HERBAL: 'Cuppa_tea_secs_herbal',
+  };
+
+  // Store tea steep time in Teas and in shared prefs
+  static void setTeaSeconds(String teaName, int secs) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Teas.teaTimerSeconds[teaName] = secs;
+    prefs.setInt(prefTeaSeconds[teaName], secs);
+  }
+
+  // Fetch tea steep times from shared prefs
+  static void getTeas() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int _teaTimerSecondsBlack = prefs.getInt(prefTeaSeconds[Teas.BLACK]) ?? 240;
+    int _teaTimerSecondsGreen = prefs.getInt(prefTeaSeconds[Teas.GREEN]) ?? 150;
+    int _teaTimerSecondsHerbal =
+        prefs.getInt(prefTeaSeconds[Teas.HERBAL]) ?? 300;
+    Teas.teaTimerSeconds[Teas.BLACK] = _teaTimerSecondsBlack;
+    Teas.teaTimerSeconds[Teas.GREEN] = _teaTimerSecondsGreen;
+    Teas.teaTimerSeconds[Teas.HERBAL] = _teaTimerSecondsHerbal;
+  }
+
   // Next alarm info
   static String nextTeaName = '';
   static String nextAlarm = '';
@@ -73,8 +99,10 @@ class Prefs {
   // Fetch next alarm info from shared prefs
   static void getNextAlarm() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    nextTeaName = prefs.getString(prefNextTeaName) ?? '';
-    nextAlarm = prefs.getString(prefNextAlarm) ?? '';
+    String _nextTeaName = prefs.getString(prefNextTeaName) ?? '';
+    String _nextAlarm = prefs.getString(prefNextAlarm) ?? '';
+    nextTeaName = _nextTeaName;
+    nextAlarm = _nextAlarm;
   }
 
   // Clear shared prefs next alarm info
@@ -123,11 +151,12 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           fontSize: 28.0, color: Theme.of(context).buttonColor),
                       onChanged: (int newValue) {
                         setState(() {
-                          Teas.teaTimerSeconds[Teas.BLACK] =
+                          Prefs.setTeaSeconds(
+                              Teas.BLACK,
                               getSecondsFromMinsSecs(
                                   newValue,
                                   getSecsFromSeconds(
-                                      Teas.teaTimerSeconds[Teas.BLACK]));
+                                      Teas.teaTimerSeconds[Teas.BLACK])));
                         });
                       },
                       items: <int>[0, 1, 2, 3, 4, 5]
@@ -154,11 +183,12 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           fontSize: 28.0, color: Theme.of(context).buttonColor),
                       onChanged: (int newValue) {
                         setState(() {
-                          Teas.teaTimerSeconds[Teas.BLACK] =
+                          Prefs.setTeaSeconds(
+                              Teas.BLACK,
                               getSecondsFromMinsSecs(
                                   getMinsFromSeconds(
                                       Teas.teaTimerSeconds[Teas.BLACK]),
-                                  newValue);
+                                  newValue));
                         });
                       },
                       items: <int>[0, 15, 30, 45]
@@ -197,11 +227,12 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           fontSize: 28.0, color: Theme.of(context).buttonColor),
                       onChanged: (int newValue) {
                         setState(() {
-                          Teas.teaTimerSeconds[Teas.GREEN] =
+                          Prefs.setTeaSeconds(
+                              Teas.GREEN,
                               getSecondsFromMinsSecs(
                                   newValue,
                                   getSecsFromSeconds(
-                                      Teas.teaTimerSeconds[Teas.GREEN]));
+                                      Teas.teaTimerSeconds[Teas.GREEN])));
                         });
                       },
                       items: <int>[0, 1, 2, 3, 4, 5]
@@ -228,11 +259,12 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           fontSize: 28.0, color: Theme.of(context).buttonColor),
                       onChanged: (int newValue) {
                         setState(() {
-                          Teas.teaTimerSeconds[Teas.GREEN] =
+                          Prefs.setTeaSeconds(
+                              Teas.GREEN,
                               getSecondsFromMinsSecs(
                                   getMinsFromSeconds(
                                       Teas.teaTimerSeconds[Teas.GREEN]),
-                                  newValue);
+                                  newValue));
                         });
                       },
                       items: <int>[0, 15, 30, 45]
@@ -271,11 +303,12 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           fontSize: 28.0, color: Theme.of(context).buttonColor),
                       onChanged: (int newValue) {
                         setState(() {
-                          Teas.teaTimerSeconds[Teas.HERBAL] =
+                          Prefs.setTeaSeconds(
+                              Teas.HERBAL,
                               getSecondsFromMinsSecs(
                                   newValue,
                                   getSecsFromSeconds(
-                                      Teas.teaTimerSeconds[Teas.HERBAL]));
+                                      Teas.teaTimerSeconds[Teas.HERBAL])));
                         });
                       },
                       items: <int>[0, 1, 2, 3, 4, 5]
@@ -302,11 +335,12 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           fontSize: 28.0, color: Theme.of(context).buttonColor),
                       onChanged: (int newValue) {
                         setState(() {
-                          Teas.teaTimerSeconds[Teas.HERBAL] =
+                          Prefs.setTeaSeconds(
+                              Teas.HERBAL,
                               getSecondsFromMinsSecs(
                                   getMinsFromSeconds(
                                       Teas.teaTimerSeconds[Teas.HERBAL]),
-                                  newValue);
+                                  newValue));
                         });
                       },
                       items: <int>[0, 15, 30, 45]
