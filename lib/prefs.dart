@@ -24,11 +24,18 @@ class Teas {
   static const String GREEN = 'GREEN';
   static const String HERBAL = 'HERBAL';
 
-  // Tea steep times
-  static var teaTimerSeconds = {
+  // Default tea steep times
+  static var teaTimerSecondsDefaults = {
     BLACK: 240,
     GREEN: 150,
     HERBAL: 300,
+  };
+
+  // Tea steep times
+  static var teaTimerSeconds = {
+    BLACK: teaTimerSecondsDefaults[BLACK],
+    GREEN: teaTimerSecondsDefaults[GREEN],
+    HERBAL: teaTimerSecondsDefaults[HERBAL],
   };
 
   // Button names
@@ -72,10 +79,12 @@ class Prefs {
   // Fetch tea steep times from shared prefs
   static void getTeas() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int _teaTimerSecondsBlack = prefs.getInt(prefTeaSeconds[Teas.BLACK]) ?? 240;
-    int _teaTimerSecondsGreen = prefs.getInt(prefTeaSeconds[Teas.GREEN]) ?? 150;
-    int _teaTimerSecondsHerbal =
-        prefs.getInt(prefTeaSeconds[Teas.HERBAL]) ?? 300;
+    int _teaTimerSecondsBlack = prefs.getInt(prefTeaSeconds[Teas.BLACK]) ??
+        Teas.teaTimerSecondsDefaults[Teas.BLACK];
+    int _teaTimerSecondsGreen = prefs.getInt(prefTeaSeconds[Teas.GREEN]) ??
+        Teas.teaTimerSecondsDefaults[Teas.GREEN];
+    int _teaTimerSecondsHerbal = prefs.getInt(prefTeaSeconds[Teas.HERBAL]) ??
+        Teas.teaTimerSecondsDefaults[Teas.HERBAL];
     Teas.teaTimerSeconds[Teas.BLACK] = _teaTimerSecondsBlack;
     Teas.teaTimerSeconds[Teas.GREEN] = _teaTimerSecondsGreen;
     Teas.teaTimerSeconds[Teas.HERBAL] = _teaTimerSecondsHerbal;
