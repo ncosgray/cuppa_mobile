@@ -56,8 +56,8 @@ class Teas {
 
 class Prefs {
   // Next alarm info
-  static String nextTeaName;
-  static String nextAlarm;
+  static String nextTeaName = '';
+  static String nextAlarm = '';
 
   // Shared prefs next alarm info keys
   static final String prefNextTeaName = 'Cuppa_next_tea_name';
