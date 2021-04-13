@@ -228,7 +228,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   Widget build(BuildContext context) {
     // Styles
     double scaleFactor = MediaQuery.of(context).size.height < 600.0 ? 0.7 : 1.0;
-    final TextStyle timerStyle = Theme.of(context).textTheme.display3.copyWith(
+    final TextStyle timerStyle = Theme.of(context).textTheme.headline2.copyWith(
         color: Colors.white,
         fontSize: 100.0 * scaleFactor,
         fontWeight: FontWeight.bold);
