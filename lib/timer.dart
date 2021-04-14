@@ -53,7 +53,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         'title': title,
         'text': text,
       });
-    } on PlatformException catch (e) {
+    } on PlatformException {
       return;
     }
   }
@@ -61,7 +61,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   Future<Null> _cancelNotification() async {
     try {
       platform.invokeMethod('cancelNotification');
-    } on PlatformException catch (e) {
+    } on PlatformException {
       return;
     }
   }
