@@ -135,235 +135,108 @@ class _PrefsWidgetState extends State<PrefsWidget> {
         child: new Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              new Container(
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    new Icon(
-                      Icons.timer,
-                      color: Theme.of(context).buttonColor,
-                      size: 42.0,
-                    ),
-                    new Text(
-                      Teas.teaButton[Teas.BLACK],
-                      style: new TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28.0,
-                        color: Theme.of(context).buttonColor,
-                      ),
-                    ),
-                    new DropdownButton<int>(
-                      value:
-                          getMinsFromSeconds(Teas.teaTimerSeconds[Teas.BLACK]),
-                      icon: null,
-                      style: TextStyle(
-                          fontSize: 28.0, color: Theme.of(context).buttonColor),
-                      onChanged: (int newValue) {
-                        setState(() {
-                          Prefs.setTeaSeconds(
-                              Teas.BLACK,
-                              getSecondsFromMinsSecs(
-                                  newValue,
-                                  getSecsFromSeconds(
-                                      Teas.teaTimerSeconds[Teas.BLACK])));
-                        });
-                      },
-                      items: <int>[0, 1, 2, 3, 4, 5]
-                          .map<DropdownMenuItem<int>>((int value) {
-                        return DropdownMenuItem<int>(
-                          value: value,
-                          child: Text(value.toString()),
-                        );
-                      }).toList(),
-                    ),
-                    new Text(
-                      ':',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28.0,
-                        color: Theme.of(context).buttonColor,
-                      ),
-                    ),
-                    new DropdownButton<int>(
-                      value:
-                          getSecsFromSeconds(Teas.teaTimerSeconds[Teas.BLACK]),
-                      icon: null,
-                      style: TextStyle(
-                          fontSize: 28.0, color: Theme.of(context).buttonColor),
-                      onChanged: (int newValue) {
-                        setState(() {
-                          Prefs.setTeaSeconds(
-                              Teas.BLACK,
-                              getSecondsFromMinsSecs(
-                                  getMinsFromSeconds(
-                                      Teas.teaTimerSeconds[Teas.BLACK]),
-                                  newValue));
-                        });
-                      },
-                      items: <int>[0, 15, 30, 45]
-                          .map<DropdownMenuItem<int>>((int value) {
-                        return DropdownMenuItem<int>(
-                          value: value,
-                          child: Text(value.toString().padLeft(2, '0')),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-              ),
-              new Container(
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    new Icon(
-                      Icons.timer,
-                      color: Colors.green,
-                      size: 42.0,
-                    ),
-                    new Text(
-                      Teas.teaButton[Teas.GREEN],
-                      style: new TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28.0,
-                        color: Colors.green,
-                      ),
-                    ),
-                    new DropdownButton<int>(
-                      value:
-                          getMinsFromSeconds(Teas.teaTimerSeconds[Teas.GREEN]),
-                      icon: null,
-                      style: TextStyle(
-                          fontSize: 28.0, color: Theme.of(context).buttonColor),
-                      onChanged: (int newValue) {
-                        setState(() {
-                          Prefs.setTeaSeconds(
-                              Teas.GREEN,
-                              getSecondsFromMinsSecs(
-                                  newValue,
-                                  getSecsFromSeconds(
-                                      Teas.teaTimerSeconds[Teas.GREEN])));
-                        });
-                      },
-                      items: <int>[0, 1, 2, 3, 4, 5]
-                          .map<DropdownMenuItem<int>>((int value) {
-                        return DropdownMenuItem<int>(
-                          value: value,
-                          child: Text(value.toString()),
-                        );
-                      }).toList(),
-                    ),
-                    new Text(
-                      ':',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28.0,
-                        color: Theme.of(context).buttonColor,
-                      ),
-                    ),
-                    new DropdownButton<int>(
-                      value:
-                          getSecsFromSeconds(Teas.teaTimerSeconds[Teas.GREEN]),
-                      icon: null,
-                      style: TextStyle(
-                          fontSize: 28.0, color: Theme.of(context).buttonColor),
-                      onChanged: (int newValue) {
-                        setState(() {
-                          Prefs.setTeaSeconds(
-                              Teas.GREEN,
-                              getSecondsFromMinsSecs(
-                                  getMinsFromSeconds(
-                                      Teas.teaTimerSeconds[Teas.GREEN]),
-                                  newValue));
-                        });
-                      },
-                      items: <int>[0, 15, 30, 45]
-                          .map<DropdownMenuItem<int>>((int value) {
-                        return DropdownMenuItem<int>(
-                          value: value,
-                          child: Text(value.toString().padLeft(2, '0')),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-              ),
-              new Container(
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    new Icon(
-                      Icons.timer,
-                      color: Colors.orange,
-                      size: 42.0,
-                    ),
-                    new Text(
-                      Teas.teaButton[Teas.HERBAL],
-                      style: new TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28.0,
-                        color: Colors.orange,
-                      ),
-                    ),
-                    new DropdownButton<int>(
-                      value:
-                          getMinsFromSeconds(Teas.teaTimerSeconds[Teas.HERBAL]),
-                      icon: null,
-                      style: TextStyle(
-                          fontSize: 28.0, color: Theme.of(context).buttonColor),
-                      onChanged: (int newValue) {
-                        setState(() {
-                          Prefs.setTeaSeconds(
-                              Teas.HERBAL,
-                              getSecondsFromMinsSecs(
-                                  newValue,
-                                  getSecsFromSeconds(
-                                      Teas.teaTimerSeconds[Teas.HERBAL])));
-                        });
-                      },
-                      items: <int>[0, 1, 2, 3, 4, 5]
-                          .map<DropdownMenuItem<int>>((int value) {
-                        return DropdownMenuItem<int>(
-                          value: value,
-                          child: Text(value.toString()),
-                        );
-                      }).toList(),
-                    ),
-                    new Text(
-                      ':',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28.0,
-                        color: Theme.of(context).buttonColor,
-                      ),
-                    ),
-                    new DropdownButton<int>(
-                      value:
-                          getSecsFromSeconds(Teas.teaTimerSeconds[Teas.HERBAL]),
-                      icon: null,
-                      style: TextStyle(
-                          fontSize: 28.0, color: Theme.of(context).buttonColor),
-                      onChanged: (int newValue) {
-                        setState(() {
-                          Prefs.setTeaSeconds(
-                              Teas.HERBAL,
-                              getSecondsFromMinsSecs(
-                                  getMinsFromSeconds(
-                                      Teas.teaTimerSeconds[Teas.HERBAL]),
-                                  newValue));
-                        });
-                      },
-                      items: <int>[0, 15, 30, 45]
-                          .map<DropdownMenuItem<int>>((int value) {
-                        return DropdownMenuItem<int>(
-                          value: value,
-                          child: Text(value.toString().padLeft(2, '0')),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-              ),
+              new PrefsTeaRow(
+                  teaName: Teas.BLACK, teaColor: Theme.of(context).buttonColor),
+              new PrefsTeaRow(teaName: Teas.GREEN, teaColor: Colors.green),
+              new PrefsTeaRow(teaName: Teas.HERBAL, teaColor: Colors.orange),
             ]));
+  }
+}
+
+class PrefsTeaRow extends StatefulWidget {
+  PrefsTeaRow({
+    this.teaName,
+    this.teaColor,
+  });
+
+  final String teaName;
+  final Color teaColor;
+
+  @override
+  _PrefsTeaRowState createState() =>
+      _PrefsTeaRowState(teaColor: teaColor, teaName: teaName);
+}
+
+class _PrefsTeaRowState extends State<PrefsTeaRow> {
+  _PrefsTeaRowState({
+    this.teaName,
+    this.teaColor,
+  });
+
+  final String teaName;
+  final Color teaColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+        child: new Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        new Icon(
+          Icons.timer,
+          color: teaColor,
+          size: 42.0,
+        ),
+        new Text(
+          Teas.teaButton[teaName],
+          style: new TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 28.0,
+            color: teaColor,
+          ),
+        ),
+        new DropdownButton<int>(
+          value: getMinsFromSeconds(Teas.teaTimerSeconds[teaName]),
+          icon: null,
+          style:
+              TextStyle(fontSize: 28.0, color: Theme.of(context).buttonColor),
+          onChanged: (int newValue) {
+            setState(() {
+              Prefs.setTeaSeconds(
+                  teaName,
+                  getSecondsFromMinsSecs(newValue,
+                      getSecsFromSeconds(Teas.teaTimerSeconds[teaName])));
+            });
+          },
+          items: <int>[1, 2, 3, 4, 5, 6, 7, 8, 9]
+              .map<DropdownMenuItem<int>>((int value) {
+            return DropdownMenuItem<int>(
+              value: value,
+              child: Text(value.toString()),
+            );
+          }).toList(),
+        ),
+        new Text(
+          ':',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 28.0,
+            color: Theme.of(context).buttonColor,
+          ),
+        ),
+        new DropdownButton<int>(
+          value: getSecsFromSeconds(Teas.teaTimerSeconds[teaName]),
+          icon: null,
+          style:
+              TextStyle(fontSize: 28.0, color: Theme.of(context).buttonColor),
+          onChanged: (int newValue) {
+            setState(() {
+              Prefs.setTeaSeconds(
+                  teaName,
+                  getSecondsFromMinsSecs(
+                      getMinsFromSeconds(Teas.teaTimerSeconds[teaName]),
+                      newValue));
+            });
+          },
+          items: <int>[0, 15, 30, 45].map<DropdownMenuItem<int>>((int value) {
+            return DropdownMenuItem<int>(
+              value: value,
+              child: Text(value.toString().padLeft(2, '0')),
+            );
+          }).toList(),
+        ),
+      ],
+    ));
   }
 }
 
