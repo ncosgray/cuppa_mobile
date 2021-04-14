@@ -135,6 +135,21 @@ class _TimerWidgetState extends State<TimerWidget> {
     });
   }
 
+  void _checkNextAlarm() {
+    Prefs.getNextAlarm();
+    if (DateTime.tryParse(Prefs.nextAlarm) != null) {
+      Duration diff =
+          DateTime.parse(Prefs.nextAlarm).difference(DateTime.now());
+      if (diff.inSeconds > 0) {
+        _setTimer(Prefs.nextTeaName, diff.inSeconds);
+      } else {
+        Prefs.clearNextAlarm();
+      }
+    } else {
+      Prefs.clearNextAlarm();
+    }
+  }
+
   // Button handlers
   void _handleTapboxBlackChanged(bool newValue) async {
     if (_whichActive != Teas.BLACK) if (await _confirmTimer())
@@ -167,18 +182,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     super.initState();
 
     // Check for an existing timer and resume if needed
-    Prefs.getNextAlarm();
-    if (DateTime.tryParse(Prefs.nextAlarm) != null) {
-      Duration diff =
-          DateTime.parse(Prefs.nextAlarm).difference(DateTime.now());
-      if (diff.inSeconds > 0) {
-        _setTimer(Prefs.nextTeaName, diff.inSeconds);
-      } else {
-        Prefs.clearNextAlarm();
-      }
-    } else {
-      Prefs.clearNextAlarm();
-    }
+    _checkNextAlarm();
 
     // Load tea steep times
     Prefs.getTeas();
