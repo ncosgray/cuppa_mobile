@@ -329,17 +329,12 @@ class _TimerWidgetState extends State<TimerWidget> {
 
 class TeaButton extends StatelessWidget {
   TeaButton({
-    @required this.name,
-    @required this.active = false,
-    @required this.fade = false,
-    @required this.buttonColor,
-    @required this.onPressed,
-  }) {
-    assert(name != null);
-    assert(active != null);
-    assert(fade != null);
-    assert(buttonColor != null);
-  }
+    this.name,
+    this.active = false,
+    this.fade = false,
+    this.buttonColor,
+    this.onPressed,
+  });
 
   final String name;
   final bool active;
