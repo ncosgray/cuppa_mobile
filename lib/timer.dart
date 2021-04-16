@@ -37,7 +37,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // State variables
   bool _timerActive = false;
-  String _whichActive = '';
+  Tea _whichActive;
   String _cupImage = cupImageDefault;
   int _timerSeconds = 0;
   DateTime _timerEndTime;
@@ -105,7 +105,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       if (_timerSeconds <= 5) _cupImage = cupImageEnd;
       if (_timerSeconds <= 0) {
         _timerActive = false;
-        _whichActive = '';
+        _whichActive = null;
         _cupImage = cupImageDefault;
         _timerSeconds = 0;
         _timer.cancel();
@@ -114,15 +114,15 @@ class _TimerWidgetState extends State<TimerWidget> {
     });
   }
 
-  void _setTimer(String teaName, [int secs = 0]) {
+  void _setTimer(Tea tea, [int secs = 0]) {
     setState(() {
       if (!_timerActive) _timerActive = true;
-      _whichActive = teaName;
+      _whichActive = tea;
       if (secs == 0) {
         // Set up new timer
-        _timerSeconds = Teas.teaTimerSeconds[teaName];
+        _timerSeconds = tea.brewTime;
         _sendNotification(
-            _timerSeconds, Teas.teaTimerTitle, Teas.teaTimerText[teaName]);
+            _timerSeconds, teaTimerTitle, tea.fullName + teaTimerText);
       } else {
         // Resume timer from stored prefs
         _timerSeconds = secs;
@@ -131,7 +131,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       _timer = new Timer.periodic(new Duration(seconds: 1), _decrementTimer);
       _timerEndTime =
           new DateTime.now().add(new Duration(seconds: _timerSeconds + 1));
-      Prefs.setNextAlarm(teaName, _timerEndTime);
+      Prefs.setNextAlarm(tea.name, _timerEndTime);
     });
   }
 
@@ -141,7 +141,9 @@ class _TimerWidgetState extends State<TimerWidget> {
       Duration diff =
           DateTime.parse(Prefs.nextAlarm).difference(DateTime.now());
       if (diff.inSeconds > 0) {
-        _setTimer(Prefs.nextTeaName, diff.inSeconds);
+        if (Prefs.nextTeaName == tea1.name) _setTimer(tea1, diff.inSeconds);
+        if (Prefs.nextTeaName == tea2.name) _setTimer(tea2, diff.inSeconds);
+        if (Prefs.nextTeaName == tea3.name) _setTimer(tea3, diff.inSeconds);
       } else {
         Prefs.clearNextAlarm();
       }
@@ -151,25 +153,22 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   // Button handlers
-  void _handleTapboxBlackChanged(bool newValue) async {
-    if (_whichActive != Teas.BLACK) if (await _confirmTimer())
-      _setTimer(Teas.BLACK);
+  void _handleTapboxTea1Changed(bool newValue) async {
+    if (_whichActive != tea1) if (await _confirmTimer()) _setTimer(tea1);
   }
 
-  void _handleTapboxGreenChanged(bool newValue) async {
-    if (_whichActive != Teas.GREEN) if (await _confirmTimer())
-      _setTimer(Teas.GREEN);
+  void _handleTapboxTea2Changed(bool newValue) async {
+    if (_whichActive != tea2) if (await _confirmTimer()) _setTimer(tea2);
   }
 
-  void _handleTapboxHerbalChanged(bool newValue) async {
-    if (_whichActive != Teas.HERBAL) if (await _confirmTimer())
-      _setTimer(Teas.HERBAL);
+  void _handleTapboxTea3Changed(bool newValue) async {
+    if (_whichActive != tea3) if (await _confirmTimer()) _setTimer(tea3);
   }
 
   void _handleTapboxCancelPressed(bool newValue) {
     setState(() {
       _timerActive = false;
-      _whichActive = '';
+      _whichActive = null;
       _timerEndTime = new DateTime.now();
       _decrementTimer(_timer);
       _cancelNotification();
@@ -181,30 +180,33 @@ class _TimerWidgetState extends State<TimerWidget> {
   void initState() {
     super.initState();
 
-    // Check for an existing timer and resume if needed
-    _checkNextAlarm();
+    // Set up teas
+    Prefs.initTeas();
 
     // Load tea steep times
     Prefs.getTeas();
+
+    // Check for an existing timer and resume if needed
+    _checkNextAlarm();
 
     // Handle quick action selection
     final QuickActions quickActions = QuickActions();
     quickActions.initialize((String shortcutType) async {
       if (shortcutType != null) {
         switch (shortcutType) {
-          case 'shortcutBlack':
+          case 'shortcutTea1':
             {
-              if (await _confirmTimer()) _setTimer(Teas.BLACK);
+              if (await _confirmTimer()) _setTimer(tea1);
             }
             break;
-          case 'shortcutGreen':
+          case 'shortcutTea2':
             {
-              if (await _confirmTimer()) _setTimer(Teas.GREEN);
+              if (await _confirmTimer()) _setTimer(tea2);
             }
             break;
-          case 'shortcutHerbal':
+          case 'shortcutTea3':
             {
-              if (await _confirmTimer()) _setTimer(Teas.HERBAL);
+              if (await _confirmTimer()) _setTimer(tea3);
             }
             break;
         }
@@ -214,19 +216,19 @@ class _TimerWidgetState extends State<TimerWidget> {
     // Add quick action shortcuts
     quickActions.setShortcutItems(<ShortcutItem>[
       ShortcutItem(
-        type: 'shortcutBlack',
-        localizedTitle: Teas.teaFullName[Teas.BLACK],
-        icon: 'shortcut_black',
+        type: 'shortcutTea1',
+        localizedTitle: tea1.fullName,
+        icon: tea1.shortcutIcon,
       ),
       ShortcutItem(
-        type: 'shortcutGreen',
-        localizedTitle: Teas.teaFullName[Teas.GREEN],
-        icon: 'shortcut_green',
+        type: 'shortcutTea2',
+        localizedTitle: tea2.fullName,
+        icon: tea2.shortcutIcon,
       ),
       ShortcutItem(
-        type: 'shortcutHerbal',
-        localizedTitle: Teas.teaFullName[Teas.HERBAL],
-        icon: 'shortcut_herbal',
+        type: 'shortcutTea3',
+        localizedTitle: tea3.fullName,
+        icon: tea3.shortcutIcon,
       ),
     ]);
   }
@@ -255,7 +257,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                 ),
                 child: new Center(
                   child: new Text(
-                    formatTimer(_timerSeconds),
+                    _formatTimer(_timerSeconds),
                     style: timerStyle,
                   ),
                 ),
@@ -280,29 +282,26 @@ class _TimerWidgetState extends State<TimerWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   new TeaButton(
-                      name: Teas.teaButton[Teas.BLACK],
-                      active: _whichActive == Teas.BLACK ? true : false,
-                      fade: !_timerActive || _whichActive == Teas.BLACK
-                          ? false
-                          : true,
-                      buttonColor: Theme.of(context).buttonColor,
-                      onPressed: _handleTapboxBlackChanged),
+                      name: tea1.buttonName,
+                      active: _whichActive == tea1 ? true : false,
+                      fade:
+                          !_timerActive || _whichActive == tea1 ? false : true,
+                      buttonColor: tea1.getThemeColor(context),
+                      onPressed: _handleTapboxTea1Changed),
                   new TeaButton(
-                      name: Teas.teaButton[Teas.GREEN],
-                      active: _whichActive == Teas.GREEN ? true : false,
-                      fade: !_timerActive || _whichActive == Teas.GREEN
-                          ? false
-                          : true,
-                      buttonColor: Colors.green,
-                      onPressed: _handleTapboxGreenChanged),
+                      name: tea2.buttonName,
+                      active: _whichActive == tea2 ? true : false,
+                      fade:
+                          !_timerActive || _whichActive == tea2 ? false : true,
+                      buttonColor: tea2.getThemeColor(context),
+                      onPressed: _handleTapboxTea2Changed),
                   new TeaButton(
-                      name: Teas.teaButton[Teas.HERBAL],
-                      active: _whichActive == Teas.HERBAL ? true : false,
-                      fade: !_timerActive || _whichActive == Teas.HERBAL
-                          ? false
-                          : true,
-                      buttonColor: Colors.orange,
-                      onPressed: _handleTapboxHerbalChanged),
+                      name: tea3.buttonName,
+                      active: _whichActive == tea3 ? true : false,
+                      fade:
+                          !_timerActive || _whichActive == tea3 ? false : true,
+                      buttonColor: tea3.getThemeColor(context),
+                      onPressed: _handleTapboxTea3Changed),
                 ],
               ),
             ),
@@ -420,7 +419,7 @@ class CancelButton extends StatelessWidget {
   }
 }
 
-String formatTimer(s) {
+String _formatTimer(s) {
   // Build the time format string
   int mins = (s / 60).floor();
   int secs = s - (mins * 60);
