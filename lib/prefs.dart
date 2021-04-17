@@ -92,7 +92,7 @@ abstract class Prefs {
   static final Map<int, String> shortcutIcons = {
     0: 'shortcut_black',
     1: 'shortcut_green',
-    2: 'shortcut_orange'
+    2: 'shortcut_herbal'
   };
 
   // Shared prefs keys for teas
