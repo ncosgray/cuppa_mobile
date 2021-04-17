@@ -207,13 +207,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
   Widget build(BuildContext context) {
     return new Container(
         margin: const EdgeInsets.fromLTRB(14.0, 28.0, 14.0, 28.0),
-        child: new Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              new PrefsTeaRow(tea: tea1),
-              new PrefsTeaRow(tea: tea2),
-              new PrefsTeaRow(tea: tea3),
-            ]));
+        child: new Column(children: [
+          new PrefsTeaRow(tea: tea1),
+          new PrefsTeaRow(tea: tea2),
+          new PrefsTeaRow(tea: tea3),
+        ]));
   }
 }
 
@@ -246,14 +244,34 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
           color: tea.getThemeColor(context),
           size: 42.0,
         ),
-        new Text(
-          tea.buttonName,
-          style: new TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 28.0,
-            color: tea.getThemeColor(context),
-          ),
-        ),
+        new Flexible(
+            child: Padding(
+                padding: EdgeInsets.fromLTRB(7.0, 7.0, 7.0, 7.0),
+                child: TextFormField(
+                  initialValue: tea.buttonName,
+                  autocorrect: false,
+                  maxLength: 10,
+                  maxLines: 1,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Theme.of(context).buttonColor)),
+                      counter: Offstage(),
+                      contentPadding:
+                          const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 0.0)),
+                  style: new TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 28.0,
+                    color: tea.getThemeColor(context),
+                  ),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      tea.name = newValue;
+                      Prefs.setTeas();
+                    });
+                  },
+                ))),
         new DropdownButton<int>(
           value: tea.brewTimeMinutes,
           icon: null,
