@@ -116,30 +116,17 @@ abstract class Prefs {
 
   // Fetch all teas from shared prefs or use defaults
   static void getTeas() {
-    String _teaName;
-    int _teaBrewTime;
-    int _teaColor;
+    tea1.name = sharedPrefs.getString(_prefTea1Name) ?? 'Black';
+    tea1.brewTime = sharedPrefs.getInt(_prefTea1BrewTime) ?? 240;
+    tea1.color = sharedPrefs.getInt(_prefTea1Color) ?? 0;
 
-    _teaName = sharedPrefs.getString(_prefTea1Name) ?? 'Black';
-    _teaBrewTime = sharedPrefs.getInt(_prefTea1BrewTime) ?? 240;
-    _teaColor = sharedPrefs.getInt(_prefTea1Color) ?? 0;
-    tea1.name = _teaName;
-    tea1.brewTime = _teaBrewTime;
-    tea1.color = _teaColor;
+    tea2.name = sharedPrefs.getString(_prefTea2Name) ?? 'Green';
+    tea2.brewTime = sharedPrefs.getInt(_prefTea2BrewTime) ?? 150;
+    tea2.color = sharedPrefs.getInt(_prefTea2Color) ?? 1;
 
-    _teaName = sharedPrefs.getString(_prefTea2Name) ?? 'Green';
-    _teaBrewTime = sharedPrefs.getInt(_prefTea2BrewTime) ?? 150;
-    _teaColor = sharedPrefs.getInt(_prefTea2Color) ?? 1;
-    tea2.name = _teaName;
-    tea2.brewTime = _teaBrewTime;
-    tea2.color = _teaColor;
-
-    _teaName = sharedPrefs.getString(_prefTea3Name) ?? 'Herbal';
-    _teaBrewTime = sharedPrefs.getInt(_prefTea3BrewTime) ?? 300;
-    _teaColor = sharedPrefs.getInt(_prefTea3Color) ?? 2;
-    tea3.name = _teaName;
-    tea3.brewTime = _teaBrewTime;
-    tea3.color = _teaColor;
+    tea3.name = sharedPrefs.getString(_prefTea3Name) ?? 'Herbal';
+    tea3.brewTime = sharedPrefs.getInt(_prefTea3BrewTime) ?? 300;
+    tea3.color = sharedPrefs.getInt(_prefTea3Color) ?? 2;
   }
 
   // Store all teas in shared prefs
@@ -165,10 +152,8 @@ abstract class Prefs {
 
   // Fetch next alarm info from shared prefs
   static void getNextAlarm() {
-    String _nextTeaName = sharedPrefs.getString(_prefNextTeaName) ?? '';
-    String _nextAlarm = sharedPrefs.getString(_prefNextAlarm) ?? '';
-    nextTeaName = _nextTeaName;
-    nextAlarm = _nextAlarm;
+    nextTeaName = sharedPrefs.getString(_prefNextTeaName) ?? '';
+    nextAlarm = sharedPrefs.getString(_prefNextAlarm) ?? '';
   }
 
   // Store next alarm info in shared prefs to persist when app is closed
