@@ -17,6 +17,11 @@ import 'platform_adaptive.dart';
 import 'timer.dart';
 import 'prefs.dart';
 
+// Teas
+Tea tea1;
+Tea tea2;
+Tea tea3;
+
 void main() {
   runApp(new CuppaApp());
 }
@@ -39,41 +44,11 @@ class CuppaApp extends StatelessWidget {
       title: appTitle,
       theme: getPlatformAdaptiveTheme(appPlatform),
       darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
-      home: TimerRoute(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => TimerWidget(),
+        '/prefs': (context) => PrefsWidget(),
+      },
     );
-  }
-}
-
-class TimerRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: new PlatformAdaptiveAppBar(
-            title: new Text(CuppaApp.appTitle),
-            platform: CuppaApp.appPlatform,
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PrefsRoute()),
-                  );
-                },
-              ),
-            ]),
-        body: new TimerWidget());
-  }
-}
-
-class PrefsRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: new PlatformAdaptiveAppBar(
-          title: new Text(CuppaApp.appTitle + ' Preferences'),
-          platform: CuppaApp.appPlatform,
-        ),
-        body: new PrefsWidget());
   }
 }

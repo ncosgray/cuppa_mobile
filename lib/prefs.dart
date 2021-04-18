@@ -17,11 +17,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-// Teas
-Tea tea1;
-Tea tea2;
-Tea tea3;
+import 'main.dart';
+import 'platform_adaptive.dart';
 
 // Brewing complete text
 String teaTimerTitle = 'Brewing complete...';
@@ -205,13 +202,18 @@ class PrefsWidget extends StatefulWidget {
 class _PrefsWidgetState extends State<PrefsWidget> {
   @override
   Widget build(BuildContext context) {
-    return new Container(
-        margin: const EdgeInsets.fromLTRB(14.0, 28.0, 14.0, 28.0),
-        child: new Column(children: [
-          new PrefsTeaRow(tea: tea1),
-          new PrefsTeaRow(tea: tea2),
-          new PrefsTeaRow(tea: tea3),
-        ]));
+    return Scaffold(
+        appBar: new PlatformAdaptiveAppBar(
+          title: new Text(CuppaApp.appTitle + ' Preferences'),
+          platform: CuppaApp.appPlatform,
+        ),
+        body: new Container(
+            margin: const EdgeInsets.fromLTRB(14.0, 28.0, 14.0, 28.0),
+            child: new Column(children: [
+              new PrefsTeaRow(tea: tea1),
+              new PrefsTeaRow(tea: tea2),
+              new PrefsTeaRow(tea: tea3),
+            ])));
   }
 }
 

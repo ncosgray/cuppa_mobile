@@ -242,87 +242,104 @@ class _TimerWidgetState extends State<TimerWidget> {
         fontSize: 100.0 * scaleFactor,
         fontWeight: FontWeight.bold);
 
-    return new Container(
-      child: new Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          new SizedBox(
-            child: new Container(
-              padding: const EdgeInsets.fromLTRB(48.0, 24.0, 48.0, 24.0),
-              child: new Container(
-                decoration: new BoxDecoration(
-                  color: Colors.green,
-                  borderRadius:
-                      const BorderRadius.all(const Radius.circular(12.0)),
-                ),
-                child: new Center(
-                  child: new Text(
-                    _formatTimer(_timerSeconds),
-                    style: timerStyle,
+    return Scaffold(
+        appBar: new PlatformAdaptiveAppBar(
+            title: new Text(CuppaApp.appTitle),
+            platform: CuppaApp.appPlatform,
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed("/prefs")
+                      .then((value) => setState(() {}));
+                },
+              ),
+            ]),
+        body: new Container(
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              new SizedBox(
+                child: new Container(
+                  padding: const EdgeInsets.fromLTRB(48.0, 24.0, 48.0, 24.0),
+                  child: new Container(
+                    decoration: new BoxDecoration(
+                      color: Colors.green,
+                      borderRadius:
+                          const BorderRadius.all(const Radius.circular(12.0)),
+                    ),
+                    child: new Center(
+                      child: new Text(
+                        _formatTimer(_timerSeconds),
+                        style: timerStyle,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-          new Expanded(
-            child: new Container(
-              padding: const EdgeInsets.fromLTRB(48.0, 0.0, 48.0, 0.0),
-              child: new Image.asset(
-                _cupImage,
-                height: 240.0 * scaleFactor,
-                fit: BoxFit.fitWidth,
-                gaplessPlayback: true,
-              ),
-            ),
-          ),
-          new SizedBox(
-            child: new Container(
-              margin: const EdgeInsets.all(24.0),
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  new TeaButton(
-                      name: tea1.buttonName,
-                      active: _whichActive == tea1 ? true : false,
-                      fade:
-                          !_timerActive || _whichActive == tea1 ? false : true,
-                      buttonColor: tea1.getThemeColor(context),
-                      onPressed: _handleTapboxTea1Changed),
-                  new TeaButton(
-                      name: tea2.buttonName,
-                      active: _whichActive == tea2 ? true : false,
-                      fade:
-                          !_timerActive || _whichActive == tea2 ? false : true,
-                      buttonColor: tea2.getThemeColor(context),
-                      onPressed: _handleTapboxTea2Changed),
-                  new TeaButton(
-                      name: tea3.buttonName,
-                      active: _whichActive == tea3 ? true : false,
-                      fade:
-                          !_timerActive || _whichActive == tea3 ? false : true,
-                      buttonColor: tea3.getThemeColor(context),
-                      onPressed: _handleTapboxTea3Changed),
-                ],
-              ),
-            ),
-          ),
-          new SizedBox(
-            child: new Container(
-              margin: const EdgeInsets.only(bottom: 24.0),
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  new CancelButton(
-                    active: _timerActive ? true : false,
-                    onPressed: _handleTapboxCancelPressed,
+              new Expanded(
+                child: new Container(
+                  padding: const EdgeInsets.fromLTRB(48.0, 0.0, 48.0, 0.0),
+                  child: new Image.asset(
+                    _cupImage,
+                    height: 240.0 * scaleFactor,
+                    fit: BoxFit.fitWidth,
+                    gaplessPlayback: true,
                   ),
-                ],
+                ),
               ),
-            ),
+              new SizedBox(
+                child: new Container(
+                  margin: const EdgeInsets.all(24.0),
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      new TeaButton(
+                          name: tea1.buttonName,
+                          active: _whichActive == tea1 ? true : false,
+                          fade: !_timerActive || _whichActive == tea1
+                              ? false
+                              : true,
+                          buttonColor: tea1.getThemeColor(context),
+                          onPressed: _handleTapboxTea1Changed),
+                      new TeaButton(
+                          name: tea2.buttonName,
+                          active: _whichActive == tea2 ? true : false,
+                          fade: !_timerActive || _whichActive == tea2
+                              ? false
+                              : true,
+                          buttonColor: tea2.getThemeColor(context),
+                          onPressed: _handleTapboxTea2Changed),
+                      new TeaButton(
+                          name: tea3.buttonName,
+                          active: _whichActive == tea3 ? true : false,
+                          fade: !_timerActive || _whichActive == tea3
+                              ? false
+                              : true,
+                          buttonColor: tea3.getThemeColor(context),
+                          onPressed: _handleTapboxTea3Changed),
+                    ],
+                  ),
+                ),
+              ),
+              new SizedBox(
+                child: new Container(
+                  margin: const EdgeInsets.only(bottom: 24.0),
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      new CancelButton(
+                        active: _timerActive ? true : false,
+                        onPressed: _handleTapboxCancelPressed,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }
 
