@@ -176,15 +176,38 @@ class _TimerWidgetState extends State<TimerWidget> {
     });
   }
 
+  void _refreshTeas() {
+    setState(() {
+      // Load user tea steep times
+      Prefs.getTeas();
+    });
+
+    // Add quick action shortcuts
+    final QuickActions quickActions = QuickActions();
+    quickActions.setShortcutItems(<ShortcutItem>[
+      ShortcutItem(
+        type: 'shortcutTea1',
+        localizedTitle: tea1.fullName,
+        icon: tea1.shortcutIcon,
+      ),
+      ShortcutItem(
+        type: 'shortcutTea2',
+        localizedTitle: tea2.fullName,
+        icon: tea2.shortcutIcon,
+      ),
+      ShortcutItem(
+        type: 'shortcutTea3',
+        localizedTitle: tea3.fullName,
+        icon: tea3.shortcutIcon,
+      ),
+    ]);
+  }
+
   @override
   void initState() {
     super.initState();
 
-    // Set up teas
-    Prefs.initTeas();
-
-    // Load tea steep times
-    Prefs.getTeas();
+    _refreshTeas();
 
     // Check for an existing timer and resume if needed
     _checkNextAlarm();
@@ -212,25 +235,6 @@ class _TimerWidgetState extends State<TimerWidget> {
         }
       }
     });
-
-    // Add quick action shortcuts
-    quickActions.setShortcutItems(<ShortcutItem>[
-      ShortcutItem(
-        type: 'shortcutTea1',
-        localizedTitle: tea1.fullName,
-        icon: tea1.shortcutIcon,
-      ),
-      ShortcutItem(
-        type: 'shortcutTea2',
-        localizedTitle: tea2.fullName,
-        icon: tea2.shortcutIcon,
-      ),
-      ShortcutItem(
-        type: 'shortcutTea3',
-        localizedTitle: tea3.fullName,
-        icon: tea3.shortcutIcon,
-      ),
-    ]);
   }
 
   @override
@@ -241,6 +245,8 @@ class _TimerWidgetState extends State<TimerWidget> {
         color: Colors.white,
         fontSize: 100.0 * scaleFactor,
         fontWeight: FontWeight.bold);
+
+    _refreshTeas();
 
     return Scaffold(
         appBar: new PlatformAdaptiveAppBar(

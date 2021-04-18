@@ -34,6 +34,9 @@ class CuppaApp extends StatelessWidget {
   Widget build(BuildContext context) {
     appPlatform = Theme.of(context).platform;
 
+    // Set up tea defaults
+    Prefs.initTeas();
+
     return new MaterialApp(
       builder: (context, child) {
         return MediaQuery(
