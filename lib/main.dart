@@ -19,6 +19,7 @@ import 'timer.dart';
 import 'prefs.dart';
 
 SharedPreferences sharedPrefs;
+TargetPlatform appPlatform;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,9 +29,6 @@ void main() async {
 }
 
 class CuppaApp extends StatelessWidget {
-  static final String appTitle = 'Cuppa';
-  static TargetPlatform appPlatform;
-
   @override
   Widget build(BuildContext context) {
     appPlatform = Theme.of(context).platform;

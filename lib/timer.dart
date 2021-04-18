@@ -67,11 +67,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   // Confirmation dialog
-  static String confirmTitle = 'Warning!';
-  static String confirmMessageLine1 = 'There is an active timer.';
-  static String confirmMessageLine2 = 'Cancel and start a new timer?';
-  static String confirmYes = 'Yes';
-  static String confirmNo = 'No';
   Future<bool> _confirmTimer() {
     if (_timerActive) {
       return showDialog(
@@ -79,7 +74,7 @@ class _TimerWidgetState extends State<TimerWidget> {
           barrierDismissible: false,
           builder: (BuildContext context) {
             return PlatformAdaptiveDialog(
-              platform: CuppaApp.appPlatform,
+              platform: appPlatform,
               title: Text(confirmTitle),
               content: SingleChildScrollView(
                 child: ListBody(
@@ -250,8 +245,8 @@ class _TimerWidgetState extends State<TimerWidget> {
 
     return Scaffold(
         appBar: new PlatformAdaptiveAppBar(
-            title: new Text(CuppaApp.appTitle),
-            platform: CuppaApp.appPlatform,
+            title: new Text(appTitle),
+            platform: appPlatform,
             actions: <Widget>[
               IconButton(
                 icon: const Icon(Icons.settings),
@@ -409,8 +404,6 @@ class TeaButton extends StatelessWidget {
 class CancelButton extends StatelessWidget {
   CancelButton({Key key, this.active: false, @required this.onPressed})
       : super(key: key);
-
-  static String cancelButton = 'CANCEL';
 
   final bool active;
   final ValueChanged<bool> onPressed;

@@ -24,9 +24,16 @@ Tea tea1;
 Tea tea2;
 Tea tea3;
 
-// Brewing complete text
-String teaTimerTitle = 'Brewing complete...';
-String teaTimerText = ' is now ready!';
+// Strings
+final String appTitle = 'Cuppa';
+final String cancelButton = 'CANCEL';
+final String teaTimerTitle = 'Brewing complete...';
+final String teaTimerText = ' is now ready!';
+final String confirmTitle = 'Warning!';
+final String confirmMessageLine1 = 'There is an active timer.';
+final String confirmMessageLine2 = 'Cancel and start a new timer?';
+final String confirmYes = 'Yes';
+final String confirmNo = 'No';
 
 // Tea definition
 class Tea {
@@ -179,8 +186,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: new PlatformAdaptiveAppBar(
-          title: new Text(CuppaApp.appTitle + ' Preferences'),
-          platform: CuppaApp.appPlatform,
+          title: new Text(appTitle + ' Preferences'),
+          platform: appPlatform,
         ),
         body: new Container(
             margin: const EdgeInsets.fromLTRB(14.0, 28.0, 14.0, 28.0),
