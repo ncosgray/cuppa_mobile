@@ -13,16 +13,17 @@
 // Cuppa: a simple tea timer app for Android and iOS
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'platform_adaptive.dart';
 import 'timer.dart';
 import 'prefs.dart';
 
-// Teas
-Tea tea1;
-Tea tea2;
-Tea tea3;
+SharedPreferences sharedPrefs;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  sharedPrefs = await SharedPreferences.getInstance();
+
   runApp(new CuppaApp());
 }
 
@@ -34,7 +35,6 @@ class CuppaApp extends StatelessWidget {
   Widget build(BuildContext context) {
     appPlatform = Theme.of(context).platform;
 
-    // Set up tea defaults
     Prefs.initTeas();
 
     return new MaterialApp(

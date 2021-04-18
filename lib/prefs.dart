@@ -16,9 +16,13 @@
 // - Build prefs interface and interactivity
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
 import 'platform_adaptive.dart';
+
+// Teas
+Tea tea1;
+Tea tea2;
+Tea tea3;
 
 // Brewing complete text
 String teaTimerTitle = 'Brewing complete...';
@@ -78,6 +82,13 @@ class Tea {
 }
 
 abstract class Prefs {
+  // Initialize teas
+  static void initTeas() {
+    tea1 = new Tea();
+    tea2 = new Tea();
+    tea3 = new Tea();
+  }
+
   // Color map
   static final Map<int, Color> teaColors = {
     0: Colors.black,
@@ -103,63 +114,45 @@ abstract class Prefs {
   static final String _prefTea3BrewTime = 'Cuppa_tea3_brew_time';
   static final String _prefTea3Color = 'Cuppa_tea3_color';
 
-  // Initialize teas with defaults
-  static void initTeas() {
-    tea1 = new Tea();
-    tea1.name = 'Black';
-    tea1.brewTime = 240;
-    tea1.color = 0;
-    tea2 = new Tea();
-    tea2.name = 'Green';
-    tea2.brewTime = 150;
-    tea2.color = 1;
-    tea3 = new Tea();
-    tea3.name = 'Herbal';
-    tea3.brewTime = 300;
-    tea3.color = 2;
-  }
-
   // Fetch all teas from shared prefs or use defaults
-  static void getTeas() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
+  static void getTeas() {
     String _teaName;
     int _teaBrewTime;
     int _teaColor;
 
-    _teaName = _prefs.getString(_prefTea1Name) ?? 'Black';
-    _teaBrewTime = _prefs.getInt(_prefTea1BrewTime) ?? 240;
-    _teaColor = _prefs.getInt(_prefTea1Color) ?? 0;
+    _teaName = sharedPrefs.getString(_prefTea1Name) ?? 'Black';
+    _teaBrewTime = sharedPrefs.getInt(_prefTea1BrewTime) ?? 240;
+    _teaColor = sharedPrefs.getInt(_prefTea1Color) ?? 0;
     tea1.name = _teaName;
     tea1.brewTime = _teaBrewTime;
     tea1.color = _teaColor;
 
-    _teaName = _prefs.getString(_prefTea2Name) ?? 'Green';
-    _teaBrewTime = _prefs.getInt(_prefTea2BrewTime) ?? 150;
-    _teaColor = _prefs.getInt(_prefTea2Color) ?? 1;
+    _teaName = sharedPrefs.getString(_prefTea2Name) ?? 'Green';
+    _teaBrewTime = sharedPrefs.getInt(_prefTea2BrewTime) ?? 150;
+    _teaColor = sharedPrefs.getInt(_prefTea2Color) ?? 1;
     tea2.name = _teaName;
     tea2.brewTime = _teaBrewTime;
     tea2.color = _teaColor;
 
-    _teaName = _prefs.getString(_prefTea3Name) ?? 'Herbal';
-    _teaBrewTime = _prefs.getInt(_prefTea3BrewTime) ?? 300;
-    _teaColor = _prefs.getInt(_prefTea3Color) ?? 2;
+    _teaName = sharedPrefs.getString(_prefTea3Name) ?? 'Herbal';
+    _teaBrewTime = sharedPrefs.getInt(_prefTea3BrewTime) ?? 300;
+    _teaColor = sharedPrefs.getInt(_prefTea3Color) ?? 2;
     tea3.name = _teaName;
     tea3.brewTime = _teaBrewTime;
     tea3.color = _teaColor;
   }
 
   // Store all teas in shared prefs
-  static void setTeas() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.setString(_prefTea1Name, tea1.name);
-    _prefs.setInt(_prefTea1BrewTime, tea1.brewTime);
-    _prefs.setInt(_prefTea1Color, tea1.color);
-    _prefs.setString(_prefTea2Name, tea2.name);
-    _prefs.setInt(_prefTea2BrewTime, tea2.brewTime);
-    _prefs.setInt(_prefTea2Color, tea2.color);
-    _prefs.setString(_prefTea3Name, tea3.name);
-    _prefs.setInt(_prefTea3BrewTime, tea3.brewTime);
-    _prefs.setInt(_prefTea3Color, tea3.color);
+  static void setTeas() {
+    sharedPrefs.setString(_prefTea1Name, tea1.name);
+    sharedPrefs.setInt(_prefTea1BrewTime, tea1.brewTime);
+    sharedPrefs.setInt(_prefTea1Color, tea1.color);
+    sharedPrefs.setString(_prefTea2Name, tea2.name);
+    sharedPrefs.setInt(_prefTea2BrewTime, tea2.brewTime);
+    sharedPrefs.setInt(_prefTea2Color, tea2.color);
+    sharedPrefs.setString(_prefTea3Name, tea3.name);
+    sharedPrefs.setInt(_prefTea3BrewTime, tea3.brewTime);
+    sharedPrefs.setInt(_prefTea3Color, tea3.color);
   }
 
   // Next alarm info
@@ -171,26 +164,23 @@ abstract class Prefs {
   static final String _prefNextAlarm = 'Cuppa_next_alarm';
 
   // Fetch next alarm info from shared prefs
-  static void getNextAlarm() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String _nextTeaName = prefs.getString(_prefNextTeaName) ?? '';
-    String _nextAlarm = prefs.getString(_prefNextAlarm) ?? '';
+  static void getNextAlarm() {
+    String _nextTeaName = sharedPrefs.getString(_prefNextTeaName) ?? '';
+    String _nextAlarm = sharedPrefs.getString(_prefNextAlarm) ?? '';
     nextTeaName = _nextTeaName;
     nextAlarm = _nextAlarm;
   }
 
   // Store next alarm info in shared prefs to persist when app is closed
-  static void setNextAlarm(String teaName, DateTime timerEndTime) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(_prefNextTeaName, teaName);
-    prefs.setString(_prefNextAlarm, timerEndTime.toString());
+  static void setNextAlarm(String teaName, DateTime timerEndTime) {
+    sharedPrefs.setString(_prefNextTeaName, teaName);
+    sharedPrefs.setString(_prefNextAlarm, timerEndTime.toString());
   }
 
   // Clear shared prefs next alarm info
-  static void clearNextAlarm() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(_prefNextTeaName, '');
-    prefs.setString(_prefNextAlarm, '');
+  static void clearNextAlarm() {
+    sharedPrefs.setString(_prefNextTeaName, '');
+    sharedPrefs.setString(_prefNextAlarm, '');
   }
 }
 
