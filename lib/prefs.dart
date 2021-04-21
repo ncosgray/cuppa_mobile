@@ -95,8 +95,11 @@ abstract class Prefs {
   // Color map
   static final Map<int, Color> teaColors = {
     0: Colors.black,
-    1: Colors.green,
-    2: Colors.orange
+    1: Colors.red[600],
+    2: Colors.orange,
+    3: Colors.green,
+    4: Colors.blue,
+    5: Colors.purple[300],
   };
 
   // Themed color map lookup
@@ -111,8 +114,11 @@ abstract class Prefs {
   // Shortcut icon map
   static final Map<int, String> shortcutIcons = {
     0: 'shortcut_black',
-    1: 'shortcut_green',
-    2: 'shortcut_herbal'
+    1: 'shortcut_red',
+    2: 'shortcut_herbal',
+    3: 'shortcut_green',
+    4: 'shortcut_blue',
+    5: 'shortcut_purple'
   };
 
   // Shared prefs keys for teas
@@ -134,7 +140,7 @@ abstract class Prefs {
 
     tea2.name = sharedPrefs.getString(_prefTea2Name) ?? 'Green';
     tea2.brewTime = sharedPrefs.getInt(_prefTea2BrewTime) ?? 150;
-    tea2.color = sharedPrefs.getInt(_prefTea2Color) ?? 1;
+    tea2.color = sharedPrefs.getInt(_prefTea2Color) ?? 3;
 
     tea3.name = sharedPrefs.getString(_prefTea3Name) ?? 'Herbal';
     tea3.brewTime = sharedPrefs.getInt(_prefTea3BrewTime) ?? 300;
