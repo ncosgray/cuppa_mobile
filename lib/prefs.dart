@@ -223,14 +223,40 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
         child: new Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        new Icon(
-          Icons.timer,
-          color: tea.getThemeColor(context),
-          size: 42.0,
+        new PopupMenuButton(
+          onSelected: (int newValue) {
+            setState(() {
+              tea.color = newValue;
+              Prefs.setTeas();
+            });
+          },
+          itemBuilder: (BuildContext context) {
+            return Prefs.teaColors.keys.map((int value) {
+              return PopupMenuItem(
+                value: value,
+                child: Icon(
+                  Icons.timer,
+                  color: Prefs.teaColors[value],
+                  size: 35.0,
+                ),
+              );
+            }).toList();
+          },
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Icon(
+                Icons.timer,
+                color: tea.getThemeColor(context),
+                size: 35.0,
+              ),
+              Icon(Icons.arrow_drop_down, color: Theme.of(context).buttonColor),
+            ],
+          ),
         ),
         new Flexible(
             child: Padding(
-                padding: EdgeInsets.fromLTRB(7.0, 7.0, 7.0, 7.0),
+                padding: EdgeInsets.zero,
                 child: TextFormField(
                   initialValue: tea.buttonName,
                   autocorrect: false,
