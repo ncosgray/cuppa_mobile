@@ -57,11 +57,7 @@ class Tea {
 
   // Color getter
   Color getThemeColor(context) {
-    if (this.color == 0)
-      // "Black" substitutes appropriate color for current theme
-      return Theme.of(context).buttonColor;
-    else
-      return Prefs.teaColors[this.color];
+    return Prefs.themeColor(this.color, context);
   }
 
   // Shortcut icon name based on color
@@ -102,6 +98,15 @@ abstract class Prefs {
     1: Colors.green,
     2: Colors.orange
   };
+
+  // Themed color map lookup
+  static Color themeColor(int color, context) {
+    if (color == 0)
+      // "Black" substitutes appropriate color for current theme
+      return Theme.of(context).buttonColor;
+    else
+      return Prefs.teaColors[color];
+  }
 
   // Shortcut icon map
   static final Map<int, String> shortcutIcons = {
@@ -236,7 +241,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                 value: value,
                 child: Icon(
                   Icons.timer,
-                  color: Prefs.teaColors[value],
+                  color: Prefs.themeColor(value, context),
                   size: 35.0,
                 ),
               );
