@@ -34,6 +34,8 @@ final String confirmMessageLine1 = 'There is an active timer.';
 final String confirmMessageLine2 = 'Cancel and start a new timer?';
 final String confirmYes = 'Yes';
 final String confirmNo = 'No';
+final String prefsTitle = 'Cuppa Preferences';
+final String prefsHeader = 'Set tea colors, names, and brew times.';
 
 // Tea definition
 class Tea {
@@ -197,15 +199,24 @@ class _PrefsWidgetState extends State<PrefsWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: new PlatformAdaptiveAppBar(
-          title: new Text(appTitle + ' Preferences'),
+          title: new Text(prefsTitle),
           platform: appPlatform,
         ),
         body: new Container(
-            margin: const EdgeInsets.fromLTRB(14.0, 28.0, 14.0, 28.0),
+            margin: const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 28.0),
             child: new Column(children: [
+              new Align(
+                  alignment: Alignment.topLeft,
+                  child: new Container(
+                      margin: const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 14.0),
+                      child: new Text(prefsHeader,
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Theme.of(context).buttonColor,
+                          )))),
               new PrefsTeaRow(tea: tea1),
               new PrefsTeaRow(tea: tea2),
-              new PrefsTeaRow(tea: tea3),
+              new PrefsTeaRow(tea: tea3)
             ])));
   }
 }
