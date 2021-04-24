@@ -36,7 +36,11 @@ final String confirmYes = 'Yes';
 final String confirmNo = 'No';
 final String prefsTitle = 'Cuppa Preferences';
 final String prefsHeader = 'Set tea colors, names, and brew times.';
-final String prefsNameValidation = 'Please enter a tea name';
+final String prefsNameMissing = 'Please enter a tea name';
+final String prefsNameLong = 'Tea name is too long';
+
+// Limits
+final int teaNameMaxLength = 12;
 
 // Tea definition
 class Tea {
@@ -285,7 +289,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                         child: new TextFormField(
                           initialValue: tea.name,
                           autocorrect: false,
-                          maxLength: 10,
+                          maxLength: teaNameMaxLength + 1,
                           maxLines: 1,
                           decoration: InputDecoration(
                               border: InputBorder.none,
@@ -302,7 +306,9 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                           ),
                           validator: (String newValue) {
                             if (newValue == null || newValue.isEmpty) {
-                              return prefsNameValidation;
+                              return prefsNameMissing;
+                            } else if (newValue.length > teaNameMaxLength) {
+                              return prefsNameLong;
                             }
                             return null;
                           },
