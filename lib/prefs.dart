@@ -36,6 +36,7 @@ final String confirmYes = 'Yes';
 final String confirmNo = 'No';
 final String prefsTitle = 'Cuppa Preferences';
 final String prefsHeader = 'Set tea colors, names, and brew times.';
+final String prefsNameValidation = 'Please enter a tea name';
 
 // Tea definition
 class Tea {
@@ -216,7 +217,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           )))),
               new PrefsTeaRow(tea: tea1),
               new PrefsTeaRow(tea: tea2),
-              new PrefsTeaRow(tea: tea3)
+              new PrefsTeaRow(tea: tea3),
             ])));
   }
 }
@@ -238,131 +239,143 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
   });
 
   final Tea tea;
+  GlobalKey<FormState> _formKey = new GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-        child: new Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        new Flexible(
-            flex: 1,
-            child: new PopupMenuButton(
-              onSelected: (int newValue) {
-                setState(() {
-                  tea.color = newValue;
-                  Prefs.setTeas();
-                });
-              },
-              itemBuilder: (BuildContext context) {
-                return Prefs.teaColors.keys.map((int value) {
-                  return PopupMenuItem(
-                    value: value,
-                    child: Icon(
-                      Icons.timer,
-                      color: Prefs.themeColor(value, context),
-                      size: 35.0,
-                    ),
-                  );
-                }).toList();
-              },
-              child: new Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Icon(
-                    Icons.timer,
-                    color: tea.getThemeColor(context),
-                    size: 35.0,
-                  ),
-                  Icon(Icons.arrow_drop_down,
-                      color: Theme.of(context).buttonColor),
-                ],
-              ),
-            )),
-        new Flexible(
-            flex: 3,
-            child: new Padding(
-                padding: EdgeInsets.zero,
-                child: new TextFormField(
-                  initialValue: tea.buttonName,
-                  autocorrect: false,
-                  maxLength: 10,
-                  maxLines: 1,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Theme.of(context).buttonColor)),
-                      counter: Offstage(),
-                      contentPadding:
-                          const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0)),
-                  style: new TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 28.0,
-                    color: tea.getThemeColor(context),
-                  ),
-                  onChanged: (String newValue) {
+    return new Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: new Container(
+            child: new Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            new Flexible(
+                flex: 1,
+                child: new PopupMenuButton(
+                  onSelected: (int newValue) {
                     setState(() {
-                      tea.name = newValue;
+                      tea.color = newValue;
                       Prefs.setTeas();
                     });
                   },
-                ))),
-        new Flexible(
-            flex: 2,
-            child: new Row(children: [
-              new DropdownButton<int>(
-                value: tea.brewTimeMinutes,
-                icon: null,
-                style: TextStyle(
-                    fontSize: 28.0, color: Theme.of(context).buttonColor),
-                underline: SizedBox(),
-                onChanged: (int newValue) {
-                  setState(() {
-                    tea.brewTimeMinutes = newValue;
-                    Prefs.setTeas();
-                  });
-                },
-                items: <int>[1, 2, 3, 4, 5, 6, 7, 8, 9]
-                    .map<DropdownMenuItem<int>>((int value) {
-                  return DropdownMenuItem<int>(
-                    value: value,
-                    child: Text(value.toString()),
-                  );
-                }).toList(),
-              ),
-              new Text(
-                ': ',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28.0,
-                  color: Theme.of(context).buttonColor,
-                ),
-              ),
-              new DropdownButton<int>(
-                value: tea.brewTimeSeconds,
-                icon: null,
-                style: TextStyle(
-                    fontSize: 28.0, color: Theme.of(context).buttonColor),
-                underline: SizedBox(),
-                onChanged: (int newValue) {
-                  setState(() {
-                    tea.brewTimeSeconds = newValue;
-                    Prefs.setTeas();
-                  });
-                },
-                items: <int>[0, 15, 30, 45]
-                    .map<DropdownMenuItem<int>>((int value) {
-                  return DropdownMenuItem<int>(
-                    value: value,
-                    child: Text(value.toString().padLeft(2, '0')),
-                  );
-                }).toList(),
-              )
-            ])),
-      ],
-    ));
+                  itemBuilder: (BuildContext context) {
+                    return Prefs.teaColors.keys.map((int value) {
+                      return PopupMenuItem(
+                        value: value,
+                        child: Icon(
+                          Icons.timer,
+                          color: Prefs.themeColor(value, context),
+                          size: 35.0,
+                        ),
+                      );
+                    }).toList();
+                  },
+                  child: new Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(
+                        Icons.timer,
+                        color: tea.getThemeColor(context),
+                        size: 35.0,
+                      ),
+                      Icon(Icons.arrow_drop_down,
+                          color: Theme.of(context).buttonColor),
+                    ],
+                  ),
+                )),
+            new Flexible(
+                flex: 3,
+                child: new Padding(
+                    padding: EdgeInsets.zero,
+                    child: new TextFormField(
+                      initialValue: tea.buttonName,
+                      autocorrect: false,
+                      maxLength: 10,
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Theme.of(context).buttonColor)),
+                          counter: Offstage(),
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0)),
+                      style: new TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28.0,
+                        color: tea.getThemeColor(context),
+                      ),
+                      validator: (String newValue) {
+                        if (newValue == null || newValue.isEmpty) {
+                          return prefsNameValidation;
+                        }
+                        return null;
+                      },
+                      onChanged: (String newValue) {
+                        if (_formKey.currentState.validate()) {
+                          setState(() {
+                            tea.name = newValue;
+                            Prefs.setTeas();
+                          });
+                        }
+                      },
+                    ))),
+            new Flexible(
+                flex: 2,
+                child: new Row(children: [
+                  new DropdownButton<int>(
+                    value: tea.brewTimeMinutes,
+                    icon: null,
+                    style: TextStyle(
+                        fontSize: 28.0, color: Theme.of(context).buttonColor),
+                    underline: SizedBox(),
+                    onChanged: (int newValue) {
+                      setState(() {
+                        tea.brewTimeMinutes = newValue;
+                        Prefs.setTeas();
+                      });
+                    },
+                    items: <int>[1, 2, 3, 4, 5, 6, 7, 8, 9]
+                        .map<DropdownMenuItem<int>>((int value) {
+                      return DropdownMenuItem<int>(
+                        value: value,
+                        child: Text(value.toString()),
+                      );
+                    }).toList(),
+                  ),
+                  new Text(
+                    ': ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28.0,
+                      color: Theme.of(context).buttonColor,
+                    ),
+                  ),
+                  new DropdownButton<int>(
+                    value: tea.brewTimeSeconds,
+                    icon: null,
+                    style: TextStyle(
+                        fontSize: 28.0, color: Theme.of(context).buttonColor),
+                    underline: SizedBox(),
+                    onChanged: (int newValue) {
+                      setState(() {
+                        tea.brewTimeSeconds = newValue;
+                        Prefs.setTeas();
+                      });
+                    },
+                    items: <int>[0, 15, 30, 45]
+                        .map<DropdownMenuItem<int>>((int value) {
+                      return DropdownMenuItem<int>(
+                        value: value,
+                        child: Text(value.toString().padLeft(2, '0')),
+                      );
+                    }).toList(),
+                  )
+                ])),
+          ],
+        )));
   }
 }
