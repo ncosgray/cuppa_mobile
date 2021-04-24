@@ -47,15 +47,12 @@ class Tea {
 
   // Tea name getters
   get buttonName {
-    return name.toUpperCase();
+    return this.name.toUpperCase();
   }
 
   get fullName {
-    // Capitalized full name including "tea" for notifications
-    String fullName = name[0].toUpperCase();
-    if (fullName.length > 0)
-      fullName = fullName + name.substring(1).toLowerCase();
-    return fullName + ' tea';
+    // Name including "tea" for notifications and shortcuts
+    return this.name + ' tea';
   }
 
   // Color getter
@@ -291,7 +288,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                 child: new Padding(
                     padding: EdgeInsets.zero,
                     child: new TextFormField(
-                      initialValue: tea.buttonName,
+                      initialValue: tea.name,
                       autocorrect: false,
                       maxLength: 10,
                       maxLines: 1,
