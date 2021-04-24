@@ -35,7 +35,7 @@ final String confirmMessageLine2 = 'Cancel and start a new timer?';
 final String confirmYes = 'Yes';
 final String confirmNo = 'No';
 final String prefsTitle = 'Cuppa Preferences';
-final String prefsHeader = 'Set tea colors, names, and brew times.';
+final String prefsHeader = 'Set tea names, brew times, and colors.';
 final String prefsNameMissing = 'Please enter a tea name';
 final String prefsNameLong = 'Tea name is too long';
 
@@ -204,22 +204,23 @@ class _PrefsWidgetState extends State<PrefsWidget> {
           title: new Text(prefsTitle),
           platform: appPlatform,
         ),
-        body: new Container(
-            margin: const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 28.0),
-            child: new ListView(children: [
-              new Align(
-                  alignment: Alignment.topLeft,
-                  child: new Container(
-                      margin: const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 14.0),
-                      child: new Text(prefsHeader,
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Theme.of(context).buttonColor,
-                          )))),
-              new PrefsTeaRow(tea: tea1),
-              new PrefsTeaRow(tea: tea2),
-              new PrefsTeaRow(tea: tea3),
-            ])));
+        body: new ListView(
+          padding: const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 0.0),
+          children: [
+            new Align(
+                alignment: Alignment.topLeft,
+                child: new Container(
+                    margin: const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 14.0),
+                    child: new Text(prefsHeader,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Theme.of(context).buttonColor,
+                        )))),
+            new PrefsTeaRow(tea: tea1),
+            new PrefsTeaRow(tea: tea2),
+            new PrefsTeaRow(tea: tea3),
+          ],
+        ));
   }
 }
 
@@ -284,7 +285,8 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                 ),
                 title: new Column(
                   children: [
-                    new Padding(
+                    new Container(
+                        height: 54.0,
                         padding: EdgeInsets.zero,
                         child: new TextFormField(
                           initialValue: tea.name,
@@ -321,8 +323,9 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             }
                           },
                         )),
-                    new Padding(
-                        padding: EdgeInsets.fromLTRB(7.0, 0.0, 0.0, 0.0),
+                    new Container(
+                        height: 40.0,
+                        padding: EdgeInsets.fromLTRB(7.0, 0.0, 0.0, 7.0),
                         child: Row(children: [
                           new DropdownButton<int>(
                             value: tea.brewTimeMinutes,
