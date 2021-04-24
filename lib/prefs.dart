@@ -202,7 +202,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
         ),
         body: new Container(
             margin: const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 28.0),
-            child: new Column(children: [
+            child: new ListView(children: [
               new Align(
                   alignment: Alignment.topLeft,
                   child: new Container(
@@ -240,18 +240,12 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
 
   @override
   Widget build(BuildContext context) {
-    return new Form(
-        key: _formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: new Container(
-            child: new Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            new Flexible(
-                flex: 1,
-                child: new PopupMenuButton(
+    return new Card(
+        child: new Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: new ListTile(
+                leading: new PopupMenuButton(
                   onSelected: (int newValue) {
                     setState(() {
                       tea.color = newValue;
@@ -272,107 +266,110 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                   },
                   child: new Row(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Icon(
                         Icons.timer,
                         color: tea.getThemeColor(context),
-                        size: 35.0,
+                        size: 70.0,
                       ),
                       Icon(Icons.arrow_drop_down,
                           color: Theme.of(context).buttonColor),
                     ],
                   ),
-                )),
-            new Flexible(
-                flex: 3,
-                child: new Padding(
-                    padding: EdgeInsets.zero,
-                    child: new TextFormField(
-                      initialValue: tea.name,
-                      autocorrect: false,
-                      maxLength: 10,
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context).buttonColor)),
-                          counter: Offstage(),
-                          contentPadding:
-                              const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0)),
-                      style: new TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28.0,
-                        color: tea.getThemeColor(context),
-                      ),
-                      validator: (String newValue) {
-                        if (newValue == null || newValue.isEmpty) {
-                          return prefsNameValidation;
-                        }
-                        return null;
-                      },
-                      onChanged: (String newValue) {
-                        if (_formKey.currentState.validate()) {
-                          setState(() {
-                            tea.name = newValue;
-                            Prefs.setTeas();
-                          });
-                        }
-                      },
-                    ))),
-            new Flexible(
-                flex: 2,
-                child: new Row(children: [
-                  new DropdownButton<int>(
-                    value: tea.brewTimeMinutes,
-                    icon: null,
-                    style: TextStyle(
-                        fontSize: 28.0, color: Theme.of(context).buttonColor),
-                    underline: SizedBox(),
-                    onChanged: (int newValue) {
-                      setState(() {
-                        tea.brewTimeMinutes = newValue;
-                        Prefs.setTeas();
-                      });
-                    },
-                    items: <int>[1, 2, 3, 4, 5, 6, 7, 8, 9]
-                        .map<DropdownMenuItem<int>>((int value) {
-                      return DropdownMenuItem<int>(
-                        value: value,
-                        child: Text(value.toString()),
-                      );
-                    }).toList(),
-                  ),
-                  new Text(
-                    ': ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Theme.of(context).buttonColor,
-                    ),
-                  ),
-                  new DropdownButton<int>(
-                    value: tea.brewTimeSeconds,
-                    icon: null,
-                    style: TextStyle(
-                        fontSize: 28.0, color: Theme.of(context).buttonColor),
-                    underline: SizedBox(),
-                    onChanged: (int newValue) {
-                      setState(() {
-                        tea.brewTimeSeconds = newValue;
-                        Prefs.setTeas();
-                      });
-                    },
-                    items: <int>[0, 15, 30, 45]
-                        .map<DropdownMenuItem<int>>((int value) {
-                      return DropdownMenuItem<int>(
-                        value: value,
-                        child: Text(value.toString().padLeft(2, '0')),
-                      );
-                    }).toList(),
-                  )
-                ])),
-          ],
-        )));
+                ),
+                title: new Column(
+                  children: [
+                    new Padding(
+                        padding: EdgeInsets.zero,
+                        child: new TextFormField(
+                          initialValue: tea.name,
+                          autocorrect: false,
+                          maxLength: 10,
+                          maxLines: 1,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).buttonColor)),
+                              counter: Offstage(),
+                              contentPadding: const EdgeInsets.fromLTRB(
+                                  7.0, 0.0, 7.0, 0.0)),
+                          style: new TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 28.0,
+                            color: tea.getThemeColor(context),
+                          ),
+                          validator: (String newValue) {
+                            if (newValue == null || newValue.isEmpty) {
+                              return prefsNameValidation;
+                            }
+                            return null;
+                          },
+                          onChanged: (String newValue) {
+                            if (_formKey.currentState.validate()) {
+                              setState(() {
+                                tea.name = newValue;
+                                Prefs.setTeas();
+                              });
+                            }
+                          },
+                        )),
+                    new Padding(
+                        padding: EdgeInsets.fromLTRB(7.0, 0.0, 0.0, 0.0),
+                        child: Row(children: [
+                          new DropdownButton<int>(
+                            value: tea.brewTimeMinutes,
+                            icon: null,
+                            style: TextStyle(
+                                fontSize: 28.0,
+                                color: Theme.of(context).buttonColor),
+                            underline: SizedBox(),
+                            onChanged: (int newValue) {
+                              setState(() {
+                                tea.brewTimeMinutes = newValue;
+                                Prefs.setTeas();
+                              });
+                            },
+                            items: <int>[1, 2, 3, 4, 5, 6, 7, 8, 9]
+                                .map<DropdownMenuItem<int>>((int value) {
+                              return DropdownMenuItem<int>(
+                                value: value,
+                                child: Text(value.toString()),
+                              );
+                            }).toList(),
+                          ),
+                          new Text(
+                            ': ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 28.0,
+                              color: Theme.of(context).buttonColor,
+                            ),
+                          ),
+                          new DropdownButton<int>(
+                            value: tea.brewTimeSeconds,
+                            icon: null,
+                            style: TextStyle(
+                                fontSize: 28.0,
+                                color: Theme.of(context).buttonColor),
+                            underline: SizedBox(),
+                            onChanged: (int newValue) {
+                              setState(() {
+                                tea.brewTimeSeconds = newValue;
+                                Prefs.setTeas();
+                              });
+                            },
+                            items: <int>[0, 15, 30, 45]
+                                .map<DropdownMenuItem<int>>((int value) {
+                              return DropdownMenuItem<int>(
+                                value: value,
+                                child: Text(value.toString().padLeft(2, '0')),
+                              );
+                            }).toList(),
+                          )
+                        ])),
+                  ],
+                ))));
   }
 }
