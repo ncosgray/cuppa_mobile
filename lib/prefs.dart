@@ -26,6 +26,10 @@ Tea tea3;
 
 // Strings
 final String appTitle = 'Cuppa';
+final String teaNameBlack = 'Black';
+final String teaNameGreen = 'Green';
+final String teaNameHerbal = 'Herbal';
+final String teaNameSuffix = ' tea';
 final String cancelButton = 'CANCEL';
 final String teaTimerTitle = 'Brewing complete...';
 final String teaTimerText = ' is now ready!';
@@ -56,7 +60,7 @@ class Tea {
 
   get fullName {
     // Name including "tea" for notifications and shortcuts
-    return this.name + ' tea';
+    return this.name + teaNameSuffix;
   }
 
   // Color getter
@@ -138,15 +142,18 @@ abstract class Prefs {
 
   // Fetch all teas from shared prefs or use defaults
   static void getTeas() {
-    tea1.name = sharedPrefs.getString(_prefTea1Name) ?? 'Black';
+    // Default: Black tea
+    tea1.name = sharedPrefs.getString(_prefTea1Name) ?? teaNameBlack;
     tea1.brewTime = sharedPrefs.getInt(_prefTea1BrewTime) ?? 240;
     tea1.color = sharedPrefs.getInt(_prefTea1Color) ?? 0;
 
-    tea2.name = sharedPrefs.getString(_prefTea2Name) ?? 'Green';
+    // Default: Green tea
+    tea2.name = sharedPrefs.getString(_prefTea2Name) ?? teaNameGreen;
     tea2.brewTime = sharedPrefs.getInt(_prefTea2BrewTime) ?? 150;
     tea2.color = sharedPrefs.getInt(_prefTea2Color) ?? 3;
 
-    tea3.name = sharedPrefs.getString(_prefTea3Name) ?? 'Herbal';
+    // Default: Herbal tea
+    tea3.name = sharedPrefs.getString(_prefTea3Name) ?? teaNameHerbal;
     tea3.brewTime = sharedPrefs.getInt(_prefTea3BrewTime) ?? 300;
     tea3.color = sharedPrefs.getInt(_prefTea3Color) ?? 2;
   }
@@ -156,9 +163,11 @@ abstract class Prefs {
     sharedPrefs.setString(_prefTea1Name, tea1.name);
     sharedPrefs.setInt(_prefTea1BrewTime, tea1.brewTime);
     sharedPrefs.setInt(_prefTea1Color, tea1.color);
+
     sharedPrefs.setString(_prefTea2Name, tea2.name);
     sharedPrefs.setInt(_prefTea2BrewTime, tea2.brewTime);
     sharedPrefs.setInt(_prefTea2Color, tea2.color);
+
     sharedPrefs.setString(_prefTea3Name, tea3.name);
     sharedPrefs.setInt(_prefTea3BrewTime, tea3.brewTime);
     sharedPrefs.setInt(_prefTea3Color, tea3.color);
