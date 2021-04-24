@@ -40,6 +40,8 @@ final String confirmYes = 'Yes';
 final String confirmNo = 'No';
 final String prefsTitle = 'Cuppa Preferences';
 final String prefsHeader = 'Set tea names, brew times, and colors.';
+final String prefsNotifications =
+    'Refer to your device\'s system settings to configure notifications for Cuppa.';
 final String prefsNameMissing = 'Please enter a tea name';
 final String prefsNameLong = 'Tea name is too long';
 
@@ -228,6 +230,22 @@ class _PrefsWidgetState extends State<PrefsWidget> {
             new PrefsTeaRow(tea: tea1),
             new PrefsTeaRow(tea: tea2),
             new PrefsTeaRow(tea: tea3),
+            new Align(
+                alignment: Alignment.topLeft,
+                child: new Container(
+                    margin: const EdgeInsets.fromLTRB(7.0, 14.0, 7.0, 0.0),
+                    child: new Row(children: [
+                      new Container(
+                          margin: const EdgeInsets.fromLTRB(0.0, 0.0, 7.0, 0.0),
+                          child: Icon(Icons.warning,
+                              size: 20.0, color: Colors.red)),
+                      new Expanded(
+                          child: new Text(prefsNotifications,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: Theme.of(context).buttonColor,
+                              )))
+                    ]))),
           ],
         ));
   }
