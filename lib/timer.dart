@@ -43,6 +43,11 @@ class _TimerWidgetState extends State<TimerWidget> {
   DateTime _timerEndTime;
   Timer _timer;
 
+  // Shortcut keys
+  static const _shortcutTea1 = 'shortcutTea1';
+  static const _shortcutTea2 = 'shortcutTea2';
+  static const _shortcutTea3 = 'shortcutTea3';
+
   // Notification channels
   static const platform =
       const MethodChannel('com.nathanatos.Cuppa/notification');
@@ -181,17 +186,17 @@ class _TimerWidgetState extends State<TimerWidget> {
     final QuickActions quickActions = QuickActions();
     quickActions.setShortcutItems(<ShortcutItem>[
       ShortcutItem(
-        type: 'shortcutTea1',
+        type: _shortcutTea1,
         localizedTitle: tea1.fullName,
         icon: tea1.shortcutIcon,
       ),
       ShortcutItem(
-        type: 'shortcutTea2',
+        type: _shortcutTea2,
         localizedTitle: tea2.fullName,
         icon: tea2.shortcutIcon,
       ),
       ShortcutItem(
-        type: 'shortcutTea3',
+        type: _shortcutTea3,
         localizedTitle: tea3.fullName,
         icon: tea3.shortcutIcon,
       ),
@@ -212,17 +217,17 @@ class _TimerWidgetState extends State<TimerWidget> {
     quickActions.initialize((String shortcutType) async {
       if (shortcutType != null) {
         switch (shortcutType) {
-          case 'shortcutTea1':
+          case _shortcutTea1:
             {
               if (await _confirmTimer()) _setTimer(tea1);
             }
             break;
-          case 'shortcutTea2':
+          case _shortcutTea2:
             {
               if (await _confirmTimer()) _setTimer(tea2);
             }
             break;
-          case 'shortcutTea3':
+          case _shortcutTea3:
             {
               if (await _confirmTimer()) _setTimer(tea3);
             }

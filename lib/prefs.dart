@@ -122,15 +122,15 @@ abstract class Prefs {
   };
 
   // Shared prefs keys for teas
-  static final String _prefTea1Name = 'Cuppa_tea1_name';
-  static final String _prefTea1BrewTime = 'Cuppa_tea1_brew_time';
-  static final String _prefTea1Color = 'Cuppa_tea1_color';
-  static final String _prefTea2Name = 'Cuppa_tea2_name';
-  static final String _prefTea2BrewTime = 'Cuppa_tea2_brew_time';
-  static final String _prefTea2Color = 'Cuppa_tea2_color';
-  static final String _prefTea3Name = 'Cuppa_tea3_name';
-  static final String _prefTea3BrewTime = 'Cuppa_tea3_brew_time';
-  static final String _prefTea3Color = 'Cuppa_tea3_color';
+  static const _prefTea1Name = 'Cuppa_tea1_name';
+  static const _prefTea1BrewTime = 'Cuppa_tea1_brew_time';
+  static const _prefTea1Color = 'Cuppa_tea1_color';
+  static const _prefTea2Name = 'Cuppa_tea2_name';
+  static const _prefTea2BrewTime = 'Cuppa_tea2_brew_time';
+  static const _prefTea2Color = 'Cuppa_tea2_color';
+  static const _prefTea3Name = 'Cuppa_tea3_name';
+  static const _prefTea3BrewTime = 'Cuppa_tea3_brew_time';
+  static const _prefTea3Color = 'Cuppa_tea3_color';
 
   // Fetch all teas from shared prefs or use defaults
   static void getTeas() {
@@ -165,8 +165,8 @@ abstract class Prefs {
   static String nextAlarm = '';
 
   // Shared prefs next alarm info keys
-  static final String _prefNextTeaName = 'Cuppa_next_tea_name';
-  static final String _prefNextAlarm = 'Cuppa_next_alarm';
+  static const _prefNextTeaName = 'Cuppa_next_tea_name';
+  static const _prefNextAlarm = 'Cuppa_next_alarm';
 
   // Fetch next alarm info from shared prefs
   static void getNextAlarm() {
