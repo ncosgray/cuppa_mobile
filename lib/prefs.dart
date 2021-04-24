@@ -123,7 +123,7 @@ abstract class Prefs {
   static final Map<int, String> shortcutIcons = {
     0: 'shortcut_black',
     1: 'shortcut_red',
-    2: 'shortcut_herbal',
+    2: 'shortcut_orange',
     3: 'shortcut_green',
     4: 'shortcut_blue',
     5: 'shortcut_purple'
