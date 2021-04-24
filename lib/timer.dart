@@ -373,7 +373,8 @@ class TeaButton extends StatelessWidget {
     return new AnimatedOpacity(
       opacity: fade ? 0.4 : 1.0,
       duration: new Duration(milliseconds: 400),
-      child: new GestureDetector(
+      child: new Card(
+          child: new GestureDetector(
         onTap: _handleTap,
         child: new Container(
           decoration: new BoxDecoration(
@@ -401,7 +402,7 @@ class TeaButton extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      )),
     );
   }
 }
