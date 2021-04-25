@@ -297,7 +297,8 @@ class _TimerWidgetState extends State<TimerWidget> {
               ),
               new SizedBox(
                 child: new Container(
-                  margin: const EdgeInsets.all(24.0),
+                  padding: const EdgeInsets.fromLTRB(0.0, 24.0, 0.0, 24.0),
+                  alignment: Alignment.center,
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
