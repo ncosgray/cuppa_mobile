@@ -122,7 +122,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         // Set up new timer
         _timerSeconds = tea.brewTime;
         _sendNotification(
-            _timerSeconds, teaTimerTitle, tea.fullName + teaTimerText);
+            _timerSeconds, teaTimerTitle, tea.name + teaTimerText);
       } else {
         // Resume timer from stored prefs
         _timerSeconds = secs;
@@ -187,17 +187,17 @@ class _TimerWidgetState extends State<TimerWidget> {
     quickActions.setShortcutItems(<ShortcutItem>[
       ShortcutItem(
         type: _shortcutTea1,
-        localizedTitle: tea1.fullName,
+        localizedTitle: tea1.name,
         icon: tea1.shortcutIcon,
       ),
       ShortcutItem(
         type: _shortcutTea2,
-        localizedTitle: tea2.fullName,
+        localizedTitle: tea2.name,
         icon: tea2.shortcutIcon,
       ),
       ShortcutItem(
         type: _shortcutTea3,
-        localizedTitle: tea3.fullName,
+        localizedTitle: tea3.name,
         icon: tea3.shortcutIcon,
       ),
     ]);

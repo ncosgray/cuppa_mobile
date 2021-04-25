@@ -26,10 +26,9 @@ Tea tea3;
 
 // Strings
 final String appTitle = 'Cuppa';
-final String teaNameBlack = 'Black';
-final String teaNameGreen = 'Green';
-final String teaNameHerbal = 'Herbal';
-final String teaNameSuffix = ' tea';
+final String teaNameBlack = 'Black Tea';
+final String teaNameGreen = 'Green Tea';
+final String teaNameHerbal = 'Herbal Tea';
 final String cancelButton = 'CANCEL';
 final String teaTimerTitle = 'Brewing complete...';
 final String teaTimerText = ' is now ready!';
@@ -58,11 +57,6 @@ class Tea {
   // Tea name getters
   get buttonName {
     return this.name.toUpperCase();
-  }
-
-  get fullName {
-    // Name including "tea" for notifications and shortcuts
-    return this.name + teaNameSuffix;
   }
 
   // Color getter
