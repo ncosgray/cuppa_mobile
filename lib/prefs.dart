@@ -41,9 +41,9 @@ final String confirmNo = 'No';
 final String prefsTitle = 'Cuppa Preferences';
 final String prefsHeader = 'Set tea names, brew times, and colors.';
 final String prefsNotifications =
-    'Refer to your device\'s system settings to configure notifications for Cuppa.';
-final String prefsNameMissing = 'Please enter a tea name';
-final String prefsNameLong = 'Tea name is too long';
+    'Open your device\'s system settings to configure notifications for Cuppa.';
+final String prefsNameMissing = '* Please enter a tea name.';
+final String prefsNameLong = '* Tea name is too long.';
 
 // Limits
 final int teaNameMaxLength = 12;
@@ -237,8 +237,9 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                     child: new Row(children: [
                       new Container(
                           margin: const EdgeInsets.fromLTRB(0.0, 0.0, 7.0, 0.0),
-                          child: Icon(Icons.warning,
-                              size: 20.0, color: Colors.red)),
+                          child: Icon(Icons.info,
+                              size: 20.0,
+                              color: Theme.of(context).buttonColor)),
                       new Expanded(
                           child: new Text(prefsNotifications,
                               style: TextStyle(
@@ -303,10 +304,10 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                       Icon(
                         Icons.timer,
                         color: tea.getThemeColor(context),
-                        size: 70.0,
+                        size: 60.0,
                       ),
                       Icon(Icons.arrow_drop_down,
-                          color: Theme.of(context).buttonColor),
+                          size: 24.0, color: Theme.of(context).buttonColor),
                     ],
                   ),
                 ),
@@ -314,29 +315,36 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                   children: [
                     new Container(
                         height: 54.0,
-                        padding: EdgeInsets.zero,
+                        padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
                         child: new TextFormField(
                           initialValue: tea.name,
                           autocorrect: false,
+                          textCapitalization: TextCapitalization.words,
                           maxLength: teaNameMaxLength + 1,
                           maxLines: 1,
+                          textAlignVertical: TextAlignVertical.top,
                           decoration: InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Theme.of(context).buttonColor)),
-                              counter: Offstage(),
-                              contentPadding: const EdgeInsets.fromLTRB(
-                                  7.0, 0.0, 7.0, 0.0)),
+                            border: InputBorder.none,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).buttonColor)),
+                            errorStyle: TextStyle(color: Colors.red),
+                            focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red)),
+                            counter: Offstage(),
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
+                          ),
                           style: new TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 28.0,
+                            fontSize: 20.0,
                             color: tea.getThemeColor(context),
                           ),
                           validator: (String newValue) {
                             if (newValue == null || newValue.isEmpty) {
                               return prefsNameMissing;
-                            } else if (newValue.length > teaNameMaxLength) {
+                            } else if (newValue.characters.length >
+                                teaNameMaxLength) {
                               return prefsNameLong;
                             }
                             return null;
@@ -351,14 +359,16 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                           },
                         )),
                     new Container(
-                        height: 40.0,
+                        height: 30.0,
                         padding: EdgeInsets.fromLTRB(7.0, 0.0, 0.0, 7.0),
                         child: Row(children: [
                           new DropdownButton<int>(
                             value: tea.brewTimeMinutes,
-                            icon: null,
+                            icon: Icon(Icons.arrow_drop_down,
+                                size: 24.0,
+                                color: Theme.of(context).buttonColor),
                             style: TextStyle(
-                                fontSize: 28.0,
+                                fontSize: 20.0,
                                 color: Theme.of(context).buttonColor),
                             underline: SizedBox(),
                             onChanged: (int newValue) {
@@ -379,15 +389,17 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             ': ',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 28.0,
+                              fontSize: 20.0,
                               color: Theme.of(context).buttonColor,
                             ),
                           ),
                           new DropdownButton<int>(
                             value: tea.brewTimeSeconds,
-                            icon: null,
+                            icon: Icon(Icons.arrow_drop_down,
+                                size: 24.0,
+                                color: Theme.of(context).buttonColor),
                             style: TextStyle(
-                                fontSize: 28.0,
+                                fontSize: 20.0,
                                 color: Theme.of(context).buttonColor),
                             underline: SizedBox(),
                             onChanged: (int newValue) {
