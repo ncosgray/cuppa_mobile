@@ -1,0 +1,3 @@
+* Start timing from your home screen by long-pressing the Cuppa icon
+* Tea name is now included in the notification
+* Before starting a timer, alert if a timer is already running

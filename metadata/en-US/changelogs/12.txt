@@ -1,0 +1,1 @@
+* support for Android 10 dark theme

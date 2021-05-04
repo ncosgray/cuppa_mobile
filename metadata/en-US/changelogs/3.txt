@@ -1,0 +1,3 @@
+Android O compatibility
+- notification channels
+- adaptive icon

@@ -1,0 +1,3 @@
+* A new Preferences page!
+* Set your own tea names, brew times, and colors.
+* Save settings for three different teas.
