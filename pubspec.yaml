@@ -41,8 +41,8 @@ flutter:
   #  - images/a_dot_ham.jpeg
   assets:
     - images/Cuppa_hires_default.png
-    - images/Cuppa_hires_dark.png
-    - images/Cuppa_hires_light.png
+    - images/Cuppa_hires_bag.png
+    - images/Cuppa_hires_tea.png
 
   # To add assets from package dependencies, first ensure the asset
   # is in the lib/ directory of the dependency. Then,

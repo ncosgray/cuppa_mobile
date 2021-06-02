@@ -32,13 +32,12 @@ class TimerWidget extends StatefulWidget {
 class _TimerWidgetState extends State<TimerWidget> {
   // Cup images
   static final String cupImageDefault = 'images/Cuppa_hires_default.png';
-  static final String cupImageBegin = 'images/Cuppa_hires_light.png';
-  static final String cupImageEnd = 'images/Cuppa_hires_dark.png';
+  static final String cupImageBag = 'images/Cuppa_hires_bag.png';
+  static final String cupImageTea = 'images/Cuppa_hires_tea.png';
 
   // State variables
   bool _timerActive = false;
   Tea _whichActive;
-  String _cupImage = cupImageDefault;
   int _timerSeconds = 0;
   DateTime _timerEndTime;
   Timer _timer;
@@ -102,11 +101,9 @@ class _TimerWidgetState extends State<TimerWidget> {
   void _decrementTimer(Timer t) {
     setState(() {
       _timerSeconds = _timerEndTime.difference(new DateTime.now()).inSeconds;
-      if (_timerSeconds <= 5) _cupImage = cupImageEnd;
       if (_timerSeconds <= 0) {
         _timerActive = false;
         _whichActive = null;
-        _cupImage = cupImageDefault;
         _timerSeconds = 0;
         _timer.cancel();
         Prefs.clearNextAlarm();
@@ -127,7 +124,6 @@ class _TimerWidgetState extends State<TimerWidget> {
         // Resume timer from stored prefs
         _timerSeconds = secs;
       }
-      _cupImage = cupImageBegin;
       _timer = new Timer.periodic(new Duration(seconds: 1), _decrementTimer);
       _timerEndTime =
           new DateTime.now().add(new Duration(seconds: _timerSeconds + 1));
@@ -286,14 +282,31 @@ class _TimerWidgetState extends State<TimerWidget> {
               ),
               new Expanded(
                 child: new Container(
-                  padding: const EdgeInsets.fromLTRB(48.0, 0.0, 48.0, 0.0),
-                  child: new Image.asset(
-                    _cupImage,
-                    height: 240.0 * scaleFactor,
-                    fit: BoxFit.fitWidth,
-                    gaplessPlayback: true,
-                  ),
-                ),
+                    padding: const EdgeInsets.fromLTRB(48.0, 0.0, 48.0, 0.0),
+                    alignment: Alignment.center,
+                    child: new Stack(children: [
+                      // Teacup image
+                      new Image.asset(cupImageDefault,
+                          height: 240.0 * scaleFactor,
+                          fit: BoxFit.fitWidth,
+                          gaplessPlayback: true),
+                      // While timing, gradually darken the tea in the cup
+                      new Opacity(
+                          opacity: _timerActive
+                              ? (_timerSeconds / _whichActive.brewTime)
+                              : 0.0,
+                          child: new Image.asset(cupImageTea,
+                              height: 240.0 * scaleFactor,
+                              fit: BoxFit.fitWidth,
+                              gaplessPlayback: true)),
+                      // While timing, put a teabag in the cup
+                      new Visibility(
+                          visible: _timerActive,
+                          child: new Image.asset(cupImageBag,
+                              height: 240.0 * scaleFactor,
+                              fit: BoxFit.fitWidth,
+                              gaplessPlayback: true)),
+                    ])),
               ),
               new SizedBox(
                 child: new Container(
