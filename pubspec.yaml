@@ -22,6 +22,7 @@ dependencies:
     sdk: flutter
   shared_preferences:
   quick_actions:
+  url_launcher:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

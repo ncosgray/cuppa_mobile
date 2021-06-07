@@ -16,6 +16,7 @@
 // - Build prefs interface and interactivity
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'main.dart';
 import 'platform_adaptive.dart';
 
@@ -43,6 +44,9 @@ final String prefsNotifications =
     'Open your device\'s system settings to configure notifications for Cuppa.';
 final String prefsNameMissing = '* Please enter a tea name.';
 final String prefsNameLong = '* Tea name is too long.';
+final String aboutApp = 'Cuppa is a free, open-source app.';
+final String aboutCopyright = '\u00a9 Nathan Cosgray';
+final String aboutURL = 'https://www.nathanatos.com';
 
 // Limits
 final int teaNameMaxLength = 12;
@@ -209,37 +213,79 @@ class _PrefsWidgetState extends State<PrefsWidget> {
           title: new Text(prefsTitle),
           platform: appPlatform,
         ),
-        body: new ListView(
-          padding: const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 0.0),
+        body: new Column(
           children: [
-            new Align(
-                alignment: Alignment.topLeft,
-                child: new Container(
-                    margin: const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 14.0),
-                    child: new Text(prefsHeader,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Theme.of(context).buttonColor,
-                        )))),
-            new PrefsTeaRow(tea: tea1),
-            new PrefsTeaRow(tea: tea2),
-            new PrefsTeaRow(tea: tea3),
-            new Align(
-                alignment: Alignment.topLeft,
-                child: new Container(
-                    margin: const EdgeInsets.fromLTRB(7.0, 14.0, 7.0, 0.0),
-                    child: new Row(children: [
-                      new Container(
-                          margin: const EdgeInsets.fromLTRB(0.0, 0.0, 7.0, 0.0),
-                          child: Icon(Icons.info,
-                              size: 20.0,
-                              color: Theme.of(context).buttonColor)),
-                      new Expanded(
-                          child: new Text(prefsNotifications,
+            new Expanded(
+                child: new ListView(
+                    padding: const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 0.0),
+                    children: [
+                  new Align(
+                      alignment: Alignment.topLeft,
+                      child: new Container(
+                          margin:
+                              const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 14.0),
+                          child: new Text(prefsHeader,
                               style: TextStyle(
                                 fontSize: 14.0,
                                 color: Theme.of(context).buttonColor,
-                              )))
+                              )))),
+                  new PrefsTeaRow(tea: tea1),
+                  new PrefsTeaRow(tea: tea2),
+                  new PrefsTeaRow(tea: tea3),
+                  new Align(
+                      alignment: Alignment.topLeft,
+                      child: new Container(
+                          margin:
+                              const EdgeInsets.fromLTRB(7.0, 14.0, 7.0, 0.0),
+                          child: new Row(children: [
+                            new Container(
+                                margin: const EdgeInsets.fromLTRB(
+                                    0.0, 0.0, 7.0, 0.0),
+                                child: Icon(Icons.info,
+                                    size: 20.0,
+                                    color: Theme.of(context).buttonColor)),
+                            new Expanded(
+                                child: new Text(prefsNotifications,
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Theme.of(context).buttonColor,
+                                    )))
+                          ])))
+                ])),
+            new Align(
+                alignment: FractionalOffset.bottomRight,
+                child: new Container(
+                    margin: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 21.0),
+                    child: new Row(children: [
+                      new Container(
+                          margin: const EdgeInsets.fromLTRB(0.0, 0.0, 7.0, 0.0),
+                          child: Icon(Icons.live_help,
+                              size: 20.0,
+                              color: Theme.of(context).buttonColor)),
+                      new InkWell(
+                          child: new Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                new Text(aboutApp,
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Theme.of(context).buttonColor,
+                                    )),
+                                new Row(children: [
+                                  new Text(aboutCopyright,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Theme.of(context).buttonColor,
+                                      )),
+                                  new VerticalDivider(),
+                                  new Text(aboutURL,
+                                      style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline))
+                                ])
+                              ]),
+                          onTap: () => launch(aboutURL)),
                     ]))),
           ],
         ));
