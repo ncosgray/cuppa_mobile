@@ -21,8 +21,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'main.dart';
-import 'prefs.dart';
+import 'localization.dart';
 import 'platform_adaptive.dart';
+import 'prefs.dart';
 
 class TimerWidget extends StatefulWidget {
   @override
@@ -79,17 +80,17 @@ class _TimerWidgetState extends State<TimerWidget> {
           builder: (BuildContext context) {
             return PlatformAdaptiveDialog(
               platform: appPlatform,
-              title: Text(confirmTitle),
+              title: Text(AppLocalizations.translate('confirm_title')),
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
-                    Text(confirmMessageLine1),
-                    Text(confirmMessageLine2),
+                    Text(AppLocalizations.translate('confirm_message_line1')),
+                    Text(AppLocalizations.translate('confirm_message_line2')),
                   ],
                 ),
               ),
-              buttonTextTrue: confirmYes,
-              buttonTextFalse: confirmNo,
+              buttonTextTrue: AppLocalizations.translate('yes_button'),
+              buttonTextFalse: AppLocalizations.translate('no_button'),
             );
           });
     } else {
@@ -119,7 +120,10 @@ class _TimerWidgetState extends State<TimerWidget> {
         // Set up new timer
         _timerSeconds = tea.brewTime;
         _sendNotification(
-            _timerSeconds, teaTimerTitle, tea.name + teaTimerText);
+            _timerSeconds,
+            AppLocalizations.translate('notification_title'),
+            AppLocalizations.translate('notification_text')
+                .replaceAll('{{tea_name}}', tea.name));
       } else {
         // Resume timer from stored prefs
         _timerSeconds = secs;
@@ -246,7 +250,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
     return Scaffold(
         appBar: new PlatformAdaptiveAppBar(
-            title: new Text(appTitle),
+            title: new Text(appName),
             platform: appPlatform,
             actions: <Widget>[
               IconButton(
@@ -441,7 +445,7 @@ class CancelButton extends StatelessWidget {
             new Icon(Icons.cancel,
                 color: active ? Colors.blue : Theme.of(context).buttonColor),
             new Text(
-              cancelButton,
+              AppLocalizations.translate('cancel_button').toUpperCase(),
               style: new TextStyle(
                 fontSize: 10.0,
                 fontWeight: FontWeight.w400,

@@ -1,0 +1,19 @@
+{
+  "tea_name_black": "Schwarztee",
+  "tea_name_green": "Grüntee",
+  "tea_name_herbal": "Kräutertee",
+  "cancel_button": "Abbrechen",
+  "notification_title": "Brühzeit abgeschlossen...",
+  "notification_text": "{{tea_name}} ist jetzt fertig!",
+  "confirm_title": "Warnung!",
+  "confirm_message_line1": "Es gibt einen aktiven Timer.",
+  "confirm_message_line2": "Abbrechen und einen neuen Timer starten?",
+  "yes_button": "Ja",
+  "no_button": "Nein",
+  "prefs_title": "{{app_name}}-Einstellungen",
+  "prefs_header": "Legen Sie Teenamen, Brühzeiten und Farben fest.",
+  "prefs_notifications": "Öffnen Sie die Systemeinstellungen Ihres Geräts, um Benachrichtigungen für {{app_name}} zu konfigurieren.",
+  "error_name_missing": "* Bitte geben Sie einen Teenamen ein.",
+  "error_name_long": "* Teename ist zu lang.",
+  "about_app": "{{app_name}} ist eine kostenlose Open-Source-App."
+}
