@@ -437,25 +437,20 @@ class CancelButton extends StatelessWidget {
   }
 
   Widget build(BuildContext context) {
-    return new IconButton(
-        icon: new Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            new Icon(Icons.cancel,
-                color: active ? Colors.blue : Theme.of(context).buttonColor),
-            new Text(
-              AppLocalizations.translate('cancel_button').toUpperCase(),
-              style: new TextStyle(
-                fontSize: 10.0,
-                fontWeight: FontWeight.w400,
-                color: active ? Colors.blue : Theme.of(context).buttonColor,
-              ),
-            ),
-          ],
+    return new TextButton.icon(
+      label: new Text(
+        AppLocalizations.translate('cancel_button').toUpperCase(),
+        style: new TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.w400,
+          color: active ? Colors.blue : Theme.of(context).buttonColor,
         ),
-        padding: const EdgeInsets.all(0.0),
-        onPressed: active ? _handleTap : null);
+      ),
+      icon: Icon(Icons.cancel,
+          color: active ? Colors.blue : Theme.of(context).buttonColor,
+          size: 16.0),
+      onPressed: active ? _handleTap : null,
+    );
   }
 }
 
