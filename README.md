@@ -1,8 +1,8 @@
-# Cuppa
-
-<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/icon.png" width="100"/>
+## Cuppa
 
 ### Cuppa is a small application to time your cup of tea as it steeps. Tired of leaving your tea too long, to become bitter and cold, or drinking it too soon and not appreciating its full potential? Then this utility is for you!
+
+<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/icon.png" width="100"/>
 
 **Tea Timer App for iOS and Android**
 
@@ -21,7 +21,7 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 
 **Download**
 
-iOS:<br/><a href="https://itunes.apple.com/us/app/cuppa-tea-timer/id1241458171"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us" alt="Download on the App Store" height="50"/></a>|Android:<br/><a href="https://play.google.com/store/apps/details?id=com.nathanatos.Cuppa"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="75"/></a><br/><a href="https://f-droid.org/en/packages/com.nathanatos.Cuppa/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="75"></a>
+iOS:<br/><a href="https://itunes.apple.com/us/app/cuppa-tea-timer/id1241458171"><img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us" alt="Download on the App Store" height="75"/></a>|Android:<br/><a href="https://play.google.com/store/apps/details?id=com.nathanatos.Cuppa"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="75"/></a><br/><a href="https://f-droid.org/en/packages/com.nathanatos.Cuppa/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="75"></a>
 -|-
 
 Requires iOS 10+ or Android 4.1+.
