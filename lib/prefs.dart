@@ -241,40 +241,34 @@ class _PrefsWidgetState extends State<PrefsWidget> {
             new Align(
                 alignment: FractionalOffset.bottomRight,
                 child: new Container(
-                    margin: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 21.0),
-                    child: new Row(children: [
-                      new Container(
-                          margin: const EdgeInsets.fromLTRB(0.0, 0.0, 7.0, 0.0),
-                          child: Icon(Icons.live_help,
-                              size: 20.0,
-                              color: Theme.of(context).buttonColor)),
-                      new InkWell(
-                          child: new Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                new Text(
-                                    AppLocalizations.translate('about_app')
-                                        .replaceAll('{{app_name}}', appName),
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Theme.of(context).buttonColor,
-                                    )),
-                                new Row(children: [
-                                  new Text(aboutCopyright,
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                        color: Theme.of(context).buttonColor,
-                                      )),
-                                  new VerticalDivider(),
-                                  new Text(aboutURL,
-                                      style: TextStyle(
-                                          fontSize: 14.0,
-                                          color: Colors.blue,
-                                          decoration: TextDecoration.underline))
-                                ])
-                              ]),
-                          onTap: () => launch(aboutURL)),
-                    ]))),
+                  margin: const EdgeInsets.fromLTRB(21.0, 0.0, 21.0, 21.0),
+                  child: new InkWell(
+                      child: new Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            new Text(
+                                AppLocalizations.translate('about_app')
+                                    .replaceAll('{{app_name}}', appName),
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  color: Theme.of(context).buttonColor,
+                                )),
+                            new Row(children: [
+                              new Text(aboutCopyright,
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Theme.of(context).buttonColor,
+                                  )),
+                              new VerticalDivider(),
+                              new Text(aboutURL,
+                                  style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: Colors.blue,
+                                      decoration: TextDecoration.underline))
+                            ])
+                          ]),
+                      onTap: () => launch(aboutURL)),
+                )),
           ],
         ));
   }
