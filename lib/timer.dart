@@ -442,12 +442,12 @@ class CancelButton extends StatelessWidget {
         AppLocalizations.translate('cancel_button').toUpperCase(),
         style: new TextStyle(
           fontSize: 12.0,
-          fontWeight: FontWeight.w400,
-          color: active ? Colors.blue : Theme.of(context).buttonColor,
+          fontWeight: FontWeight.bold,
+          color: active ? Colors.red[400] : Theme.of(context).buttonColor,
         ),
       ),
       icon: Icon(Icons.cancel,
-          color: active ? Colors.blue : Theme.of(context).buttonColor,
+          color: active ? Colors.red[400] : Theme.of(context).buttonColor,
           size: 16.0),
       onPressed: active ? _handleTap : null,
     );
