@@ -195,82 +195,91 @@ class _PrefsWidgetState extends State<PrefsWidget> {
               .replaceAll('{{app_name}}', appName)),
           platform: appPlatform,
         ),
-        resizeToAvoidBottomInset: false,
-        body: new Column(
-          children: [
-            new Expanded(
-                child: new ListView(
-                    padding: const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 0.0),
-                    children: [
-                  new Align(
-                      alignment: Alignment.topLeft,
-                      child: new Container(
-                          margin:
-                              const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 14.0),
-                          child: new Text(
-                              AppLocalizations.translate('prefs_header'),
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                color: Theme.of(context).buttonColor,
-                              )))),
-                  new PrefsTeaRow(tea: tea1),
-                  new PrefsTeaRow(tea: tea2),
-                  new PrefsTeaRow(tea: tea3),
-                  new Align(
-                      alignment: Alignment.topLeft,
-                      child: new Container(
-                          margin:
-                              const EdgeInsets.fromLTRB(7.0, 14.0, 7.0, 0.0),
-                          child: new Row(children: [
-                            new Container(
-                                margin: const EdgeInsets.fromLTRB(
-                                    0.0, 0.0, 7.0, 0.0),
-                                child: Icon(Icons.info,
-                                    size: 20.0,
-                                    color: Theme.of(context).buttonColor)),
-                            new Expanded(
-                                child: new Text(
-                                    AppLocalizations.translate(
-                                            'prefs_notifications')
-                                        .replaceAll('{{app_name}}', appName),
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Theme.of(context).buttonColor,
-                                    )))
-                          ])))
-                ])),
-            new Align(
-                alignment: FractionalOffset.bottomRight,
+        body: new SafeArea(
+          child: new CustomScrollView(
+            slivers: [
+              new SliverToBoxAdapter(
                 child: new Container(
-                  margin: const EdgeInsets.fromLTRB(21.0, 0.0, 21.0, 21.0),
-                  child: new InkWell(
-                      child: new Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            new Text(
-                                AppLocalizations.translate('about_app')
-                                    .replaceAll('{{app_name}}', appName),
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  color: Theme.of(context).buttonColor,
-                                )),
-                            new Row(children: [
-                              new Text(aboutCopyright,
+                    padding: const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 0.0),
+                    child: new Column(children: [
+                      new Align(
+                          alignment: Alignment.topLeft,
+                          child: new Container(
+                              margin: const EdgeInsets.fromLTRB(
+                                  7.0, 0.0, 7.0, 14.0),
+                              child: new Text(
+                                  AppLocalizations.translate('prefs_header'),
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: Theme.of(context).buttonColor,
+                                  )))),
+                      new PrefsTeaRow(tea: tea1),
+                      new PrefsTeaRow(tea: tea2),
+                      new PrefsTeaRow(tea: tea3),
+                      new Align(
+                          alignment: Alignment.topLeft,
+                          child: new Container(
+                              margin: const EdgeInsets.fromLTRB(
+                                  7.0, 14.0, 7.0, 0.0),
+                              child: new Row(children: [
+                                new Container(
+                                    margin: const EdgeInsets.fromLTRB(
+                                        0.0, 0.0, 7.0, 0.0),
+                                    child: Icon(Icons.info,
+                                        size: 20.0,
+                                        color: Theme.of(context).buttonColor)),
+                                new Expanded(
+                                    child: new Text(
+                                        AppLocalizations.translate(
+                                                'prefs_notifications')
+                                            .replaceAll(
+                                                '{{app_name}}', appName),
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Theme.of(context).buttonColor,
+                                        )))
+                              ])))
+                    ])),
+              ),
+              new SliverFillRemaining(
+                hasScrollBody: false,
+                fillOverscroll: true,
+                child: new Align(
+                  alignment: Alignment.bottomLeft,
+                  child: new Container(
+                    margin: const EdgeInsets.all(21.0),
+                    child: new InkWell(
+                        child: new Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              new Text(
+                                  AppLocalizations.translate('about_app')
+                                      .replaceAll('{{app_name}}', appName),
                                   style: TextStyle(
                                     fontSize: 12.0,
                                     color: Theme.of(context).buttonColor,
                                   )),
-                              new VerticalDivider(),
-                              new Text(aboutURL,
-                                  style: TextStyle(
+                              new Row(children: [
+                                new Text(aboutCopyright,
+                                    style: TextStyle(
                                       fontSize: 12.0,
-                                      color: Colors.blue,
-                                      decoration: TextDecoration.underline))
-                            ])
-                          ]),
-                      onTap: () => launch(aboutURL)),
-                )),
-          ],
+                                      color: Theme.of(context).buttonColor,
+                                    )),
+                                new VerticalDivider(),
+                                new Text(aboutURL,
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline))
+                              ])
+                            ]),
+                        onTap: () => launch(aboutURL)),
+                  ),
+                ),
+              )
+            ],
+          ),
         ));
   }
 }
