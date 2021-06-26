@@ -195,6 +195,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
               .replaceAll('{{app_name}}', appName)),
           platform: appPlatform,
         ),
+        resizeToAvoidBottomInset: false,
         body: new Column(
           children: [
             new Expanded(
