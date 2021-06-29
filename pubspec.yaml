@@ -11,7 +11,7 @@ description: A simple tea timer app for Android and iOS.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.4+15
+version: 1.4+16
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -20,8 +20,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   shared_preferences:
   quick_actions:
+  url_launcher:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
@@ -41,8 +44,9 @@ flutter:
   #  - images/a_dot_ham.jpeg
   assets:
     - images/Cuppa_hires_default.png
-    - images/Cuppa_hires_dark.png
-    - images/Cuppa_hires_light.png
+    - images/Cuppa_hires_bag.png
+    - images/Cuppa_hires_tea.png
+    - langs/
 
   # To add assets from package dependencies, first ensure the asset
   # is in the lib/ directory of the dependency. Then,

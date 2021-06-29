@@ -21,8 +21,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'main.dart';
-import 'prefs.dart';
+import 'localization.dart';
 import 'platform_adaptive.dart';
+import 'prefs.dart';
 
 class TimerWidget extends StatefulWidget {
   @override
@@ -32,13 +33,12 @@ class TimerWidget extends StatefulWidget {
 class _TimerWidgetState extends State<TimerWidget> {
   // Cup images
   static final String cupImageDefault = 'images/Cuppa_hires_default.png';
-  static final String cupImageBegin = 'images/Cuppa_hires_light.png';
-  static final String cupImageEnd = 'images/Cuppa_hires_dark.png';
+  static final String cupImageBag = 'images/Cuppa_hires_bag.png';
+  static final String cupImageTea = 'images/Cuppa_hires_tea.png';
 
   // State variables
   bool _timerActive = false;
   Tea _whichActive;
-  String _cupImage = cupImageDefault;
   int _timerSeconds = 0;
   DateTime _timerEndTime;
   Timer _timer;
@@ -80,17 +80,17 @@ class _TimerWidgetState extends State<TimerWidget> {
           builder: (BuildContext context) {
             return PlatformAdaptiveDialog(
               platform: appPlatform,
-              title: Text(confirmTitle),
+              title: Text(AppLocalizations.translate('confirm_title')),
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
-                    Text(confirmMessageLine1),
-                    Text(confirmMessageLine2),
+                    Text(AppLocalizations.translate('confirm_message_line1')),
+                    Text(AppLocalizations.translate('confirm_message_line2')),
                   ],
                 ),
               ),
-              buttonTextTrue: confirmYes,
-              buttonTextFalse: confirmNo,
+              buttonTextTrue: AppLocalizations.translate('yes_button'),
+              buttonTextFalse: AppLocalizations.translate('no_button'),
             );
           });
     } else {
@@ -102,11 +102,9 @@ class _TimerWidgetState extends State<TimerWidget> {
   void _decrementTimer(Timer t) {
     setState(() {
       _timerSeconds = _timerEndTime.difference(new DateTime.now()).inSeconds;
-      if (_timerSeconds <= 5) _cupImage = cupImageEnd;
       if (_timerSeconds <= 0) {
         _timerActive = false;
         _whichActive = null;
-        _cupImage = cupImageDefault;
         _timerSeconds = 0;
         _timer.cancel();
         Prefs.clearNextAlarm();
@@ -122,12 +120,14 @@ class _TimerWidgetState extends State<TimerWidget> {
         // Set up new timer
         _timerSeconds = tea.brewTime;
         _sendNotification(
-            _timerSeconds, teaTimerTitle, tea.name + teaTimerText);
+            _timerSeconds,
+            AppLocalizations.translate('notification_title'),
+            AppLocalizations.translate('notification_text')
+                .replaceAll('{{tea_name}}', tea.name));
       } else {
         // Resume timer from stored prefs
         _timerSeconds = secs;
       }
-      _cupImage = cupImageBegin;
       _timer = new Timer.periodic(new Duration(seconds: 1), _decrementTimer);
       _timerEndTime =
           new DateTime.now().add(new Duration(seconds: _timerSeconds + 1));
@@ -250,7 +250,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
     return Scaffold(
         appBar: new PlatformAdaptiveAppBar(
-            title: new Text(appTitle),
+            title: new Text(appName),
             platform: appPlatform,
             actions: <Widget>[
               IconButton(
@@ -286,14 +286,31 @@ class _TimerWidgetState extends State<TimerWidget> {
               ),
               new Expanded(
                 child: new Container(
-                  padding: const EdgeInsets.fromLTRB(48.0, 0.0, 48.0, 0.0),
-                  child: new Image.asset(
-                    _cupImage,
-                    height: 240.0 * scaleFactor,
-                    fit: BoxFit.fitWidth,
-                    gaplessPlayback: true,
-                  ),
-                ),
+                    padding: const EdgeInsets.fromLTRB(48.0, 0.0, 48.0, 0.0),
+                    alignment: Alignment.center,
+                    child: new Stack(children: [
+                      // Teacup image
+                      new Image.asset(cupImageDefault,
+                          height: 240.0 * scaleFactor,
+                          fit: BoxFit.fitWidth,
+                          gaplessPlayback: true),
+                      // While timing, gradually darken the tea in the cup
+                      new Opacity(
+                          opacity: _timerActive
+                              ? (_timerSeconds / _whichActive.brewTime)
+                              : 0.0,
+                          child: new Image.asset(cupImageTea,
+                              height: 240.0 * scaleFactor,
+                              fit: BoxFit.fitWidth,
+                              gaplessPlayback: true)),
+                      // While timing, put a teabag in the cup
+                      new Visibility(
+                          visible: _timerActive,
+                          child: new Image.asset(cupImageBag,
+                              height: 240.0 * scaleFactor,
+                              fit: BoxFit.fitWidth,
+                              gaplessPlayback: true)),
+                    ])),
               ),
               new SizedBox(
                 child: new Container(
@@ -420,25 +437,20 @@ class CancelButton extends StatelessWidget {
   }
 
   Widget build(BuildContext context) {
-    return new IconButton(
-        icon: new Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            new Icon(Icons.cancel,
-                color: active ? Colors.blue : Theme.of(context).buttonColor),
-            new Text(
-              cancelButton,
-              style: new TextStyle(
-                fontSize: 10.0,
-                fontWeight: FontWeight.w400,
-                color: active ? Colors.blue : Theme.of(context).buttonColor,
-              ),
-            ),
-          ],
+    return new TextButton.icon(
+      label: new Text(
+        AppLocalizations.translate('cancel_button').toUpperCase(),
+        style: new TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.bold,
+          color: active ? Colors.red[400] : Theme.of(context).buttonColor,
         ),
-        padding: const EdgeInsets.all(0.0),
-        onPressed: active ? _handleTap : null);
+      ),
+      icon: Icon(Icons.cancel,
+          color: active ? Colors.red[400] : Theme.of(context).buttonColor,
+          size: 16.0),
+      onPressed: active ? _handleTap : null,
+    );
   }
 }
 

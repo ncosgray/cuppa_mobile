@@ -16,33 +16,15 @@
 // - Build prefs interface and interactivity
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'main.dart';
+import 'localization.dart';
 import 'platform_adaptive.dart';
 
 // Teas
 Tea tea1;
 Tea tea2;
 Tea tea3;
-
-// Strings
-final String appTitle = 'Cuppa';
-final String teaNameBlack = 'Black Tea';
-final String teaNameGreen = 'Green Tea';
-final String teaNameHerbal = 'Herbal Tea';
-final String cancelButton = 'CANCEL';
-final String teaTimerTitle = 'Brewing complete...';
-final String teaTimerText = ' is now ready!';
-final String confirmTitle = 'Warning!';
-final String confirmMessageLine1 = 'There is an active timer.';
-final String confirmMessageLine2 = 'Cancel and start a new timer?';
-final String confirmYes = 'Yes';
-final String confirmNo = 'No';
-final String prefsTitle = 'Cuppa Preferences';
-final String prefsHeader = 'Set tea names, brew times, and colors.';
-final String prefsNotifications =
-    'Open your device\'s system settings to configure notifications for Cuppa.';
-final String prefsNameMissing = '* Please enter a tea name.';
-final String prefsNameLong = '* Tea name is too long.';
 
 // Limits
 final int teaNameMaxLength = 12;
@@ -139,17 +121,20 @@ abstract class Prefs {
   // Fetch all teas from shared prefs or use defaults
   static void getTeas() {
     // Default: Black tea
-    tea1.name = sharedPrefs.getString(_prefTea1Name) ?? teaNameBlack;
+    tea1.name = sharedPrefs.getString(_prefTea1Name) ??
+        AppLocalizations.translate('tea_name_black');
     tea1.brewTime = sharedPrefs.getInt(_prefTea1BrewTime) ?? 240;
     tea1.color = sharedPrefs.getInt(_prefTea1Color) ?? 0;
 
     // Default: Green tea
-    tea2.name = sharedPrefs.getString(_prefTea2Name) ?? teaNameGreen;
+    tea2.name = sharedPrefs.getString(_prefTea2Name) ??
+        AppLocalizations.translate('tea_name_green');
     tea2.brewTime = sharedPrefs.getInt(_prefTea2BrewTime) ?? 150;
     tea2.color = sharedPrefs.getInt(_prefTea2Color) ?? 3;
 
     // Default: Herbal tea
-    tea3.name = sharedPrefs.getString(_prefTea3Name) ?? teaNameHerbal;
+    tea3.name = sharedPrefs.getString(_prefTea3Name) ??
+        AppLocalizations.translate('tea_name_herbal');
     tea3.brewTime = sharedPrefs.getInt(_prefTea3BrewTime) ?? 300;
     tea3.color = sharedPrefs.getInt(_prefTea3Color) ?? 2;
   }
@@ -206,42 +191,95 @@ class _PrefsWidgetState extends State<PrefsWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: new PlatformAdaptiveAppBar(
-          title: new Text(prefsTitle),
+          title: new Text(AppLocalizations.translate('prefs_title')
+              .replaceAll('{{app_name}}', appName)),
           platform: appPlatform,
         ),
-        body: new ListView(
-          padding: const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 0.0),
-          children: [
-            new Align(
-                alignment: Alignment.topLeft,
+        body: new SafeArea(
+          child: new CustomScrollView(
+            slivers: [
+              new SliverToBoxAdapter(
                 child: new Container(
-                    margin: const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 14.0),
-                    child: new Text(prefsHeader,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Theme.of(context).buttonColor,
-                        )))),
-            new PrefsTeaRow(tea: tea1),
-            new PrefsTeaRow(tea: tea2),
-            new PrefsTeaRow(tea: tea3),
-            new Align(
-                alignment: Alignment.topLeft,
-                child: new Container(
-                    margin: const EdgeInsets.fromLTRB(7.0, 14.0, 7.0, 0.0),
-                    child: new Row(children: [
-                      new Container(
-                          margin: const EdgeInsets.fromLTRB(0.0, 0.0, 7.0, 0.0),
-                          child: Icon(Icons.info,
-                              size: 20.0,
-                              color: Theme.of(context).buttonColor)),
-                      new Expanded(
-                          child: new Text(prefsNotifications,
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                color: Theme.of(context).buttonColor,
-                              )))
-                    ]))),
-          ],
+                    padding: const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 0.0),
+                    child: new Column(children: [
+                      new Align(
+                          alignment: Alignment.topLeft,
+                          child: new Container(
+                              margin: const EdgeInsets.fromLTRB(
+                                  7.0, 0.0, 7.0, 14.0),
+                              child: new Text(
+                                  AppLocalizations.translate('prefs_header'),
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: Theme.of(context).buttonColor,
+                                  )))),
+                      new PrefsTeaRow(tea: tea1),
+                      new PrefsTeaRow(tea: tea2),
+                      new PrefsTeaRow(tea: tea3),
+                      new Align(
+                          alignment: Alignment.topLeft,
+                          child: new Container(
+                              margin: const EdgeInsets.fromLTRB(
+                                  7.0, 14.0, 7.0, 0.0),
+                              child: new Row(children: [
+                                new Container(
+                                    margin: const EdgeInsets.fromLTRB(
+                                        0.0, 0.0, 7.0, 0.0),
+                                    child: Icon(Icons.info,
+                                        size: 20.0,
+                                        color: Theme.of(context).buttonColor)),
+                                new Expanded(
+                                    child: new Text(
+                                        AppLocalizations.translate(
+                                                'prefs_notifications')
+                                            .replaceAll(
+                                                '{{app_name}}', appName),
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Theme.of(context).buttonColor,
+                                        )))
+                              ])))
+                    ])),
+              ),
+              new SliverFillRemaining(
+                hasScrollBody: false,
+                fillOverscroll: true,
+                child: new Align(
+                  alignment: Alignment.bottomLeft,
+                  child: new Container(
+                    margin: const EdgeInsets.all(21.0),
+                    child: new InkWell(
+                        child: new Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              new Text(
+                                  AppLocalizations.translate('about_app')
+                                      .replaceAll('{{app_name}}', appName),
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    color: Theme.of(context).buttonColor,
+                                  )),
+                              new Row(children: [
+                                new Text(aboutCopyright,
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: Theme.of(context).buttonColor,
+                                    )),
+                                new VerticalDivider(),
+                                new Text(aboutURL,
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline))
+                              ])
+                            ]),
+                        onTap: () => launch(aboutURL)),
+                  ),
+                ),
+              )
+            ],
+          ),
         ));
   }
 }
@@ -336,10 +374,12 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                           ),
                           validator: (String newValue) {
                             if (newValue == null || newValue.isEmpty) {
-                              return prefsNameMissing;
+                              return AppLocalizations.translate(
+                                  'error_name_missing');
                             } else if (newValue.characters.length >
                                 teaNameMaxLength) {
-                              return prefsNameLong;
+                              return AppLocalizations.translate(
+                                  'error_name_long');
                             }
                             return null;
                           },
