@@ -1,1 +1,19 @@
-{}
+{
+    "notification_title": "Haudutus valmis…",
+    "about_app": "{{app_name}} on ilmainen, avoimen lähdekoodin sovellus.",
+    "error_name_long": "* Teenimi on liian pitkä.",
+    "error_name_missing": "* Kirjoita teenimi.",
+    "prefs_notifications": "Avaa laitteen järjestelmäasetukset määrittääksesi {{app_name}}-ilmoitukset.",
+    "prefs_header": "Määritä teenimet, haudutusajat ja värit.",
+    "prefs_title": "{{app_name}}-asetukset",
+    "no_button": "Ei",
+    "yes_button": "Kyllä",
+    "confirm_message_line2": "Peruuttaa ja käynnistää uuden ajastimen?",
+    "confirm_message_line1": "On aktiivinen ajastin.",
+    "confirm_title": "Varoitus!",
+    "notification_text": "{{tea_name}} on nyt valmis!",
+    "cancel_button": "Peruuta",
+    "tea_name_herbal": "Yrttitee",
+    "tea_name_green": "Vihreä tee",
+    "tea_name_black": "Musta tee"
+}
