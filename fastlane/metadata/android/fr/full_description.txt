@@ -1,0 +1,7 @@
+Cuppa pour Android est enfin là ! Fatigué·e de laisser votre thé trop longtemps, pour devenir amer et froid, ou de le boire trop tôt et de ne pas apprécier tout son potentiel ? Alors cet utilitaire est fait pour vous !
+
+Pour que l’appli soit si rapide et facile que vous l’utiliserez réellement, nous l’avons conçue dans un souci de simplicité. Il suffit d’ouvrir l’appli et de toucher le bouton correspondant au type de thé que vous préparez. Et le tour est joué. Il n’est pas nécessaire de naviguer dans des menus compliqués pour trouver un thé particulier, ni de manipuler les paramètres… à moins que vous souhaitiez personnaliser les temps d’infusion ou ajouter vos propres infusions préférées (nouveauté de la version 1.4 !).
+
+Une fois que vous avez appuyé sur la touche, Cuppa commence à chronométrer l’infusion et vous verrez un sachet de thé apparaître dans la tasse et s’assombrir progressivement à mesure que le thé infuse. Un compte à rebours indique le temps d’infusion restant. Lorsque le thé est terminé, Cuppa vous en informe par une notification. Selon les paramètres de votre appareil, cette notification peut être accompagnée d’un son ou d’une vibration.
+
+Nous espérons que Cuppa pour votre appareil mobile vous sera utile !
