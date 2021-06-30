@@ -1,0 +1,3 @@
+Android O-støtte
+- merknadskanaler
+- tilpassningsdyktig ikon

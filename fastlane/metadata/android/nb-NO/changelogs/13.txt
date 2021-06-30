@@ -1,0 +1,1 @@
+* Fikset skalering for store systemskriftstørrelser
