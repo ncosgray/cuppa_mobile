@@ -14,6 +14,11 @@
 	<array>
 		<string>en</string>
 		<string>de</string>
+		<string>fi</string>
+		<string>fr</string>
+		<string>ht</string>
+		<string>it</string>
+		<string>nb</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>Cuppa</string>

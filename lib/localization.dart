@@ -52,7 +52,8 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   static AppLocalizations instance;
 
   @override
-  bool isSupported(Locale locale) => ['en', 'de'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      ['en', 'de', 'fi', 'fr', 'ht', 'it', 'nb'].contains(locale.languageCode);
 
   @override
   Future<AppLocalizations> load(Locale locale) async {
