@@ -1,0 +1,2 @@
+* son de notification personnalisé
+* correction d'une erreur : le minuteur ne s'annule pas sous Android Oreo

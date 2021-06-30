@@ -1,0 +1,19 @@
+{
+    "about_app": "{{app_name}} se yon aplikasyon gratis ak lib.",
+    "error_name_long": "* Non te twò long.",
+    "error_name_missing": "* Tanpri antre yon non te.",
+    "prefs_notifications": "Louvri anviwònman sistèm aparèy ou an pouw konfigire notifikasyon pou {{app_name}}.",
+    "prefs_header": "Ekri non te, tan preparasyon ak koulè yo.",
+    "prefs_title": "Preferans {{app_name}}",
+    "no_button": "Non",
+    "yes_button": "Wi",
+    "confirm_message_line2": "Anile epi kòmanse yon nouvo revèy?",
+    "confirm_message_line1": "Gen yon revèy aktif.",
+    "confirm_title": "Avètisman!",
+    "notification_text": "{{tea_name}} pare kounye a!",
+    "notification_title": "Preparasyon fini…",
+    "cancel_button": "Anile",
+    "tea_name_herbal": "Tizan",
+    "tea_name_green": "Te vèt",
+    "tea_name_black": "Te nwa"
+}

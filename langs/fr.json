@@ -1,0 +1,19 @@
+{
+    "about_app": "{{app_name}} est une appli gratuite et à code source ouvert.",
+    "error_name_long": "* Le nom du thé est trop long.",
+    "error_name_missing": "* Veuillez entrer un nom de thé.",
+    "prefs_notifications": "Ouvrez les paramètres système de votre appareil pour configurer les notifications pour {{app_name}}.",
+    "prefs_header": "Définissez les noms de thé, les temps d’infusion et les couleurs.",
+    "prefs_title": "Préférences {{app_name}}",
+    "no_button": "Non",
+    "yes_button": "Oui",
+    "confirm_message_line2": "Annuler et démarrer une nouvelle minuterie ?",
+    "confirm_message_line1": "Il y a une minuterie active.",
+    "confirm_title": "Attention !",
+    "notification_text": "{{tea_name}} est maintenant prêt !",
+    "notification_title": "Infusion terminée…",
+    "cancel_button": "Annuler",
+    "tea_name_herbal": "Tisane",
+    "tea_name_green": "Thé vert",
+    "tea_name_black": "Thé noir"
+}
