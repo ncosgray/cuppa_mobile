@@ -1,1 +1,19 @@
-{}
+{
+    "prefs_notifications": "Åpne systeminnstillingene på din enhet og sett merkander for {{app_name}}.",
+    "notification_title": "Ferdigtrukket …",
+    "about_app": "{{app_name}} er et gratis og fritt program.",
+    "error_name_long": "* Tenavnet er for langt.",
+    "error_name_missing": "* Skriv inn tenavn.",
+    "prefs_header": "Sett tenavn, trekketider, og farger.",
+    "prefs_title": "{{app_name}}-innstillinger",
+    "no_button": "Nei",
+    "yes_button": "Ja",
+    "confirm_message_line2": "Avbryt og start nytt tidsur.",
+    "confirm_message_line1": "Aktivt tidsur.",
+    "confirm_title": "Advarsel!",
+    "notification_text": "{{tea_name}} er nå klar.",
+    "cancel_button": "Avbryt",
+    "tea_name_herbal": "Fruktte",
+    "tea_name_green": "Grønn te",
+    "tea_name_black": "Svart te"
+}
