@@ -1,5 +1,5 @@
 {
-    "about_app": "{{app_name}} est une application gratuite et à code source ouvert.",
+    "about_app": "{{app_name}} est une appli gratuite et à code source ouvert.",
     "error_name_long": "* Le nom de thé est trop long.",
     "error_name_missing": "* Veuillez entrer un nom de thé.",
     "prefs_notifications": "Ouvrez les paramètres système de votre appareil pour configurer les notifications pour {{app_name}}.",
