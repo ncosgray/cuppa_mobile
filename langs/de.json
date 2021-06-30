@@ -15,5 +15,5 @@
     "prefs_notifications": "Öffnen Sie die Systemeinstellungen Ihres Geräts, um Benachrichtigungen für {{app_name}} zu konfigurieren.",
     "error_name_missing": "* Bitte geben Sie einen Teenamen ein.",
     "error_name_long": "* Teename ist zu lang.",
-    "about_app": "{{app_name}} ist eine kostenlose quelloffene Anwendung."
+    "about_app": "{{app_name}} ist eine kostenlose, quelloffene Anwendung."
 }
