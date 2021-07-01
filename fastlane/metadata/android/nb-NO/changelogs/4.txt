@@ -1,0 +1,2 @@
+* Egendefinert merknadslyd
+* Feilfiks: Tidsur som ikke går ut på Android Oreo

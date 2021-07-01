@@ -1,0 +1,3 @@
+* Start tidsur fra din hjemmeskjerm ved langt trykk på Cuppa-ikonet
+* Tenavn er nå å finne i merknaden
+* Før start av tidsur vil et varsel sendes hvis et tidsur allerede kjører
