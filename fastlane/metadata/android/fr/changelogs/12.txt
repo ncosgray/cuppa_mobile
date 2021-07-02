@@ -1,1 +1,1 @@
-* Prise en charge du thème sombre d’Android 10
+* prise en charge du thème sombre d’Android 10
