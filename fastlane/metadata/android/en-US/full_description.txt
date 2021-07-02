@@ -1,4 +1,4 @@
-Cuppa for Android is finally here! Tired of leaving your tea too long, to become bitter and cold, or drinking it too soon and not appreciating its full potential? Then this utility is for you!
+Cuppa for mobile devices is finally here! Tired of leaving your tea too long, to become bitter and cold, or drinking it too soon and not appreciating its full potential? Then this utility is for you!
 
 To make the app so quick and easy that you'll actually use it, we have built it with simplicity in mind. Just open the app and tap the button for the type of tea you're brewing. That's it. No need to navigate through complicated menus to find a particular tea, or fiddle with settings... unless you want to customize brew times or add your own favorite teas (new in version 1.4!).
 
