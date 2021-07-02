@@ -1,1 +1,1 @@
-* prise en charge du mode sombre d'iOS 13
+* prise en charge du mode sombre d’iOS 13
