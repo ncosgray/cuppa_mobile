@@ -1,0 +1,2 @@
+* nadaljuj s časovnikom po izhodu in ponovnem zagonu aplikacije
+* manjša velikost namestitve aplikacije
