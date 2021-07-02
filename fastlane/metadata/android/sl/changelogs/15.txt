@@ -1,0 +1,3 @@
+* Nova stran s preferencami
+* Nastavi imena svojih čajev, čas in barve
+* Shrani nastavitve za tri različne čaje.

@@ -1,0 +1,3 @@
+* Začni z merjenjem časa z domačega zaslona z dolgim pritiskom na ikono Cuppa
+* Ime čaja je sedaj vključeno v obvestilu
+* Preden se časovnik zažene, opozori, če se časovnik že izvaja
