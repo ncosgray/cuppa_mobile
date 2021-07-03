@@ -60,6 +60,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
         'ht',
         'it',
         'nb',
+        'ru',
         'sl'
       ].contains(locale.languageCode);
 
