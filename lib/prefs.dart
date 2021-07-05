@@ -407,11 +407,15 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             underline: SizedBox(),
                             onChanged: (int newValue) {
                               setState(() {
+                                // Ensure we never have a 0:00 brew time
+                                if (newValue == 0 && tea.brewTimeSeconds == 0) {
+                                  tea.brewTimeSeconds = 15;
+                                }
                                 tea.brewTimeMinutes = newValue;
                                 Prefs.setTeas();
                               });
                             },
-                            items: <int>[1, 2, 3, 4, 5, 6, 7, 8, 9]
+                            items: <int>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                                 .map<DropdownMenuItem<int>>((int value) {
                               return DropdownMenuItem<int>(
                                 value: value,
@@ -438,11 +442,18 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             underline: SizedBox(),
                             onChanged: (int newValue) {
                               setState(() {
+                                // Ensure we never have a 0:00 brew time
+                                if (newValue == 0 && tea.brewTimeMinutes == 0) {
+                                  newValue = 15;
+                                }
                                 tea.brewTimeSeconds = newValue;
                                 Prefs.setTeas();
                               });
                             },
-                            items: <int>[0, 15, 30, 45]
+                            // Ensure we never have a 0:00 brew time
+                            items: (tea.brewTimeMinutes == 0
+                                    ? <int>[15, 30, 45]
+                                    : <int>[0, 15, 30, 45])
                                 .map<DropdownMenuItem<int>>((int value) {
                               return DropdownMenuItem<int>(
                                 value: value,
