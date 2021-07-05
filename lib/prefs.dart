@@ -70,6 +70,7 @@ class Tea {
   }
 }
 
+// Shared prefs functionality
 abstract class Prefs {
   // Initialize teas
   static void initTeas() {
@@ -181,6 +182,7 @@ abstract class Prefs {
   }
 }
 
+// Cuppa Preferences page
 class PrefsWidget extends StatefulWidget {
   @override
   _PrefsWidgetState createState() => new _PrefsWidgetState();
@@ -202,6 +204,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                 child: new Container(
                     padding: const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 0.0),
                     child: new Column(children: [
+                      // Prefs header info text
                       new Align(
                           alignment: Alignment.topLeft,
                           child: new Container(
@@ -213,9 +216,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     fontSize: 14.0,
                                     color: Theme.of(context).buttonColor,
                                   )))),
+                      // Tea settings
                       new PrefsTeaRow(tea: tea1),
                       new PrefsTeaRow(tea: tea2),
                       new PrefsTeaRow(tea: tea3),
+                      // Notification settings info text
                       new Align(
                           alignment: Alignment.topLeft,
                           child: new Container(
@@ -248,6 +253,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                   alignment: Alignment.bottomLeft,
                   child: new Container(
                     margin: const EdgeInsets.all(21.0),
+                    // About text linking to app website
                     child: new InkWell(
                         child: new Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -284,6 +290,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
   }
 }
 
+// Widget defining a tea settings card
 class PrefsTeaRow extends StatefulWidget {
   PrefsTeaRow({
     this.tea,
@@ -310,13 +317,9 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
             key: _formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: new ListTile(
+                // Tea color selection
                 leading: new PopupMenuButton(
-                  onSelected: (int newValue) {
-                    setState(() {
-                      tea.color = newValue;
-                      Prefs.setTeas();
-                    });
-                  },
+                  // Color icon
                   itemBuilder: (BuildContext context) {
                     return Prefs.teaColors.keys.map((int value) {
                       return PopupMenuItem(
@@ -329,6 +332,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                       );
                     }).toList();
                   },
+                  // Color dropdown
                   child: new Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -342,9 +346,17 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                           size: 24.0, color: Theme.of(context).buttonColor),
                     ],
                   ),
+                  // Save selected color to prefs
+                  onSelected: (int newValue) {
+                    setState(() {
+                      tea.color = newValue;
+                      Prefs.setTeas();
+                    });
+                  },
                 ),
                 title: new Column(
                   children: [
+                    // Tea name entry
                     new Container(
                         height: 54.0,
                         padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
@@ -372,6 +384,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             fontSize: 20.0,
                             color: tea.getThemeColor(context),
                           ),
+                          // Checks for tea names that are blank or too long
                           validator: (String newValue) {
                             if (newValue == null || newValue.isEmpty) {
                               return AppLocalizations.translate(
@@ -383,6 +396,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             }
                             return null;
                           },
+                          // Save name to prefs
                           onChanged: (String newValue) {
                             if (_formKey.currentState.validate()) {
                               setState(() {
@@ -392,10 +406,12 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             }
                           },
                         )),
+                    // Tea brew time selection
                     new Container(
                         height: 30.0,
                         padding: EdgeInsets.fromLTRB(7.0, 0.0, 0.0, 7.0),
                         child: Row(children: [
+                          // Brew time minutes dropdown
                           new DropdownButton<int>(
                             value: tea.brewTimeMinutes,
                             icon: Icon(Icons.arrow_drop_down,
@@ -405,6 +421,14 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                 fontSize: 20.0,
                                 color: Theme.of(context).buttonColor),
                             underline: SizedBox(),
+                            items: <int>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                                .map<DropdownMenuItem<int>>((int value) {
+                              return DropdownMenuItem<int>(
+                                value: value,
+                                child: Text(value.toString()),
+                              );
+                            }).toList(),
+                            // Save seconds to prefs
                             onChanged: (int newValue) {
                               setState(() {
                                 // Ensure we never have a 0:00 brew time
@@ -415,14 +439,8 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                 Prefs.setTeas();
                               });
                             },
-                            items: <int>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-                                .map<DropdownMenuItem<int>>((int value) {
-                              return DropdownMenuItem<int>(
-                                value: value,
-                                child: Text(value.toString()),
-                              );
-                            }).toList(),
                           ),
+                          // Brew time separator
                           new Text(
                             ': ',
                             style: TextStyle(
@@ -431,6 +449,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               color: Theme.of(context).buttonColor,
                             ),
                           ),
+                          // Brew time seconds dropdown
                           new DropdownButton<int>(
                             value: tea.brewTimeSeconds,
                             icon: Icon(Icons.arrow_drop_down,
@@ -440,16 +459,6 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                 fontSize: 20.0,
                                 color: Theme.of(context).buttonColor),
                             underline: SizedBox(),
-                            onChanged: (int newValue) {
-                              setState(() {
-                                // Ensure we never have a 0:00 brew time
-                                if (newValue == 0 && tea.brewTimeMinutes == 0) {
-                                  newValue = 15;
-                                }
-                                tea.brewTimeSeconds = newValue;
-                                Prefs.setTeas();
-                              });
-                            },
                             // Ensure we never have a 0:00 brew time
                             items: (tea.brewTimeMinutes == 0
                                     ? <int>[15, 30, 45]
@@ -460,6 +469,17 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                 child: Text(value.toString().padLeft(2, '0')),
                               );
                             }).toList(),
+                            // Save minutes to prefs
+                            onChanged: (int newValue) {
+                              setState(() {
+                                // Ensure we never have a 0:00 brew time
+                                if (newValue == 0 && tea.brewTimeMinutes == 0) {
+                                  newValue = 15;
+                                }
+                                tea.brewTimeSeconds = newValue;
+                                Prefs.setTeas();
+                              });
+                            },
                           )
                         ])),
                   ],
