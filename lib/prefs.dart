@@ -216,7 +216,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     fontSize: 14.0,
                                     color: Theme.of(context).buttonColor,
                                   )))),
-                      // Tea settings
+                      // Tea settings cards
                       new PrefsTeaRow(tea: tea1),
                       new PrefsTeaRow(tea: tea2),
                       new PrefsTeaRow(tea: tea3),
@@ -428,7 +428,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                 child: Text(value.toString()),
                               );
                             }).toList(),
-                            // Save seconds to prefs
+                            // Save brew time to prefs
                             onChanged: (int newValue) {
                               setState(() {
                                 // Ensure we never have a 0:00 brew time
@@ -469,7 +469,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                 child: Text(value.toString().padLeft(2, '0')),
                               );
                             }).toList(),
-                            // Save minutes to prefs
+                            // Save brew time to prefs
                             onChanged: (int newValue) {
                               setState(() {
                                 // Ensure we never have a 0:00 brew time
