@@ -1,1 +1,19 @@
-{}
+{
+    "about_app": "{{app_name}} je brezplačna, odprtokodna aplikacija.",
+    "error_name_long": "* Ime čaja je predolgo.",
+    "error_name_missing": "* Prosimo vnesite ime čaja.",
+    "prefs_notifications": "Odprite sistemske nastavitve na vaši napravi, da nastavite obvestila za {{app_name}}.",
+    "prefs_header": "Nastavi imena čajev, barve in čas kuhanja.",
+    "prefs_title": "{{app_name}} Lastnosti",
+    "no_button": "Ne",
+    "yes_button": "Da",
+    "confirm_message_line2": "Prekliči in začni nov časovnik?",
+    "confirm_message_line1": "Poteka aktiven časovnik.",
+    "confirm_title": "Opozorilo!",
+    "notification_text": "{{tea_name}} je sedaj pripravljen!",
+    "notification_title": "Kuhanje končano...",
+    "cancel_button": "Prekliči",
+    "tea_name_herbal": "Zeliščni čaj",
+    "tea_name_green": "Zeleni Čaj",
+    "tea_name_black": "Črni Čaj"
+}
