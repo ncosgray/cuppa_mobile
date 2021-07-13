@@ -1,4 +1,4 @@
-Cuppa za Android je končno tukaj! Ste naveličani puščati čas predolgo, da postane grenak in hladen, ali da ga pijete prehitro in s tem ne izkusite polnega potenciala? Potem je to orodje za vas!
+Cuppa za mobilne naprave je končno tukaj! Ste naveličani puščati čaj predolgo, da postane grenak in hladen, ali da ga pijete prehitro in s tem ne izkusite polnega potenciala? Potem je to orodje za vas!
 
 Da bi naredili aplikacijo tako hitro in preprosto, da bi jo vi dejansko uporabljali, smo jo zasnovali s principom enostavnosti. Aplikacijo le odprete in kliknete gumb za tip čaja, ki ga pripravljate. To je to. Ni potrebnega navigiranja skozi komplicirane menije, da bi našli določen čaj, ali ubadanja z nastavitvami... Razen, če nameravate prilagoditi čas priprave čaja, ali dodati svoje najljubše čaje (novo v različici 1.4!)
 
