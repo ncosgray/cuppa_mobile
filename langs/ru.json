@@ -14,5 +14,6 @@
     "cancel_button": "Отмена",
     "tea_name_herbal": "Травяной чай",
     "tea_name_green": "Зеленый чай",
-    "tea_name_black": "Черный чай"
+    "tea_name_black": "Черный чай",
+    "confirm_message_line1": "Есть активный таймер."
 }
