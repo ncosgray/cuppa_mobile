@@ -1,0 +1,3 @@
+* Cuppa has been translated into 9 new languages - contribute via Weblate!
+* Time teas that steep less than a minute.
+* Various small UI improvements and bug fixes.
