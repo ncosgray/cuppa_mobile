@@ -25,6 +25,7 @@ import 'localization.dart';
 import 'platform_adaptive.dart';
 import 'prefs.dart';
 
+// Cuppa Timer page
 class TimerWidget extends StatefulWidget {
   @override
   _TimerWidgetState createState() => new _TimerWidgetState();
@@ -48,9 +49,11 @@ class _TimerWidgetState extends State<TimerWidget> {
   static const _shortcutTea2 = 'shortcutTea2';
   static const _shortcutTea3 = 'shortcutTea3';
 
-  // Notification channels
+  // Notification channel
   static const platform =
       const MethodChannel('com.nathanatos.Cuppa/notification');
+
+  // Set up the brewing complete notification
   Future<Null> _sendNotification(int secs, String title, String text) async {
     try {
       platform.invokeMethod('setupNotification', <String, dynamic>{
@@ -63,6 +66,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     }
   }
 
+  // Cancel the notification
   Future<Null> _cancelNotification() async {
     try {
       platform.invokeMethod('cancelNotification');
@@ -98,11 +102,12 @@ class _TimerWidgetState extends State<TimerWidget> {
     }
   }
 
-  // Timer functions
+  // Update timer and handle brew finish
   void _decrementTimer(Timer t) {
     setState(() {
       _timerSeconds = _timerEndTime.difference(new DateTime.now()).inSeconds;
       if (_timerSeconds <= 0) {
+        // Brewing complete
         _timerActive = false;
         _whichActive = null;
         _timerSeconds = 0;
@@ -112,6 +117,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     });
   }
 
+  // Start a new brewing timer
   void _setTimer(Tea tea, [int secs = 0]) {
     setState(() {
       if (!_timerActive) _timerActive = true;
@@ -135,12 +141,14 @@ class _TimerWidgetState extends State<TimerWidget> {
     });
   }
 
+  // Load next brewing timer info from shared prefs
   void _checkNextAlarm() {
     Prefs.getNextAlarm();
     if (DateTime.tryParse(Prefs.nextAlarm) != null) {
       Duration diff =
           DateTime.parse(Prefs.nextAlarm).difference(DateTime.now());
       if (diff.inSeconds > 0) {
+        // Resume timer from stored prefs
         if (Prefs.nextTeaName == tea1.name) _setTimer(tea1, diff.inSeconds);
         if (Prefs.nextTeaName == tea2.name) _setTimer(tea2, diff.inSeconds);
         if (Prefs.nextTeaName == tea3.name) _setTimer(tea3, diff.inSeconds);
@@ -152,7 +160,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     }
   }
 
-  // Button handlers
+  // Tea button handlers
   void _handleTapboxTea1Changed(bool newValue) async {
     if (_whichActive != tea1) if (await _confirmTimer()) _setTimer(tea1);
   }
@@ -165,8 +173,10 @@ class _TimerWidgetState extends State<TimerWidget> {
     if (_whichActive != tea3) if (await _confirmTimer()) _setTimer(tea3);
   }
 
+  // Cancel button handler
   void _handleTapboxCancelPressed(bool newValue) {
     setState(() {
+      // Stop timing and reset
       _timerActive = false;
       _whichActive = null;
       _timerEndTime = new DateTime.now();
@@ -176,6 +186,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     });
   }
 
+  // Refresh tea settings and set up quick actions
   void _refreshTeas() {
     setState(() {
       // Load user tea steep times
@@ -203,10 +214,12 @@ class _TimerWidgetState extends State<TimerWidget> {
     ]);
   }
 
+  // Timer page state
   @override
   void initState() {
     super.initState();
 
+    // Refresh tea settings on initialization
     _refreshTeas();
 
     // Check for an existing timer and resume if needed
@@ -237,6 +250,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     });
   }
 
+  // Build Timer page
   @override
   Widget build(BuildContext context) {
     // Styles
@@ -246,12 +260,14 @@ class _TimerWidgetState extends State<TimerWidget> {
         fontSize: 100.0 * scaleFactor,
         fontWeight: FontWeight.bold);
 
+    // Refresh tea settings on build
     _refreshTeas();
 
     return Scaffold(
         appBar: new PlatformAdaptiveAppBar(
             title: new Text(appName),
             platform: appPlatform,
+            // Button to navigate to Preferences page
             actions: <Widget>[
               IconButton(
                 icon: const Icon(Icons.settings),
@@ -266,6 +282,7 @@ class _TimerWidgetState extends State<TimerWidget> {
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // Countdown timer
               new SizedBox(
                 child: new Container(
                   padding: const EdgeInsets.fromLTRB(48.0, 24.0, 48.0, 24.0),
@@ -284,6 +301,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                   ),
                 ),
               ),
+              // Teacup
               new Expanded(
                 child: new Container(
                     padding: const EdgeInsets.fromLTRB(48.0, 0.0, 48.0, 0.0),
@@ -312,6 +330,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                               gaplessPlayback: true)),
                     ])),
               ),
+              // Tea brew start buttons
               new SizedBox(
                 child: new Container(
                   padding: const EdgeInsets.fromLTRB(0.0, 24.0, 0.0, 24.0),
@@ -347,6 +366,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                   ),
                 ),
               ),
+              // Cancel brewing button
               new SizedBox(
                 child: new Container(
                   margin: const EdgeInsets.only(bottom: 24.0),
@@ -367,6 +387,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 }
 
+// Widget defining a tea brew start button
 class TeaButton extends StatelessWidget {
   TeaButton({
     this.name,
@@ -401,6 +422,7 @@ class TeaButton extends StatelessWidget {
           ),
           child: new Container(
             margin: const EdgeInsets.all(8.0),
+            // Timer icon with tea name
             child: new Column(
               children: [
                 new Icon(
@@ -425,6 +447,7 @@ class TeaButton extends StatelessWidget {
   }
 }
 
+// Widget defining a cancel brewing button
 class CancelButton extends StatelessWidget {
   CancelButton({Key key, this.active: false, @required this.onPressed})
       : super(key: key);
@@ -437,6 +460,7 @@ class CancelButton extends StatelessWidget {
   }
 
   Widget build(BuildContext context) {
+    // Button with "X" icon
     return new TextButton.icon(
       label: new Text(
         AppLocalizations.translate('cancel_button').toUpperCase(),
@@ -454,6 +478,7 @@ class CancelButton extends StatelessWidget {
   }
 }
 
+// Format brew remaining time as m:ss
 String _formatTimer(s) {
   // Build the time format string
   int mins = (s / 60).floor();

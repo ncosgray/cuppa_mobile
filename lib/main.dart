@@ -34,6 +34,7 @@ void main() async {
   runApp(new CuppaApp());
 }
 
+// Create the app
 class CuppaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -42,14 +43,17 @@ class CuppaApp extends StatelessWidget {
 
     return new MaterialApp(
         builder: (context, child) {
+          // Set scale factor
           return MediaQuery(
             child: child,
             data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
           );
         },
         title: appName,
+        // Configure theme
         theme: getPlatformAdaptiveTheme(appPlatform),
         darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
+        // Configure routes
         initialRoute: '/',
         routes: {
           '/': (context) => TimerWidget(),
@@ -64,6 +68,7 @@ class CuppaApp extends StatelessWidget {
           const Locale('ht', ''),
           const Locale('it', ''),
           const Locale('nb', ''),
+          const Locale('ru', ''),
           const Locale('sl', ''),
         ],
         localizationsDelegates: [
