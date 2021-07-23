@@ -1,4 +1,4 @@
-<img src="https://img.shields.io/github/v/release/ncosgray/cuppa_mobile"/> <img src="https://img.shields.io/github/license/ncosgray/cuppa_mobile"/> <img src="https://img.shields.io/github/issues/ncosgray/cuppa_mobile"/> <img src="https://img.shields.io/weblate/cuppa?server=https%3A%2F%2Fhosted.weblate.org"/>
+<img src="https://img.shields.io/github/v/release/ncosgray/cuppa_mobile"/> <img src="https://img.shields.io/github/license/ncosgray/cuppa_mobile"/> <img src="https://img.shields.io/github/issues/ncosgray/cuppa_mobile"/> <img src="https://img.shields.io/weblate/progress/cuppa?server=https%3A%2F%2Fhosted.weblate.org"/>
 
 ## Cuppa
 
@@ -15,11 +15,11 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 <img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="200"/>
 -|-|-|-
 
-### New in [Version 1.4](https://github.com/ncosgray/cuppa_mobile/releases/tag/1.4)
+### New in [Version 1.4.2](https://github.com/ncosgray/cuppa_mobile/releases/tag/1.4.2)
 
-* A new Preferences page!
-* Set your own tea names, brew times, and colors.
-* Save settings for three different teas.
+* Cuppa has been translated into 9 new languages - contribute via Weblate!
+* Time teas that steep less than a minute.
+* Various small UI improvements and bug fixes.
 
 ### Download
 
