@@ -1,0 +1,1 @@
+* solucionado el escalado de texto para fuentes grandes del sistema
