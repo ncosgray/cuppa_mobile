@@ -333,13 +333,15 @@ class _TimerWidgetState extends State<TimerWidget> {
               // Tea brew start buttons
               new SizedBox(
                 child: new Container(
-                  padding: const EdgeInsets.fromLTRB(0.0, 24.0, 0.0, 24.0),
+                  padding: const EdgeInsets.fromLTRB(0.0, 24.0, 0.0, 12.0),
                   alignment: Alignment.center,
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       new TeaButton(
                           name: tea1.buttonName,
+                          brewTime: tea1.brewTime,
+                          brewTemp: tea1.tempDisplay,
                           active: _whichActive == tea1 ? true : false,
                           fade: !_timerActive || _whichActive == tea1
                               ? false
@@ -348,6 +350,8 @@ class _TimerWidgetState extends State<TimerWidget> {
                           onPressed: _handleTapboxTea1Changed),
                       new TeaButton(
                           name: tea2.buttonName,
+                          brewTime: tea2.brewTime,
+                          brewTemp: tea2.tempDisplay,
                           active: _whichActive == tea2 ? true : false,
                           fade: !_timerActive || _whichActive == tea2
                               ? false
@@ -356,6 +360,8 @@ class _TimerWidgetState extends State<TimerWidget> {
                           onPressed: _handleTapboxTea2Changed),
                       new TeaButton(
                           name: tea3.buttonName,
+                          brewTime: tea3.brewTime,
+                          brewTemp: tea3.tempDisplay,
                           active: _whichActive == tea3 ? true : false,
                           fade: !_timerActive || _whichActive == tea3
                               ? false
@@ -369,7 +375,7 @@ class _TimerWidgetState extends State<TimerWidget> {
               // Cancel brewing button
               new SizedBox(
                 child: new Container(
-                  margin: const EdgeInsets.only(bottom: 24.0),
+                  margin: const EdgeInsets.only(bottom: 12.0),
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -391,6 +397,9 @@ class _TimerWidgetState extends State<TimerWidget> {
 class TeaButton extends StatelessWidget {
   TeaButton({
     this.name,
+    this.brewTime,
+    this.brewTemp,
+    this.showExtra = true,
     this.active = false,
     this.fade = false,
     this.buttonColor,
@@ -398,6 +407,9 @@ class TeaButton extends StatelessWidget {
   });
 
   final String name;
+  final int brewTime;
+  final String brewTemp;
+  final bool showExtra;
   final bool active;
   final bool fade;
   final Color buttonColor;
@@ -438,6 +450,34 @@ class TeaButton extends StatelessWidget {
                     color: active ? Colors.white : buttonColor,
                   ),
                 ),
+                new Visibility(
+                    visible: showExtra,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          new Container(
+                              padding:
+                                  const EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 0.0),
+                              child: new Text(
+                                _formatTimer(brewTime),
+                                style: new TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12.0,
+                                  color: active ? Colors.white : buttonColor,
+                                ),
+                              )),
+                          new Container(
+                              padding:
+                                  const EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 0.0),
+                              child: new Text(
+                                brewTemp,
+                                style: new TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12.0,
+                                  color: active ? Colors.white : buttonColor,
+                                ),
+                              ))
+                        ])),
               ],
             ),
           ),
