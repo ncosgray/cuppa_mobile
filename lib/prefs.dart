@@ -34,11 +34,21 @@ class Tea {
   // Fields
   String name;
   int brewTime;
+  // TODO: Pref to choose 140-212F or 60-100C
+  int brewTemp;
   int color;
 
-  // Tea name getters
+  // Tea display getters
   get buttonName {
     return this.name.toUpperCase();
+  }
+
+  get tempDisplay {
+    // Infer C or F based on temp range
+    if (this.brewTemp <= 100)
+      return this.brewTemp.toString() + '\u00b0C';
+    else
+      return this.brewTemp.toString() + '\u00b0F';
   }
 
   // Color getter
@@ -108,6 +118,8 @@ abstract class Prefs {
     5: 'shortcut_purple'
   };
 
+  // TODO: Pref to set whether to show extra info on Timer buttons (time and temp)
+
   // Shared prefs keys for teas
   static const _prefTea1Name = 'Cuppa_tea1_name';
   static const _prefTea1BrewTime = 'Cuppa_tea1_brew_time';
@@ -125,18 +137,21 @@ abstract class Prefs {
     tea1.name = sharedPrefs.getString(_prefTea1Name) ??
         AppLocalizations.translate('tea_name_black');
     tea1.brewTime = sharedPrefs.getInt(_prefTea1BrewTime) ?? 240;
+    tea1.brewTemp = 212;
     tea1.color = sharedPrefs.getInt(_prefTea1Color) ?? 0;
 
     // Default: Green tea
     tea2.name = sharedPrefs.getString(_prefTea2Name) ??
         AppLocalizations.translate('tea_name_green');
     tea2.brewTime = sharedPrefs.getInt(_prefTea2BrewTime) ?? 150;
+    tea2.brewTemp = 180;
     tea2.color = sharedPrefs.getInt(_prefTea2Color) ?? 3;
 
     // Default: Herbal tea
     tea3.name = sharedPrefs.getString(_prefTea3Name) ??
         AppLocalizations.translate('tea_name_herbal');
     tea3.brewTime = sharedPrefs.getInt(_prefTea3BrewTime) ?? 300;
+    tea3.brewTemp = 212;
     tea3.color = sharedPrefs.getInt(_prefTea3Color) ?? 2;
   }
 
