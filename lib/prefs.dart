@@ -142,8 +142,9 @@ abstract class Prefs {
     tea2.name = sharedPrefs.getString(_prefTea2Name) ??
         AppLocalizations.translate('tea_name_green');
     tea2.brewTime = sharedPrefs.getInt(_prefTea2BrewTime) ?? 150;
-    // TODO: Select default temp of 212 if not loading defaults for Green tea
-    tea2.brewTemp = sharedPrefs.getInt(_prefTea2BrewTemp) ?? 180;
+    // Select default temp of 212 if name changed from Green tea
+    tea2.brewTemp = sharedPrefs.getInt(_prefTea2BrewTemp) ??
+        (tea2.name != AppLocalizations.translate('tea_name_green') ? 212 : 180);
     tea2.color = sharedPrefs.getInt(_prefTea2Color) ?? 3;
 
     // Default: Herbal tea
