@@ -450,14 +450,16 @@ class TeaButton extends StatelessWidget {
                     color: active ? Colors.white : buttonColor,
                   ),
                 ),
+                // Optional extra info: brew time and temp display
                 new Visibility(
                     visible: showExtra,
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          // Brew time
                           new Container(
                               padding:
-                                  const EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 0.0),
+                                  const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 0.0),
                               child: new Text(
                                 _formatTimer(brewTime),
                                 style: new TextStyle(
@@ -466,9 +468,10 @@ class TeaButton extends StatelessWidget {
                                   color: active ? Colors.white : buttonColor,
                                 ),
                               )),
+                          // Brew temperature
                           new Container(
                               padding:
-                                  const EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 0.0),
+                                  const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 0.0),
                               child: new Text(
                                 brewTemp,
                                 style: new TextStyle(
