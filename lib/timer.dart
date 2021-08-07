@@ -399,7 +399,6 @@ class TeaButton extends StatelessWidget {
     this.name,
     this.brewTime,
     this.brewTemp,
-    this.showExtra = true,
     this.active = false,
     this.fade = false,
     this.buttonColor,
@@ -409,7 +408,6 @@ class TeaButton extends StatelessWidget {
   final String name;
   final int brewTime;
   final String brewTemp;
-  final bool showExtra;
   final bool active;
   final bool fade;
   final Color buttonColor;

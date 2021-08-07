@@ -26,6 +26,9 @@ Tea tea1;
 Tea tea2;
 Tea tea3;
 
+// Settings
+bool showExtra;
+
 // Limits
 final int teaNameMaxLength = 12;
 
@@ -113,9 +116,7 @@ abstract class Prefs {
     5: 'shortcut_purple'
   };
 
-  // TODO: Pref to set whether to show extra info on Timer buttons (time and temp)
-
-  // Shared prefs keys for teas
+  // Shared prefs keys for teas and other settings
   static const _prefTea1Name = 'Cuppa_tea1_name';
   static const _prefTea1BrewTime = 'Cuppa_tea1_brew_time';
   static const _prefTea1BrewTemp = 'Cuppa_tea1_brew_temp';
@@ -128,6 +129,7 @@ abstract class Prefs {
   static const _prefTea3BrewTime = 'Cuppa_tea3_brew_time';
   static const _prefTea3BrewTemp = 'Cuppa_tea3_brew_temp';
   static const _prefTea3Color = 'Cuppa_tea3_color';
+  static const _prefShowExtra = 'Cuppa_show_extra';
 
   // Fetch all teas from shared prefs or use defaults
   static void getTeas() {
@@ -153,6 +155,9 @@ abstract class Prefs {
     tea3.brewTime = sharedPrefs.getInt(_prefTea3BrewTime) ?? 300;
     tea3.brewTemp = sharedPrefs.getInt(_prefTea3BrewTemp) ?? 212;
     tea3.color = sharedPrefs.getInt(_prefTea3Color) ?? 2;
+
+    // Other settings
+    showExtra = sharedPrefs.getBool(_prefShowExtra) ?? false;
   }
 
   // Store all teas in shared prefs
@@ -171,6 +176,8 @@ abstract class Prefs {
     sharedPrefs.setInt(_prefTea3BrewTime, tea3.brewTime);
     sharedPrefs.setInt(_prefTea3BrewTemp, tea3.brewTemp);
     sharedPrefs.setInt(_prefTea3Color, tea3.color);
+
+    sharedPrefs.setBool(_prefShowExtra, showExtra);
   }
 
   // Next alarm info
@@ -238,6 +245,27 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                       new PrefsTeaRow(tea: tea1),
                       new PrefsTeaRow(tea: tea2),
                       new PrefsTeaRow(tea: tea3),
+                      // Setting: show extra info on buttons
+                      new Align(
+                          alignment: Alignment.topLeft,
+                          child: new SwitchListTile.adaptive(
+                            title: new Text(
+                                AppLocalizations.translate('prefs_show_extra'),
+                                style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: Theme.of(context).buttonColor)),
+                            value: showExtra,
+                            // Save showExtra setting to prefs
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                showExtra = newValue;
+                                Prefs.setTeas();
+                              });
+                            },
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(7.0, 7.0, 7.0, 0.0),
+                            dense: true,
+                          )),
                       // Notification settings info text
                       new Align(
                           alignment: Alignment.topLeft,
@@ -261,7 +289,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                           fontSize: 14.0,
                                           color: Theme.of(context).buttonColor,
                                         )))
-                              ])))
+                              ]))),
                     ])),
               ),
               new SliverFillRemaining(
