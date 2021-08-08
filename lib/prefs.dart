@@ -26,6 +26,9 @@ Tea tea1;
 Tea tea2;
 Tea tea3;
 
+// Settings
+bool showExtra;
+
 // Limits
 final int teaNameMaxLength = 12;
 
@@ -34,11 +37,16 @@ class Tea {
   // Fields
   String name;
   int brewTime;
+  int brewTemp;
   int color;
 
-  // Tea name getters
+  // Tea display getters
   get buttonName {
     return this.name.toUpperCase();
+  }
+
+  get tempDisplay {
+    return _formatTemp(this.brewTemp);
   }
 
   // Color getter
@@ -108,16 +116,20 @@ abstract class Prefs {
     5: 'shortcut_purple'
   };
 
-  // Shared prefs keys for teas
+  // Shared prefs keys for teas and other settings
   static const _prefTea1Name = 'Cuppa_tea1_name';
   static const _prefTea1BrewTime = 'Cuppa_tea1_brew_time';
+  static const _prefTea1BrewTemp = 'Cuppa_tea1_brew_temp';
   static const _prefTea1Color = 'Cuppa_tea1_color';
   static const _prefTea2Name = 'Cuppa_tea2_name';
   static const _prefTea2BrewTime = 'Cuppa_tea2_brew_time';
+  static const _prefTea2BrewTemp = 'Cuppa_tea2_brew_temp';
   static const _prefTea2Color = 'Cuppa_tea2_color';
   static const _prefTea3Name = 'Cuppa_tea3_name';
   static const _prefTea3BrewTime = 'Cuppa_tea3_brew_time';
+  static const _prefTea3BrewTemp = 'Cuppa_tea3_brew_temp';
   static const _prefTea3Color = 'Cuppa_tea3_color';
+  static const _prefShowExtra = 'Cuppa_show_extra';
 
   // Fetch all teas from shared prefs or use defaults
   static void getTeas() {
@@ -125,34 +137,47 @@ abstract class Prefs {
     tea1.name = sharedPrefs.getString(_prefTea1Name) ??
         AppLocalizations.translate('tea_name_black');
     tea1.brewTime = sharedPrefs.getInt(_prefTea1BrewTime) ?? 240;
+    tea1.brewTemp = sharedPrefs.getInt(_prefTea1BrewTemp) ?? 212;
     tea1.color = sharedPrefs.getInt(_prefTea1Color) ?? 0;
 
     // Default: Green tea
     tea2.name = sharedPrefs.getString(_prefTea2Name) ??
         AppLocalizations.translate('tea_name_green');
     tea2.brewTime = sharedPrefs.getInt(_prefTea2BrewTime) ?? 150;
+    // Select default temp of 212 if name changed from Green tea
+    tea2.brewTemp = sharedPrefs.getInt(_prefTea2BrewTemp) ??
+        (tea2.name != AppLocalizations.translate('tea_name_green') ? 212 : 180);
     tea2.color = sharedPrefs.getInt(_prefTea2Color) ?? 3;
 
     // Default: Herbal tea
     tea3.name = sharedPrefs.getString(_prefTea3Name) ??
         AppLocalizations.translate('tea_name_herbal');
     tea3.brewTime = sharedPrefs.getInt(_prefTea3BrewTime) ?? 300;
+    tea3.brewTemp = sharedPrefs.getInt(_prefTea3BrewTemp) ?? 212;
     tea3.color = sharedPrefs.getInt(_prefTea3Color) ?? 2;
+
+    // Other settings
+    showExtra = sharedPrefs.getBool(_prefShowExtra) ?? false;
   }
 
   // Store all teas in shared prefs
   static void setTeas() {
     sharedPrefs.setString(_prefTea1Name, tea1.name);
     sharedPrefs.setInt(_prefTea1BrewTime, tea1.brewTime);
+    sharedPrefs.setInt(_prefTea1BrewTemp, tea1.brewTemp);
     sharedPrefs.setInt(_prefTea1Color, tea1.color);
 
     sharedPrefs.setString(_prefTea2Name, tea2.name);
     sharedPrefs.setInt(_prefTea2BrewTime, tea2.brewTime);
+    sharedPrefs.setInt(_prefTea2BrewTemp, tea2.brewTemp);
     sharedPrefs.setInt(_prefTea2Color, tea2.color);
 
     sharedPrefs.setString(_prefTea3Name, tea3.name);
     sharedPrefs.setInt(_prefTea3BrewTime, tea3.brewTime);
+    sharedPrefs.setInt(_prefTea3BrewTemp, tea3.brewTemp);
     sharedPrefs.setInt(_prefTea3Color, tea3.color);
+
+    sharedPrefs.setBool(_prefShowExtra, showExtra);
   }
 
   // Next alarm info
@@ -220,6 +245,27 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                       new PrefsTeaRow(tea: tea1),
                       new PrefsTeaRow(tea: tea2),
                       new PrefsTeaRow(tea: tea3),
+                      // Setting: show extra info on buttons
+                      new Align(
+                          alignment: Alignment.topLeft,
+                          child: new SwitchListTile.adaptive(
+                            title: new Text(
+                                AppLocalizations.translate('prefs_show_extra'),
+                                style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: Theme.of(context).buttonColor)),
+                            value: showExtra,
+                            // Save showExtra setting to prefs
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                showExtra = newValue;
+                                Prefs.setTeas();
+                              });
+                            },
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(7.0, 7.0, 7.0, 0.0),
+                            dense: true,
+                          )),
                       // Notification settings info text
                       new Align(
                           alignment: Alignment.topLeft,
@@ -243,7 +289,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                           fontSize: 14.0,
                                           color: Theme.of(context).buttonColor,
                                         )))
-                              ])))
+                              ]))),
                     ])),
               ),
               new SliverFillRemaining(
@@ -480,9 +526,61 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                 Prefs.setTeas();
                               });
                             },
+                          ),
+                          new Spacer(),
+                          // Brew temperature dropdown
+                          new DropdownButton<int>(
+                            value: tea.brewTemp,
+                            icon: Icon(Icons.arrow_drop_down,
+                                size: 24.0,
+                                color: Theme.of(context).buttonColor),
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                color: Theme.of(context).buttonColor),
+                            underline: SizedBox(),
+                            items: (<int>[
+                              60,
+                              65,
+                              70,
+                              75,
+                              80,
+                              85,
+                              90,
+                              95,
+                              100,
+                              140,
+                              150,
+                              160,
+                              170,
+                              180,
+                              190,
+                              200,
+                              212
+                            ]).map<DropdownMenuItem<int>>((int value) {
+                              return DropdownMenuItem<int>(
+                                value: value,
+                                child: Text(_formatTemp(value)),
+                              );
+                            }).toList(),
+                            // Save brew temp to prefs
+                            onChanged: (int newValue) {
+                              setState(() {
+                                tea.brewTemp = newValue;
+                                Prefs.setTeas();
+                              });
+                            },
                           )
                         ])),
                   ],
                 ))));
   }
+}
+
+// Format brew temperature as number with units
+String _formatTemp(i) {
+  // Infer C or F based on temp range
+  if (i <= 100)
+    return i.toString() + '\u00b0C';
+  else
+    return i.toString() + '\u00b0F';
 }
