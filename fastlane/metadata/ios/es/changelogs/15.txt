@@ -1,0 +1,3 @@
+* ¡Una nueva página de preferencias!
+* Establezca un propio nombre, tiempo de bebida y color para su te.
+* Guarde los ajustes para tres diferentes tés.

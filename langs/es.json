@@ -1,0 +1,19 @@
+{
+    "no_button": "No",
+    "about_app": "{{app_name}} es una app libre y de código abierto.",
+    "error_name_long": "* El nombre del té es muy largo.",
+    "error_name_missing": "* Por favor introduce el nombre del té.",
+    "prefs_notifications": "Abra los ajustes de sistema de su dispositivo para configurar las notificaciones de {{app_name}}.",
+    "prefs_header": "Establece el nombre, preparación y un color al té.",
+    "prefs_title": "Preferencias de {{app_name}}",
+    "confirm_message_line2": "¿Cancelar e iniciar un nuevo cronómetro?",
+    "yes_button": "Sí",
+    "confirm_message_line1": "Hay un cronómetro activo.",
+    "confirm_title": "¡Alerta!",
+    "notification_text": "¡{{tea_name}} está listo!",
+    "notification_title": "Preparación completa...",
+    "tea_name_herbal": "Té herbal",
+    "cancel_button": "Cancelar",
+    "tea_name_green": "Té verde",
+    "tea_name_black": "Té negro"
+}

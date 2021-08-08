@@ -1,0 +1,2 @@
+* solucionado cierre en iOS 12.1
+* reducción de tamaño de instalación

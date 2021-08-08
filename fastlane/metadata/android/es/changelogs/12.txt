@@ -1,0 +1,1 @@
+* soporte para el tema oscuro en Android 10
