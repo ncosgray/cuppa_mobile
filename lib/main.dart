@@ -63,6 +63,7 @@ class CuppaApp extends StatelessWidget {
         supportedLocales: [
           const Locale('en', ''),
           const Locale('de', ''),
+          const Locale('es', ''),
           const Locale('fi', ''),
           const Locale('fr', ''),
           const Locale('ht', ''),

@@ -56,6 +56,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   bool isSupported(Locale locale) => [
         'en',
         'de',
+        'es',
         'fi',
         'fr',
         'ht',
