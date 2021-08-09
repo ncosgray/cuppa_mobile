@@ -1,0 +1,3 @@
+* Cuppa a été traduit en 9 nouvelles langues - contribuez via Weblate !
+* Chronométrez les infusions qui infusent moins d'une minute.
+* Diverses petites améliorations de l'interface utilisateur et corrections d'erreurs.
