@@ -21,10 +21,11 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 * Time teas that steep less than a minute.
 * Various small UI improvements and bug fixes.
 
-### Download
+### Install
 
-Android (4.1+):<br/><a href="https://play.google.com/store/apps/details?id=com.nathanatos.Cuppa"><img src="https://www.nathanatos.com/software/images/google-play-badge.png" alt="Get it on Google Play" width="141" height="42"/></a><br/><a href="https://f-droid.org/en/packages/com.nathanatos.Cuppa/"><img src="https://www.nathanatos.com/software/images/fdroid-badge.png" alt="Get it on F-Droid" width="141" height="42"/></a>|iOS (10+):<br/><a href="https://itunes.apple.com/us/app/cuppa-tea-timer/id1241458171"><img src="https://www.nathanatos.com/software/images/ios-app-store-badge.png" alt="Download on the App Store" width="141" height="42"/></a>
--|-
+| Android (4.1+) | iOS (10+) |
+| :--: | :--: |
+| <a href="https://play.google.com/store/apps/details?id=com.nathanatos.Cuppa"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="80"/></a><br/><a href="https://f-droid.org/en/packages/com.nathanatos.Cuppa/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80"/></a> | <a href="https://itunes.apple.com/us/app/cuppa-tea-timer/id1241458171"><img src="https://www.nathanatos.com/software/images/ios-app-store-badge.png" alt="Download on the App Store" height="50"/></a> |
 
 ### About
 
