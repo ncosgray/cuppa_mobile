@@ -3,7 +3,7 @@
     "error_name_long": "* Le nom du thé est trop long.",
     "error_name_missing": "* Veuillez entrer un nom de thé.",
     "prefs_notifications": "Ouvrez les paramètres système de votre appareil pour configurer les notifications pour {{app_name}}.",
-    "prefs_header": "Définissez les noms de thé, les temps d’infusion et les couleurs.",
+    "prefs_header": "Définissez le nom, le temps d’infusion, le température et les couleurs :",
     "prefs_title": "Préférences {{app_name}}",
     "no_button": "Non",
     "yes_button": "Oui",
@@ -15,5 +15,6 @@
     "cancel_button": "Annuler",
     "tea_name_herbal": "Tisane",
     "tea_name_green": "Thé vert",
-    "tea_name_black": "Thé noir"
+    "tea_name_black": "Thé noir",
+    "prefs_show_extra": "Afficher le temps d’infusion et la température sur les boutons de la minuterie"
 }
