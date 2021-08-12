@@ -1,0 +1,3 @@
+* Include water temperature setting for each tea.
+* Option to show extra brewing information on timer buttons.
+* Added Spanish, and other translation improvements - contribute via Weblate!
