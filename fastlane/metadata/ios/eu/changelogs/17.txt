@@ -1,0 +1,3 @@
+* Te bakoitzerako uraren tenperatura doitzea barne.
+* Tenporizadorearen botoietan garagardoa egiteko informazio gehigarria erakusteko aukera.
+* Erantsi espainola, eta beste itzulpen-hobekuntza batzuk - Weblateren bidez lagundu!
