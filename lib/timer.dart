@@ -253,13 +253,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Build Timer page
   @override
   Widget build(BuildContext context) {
-    // Styles
-    double scaleFactor = MediaQuery.of(context).size.height < 600.0 ? 0.7 : 1.0;
-    final TextStyle timerStyle = Theme.of(context).textTheme.headline2.copyWith(
-        color: Colors.white,
-        fontSize: 100.0 * scaleFactor,
-        fontWeight: FontWeight.bold);
-
     // Refresh tea settings on build
     _refreshTeas();
 
@@ -283,24 +276,39 @@ class _TimerWidgetState extends State<TimerWidget> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Countdown timer
-              new SizedBox(
-                child: new Container(
+              new Container(
                   padding: const EdgeInsets.fromLTRB(48.0, 24.0, 48.0, 24.0),
-                  child: new Container(
-                    decoration: new BoxDecoration(
-                      color: Colors.green,
-                      borderRadius:
-                          const BorderRadius.all(const Radius.circular(12.0)),
-                    ),
-                    child: new Center(
-                      child: new Text(
-                        _formatTimer(_timerSeconds),
-                        style: timerStyle,
+                  width: 480.0,
+                  height: 180.0,
+                  child: new FittedBox(
+                    fit: BoxFit.fitHeight,
+                    alignment: Alignment.center,
+                    child: new Container(
+                      width: (_formatTimer(_timerSeconds)).length > 4
+                          ? 480.0
+                          : 420.0,
+                      height: 180.0,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: new BoxDecoration(
+                        color: Colors.green,
+                        borderRadius:
+                            const BorderRadius.all(const Radius.circular(12.0)),
+                      ),
+                      child: new Center(
+                        child: new Text(
+                          _formatTimer(_timerSeconds),
+                          maxLines: 1,
+                          softWrap: false,
+                          overflow: TextOverflow.clip,
+                          style: new TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 150.0,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
+                  )),
               // Teacup
               new Expanded(
                 child: new Container(
@@ -309,25 +317,19 @@ class _TimerWidgetState extends State<TimerWidget> {
                     child: new Stack(children: [
                       // Teacup image
                       new Image.asset(cupImageDefault,
-                          height: 240.0 * scaleFactor,
-                          fit: BoxFit.fitWidth,
-                          gaplessPlayback: true),
+                          fit: BoxFit.fitWidth, gaplessPlayback: true),
                       // While timing, gradually darken the tea in the cup
                       new Opacity(
                           opacity: _timerActive
                               ? (_timerSeconds / _whichActive.brewTime)
                               : 0.0,
                           child: new Image.asset(cupImageTea,
-                              height: 240.0 * scaleFactor,
-                              fit: BoxFit.fitWidth,
-                              gaplessPlayback: true)),
+                              fit: BoxFit.fitWidth, gaplessPlayback: true)),
                       // While timing, put a teabag in the cup
                       new Visibility(
                           visible: _timerActive,
                           child: new Image.asset(cupImageBag,
-                              height: 240.0 * scaleFactor,
-                              fit: BoxFit.fitWidth,
-                              gaplessPlayback: true)),
+                              fit: BoxFit.fitWidth, gaplessPlayback: true)),
                     ])),
               ),
               // Tea brew start buttons
