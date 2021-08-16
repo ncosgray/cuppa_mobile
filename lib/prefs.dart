@@ -467,8 +467,28 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                 fontSize: 20.0,
                                 color: Theme.of(context).buttonColor),
                             underline: SizedBox(),
-                            items: <int>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-                                .map<DropdownMenuItem<int>>((int value) {
+                            items: <int>[
+                              0,
+                              1,
+                              2,
+                              3,
+                              4,
+                              5,
+                              6,
+                              7,
+                              8,
+                              9,
+                              10,
+                              11,
+                              12,
+                              13,
+                              14,
+                              15,
+                              16,
+                              17,
+                              18,
+                              19
+                            ].map<DropdownMenuItem<int>>((int value) {
                               return DropdownMenuItem<int>(
                                 value: value,
                                 child: Text(value.toString()),
