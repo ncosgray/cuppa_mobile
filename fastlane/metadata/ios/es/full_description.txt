@@ -4,4 +4,4 @@ Para que la aplicación sea tan cómoda y rápida de utilizar, la hemos creado p
 
 Una vez que pulse, Cuppa empezará a cronometrar la infusión y verá que una bolsita de té aparece en la taza y se oscurece gradualmente a medida que el té se empapa. Un temporizador de cuenta atrás muestra el tiempo de infusión restante. Cuando el té esté listo, Cuppa le notificará, con un sonido o una vibración adicional -- según la configuración de su dispositivo.
 
-Esperamos que Cuppa para su dispositivo móvil le resulte útil.
+¡Esperamos que Cuppa para su dispositivo móvil le resulte útil!
