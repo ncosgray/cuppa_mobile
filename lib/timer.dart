@@ -44,7 +44,8 @@ class _TimerWidgetState extends State<TimerWidget> {
   DateTime _timerEndTime;
   Timer _timer;
 
-  // Shortcut keys
+  // Quick actions shortcuts
+  QuickActions quickActions = QuickActions();
   static const _shortcutTea1 = 'shortcutTea1';
   static const _shortcutTea2 = 'shortcutTea2';
   static const _shortcutTea3 = 'shortcutTea3';
@@ -194,7 +195,6 @@ class _TimerWidgetState extends State<TimerWidget> {
     });
 
     // Add quick action shortcuts
-    final QuickActions quickActions = QuickActions();
     quickActions.setShortcutItems(<ShortcutItem>[
       ShortcutItem(
         type: _shortcutTea1,
@@ -226,24 +226,17 @@ class _TimerWidgetState extends State<TimerWidget> {
     _checkNextAlarm();
 
     // Handle quick action selection
-    final QuickActions quickActions = QuickActions();
     quickActions.initialize((String shortcutType) async {
       if (shortcutType != null) {
         switch (shortcutType) {
           case _shortcutTea1:
-            {
-              if (await _confirmTimer()) _setTimer(tea1);
-            }
+            if (await _confirmTimer()) _setTimer(tea1);
             break;
           case _shortcutTea2:
-            {
-              if (await _confirmTimer()) _setTimer(tea2);
-            }
+            if (await _confirmTimer()) _setTimer(tea2);
             break;
           case _shortcutTea3:
-            {
-              if (await _confirmTimer()) _setTimer(tea3);
-            }
+            if (await _confirmTimer()) _setTimer(tea3);
             break;
         }
       }
