@@ -27,14 +27,15 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 | :--: | :--: |
 | <a href="https://play.google.com/store/apps/details?id=com.nathanatos.Cuppa"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="80"/></a><br/><a href="https://f-droid.org/en/packages/com.nathanatos.Cuppa/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80"/></a> | <a href="https://itunes.apple.com/us/app/cuppa-tea-timer/id1241458171"><img src="https://www.nathanatos.com/software/images/ios-app-store-badge.png" alt="Download on the App Store" height="50"/></a> |
 
+### Join the team
+
+- Cuppa uses [Weblate](https://hosted.weblate.org/projects/cuppa/) for translations.
+- Join our Telegram discussion group: https://t.me/CuppaMobile
+
 ### About
 
 Cuppa Mobile is a free, open-source mobile app licensed under the terms of the BSD license and built on the [Flutter](http://flutter.io) framework. It is maintained at https://github.com/ncosgray/cuppa_mobile
 
 Author: [Nathan Cosgray](https://www.nathanatos.com)
-
-Telegram discussion group: https://t.me/CuppaMobile
-
-Cuppa uses [Weblate](https://hosted.weblate.org/projects/cuppa/) for translations.
 
 <a href="https://hosted.weblate.org/engage/cuppa/" target="_blank" rel="noopener"><img src="https://hosted.weblate.org/widgets/cuppa/-/open-graph.png" alt="Translation status" width="400"></a>
