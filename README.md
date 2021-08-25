@@ -29,8 +29,26 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 
 ### Join the team
 
-- Cuppa uses [Weblate](https://hosted.weblate.org/projects/cuppa/) for translations.
-- Join our Telegram discussion group: https://t.me/CuppaMobile
+- Chat in the Telegram discussion group: https://t.me/CuppaMobile
+- Use [Weblate](https://hosted.weblate.org/projects/cuppa/) for translation into your favourite language
+- <a href="https://hosted.weblate.org/engage/cuppa/" target="_blank" rel="noopener"><img src="https://hosted.weblate.org/widgets/cuppa/-/open-graph.png" alt="Translation status" width="400"></a>
+
+<details>
+  <summary>Translation status</summary>
+
+#### Mobile app:
+
+[![Mobile app](https://hosted.weblate.org/widgets/cuppa/-/cuppa-mobile-app/multi-auto.svg)](https://hosted.weblate.org/projects/cuppa/cuppa-mobile-app/)
+
+#### Android app store description:
+
+[![Android description](https://hosted.weblate.org/widgets/cuppa/-/cuppa-mobile-app-store-android/multi-auto.svg)](https://hosted.weblate.org/projects/cuppa/cuppa-mobile-app-store-android/)
+
+#### iOS app store description:
+
+[![iOS description](https://hosted.weblate.org/widgets/cuppa/-/cuppa-mobile-app-store-ios/multi-auto.svg)](https://hosted.weblate.org/projects/cuppa/cuppa-mobile-app-store-ios/)
+
+</details>
 
 ### About
 
@@ -38,4 +56,4 @@ Cuppa Mobile is a free, open-source mobile app licensed under the terms of the B
 
 Author: [Nathan Cosgray](https://www.nathanatos.com)
 
-<a href="https://hosted.weblate.org/engage/cuppa/" target="_blank" rel="noopener"><img src="https://hosted.weblate.org/widgets/cuppa/-/open-graph.png" alt="Translation status" width="400"></a>
+
