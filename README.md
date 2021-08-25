@@ -1,7 +1,7 @@
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/ncosgray/cuppa_mobile?label=latest%20version&sort=semver)](https://github.com/ncosgray/cuppa_mobile/releases)
 [![GitHub issues](https://img.shields.io/github/issues/ncosgray/cuppa_mobile?color=red)](https://github.com/ncosgray/cuppa_mobile/issues)
 [![Telegram](https://img.shields.io/badge/chat-on%20Telegram-blue)](https://t.me/CuppaMobile)
-![Weblate project translated](https://img.shields.io/weblate/progress/cuppa?color=green&server=https%3A%2F%2Fhosted.weblate.org%2F)
+[![Weblate project translated](https://img.shields.io/weblate/progress/cuppa?color=green&server=https%3A%2F%2Fhosted.weblate.org%2F)](https://hosted.weblate.org/engage/cuppa/)
 [![GitHub license](https://img.shields.io/github/license/ncosgray/cuppa_mobile?color=lightgrey)](https://github.com/ncosgray/cuppa_mobile/blob/master/LICENSE.txt)
 
 ## Cuppa
