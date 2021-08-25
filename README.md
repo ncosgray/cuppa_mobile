@@ -50,7 +50,7 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 
 ### About
 
-Cuppa Mobile is a free, open-source mobile app licensed under the terms of the BSD license and built on the [Flutter](http://flutter.io) framework. It is maintained at https://github.com/ncosgray/cuppa_mobile
+Cuppa Mobile is a free, open-source mobile app licensed under the terms of the BSD license and built on the [Flutter](http://flutter.io) framework.
 
 Author: [Nathan Cosgray](https://www.nathanatos.com)
 
