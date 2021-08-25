@@ -1,4 +1,7 @@
-<img src="https://img.shields.io/github/v/release/ncosgray/cuppa_mobile"/> <img src="https://img.shields.io/github/license/ncosgray/cuppa_mobile"/> <img src="https://img.shields.io/github/issues/ncosgray/cuppa_mobile"/> <img src="https://img.shields.io/weblate/progress/cuppa?server=https%3A%2F%2Fhosted.weblate.org"/>
+<img src="https://img.shields.io/github/v/release/ncosgray/cuppa_mobile"/>
+<img src="https://img.shields.io/github/issues/ncosgray/cuppa_mobile"/>
+<img src="https://img.shields.io/weblate/progress/cuppa?server=https%3A%2F%2Fhosted.weblate.org"/>
+<img src="https://img.shields.io/github/license/ncosgray/cuppa_mobile"/> 
 
 ## Cuppa
 
@@ -15,12 +18,6 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 <img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="200"/>
 -|-|-|-
 
-### New in [Version 1.4.2](https://github.com/ncosgray/cuppa_mobile/releases/tag/1.4.2)
-
-* Cuppa has been translated into 9 new languages - contribute via Weblate!
-* Time teas that steep less than a minute.
-* Various small UI improvements and bug fixes.
-
 ### Install
 
 | Android (4.1+) | iOS (10+) |
@@ -30,8 +27,9 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 ### Join the team
 
 - Chat in the Telegram discussion group: https://t.me/CuppaMobile
-- Use [Weblate](https://hosted.weblate.org/projects/cuppa/) for translation into your favourite language
-- <a href="https://hosted.weblate.org/engage/cuppa/" target="_blank" rel="noopener"><img src="https://hosted.weblate.org/widgets/cuppa/-/open-graph.png" alt="Translation status" width="400"></a>
+- Use [Weblate](https://hosted.weblate.org/engage/cuppa/) for translation into your favourite language
+
+<a href="https://hosted.weblate.org/engage/cuppa/" target="_blank" rel="noopener"><img src="https://hosted.weblate.org/widgets/cuppa/-/open-graph.png" alt="Translation status" width="400"></a>
 
 <details>
   <summary>Translation status</summary>
