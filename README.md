@@ -11,9 +11,9 @@
 
 ### Tea Timer App for iOS and Android
 
-To make the app so quick and easy that you'll actually use it, we have built it with simplicity in mind. Just open the app and tap the button for the type of tea you're brewing. That's it. No need to navigate through complicated menus to find a particular tea, or fiddle with settings... unless you want to customize brew times or add your own favorite teas (new in version 1.4!).
+To make the app so quick and easy that you'll actually use it, we have built it with simplicity in mind. Just open the app and tap the button for the type of tea you're brewing. That's it. No need to navigate through complicated menus to find a particular tea, or fiddle with settings... unless you want to customize brew times or add your own favorite teas.
 
-Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in the cup and gradually darken as the tea steeps. A countdown timer shows the steep time remaining. When the tea is done Cuppa will let you know with a notification -- depending on your device settings, this may be accompanied by a sound and/or vibration.
+Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in the cup and gradually darken as the tea steeps. A countdown timer shows the steep time remaining. When the tea is done Cuppa will let you know with a notification, depending on your device settings, this may be accompanied by a sound and/or vibration.
 
 <img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="200"/>
 -|-|-|-
