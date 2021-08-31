@@ -1,0 +1,2 @@
+* iOS 12.1 sistemako akats bat konponduta
+* instalazioaren tamaina murriztuta
