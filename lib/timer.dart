@@ -145,9 +145,9 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Load next brewing timer info from shared prefs
   void _checkNextAlarm() {
     Prefs.getNextAlarm();
-    if (DateTime.tryParse(Prefs.nextAlarm) != null) {
-      Duration diff =
-          DateTime.parse(Prefs.nextAlarm).difference(DateTime.now());
+    if (Prefs.nextAlarm > 0) {
+      Duration diff = DateTime.fromMillisecondsSinceEpoch(Prefs.nextAlarm)
+          .difference(DateTime.now());
       if (diff.inSeconds > 0) {
         // Resume timer from stored prefs
         if (Prefs.nextTeaName == tea1.name) _setTimer(tea1, diff.inSeconds);

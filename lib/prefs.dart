@@ -182,28 +182,28 @@ abstract class Prefs {
 
   // Next alarm info
   static String nextTeaName = '';
-  static String nextAlarm = '';
+  static int nextAlarm = 0;
 
   // Shared prefs next alarm info keys
   static const _prefNextTeaName = 'Cuppa_next_tea_name';
-  static const _prefNextAlarm = 'Cuppa_next_alarm';
+  static const _prefNextAlarm = 'Cuppa_next_alarm_time';
 
   // Fetch next alarm info from shared prefs
   static void getNextAlarm() {
     nextTeaName = sharedPrefs.getString(_prefNextTeaName) ?? '';
-    nextAlarm = sharedPrefs.getString(_prefNextAlarm) ?? '';
+    nextAlarm = sharedPrefs.getInt(_prefNextAlarm) ?? 0;
   }
 
   // Store next alarm info in shared prefs to persist when app is closed
   static void setNextAlarm(String teaName, DateTime timerEndTime) {
     sharedPrefs.setString(_prefNextTeaName, teaName);
-    sharedPrefs.setString(_prefNextAlarm, timerEndTime.toString());
+    sharedPrefs.setInt(_prefNextAlarm, timerEndTime.millisecondsSinceEpoch);
   }
 
   // Clear shared prefs next alarm info
   static void clearNextAlarm() {
     sharedPrefs.setString(_prefNextTeaName, '');
-    sharedPrefs.setString(_prefNextAlarm, '');
+    sharedPrefs.setInt(_prefNextAlarm, 0);
   }
 }
 
