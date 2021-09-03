@@ -1,1 +1,20 @@
-{}
+{
+    "about_app": "{{app_name}} is een gratis, open-source app.",
+    "error_name_long": "* Thee naam is te lang.",
+    "error_name_missing": "* Geef een theenaam.",
+    "prefs_notifications": "Open de systeeminstellingen van uw toestel om meldingen voor {{app_name}} in te stellen.",
+    "prefs_show_extra": "Toon de brouwtijd en temperatuur op de timerknoppen",
+    "prefs_header": "Stel theenamen, zettijden, temperaturen en kleuren in:",
+    "prefs_title": "{{app_name}} Voorkeuren",
+    "no_button": "Geen",
+    "yes_button": "Ja",
+    "confirm_message_line2": "Annuleren en een nieuwe timer starten?",
+    "confirm_message_line1": "Er is een timer actief.",
+    "confirm_title": "Voorzichtig!",
+    "notification_text": "{{tea_name}} is nu klaar!",
+    "notification_title": "Het brouwen compleet...",
+    "cancel_button": "Annuleer",
+    "tea_name_herbal": "Kruiden thee",
+    "tea_name_green": "Groene Thee",
+    "tea_name_black": "Zwarte Thee"
+}
