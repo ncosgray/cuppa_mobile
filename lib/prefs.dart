@@ -46,7 +46,7 @@ class Tea {
   }
 
   get tempDisplay {
-    return _formatTemp(this.brewTemp);
+    return formatTemp(this.brewTemp);
   }
 
   // Color getter
@@ -579,7 +579,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             ]).map<DropdownMenuItem<int>>((int value) {
                               return DropdownMenuItem<int>(
                                 value: value,
-                                child: Text(_formatTemp(value)),
+                                child: Text(formatTemp(value)),
                               );
                             }).toList(),
                             // Save brew temp to prefs
@@ -594,13 +594,4 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                   ],
                 ))));
   }
-}
-
-// Format brew temperature as number with units
-String _formatTemp(i) {
-  // Infer C or F based on temp range
-  if (i <= 100)
-    return i.toString() + '\u00b0C';
-  else
-    return i.toString() + '\u00b0F';
 }

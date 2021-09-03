@@ -249,7 +249,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                     fit: BoxFit.fitHeight,
                     alignment: Alignment.center,
                     child: new Container(
-                      width: (_formatTimer(_timerSeconds)).length > 4
+                      width: (formatTimer(_timerSeconds)).length > 4
                           ? 480.0
                           : 420.0,
                       height: 180.0,
@@ -261,7 +261,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                       ),
                       child: new Center(
                         child: new Text(
-                          _formatTimer(_timerSeconds),
+                          formatTimer(_timerSeconds),
                           maxLines: 1,
                           softWrap: false,
                           overflow: TextOverflow.clip,
@@ -445,7 +445,7 @@ class TeaButton extends StatelessWidget {
                               padding:
                                   const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 0.0),
                               child: new Text(
-                                _formatTimer(brewTime),
+                                formatTimer(brewTime),
                                 style: new TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12.0,
@@ -503,14 +503,4 @@ class CancelButton extends StatelessWidget {
       onPressed: active ? _handleTap : null,
     );
   }
-}
-
-// Format brew remaining time as m:ss
-String _formatTimer(s) {
-  // Build the time format string
-  int mins = (s / 60).floor();
-  int secs = s - (mins * 60);
-  String secsString = secs.toString();
-  if (secs < 10) secsString = '0' + secsString;
-  return mins.toString() + ':' + secsString;
 }
