@@ -1,1 +1,20 @@
-{}
+{
+    "about_app": "{{app_name}} librea da, kode irekiko aplikazioa.",
+    "error_name_long": "* Tea izena luzeegia da.",
+    "error_name_missing": "* Mesedez, idatzi bat tea izena.",
+    "prefs_notifications": "Ireki zure gailua sistema ezarpenak konfiguratzeko jakinarazpenak {{app_name}}.",
+    "prefs_show_extra": "Erakutsi brew denbora eta tenperatura tenporizadorea botoiak",
+    "prefs_header": "Ezarri tea izenak, brew aldiz, tenperatura, eta koloreak:",
+    "prefs_title": "{{app_name}} Lehentasunak",
+    "no_button": "Ez",
+    "yes_button": "Bai",
+    "confirm_message_line2": "Bertan behera utzi eta berri bat hasteko tenporizadorea?",
+    "confirm_message_line1": "Ez dago aktibo bat tenporizadorea.",
+    "confirm_title": "Abisua!",
+    "notification_text": "{{tea_name}} orain prest!",
+    "notification_title": "Brewing osoa...",
+    "cancel_button": "Utzi",
+    "tea_name_herbal": "Belar Tea",
+    "tea_name_green": "Te Berdea",
+    "tea_name_black": "Te Beltza"
+}
