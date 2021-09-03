@@ -162,32 +162,6 @@ class _TimerWidgetState extends State<TimerWidget> {
     }
   }
 
-  // Tea button handlers
-  void _handleTapboxTea1Changed(bool newValue) async {
-    if (_whichActive != tea1) if (await _confirmTimer()) _setTimer(tea1);
-  }
-
-  void _handleTapboxTea2Changed(bool newValue) async {
-    if (_whichActive != tea2) if (await _confirmTimer()) _setTimer(tea2);
-  }
-
-  void _handleTapboxTea3Changed(bool newValue) async {
-    if (_whichActive != tea3) if (await _confirmTimer()) _setTimer(tea3);
-  }
-
-  // Cancel button handler
-  void _handleTapboxCancelPressed(bool newValue) {
-    setState(() {
-      // Stop timing and reset
-      _timerActive = false;
-      _whichActive = null;
-      _timerEndTime = new DateTime.now();
-      _decrementTimer(_timer);
-      _cancelNotification();
-      Prefs.clearNextAlarm();
-    });
-  }
-
   // Refresh tea settings and set up quick actions
   void _refreshTeas() {
     setState(() {
@@ -340,7 +314,10 @@ class _TimerWidgetState extends State<TimerWidget> {
                               ? false
                               : true,
                           buttonColor: tea1.getThemeColor(context),
-                          onPressed: _handleTapboxTea1Changed),
+                          onPressed: (bool newValue) async {
+                            if (_whichActive != tea1) if (await _confirmTimer())
+                              _setTimer(tea1);
+                          }),
                       new TeaButton(
                           name: tea2.buttonName,
                           brewTime: tea2.brewTime,
@@ -350,7 +327,10 @@ class _TimerWidgetState extends State<TimerWidget> {
                               ? false
                               : true,
                           buttonColor: tea2.getThemeColor(context),
-                          onPressed: _handleTapboxTea2Changed),
+                          onPressed: (bool newValue) async {
+                            if (_whichActive != tea2) if (await _confirmTimer())
+                              _setTimer(tea2);
+                          }),
                       new TeaButton(
                           name: tea3.buttonName,
                           brewTime: tea3.brewTime,
@@ -360,7 +340,10 @@ class _TimerWidgetState extends State<TimerWidget> {
                               ? false
                               : true,
                           buttonColor: tea3.getThemeColor(context),
-                          onPressed: _handleTapboxTea3Changed),
+                          onPressed: (bool newValue) async {
+                            if (_whichActive != tea3) if (await _confirmTimer())
+                              _setTimer(tea3);
+                          }),
                     ],
                   ),
                 ),
@@ -374,7 +357,17 @@ class _TimerWidgetState extends State<TimerWidget> {
                     children: [
                       new CancelButton(
                         active: _timerActive ? true : false,
-                        onPressed: _handleTapboxCancelPressed,
+                        onPressed: (bool newValue) {
+                          setState(() {
+                            // Stop timing and reset
+                            _timerActive = false;
+                            _whichActive = null;
+                            _timerEndTime = new DateTime.now();
+                            _decrementTimer(_timer);
+                            _cancelNotification();
+                            Prefs.clearNextAlarm();
+                          });
+                        },
                       ),
                     ],
                   ),
