@@ -45,7 +45,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   Timer _timer;
 
   // Quick actions shortcuts
-  QuickActions quickActions = QuickActions();
+  QuickActions quickActions = const QuickActions();
   static const _shortcutTea1 = 'shortcutTea1';
   static const _shortcutTea2 = 'shortcutTea2';
   static const _shortcutTea3 = 'shortcutTea3';
@@ -144,6 +144,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Load next brewing timer info from shared prefs
   void _checkNextAlarm() {
+    Prefs.getTeas();
     Prefs.getNextAlarm();
     if (Prefs.nextAlarm > 0) {
       Duration diff = DateTime.fromMillisecondsSinceEpoch(Prefs.nextAlarm)
@@ -219,9 +220,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   void initState() {
     super.initState();
 
-    // Refresh tea settings on initialization
-    _refreshTeas();
-
     // Check for an existing timer and resume if needed
     _checkNextAlarm();
 
@@ -246,7 +244,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Build Timer page
   @override
   Widget build(BuildContext context) {
-    // Refresh tea settings on build
+    // Refresh tea settings and shortcuts on build
     _refreshTeas();
 
     return Scaffold(
