@@ -15,5 +15,6 @@
     "cancel_button": "Prekliči",
     "tea_name_herbal": "Zeliščni čaj",
     "tea_name_green": "Zeleni Čaj",
-    "tea_name_black": "Črni Čaj"
+    "tea_name_black": "Črni Čaj",
+    "prefs_show_extra": "Prikaz časa in temperature kuhanja na gumbih časovnika"
 }
