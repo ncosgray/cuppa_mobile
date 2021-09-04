@@ -1,0 +1,3 @@
+* Hasierako pantailatik kronometrajea hasi, Cupparen ikonoa luzaroan sakatuta
+* Tearen izena orain jakinarazpenean sartzen da
+* Tenporizadore bat hasi aurretik, ohartarazi tenporizadore bat martxan badago

@@ -1,0 +1,3 @@
+* Incluye el ajuste de la temperatura del agua para cada té.
+* Opción de mostrar información adicional de elaboración de cerveza en los botones del temporizador.
+* Español añadido, y otras mejoras de traducción - ¡Contribuye a través de Weblate!

@@ -1,0 +1,3 @@
+* Kuppa 9 hizkuntza berritara itzuli da - Lagundu Weblateren bidez!
+* Minutu bat baino gutxiagoko denbora behar duten te-temporizadoreak.
+* Erabiltzailearen interfazean hobekuntza txiki batzuk egitea eta akatsen zuzenketa.
