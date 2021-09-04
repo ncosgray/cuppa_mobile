@@ -1,0 +1,4 @@
+* Vanntemperaturinnstilling for hver te.
+* Mulighet for visning av trekkingsinfo på tidsursknapp.
+* Ta tiden på te som trekkes i mer enn ti minutter.
+* Flere språk og oversettelsesforbedringer. Bidra på Hosted Weblate.
