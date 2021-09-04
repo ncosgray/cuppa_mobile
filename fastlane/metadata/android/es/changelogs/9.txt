@@ -1,2 +1,0 @@
-* reanuda el temporizador después de salir y volver a abrir la aplicación
-* menor tamaño de instalación de la aplicación

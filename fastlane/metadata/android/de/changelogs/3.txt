@@ -1,3 +1,0 @@
-Android O-Kompatibilität
-- Benachrichtigungskanäle
-- adaptives Symbol

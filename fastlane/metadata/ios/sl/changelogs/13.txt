@@ -1,1 +1,0 @@
-* popravi spreminjanje ločljivosti besedila za večje velikosti sistemskih pisav

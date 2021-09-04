@@ -1,1 +1,0 @@
-* support for iOS 13 dark mode

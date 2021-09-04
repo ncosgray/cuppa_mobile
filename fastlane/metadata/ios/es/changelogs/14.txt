@@ -1,3 +1,0 @@
-* Inicia cronometrando en su pantalla de inicio al mantener presionado el icono de Cuppa
-* El nombre del té viene incluido en la notificación
-* Antes de reiniciar el cronómetro, alertará si otro está operando

@@ -1,2 +1,0 @@
-* custom notification sound
-* bugfix: timer not canceling on Android Oreo

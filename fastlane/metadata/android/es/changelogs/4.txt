@@ -1,2 +1,0 @@
-* sonido de notificación personalizado
-* corrección de errores: el temporizador no se cancelaba en Android Oreo

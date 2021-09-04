@@ -1,2 +1,0 @@
-* Zvok obvestila po meri
-* odprava programskega hrošča: časovnik se ni preklical na Android Oreo

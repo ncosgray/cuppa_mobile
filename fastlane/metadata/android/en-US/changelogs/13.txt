@@ -1,1 +1,0 @@
-* fix text scaling for large system font sizes

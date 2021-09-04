@@ -1,2 +1,0 @@
-* reprise du minuteur après avoir quitté et rouvert l'application
-* taille réduite de l'installation de l'application

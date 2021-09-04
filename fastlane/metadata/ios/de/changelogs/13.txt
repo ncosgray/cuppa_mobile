@@ -1,1 +1,0 @@
-* Text-Skalierung für große System-Schriftgrößen korrigiert

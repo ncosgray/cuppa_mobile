@@ -1,2 +1,0 @@
-* Benutzerdefinierter Benachrichtigungssound
-* Bugfix: Timer nicht auf Android Oreo abbrechen

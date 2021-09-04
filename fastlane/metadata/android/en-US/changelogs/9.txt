@@ -1,2 +1,0 @@
-* resume timer after quitting and reopening the app
-* smaller app installation size

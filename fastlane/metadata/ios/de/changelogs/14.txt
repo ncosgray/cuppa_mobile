@@ -1,3 +1,0 @@
-* Starten Sie die Zeitmessung vom Startbildschirm aus, indem Sie lange auf das Cuppa-Symbol drücken
-* Der Name des Tees ist jetzt in der Benachrichtigung enthalten
-* Vor dem Starten eines Timers wird gewarnt, wenn bereits ein Timer läuft

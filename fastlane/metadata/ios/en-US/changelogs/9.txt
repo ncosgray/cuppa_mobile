@@ -1,2 +1,0 @@
-* fixed a crash in iOS 12.1
-* smaller app installation size

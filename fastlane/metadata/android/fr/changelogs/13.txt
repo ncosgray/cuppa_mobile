@@ -1,1 +1,0 @@
-* Correction de la mise à l'échelle du texte pour les grandes tailles de police du système

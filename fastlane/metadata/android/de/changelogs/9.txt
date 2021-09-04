@@ -1,2 +1,0 @@
-* Fortsetzen des Timers nach Beenden und erneutem Öffnen der App
-* kleinere App-Installationsgröße

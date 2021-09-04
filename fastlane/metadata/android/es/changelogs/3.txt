@@ -1,3 +1,0 @@
-Compatibilidad con Android O
-- canales de notificación
-- icono adaptable

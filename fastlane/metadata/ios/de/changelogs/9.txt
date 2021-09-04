@@ -1,2 +1,0 @@
-* Behebung eines Absturzes in iOS 12.1
-* kleinere App-Installationsgröße

@@ -1,1 +1,0 @@
-* Unterstützung für Android 10 dunkles Thema

@@ -1,2 +1,0 @@
-* correction d'un plantage sur iOS 12.1
-* taille d'installation de l'application réduite

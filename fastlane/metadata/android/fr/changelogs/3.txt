@@ -1,3 +1,0 @@
-compatibilité avec Android O
-- canaux de notification
-- icône adaptative

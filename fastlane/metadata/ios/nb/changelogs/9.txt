@@ -1,2 +1,0 @@
-* Fikset krasj i iOS 12.1
-* Mindre programinstallasjonsstørrelse

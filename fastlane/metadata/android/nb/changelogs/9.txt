@@ -1,2 +1,0 @@
-* Fortsett tidsur etter å ha avsluttet og gjenåpnet programmet
-* Mindre programinstallasjonsstørrelse
