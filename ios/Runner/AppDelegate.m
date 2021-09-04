@@ -79,12 +79,4 @@
     completionHandler(UNNotificationPresentationOptionAlert);
 }
 
-// iOS platform: handle quick actions (per https://github.com/flutter/flutter/issues/13634)
-- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL succeeded))completionHandler {
-    FlutterViewController* controller = (FlutterViewController*)self.window.rootViewController;
-
-    FlutterMethodChannel* channel = [FlutterMethodChannel methodChannelWithName:@"plugins.flutter.io/quick_actions" binaryMessenger:controller];
-    [channel invokeMethod:@"launch" arguments:shortcutItem.type];
-}
-
 @end

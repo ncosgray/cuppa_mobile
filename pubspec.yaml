@@ -23,7 +23,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   shared_preferences:
-  quick_actions:
+  quick_actions: ">=0.5.0"
   url_launcher:
 
 # For information on the generic Dart part of this file, see the

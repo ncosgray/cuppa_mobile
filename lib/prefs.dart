@@ -46,7 +46,7 @@ class Tea {
   }
 
   get tempDisplay {
-    return _formatTemp(this.brewTemp);
+    return formatTemp(this.brewTemp);
   }
 
   // Color getter
@@ -182,28 +182,28 @@ abstract class Prefs {
 
   // Next alarm info
   static String nextTeaName = '';
-  static String nextAlarm = '';
+  static int nextAlarm = 0;
 
   // Shared prefs next alarm info keys
   static const _prefNextTeaName = 'Cuppa_next_tea_name';
-  static const _prefNextAlarm = 'Cuppa_next_alarm';
+  static const _prefNextAlarm = 'Cuppa_next_alarm_time';
 
   // Fetch next alarm info from shared prefs
   static void getNextAlarm() {
     nextTeaName = sharedPrefs.getString(_prefNextTeaName) ?? '';
-    nextAlarm = sharedPrefs.getString(_prefNextAlarm) ?? '';
+    nextAlarm = sharedPrefs.getInt(_prefNextAlarm) ?? 0;
   }
 
   // Store next alarm info in shared prefs to persist when app is closed
   static void setNextAlarm(String teaName, DateTime timerEndTime) {
     sharedPrefs.setString(_prefNextTeaName, teaName);
-    sharedPrefs.setString(_prefNextAlarm, timerEndTime.toString());
+    sharedPrefs.setInt(_prefNextAlarm, timerEndTime.millisecondsSinceEpoch);
   }
 
   // Clear shared prefs next alarm info
   static void clearNextAlarm() {
     sharedPrefs.setString(_prefNextTeaName, '');
-    sharedPrefs.setString(_prefNextAlarm, '');
+    sharedPrefs.setInt(_prefNextAlarm, 0);
   }
 }
 
@@ -467,8 +467,28 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                 fontSize: 20.0,
                                 color: Theme.of(context).buttonColor),
                             underline: SizedBox(),
-                            items: <int>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-                                .map<DropdownMenuItem<int>>((int value) {
+                            items: <int>[
+                              0,
+                              1,
+                              2,
+                              3,
+                              4,
+                              5,
+                              6,
+                              7,
+                              8,
+                              9,
+                              10,
+                              11,
+                              12,
+                              13,
+                              14,
+                              15,
+                              16,
+                              17,
+                              18,
+                              19
+                            ].map<DropdownMenuItem<int>>((int value) {
                               return DropdownMenuItem<int>(
                                 value: value,
                                 child: Text(value.toString()),
@@ -559,7 +579,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             ]).map<DropdownMenuItem<int>>((int value) {
                               return DropdownMenuItem<int>(
                                 value: value,
-                                child: Text(_formatTemp(value)),
+                                child: Text(formatTemp(value)),
                               );
                             }).toList(),
                             // Save brew temp to prefs
@@ -574,13 +594,4 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                   ],
                 ))));
   }
-}
-
-// Format brew temperature as number with units
-String _formatTemp(i) {
-  // Infer C or F based on temp range
-  if (i <= 100)
-    return i.toString() + '\u00b0C';
-  else
-    return i.toString() + '\u00b0F';
 }

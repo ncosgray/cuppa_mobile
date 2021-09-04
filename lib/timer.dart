@@ -44,7 +44,8 @@ class _TimerWidgetState extends State<TimerWidget> {
   DateTime _timerEndTime;
   Timer _timer;
 
-  // Shortcut keys
+  // Quick actions shortcuts
+  QuickActions quickActions = const QuickActions();
   static const _shortcutTea1 = 'shortcutTea1';
   static const _shortcutTea2 = 'shortcutTea2';
   static const _shortcutTea3 = 'shortcutTea3';
@@ -143,10 +144,11 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Load next brewing timer info from shared prefs
   void _checkNextAlarm() {
+    Prefs.getTeas();
     Prefs.getNextAlarm();
-    if (DateTime.tryParse(Prefs.nextAlarm) != null) {
-      Duration diff =
-          DateTime.parse(Prefs.nextAlarm).difference(DateTime.now());
+    if (Prefs.nextAlarm > 0) {
+      Duration diff = DateTime.fromMillisecondsSinceEpoch(Prefs.nextAlarm)
+          .difference(DateTime.now());
       if (diff.inSeconds > 0) {
         // Resume timer from stored prefs
         if (Prefs.nextTeaName == tea1.name) _setTimer(tea1, diff.inSeconds);
@@ -160,32 +162,6 @@ class _TimerWidgetState extends State<TimerWidget> {
     }
   }
 
-  // Tea button handlers
-  void _handleTapboxTea1Changed(bool newValue) async {
-    if (_whichActive != tea1) if (await _confirmTimer()) _setTimer(tea1);
-  }
-
-  void _handleTapboxTea2Changed(bool newValue) async {
-    if (_whichActive != tea2) if (await _confirmTimer()) _setTimer(tea2);
-  }
-
-  void _handleTapboxTea3Changed(bool newValue) async {
-    if (_whichActive != tea3) if (await _confirmTimer()) _setTimer(tea3);
-  }
-
-  // Cancel button handler
-  void _handleTapboxCancelPressed(bool newValue) {
-    setState(() {
-      // Stop timing and reset
-      _timerActive = false;
-      _whichActive = null;
-      _timerEndTime = new DateTime.now();
-      _decrementTimer(_timer);
-      _cancelNotification();
-      Prefs.clearNextAlarm();
-    });
-  }
-
   // Refresh tea settings and set up quick actions
   void _refreshTeas() {
     setState(() {
@@ -194,7 +170,6 @@ class _TimerWidgetState extends State<TimerWidget> {
     });
 
     // Add quick action shortcuts
-    final QuickActions quickActions = QuickActions();
     quickActions.setShortcutItems(<ShortcutItem>[
       ShortcutItem(
         type: _shortcutTea1,
@@ -219,31 +194,21 @@ class _TimerWidgetState extends State<TimerWidget> {
   void initState() {
     super.initState();
 
-    // Refresh tea settings on initialization
-    _refreshTeas();
-
     // Check for an existing timer and resume if needed
     _checkNextAlarm();
 
     // Handle quick action selection
-    final QuickActions quickActions = QuickActions();
     quickActions.initialize((String shortcutType) async {
       if (shortcutType != null) {
         switch (shortcutType) {
           case _shortcutTea1:
-            {
-              if (await _confirmTimer()) _setTimer(tea1);
-            }
+            if (await _confirmTimer()) _setTimer(tea1);
             break;
           case _shortcutTea2:
-            {
-              if (await _confirmTimer()) _setTimer(tea2);
-            }
+            if (await _confirmTimer()) _setTimer(tea2);
             break;
           case _shortcutTea3:
-            {
-              if (await _confirmTimer()) _setTimer(tea3);
-            }
+            if (await _confirmTimer()) _setTimer(tea3);
             break;
         }
       }
@@ -253,14 +218,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Build Timer page
   @override
   Widget build(BuildContext context) {
-    // Styles
-    double scaleFactor = MediaQuery.of(context).size.height < 600.0 ? 0.7 : 1.0;
-    final TextStyle timerStyle = Theme.of(context).textTheme.headline2.copyWith(
-        color: Colors.white,
-        fontSize: 100.0 * scaleFactor,
-        fontWeight: FontWeight.bold);
-
-    // Refresh tea settings on build
+    // Refresh tea settings and shortcuts on build
     _refreshTeas();
 
     return Scaffold(
@@ -283,24 +241,39 @@ class _TimerWidgetState extends State<TimerWidget> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Countdown timer
-              new SizedBox(
-                child: new Container(
+              new Container(
                   padding: const EdgeInsets.fromLTRB(48.0, 24.0, 48.0, 24.0),
-                  child: new Container(
-                    decoration: new BoxDecoration(
-                      color: Colors.green,
-                      borderRadius:
-                          const BorderRadius.all(const Radius.circular(12.0)),
-                    ),
-                    child: new Center(
-                      child: new Text(
-                        _formatTimer(_timerSeconds),
-                        style: timerStyle,
+                  width: 480.0,
+                  height: 180.0,
+                  child: new FittedBox(
+                    fit: BoxFit.fitHeight,
+                    alignment: Alignment.center,
+                    child: new Container(
+                      width: (formatTimer(_timerSeconds)).length > 4
+                          ? 480.0
+                          : 420.0,
+                      height: 180.0,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: new BoxDecoration(
+                        color: Colors.green,
+                        borderRadius:
+                            const BorderRadius.all(const Radius.circular(12.0)),
+                      ),
+                      child: new Center(
+                        child: new Text(
+                          formatTimer(_timerSeconds),
+                          maxLines: 1,
+                          softWrap: false,
+                          overflow: TextOverflow.clip,
+                          style: new TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 150.0,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
+                  )),
               // Teacup
               new Expanded(
                 child: new Container(
@@ -309,25 +282,19 @@ class _TimerWidgetState extends State<TimerWidget> {
                     child: new Stack(children: [
                       // Teacup image
                       new Image.asset(cupImageDefault,
-                          height: 240.0 * scaleFactor,
-                          fit: BoxFit.fitWidth,
-                          gaplessPlayback: true),
+                          fit: BoxFit.fitWidth, gaplessPlayback: true),
                       // While timing, gradually darken the tea in the cup
                       new Opacity(
                           opacity: _timerActive
                               ? (_timerSeconds / _whichActive.brewTime)
                               : 0.0,
                           child: new Image.asset(cupImageTea,
-                              height: 240.0 * scaleFactor,
-                              fit: BoxFit.fitWidth,
-                              gaplessPlayback: true)),
+                              fit: BoxFit.fitWidth, gaplessPlayback: true)),
                       // While timing, put a teabag in the cup
                       new Visibility(
                           visible: _timerActive,
                           child: new Image.asset(cupImageBag,
-                              height: 240.0 * scaleFactor,
-                              fit: BoxFit.fitWidth,
-                              gaplessPlayback: true)),
+                              fit: BoxFit.fitWidth, gaplessPlayback: true)),
                     ])),
               ),
               // Tea brew start buttons
@@ -347,7 +314,10 @@ class _TimerWidgetState extends State<TimerWidget> {
                               ? false
                               : true,
                           buttonColor: tea1.getThemeColor(context),
-                          onPressed: _handleTapboxTea1Changed),
+                          onPressed: (bool newValue) async {
+                            if (_whichActive != tea1) if (await _confirmTimer())
+                              _setTimer(tea1);
+                          }),
                       new TeaButton(
                           name: tea2.buttonName,
                           brewTime: tea2.brewTime,
@@ -357,7 +327,10 @@ class _TimerWidgetState extends State<TimerWidget> {
                               ? false
                               : true,
                           buttonColor: tea2.getThemeColor(context),
-                          onPressed: _handleTapboxTea2Changed),
+                          onPressed: (bool newValue) async {
+                            if (_whichActive != tea2) if (await _confirmTimer())
+                              _setTimer(tea2);
+                          }),
                       new TeaButton(
                           name: tea3.buttonName,
                           brewTime: tea3.brewTime,
@@ -367,7 +340,10 @@ class _TimerWidgetState extends State<TimerWidget> {
                               ? false
                               : true,
                           buttonColor: tea3.getThemeColor(context),
-                          onPressed: _handleTapboxTea3Changed),
+                          onPressed: (bool newValue) async {
+                            if (_whichActive != tea3) if (await _confirmTimer())
+                              _setTimer(tea3);
+                          }),
                     ],
                   ),
                 ),
@@ -381,7 +357,17 @@ class _TimerWidgetState extends State<TimerWidget> {
                     children: [
                       new CancelButton(
                         active: _timerActive ? true : false,
-                        onPressed: _handleTapboxCancelPressed,
+                        onPressed: (bool newValue) {
+                          setState(() {
+                            // Stop timing and reset
+                            _timerActive = false;
+                            _whichActive = null;
+                            _timerEndTime = new DateTime.now();
+                            _decrementTimer(_timer);
+                            _cancelNotification();
+                            Prefs.clearNextAlarm();
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -459,7 +445,7 @@ class TeaButton extends StatelessWidget {
                               padding:
                                   const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 0.0),
                               child: new Text(
-                                _formatTimer(brewTime),
+                                formatTimer(brewTime),
                                 style: new TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12.0,
@@ -517,14 +503,4 @@ class CancelButton extends StatelessWidget {
       onPressed: active ? _handleTap : null,
     );
   }
-}
-
-// Format brew remaining time as m:ss
-String _formatTimer(s) {
-  // Build the time format string
-  int mins = (s / 60).floor();
-  int secs = s - (mins * 60);
-  String secsString = secs.toString();
-  if (secs < 10) secsString = '0' + secsString;
-  return mins.toString() + ':' + secsString;
 }
