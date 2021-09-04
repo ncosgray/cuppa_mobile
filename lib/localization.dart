@@ -55,13 +55,18 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   @override
   bool isSupported(Locale locale) => [
         'en',
+        'da',
         'de',
         'es',
+        'et',
+        'eu',
         'fi',
         'fr',
+        'ga',
         'ht',
         'it',
         'nb',
+        'nl',
         'ru',
         'sl'
       ].contains(locale.languageCode);
