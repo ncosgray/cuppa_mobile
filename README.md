@@ -49,9 +49,9 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 
 ### Support the project
 
-Buy us a cup of tea or any amount you want, as it enables us to put more free time into the active development.
+Buy us a cup of tea or any amount of the delicious beverage you want, as it enables us to put more free time into the active development.
 
-[![Paypal](https://raw.githubusercontent.com/aha999/DonateButtons/master/Paypal.png)](https://paypal.me/ncosgray)
+<a href="https://paypal.me/ncosgray"><img src="https://raw.githubusercontent.com/aha999/DonateButtons/master/Paypal.png" alt="Donate on Paypal" height="80"/></a><br/>
 
 ### About
 
