@@ -47,6 +47,12 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 
 </details>
 
+### Support the project
+
+Buy us a cup of tea or any amount you want, as it enables us to put more free time into the active development.
+
+[![Paypal](https://raw.githubusercontent.com/aha999/DonateButtons/master/Paypal.png)](https://paypal.me/ncosgray)
+
 ### About
 
 Cuppa Mobile is a free, open-source mobile app licensed under the terms of the BSD license and built on the [Flutter](https://flutter.dev) framework.
