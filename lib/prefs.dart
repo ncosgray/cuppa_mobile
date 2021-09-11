@@ -101,7 +101,7 @@ abstract class Prefs {
   static Color themeColor(int color, context) {
     if (color == 0)
       // "Black" substitutes appropriate color for current theme
-      return Theme.of(context).buttonColor;
+      return Theme.of(context).textTheme.button.color;
     else
       return Prefs.teaColors[color];
   }
@@ -239,7 +239,6 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                   AppLocalizations.translate('prefs_header'),
                                   style: TextStyle(
                                     fontSize: 14.0,
-                                    color: Theme.of(context).buttonColor,
                                   )))),
                       // Tea settings cards
                       new PrefsTeaRow(tea: tea1),
@@ -252,8 +251,12 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                             title: new Text(
                                 AppLocalizations.translate('prefs_show_extra'),
                                 style: TextStyle(
-                                    fontSize: 14.0,
-                                    color: Theme.of(context).buttonColor)),
+                                  fontSize: 14.0,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .color,
+                                )),
                             value: showExtra,
                             // Save showExtra setting to prefs
                             onChanged: (bool newValue) {
@@ -276,9 +279,14 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                 new Container(
                                     margin: const EdgeInsets.fromLTRB(
                                         0.0, 0.0, 7.0, 0.0),
-                                    child: Icon(Icons.info,
-                                        size: 20.0,
-                                        color: Theme.of(context).buttonColor)),
+                                    child: Icon(
+                                      Icons.info,
+                                      size: 20.0,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .color,
+                                    )),
                                 new Expanded(
                                     child: new Text(
                                         AppLocalizations.translate(
@@ -287,7 +295,10 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                                 '{{app_name}}', appName),
                                         style: TextStyle(
                                           fontSize: 14.0,
-                                          color: Theme.of(context).buttonColor,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              .color,
                                         )))
                               ]))),
                     ])),
@@ -310,13 +321,19 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       .replaceAll('{{app_name}}', appName),
                                   style: TextStyle(
                                     fontSize: 12.0,
-                                    color: Theme.of(context).buttonColor,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .color,
                                   )),
                               new Row(children: [
                                 new Text(aboutCopyright,
                                     style: TextStyle(
                                       fontSize: 12.0,
-                                      color: Theme.of(context).buttonColor,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .color,
                                     )),
                                 new VerticalDivider(),
                                 new Text(aboutURL,
@@ -388,8 +405,11 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                         color: tea.getThemeColor(context),
                         size: 60.0,
                       ),
-                      Icon(Icons.arrow_drop_down,
-                          size: 24.0, color: Theme.of(context).buttonColor),
+                      Icon(
+                        Icons.arrow_drop_down,
+                        size: 24.0,
+                        color: Colors.grey,
+                      ),
                     ],
                   ),
                   // Save selected color to prefs
@@ -415,9 +435,8 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                           textAlignVertical: TextAlignVertical.top,
                           decoration: InputDecoration(
                             border: InputBorder.none,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).buttonColor)),
+                            focusedBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
                             errorStyle: TextStyle(color: Colors.red),
                             focusedErrorBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.red)),
@@ -460,12 +479,16 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                           // Brew time minutes dropdown
                           new DropdownButton<int>(
                             value: tea.brewTimeMinutes,
-                            icon: Icon(Icons.arrow_drop_down,
-                                size: 24.0,
-                                color: Theme.of(context).buttonColor),
+                            icon: Icon(
+                              Icons.arrow_drop_down,
+                              size: 24.0,
+                              color: Colors.grey,
+                            ),
                             style: TextStyle(
-                                fontSize: 20.0,
-                                color: Theme.of(context).buttonColor),
+                              fontSize: 20.0,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color,
+                            ),
                             underline: SizedBox(),
                             items: <int>[
                               0,
@@ -512,18 +535,23 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20.0,
-                              color: Theme.of(context).buttonColor,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color,
                             ),
                           ),
                           // Brew time seconds dropdown
                           new DropdownButton<int>(
                             value: tea.brewTimeSeconds,
-                            icon: Icon(Icons.arrow_drop_down,
-                                size: 24.0,
-                                color: Theme.of(context).buttonColor),
+                            icon: Icon(
+                              Icons.arrow_drop_down,
+                              size: 24.0,
+                              color: Colors.grey,
+                            ),
                             style: TextStyle(
-                                fontSize: 20.0,
-                                color: Theme.of(context).buttonColor),
+                              fontSize: 20.0,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color,
+                            ),
                             underline: SizedBox(),
                             // Ensure we never have a 0:00 brew time
                             items: (tea.brewTimeMinutes == 0
@@ -551,12 +579,16 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                           // Brew temperature dropdown
                           new DropdownButton<int>(
                             value: tea.brewTemp,
-                            icon: Icon(Icons.arrow_drop_down,
-                                size: 24.0,
-                                color: Theme.of(context).buttonColor),
+                            icon: Icon(
+                              Icons.arrow_drop_down,
+                              size: 24.0,
+                              color: Colors.grey,
+                            ),
                             style: TextStyle(
-                                fontSize: 20.0,
-                                color: Theme.of(context).buttonColor),
+                              fontSize: 20.0,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color,
+                            ),
                             underline: SizedBox(),
                             items: (<int>[
                               60,
