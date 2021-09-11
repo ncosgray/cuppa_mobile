@@ -1,4 +1,4 @@
-## Cuppa
+## ☕ Cuppa
 
 Cuppa is a small application to time your cup of tea as it steeps. Tired of leaving your tea too long, to become bitter and cold, or drinking it too soon and not appreciating its full potential? Then this utility is for you!
 
@@ -25,8 +25,8 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 
 ### Join the Team
 
-- Chat in the Telegram discussion group: https://t.me/CuppaMobile
-- Use Weblate to contribute a translation for your language: https://hosted.weblate.org/engage/cuppa/
+- Chat in the [Telegram discussion group](https://t.me/CuppaMobile)
+- Use [Weblate](https://hosted.weblate.org/engage/cuppa/) to contribute a translation for your language
 
 <a href="https://hosted.weblate.org/engage/cuppa/" target="_blank" rel="noopener"><img src="https://hosted.weblate.org/widgets/cuppa/-/open-graph.png" alt="Translation status" width="400"></a>
 
@@ -46,6 +46,12 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 [![iOS description](https://hosted.weblate.org/widgets/cuppa/-/cuppa-mobile-app-store-ios/multi-auto.svg)](https://hosted.weblate.org/projects/cuppa/cuppa-mobile-app-store-ios/)
 
 </details>
+
+### Support the project
+
+Buy us a cup of tea or any amount of the delicious beverage you want, as it enables us to put more free time into the active development.
+
+<a href="https://paypal.me/ncosgray"><img src="https://raw.githubusercontent.com/aha999/DonateButtons/master/Paypal.png" alt="Donate on Paypal" height="80"/></a><br/>
 
 ### About
 
