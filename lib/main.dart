@@ -50,6 +50,7 @@ class CuppaApp extends StatelessWidget {
           );
         },
         title: appName,
+        debugShowCheckedModeBanner: false,
         // Configure theme
         theme: getPlatformAdaptiveTheme(appPlatform),
         darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
