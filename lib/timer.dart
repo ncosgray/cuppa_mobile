@@ -151,9 +151,17 @@ class _TimerWidgetState extends State<TimerWidget> {
           .difference(DateTime.now());
       if (diff.inSeconds > 0) {
         // Resume timer from stored prefs
-        if (Prefs.nextTeaName == tea1.name) _setTimer(tea1, diff.inSeconds);
-        if (Prefs.nextTeaName == tea2.name) _setTimer(tea2, diff.inSeconds);
-        if (Prefs.nextTeaName == tea3.name) _setTimer(tea3, diff.inSeconds);
+        if (Prefs.nextTeaName == tea1.name)
+          _setTimer(tea1, diff.inSeconds);
+        else if (Prefs.nextTeaName == tea2.name)
+          _setTimer(tea2, diff.inSeconds);
+        else if (Prefs.nextTeaName == tea3.name)
+          _setTimer(tea3, diff.inSeconds);
+        else {
+          Tea nextTea = moreTeas
+              .firstWhere((tea) => tea.name == Prefs.nextTeaName, orElse: null);
+          if (nextTea != null) _setTimer(nextTea, diff.inSeconds);
+        }
       } else {
         Prefs.clearNextAlarm();
       }
@@ -299,55 +307,14 @@ class _TimerWidgetState extends State<TimerWidget> {
               ),
               // Tea brew start buttons
               new SizedBox(
-                child: new Container(
-                  padding: const EdgeInsets.fromLTRB(0.0, 24.0, 0.0, 12.0),
-                  alignment: Alignment.center,
-                  child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      new TeaButton(
-                          name: tea1.buttonName,
-                          brewTime: tea1.brewTime,
-                          brewTemp: tea1.tempDisplay,
-                          active: _whichActive == tea1 ? true : false,
-                          fade: !_timerActive || _whichActive == tea1
-                              ? false
-                              : true,
-                          buttonColor: tea1.getThemeColor(context),
-                          onPressed: (bool newValue) async {
-                            if (_whichActive != tea1) if (await _confirmTimer())
-                              _setTimer(tea1);
-                          }),
-                      new TeaButton(
-                          name: tea2.buttonName,
-                          brewTime: tea2.brewTime,
-                          brewTemp: tea2.tempDisplay,
-                          active: _whichActive == tea2 ? true : false,
-                          fade: !_timerActive || _whichActive == tea2
-                              ? false
-                              : true,
-                          buttonColor: tea2.getThemeColor(context),
-                          onPressed: (bool newValue) async {
-                            if (_whichActive != tea2) if (await _confirmTimer())
-                              _setTimer(tea2);
-                          }),
-                      new TeaButton(
-                          name: tea3.buttonName,
-                          brewTime: tea3.brewTime,
-                          brewTemp: tea3.tempDisplay,
-                          active: _whichActive == tea3 ? true : false,
-                          fade: !_timerActive || _whichActive == tea3
-                              ? false
-                              : true,
-                          buttonColor: tea3.getThemeColor(context),
-                          onPressed: (bool newValue) async {
-                            if (_whichActive != tea3) if (await _confirmTimer())
-                              _setTimer(tea3);
-                          }),
-                    ],
-                  ),
-                ),
-              ),
+                  height: 170.0,
+                  child: new Container(
+                    padding: const EdgeInsets.fromLTRB(0.0, 24.0, 12.0, 12.0),
+                    alignment: Alignment.center,
+                    child: new ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: _buildTeaButtonList()),
+                  )),
               // Cancel brewing button
               new SizedBox(
                 child: new Container(
@@ -377,26 +344,71 @@ class _TimerWidgetState extends State<TimerWidget> {
           ),
         ));
   }
+
+// Return a list containing the buttons for all defined teas
+  List<Widget> _buildTeaButtonList() {
+    // Build the list of favorite teas
+    List<Widget> teaButtonList = [
+      new Padding(
+          padding: const EdgeInsets.fromLTRB(12.0, 0.0, 0.0, 0.0),
+          child: new TeaButton(
+              tea: tea1,
+              active: _whichActive == tea1 ? true : false,
+              fade: !_timerActive || _whichActive == tea1 ? false : true,
+              onPressed: (bool newValue) async {
+                if (_whichActive != tea1) if (await _confirmTimer())
+                  _setTimer(tea1);
+              })),
+      new Padding(
+          padding: const EdgeInsets.fromLTRB(12.0, 0.0, 0.0, 0.0),
+          child: TeaButton(
+              tea: tea2,
+              active: _whichActive == tea2 ? true : false,
+              fade: !_timerActive || _whichActive == tea2 ? false : true,
+              onPressed: (bool newValue) async {
+                if (_whichActive != tea2) if (await _confirmTimer())
+                  _setTimer(tea2);
+              })),
+      new Padding(
+          padding: const EdgeInsets.fromLTRB(12.0, 0.0, 0.0, 0.0),
+          child: TeaButton(
+              tea: tea3,
+              active: _whichActive == tea3 ? true : false,
+              fade: !_timerActive || _whichActive == tea3 ? false : true,
+              onPressed: (bool newValue) async {
+                if (_whichActive != tea3) if (await _confirmTimer())
+                  _setTimer(tea3);
+              })),
+    ];
+
+    // Append more teas
+    moreTeas.forEach((tea) => teaButtonList.add(new Padding(
+        padding: const EdgeInsets.fromLTRB(12.0, 0.0, 0.0, 0.0),
+        child: TeaButton(
+            tea: tea,
+            active: _whichActive == tea ? true : false,
+            fade: !_timerActive || _whichActive == tea ? false : true,
+            onPressed: (bool newValue) async {
+              if (_whichActive != tea) if (await _confirmTimer())
+                _setTimer(tea);
+            }))));
+
+    return teaButtonList;
+  }
 }
 
 // Widget defining a tea brew start button
 class TeaButton extends StatelessWidget {
   TeaButton({
-    this.name,
-    this.brewTime,
-    this.brewTemp,
+    this.tea,
     this.active = false,
     this.fade = false,
-    this.buttonColor,
     this.onPressed,
   });
 
-  final String name;
-  final int brewTime;
-  final String brewTemp;
+  final Tea tea;
   final bool active;
   final bool fade;
-  final Color buttonColor;
 
   final ValueChanged<bool> onPressed;
   void _handleTap() {
@@ -413,25 +425,26 @@ class TeaButton extends StatelessWidget {
         onTap: _handleTap,
         child: new Container(
           decoration: new BoxDecoration(
-            color: active ? buttonColor : Colors.transparent,
+            color: active ? tea.getThemeColor(context) : Colors.transparent,
             borderRadius: const BorderRadius.all(const Radius.circular(2.0)),
           ),
           child: new Container(
             margin: const EdgeInsets.all(8.0),
             // Timer icon with tea name
             child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 new Icon(
                   Icons.timer,
-                  color: active ? Colors.white : buttonColor,
+                  color: active ? Colors.white : tea.getThemeColor(context),
                   size: 64.0,
                 ),
                 new Text(
-                  name,
+                  tea.buttonName,
                   style: new TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14.0,
-                    color: active ? Colors.white : buttonColor,
+                    color: active ? Colors.white : tea.getThemeColor(context),
                   ),
                 ),
                 // Optional extra info: brew time and temp display
@@ -445,11 +458,13 @@ class TeaButton extends StatelessWidget {
                               padding:
                                   const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 0.0),
                               child: new Text(
-                                formatTimer(brewTime),
+                                formatTimer(tea.brewTime),
                                 style: new TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12.0,
-                                  color: active ? Colors.white : buttonColor,
+                                  color: active
+                                      ? Colors.white
+                                      : tea.getThemeColor(context),
                                 ),
                               )),
                           // Brew temperature
@@ -457,11 +472,13 @@ class TeaButton extends StatelessWidget {
                               padding:
                                   const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 0.0),
                               child: new Text(
-                                brewTemp,
+                                tea.tempDisplay,
                                 style: new TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12.0,
-                                  color: active ? Colors.white : buttonColor,
+                                  color: active
+                                      ? Colors.white
+                                      : tea.getThemeColor(context),
                                 ),
                               ))
                         ])),

@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:convert';
 import 'main.dart';
 import 'localization.dart';
 import 'platform_adaptive.dart';
@@ -25,20 +26,34 @@ import 'platform_adaptive.dart';
 Tea tea1;
 Tea tea2;
 Tea tea3;
+List<Tea> moreTeas;
 
 // Settings
 bool showExtra;
 
 // Limits
-final int teaNameMaxLength = 12;
+final int teaNameMaxLength = 16;
+final int moreTeasMaxCount = 10;
 
 // Tea definition
 class Tea {
+  // ID
+  UniqueKey id;
+
   // Fields
   String name;
   int brewTime;
   int brewTemp;
   int color;
+
+  // Constructor
+  Tea({String name, int brewTime, int brewTemp, int color}) {
+    id = UniqueKey();
+    this.name = name;
+    this.brewTime = brewTime;
+    this.brewTemp = brewTemp;
+    this.color = color;
+  }
 
   // Tea display getters
   get buttonName {
@@ -76,6 +91,41 @@ class Tea {
   set brewTimeMinutes(int newMins) {
     this.brewTime = (newMins * 60) + this.brewTimeSeconds;
   }
+
+  // Factories
+  factory Tea.fromJson(Map<String, dynamic> json) {
+    return new Tea(
+        name: json['name'] ?? '',
+        brewTime: json['brewTime'] ?? 0,
+        brewTemp: json['brewTemp'] ?? 0,
+        color: json['color'] ?? 0);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': this.name,
+      'brewTime': this.brewTime,
+      'brewTemp': this.brewTemp,
+      'color': this.color,
+    };
+  }
+
+  // Overrides for comparisons
+  @override
+  bool operator ==(tea2) {
+    return (tea2 is Tea) &&
+        tea2.name == this.name &&
+        tea2.brewTime == this.brewTime &&
+        tea2.brewTemp == this.brewTemp &&
+        tea2.color == this.color;
+  }
+
+  @override
+  int get hashCode =>
+      this.name.hashCode ^
+      this.brewTime.hashCode ^
+      this.brewTemp.hashCode ^
+      this.color.hashCode;
 }
 
 // Shared prefs functionality
@@ -85,6 +135,7 @@ abstract class Prefs {
     tea1 = new Tea();
     tea2 = new Tea();
     tea3 = new Tea();
+    moreTeas = [];
   }
 
   // Color map
@@ -129,6 +180,7 @@ abstract class Prefs {
   static const _prefTea3BrewTime = 'Cuppa_tea3_brew_time';
   static const _prefTea3BrewTemp = 'Cuppa_tea3_brew_temp';
   static const _prefTea3Color = 'Cuppa_tea3_color';
+  static const _prefMoreTeas = 'Cuppa_more_teas';
   static const _prefShowExtra = 'Cuppa_show_extra';
 
   // Fetch all teas from shared prefs or use defaults
@@ -156,6 +208,14 @@ abstract class Prefs {
     tea3.brewTemp = sharedPrefs.getInt(_prefTea3BrewTemp) ?? 212;
     tea3.color = sharedPrefs.getInt(_prefTea3Color) ?? 2;
 
+    // More teas list
+    List<String> moreTeasJson =
+        sharedPrefs.getStringList(_prefMoreTeas) ?? null;
+    if (moreTeasJson != null)
+      moreTeas = moreTeasJson
+          .map<Tea>((tea) => Tea.fromJson(jsonDecode(tea)))
+          .toList();
+
     // Other settings
     showExtra = sharedPrefs.getBool(_prefShowExtra) ?? false;
   }
@@ -176,6 +236,10 @@ abstract class Prefs {
     sharedPrefs.setInt(_prefTea3BrewTime, tea3.brewTime);
     sharedPrefs.setInt(_prefTea3BrewTemp, tea3.brewTemp);
     sharedPrefs.setInt(_prefTea3Color, tea3.color);
+
+    List<String> moreTeasEncoded =
+        moreTeas.map((tea) => jsonEncode(tea.toJson())).toList();
+    sharedPrefs.setStringList(_prefMoreTeas, moreTeasEncoded);
 
     sharedPrefs.setBool(_prefShowExtra, showExtra);
   }
@@ -240,10 +304,87 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                   style: TextStyle(
                                     fontSize: 14.0,
                                   )))),
-                      // Tea settings cards
-                      new PrefsTeaRow(tea: tea1),
-                      new PrefsTeaRow(tea: tea2),
-                      new PrefsTeaRow(tea: tea3),
+                      // Favorite teas settings cards
+                      new PrefsTeaRow(
+                        tea: tea1,
+                      ),
+                      new PrefsTeaRow(
+                        tea: tea2,
+                      ),
+                      new PrefsTeaRow(
+                        tea: tea3,
+                      ),
+                      new Divider(),
+                      // Append more teas settings cards
+                      new Column(
+                          children: moreTeas.map<Widget>((tea) {
+                        // Allow deleting entries from more teas
+                        return new Dismissible(
+                            key: Key(tea.id.toString()),
+                            child: new PrefsTeaRow(
+                              tea: tea,
+                            ),
+                            background: Container(
+                                padding: const EdgeInsets.all(5.0),
+                                child: new Container(
+                                    color: Colors.red,
+                                    child: new Padding(
+                                        padding: const EdgeInsets.all(14.0),
+                                        child: new Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: new Icon(Icons.remove_circle,
+                                                color: Colors.white,
+                                                size: 24.0))))),
+                            secondaryBackground: Container(
+                                padding: const EdgeInsets.all(5.0),
+                                child: new Container(
+                                    color: Colors.red,
+                                    child: new Padding(
+                                        padding: const EdgeInsets.all(14.0),
+                                        child: new Align(
+                                            alignment: Alignment.centerRight,
+                                            child: new Icon(Icons.remove_circle,
+                                                color: Colors.white,
+                                                size: 24.0))))),
+                            onDismissed: (direction) {
+                              setState(() {
+                                // Delete this tea
+                                moreTeas.remove(tea);
+                                Prefs.setTeas();
+                              });
+                            });
+                      }).toList()),
+                      // Add tea button
+                      new Card(
+                          child: new ListTile(
+                              title: new TextButton.icon(
+                        label: new Text(
+                            AppLocalizations.translate('add_tea_button')
+                                .toUpperCase(),
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                color: moreTeas.length < moreTeasMaxCount
+                                    ? Colors.blue
+                                    : Colors.grey)),
+                        icon: Icon(Icons.add_circle,
+                            color: moreTeas.length < moreTeasMaxCount
+                                ? Colors.blue
+                                : Colors.grey,
+                            size: 20.0),
+                        onPressed: moreTeas.length < moreTeasMaxCount
+                            ? () {
+                                setState(() {
+                                  // Add a blank tea
+                                  moreTeas.add(new Tea(
+                                      name: _getNextDefaultTeaName(),
+                                      brewTime: 240,
+                                      brewTemp: 212,
+                                      color: 0));
+                                  Prefs.setTeas();
+                                });
+                              }
+                            : null,
+                      ))),
                       // Setting: show extra info on buttons
                       new Align(
                           alignment: Alignment.topLeft,
@@ -422,60 +563,63 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                 ),
                 title: new Column(
                   children: [
-                    // Tea name entry
                     new Container(
                         height: 54.0,
                         padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
-                        child: new TextFormField(
-                          initialValue: tea.name,
-                          autocorrect: false,
-                          textCapitalization: TextCapitalization.words,
-                          maxLength: teaNameMaxLength + 1,
-                          maxLines: 1,
-                          textAlignVertical: TextAlignVertical.top,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder:
-                                OutlineInputBorder(borderSide: BorderSide()),
-                            errorStyle: TextStyle(color: Colors.red),
-                            focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.red)),
-                            counter: Offstage(),
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
-                          ),
-                          style: new TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                            color: tea.getThemeColor(context),
-                          ),
-                          // Checks for tea names that are blank or too long
-                          validator: (String newValue) {
-                            if (newValue == null || newValue.isEmpty) {
-                              return AppLocalizations.translate(
-                                  'error_name_missing');
-                            } else if (newValue.characters.length >
-                                teaNameMaxLength) {
-                              return AppLocalizations.translate(
-                                  'error_name_long');
-                            }
-                            return null;
-                          },
-                          // Save name to prefs
-                          onChanged: (String newValue) {
-                            if (_formKey.currentState.validate()) {
-                              setState(() {
-                                tea.name = newValue;
-                                Prefs.setTeas();
-                              });
-                            }
-                          },
-                        )),
+                        child: new Row(children: [
+                          // Tea name entry
+                          new Expanded(
+                              child: new TextFormField(
+                            initialValue: tea.name,
+                            autocorrect: false,
+                            textCapitalization: TextCapitalization.words,
+                            maxLength: teaNameMaxLength + 1,
+                            maxLines: 1,
+                            textAlignVertical: TextAlignVertical.top,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder:
+                                  OutlineInputBorder(borderSide: BorderSide()),
+                              errorStyle: TextStyle(color: Colors.red),
+                              focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.red)),
+                              counter: Offstage(),
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
+                            ),
+                            style: new TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              color: tea.getThemeColor(context),
+                            ),
+                            // Checks for tea names that are blank or too long
+                            validator: (String newValue) {
+                              if (newValue == null || newValue.isEmpty) {
+                                return AppLocalizations.translate(
+                                    'error_name_missing');
+                              } else if (newValue.characters.length >
+                                  teaNameMaxLength) {
+                                return AppLocalizations.translate(
+                                    'error_name_long');
+                              }
+                              return null;
+                            },
+                            // Save name to prefs
+                            onChanged: (String newValue) {
+                              if (_formKey.currentState.validate()) {
+                                setState(() {
+                                  tea.name = newValue;
+                                  Prefs.setTeas();
+                                });
+                              }
+                            },
+                          )),
+                        ])),
                     // Tea brew time selection
                     new Container(
                         height: 30.0,
                         padding: EdgeInsets.fromLTRB(7.0, 0.0, 0.0, 7.0),
-                        child: Row(children: [
+                        child: new Row(children: [
                           // Brew time minutes dropdown
                           new DropdownButton<int>(
                             value: tea.brewTimeMinutes,
@@ -626,4 +770,18 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                   ],
                 ))));
   }
+}
+
+// Create a unique default tea name
+String _getNextDefaultTeaName() {
+  // Build the name string
+  String nextName;
+  int nextNumber = 1;
+  do {
+    nextName = AppLocalizations.translate('new_tea_default_name') +
+        ' ' +
+        nextNumber.toString();
+    nextNumber++;
+  } while (moreTeas.indexWhere((tea) => tea.name == nextName) >= 0);
+  return nextName;
 }
