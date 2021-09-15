@@ -313,6 +313,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                     alignment: Alignment.center,
                     child: new ListView(
                         scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
                         children: _buildTeaButtonList()),
                   )),
               // Cancel brewing button
@@ -429,6 +430,8 @@ class TeaButton extends StatelessWidget {
             borderRadius: const BorderRadius.all(const Radius.circular(2.0)),
           ),
           child: new Container(
+            constraints:
+                new BoxConstraints(minWidth: 80.0, maxWidth: double.infinity),
             margin: const EdgeInsets.all(8.0),
             // Timer icon with tea name
             child: new Column(
