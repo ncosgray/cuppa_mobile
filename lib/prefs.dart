@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:reorderables/reorderables.dart';
 import 'dart:convert';
 import 'main.dart';
 import 'localization.dart';
@@ -33,7 +34,7 @@ bool showExtra;
 
 // Limits
 final int teaNameMaxLength = 16;
-final int moreTeasMaxCount = 10;
+final int moreTeasMaxCount = 12;
 
 // Tea definition
 class Tea {
@@ -112,12 +113,12 @@ class Tea {
 
   // Overrides for comparisons
   @override
-  bool operator ==(tea2) {
-    return (tea2 is Tea) &&
-        tea2.name == this.name &&
-        tea2.brewTime == this.brewTime &&
-        tea2.brewTemp == this.brewTemp &&
-        tea2.color == this.color;
+  bool operator ==(otherTea) {
+    return (otherTea is Tea) &&
+        otherTea.name == this.name &&
+        otherTea.brewTime == this.brewTime &&
+        otherTea.brewTemp == this.brewTemp &&
+        otherTea.color == this.color;
   }
 
   @override
@@ -180,7 +181,7 @@ abstract class Prefs {
   static const _prefTea3BrewTime = 'Cuppa_tea3_brew_time';
   static const _prefTea3BrewTemp = 'Cuppa_tea3_brew_temp';
   static const _prefTea3Color = 'Cuppa_tea3_color';
-  static const _prefMoreTeas = 'Cuppa_more_teas';
+  static const _prefMoreTeas = 'Cuppa_tea_list';
   static const _prefShowExtra = 'Cuppa_show_extra';
 
   // Fetch all teas from shared prefs or use defaults
@@ -304,56 +305,78 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                   style: TextStyle(
                                     fontSize: 14.0,
                                   )))),
-                      // Favorite teas settings cards
-                      new PrefsTeaRow(
-                        tea: tea1,
-                      ),
-                      new PrefsTeaRow(
-                        tea: tea2,
-                      ),
-                      new PrefsTeaRow(
-                        tea: tea3,
-                      ),
-                      new Divider(),
-                      // Append more teas settings cards
-                      new Column(
-                          children: moreTeas.map<Widget>((tea) {
-                        // Allow deleting entries from more teas
-                        return new Dismissible(
-                            key: Key(tea.id.toString()),
-                            child: new PrefsTeaRow(
-                              tea: tea,
-                            ),
-                            background: Container(
-                                padding: const EdgeInsets.all(5.0),
-                                child: new Container(
-                                    color: Colors.red,
-                                    child: new Padding(
-                                        padding: const EdgeInsets.all(14.0),
-                                        child: new Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: new Icon(Icons.remove_circle,
-                                                color: Colors.white,
-                                                size: 24.0))))),
-                            secondaryBackground: Container(
-                                padding: const EdgeInsets.all(5.0),
-                                child: new Container(
-                                    color: Colors.red,
-                                    child: new Padding(
-                                        padding: const EdgeInsets.all(14.0),
-                                        child: new Align(
-                                            alignment: Alignment.centerRight,
-                                            child: new Icon(Icons.remove_circle,
-                                                color: Colors.white,
-                                                size: 24.0))))),
-                            onDismissed: (direction) {
-                              setState(() {
-                                // Delete this tea
-                                moreTeas.remove(tea);
-                                Prefs.setTeas();
-                              });
+                      // Tea settings cards
+                      new ReorderableColumn(
+                          onReorder: (int oldIndex, int newIndex) {
+                            setState(() {
+                              // Reorder and rebuild the entire tea list
+                              List<Tea> allTeas = [tea1, tea2, tea3] + moreTeas;
+                              Tea oldTea = allTeas.removeAt(oldIndex);
+                              allTeas.insert(newIndex, oldTea);
+                              tea1 = allTeas[0];
+                              tea2 = allTeas[1];
+                              tea3 = allTeas[2];
+                              moreTeas = allTeas.sublist(3);
+                              Prefs.setTeas();
                             });
-                      }).toList()),
+                          },
+                          children: ([tea1, tea2, tea3] + moreTeas)
+                              .map<Widget>((tea) {
+                            if (moreTeas.length == 0)
+                              // Don't allow deleting if there are only 3 teas
+                              return new Container(
+                                  key: Key(tea.id.toString()),
+                                  child: new PrefsTeaRow(
+                                    tea: tea,
+                                  ));
+                            else
+                              // Deleteable
+                              return new Dismissible(
+                                key: Key(tea.id.toString()),
+                                child: new PrefsTeaRow(
+                                  tea: tea,
+                                ),
+                                onDismissed: (direction) {
+                                  setState(() {
+                                    // Delete this and rebuild the entire tea list
+                                    List<Tea> allTeas =
+                                        [tea1, tea2, tea3] + moreTeas;
+                                    allTeas.remove(tea);
+                                    tea1 = allTeas[0];
+                                    tea2 = allTeas[1];
+                                    tea3 = allTeas[2];
+                                    moreTeas = allTeas.sublist(3);
+                                    Prefs.setTeas();
+                                  });
+                                },
+                                // Dismissible delete warning background
+                                background: Container(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: new Container(
+                                        color: Colors.red,
+                                        child: new Padding(
+                                            padding: const EdgeInsets.all(14.0),
+                                            child: new Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: new Icon(
+                                                    Icons.delete_outline,
+                                                    color: Colors.white,
+                                                    size: 28.0))))),
+                                secondaryBackground: Container(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: new Container(
+                                        color: Colors.red,
+                                        child: new Padding(
+                                            padding: const EdgeInsets.all(14.0),
+                                            child: new Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: new Icon(
+                                                    Icons.delete_outline,
+                                                    color: Colors.white,
+                                                    size: 28.0))))),
+                              );
+                          }).toList()),
                       // Add tea button
                       new Card(
                           child: new ListTile(
@@ -521,254 +544,260 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
             key: _formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: new ListTile(
-                // Tea color selection
-                leading: new PopupMenuButton(
-                  // Color icon
-                  itemBuilder: (BuildContext context) {
-                    return Prefs.teaColors.keys.map((int value) {
-                      return PopupMenuItem(
-                        value: value,
-                        child: Icon(
-                          Icons.timer,
-                          color: Prefs.themeColor(value, context),
-                          size: 35.0,
-                        ),
-                      );
-                    }).toList();
-                  },
-                  // Color dropdown
-                  child: new Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
+              // Tea color selection
+              leading: new PopupMenuButton(
+                // Color icon
+                itemBuilder: (BuildContext context) {
+                  return Prefs.teaColors.keys.map((int value) {
+                    return PopupMenuItem(
+                      value: value,
+                      child: Icon(
                         Icons.timer,
-                        color: tea.getThemeColor(context),
-                        size: 60.0,
+                        color: Prefs.themeColor(value, context),
+                        size: 42.0,
                       ),
-                      Icon(
-                        Icons.arrow_drop_down,
-                        size: 24.0,
-                        color: Colors.grey,
-                      ),
-                    ],
-                  ),
-                  // Save selected color to prefs
-                  onSelected: (int newValue) {
-                    setState(() {
-                      tea.color = newValue;
-                      Prefs.setTeas();
-                    });
-                  },
-                ),
-                title: new Column(
-                  children: [
-                    new Container(
-                        height: 54.0,
-                        padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
-                        child: new Row(children: [
-                          // Tea name entry
-                          new Expanded(
-                              child: new TextFormField(
-                            initialValue: tea.name,
-                            autocorrect: false,
-                            textCapitalization: TextCapitalization.words,
-                            maxLength: teaNameMaxLength + 1,
-                            maxLines: 1,
-                            textAlignVertical: TextAlignVertical.top,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder:
-                                  OutlineInputBorder(borderSide: BorderSide()),
-                              errorStyle: TextStyle(color: Colors.red),
-                              focusedErrorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.red)),
-                              counter: Offstage(),
-                              contentPadding:
-                                  const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
-                            ),
-                            style: new TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                              color: tea.getThemeColor(context),
-                            ),
-                            // Checks for tea names that are blank or too long
-                            validator: (String newValue) {
-                              if (newValue == null || newValue.isEmpty) {
-                                return AppLocalizations.translate(
-                                    'error_name_missing');
-                              } else if (newValue.characters.length >
-                                  teaNameMaxLength) {
-                                return AppLocalizations.translate(
-                                    'error_name_long');
+                    );
+                  }).toList();
+                },
+                // Color dropdown
+                child: new SizedBox(
+                    height: double.infinity,
+                    child: new Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.timer,
+                          color: tea.getThemeColor(context),
+                          size: 42.0,
+                        ),
+                        Icon(
+                          Icons.arrow_drop_down,
+                          size: 24.0,
+                          color: Colors.grey,
+                        ),
+                      ],
+                    )),
+                // Save selected color to prefs
+                onSelected: (int newValue) {
+                  setState(() {
+                    tea.color = newValue;
+                    Prefs.setTeas();
+                  });
+                },
+              ),
+              title: new Column(
+                children: [
+                  new Container(
+                      height: 54.0,
+                      padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
+                      child: new Row(children: [
+                        // Tea name entry
+                        new Expanded(
+                            child: new TextFormField(
+                          initialValue: tea.name,
+                          autocorrect: false,
+                          textCapitalization: TextCapitalization.words,
+                          maxLength: teaNameMaxLength + 1,
+                          maxLines: 1,
+                          textAlignVertical: TextAlignVertical.top,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
+                            errorStyle: TextStyle(color: Colors.red),
+                            focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red)),
+                            counter: Offstage(),
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
+                          ),
+                          style: new TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: tea.getThemeColor(context),
+                          ),
+                          // Checks for tea names that are blank or too long
+                          validator: (String newValue) {
+                            if (newValue == null || newValue.isEmpty) {
+                              return AppLocalizations.translate(
+                                  'error_name_missing');
+                            } else if (newValue.characters.length >
+                                teaNameMaxLength) {
+                              return AppLocalizations.translate(
+                                  'error_name_long');
+                            }
+                            return null;
+                          },
+                          // Save name to prefs
+                          onChanged: (String newValue) {
+                            if (_formKey.currentState.validate()) {
+                              setState(() {
+                                tea.name = newValue;
+                                Prefs.setTeas();
+                              });
+                            }
+                          },
+                        )),
+                      ])),
+                  // Tea brew time selection
+                  new Container(
+                      height: 30.0,
+                      padding: EdgeInsets.fromLTRB(7.0, 0.0, 0.0, 7.0),
+                      child: new Row(children: [
+                        // Brew time minutes dropdown
+                        new DropdownButton<int>(
+                          value: tea.brewTimeMinutes,
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            size: 24.0,
+                            color: Colors.grey,
+                          ),
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: Theme.of(context).textTheme.bodyText1.color,
+                          ),
+                          underline: SizedBox(),
+                          items: <int>[
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            16,
+                            17,
+                            18,
+                            19
+                          ].map<DropdownMenuItem<int>>((int value) {
+                            return DropdownMenuItem<int>(
+                              value: value,
+                              child: Text(value.toString()),
+                            );
+                          }).toList(),
+                          // Save brew time to prefs
+                          onChanged: (int newValue) {
+                            setState(() {
+                              // Ensure we never have a 0:00 brew time
+                              if (newValue == 0 && tea.brewTimeSeconds == 0) {
+                                tea.brewTimeSeconds = 15;
                               }
-                              return null;
-                            },
-                            // Save name to prefs
-                            onChanged: (String newValue) {
-                              if (_formKey.currentState.validate()) {
-                                setState(() {
-                                  tea.name = newValue;
-                                  Prefs.setTeas();
-                                });
+                              tea.brewTimeMinutes = newValue;
+                              Prefs.setTeas();
+                            });
+                          },
+                        ),
+                        // Brew time separator
+                        new Text(
+                          ': ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                            color: Theme.of(context).textTheme.bodyText1.color,
+                          ),
+                        ),
+                        // Brew time seconds dropdown
+                        new DropdownButton<int>(
+                          value: tea.brewTimeSeconds,
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            size: 24.0,
+                            color: Colors.grey,
+                          ),
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: Theme.of(context).textTheme.bodyText1.color,
+                          ),
+                          underline: SizedBox(),
+                          // Ensure we never have a 0:00 brew time
+                          items: (tea.brewTimeMinutes == 0
+                                  ? <int>[15, 30, 45]
+                                  : <int>[0, 15, 30, 45])
+                              .map<DropdownMenuItem<int>>((int value) {
+                            return DropdownMenuItem<int>(
+                              value: value,
+                              child: Text(value.toString().padLeft(2, '0')),
+                            );
+                          }).toList(),
+                          // Save brew time to prefs
+                          onChanged: (int newValue) {
+                            setState(() {
+                              // Ensure we never have a 0:00 brew time
+                              if (newValue == 0 && tea.brewTimeMinutes == 0) {
+                                newValue = 15;
                               }
-                            },
-                          )),
-                        ])),
-                    // Tea brew time selection
-                    new Container(
-                        height: 30.0,
-                        padding: EdgeInsets.fromLTRB(7.0, 0.0, 0.0, 7.0),
-                        child: new Row(children: [
-                          // Brew time minutes dropdown
-                          new DropdownButton<int>(
-                            value: tea.brewTimeMinutes,
-                            icon: Icon(
-                              Icons.arrow_drop_down,
-                              size: 24.0,
-                              color: Colors.grey,
-                            ),
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color:
-                                  Theme.of(context).textTheme.bodyText1.color,
-                            ),
-                            underline: SizedBox(),
-                            items: <int>[
-                              0,
-                              1,
-                              2,
-                              3,
-                              4,
-                              5,
-                              6,
-                              7,
-                              8,
-                              9,
-                              10,
-                              11,
-                              12,
-                              13,
-                              14,
-                              15,
-                              16,
-                              17,
-                              18,
-                              19
-                            ].map<DropdownMenuItem<int>>((int value) {
-                              return DropdownMenuItem<int>(
-                                value: value,
-                                child: Text(value.toString()),
-                              );
-                            }).toList(),
-                            // Save brew time to prefs
-                            onChanged: (int newValue) {
-                              setState(() {
-                                // Ensure we never have a 0:00 brew time
-                                if (newValue == 0 && tea.brewTimeSeconds == 0) {
-                                  tea.brewTimeSeconds = 15;
-                                }
-                                tea.brewTimeMinutes = newValue;
-                                Prefs.setTeas();
-                              });
-                            },
+                              tea.brewTimeSeconds = newValue;
+                              Prefs.setTeas();
+                            });
+                          },
+                        ),
+                        new Spacer(),
+                        // Brew temperature dropdown
+                        new DropdownButton<int>(
+                          value: tea.brewTemp,
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            size: 24.0,
+                            color: Colors.grey,
                           ),
-                          // Brew time separator
-                          new Text(
-                            ': ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                              color:
-                                  Theme.of(context).textTheme.bodyText1.color,
-                            ),
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: Theme.of(context).textTheme.bodyText1.color,
                           ),
-                          // Brew time seconds dropdown
-                          new DropdownButton<int>(
-                            value: tea.brewTimeSeconds,
-                            icon: Icon(
-                              Icons.arrow_drop_down,
-                              size: 24.0,
-                              color: Colors.grey,
-                            ),
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color:
-                                  Theme.of(context).textTheme.bodyText1.color,
-                            ),
-                            underline: SizedBox(),
-                            // Ensure we never have a 0:00 brew time
-                            items: (tea.brewTimeMinutes == 0
-                                    ? <int>[15, 30, 45]
-                                    : <int>[0, 15, 30, 45])
-                                .map<DropdownMenuItem<int>>((int value) {
-                              return DropdownMenuItem<int>(
-                                value: value,
-                                child: Text(value.toString().padLeft(2, '0')),
-                              );
-                            }).toList(),
-                            // Save brew time to prefs
-                            onChanged: (int newValue) {
-                              setState(() {
-                                // Ensure we never have a 0:00 brew time
-                                if (newValue == 0 && tea.brewTimeMinutes == 0) {
-                                  newValue = 15;
-                                }
-                                tea.brewTimeSeconds = newValue;
-                                Prefs.setTeas();
-                              });
-                            },
-                          ),
-                          new Spacer(),
-                          // Brew temperature dropdown
-                          new DropdownButton<int>(
-                            value: tea.brewTemp,
-                            icon: Icon(
-                              Icons.arrow_drop_down,
-                              size: 24.0,
-                              color: Colors.grey,
-                            ),
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color:
-                                  Theme.of(context).textTheme.bodyText1.color,
-                            ),
-                            underline: SizedBox(),
-                            items: (<int>[
-                              60,
-                              65,
-                              70,
-                              75,
-                              80,
-                              85,
-                              90,
-                              95,
-                              100,
-                              140,
-                              150,
-                              160,
-                              170,
-                              180,
-                              190,
-                              200,
-                              212
-                            ]).map<DropdownMenuItem<int>>((int value) {
-                              return DropdownMenuItem<int>(
-                                value: value,
-                                child: Text(formatTemp(value)),
-                              );
-                            }).toList(),
-                            // Save brew temp to prefs
-                            onChanged: (int newValue) {
-                              setState(() {
-                                tea.brewTemp = newValue;
-                                Prefs.setTeas();
-                              });
-                            },
-                          )
-                        ])),
-                  ],
-                ))));
+                          underline: SizedBox(),
+                          items: (<int>[
+                            60,
+                            65,
+                            70,
+                            75,
+                            80,
+                            85,
+                            90,
+                            95,
+                            100,
+                            140,
+                            150,
+                            160,
+                            170,
+                            180,
+                            190,
+                            200,
+                            212
+                          ]).map<DropdownMenuItem<int>>((int value) {
+                            return DropdownMenuItem<int>(
+                              value: value,
+                              child: Text(formatTemp(value)),
+                            );
+                          }).toList(),
+                          // Save brew temp to prefs
+                          onChanged: (int newValue) {
+                            setState(() {
+                              tea.brewTemp = newValue;
+                              Prefs.setTeas();
+                            });
+                          },
+                        )
+                      ])),
+                ],
+              ),
+              trailing: new Container(
+                  height: double.infinity,
+                  child: new Icon(
+                    Icons.drag_handle,
+                    size: 20.0,
+                    color: Colors.grey,
+                  )),
+            )));
   }
 }
 
@@ -782,6 +811,8 @@ String _getNextDefaultTeaName() {
         ' ' +
         nextNumber.toString();
     nextNumber++;
-  } while (moreTeas.indexWhere((tea) => tea.name == nextName) >= 0);
+  } while (([tea1, tea2, tea3] + moreTeas)
+          .indexWhere((tea) => tea.name == nextName) >=
+      0);
   return nextName;
 }

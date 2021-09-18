@@ -11,7 +11,7 @@
   "yes_button": "Yes",
   "no_button": "No",
   "prefs_title": "{{app_name}} Preferences",
-  "prefs_header": "Set tea names, brew times, temperatures, and colors:",
+  "prefs_header": "Set tea names, brew times, temperatures, and colors. You can also sort (long press), or delete (swipe) teas from the list.",
   "prefs_show_extra": "Show brew time and temperature on timer buttons",
   "prefs_notifications": "Open your device's system settings to configure notifications for {{app_name}}.",
   "error_name_missing": "* Please enter a tea name.",
