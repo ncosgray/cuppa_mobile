@@ -16,6 +16,7 @@
 // - Build prefs interface and interactivity
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:reorderables/reorderables.dart';
 import 'dart:convert';
@@ -682,7 +683,11 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                           ].map<DropdownMenuItem<int>>((int value) {
                             return DropdownMenuItem<int>(
                               value: value,
-                              child: Text(value.toString()),
+                              child: Text(value.toString(),
+                                  style: TextStyle(
+                                      fontWeight: value == tea.brewTimeMinutes
+                                          ? FontWeight.w400
+                                          : FontWeight.w300)),
                             );
                           }).toList(),
                           // Save brew time to prefs
@@ -726,7 +731,11 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               .map<DropdownMenuItem<int>>((int value) {
                             return DropdownMenuItem<int>(
                               value: value,
-                              child: Text(value.toString().padLeft(2, '0')),
+                              child: Text(value.toString().padLeft(2, '0'),
+                                  style: TextStyle(
+                                      fontWeight: value == tea.brewTimeSeconds
+                                          ? FontWeight.w400
+                                          : FontWeight.w300)),
                             );
                           }).toList(),
                           // Save brew time to prefs
@@ -776,7 +785,11 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                           ]).map<DropdownMenuItem<int>>((int value) {
                             return DropdownMenuItem<int>(
                               value: value,
-                              child: Text(formatTemp(value)),
+                              child: Text(formatTemp(value),
+                                  style: TextStyle(
+                                      fontWeight: value == tea.brewTemp
+                                          ? FontWeight.w400
+                                          : FontWeight.w300)),
                             );
                           }).toList(),
                           // Save brew temp to prefs
