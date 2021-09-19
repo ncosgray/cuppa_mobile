@@ -229,11 +229,13 @@ class _TimerWidgetState extends State<TimerWidget> {
             actions: <Widget>[
               IconButton(
                 icon: const Icon(Icons.settings),
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed("/prefs")
-                      .then((value) => setState(() {}));
-                },
+                onPressed: _timerActive
+                    ? null
+                    : () {
+                        Navigator.of(context)
+                            .pushNamed("/prefs")
+                            .then((value) => setState(() {}));
+                      },
               ),
             ]),
         body: new Container(
