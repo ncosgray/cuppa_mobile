@@ -21,26 +21,28 @@ import 'package:flutter/cupertino.dart';
 // iOS themes
 final ThemeData kIOSTheme = new ThemeData(
   primaryColor: Colors.grey[100],
-  buttonColor: Colors.black54,
+  textTheme: Typography.blackCupertino
+      .copyWith(button: new TextStyle(color: Colors.black54)),
   brightness: Brightness.light,
 );
 final ThemeData kIOSDarkTheme = new ThemeData(
   primaryColor: Colors.grey[900],
-  buttonColor: Colors.grey,
+  textTheme: Typography.whiteCupertino
+      .copyWith(button: new TextStyle(color: Colors.grey)),
   brightness: Brightness.dark,
 );
 
 // Android themes
 final ThemeData kDefaultTheme = new ThemeData(
   primarySwatch: Colors.blue,
-  accentColor: Colors.blueAccent[400],
-  buttonColor: Colors.black54,
+  textTheme: Typography.blackMountainView
+      .copyWith(button: new TextStyle(color: Colors.black54)),
   brightness: Brightness.light,
 );
 final ThemeData kDarkTheme = new ThemeData(
   primarySwatch: Colors.blue,
-  accentColor: Colors.blueAccent[400],
-  buttonColor: Colors.grey,
+  textTheme: Typography.whiteMountainView
+      .copyWith(button: new TextStyle(color: Colors.grey)),
   brightness: Brightness.dark,
 );
 
