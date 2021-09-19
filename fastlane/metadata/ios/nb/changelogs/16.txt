@@ -1,0 +1,3 @@
+* Cuppa har blitt oversatt til ni nye språk. Bidra på Hosted Weblate.
+* Ta tiden på te som trekkes i mindre enn ett minutt.
+* Forskjellige små grensesnittsforbedringer og feilfikser.

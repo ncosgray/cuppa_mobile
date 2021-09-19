@@ -1,3 +1,4 @@
 * Te bakoitzerako uraren tenperatura doitzea barne.
-* Tenporizadorearen botoietan garagardoa egiteko informazio gehigarria erakusteko aukera.
-* Erantsi espainola, eta beste itzulpen-hobekuntza batzuk - Weblateren bidez lagundu!
+* Infusioari buruzko informazio gehigarria erakusteko aukera tenporizadorearen botoietan.
+* 10 minutu baino gehiago bustitzen diren teen denbora.
+* Hizkuntza gehiago eta itzulpengintzan hobekuntzak - Lagundu Weblateren bidez!
