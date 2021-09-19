@@ -25,17 +25,15 @@ import 'localization.dart';
 import 'platform_adaptive.dart';
 
 // Teas
-Tea tea1;
-Tea tea2;
-Tea tea3;
-List<Tea> moreTeas;
+List<Tea> teaList;
 
 // Settings
 bool showExtra;
 
 // Limits
 final int teaNameMaxLength = 16;
-final int moreTeasMaxCount = 12;
+final int teasMinCount = 3;
+final int teasMaxCount = 15;
 
 // Tea definition
 class Tea {
@@ -134,10 +132,7 @@ class Tea {
 abstract class Prefs {
   // Initialize teas
   static void initTeas() {
-    tea1 = new Tea();
-    tea2 = new Tea();
-    tea3 = new Tea();
-    moreTeas = [];
+    teaList = [new Tea(), new Tea(), new Tea()];
   }
 
   // Color map
@@ -187,35 +182,38 @@ abstract class Prefs {
 
   // Fetch all teas from shared prefs or use defaults
   static void getTeas() {
+    Prefs.initTeas();
+
     // Default: Black tea
-    tea1.name = sharedPrefs.getString(_prefTea1Name) ??
+    teaList[0].name = sharedPrefs.getString(_prefTea1Name) ??
         AppLocalizations.translate('tea_name_black');
-    tea1.brewTime = sharedPrefs.getInt(_prefTea1BrewTime) ?? 240;
-    tea1.brewTemp = sharedPrefs.getInt(_prefTea1BrewTemp) ?? 212;
-    tea1.color = sharedPrefs.getInt(_prefTea1Color) ?? 0;
+    teaList[0].brewTime = sharedPrefs.getInt(_prefTea1BrewTime) ?? 240;
+    teaList[0].brewTemp = sharedPrefs.getInt(_prefTea1BrewTemp) ?? 212;
+    teaList[0].color = sharedPrefs.getInt(_prefTea1Color) ?? 0;
 
     // Default: Green tea
-    tea2.name = sharedPrefs.getString(_prefTea2Name) ??
+    teaList[1].name = sharedPrefs.getString(_prefTea2Name) ??
         AppLocalizations.translate('tea_name_green');
-    tea2.brewTime = sharedPrefs.getInt(_prefTea2BrewTime) ?? 150;
+    teaList[1].brewTime = sharedPrefs.getInt(_prefTea2BrewTime) ?? 150;
     // Select default temp of 212 if name changed from Green tea
-    tea2.brewTemp = sharedPrefs.getInt(_prefTea2BrewTemp) ??
-        (tea2.name != AppLocalizations.translate('tea_name_green') ? 212 : 180);
-    tea2.color = sharedPrefs.getInt(_prefTea2Color) ?? 3;
+    teaList[1].brewTemp = sharedPrefs.getInt(_prefTea2BrewTemp) ??
+        (teaList[1].name != AppLocalizations.translate('tea_name_green')
+            ? 212
+            : 180);
+    teaList[1].color = sharedPrefs.getInt(_prefTea2Color) ?? 3;
 
     // Default: Herbal tea
-    tea3.name = sharedPrefs.getString(_prefTea3Name) ??
+    teaList[2].name = sharedPrefs.getString(_prefTea3Name) ??
         AppLocalizations.translate('tea_name_herbal');
-    tea3.brewTime = sharedPrefs.getInt(_prefTea3BrewTime) ?? 300;
-    tea3.brewTemp = sharedPrefs.getInt(_prefTea3BrewTemp) ?? 212;
-    tea3.color = sharedPrefs.getInt(_prefTea3Color) ?? 2;
+    teaList[2].brewTime = sharedPrefs.getInt(_prefTea3BrewTime) ?? 300;
+    teaList[2].brewTemp = sharedPrefs.getInt(_prefTea3BrewTemp) ?? 212;
+    teaList[2].color = sharedPrefs.getInt(_prefTea3Color) ?? 2;
 
     // More teas list
     List<String> moreTeasJson =
         sharedPrefs.getStringList(_prefMoreTeas) ?? null;
     if (moreTeasJson != null)
-      moreTeas = moreTeasJson
-          .map<Tea>((tea) => Tea.fromJson(jsonDecode(tea)))
+      teaList += (moreTeasJson.map<Tea>((tea) => Tea.fromJson(jsonDecode(tea))))
           .toList();
 
     // Other settings
@@ -224,23 +222,23 @@ abstract class Prefs {
 
   // Store all teas in shared prefs
   static void setTeas() {
-    sharedPrefs.setString(_prefTea1Name, tea1.name);
-    sharedPrefs.setInt(_prefTea1BrewTime, tea1.brewTime);
-    sharedPrefs.setInt(_prefTea1BrewTemp, tea1.brewTemp);
-    sharedPrefs.setInt(_prefTea1Color, tea1.color);
+    sharedPrefs.setString(_prefTea1Name, teaList[0].name);
+    sharedPrefs.setInt(_prefTea1BrewTime, teaList[0].brewTime);
+    sharedPrefs.setInt(_prefTea1BrewTemp, teaList[0].brewTemp);
+    sharedPrefs.setInt(_prefTea1Color, teaList[0].color);
 
-    sharedPrefs.setString(_prefTea2Name, tea2.name);
-    sharedPrefs.setInt(_prefTea2BrewTime, tea2.brewTime);
-    sharedPrefs.setInt(_prefTea2BrewTemp, tea2.brewTemp);
-    sharedPrefs.setInt(_prefTea2Color, tea2.color);
+    sharedPrefs.setString(_prefTea2Name, teaList[1].name);
+    sharedPrefs.setInt(_prefTea2BrewTime, teaList[1].brewTime);
+    sharedPrefs.setInt(_prefTea2BrewTemp, teaList[1].brewTemp);
+    sharedPrefs.setInt(_prefTea2Color, teaList[1].color);
 
-    sharedPrefs.setString(_prefTea3Name, tea3.name);
-    sharedPrefs.setInt(_prefTea3BrewTime, tea3.brewTime);
-    sharedPrefs.setInt(_prefTea3BrewTemp, tea3.brewTemp);
-    sharedPrefs.setInt(_prefTea3Color, tea3.color);
+    sharedPrefs.setString(_prefTea3Name, teaList[2].name);
+    sharedPrefs.setInt(_prefTea3BrewTime, teaList[2].brewTime);
+    sharedPrefs.setInt(_prefTea3BrewTemp, teaList[2].brewTemp);
+    sharedPrefs.setInt(_prefTea3Color, teaList[2].color);
 
     List<String> moreTeasEncoded =
-        moreTeas.map((tea) => jsonEncode(tea.toJson())).toList();
+        (teaList.sublist(3)).map((tea) => jsonEncode(tea.toJson())).toList();
     sharedPrefs.setStringList(_prefMoreTeas, moreTeasEncoded);
 
     sharedPrefs.setBool(_prefShowExtra, showExtra);
@@ -310,20 +308,14 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                       new ReorderableColumn(
                           onReorder: (int oldIndex, int newIndex) {
                             setState(() {
-                              // Reorder and rebuild the entire tea list
-                              List<Tea> allTeas = [tea1, tea2, tea3] + moreTeas;
-                              Tea oldTea = allTeas.removeAt(oldIndex);
-                              allTeas.insert(newIndex, oldTea);
-                              tea1 = allTeas[0];
-                              tea2 = allTeas[1];
-                              tea3 = allTeas[2];
-                              moreTeas = allTeas.sublist(3);
+                              // Reorder the tea list
+                              Tea oldTea = teaList.removeAt(oldIndex);
+                              teaList.insert(newIndex, oldTea);
                               Prefs.setTeas();
                             });
                           },
-                          children: ([tea1, tea2, tea3] + moreTeas)
-                              .map<Widget>((tea) {
-                            if (moreTeas.length == 0)
+                          children: teaList.map<Widget>((tea) {
+                            if (teaList.length <= teasMinCount)
                               // Don't allow deleting if there are only 3 teas
                               return new Container(
                                   key: Key(tea.id.toString()),
@@ -339,14 +331,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                 ),
                                 onDismissed: (direction) {
                                   setState(() {
-                                    // Delete this and rebuild the entire tea list
-                                    List<Tea> allTeas =
-                                        [tea1, tea2, tea3] + moreTeas;
-                                    allTeas.remove(tea);
-                                    tea1 = allTeas[0];
-                                    tea2 = allTeas[1];
-                                    tea3 = allTeas[2];
-                                    moreTeas = allTeas.sublist(3);
+                                    // Delete this from the tea list
+                                    teaList.remove(tea);
                                     Prefs.setTeas();
                                   });
                                 },
@@ -387,19 +373,19 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                 .toUpperCase(),
                             style: TextStyle(
                                 fontSize: 14.0,
-                                color: moreTeas.length < moreTeasMaxCount
+                                color: teaList.length < teasMaxCount
                                     ? Colors.blue
                                     : Colors.grey)),
                         icon: Icon(Icons.add_circle,
-                            color: moreTeas.length < moreTeasMaxCount
+                            color: teaList.length < teasMaxCount
                                 ? Colors.blue
                                 : Colors.grey,
                             size: 20.0),
-                        onPressed: moreTeas.length < moreTeasMaxCount
+                        onPressed: teaList.length < teasMaxCount
                             ? () {
                                 setState(() {
                                   // Add a blank tea
-                                  moreTeas.add(new Tea(
+                                  teaList.add(new Tea(
                                       name: _getNextDefaultTeaName(),
                                       brewTime: 240,
                                       brewTemp: 212,
@@ -824,8 +810,6 @@ String _getNextDefaultTeaName() {
         ' ' +
         nextNumber.toString();
     nextNumber++;
-  } while (([tea1, tea2, tea3] + moreTeas)
-          .indexWhere((tea) => tea.name == nextName) >=
-      0);
+  } while (teaList.indexWhere((tea) => tea.name == nextName) >= 0);
   return nextName;
 }

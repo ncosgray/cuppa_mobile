@@ -151,17 +151,9 @@ class _TimerWidgetState extends State<TimerWidget> {
           .difference(DateTime.now());
       if (diff.inSeconds > 0) {
         // Resume timer from stored prefs
-        if (Prefs.nextTeaName == tea1.name)
-          _setTimer(tea1, diff.inSeconds);
-        else if (Prefs.nextTeaName == tea2.name)
-          _setTimer(tea2, diff.inSeconds);
-        else if (Prefs.nextTeaName == tea3.name)
-          _setTimer(tea3, diff.inSeconds);
-        else {
-          Tea nextTea = moreTeas
-              .firstWhere((tea) => tea.name == Prefs.nextTeaName, orElse: null);
-          if (nextTea != null) _setTimer(nextTea, diff.inSeconds);
-        }
+        Tea nextTea = teaList.firstWhere((tea) => tea.name == Prefs.nextTeaName,
+            orElse: null);
+        if (nextTea != null) _setTimer(nextTea, diff.inSeconds);
       } else {
         Prefs.clearNextAlarm();
       }
@@ -181,18 +173,18 @@ class _TimerWidgetState extends State<TimerWidget> {
     quickActions.setShortcutItems(<ShortcutItem>[
       ShortcutItem(
         type: _shortcutTea1,
-        localizedTitle: tea1.name,
-        icon: tea1.shortcutIcon,
+        localizedTitle: teaList[0].name,
+        icon: teaList[0].shortcutIcon,
       ),
       ShortcutItem(
         type: _shortcutTea2,
-        localizedTitle: tea2.name,
-        icon: tea2.shortcutIcon,
+        localizedTitle: teaList[1].name,
+        icon: teaList[1].shortcutIcon,
       ),
       ShortcutItem(
         type: _shortcutTea3,
-        localizedTitle: tea3.name,
-        icon: tea3.shortcutIcon,
+        localizedTitle: teaList[2].name,
+        icon: teaList[2].shortcutIcon,
       ),
     ]);
   }
@@ -210,13 +202,13 @@ class _TimerWidgetState extends State<TimerWidget> {
       if (shortcutType != null) {
         switch (shortcutType) {
           case _shortcutTea1:
-            if (await _confirmTimer()) _setTimer(tea1);
+            if (await _confirmTimer()) _setTimer(teaList[0]);
             break;
           case _shortcutTea2:
-            if (await _confirmTimer()) _setTimer(tea2);
+            if (await _confirmTimer()) _setTimer(teaList[1]);
             break;
           case _shortcutTea3:
-            if (await _confirmTimer()) _setTimer(tea3);
+            if (await _confirmTimer()) _setTimer(teaList[2]);
             break;
         }
       }
@@ -314,7 +306,23 @@ class _TimerWidgetState extends State<TimerWidget> {
                     child: new ListView(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        children: _buildTeaButtonList()),
+                        children: teaList.map<Widget>((tea) {
+                          // Build the list of teas
+                          return new Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                  12.0, 0.0, 0.0, 0.0),
+                              child: TeaButton(
+                                  tea: tea,
+                                  active: _whichActive == tea ? true : false,
+                                  fade: !_timerActive || _whichActive == tea
+                                      ? false
+                                      : true,
+                                  onPressed: (bool newValue) async {
+                                    if (_whichActive !=
+                                        tea) if (await _confirmTimer())
+                                      _setTimer(tea);
+                                  }));
+                        }).toList()),
                   )),
               // Cancel brewing button
               new SizedBox(
@@ -344,57 +352,6 @@ class _TimerWidgetState extends State<TimerWidget> {
             ],
           ),
         ));
-  }
-
-// Return a list containing the buttons for all defined teas
-  List<Widget> _buildTeaButtonList() {
-    // Build the list of favorite teas
-    List<Widget> teaButtonList = [
-      new Padding(
-          padding: const EdgeInsets.fromLTRB(12.0, 0.0, 0.0, 0.0),
-          child: new TeaButton(
-              tea: tea1,
-              active: _whichActive == tea1 ? true : false,
-              fade: !_timerActive || _whichActive == tea1 ? false : true,
-              onPressed: (bool newValue) async {
-                if (_whichActive != tea1) if (await _confirmTimer())
-                  _setTimer(tea1);
-              })),
-      new Padding(
-          padding: const EdgeInsets.fromLTRB(12.0, 0.0, 0.0, 0.0),
-          child: TeaButton(
-              tea: tea2,
-              active: _whichActive == tea2 ? true : false,
-              fade: !_timerActive || _whichActive == tea2 ? false : true,
-              onPressed: (bool newValue) async {
-                if (_whichActive != tea2) if (await _confirmTimer())
-                  _setTimer(tea2);
-              })),
-      new Padding(
-          padding: const EdgeInsets.fromLTRB(12.0, 0.0, 0.0, 0.0),
-          child: TeaButton(
-              tea: tea3,
-              active: _whichActive == tea3 ? true : false,
-              fade: !_timerActive || _whichActive == tea3 ? false : true,
-              onPressed: (bool newValue) async {
-                if (_whichActive != tea3) if (await _confirmTimer())
-                  _setTimer(tea3);
-              })),
-    ];
-
-    // Append more teas
-    moreTeas.forEach((tea) => teaButtonList.add(new Padding(
-        padding: const EdgeInsets.fromLTRB(12.0, 0.0, 0.0, 0.0),
-        child: TeaButton(
-            tea: tea,
-            active: _whichActive == tea ? true : false,
-            fade: !_timerActive || _whichActive == tea ? false : true,
-            onPressed: (bool newValue) async {
-              if (_whichActive != tea) if (await _confirmTimer())
-                _setTimer(tea);
-            }))));
-
-    return teaButtonList;
   }
 }
 
