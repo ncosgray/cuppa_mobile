@@ -1,0 +1,4 @@
+* Inclure le réglage de la température de l'eau pour chaque infusion.
+* Option permettant d'afficher des informations supplémentaires sur les boutons de la minuterie.
+* Temporisation des thés qui infusent plus de 10 minutes.
+* Plus de langues et d'améliorations de la traduction - contribuez via Weblate !
