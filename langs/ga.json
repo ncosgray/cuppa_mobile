@@ -16,5 +16,7 @@
     "tea_name_herbal": "Tae luibhe",
     "tea_name_green": "Tae glas",
     "tea_name_black": "Tae dubh",
-    "prefs_show_extra": "Taispeáin brew am agus teocht ar an lasc ama cnaipí"
+    "prefs_show_extra": "Taispeáin brew am agus teocht ar an lasc ama cnaipí",
+    "add_tea_button": "Cuir tae leis",
+    "new_tea_default_name": "Tae nua"
 }
