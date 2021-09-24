@@ -16,5 +16,6 @@
     "tea_name_herbal": "Fruktte",
     "tea_name_green": "Grønn te",
     "tea_name_black": "Svart te",
-    "prefs_show_extra": "Vis brygge tid og temperatur på knappene timer"
+    "prefs_show_extra": "Vis brygge tid og temperatur på knappene timer",
+    "new_tea_default_name": "Ny te"
 }
