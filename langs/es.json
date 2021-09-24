@@ -16,5 +16,7 @@
     "cancel_button": "Cancelar",
     "tea_name_green": "Té verde",
     "tea_name_black": "Té negro",
-    "prefs_show_extra": "Muestra el tiempo de infusión y la temperatura en los botones del temporizador"
+    "prefs_show_extra": "Muestra el tiempo de infusión y la temperatura en los botones del temporizador",
+    "new_tea_default_name": "Nuevo té",
+    "add_tea_button": "Añadir un té"
 }
