@@ -16,5 +16,6 @@
     "prefs_notifications": "Avage oma seadme süsteemi seaded, et konfigureerida teated järgmistele seadmetele {{app_name}}.",
     "error_name_missing": "* Palun sisestage tee nimi.",
     "error_name_long": "* Tee nimi on liiga pikk.",
-    "about_app": "{{app_name}} on tasuta, avatud lähtekoodiga rakendus."
+    "about_app": "{{app_name}} on tasuta, avatud lähtekoodiga rakendus.",
+    "new_tea_default_name": "Uus tee"
 }
