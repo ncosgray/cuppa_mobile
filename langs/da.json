@@ -11,11 +11,12 @@
     "tea_name_green": "Grøn te",
     "tea_name_black": "Sort te",
     "prefs_title": "{{app_name}} Præferencer",
-    "prefs_header": "Indstil te-navne, bryggetider, temperaturer og farver:",
+    "prefs_header": "Indstil te-navne, bryggetider, temperaturer og farver. Du kan også sortere (langt tryk) eller slette (stryge) te fra listen.",
     "prefs_show_extra": "Vis brygningstid og temperatur på timer-knapperne",
     "prefs_notifications": "Åbn enhedens systemindstillinger for at konfigurere notifikationer for {{app_name}}.",
     "error_name_missing": "* Angiv venligst et te-navn.",
     "error_name_long": "* Te navnet er for langt.",
     "about_app": "{{app_name}} er en gratis open source-app.",
-    "new_tea_default_name": "Ny te"
+    "new_tea_default_name": "Ny te",
+    "add_tea_button": "Tilsæt Te"
 }
