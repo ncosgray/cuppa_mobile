@@ -57,6 +57,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
         'en',
         'da',
         'de',
+        'eo',
         'es',
         'et',
         'eu',
