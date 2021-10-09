@@ -4,7 +4,7 @@
     "error_name_missing": "* Geef een theenaam.",
     "prefs_notifications": "Open de systeeminstellingen van uw toestel om meldingen voor {{app_name}} in te stellen.",
     "prefs_show_extra": "Toon de brouwtijd en temperatuur op de timerknoppen",
-    "prefs_header": "Stel theenamen, zettijden, temperaturen en kleuren in:",
+    "prefs_header": "Stel theenamen, zettijden, temperaturen en kleuren in. U kunt thee ook sorteren (lang indrukken) of verwijderen (vegen) uit de lijst.",
     "prefs_title": "{{app_name}} Voorkeuren",
     "no_button": "Geen",
     "yes_button": "Ja",
@@ -16,5 +16,7 @@
     "cancel_button": "Annuleer",
     "tea_name_herbal": "Kruiden thee",
     "tea_name_green": "Groene Thee",
-    "tea_name_black": "Zwarte Thee"
+    "tea_name_black": "Zwarte Thee",
+    "new_tea_default_name": "Nieuwe thee",
+    "add_tea_button": "Thee Toevoegen"
 }

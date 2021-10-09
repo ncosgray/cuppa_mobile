@@ -3,7 +3,7 @@
     "error_name_long": "* Non te twò long.",
     "error_name_missing": "* Tanpri antre yon non te.",
     "prefs_notifications": "Louvri anviwònman sistèm aparèy ou an pouw konfigire notifikasyon pou {{app_name}}.",
-    "prefs_header": "Ekri non te, tan preparasyon, tanperati ak koulè yo:",
+    "prefs_header": "Ekri non te, tan preparasyon, tanperati ak koulè yo. Ou kapab fè tri (long laprès), oswa efase (glise) te nan lis la.",
     "prefs_title": "Preferans {{app_name}}",
     "no_button": "Non",
     "yes_button": "Wi",
@@ -16,5 +16,7 @@
     "tea_name_herbal": "Tizan",
     "tea_name_green": "Te vèt",
     "tea_name_black": "Te nwa",
-    "prefs_show_extra": "Montre tan ak tanperati sou bouton revèy"
+    "prefs_show_extra": "Montre tan ak tanperati sou bouton revèy",
+    "new_tea_default_name": "Nouvo te",
+    "add_tea_button": "Ajoute te"
 }

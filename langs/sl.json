@@ -3,7 +3,7 @@
     "error_name_long": "* Ime čaja je predolgo.",
     "error_name_missing": "* Prosimo vnesite ime čaja.",
     "prefs_notifications": "Odprite sistemske nastavitve na vaši napravi, da nastavite obvestila za {{app_name}}.",
-    "prefs_header": "Nastavi imena čajev, temperature, barve in čas kuhanja:",
+    "prefs_header": "Nastavi imena čajev, temperature, barve in čas kuhanja. Lahko tudi razvrstite (dolg pritisk) ali izbrišete (povlečete) čaje s seznama.",
     "prefs_title": "{{app_name}} Lastnosti",
     "no_button": "Ne",
     "yes_button": "Da",
@@ -16,5 +16,7 @@
     "tea_name_herbal": "Zeliščni čaj",
     "tea_name_green": "Zeleni Čaj",
     "tea_name_black": "Črni Čaj",
-    "prefs_show_extra": "Prikaz časa in temperature kuhanja na gumbih časovnika"
+    "prefs_show_extra": "Prikaz časa in temperature kuhanja na gumbih časovnika",
+    "add_tea_button": "Dodajte čaj",
+    "new_tea_default_name": "Novi čaj"
 }

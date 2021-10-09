@@ -4,7 +4,7 @@
     "about_app": "{{app_name}} er et gratis og fritt program.",
     "error_name_long": "* Tenavnet er for langt.",
     "error_name_missing": "* Skriv inn tenavn.",
-    "prefs_header": "Sett tenavn, trekketider, temperaturer, og farger:",
+    "prefs_header": "Sett tenavn, trekketider, temperaturer, og farger. Du kan også sortere (langt trykk), eller slette (sveipe) te fra listen.",
     "prefs_title": "{{app_name}}-innstillinger",
     "no_button": "Nei",
     "yes_button": "Ja",
@@ -16,5 +16,7 @@
     "tea_name_herbal": "Fruktte",
     "tea_name_green": "Grønn te",
     "tea_name_black": "Svart te",
-    "prefs_show_extra": "Vis brygge tid og temperatur på knappene timer"
+    "prefs_show_extra": "Vis brygge tid og temperatur på knappene timer",
+    "new_tea_default_name": "Ny te",
+    "add_tea_button": "Tilsett Te"
 }

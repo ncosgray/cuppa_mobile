@@ -4,7 +4,7 @@
     "error_name_long": "* Teenimi on liian pitkä.",
     "error_name_missing": "* Kirjoita teenimi.",
     "prefs_notifications": "Avaa laitteen järjestelmäasetukset määrittääksesi {{app_name}}-ilmoitukset.",
-    "prefs_header": "Määritä teenimet, haudutusajat, lämpötilat ja värit:",
+    "prefs_header": "Määritä teenimet, haudutusajat, lämpötilat ja värit. Voit myös lajitella (pitkä painallus) tai poistaa (pyyhkäisemällä) teetä luettelosta.",
     "prefs_title": "{{app_name}}-asetukset",
     "no_button": "Ei",
     "yes_button": "Kyllä",
@@ -16,5 +16,7 @@
     "tea_name_herbal": "Yrttitee",
     "tea_name_green": "Vihreä tee",
     "tea_name_black": "Musta tee",
-    "prefs_show_extra": "Näytä haudutusajan ja lämpötilan ajastinpainikkeissa"
+    "prefs_show_extra": "Näytä haudutusajan ja lämpötilan ajastinpainikkeissa",
+    "new_tea_default_name": "Uusi tee",
+    "add_tea_button": "Lisää"
 }
