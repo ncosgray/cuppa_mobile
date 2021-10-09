@@ -4,7 +4,7 @@
     "error_name_long": "* Tá an t-ainm tae rófhada.",
     "error_name_missing": "* Cuir isteach ainm tae, le do thoil.",
     "prefs_notifications": "Oscail socruithe córais do ghléis chun fógraí do {{app_name}} a chumrú.",
-    "prefs_header": "Socraigh ainmneacha tae, amanna, teochtaí agus dathanna:",
+    "prefs_header": "Socraigh ainmneacha tae, amanna, teochtaí agus dathanna. Is féidir leat freisin (preas fada) a shórtáil, nó tae a scriosadh (swipe) ón liosta.",
     "prefs_title": "Socruithe {{app_name}}",
     "yes_button": "Cealaigh",
     "no_button": "Níl",
@@ -17,6 +17,6 @@
     "tea_name_green": "Tae glas",
     "tea_name_black": "Tae dubh",
     "prefs_show_extra": "Taispeáin brew am agus teocht ar an lasc ama cnaipí",
-    "add_tea_button": "Cuir tae leis",
+    "add_tea_button": "Cuir Tae Leis",
     "new_tea_default_name": "Tae nua"
 }
