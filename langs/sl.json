@@ -3,7 +3,7 @@
     "error_name_long": "* Ime čaja je predolgo.",
     "error_name_missing": "* Prosimo vnesite ime čaja.",
     "prefs_notifications": "Odprite sistemske nastavitve na vaši napravi, da nastavite obvestila za {{app_name}}.",
-    "prefs_header": "Nastavi imena čajev, temperature, barve in čas kuhanja. Lahko tudi razvrstite (dolg pritisk) ali izbrišete (povlečete) čaje s seznama.",
+    "prefs_header": "Nastavi imena čajev, čas kuhanja, temperature in barve. Čaje lahko tudi razvrstite z dolgim pritiskom, ali jih izbrišete s seznama tako, da jih povlečete na stran.",
     "prefs_title": "{{app_name}} Lastnosti",
     "no_button": "Ne",
     "yes_button": "Da",
