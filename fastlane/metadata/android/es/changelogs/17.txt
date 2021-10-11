@@ -1,3 +1,4 @@
-* Incluye el ajuste de la temperatura del agua para cada té.
-* Opción de mostrar información adicional de elaboración de cerveza en los botones del temporizador.
-* Español añadido, y otras mejoras de traducción - ¡Contribuye a través de Weblate!
+* Incluya el ajuste de la temperatura del agua para cada té.
+* Opción para mostrar información adicional de elaboración en los botones del temporizador.
+* Tés de tiempo que demoran más de 10 minutos.
+* Más idiomas y mejoras de traducción - ¡contribuir a través de Weblate!
