@@ -1,1 +1,22 @@
-{}
+{
+    "tea_name_black": "Černý čaj",
+    "tea_name_green": "Zelený čaj",
+    "tea_name_herbal": "Bylinný čaj",
+    "cancel_button": "Zrušit",
+    "prefs_header": "Nastavení názvů čajů, délky vaření, teploty, a barvy. Můžete také setřídit (dlouhé podržení), nebo vymazat (přetáhnutím) čaje z listu.",
+    "prefs_notifications": "Otevřte si nastavení vašeho zařízení pro konfiguraci oznámení pro {{app_name}}.",
+    "notification_title": "Vaření je hotovo...",
+    "notification_text": "{{tea_name}} je připravený!",
+    "confirm_title": "Upozornění!",
+    "confirm_message_line2": "Zrušit a spustit nový časovač?",
+    "yes_button": "Ano",
+    "no_button": "Ne",
+    "confirm_message_line1": "Je zde aktivní časovač.",
+    "prefs_title": "{{app_name}} Preference",
+    "prefs_show_extra": "Zobrazit délku vaření a teplotu na tlačítkách časovače",
+    "error_name_missing": "* Prosím zadejte název čaje.",
+    "error_name_long": "* Název čaje je příliš dlouhý.",
+    "add_tea_button": "Přidat čaj",
+    "new_tea_default_name": "Nový čaj",
+    "about_app": "{{app_name}} je bezplatná, open-source aplikace."
+}
