@@ -1,0 +1,3 @@
+* Nová stránka s preferencemi!
+* Nastavte si vlastní názvy čajů, délku vaření, a barvu.
+* Uložení nastavení pro tři různé čaje.

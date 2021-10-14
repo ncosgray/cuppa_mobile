@@ -1,0 +1,3 @@
+* Cuppa byla přeložena do 9ti nových jazyků - podílejte se na překládání přes Weblate!
+* Časování čajů které se namočí za méně než minutu.
+* Různá menší vylepšení uživatelského rozhraní a oprava chyb.
