@@ -55,6 +55,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   @override
   bool isSupported(Locale locale) => [
         'en',
+        'cs',
         'da',
         'de',
         'eo',
