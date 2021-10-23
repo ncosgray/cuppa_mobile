@@ -1,7 +1,7 @@
-Iritsi da azkenean gailu mugikorretarako Cuppa! Nekatuta zure tea luzaroegi uzteaz, mingots eta hotz bihur dadin, edo goizegi edateaz eta bere ahalmen osoa ez preziatzeaz? Orduan baliagarritasun hau zuretzat da!
+Iritsi da azkenean gailu mugikorretarako Kuppa! Nekatuta zure tea luzaroegi uzteaz, mingots eta hotz bihur dadin, edo goizegi edateaz eta bere ahalmen osoa ez preziatzeaz? Orduan baliagarritasun hau zuretzat da!
 
 Aplikazioa benetan erabiltzeko bezain azkarra eta erraza izan dadin, sinpletasunean pentsatuz eraiki dugu. Aplikazioa ireki eta prestatzen ari zaren te motari dagokion botoia jo besterik ez duzu egin behar. Hori da dena. Ez dago menu zailen bidez nabigatu beharrik te jakin bat aurkitzeko, edo konfigurazioarekin jolasteko..., non eta ez dituzun prestaketa-denborak pertsonalizatu nahi edo zure te gogokoenak gehitu nahi (berria 1.4 bertsioan!).
 
-Jotzen duzunean, Cuppa infusioa kronometratzen hasiko da, eta ikusiko duzu te-poltsatxo bat agertzen dela katiluan eta pixkanaka iluntzen dela tea busti ahala. Atzera-kontuko tenporizadore batek geratzen den infusio-denbora erakusten du. Tea prest dagoenean, Cuppak jakinarazpen batekin abisatuko dizu, eta, horrekin batera, soinu edo bibrazio bat ere egon daiteke, zure gailuaren konfigurazioaren arabera.
+Jotzen duzunean, Kuppa infusioa kronometratzen hasiko da, eta ikusiko duzu te-poltsatxo bat agertzen dela katiluan eta pixkanaka iluntzen dela tea busti ahala. Atzera-kontuko tenporizadore batek geratzen den infusio-denbora erakusten du. Tea prest dagoenean, Kuppak jakinarazpen batekin abisatuko dizu, eta, horrekin batera, soinu edo bibrazio bat ere egon daiteke, zure gailuaren konfigurazioaren arabera.
 
-Zure gailu mugikorrerako Cuppa erabilgarria izatea espero dugu!
+Zure gailu mugikorrerako Kuppa erabilgarria izatea espero dugu!
