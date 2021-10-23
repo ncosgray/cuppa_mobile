@@ -288,6 +288,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
         ),
         body: new SafeArea(
           child: new CustomScrollView(
+            physics: const BouncingScrollPhysics(),
             slivers: [
               new SliverToBoxAdapter(
                 child: new Container(
