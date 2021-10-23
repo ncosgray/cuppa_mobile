@@ -29,6 +29,7 @@ List<Tea> teaList;
 
 // Settings
 bool showExtra;
+bool useCelsius;
 
 // Limits
 final int teaNameMaxLength = 16;
@@ -179,6 +180,7 @@ abstract class Prefs {
   static const _prefTea3Color = 'Cuppa_tea3_color';
   static const _prefMoreTeas = 'Cuppa_tea_list';
   static const _prefShowExtra = 'Cuppa_show_extra';
+  static const _prefUseCelsius = 'Cuppa_use_celsius';
 
   // Fetch all teas from shared prefs or use defaults
   static void getTeas() {
@@ -218,6 +220,7 @@ abstract class Prefs {
 
     // Other settings
     showExtra = sharedPrefs.getBool(_prefShowExtra) ?? false;
+    useCelsius = sharedPrefs.getBool(_prefUseCelsius) ?? false;
   }
 
   // Store all teas in shared prefs
@@ -242,6 +245,7 @@ abstract class Prefs {
     sharedPrefs.setStringList(_prefMoreTeas, moreTeasEncoded);
 
     sharedPrefs.setBool(_prefShowExtra, showExtra);
+    sharedPrefs.setBool(_prefUseCelsius, useCelsius);
   }
 
   // Next alarm info
@@ -389,7 +393,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                   teaList.add(new Tea(
                                       name: _getNextDefaultTeaName(),
                                       brewTime: 240,
-                                      brewTemp: 212,
+                                      brewTemp: useCelsius ? 100 : 212,
                                       color: 0));
                                   Prefs.setTeas();
                                 });
@@ -414,6 +418,31 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                             onChanged: (bool newValue) {
                               setState(() {
                                 showExtra = newValue;
+                                Prefs.setTeas();
+                              });
+                            },
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(7.0, 7.0, 7.0, 0.0),
+                            dense: true,
+                          )),
+                      // Setting: default to Celsius or Fahrenheit
+                      new Align(
+                          alignment: Alignment.topLeft,
+                          child: new SwitchListTile.adaptive(
+                            title: new Text(
+                                AppLocalizations.translate('prefs_use_celsius'),
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .color,
+                                )),
+                            value: useCelsius,
+                            // Save useCelsius setting to prefs
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                useCelsius = newValue;
                                 Prefs.setTeas();
                               });
                             },
