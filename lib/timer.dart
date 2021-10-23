@@ -303,16 +303,17 @@ class _TimerWidgetState extends State<TimerWidget> {
               new SizedBox(
                   height: 170.0,
                   child: new Container(
-                    padding: const EdgeInsets.fromLTRB(0.0, 24.0, 12.0, 12.0),
+                    padding: const EdgeInsets.fromLTRB(12.0, 24.0, 12.0, 12.0),
                     alignment: Alignment.center,
                     child: new ListView(
                         scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
                         children: teaList.map<Widget>((tea) {
                           // Build the list of teas
                           return new Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  12.0, 0.0, 0.0, 0.0),
+                              padding:
+                                  const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 0.0),
                               child: TeaButton(
                                   tea: tea,
                                   active: _whichActive == tea ? true : false,
