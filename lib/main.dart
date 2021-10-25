@@ -14,6 +14,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'localization.dart';
 import 'platform_adaptive.dart';
@@ -39,61 +40,65 @@ class CuppaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     appPlatform = Theme.of(context).platform;
-    Prefs.initTeas();
+    Prefs.getTeas();
 
-    return new MaterialApp(
-        builder: (context, child) {
-          // Set scale factor
-          return MediaQuery(
-            child: child,
-            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-          );
-        },
-        title: appName,
-        debugShowCheckedModeBanner: false,
-        // Configure theme
-        theme: getPlatformAdaptiveTheme(appPlatform),
-        darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
-        // Configure routes
-        initialRoute: '/',
-        routes: {
-          '/': (context) => TimerWidget(),
-          '/prefs': (context) => PrefsWidget(),
-        },
-        // Localization
-        supportedLocales: [
-          const Locale('en', ''),
-          const Locale('cs', ''),
-          const Locale('da', ''),
-          const Locale('de', ''),
-          const Locale('eo', ''),
-          const Locale('es', ''),
-          const Locale('et', ''),
-          const Locale('eu', ''),
-          const Locale('fi', ''),
-          const Locale('fr', ''),
-          const Locale('ga', ''),
-          const Locale('ht', ''),
-          const Locale('it', ''),
-          const Locale('nb', ''),
-          const Locale('nl', ''),
-          const Locale('ru', ''),
-          const Locale('sl', ''),
-        ],
-        localizationsDelegates: [
-          const AppLocalizationsDelegate(),
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        localeResolutionCallback: (locale, supportedLocales) {
-          // Set language or default to English
-          for (var supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale.languageCode) {
-              return supportedLocale;
-            }
-          }
-          return supportedLocales.first;
-        });
+    return ChangeNotifierProvider(
+        create: (_) => ThemeProvider(),
+        child: Consumer<ThemeProvider>(
+            builder: (context, themeProvider, child) => MaterialApp(
+                builder: (context, child) {
+                  // Set scale factor
+                  return MediaQuery(
+                    child: child,
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  );
+                },
+                title: appName,
+                debugShowCheckedModeBanner: false,
+                // Configure app theme
+                theme: getPlatformAdaptiveTheme(appPlatform),
+                darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
+                themeMode: Prefs.appThemes[appTheme],
+                // Configure routes
+                initialRoute: '/',
+                routes: {
+                  '/': (context) => TimerWidget(),
+                  '/prefs': (context) => PrefsWidget(),
+                },
+                // Localization
+                supportedLocales: [
+                  const Locale('en', ''),
+                  const Locale('cs', ''),
+                  const Locale('da', ''),
+                  const Locale('de', ''),
+                  const Locale('eo', ''),
+                  const Locale('es', ''),
+                  const Locale('et', ''),
+                  const Locale('eu', ''),
+                  const Locale('fi', ''),
+                  const Locale('fr', ''),
+                  const Locale('ga', ''),
+                  const Locale('ht', ''),
+                  const Locale('it', ''),
+                  const Locale('nb', ''),
+                  const Locale('nl', ''),
+                  const Locale('ru', ''),
+                  const Locale('sl', ''),
+                ],
+                localizationsDelegates: [
+                  const AppLocalizationsDelegate(),
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                ],
+                localeResolutionCallback: (locale, supportedLocales) {
+                  // Set language or default to English
+                  for (var supportedLocale in supportedLocales) {
+                    if (supportedLocale.languageCode == locale.languageCode) {
+                      return supportedLocale;
+                    }
+                  }
+                  return supportedLocales.first;
+                })));
   }
 }
 
@@ -114,4 +119,11 @@ String formatTimer(s) {
   String secsString = secs.toString();
   if (secs < 10) secsString = '0' + secsString;
   return mins.toString() + ':' + secsString;
+}
+
+// Theme provider
+class ThemeProvider extends ChangeNotifier {
+  void changeTheme() {
+    notifyListeners();
+  }
 }

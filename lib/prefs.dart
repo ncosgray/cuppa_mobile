@@ -17,6 +17,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:reorderables/reorderables.dart';
 import 'dart:convert';
@@ -30,6 +31,7 @@ List<Tea> teaList;
 // Settings
 bool showExtra;
 bool useCelsius;
+int appTheme;
 
 // Limits
 final int teaNameMaxLength = 16;
@@ -155,6 +157,20 @@ abstract class Prefs {
       return Prefs.teaColors[color];
   }
 
+  // App theme map
+  static final Map<int, ThemeMode> appThemes = {
+    0: ThemeMode.system,
+    1: ThemeMode.light,
+    2: ThemeMode.dark
+  };
+
+  // App theme name map
+  static final Map<int, String> appThemeNames = {
+    0: AppLocalizations.translate('theme_system'),
+    1: AppLocalizations.translate('theme_light'),
+    2: AppLocalizations.translate('theme_dark')
+  };
+
   // Shortcut icon map
   static final Map<int, String> shortcutIcons = {
     0: 'shortcut_black',
@@ -181,6 +197,7 @@ abstract class Prefs {
   static const _prefMoreTeas = 'Cuppa_tea_list';
   static const _prefShowExtra = 'Cuppa_show_extra';
   static const _prefUseCelsius = 'Cuppa_use_celsius';
+  static const _prefAppTheme = 'Cuppa_app_theme';
 
   // Fetch all teas from shared prefs or use defaults
   static void getTeas() {
@@ -221,6 +238,7 @@ abstract class Prefs {
     // Other settings
     showExtra = sharedPrefs.getBool(_prefShowExtra) ?? false;
     useCelsius = sharedPrefs.getBool(_prefUseCelsius) ?? false;
+    appTheme = sharedPrefs.getInt(_prefAppTheme) ?? 0;
   }
 
   // Store all teas in shared prefs
@@ -246,6 +264,7 @@ abstract class Prefs {
 
     sharedPrefs.setBool(_prefShowExtra, showExtra);
     sharedPrefs.setBool(_prefUseCelsius, useCelsius);
+    sharedPrefs.setInt(_prefAppTheme, appTheme);
   }
 
   // Next alarm info
@@ -459,6 +478,61 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     7.0, 7.0, 7.0, 0.0),
                                 dense: true,
                               )),
+                          // Setting: app theme selection
+                          new Consumer<ThemeProvider>(
+                              builder: (context, themeProvider, child) => Align(
+                                  alignment: Alignment.topLeft,
+                                  child: new ListTile(
+                                    title: new Text(
+                                        AppLocalizations.translate(
+                                            'prefs_app_theme'),
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              .color,
+                                        )),
+                                    trailing:
+                                        // App theme dropdown
+                                        new DropdownButton<int>(
+                                      value: appTheme,
+                                      icon: Icon(
+                                        Icons.arrow_drop_down,
+                                        size: 18.0,
+                                        color: Colors.grey,
+                                      ),
+                                      underline: SizedBox(),
+                                      items: Prefs.appThemeNames.keys
+                                          .map<DropdownMenuItem<int>>(
+                                              (int value) {
+                                        return DropdownMenuItem<int>(
+                                          value: value,
+                                          child: Text(
+                                              Prefs.appThemeNames[value],
+                                              style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  fontWeight: value == appTheme
+                                                      ? FontWeight.w400
+                                                      : FontWeight.w300)),
+                                        );
+                                      }).toList(),
+                                      // Save appTheme to prefs
+                                      onChanged: (int newValue) {
+                                        setState(() {
+                                          appTheme = newValue;
+                                          Prefs.setTeas();
+
+                                          // Notify consumers when theme changes
+                                          themeProvider.changeTheme();
+                                        });
+                                      },
+                                      alignment: Alignment.centerRight,
+                                    ),
+                                    contentPadding: const EdgeInsets.fromLTRB(
+                                        7.0, 7.0, 7.0, 0.0),
+                                    dense: true,
+                                  ))),
                           // Notification settings info text
                           new Align(
                               alignment: Alignment.topLeft,
