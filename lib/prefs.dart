@@ -320,6 +320,17 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                         padding:
                             const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 0.0),
                         child: new Column(children: [
+                          // Section: Teas
+                          new Align(
+                              alignment: Alignment.topLeft,
+                              child: new Container(
+                                  margin: const EdgeInsets.fromLTRB(
+                                      7.0, 0.0, 7.0, 14.0),
+                                  child: new Text(
+                                      AppLocalizations.translate('teas_title'),
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                      )))),
                           // Prefs header info text
                           new Align(
                               alignment: Alignment.topLeft,
@@ -434,7 +445,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     AppLocalizations.translate(
                                         'prefs_show_extra'),
                                     style: TextStyle(
-                                      fontSize: 14.0,
+                                      fontSize: 16.0,
                                       color: Theme.of(context)
                                           .textTheme
                                           .bodyText1
@@ -449,9 +460,14 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                   });
                                 },
                                 contentPadding: const EdgeInsets.fromLTRB(
-                                    7.0, 7.0, 7.0, 0.0),
+                                    7.0, 14.0, 7.0, 0.0),
                                 dense: true,
                               )),
+                          const Divider(
+                            thickness: 1.0,
+                            indent: 7.0,
+                            endIndent: 7.0,
+                          ),
                           // Setting: default to Celsius or Fahrenheit
                           new Align(
                               alignment: Alignment.topLeft,
@@ -460,7 +476,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     AppLocalizations.translate(
                                         'prefs_use_celsius'),
                                     style: TextStyle(
-                                      fontSize: 14.0,
+                                      fontSize: 16.0,
                                       color: Theme.of(context)
                                           .textTheme
                                           .bodyText1
@@ -478,6 +494,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     7.0, 7.0, 7.0, 0.0),
                                 dense: true,
                               )),
+                          const Divider(
+                            thickness: 1.0,
+                            indent: 7.0,
+                            endIndent: 7.0,
+                          ),
                           // Setting: app theme selection
                           new Consumer<ThemeProvider>(
                               builder: (context, themeProvider, child) => Align(
@@ -487,7 +508,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                         AppLocalizations.translate(
                                             'prefs_app_theme'),
                                         style: TextStyle(
-                                          fontSize: 14.0,
+                                          fontSize: 16.0,
                                           color: Theme.of(context)
                                               .textTheme
                                               .bodyText1
@@ -499,7 +520,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       value: appTheme,
                                       icon: Icon(
                                         Icons.arrow_drop_down,
-                                        size: 18.0,
+                                        size: 20.0,
                                         color: Colors.grey,
                                       ),
                                       underline: SizedBox(),
@@ -511,7 +532,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                           child: Text(
                                               Prefs.appThemeNames[value],
                                               style: TextStyle(
-                                                  fontSize: 14.0,
+                                                  fontSize: 16.0,
                                                   fontWeight: value == appTheme
                                                       ? FontWeight.w400
                                                       : FontWeight.w300)),
@@ -533,6 +554,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                         7.0, 7.0, 7.0, 0.0),
                                     dense: true,
                                   ))),
+                          const Divider(
+                            thickness: 1.0,
+                            indent: 7.0,
+                            endIndent: 7.0,
+                          ),
                           // Notification settings info text
                           new Align(
                               alignment: Alignment.topLeft,
