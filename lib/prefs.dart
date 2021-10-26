@@ -136,6 +136,9 @@ abstract class Prefs {
   // Initialize teas
   static void initTeas() {
     teaList = [new Tea(), new Tea(), new Tea()];
+
+    // Load app theme
+    appTheme = sharedPrefs.getInt(_prefAppTheme) ?? 0;
   }
 
   // Color map
@@ -238,7 +241,6 @@ abstract class Prefs {
     // Other settings
     showExtra = sharedPrefs.getBool(_prefShowExtra) ?? false;
     useCelsius = sharedPrefs.getBool(_prefUseCelsius) ?? false;
-    appTheme = sharedPrefs.getInt(_prefAppTheme) ?? 0;
   }
 
   // Store all teas in shared prefs
@@ -262,9 +264,10 @@ abstract class Prefs {
         (teaList.sublist(3)).map((tea) => jsonEncode(tea.toJson())).toList();
     sharedPrefs.setStringList(_prefMoreTeas, moreTeasEncoded);
 
+    sharedPrefs.setInt(_prefAppTheme, appTheme);
+
     sharedPrefs.setBool(_prefShowExtra, showExtra);
     sharedPrefs.setBool(_prefUseCelsius, useCelsius);
-    sharedPrefs.setInt(_prefAppTheme, appTheme);
   }
 
   // Next alarm info

@@ -40,7 +40,7 @@ class CuppaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     appPlatform = Theme.of(context).platform;
-    Prefs.getTeas();
+    Prefs.initTeas();
 
     return ChangeNotifierProvider(
         create: (_) => ThemeProvider(),
