@@ -18,5 +18,11 @@
     "about_app": "{{app_name}} ist eine kostenlose, quelloffene Anwendung.",
     "prefs_show_extra": "Brühzeit und Temperatur auf den Timertasten anzeigen",
     "add_tea_button": "Tee hinzufügen",
-    "new_tea_default_name": "Neuer Tee"
+    "new_tea_default_name": "Neuer Tee",
+    "theme_system": "System folgen",
+    "prefs_use_celsius": "Für neue Tees das Grad Celsius verwenden",
+    "theme_light": "Hell",
+    "theme_dark": "Dunkel",
+    "prefs_app_theme": "Farbschema der Anwendung auswählen",
+    "teas_title": "Tees"
 }
