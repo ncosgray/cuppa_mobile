@@ -18,5 +18,11 @@
     "tea_name_black": "Thé noir",
     "prefs_show_extra": "Afficher le temps d’infusion et la température sur les boutons de la minuterie",
     "new_tea_default_name": "Nouvelle infusion",
-    "add_tea_button": "Ajouter une infusion"
+    "add_tea_button": "Ajouter une infusion",
+    "teas_title": "Thés",
+    "prefs_use_celsius": "Utiliser les degrés Celsius pour les nouvelles infusions",
+    "theme_system": "Suivre le système",
+    "theme_light": "Clair",
+    "theme_dark": "Sombre",
+    "prefs_app_theme": "Choisissez le thème des couleurs de l’appli"
 }
