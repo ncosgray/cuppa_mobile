@@ -18,5 +18,11 @@
     "tea_name_black": "Te nwa",
     "prefs_show_extra": "Montre tan ak tanperati sou bouton revèy",
     "new_tea_default_name": "Nouvo te",
-    "add_tea_button": "Ajoute te"
+    "add_tea_button": "Ajoute te",
+    "prefs_use_celsius": "Itilize tanperati Sèlsiyis la pou nouvo te yo",
+    "prefs_app_theme": "Chwazi tèm koulè aplikasyon an",
+    "theme_system": "Swiv sistèm",
+    "theme_dark": "Nwa",
+    "teas_title": "Te",
+    "theme_light": "Klè"
 }
