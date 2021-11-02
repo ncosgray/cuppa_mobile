@@ -279,6 +279,8 @@ class _TimerWidgetState extends State<TimerWidget> {
               // Teacup
               new Expanded(
                 child: new Container(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.height * 0.6),
                     padding: const EdgeInsets.fromLTRB(48.0, 0.0, 48.0, 0.0),
                     alignment: Alignment.center,
                     child: new Stack(children: [
