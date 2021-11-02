@@ -25,8 +25,8 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 
 ### Join the Team
 
-- Chat in the [Telegram discussion group](https://t.me/CuppaMobile)
-- Use [Weblate](https://hosted.weblate.org/engage/cuppa/) to contribute a translation for your language
+- Chat in the [Telegram discussion group](https://t.me/CuppaMobile).
+- Use [Weblate](https://hosted.weblate.org/engage/cuppa/) to contribute a translation for your language.
 
 <a href="https://hosted.weblate.org/engage/cuppa/" target="_blank" rel="noopener"><img src="https://hosted.weblate.org/widgets/cuppa/-/open-graph.png" alt="Translation status" width="400"></a>
 
@@ -41,17 +41,13 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 
 [![Android description](https://hosted.weblate.org/widgets/cuppa/-/cuppa-mobile-app-store-android/multi-auto.svg)](https://hosted.weblate.org/projects/cuppa/cuppa-mobile-app-store-android/)
 
-#### iOS app store description:
-
-[![iOS description](https://hosted.weblate.org/widgets/cuppa/-/cuppa-mobile-app-store-ios/multi-auto.svg)](https://hosted.weblate.org/projects/cuppa/cuppa-mobile-app-store-ios/)
-
 </details>
 
-### Support the project
+### Support the Project
 
-Buy us a cup of tea or any amount of the delicious beverage you want, as it enables us to put more free time into the active development.
+Buy us a cup of tea to support active development of Cuppa.
 
-<a href="https://paypal.me/ncosgray"><img src="https://raw.githubusercontent.com/aha999/DonateButtons/master/Paypal.png" alt="Donate on Paypal" height="80"/></a><br/>
+<a href="https://paypal.me/ncosgray"><img src="https://www.nathanatos.com/software/images/paypal-badge.png" alt="Donate with PayPal" height="80"/></a><br/>
 
 ### About
 
