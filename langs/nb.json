@@ -18,5 +18,11 @@
     "tea_name_black": "Svart te",
     "prefs_show_extra": "Vis brygge tid og temperatur på knappene timer",
     "new_tea_default_name": "Ny te",
-    "add_tea_button": "Tilsett Te"
+    "add_tea_button": "Tilsett Te",
+    "prefs_app_theme": "Velg appfargetema",
+    "theme_system": "Følg systemet",
+    "prefs_use_celsius": "Bruk Celsius temperatur for nye teer",
+    "theme_light": "Lys",
+    "theme_dark": "Mørk",
+    "teas_title": "Te"
 }

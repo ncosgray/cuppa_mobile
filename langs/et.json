@@ -18,5 +18,11 @@
     "error_name_long": "* Tee nimi on liiga pikk.",
     "about_app": "{{app_name}} on tasuta, avatud lähtekoodiga rakendus.",
     "new_tea_default_name": "Uus tee",
-    "add_tea_button": "Lisa Tee"
+    "add_tea_button": "Lisa Tee",
+    "prefs_use_celsius": "Kasutage uute teede jaoks Celsiuse temperatuuri",
+    "prefs_app_theme": "Valige rakenduse värviteema",
+    "theme_system": "Jälgi süsteemi",
+    "theme_light": "Valgus",
+    "theme_dark": "Tume",
+    "teas_title": "teed"
 }

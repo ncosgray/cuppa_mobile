@@ -18,5 +18,11 @@
     "tea_name_black": "Črni Čaj",
     "prefs_show_extra": "Prikaz časa in temperature kuhanja na gumbih časovnika",
     "add_tea_button": "Dodajte čaj",
-    "new_tea_default_name": "Novi čaj"
+    "new_tea_default_name": "Novi čaj",
+    "theme_light": "Svetloba",
+    "prefs_use_celsius": "Za nove čaje uporabite temperaturo Celzija",
+    "prefs_app_theme": "Izberite barvno temo aplikacije",
+    "theme_dark": "Temno",
+    "teas_title": "Čaji",
+    "theme_system": "Sledite sistemu"
 }

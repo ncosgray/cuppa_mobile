@@ -18,5 +18,11 @@
     "confirm_message_line1": "Есть активный таймер.",
     "prefs_show_extra": "Показывать время заваривания и температуру на кнопках таймера",
     "new_tea_default_name": "Новый чай",
-    "add_tea_button": "Добавить чай"
+    "add_tea_button": "Добавить чай",
+    "prefs_use_celsius": "Используйте температуру Цельсия для новых чаев",
+    "prefs_app_theme": "Выберите цветовую тему приложения",
+    "theme_system": "Следуйте системе",
+    "theme_light": "Свет",
+    "theme_dark": "Темный",
+    "teas_title": "Чаи"
 }

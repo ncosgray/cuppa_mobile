@@ -18,5 +18,11 @@
     "yes_button": "Jes",
     "tea_name_herbal": "Tizano",
     "tea_name_green": "Verda teo",
-    "tea_name_black": "Bruna teo"
+    "tea_name_black": "Bruna teo",
+    "prefs_use_celsius": "Uzu celsiusan temperaturon por novaj teoj",
+    "prefs_app_theme": "Elektu app-koloran temon",
+    "theme_system": "Sekvu sistemon",
+    "theme_light": "Lumo",
+    "theme_dark": "Mallumo",
+    "teas_title": "Teoj"
 }

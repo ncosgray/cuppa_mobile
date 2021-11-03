@@ -18,5 +18,11 @@
     "error_name_long": "* Název čaje je příliš dlouhý.",
     "add_tea_button": "Přidat čaj",
     "new_tea_default_name": "Nový čaj",
-    "about_app": "{{app_name}} je bezplatná, open-source aplikace."
+    "about_app": "{{app_name}} je bezplatná, open-source aplikace.",
+    "prefs_use_celsius": "Pro nové čaje použijte teplotu Celsia",
+    "prefs_app_theme": "Vyberte barevný motiv aplikace",
+    "theme_system": "Sledujte systém",
+    "theme_light": "Světlo",
+    "theme_dark": "Temný",
+    "teas_title": "Čaje"
 }

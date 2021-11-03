@@ -18,5 +18,11 @@
     "tea_name_black": "Té negro",
     "prefs_show_extra": "Muestra el tiempo de infusión y la temperatura en los botones del temporizador",
     "new_tea_default_name": "Nuevo té",
-    "add_tea_button": "Añadir un té"
+    "add_tea_button": "Añadir un té",
+    "prefs_use_celsius": "Use temperatura Celsius para nuevos tés",
+    "prefs_app_theme": "Elija el tema de color de la aplicación",
+    "theme_system": "Seguir el sistema",
+    "theme_light": "Luz",
+    "theme_dark": "Oscuro",
+    "teas_title": "Tés"
 }

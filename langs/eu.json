@@ -18,5 +18,11 @@
     "tea_name_green": "Te Berdea",
     "tea_name_black": "Te Beltza",
     "add_tea_button": "Tea Gehitu",
-    "new_tea_default_name": "Te Berria"
+    "new_tea_default_name": "Te Berria",
+    "prefs_use_celsius": "Erabili Celsius tenperatura te berrietarako",
+    "prefs_app_theme": "Aukeratu aplikazioaren kolore-gaia",
+    "theme_system": "Jarraitu sistema",
+    "theme_light": "Argia",
+    "theme_dark": "Iluna",
+    "teas_title": "Teak"
 }

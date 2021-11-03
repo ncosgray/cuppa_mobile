@@ -18,5 +18,11 @@
     "tea_name_black": "Musta tee",
     "prefs_show_extra": "Näytä haudutusajan ja lämpötilan ajastinpainikkeissa",
     "new_tea_default_name": "Uusi tee",
-    "add_tea_button": "Lisää"
+    "add_tea_button": "Lisää",
+    "prefs_use_celsius": "Käytä Celsiusasteetta uusille teelle",
+    "prefs_app_theme": "Valitse sovelluksen väriteema",
+    "theme_system": "Järjestelmän mukaan",
+    "theme_light": "Vaalea",
+    "theme_dark": "Tumma",
+    "teas_title": "Teet"
 }
