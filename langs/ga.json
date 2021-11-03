@@ -18,5 +18,11 @@
     "tea_name_black": "Tae dubh",
     "prefs_show_extra": "Taispeáin brew am agus teocht ar an lasc ama cnaipí",
     "add_tea_button": "Cuir Tae Leis",
-    "new_tea_default_name": "Tae nua"
+    "new_tea_default_name": "Tae nua",
+    "prefs_use_celsius": "Úsáid teocht Celsius le haghaidh tae nua",
+    "prefs_app_theme": "Roghnaigh téama dath an aip",
+    "theme_system": "Lean an córas",
+    "theme_light": "Solas",
+    "theme_dark": "Dorcha",
+    "teas_title": "Teas"
 }
