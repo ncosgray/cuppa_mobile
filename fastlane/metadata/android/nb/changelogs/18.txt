@@ -1,4 +1,4 @@
 * Mulighet for å legge til tre egendefinerte tesorter i egenskapene.
 * Mulighet for endring av rekkefølgen på dine te-knapper.
 * Forbedret grafikk.
-* Nye oversettelser. Bidra via Weblate.
+* Nye oversettelser - bidra via Weblate!
