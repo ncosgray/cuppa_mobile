@@ -18,5 +18,11 @@
     "tea_name_green": "Groene Thee",
     "tea_name_black": "Zwarte Thee",
     "new_tea_default_name": "Nieuwe thee",
-    "add_tea_button": "Thee Toevoegen"
+    "add_tea_button": "Thee Toevoegen",
+    "prefs_use_celsius": "Gebruik Celsius-temperatuur voor nieuwe thee",
+    "prefs_app_theme": "Kies een app-kleurthema",
+    "theme_system": "Volg systeem",
+    "theme_light": "Licht",
+    "theme_dark": "Donker",
+    "teas_title": "Thee"
 }
