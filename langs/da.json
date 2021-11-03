@@ -18,5 +18,11 @@
     "error_name_long": "* Te navnet er for langt.",
     "about_app": "{{app_name}} er en gratis open source-app.",
     "new_tea_default_name": "Ny te",
-    "add_tea_button": "Tilsæt Te"
+    "add_tea_button": "Tilsæt Te",
+    "prefs_use_celsius": "Brug Celsius temperatur til nye teer",
+    "prefs_app_theme": "Vælg app farvetema",
+    "theme_system": "Følg systemet",
+    "theme_light": "Lys",
+    "theme_dark": "Mørk",
+    "teas_title": "Teer"
 }
