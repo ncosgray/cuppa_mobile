@@ -148,7 +148,13 @@ abstract class Prefs {
     2: Colors.orange,
     3: Colors.green,
     4: Colors.blue,
-    5: Colors.purple[300],
+    5: Colors.purple[400],
+    6: Colors.brown[400],
+    7: Colors.pink[200],
+    8: Colors.amber,
+    9: Colors.teal,
+    10: Colors.cyan[400],
+    11: Colors.deepPurple[200],
   };
 
   // Themed color map lookup
