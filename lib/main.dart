@@ -25,6 +25,7 @@ import 'timer.dart';
 // Globals
 SharedPreferences sharedPrefs;
 TargetPlatform appPlatform;
+bool isLocaleMetric = true;
 final String appName = 'Cuppa';
 final String aboutCopyright = '\u00a9 Nathan Cosgray';
 final String aboutURL = 'https://nathanatos.com';
@@ -97,6 +98,9 @@ class CuppaApp extends StatelessWidget {
                   GlobalWidgetsLocalizations.delegate,
                 ],
                 localeResolutionCallback: (locale, supportedLocales) {
+                  // Set metric locale based on country code
+                  if (locale.countryCode == 'US') isLocaleMetric = false;
+
                   // Set language or default to English
                   for (var supportedLocale in supportedLocales) {
                     if (supportedLocale.languageCode == locale.languageCode) {

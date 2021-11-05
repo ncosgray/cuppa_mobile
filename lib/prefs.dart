@@ -225,7 +225,8 @@ abstract class Prefs {
     teaList[0].name = sharedPrefs.getString(_prefTea1Name) ??
         AppLocalizations.translate('tea_name_black');
     teaList[0].brewTime = sharedPrefs.getInt(_prefTea1BrewTime) ?? 240;
-    teaList[0].brewTemp = sharedPrefs.getInt(_prefTea1BrewTemp) ?? 212;
+    teaList[0].brewTemp =
+        sharedPrefs.getInt(_prefTea1BrewTemp) ?? (isLocaleMetric ? 100 : 212);
     teaList[0].color = sharedPrefs.getInt(_prefTea1Color) ?? 0;
     teaList[0].isFavorite = sharedPrefs.getBool(_prefTea1IsFavorite) ?? true;
 
@@ -236,8 +237,8 @@ abstract class Prefs {
     // Select default temp of 212 if name changed from Green tea
     teaList[1].brewTemp = sharedPrefs.getInt(_prefTea2BrewTemp) ??
         (teaList[1].name != AppLocalizations.translate('tea_name_green')
-            ? 212
-            : 180);
+            ? (isLocaleMetric ? 100 : 212)
+            : (isLocaleMetric ? 80 : 180));
     teaList[1].color = sharedPrefs.getInt(_prefTea2Color) ?? 3;
     teaList[1].isFavorite = sharedPrefs.getBool(_prefTea2IsFavorite) ?? true;
 
@@ -245,7 +246,8 @@ abstract class Prefs {
     teaList[2].name = sharedPrefs.getString(_prefTea3Name) ??
         AppLocalizations.translate('tea_name_herbal');
     teaList[2].brewTime = sharedPrefs.getInt(_prefTea3BrewTime) ?? 300;
-    teaList[2].brewTemp = sharedPrefs.getInt(_prefTea3BrewTemp) ?? 212;
+    teaList[2].brewTemp =
+        sharedPrefs.getInt(_prefTea3BrewTemp) ?? (isLocaleMetric ? 100 : 212);
     teaList[2].color = sharedPrefs.getInt(_prefTea3Color) ?? 2;
     teaList[2].isFavorite = sharedPrefs.getBool(_prefTea3IsFavorite) ?? true;
 
@@ -258,7 +260,7 @@ abstract class Prefs {
 
     // Other settings
     showExtra = sharedPrefs.getBool(_prefShowExtra) ?? false;
-    useCelsius = sharedPrefs.getBool(_prefUseCelsius) ?? false;
+    useCelsius = sharedPrefs.getBool(_prefUseCelsius) ?? isLocaleMetric;
 
     // Manage quick actions
     setQuickActions();
