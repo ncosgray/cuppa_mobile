@@ -1,0 +1,4 @@
+[NIEUW] Voeg de watertemperatuur van elke theesoort toe;
+[NIEUW] Optie om aanvullende trekinformatie te tonen op de tijdknoppen;
+[NIEUW] Theeën kunnen voortaan ook langer dan 10 minuten trekken;
+[NIEUW] Meer en bijgewerkte vertalingen - draag ook bij via Weblate!
