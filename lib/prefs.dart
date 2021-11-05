@@ -48,14 +48,16 @@ class Tea {
   int brewTime;
   int brewTemp;
   int color;
+  bool isFavorite;
 
   // Constructor
-  Tea({String name, int brewTime, int brewTemp, int color}) {
+  Tea({String name, int brewTime, int brewTemp, int color, bool isFavorite}) {
     id = UniqueKey();
     this.name = name;
     this.brewTime = brewTime;
     this.brewTemp = brewTemp;
     this.color = color;
+    this.isFavorite = isFavorite;
   }
 
   // Tea display getters
@@ -101,7 +103,8 @@ class Tea {
         name: json['name'] ?? '',
         brewTime: json['brewTime'] ?? 0,
         brewTemp: json['brewTemp'] ?? 0,
-        color: json['color'] ?? 0);
+        color: json['color'] ?? 0,
+        isFavorite: json['isFavorite'] ?? false);
   }
 
   Map<String, dynamic> toJson() {
@@ -110,6 +113,7 @@ class Tea {
       'brewTime': this.brewTime,
       'brewTemp': this.brewTemp,
       'color': this.color,
+      'isFavorite': this.isFavorite,
     };
   }
 
@@ -120,7 +124,8 @@ class Tea {
         otherTea.name == this.name &&
         otherTea.brewTime == this.brewTime &&
         otherTea.brewTemp == this.brewTemp &&
-        otherTea.color == this.color;
+        otherTea.color == this.color &&
+        otherTea.isFavorite == this.isFavorite;
   }
 
   @override
@@ -128,7 +133,8 @@ class Tea {
       this.name.hashCode ^
       this.brewTime.hashCode ^
       this.brewTemp.hashCode ^
-      this.color.hashCode;
+      this.color.hashCode ^
+      this.isFavorite.hashCode;
 }
 
 // Shared prefs functionality
@@ -195,14 +201,17 @@ abstract class Prefs {
   static const _prefTea1BrewTime = 'Cuppa_tea1_brew_time';
   static const _prefTea1BrewTemp = 'Cuppa_tea1_brew_temp';
   static const _prefTea1Color = 'Cuppa_tea1_color';
+  static const _prefTea1IsFavorite = 'Cuppa_tea1_is_favorite';
   static const _prefTea2Name = 'Cuppa_tea2_name';
   static const _prefTea2BrewTime = 'Cuppa_tea2_brew_time';
   static const _prefTea2BrewTemp = 'Cuppa_tea2_brew_temp';
   static const _prefTea2Color = 'Cuppa_tea2_color';
+  static const _prefTea2IsFavorite = 'Cuppa_tea2_is_favorite';
   static const _prefTea3Name = 'Cuppa_tea3_name';
   static const _prefTea3BrewTime = 'Cuppa_tea3_brew_time';
   static const _prefTea3BrewTemp = 'Cuppa_tea3_brew_temp';
   static const _prefTea3Color = 'Cuppa_tea3_color';
+  static const _prefTea3IsFavorite = 'Cuppa_tea3_is_favorite';
   static const _prefMoreTeas = 'Cuppa_tea_list';
   static const _prefShowExtra = 'Cuppa_show_extra';
   static const _prefUseCelsius = 'Cuppa_use_celsius';
@@ -218,6 +227,7 @@ abstract class Prefs {
     teaList[0].brewTime = sharedPrefs.getInt(_prefTea1BrewTime) ?? 240;
     teaList[0].brewTemp = sharedPrefs.getInt(_prefTea1BrewTemp) ?? 212;
     teaList[0].color = sharedPrefs.getInt(_prefTea1Color) ?? 0;
+    teaList[0].isFavorite = sharedPrefs.getBool(_prefTea1IsFavorite) ?? true;
 
     // Default: Green tea
     teaList[1].name = sharedPrefs.getString(_prefTea2Name) ??
@@ -229,6 +239,7 @@ abstract class Prefs {
             ? 212
             : 180);
     teaList[1].color = sharedPrefs.getInt(_prefTea2Color) ?? 3;
+    teaList[1].isFavorite = sharedPrefs.getBool(_prefTea2IsFavorite) ?? true;
 
     // Default: Herbal tea
     teaList[2].name = sharedPrefs.getString(_prefTea3Name) ??
@@ -236,6 +247,7 @@ abstract class Prefs {
     teaList[2].brewTime = sharedPrefs.getInt(_prefTea3BrewTime) ?? 300;
     teaList[2].brewTemp = sharedPrefs.getInt(_prefTea3BrewTemp) ?? 212;
     teaList[2].color = sharedPrefs.getInt(_prefTea3Color) ?? 2;
+    teaList[2].isFavorite = sharedPrefs.getBool(_prefTea3IsFavorite) ?? true;
 
     // More teas list
     List<String> moreTeasJson =
@@ -247,6 +259,9 @@ abstract class Prefs {
     // Other settings
     showExtra = sharedPrefs.getBool(_prefShowExtra) ?? false;
     useCelsius = sharedPrefs.getBool(_prefUseCelsius) ?? false;
+
+    // Manage quick actions
+    setQuickActions();
   }
 
   // Store all teas in shared prefs
@@ -255,16 +270,19 @@ abstract class Prefs {
     sharedPrefs.setInt(_prefTea1BrewTime, teaList[0].brewTime);
     sharedPrefs.setInt(_prefTea1BrewTemp, teaList[0].brewTemp);
     sharedPrefs.setInt(_prefTea1Color, teaList[0].color);
+    sharedPrefs.setBool(_prefTea1IsFavorite, teaList[0].isFavorite);
 
     sharedPrefs.setString(_prefTea2Name, teaList[1].name);
     sharedPrefs.setInt(_prefTea2BrewTime, teaList[1].brewTime);
     sharedPrefs.setInt(_prefTea2BrewTemp, teaList[1].brewTemp);
     sharedPrefs.setInt(_prefTea2Color, teaList[1].color);
+    sharedPrefs.setBool(_prefTea2IsFavorite, teaList[1].isFavorite);
 
     sharedPrefs.setString(_prefTea3Name, teaList[2].name);
     sharedPrefs.setInt(_prefTea3BrewTime, teaList[2].brewTime);
     sharedPrefs.setInt(_prefTea3BrewTemp, teaList[2].brewTemp);
     sharedPrefs.setInt(_prefTea3Color, teaList[2].color);
+    sharedPrefs.setBool(_prefTea3IsFavorite, teaList[2].isFavorite);
 
     List<String> moreTeasEncoded =
         (teaList.sublist(3)).map((tea) => jsonEncode(tea.toJson())).toList();
@@ -274,6 +292,9 @@ abstract class Prefs {
 
     sharedPrefs.setBool(_prefShowExtra, showExtra);
     sharedPrefs.setBool(_prefUseCelsius, useCelsius);
+
+    // Manage quick actions
+    setQuickActions();
   }
 
   // Next alarm info
@@ -338,7 +359,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                   child: new Text(
                                       AppLocalizations.translate('teas_title'),
                                       style: TextStyle(
-                                        fontSize: 20.0,
+                                        fontSize: 18.0,
                                       )))),
                           // Prefs header info text
                           new Align(
@@ -347,8 +368,9 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                   margin: const EdgeInsets.fromLTRB(
                                       7.0, 0.0, 7.0, 14.0),
                                   child: new Text(
-                                      AppLocalizations.translate(
-                                          'prefs_header'),
+                                      AppLocalizations.translate('prefs_header')
+                                          .replaceAll('{{favorites_max}}',
+                                              favoritesMaxCount.toString()),
                                       style: TextStyle(
                                         fontSize: 14.0,
                                       )))),
@@ -440,7 +462,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                           name: _getNextDefaultTeaName(),
                                           brewTime: 240,
                                           brewTemp: useCelsius ? 100 : 212,
-                                          color: 0));
+                                          color: 0,
+                                          isFavorite: false));
                                       Prefs.setTeas();
                                     });
                                   }
@@ -750,7 +773,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                           ),
                           style: new TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
+                            fontSize: 18.0,
                             color: tea.getThemeColor(context),
                           ),
                           // Checks for tea names that are blank or too long
@@ -775,6 +798,33 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             }
                           },
                         )),
+                        // Favorite status
+                        new IconButton(
+                            alignment: Alignment.topRight,
+                            constraints:
+                                BoxConstraints(minWidth: 30.0, minHeight: 30.0),
+                            iconSize: 20.0,
+                            icon: tea.isFavorite
+                                ? Icon(Icons.star, color: Colors.amber)
+                                : Icon(Icons.star_border_outlined,
+                                    color: Colors.grey),
+                            onPressed: () {
+                              setState(() {
+                                // Toggle favorite status off
+                                if (tea.isFavorite) {
+                                  tea.isFavorite = false;
+                                  Prefs.setTeas();
+                                }
+                                // Toggle favorite status on if max not reached
+                                else if (teaList
+                                        .where((tea) => tea.isFavorite == true)
+                                        .length <
+                                    favoritesMaxCount) {
+                                  tea.isFavorite = true;
+                                  Prefs.setTeas();
+                                }
+                              });
+                            })
                       ])),
                   // Tea brew time selection
                   new Container(
@@ -790,7 +840,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             color: Colors.grey,
                           ),
                           style: TextStyle(
-                            fontSize: 20.0,
+                            fontSize: 18.0,
                             color: Theme.of(context).textTheme.bodyText1.color,
                           ),
                           underline: SizedBox(),
@@ -842,7 +892,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                           ': ',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
+                            fontSize: 18.0,
                             color: Theme.of(context).textTheme.bodyText1.color,
                           ),
                         ),
@@ -855,7 +905,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             color: Colors.grey,
                           ),
                           style: TextStyle(
-                            fontSize: 20.0,
+                            fontSize: 18.0,
                             color: Theme.of(context).textTheme.bodyText1.color,
                           ),
                           underline: SizedBox(),
@@ -895,7 +945,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             color: Colors.grey,
                           ),
                           style: TextStyle(
-                            fontSize: 20.0,
+                            fontSize: 18.0,
                             color: Theme.of(context).textTheme.bodyText1.color,
                           ),
                           underline: SizedBox(),
