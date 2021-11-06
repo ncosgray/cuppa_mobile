@@ -1,0 +1,3 @@
+[NIEUW] Cuppa is nu beschikbaar in 9 nieuwe talen - bijdragen kan via Weblate;
+[NIEUW] Theeën kunnen voortaan ook minder dan één minuut trekken;
+[VERBETERD] Verschillende verbeteringen aan de vormgeving en bugs opgelost.

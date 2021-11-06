@@ -1,0 +1,4 @@
+[NIEUW] Voeg meer dan 3 eigen theesoorten toe in de instellingen;
+[NIEUW] Pas de volgorde van theeknoppen aan;
+[VERBETERD] Beter uitziende grafische elementen;
+[VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!

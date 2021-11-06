@@ -1,0 +1,3 @@
+[NIEUW] Een nieuwe instellingenpagina,
+[NIEUW] Stel eigen theenamen, trektijden en kleuren in;
+[NIEUW] Bewaar de instellingen van drie soorten theeën.
