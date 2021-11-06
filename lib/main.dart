@@ -25,6 +25,8 @@ import 'timer.dart';
 // Globals
 SharedPreferences sharedPrefs;
 TargetPlatform appPlatform;
+double deviceWidth;
+double deviceHeight;
 bool isLocaleMetric = true;
 final String appName = 'Cuppa';
 final String aboutCopyright = '\u00a9 Nathan Cosgray';
@@ -54,6 +56,10 @@ class CuppaApp extends StatelessWidget {
         child: Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) => MaterialApp(
                 builder: (context, child) {
+                  // Get device dimensions
+                  deviceWidth = MediaQuery.of(context).size.width;
+                  deviceHeight = MediaQuery.of(context).size.height;
+
                   // Set scale factor
                   return MediaQuery(
                     child: child,
