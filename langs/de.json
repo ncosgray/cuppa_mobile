@@ -11,7 +11,7 @@
     "yes_button": "Ja",
     "no_button": "Nein",
     "prefs_title": "{{app_name}}-Einstellungen",
-    "prefs_header": "Legen Sie Teenamen, Brühzeiten, Temperaturen und Farben fest. Sie können auch Tees sortieren (langes Drücken) oder aus der Liste löschen (Wischen).",
+    "prefs_header": "Legen Sie Teenamen, Ziehzeiten, Temperaturen und Farben fest. Sie können Tees auch sortieren (langes Drücken) oder durch Streichen löschen. Markieren Sie bis zu {{favorites_max}} Lieblingstees, um sie als App-Icon-Verknüpfungen hinzuzufügen.",
     "prefs_notifications": "Öffnen Sie die Systemeinstellungen Ihres Geräts, um Benachrichtigungen für {{app_name}} zu konfigurieren.",
     "error_name_missing": "* Bitte geben Sie einen Teenamen ein.",
     "error_name_long": "* Teename ist zu lang.",
