@@ -15,6 +15,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'localization.dart';
 import 'platform_adaptive.dart';
@@ -24,9 +25,17 @@ import 'timer.dart';
 // Globals
 SharedPreferences sharedPrefs;
 TargetPlatform appPlatform;
+double deviceWidth;
+double deviceHeight;
+bool isLocaleMetric = true;
 final String appName = 'Cuppa';
 final String aboutCopyright = '\u00a9 Nathan Cosgray';
 final String aboutURL = 'https://nathanatos.com';
+
+// Quick actions
+QuickActions quickActions = const QuickActions();
+final int favoritesMaxCount = 4; // iOS limitation
+final String shortcutPrefix = 'shortcutTea';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +56,10 @@ class CuppaApp extends StatelessWidget {
         child: Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) => MaterialApp(
                 builder: (context, child) {
+                  // Get device dimensions
+                  deviceWidth = MediaQuery.of(context).size.width;
+                  deviceHeight = MediaQuery.of(context).size.height;
+
                   // Set scale factor
                   return MediaQuery(
                     child: child,
@@ -91,6 +104,9 @@ class CuppaApp extends StatelessWidget {
                   GlobalWidgetsLocalizations.delegate,
                 ],
                 localeResolutionCallback: (locale, supportedLocales) {
+                  // Set metric locale based on country code
+                  if (locale.countryCode == 'US') isLocaleMetric = false;
+
                   // Set language or default to English
                   for (var supportedLocale in supportedLocales) {
                     if (supportedLocale.languageCode == locale.languageCode) {
@@ -126,4 +142,19 @@ class ThemeProvider extends ChangeNotifier {
   void changeTheme() {
     notifyListeners();
   }
+}
+
+// Add quick action shortcuts
+void setQuickActions() {
+  quickActions.setShortcutItems(teaList
+      .where((tea) => tea.isFavorite == true)
+      .take(favoritesMaxCount)
+      .map<ShortcutItem>((tea) {
+    // Create a shortcut item for this favorite tea
+    return ShortcutItem(
+      type: shortcutPrefix + teaList.indexOf(tea).toString(),
+      localizedTitle: tea.name,
+      icon: tea.shortcutIcon,
+    );
+  }).toList());
 }

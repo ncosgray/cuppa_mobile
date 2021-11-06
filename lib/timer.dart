@@ -19,7 +19,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:quick_actions/quick_actions.dart';
 import 'main.dart';
 import 'localization.dart';
 import 'platform_adaptive.dart';
@@ -43,12 +42,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   int _timerSeconds = 0;
   DateTime _timerEndTime;
   Timer _timer;
-
-  // Quick actions shortcuts
-  QuickActions quickActions = const QuickActions();
-  static const _shortcutTea1 = 'shortcutTea1';
-  static const _shortcutTea2 = 'shortcutTea2';
-  static const _shortcutTea3 = 'shortcutTea3';
 
   // Notification channel
   static const platform =
@@ -168,25 +161,6 @@ class _TimerWidgetState extends State<TimerWidget> {
       // Load user tea steep times
       Prefs.getTeas();
     });
-
-    // Add quick action shortcuts
-    quickActions.setShortcutItems(<ShortcutItem>[
-      ShortcutItem(
-        type: _shortcutTea1,
-        localizedTitle: teaList[0].name,
-        icon: teaList[0].shortcutIcon,
-      ),
-      ShortcutItem(
-        type: _shortcutTea2,
-        localizedTitle: teaList[1].name,
-        icon: teaList[1].shortcutIcon,
-      ),
-      ShortcutItem(
-        type: _shortcutTea3,
-        localizedTitle: teaList[2].name,
-        icon: teaList[2].shortcutIcon,
-      ),
-    ]);
   }
 
   // Timer page state
@@ -200,17 +174,9 @@ class _TimerWidgetState extends State<TimerWidget> {
     // Handle quick action selection
     quickActions.initialize((String shortcutType) async {
       if (shortcutType != null) {
-        switch (shortcutType) {
-          case _shortcutTea1:
-            if (await _confirmTimer()) _setTimer(teaList[0]);
-            break;
-          case _shortcutTea2:
-            if (await _confirmTimer()) _setTimer(teaList[1]);
-            break;
-          case _shortcutTea3:
-            if (await _confirmTimer()) _setTimer(teaList[2]);
-            break;
-        }
+        int teaIndex =
+            int.tryParse(shortcutType.replaceAll(shortcutPrefix, '')) ?? 0;
+        if (await _confirmTimer()) _setTimer(teaList[teaIndex]);
       }
     });
   }
@@ -279,8 +245,7 @@ class _TimerWidgetState extends State<TimerWidget> {
               // Teacup
               new Expanded(
                 child: new Container(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.height * 0.6),
+                    constraints: BoxConstraints(maxWidth: deviceHeight * 0.6),
                     padding: const EdgeInsets.fromLTRB(48.0, 0.0, 48.0, 0.0),
                     alignment: Alignment.center,
                     child: new Stack(children: [
