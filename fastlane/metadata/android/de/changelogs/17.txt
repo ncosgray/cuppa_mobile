@@ -1,0 +1,4 @@
+* Einschließlich der Einstellung der Wassertemperatur für jeden Tee.
+* Option zur Anzeige zusätzlicher Brühinformationen auf den Timer-Tasten.
+* Tees mit einer Ziehzeit von mehr als 10 Minuten.
+* Mehr Sprachen und Verbesserungen bei der Übersetzung - tragen Sie über Weblate bei!

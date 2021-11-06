@@ -1,0 +1,4 @@
+* Fügen Sie mehr als 3 benutzerdefinierte Tees in den Cuppa-Einstellungen hinzu.
+* Ändern Sie die Reihenfolge Ihrer Teetasten.
+* Verbesserte Grafikqualität.
+* Aktualisierte Sprachübersetzungen - tragen Sie über Weblate bei!
