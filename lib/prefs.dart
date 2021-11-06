@@ -186,14 +186,20 @@ abstract class Prefs {
     2: AppLocalizations.translate('theme_dark')
   };
 
-  // Shortcut icon map
+  // Quick action shortcut icon map
   static final Map<int, String> shortcutIcons = {
-    0: 'shortcut_black',
-    1: 'shortcut_red',
-    2: 'shortcut_orange',
-    3: 'shortcut_green',
-    4: 'shortcut_blue',
-    5: 'shortcut_purple'
+    0: appPlatform == TargetPlatform.iOS ? 'QuickAction' : 'shortcut_black',
+    1: appPlatform == TargetPlatform.iOS ? 'QuickAction' : 'shortcut_red',
+    2: appPlatform == TargetPlatform.iOS ? 'QuickAction' : 'shortcut_orange',
+    3: appPlatform == TargetPlatform.iOS ? 'QuickAction' : 'shortcut_green',
+    4: appPlatform == TargetPlatform.iOS ? 'QuickAction' : 'shortcut_blue',
+    5: appPlatform == TargetPlatform.iOS ? 'QuickAction' : 'shortcut_purple',
+    6: appPlatform == TargetPlatform.iOS ? 'QuickAction' : 'shortcut_brown',
+    7: appPlatform == TargetPlatform.iOS ? 'QuickAction' : 'shortcut_pink',
+    8: appPlatform == TargetPlatform.iOS ? 'QuickAction' : 'shortcut_amber',
+    9: appPlatform == TargetPlatform.iOS ? 'QuickAction' : 'shortcut_teal',
+    10: appPlatform == TargetPlatform.iOS ? 'QuickAction' : 'shortcut_cyan',
+    11: appPlatform == TargetPlatform.iOS ? 'QuickAction' : 'shortcut_lavender',
   };
 
   // Shared prefs keys for teas and other settings
