@@ -3,7 +3,7 @@
     "error_name_long": "* Il nome del tè è troppo lungo.",
     "error_name_missing": "* Inserisci un nome di tè.",
     "prefs_notifications": "Apri le impostazioni di sistema del tuo dispositivo per configurare le notifiche per {{app_name}}.",
-    "prefs_header": "Imposta i nomi di tè, i tempi di infusione, le temperature e i colori. Puoi anche ordinare (pressione lunga) o eliminare (scorrimento) i tè dalla lista.",
+    "prefs_header": "Imposta il nome dei tè, le durate di infusione, le temperature e i colori. È anche possibile ordinare (premere a lungo), o passare il dito per eliminare i tè. Metti una stella fino a {{favorites_max}} tè preferiti per aggiungerli come scorciatoie dell’icona dell’applicazione.",
     "prefs_title": "Preferenze di {{app_name}}",
     "no_button": "No",
     "yes_button": "Sì",
