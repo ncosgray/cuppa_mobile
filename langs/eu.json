@@ -4,7 +4,7 @@
     "error_name_missing": "* Mesedez, idatzi bat tea izena.",
     "prefs_notifications": "Ireki zure gailua sistema ezarpenak konfiguratzeko jakinarazpenak {{app_name}}.",
     "prefs_show_extra": "Erakutsi brew denbora eta tenperatura tenporizadorea botoiak",
-    "prefs_header": "Ezarri tea izenak, brew aldiz, tenperatura, eta koloreak. Zerrendan dauden tesak ordenatu (luze sakatu) edo ezabatu (irristatu) ere egin ditzakezu.",
+    "prefs_header": "Ezarri tea izenak, brew aldiz, tenperatura, eta koloreak. Zerrendan dauden tesak ordenatu (luze sakatu) edo ezabatu (irristatu) ere egin ditzakezu. Izartu {{favorites_max}} te gogokoenak aplikazioaren ikonoaren lasterbide gisa gehitzeko.",
     "prefs_title": "{{app_name}} Lehentasunak",
     "no_button": "Ez",
     "yes_button": "Bai",
