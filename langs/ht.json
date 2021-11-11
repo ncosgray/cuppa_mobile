@@ -3,7 +3,7 @@
     "error_name_long": "* Non te twò long.",
     "error_name_missing": "* Tanpri antre yon non te.",
     "prefs_notifications": "Louvri anviwònman sistèm aparèy ou an pouw konfigire notifikasyon pou {{app_name}}.",
-    "prefs_header": "Ekri non te, tan preparasyon, tanperati ak koulè yo. Ou kapab fè tri (long laprès), oswa efase (glise) te nan lis la.",
+    "prefs_header": "Ekri non te, tan preparasyon, tanperati ak koulè yo. Ou kapab fè tri (long laprès), oswa efase (glise) te nan lis la. Star jiska {{favorites_max}} ti pi renmen yo pou ajoute yo kòm rakoursi ikòn aplikasyon an.",
     "prefs_title": "Preferans {{app_name}}",
     "no_button": "Non",
     "yes_button": "Wi",
