@@ -11,7 +11,7 @@
     "yes_button": "Jah",
     "no_button": "Ei",
     "prefs_title": "{{app_name}} Preferentsid",
-    "prefs_header": "Määrake tee nimed, keetmisajad, temperatuurid ja värvid. Samuti saate loendeid sorteerida (pikalt vajutada) või kustutada (pühkida).",
+    "prefs_header": "Määrake tee nimed, keetmisajad, temperatuurid ja värvid. Samuti saate loendeid sorteerida (pikalt vajutada) või kustutada (pühkida). Tähistage kuni {{favorites_max}} lemmikteed, et lisada need rakenduse ikooni otseteedena.",
     "prefs_show_extra": "Taimeri nuppudel näidatakse keetmisaega ja temperatuuri",
     "prefs_notifications": "Avage oma seadme süsteemi seaded, et konfigureerida teated järgmistele seadmetele {{app_name}}.",
     "error_name_missing": "* Palun sisestage tee nimi.",
