@@ -4,7 +4,7 @@
     "confirm_message_line2": "Ĉu nuligi kaj komenci novan tempumilon?",
     "confirm_message_line1": "Ekzistas aktiva tempumilo.",
     "prefs_show_extra": "Montri daŭron kaj temperaturon de tefarado sur tempumilaj butonoj",
-    "prefs_header": "Agordi nomojn de teoj, daŭrojn de tefarado, temperaturojn kaj kolorojn. Vi ankaŭ povas ordigi (longpreme) aŭ forigi (ŝovume) teojn en la listo.",
+    "prefs_header": "Agordi nomojn de teoj, daŭrojn de tefarado, temperaturojn kaj kolorojn. Vi ankaŭ povas ordigi (longpreme) aŭ forigi (ŝovume) teojn en la listo. Starigu ĝis {{favorites_max}} plej ŝatatajn teojn por aldoni ilin kiel aplikkompojn.",
     "about_app": "{{app_name}} estas libera, malfermitkoda programo.",
     "error_name_long": "* Nomo de teo estas tro longa.",
     "error_name_missing": "* Tajpu nomon de teo.",

@@ -1,0 +1,4 @@
+* Dodaj več kot 3 priljubljene čaje v nastavitvah Cuppa.
+* Spremeni razpored gumbov za čaje.
+* Izboljšan grafični prikaz.
+* Posodobitve prevodov - prispevajte preko Weblate!

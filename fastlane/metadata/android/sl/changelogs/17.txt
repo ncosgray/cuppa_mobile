@@ -1,0 +1,4 @@
+* Dodana nastavitev za temperaturo čajev.
+* Možnost za prikaz dodatnih informacij na gumbih o kuhanju čaja.
+* Meri čas pri čajih, ki potrebujejo več kot 10 minut.
+* Več jezikov in izboljšanih prevodov - prispevajte preko Weblate!

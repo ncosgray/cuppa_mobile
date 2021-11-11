@@ -1,0 +1,3 @@
+* Cuppa je bil preveden v 9 novih jezikov - prispevajte preko Weblate!
+* Nastavi čas, krajši od minute.
+* Razne manjše izboljšave UI in popravki programskih hroščev.
