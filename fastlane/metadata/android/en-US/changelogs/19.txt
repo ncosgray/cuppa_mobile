@@ -1,0 +1,6 @@
+* Star your favorite teas to add them as app icon shortcuts.
+* Default to Celsius temperatures for those not in the US.
+* New option: choose your theme (light or dark).
+* More tea button color options.
+* Usability and interface tweaks.
+* Language translation updates - contribute via Weblate!
