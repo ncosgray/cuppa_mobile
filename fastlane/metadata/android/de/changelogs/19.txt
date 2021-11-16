@@ -1,0 +1,6 @@
+* Markieren Sie Ihre Lieblingstees mit einem Stern, um sie als App-Symbol-Verknüpfungen hinzuzufügen.
+* Standard auf Celsius gesetzt, für Nutzende außerhalb der USA.
+* Neue Option: Wählen Sie Ihr Theme (hell oder dunkel).
+* Mehr Farboptionen für die Tee-Buttons.
+* Nutzbarkeits-und Interface-Optimierungen.
+* Übersetzungs-Updates - tragen Sie via Weblate bei!
