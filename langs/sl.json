@@ -19,10 +19,10 @@
     "prefs_show_extra": "Prikaz časa in temperature kuhanja na gumbih časovnika",
     "add_tea_button": "Dodajte čaj",
     "new_tea_default_name": "Novi čaj",
-    "theme_light": "Svetloba",
+    "theme_light": "Svetla",
     "prefs_use_celsius": "Za nove čaje uporabite temperaturo Celzija",
     "prefs_app_theme": "Izberite barvno temo aplikacije",
-    "theme_dark": "Temno",
+    "theme_dark": "Temna",
     "teas_title": "Čaji",
-    "theme_system": "Sledite sistemu"
+    "theme_system": "Enaka sistemski"
 }

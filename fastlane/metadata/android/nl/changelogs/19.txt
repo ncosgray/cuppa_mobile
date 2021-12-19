@@ -1,0 +1,6 @@
+[NIEUW] Voeg je favoriete theesoorten toe en maak er snelkoppelingen van;
+[NIEUW] Nieuwe optie: thema's (licht of donker);
+[VERBETERD] Celsius-temperatuur wordt voortaan standaard gebruikt buiten de VS;
+[VERBETERD] Meer opties omtrent de theeknopkleuren;
+[VERBETERD] Vormgevingsaanpassingen om het gebruiksgemak te vergroten;
+[VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!
