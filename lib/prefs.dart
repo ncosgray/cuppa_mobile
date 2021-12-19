@@ -350,288 +350,283 @@ class _PrefsWidgetState extends State<PrefsWidget> {
               platform: appPlatform,
             ),
             body: new SafeArea(
+                child: new Container(
+              padding: const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 0.0),
               child: new CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
                   new SliverToBoxAdapter(
-                    child: new Container(
-                        padding:
-                            const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 0.0),
-                        child: new Column(children: [
-                          // Section: Teas
-                          new Align(
-                              alignment: Alignment.topLeft,
-                              child: new Container(
-                                  margin: const EdgeInsets.fromLTRB(
-                                      7.0, 0.0, 7.0, 14.0),
-                                  child: new Text(
-                                      AppLocalizations.translate('teas_title'),
-                                      style: TextStyle(
-                                        fontSize: 18.0,
-                                      )))),
-                          // Prefs header info text
-                          new Align(
-                              alignment: Alignment.topLeft,
-                              child: new Container(
-                                  margin: const EdgeInsets.fromLTRB(
-                                      7.0, 0.0, 7.0, 14.0),
-                                  child: new Text(
-                                      AppLocalizations.translate('prefs_header')
-                                          .replaceAll('{{favorites_max}}',
-                                              favoritesMaxCount.toString()),
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                      )))),
-                          // Tea settings cards
-                          new ReorderableColumn(
-                              onReorder: (int oldIndex, int newIndex) {
-                                setState(() {
-                                  // Reorder the tea list
-                                  Tea oldTea = teaList.removeAt(oldIndex);
-                                  teaList.insert(newIndex, oldTea);
-                                  Prefs.setTeas();
-                                });
-                              },
-                              children: teaList.map<Widget>((tea) {
-                                if (teaList.length <= teasMinCount)
-                                  // Don't allow deleting if there are only 3 teas
-                                  return new Container(
-                                      key: Key(tea.id.toString()),
-                                      child: new PrefsTeaRow(
-                                        tea: tea,
-                                      ));
-                                else
-                                  // Deleteable
-                                  return new Dismissible(
-                                    key: Key(tea.id.toString()),
-                                    child: new PrefsTeaRow(
-                                      tea: tea,
-                                    ),
-                                    onDismissed: (direction) {
-                                      setState(() {
-                                        // Delete this from the tea list
-                                        teaList.remove(tea);
-                                        Prefs.setTeas();
-                                      });
-                                    },
-                                    // Dismissible delete warning background
-                                    background: Container(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: new Container(
-                                            color: Colors.red,
-                                            child: new Padding(
-                                                padding:
-                                                    const EdgeInsets.all(14.0),
-                                                child: new Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: new Icon(
-                                                        Icons.delete_outline,
-                                                        color: Colors.white,
-                                                        size: 28.0))))),
-                                    secondaryBackground: Container(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: new Container(
-                                            color: Colors.red,
-                                            child: new Padding(
-                                                padding:
-                                                    const EdgeInsets.all(14.0),
-                                                child: new Align(
-                                                    alignment:
-                                                        Alignment.centerRight,
-                                                    child: new Icon(
-                                                        Icons.delete_outline,
-                                                        color: Colors.white,
-                                                        size: 28.0))))),
-                                  );
-                              }).toList()),
-                          // Add tea button
-                          new Card(
-                              child: new ListTile(
-                                  title: new TextButton.icon(
-                            label: new Text(
-                                AppLocalizations.translate('add_tea_button')
-                                    .toUpperCase(),
+                      child: new Column(children: [
+                    // Section: Teas
+                    new Align(
+                        alignment: Alignment.topLeft,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 14.0),
+                            child: new Text(
+                                AppLocalizations.translate('teas_title'),
                                 style: TextStyle(
-                                    fontSize: 14.0,
-                                    color: teaList.length < teasMaxCount
-                                        ? Colors.blue
-                                        : Colors.grey)),
-                            icon: Icon(Icons.add_circle,
+                                  fontSize: 18.0,
+                                )))),
+                    // Prefs header info text
+                    new Align(
+                        alignment: Alignment.topLeft,
+                        child: new Container(
+                            margin:
+                                const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 14.0),
+                            child: new Text(
+                                AppLocalizations.translate('prefs_header')
+                                    .replaceAll('{{favorites_max}}',
+                                        favoritesMaxCount.toString()),
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                ))))
+                  ])),
+                  // Tea settings cards
+                  new ReorderableSliverList(
+                      onReorder: (int oldIndex, int newIndex) {
+                        setState(() {
+                          // Reorder the tea list
+                          Tea oldTea = teaList.removeAt(oldIndex);
+                          teaList.insert(newIndex, oldTea);
+                          Prefs.setTeas();
+                        });
+                      },
+                      delegate: new ReorderableSliverChildListDelegate(
+                          teaList.map<Widget>((tea) {
+                        if (teaList.length <= teasMinCount)
+                          // Don't allow deleting if there are only 3 teas
+                          return new Container(
+                              key: Key(tea.id.toString()),
+                              child: new PrefsTeaRow(
+                                tea: tea,
+                              ));
+                        else
+                          // Deleteable
+                          return new Dismissible(
+                            key: Key(tea.id.toString()),
+                            child: new PrefsTeaRow(
+                              tea: tea,
+                            ),
+                            onDismissed: (direction) {
+                              setState(() {
+                                // Delete this from the tea list
+                                teaList.remove(tea);
+                                Prefs.setTeas();
+                              });
+                            },
+                            // Dismissible delete warning background
+                            background: Container(
+                                padding: const EdgeInsets.all(5.0),
+                                child: new Container(
+                                    color: Colors.red,
+                                    child: new Padding(
+                                        padding: const EdgeInsets.all(14.0),
+                                        child: new Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: new Icon(
+                                                Icons.delete_outline,
+                                                color: Colors.white,
+                                                size: 28.0))))),
+                            secondaryBackground: Container(
+                                padding: const EdgeInsets.all(5.0),
+                                child: new Container(
+                                    color: Colors.red,
+                                    child: new Padding(
+                                        padding: const EdgeInsets.all(14.0),
+                                        child: new Align(
+                                            alignment: Alignment.centerRight,
+                                            child: new Icon(
+                                                Icons.delete_outline,
+                                                color: Colors.white,
+                                                size: 28.0))))),
+                          );
+                      }).toList())),
+                  new SliverToBoxAdapter(
+                    child: new Column(children: [
+                      // Add tea button
+                      new Card(
+                          child: new ListTile(
+                              title: new TextButton.icon(
+                        label: new Text(
+                            AppLocalizations.translate('add_tea_button')
+                                .toUpperCase(),
+                            style: TextStyle(
+                                fontSize: 14.0,
                                 color: teaList.length < teasMaxCount
                                     ? Colors.blue
-                                    : Colors.grey,
-                                size: 20.0),
-                            onPressed: teaList.length < teasMaxCount
-                                ? () {
+                                    : Colors.grey)),
+                        icon: Icon(Icons.add_circle,
+                            color: teaList.length < teasMaxCount
+                                ? Colors.blue
+                                : Colors.grey,
+                            size: 20.0),
+                        onPressed: teaList.length < teasMaxCount
+                            ? () {
+                                setState(() {
+                                  // Add a blank tea
+                                  teaList.add(new Tea(
+                                      name: _getNextDefaultTeaName(),
+                                      brewTime: 240,
+                                      brewTemp: useCelsius ? 100 : 212,
+                                      color: 0,
+                                      isFavorite: false));
+                                  Prefs.setTeas();
+                                });
+                              }
+                            : null,
+                      ))),
+                      // Setting: show extra info on buttons
+                      new Align(
+                          alignment: Alignment.topLeft,
+                          child: new SwitchListTile.adaptive(
+                            title: new Text(
+                                AppLocalizations.translate('prefs_show_extra'),
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .color,
+                                )),
+                            value: showExtra,
+                            // Save showExtra setting to prefs
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                showExtra = newValue;
+                                Prefs.setTeas();
+                              });
+                            },
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(7.0, 14.0, 7.0, 0.0),
+                            dense: true,
+                          )),
+                      const Divider(
+                        thickness: 1.0,
+                        indent: 7.0,
+                        endIndent: 7.0,
+                      ),
+                      // Setting: default to Celsius or Fahrenheit
+                      new Align(
+                          alignment: Alignment.topLeft,
+                          child: new SwitchListTile.adaptive(
+                            title: new Text(
+                                AppLocalizations.translate('prefs_use_celsius'),
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1
+                                      .color,
+                                )),
+                            value: useCelsius,
+                            // Save useCelsius setting to prefs
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                useCelsius = newValue;
+                                Prefs.setTeas();
+                              });
+                            },
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(7.0, 7.0, 7.0, 0.0),
+                            dense: true,
+                          )),
+                      const Divider(
+                        thickness: 1.0,
+                        indent: 7.0,
+                        endIndent: 7.0,
+                      ),
+                      // Setting: app theme selection
+                      new Consumer<ThemeProvider>(
+                          builder: (context, themeProvider, child) => Align(
+                              alignment: Alignment.topLeft,
+                              child: new ListTile(
+                                title: new Text(
+                                    AppLocalizations.translate(
+                                        'prefs_app_theme'),
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .color,
+                                    )),
+                                trailing:
+                                    // App theme dropdown
+                                    new DropdownButton<int>(
+                                  value: appTheme,
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    size: 20.0,
+                                    color: Colors.grey,
+                                  ),
+                                  underline: SizedBox(),
+                                  items: Prefs.appThemeNames.keys
+                                      .map<DropdownMenuItem<int>>((int value) {
+                                    return DropdownMenuItem<int>(
+                                      value: value,
+                                      child: Text(Prefs.appThemeNames[value],
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: value == appTheme
+                                                  ? FontWeight.w400
+                                                  : FontWeight.w300)),
+                                    );
+                                  }).toList(),
+                                  // Save appTheme to prefs
+                                  onChanged: (int newValue) {
                                     setState(() {
-                                      // Add a blank tea
-                                      teaList.add(new Tea(
-                                          name: _getNextDefaultTeaName(),
-                                          brewTime: 240,
-                                          brewTemp: useCelsius ? 100 : 212,
-                                          color: 0,
-                                          isFavorite: false));
+                                      appTheme = newValue;
                                       Prefs.setTeas();
+
+                                      // Notify consumers when theme changes
+                                      themeProvider.changeTheme();
                                     });
-                                  }
-                                : null,
-                          ))),
-                          // Setting: show extra info on buttons
-                          new Align(
-                              alignment: Alignment.topLeft,
-                              child: new SwitchListTile.adaptive(
-                                title: new Text(
-                                    AppLocalizations.translate(
-                                        'prefs_show_extra'),
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          .color,
-                                    )),
-                                value: showExtra,
-                                // Save showExtra setting to prefs
-                                onChanged: (bool newValue) {
-                                  setState(() {
-                                    showExtra = newValue;
-                                    Prefs.setTeas();
-                                  });
-                                },
-                                contentPadding: const EdgeInsets.fromLTRB(
-                                    7.0, 14.0, 7.0, 0.0),
-                                dense: true,
-                              )),
-                          const Divider(
-                            thickness: 1.0,
-                            indent: 7.0,
-                            endIndent: 7.0,
-                          ),
-                          // Setting: default to Celsius or Fahrenheit
-                          new Align(
-                              alignment: Alignment.topLeft,
-                              child: new SwitchListTile.adaptive(
-                                title: new Text(
-                                    AppLocalizations.translate(
-                                        'prefs_use_celsius'),
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          .color,
-                                    )),
-                                value: useCelsius,
-                                // Save useCelsius setting to prefs
-                                onChanged: (bool newValue) {
-                                  setState(() {
-                                    useCelsius = newValue;
-                                    Prefs.setTeas();
-                                  });
-                                },
+                                  },
+                                  alignment: Alignment.centerRight,
+                                ),
                                 contentPadding: const EdgeInsets.fromLTRB(
                                     7.0, 7.0, 7.0, 0.0),
                                 dense: true,
-                              )),
-                          const Divider(
-                            thickness: 1.0,
-                            indent: 7.0,
-                            endIndent: 7.0,
-                          ),
-                          // Setting: app theme selection
-                          new Consumer<ThemeProvider>(
-                              builder: (context, themeProvider, child) => Align(
-                                  alignment: Alignment.topLeft,
-                                  child: new ListTile(
-                                    title: new Text(
+                              ))),
+                      const Divider(
+                        thickness: 1.0,
+                        indent: 7.0,
+                        endIndent: 7.0,
+                      ),
+                      // Notification settings info text
+                      new Align(
+                          alignment: Alignment.topLeft,
+                          child: new Container(
+                              margin: const EdgeInsets.fromLTRB(
+                                  7.0, 14.0, 7.0, 0.0),
+                              child: new Row(children: [
+                                new Container(
+                                    margin: const EdgeInsets.fromLTRB(
+                                        0.0, 0.0, 7.0, 0.0),
+                                    child: Icon(
+                                      Icons.info,
+                                      size: 20.0,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .color,
+                                    )),
+                                new Expanded(
+                                    child: new Text(
                                         AppLocalizations.translate(
-                                            'prefs_app_theme'),
+                                                'prefs_notifications')
+                                            .replaceAll(
+                                                '{{app_name}}', appName),
                                         style: TextStyle(
-                                          fontSize: 16.0,
+                                          fontSize: 14.0,
                                           color: Theme.of(context)
                                               .textTheme
                                               .bodyText1
                                               .color,
-                                        )),
-                                    trailing:
-                                        // App theme dropdown
-                                        new DropdownButton<int>(
-                                      value: appTheme,
-                                      icon: Icon(
-                                        Icons.arrow_drop_down,
-                                        size: 20.0,
-                                        color: Colors.grey,
-                                      ),
-                                      underline: SizedBox(),
-                                      items: Prefs.appThemeNames.keys
-                                          .map<DropdownMenuItem<int>>(
-                                              (int value) {
-                                        return DropdownMenuItem<int>(
-                                          value: value,
-                                          child: Text(
-                                              Prefs.appThemeNames[value],
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: value == appTheme
-                                                      ? FontWeight.w400
-                                                      : FontWeight.w300)),
-                                        );
-                                      }).toList(),
-                                      // Save appTheme to prefs
-                                      onChanged: (int newValue) {
-                                        setState(() {
-                                          appTheme = newValue;
-                                          Prefs.setTeas();
-
-                                          // Notify consumers when theme changes
-                                          themeProvider.changeTheme();
-                                        });
-                                      },
-                                      alignment: Alignment.centerRight,
-                                    ),
-                                    contentPadding: const EdgeInsets.fromLTRB(
-                                        7.0, 7.0, 7.0, 0.0),
-                                    dense: true,
-                                  ))),
-                          const Divider(
-                            thickness: 1.0,
-                            indent: 7.0,
-                            endIndent: 7.0,
-                          ),
-                          // Notification settings info text
-                          new Align(
-                              alignment: Alignment.topLeft,
-                              child: new Container(
-                                  margin: const EdgeInsets.fromLTRB(
-                                      7.0, 14.0, 7.0, 0.0),
-                                  child: new Row(children: [
-                                    new Container(
-                                        margin: const EdgeInsets.fromLTRB(
-                                            0.0, 0.0, 7.0, 0.0),
-                                        child: Icon(
-                                          Icons.info,
-                                          size: 20.0,
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1
-                                              .color,
-                                        )),
-                                    new Expanded(
-                                        child: new Text(
-                                            AppLocalizations.translate(
-                                                    'prefs_notifications')
-                                                .replaceAll(
-                                                    '{{app_name}}', appName),
-                                            style: TextStyle(
-                                              fontSize: 14.0,
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1
-                                                  .color,
-                                            )))
-                                  ]))),
-                        ])),
+                                        )))
+                              ]))),
+                    ]),
                   ),
                   new SliverFillRemaining(
                     hasScrollBody: false,
@@ -680,7 +675,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                   )
                 ],
               ),
-            )));
+            ))));
   }
 }
 
