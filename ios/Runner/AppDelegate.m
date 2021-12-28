@@ -76,7 +76,7 @@
 
 // iOS platform: handle notification while app is in foreground
 - (void)userNotificationCenter:(UNUserNotificationCenter* )center willPresentNotification:(UNNotification* )notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
-    completionHandler(UNNotificationPresentationOptionAlert);
+    completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionBanner);
 }
 
 @end
