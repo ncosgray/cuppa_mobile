@@ -1,0 +1,6 @@
+* Marca tus tes favoritos para añadirlos como atajos con icono de la aplicación.
+* La temperatura por defecto estará en Celsius para quienes esteis fuera de USA.
+* Nueva opción: escoge tu tema (claro o oscuro).
+* Más opciones de colores para los botones de te.
+* Arreglos de usabilidad e interface.
+* Cambios en las traducciones - ¡Contribuye usando Weblate!
