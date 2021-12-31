@@ -383,6 +383,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                   ])),
                   // Tea settings cards
                   new ReorderableSliverList(
+                      buildDraggableFeedback: _draggableFeedback,
                       onReorder: (int oldIndex, int newIndex) {
                         setState(() {
                           // Reorder the tea list
@@ -1014,4 +1015,20 @@ String _getNextDefaultTeaName() {
     nextNumber++;
   } while (teaList.indexWhere((tea) => tea.name == nextName) >= 0);
   return nextName;
+}
+
+// Custom draggable feedback for reorderable list
+Widget _draggableFeedback(
+    BuildContext context, BoxConstraints constraints, Widget child) {
+  return Transform(
+    transform: Matrix4.rotationZ(0),
+    alignment: FractionalOffset.topLeft,
+    child: Container(
+      child: ConstrainedBox(constraints: constraints, child: child),
+      decoration: BoxDecoration(boxShadow: <BoxShadow>[
+        BoxShadow(
+            color: Colors.black26, blurRadius: 7.0, offset: Offset(0.0, 0.75))
+      ]),
+    ),
+  );
 }
