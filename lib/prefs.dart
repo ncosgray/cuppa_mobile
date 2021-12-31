@@ -633,7 +633,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                     child: new Align(
                       alignment: Alignment.bottomLeft,
                       child: new Container(
-                        margin: const EdgeInsets.all(21.0),
+                        margin: const EdgeInsets.fromLTRB(7.0, 21.0, 7.0, 21.0),
                         // About text linking to app website
                         child: new InkWell(
                             child: new Column(
@@ -753,6 +753,33 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                       height: 54.0,
                       padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
                       child: new Row(children: [
+                        // Favorite status
+                        new IconButton(
+                            alignment: Alignment.topLeft,
+                            constraints:
+                                BoxConstraints(minWidth: 30.0, minHeight: 30.0),
+                            iconSize: 20.0,
+                            icon: tea.isFavorite
+                                ? Icon(Icons.star, color: Colors.amber)
+                                : Icon(Icons.star_border_outlined,
+                                    color: Colors.grey),
+                            onPressed: () {
+                              setState(() {
+                                // Toggle favorite status off
+                                if (tea.isFavorite) {
+                                  tea.isFavorite = false;
+                                  Prefs.setTeas();
+                                }
+                                // Toggle favorite status on if max not reached
+                                else if (teaList
+                                        .where((tea) => tea.isFavorite == true)
+                                        .length <
+                                    favoritesMaxCount) {
+                                  tea.isFavorite = true;
+                                  Prefs.setTeas();
+                                }
+                              });
+                            }),
                         // Tea name entry
                         new Expanded(
                             child: new TextFormField(
@@ -800,33 +827,6 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             }
                           },
                         )),
-                        // Favorite status
-                        new IconButton(
-                            alignment: Alignment.topRight,
-                            constraints:
-                                BoxConstraints(minWidth: 30.0, minHeight: 30.0),
-                            iconSize: 20.0,
-                            icon: tea.isFavorite
-                                ? Icon(Icons.star, color: Colors.amber)
-                                : Icon(Icons.star_border_outlined,
-                                    color: Colors.grey),
-                            onPressed: () {
-                              setState(() {
-                                // Toggle favorite status off
-                                if (tea.isFavorite) {
-                                  tea.isFavorite = false;
-                                  Prefs.setTeas();
-                                }
-                                // Toggle favorite status on if max not reached
-                                else if (teaList
-                                        .where((tea) => tea.isFavorite == true)
-                                        .length <
-                                    favoritesMaxCount) {
-                                  tea.isFavorite = true;
-                                  Prefs.setTeas();
-                                }
-                              });
-                            })
                       ])),
                   // Tea brew time selection
                   new Container(
@@ -937,7 +937,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             });
                           },
                         ),
-                        new Spacer(),
+                        new Spacer(flex: 1),
                         // Brew temperature dropdown
                         new DropdownButton<int>(
                           value: tea.brewTemp,
@@ -986,7 +986,8 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               Prefs.setTeas();
                             });
                           },
-                        )
+                        ),
+                        new Spacer(flex: 4),
                       ])),
                 ],
               ),
