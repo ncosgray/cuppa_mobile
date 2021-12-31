@@ -850,6 +850,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                     Theme.of(context).textTheme.bodyText1.color,
                               ),
                               underline: SizedBox(),
+                              alignment: AlignmentDirectional.center,
                               items: <int>[
                                 0,
                                 1,
