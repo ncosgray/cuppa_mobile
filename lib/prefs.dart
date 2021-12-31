@@ -833,163 +833,176 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                   new Container(
                       height: 30.0,
                       padding: EdgeInsets.fromLTRB(7.0, 0.0, 0.0, 7.0),
-                      child: new Row(children: [
-                        // Brew time minutes dropdown
-                        new DropdownButton<int>(
-                          value: tea.brewTimeMinutes,
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            size: 24.0,
-                            color: Colors.grey,
-                          ),
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Theme.of(context).textTheme.bodyText1.color,
-                          ),
-                          underline: SizedBox(),
-                          items: <int>[
-                            0,
-                            1,
-                            2,
-                            3,
-                            4,
-                            5,
-                            6,
-                            7,
-                            8,
-                            9,
-                            10,
-                            11,
-                            12,
-                            13,
-                            14,
-                            15,
-                            16,
-                            17,
-                            18,
-                            19
-                          ].map<DropdownMenuItem<int>>((int value) {
-                            return DropdownMenuItem<int>(
-                              value: value,
-                              child: Text(value.toString(),
-                                  style: TextStyle(
-                                      fontWeight: value == tea.brewTimeMinutes
-                                          ? FontWeight.w400
-                                          : FontWeight.w300)),
-                            );
-                          }).toList(),
-                          // Save brew time to prefs
-                          onChanged: (int newValue) {
-                            setState(() {
+                      child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            // Brew time minutes dropdown
+                            new DropdownButton<int>(
+                              value: tea.brewTimeMinutes,
+                              icon: Icon(
+                                Icons.arrow_drop_down,
+                                size: 24.0,
+                                color: Colors.grey,
+                              ),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color:
+                                    Theme.of(context).textTheme.bodyText1.color,
+                              ),
+                              underline: SizedBox(),
+                              items: <int>[
+                                0,
+                                1,
+                                2,
+                                3,
+                                4,
+                                5,
+                                6,
+                                7,
+                                8,
+                                9,
+                                10,
+                                11,
+                                12,
+                                13,
+                                14,
+                                15,
+                                16,
+                                17,
+                                18,
+                                19
+                              ].map<DropdownMenuItem<int>>((int value) {
+                                return DropdownMenuItem<int>(
+                                  value: value,
+                                  child: Text(value.toString(),
+                                      style: TextStyle(
+                                          fontWeight:
+                                              value == tea.brewTimeMinutes
+                                                  ? FontWeight.w400
+                                                  : FontWeight.w300)),
+                                );
+                              }).toList(),
+                              // Save brew time to prefs
+                              onChanged: (int newValue) {
+                                setState(() {
+                                  // Ensure we never have a 0:00 brew time
+                                  if (newValue == 0 &&
+                                      tea.brewTimeSeconds == 0) {
+                                    tea.brewTimeSeconds = 15;
+                                  }
+                                  tea.brewTimeMinutes = newValue;
+                                  Prefs.setTeas();
+                                });
+                              },
+                            ),
+                            // Brew time separator
+                            new Text(
+                              ': ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                                color:
+                                    Theme.of(context).textTheme.bodyText1.color,
+                              ),
+                            ),
+                            // Brew time seconds dropdown
+                            new DropdownButton<int>(
+                              value: tea.brewTimeSeconds,
+                              icon: Icon(
+                                Icons.arrow_drop_down,
+                                size: 24.0,
+                                color: Colors.grey,
+                              ),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color:
+                                    Theme.of(context).textTheme.bodyText1.color,
+                              ),
+                              underline: SizedBox(),
                               // Ensure we never have a 0:00 brew time
-                              if (newValue == 0 && tea.brewTimeSeconds == 0) {
-                                tea.brewTimeSeconds = 15;
-                              }
-                              tea.brewTimeMinutes = newValue;
-                              Prefs.setTeas();
-                            });
-                          },
-                        ),
-                        // Brew time separator
-                        new Text(
-                          ': ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                            color: Theme.of(context).textTheme.bodyText1.color,
-                          ),
-                        ),
-                        // Brew time seconds dropdown
-                        new DropdownButton<int>(
-                          value: tea.brewTimeSeconds,
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            size: 24.0,
-                            color: Colors.grey,
-                          ),
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Theme.of(context).textTheme.bodyText1.color,
-                          ),
-                          underline: SizedBox(),
-                          // Ensure we never have a 0:00 brew time
-                          items: (tea.brewTimeMinutes == 0
-                                  ? <int>[15, 30, 45]
-                                  : <int>[0, 15, 30, 45])
-                              .map<DropdownMenuItem<int>>((int value) {
-                            return DropdownMenuItem<int>(
-                              value: value,
-                              child: Text(value.toString().padLeft(2, '0'),
-                                  style: TextStyle(
-                                      fontWeight: value == tea.brewTimeSeconds
-                                          ? FontWeight.w400
-                                          : FontWeight.w300)),
-                            );
-                          }).toList(),
-                          // Save brew time to prefs
-                          onChanged: (int newValue) {
-                            setState(() {
-                              // Ensure we never have a 0:00 brew time
-                              if (newValue == 0 && tea.brewTimeMinutes == 0) {
-                                newValue = 15;
-                              }
-                              tea.brewTimeSeconds = newValue;
-                              Prefs.setTeas();
-                            });
-                          },
-                        ),
-                        new Spacer(flex: 1),
-                        // Brew temperature dropdown
-                        new DropdownButton<int>(
-                          value: tea.brewTemp,
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            size: 24.0,
-                            color: Colors.grey,
-                          ),
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Theme.of(context).textTheme.bodyText1.color,
-                          ),
-                          underline: SizedBox(),
-                          items: (<int>[
-                            60,
-                            65,
-                            70,
-                            75,
-                            80,
-                            85,
-                            90,
-                            95,
-                            100,
-                            140,
-                            150,
-                            160,
-                            170,
-                            180,
-                            190,
-                            200,
-                            212
-                          ]).map<DropdownMenuItem<int>>((int value) {
-                            return DropdownMenuItem<int>(
-                              value: value,
-                              child: Text(formatTemp(value),
-                                  style: TextStyle(
-                                      fontWeight: value == tea.brewTemp
-                                          ? FontWeight.w400
-                                          : FontWeight.w300)),
-                            );
-                          }).toList(),
-                          // Save brew temp to prefs
-                          onChanged: (int newValue) {
-                            setState(() {
-                              tea.brewTemp = newValue;
-                              Prefs.setTeas();
-                            });
-                          },
-                        ),
-                        new Spacer(flex: 4),
-                      ])),
+                              items: (tea.brewTimeMinutes == 0
+                                      ? <int>[15, 30, 45]
+                                      : <int>[0, 15, 30, 45])
+                                  .map<DropdownMenuItem<int>>((int value) {
+                                return DropdownMenuItem<int>(
+                                  value: value,
+                                  child: Text(value.toString().padLeft(2, '0'),
+                                      style: TextStyle(
+                                          fontWeight:
+                                              value == tea.brewTimeSeconds
+                                                  ? FontWeight.w400
+                                                  : FontWeight.w300)),
+                                );
+                              }).toList(),
+                              // Save brew time to prefs
+                              onChanged: (int newValue) {
+                                setState(() {
+                                  // Ensure we never have a 0:00 brew time
+                                  if (newValue == 0 &&
+                                      tea.brewTimeMinutes == 0) {
+                                    newValue = 15;
+                                  }
+                                  tea.brewTimeSeconds = newValue;
+                                  Prefs.setTeas();
+                                });
+                              },
+                            ),
+                            new Flexible(
+                                child: new ConstrainedBox(
+                                    constraints: new BoxConstraints(
+                                        minWidth: 1.0, maxWidth: 30.0),
+                                    child: new Container())),
+                            // Brew temperature dropdown
+                            new DropdownButton<int>(
+                              value: tea.brewTemp,
+                              icon: Icon(
+                                Icons.arrow_drop_down,
+                                size: 24.0,
+                                color: Colors.grey,
+                              ),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color:
+                                    Theme.of(context).textTheme.bodyText1.color,
+                              ),
+                              underline: SizedBox(),
+                              items: (<int>[
+                                60,
+                                65,
+                                70,
+                                75,
+                                80,
+                                85,
+                                90,
+                                95,
+                                100,
+                                140,
+                                150,
+                                160,
+                                170,
+                                180,
+                                190,
+                                200,
+                                212
+                              ]).map<DropdownMenuItem<int>>((int value) {
+                                return DropdownMenuItem<int>(
+                                  value: value,
+                                  child: Text(formatTemp(value),
+                                      style: TextStyle(
+                                          fontWeight: value == tea.brewTemp
+                                              ? FontWeight.w400
+                                              : FontWeight.w300)),
+                                );
+                              }).toList(),
+                              // Save brew temp to prefs
+                              onChanged: (int newValue) {
+                                setState(() {
+                                  tea.brewTemp = newValue;
+                                  Prefs.setTeas();
+                                });
+                              },
+                            ),
+                          ])),
                 ],
               ),
               trailing: new Container(
