@@ -362,37 +362,42 @@ class _PrefsWidgetState extends State<PrefsWidget> {
             ),
             body: new SafeArea(
                 child: new Container(
-              padding: const EdgeInsets.fromLTRB(14.0, 21.0, 14.0, 0.0),
+              padding: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 0.0),
               child: new CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
-                  new SliverToBoxAdapter(
-                      child: new Column(children: [
-                    // Section: Teas
-                    new Align(
-                        alignment: Alignment.topLeft,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 14.0),
-                            child: new Text(
-                                AppLocalizations.translate('teas_title'),
+                  new SliverAppBar(
+                    elevation: 0,
+                    backgroundColor: Theme.of(context).canvasColor,
+                    automaticallyImplyLeading: false,
+                    leading: new Container(
+                        margin: const EdgeInsets.fromLTRB(7.0, 21.0, 7.0, 14.0),
+                        child:
+                            // Section: Teas
+                            new Text(AppLocalizations.translate('teas_title'),
                                 style: TextStyle(
                                   fontSize: 18.0,
-                                )))),
-                    // Prefs header info text
-                    new Align(
-                        alignment: Alignment.topLeft,
-                        child: new Container(
-                            margin:
-                                const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 14.0),
-                            child: new Text(
-                                AppLocalizations.translate('prefs_header')
-                                    .replaceAll('{{favorites_max}}',
-                                        favoritesMaxCount.toString()),
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                ))))
-                  ])),
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .color!,
+                                ))),
+                  ),
+                  new SliverToBoxAdapter(
+                      child:
+                          // Prefs header info text
+                          new Align(
+                              alignment: Alignment.topLeft,
+                              child: new Container(
+                                  margin: const EdgeInsets.fromLTRB(
+                                      7.0, 0.0, 7.0, 14.0),
+                                  child: new Text(
+                                      AppLocalizations.translate('prefs_header')
+                                          .replaceAll('{{favorites_max}}',
+                                              favoritesMaxCount.toString()),
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                      ))))),
                   // Tea settings cards
                   new ReorderableSliverList(
                       buildDraggableFeedback: _draggableFeedback,
@@ -627,7 +632,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                     child: new Align(
                       alignment: Alignment.bottomLeft,
                       child: new Container(
-                        margin: const EdgeInsets.fromLTRB(7.0, 21.0, 7.0, 21.0),
+                        margin: const EdgeInsets.fromLTRB(7.0, 42.0, 7.0, 21.0),
                         // About text linking to app website
                         child: new InkWell(
                             child: new Column(
