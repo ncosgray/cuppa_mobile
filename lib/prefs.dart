@@ -496,10 +496,6 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                 AppLocalizations.translate('prefs_show_extra'),
                                 style: TextStyle(
                                   fontSize: 16.0,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color!,
                                 )),
                             value: showExtra,
                             // Save showExtra setting to prefs
@@ -526,10 +522,6 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                 AppLocalizations.translate('prefs_use_celsius'),
                                 style: TextStyle(
                                   fontSize: 16.0,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1!
-                                      .color!,
                                 )),
                             value: useCelsius,
                             // Save useCelsius setting to prefs
@@ -558,10 +550,6 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                         'prefs_app_theme'),
                                     style: TextStyle(
                                       fontSize: 16.0,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .color!,
                                     )),
                                 trailing:
                                     // App theme dropdown
@@ -620,10 +608,6 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     child: Icon(
                                       Icons.info,
                                       size: 20.0,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .color,
                                     )),
                                 new Expanded(
                                     child: new Text(
@@ -633,10 +617,6 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                                 '{{app_name}}', appName),
                                         style: TextStyle(
                                           fontSize: 14.0,
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color!,
                                         )))
                               ]))),
                     ]),
@@ -659,19 +639,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                           .replaceAll('{{app_name}}', appName),
                                       style: TextStyle(
                                         fontSize: 12.0,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .color!,
                                       )),
                                   new Row(children: [
                                     new Text(aboutCopyright,
                                         style: TextStyle(
                                           fontSize: 12.0,
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color!,
                                         )),
                                     new VerticalDivider(),
                                     new Text(aboutURL,
@@ -919,10 +891,6 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18.0,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .color!,
                               ),
                             ),
                             // Brew time seconds dropdown
