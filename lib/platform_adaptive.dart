@@ -4,7 +4,7 @@
  Class:    platform_adaptive.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2020 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2022 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -58,11 +58,11 @@ ThemeData getPlatformAdaptiveDarkTheme(TargetPlatform platform) {
 // App bar that uses iOS styling on iOS
 class PlatformAdaptiveAppBar extends AppBar {
   PlatformAdaptiveAppBar({
-    Key key,
-    TargetPlatform platform,
-    List<Widget> actions,
-    Widget title,
-    Widget body,
+    Key? key,
+    required TargetPlatform platform,
+    List<Widget>? actions,
+    required Widget title,
+    Widget? body,
   }) : super(
           key: key,
           elevation: platform == TargetPlatform.iOS ? 0.0 : 4.0,
@@ -74,12 +74,12 @@ class PlatformAdaptiveAppBar extends AppBar {
 // Alert dialog that is Material on Android and Cupertino on iOS
 class PlatformAdaptiveDialog extends StatelessWidget {
   PlatformAdaptiveDialog({
-    Key key,
-    this.platform,
-    this.title,
-    this.content,
-    this.buttonTextTrue,
-    this.buttonTextFalse,
+    Key? key,
+    required this.platform,
+    required this.title,
+    required this.content,
+    required this.buttonTextTrue,
+    required this.buttonTextFalse,
   }) : super(
           key: key,
         );

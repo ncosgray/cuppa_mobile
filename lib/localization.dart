@@ -1,10 +1,10 @@
 /*
  *******************************************************************************
  Package:  cuppa_mobile
- Class:    main.dart
+ Class:    localization.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2021 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2022 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -25,10 +25,10 @@ class AppLocalizations {
   final Locale locale;
 
   // Localizations instance
-  static AppLocalizations get instance => AppLocalizationsDelegate.instance;
+  static AppLocalizations get instance => AppLocalizationsDelegate.instance!;
 
   // Populate strings map from JSON files in langs folder
-  Map<String, String> _localizedStrings;
+  Map<String, String> _localizedStrings = new Map();
   Future<bool> load() async {
     String jsonString =
         await rootBundle.loadString('langs/${locale.languageCode}.json');
@@ -43,13 +43,13 @@ class AppLocalizations {
 
   // Get translated string
   static String translate(String key) {
-    return AppLocalizations.instance._localizedStrings[key];
+    return AppLocalizations.instance._localizedStrings[key] ?? '';
   }
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const AppLocalizationsDelegate();
-  static AppLocalizations instance;
+  static AppLocalizations? instance;
 
   // Determine if a language is supported
   @override

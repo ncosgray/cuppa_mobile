@@ -4,7 +4,7 @@
  Class:    prefs.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2021 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2022 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -25,12 +25,12 @@ import 'localization.dart';
 import 'platform_adaptive.dart';
 
 // Teas
-List<Tea> teaList;
+List<Tea> teaList = [];
 
 // Settings
-bool showExtra;
-bool useCelsius;
-int appTheme;
+bool showExtra = false;
+bool useCelsius = isLocaleMetric;
+int appTheme = 0;
 
 // Limits
 final int teaNameMaxLength = 16;
@@ -40,17 +40,22 @@ final int teasMaxCount = 15;
 // Tea definition
 class Tea {
   // ID
-  UniqueKey id;
+  late UniqueKey id;
 
   // Fields
-  String name;
-  int brewTime;
-  int brewTemp;
-  int color;
-  bool isFavorite;
+  late String name;
+  late int brewTime;
+  late int brewTemp;
+  late int color;
+  late bool isFavorite;
 
   // Constructor
-  Tea({String name, int brewTime, int brewTemp, int color, bool isFavorite}) {
+  Tea(
+      {required String name,
+      required int brewTime,
+      required int brewTemp,
+      required int color,
+      required bool isFavorite}) {
     id = UniqueKey();
     this.name = name;
     this.brewTime = brewTime;
@@ -79,11 +84,11 @@ class Tea {
   }
 
   // Brew time getters
-  get brewTimeSeconds {
+  int get brewTimeSeconds {
     return this.brewTime - (this.brewTimeMinutes * 60);
   }
 
-  get brewTimeMinutes {
+  int get brewTimeMinutes {
     return (this.brewTime / 60).floor();
   }
 
@@ -140,7 +145,7 @@ class Tea {
 abstract class Prefs {
   // Initialize teas
   static void initTeas() {
-    teaList = [new Tea(), new Tea(), new Tea()];
+    teaList = [];
 
     // Load app theme
     appTheme = sharedPrefs.getInt(_prefAppTheme) ?? 0;
@@ -149,26 +154,26 @@ abstract class Prefs {
   // Color map
   static final Map<int, Color> teaColors = {
     0: Colors.black,
-    1: Colors.red[600],
+    1: Colors.red[600]!,
     2: Colors.orange,
     3: Colors.green,
     4: Colors.blue,
-    5: Colors.purple[400],
-    6: Colors.brown[400],
-    7: Colors.pink[200],
+    5: Colors.purple[400]!,
+    6: Colors.brown[400]!,
+    7: Colors.pink[200]!,
     8: Colors.amber,
     9: Colors.teal,
-    10: Colors.cyan[400],
-    11: Colors.deepPurple[200],
+    10: Colors.cyan[400]!,
+    11: Colors.deepPurple[200]!,
   };
 
   // Themed color map lookup
   static Color themeColor(int color, context) {
-    if (color == 0)
+    if (color == 0 || !(Prefs.teaColors.containsKey(color)))
       // "Black" substitutes appropriate color for current theme
-      return Theme.of(context).textTheme.button.color;
+      return Theme.of(context).textTheme.button!.color!;
     else
-      return Prefs.teaColors[color];
+      return Prefs.teaColors[color]!;
   }
 
   // App theme map
@@ -227,37 +232,41 @@ abstract class Prefs {
     Prefs.initTeas();
 
     // Default: Black tea
-    teaList[0].name = sharedPrefs.getString(_prefTea1Name) ??
-        AppLocalizations.translate('tea_name_black');
-    teaList[0].brewTime = sharedPrefs.getInt(_prefTea1BrewTime) ?? 240;
-    teaList[0].brewTemp =
-        sharedPrefs.getInt(_prefTea1BrewTemp) ?? (isLocaleMetric ? 100 : 212);
-    teaList[0].color = sharedPrefs.getInt(_prefTea1Color) ?? 0;
-    teaList[0].isFavorite = sharedPrefs.getBool(_prefTea1IsFavorite) ?? true;
+    teaList.add(new Tea(
+        name: sharedPrefs.getString(_prefTea1Name) ??
+            AppLocalizations.translate('tea_name_black'),
+        brewTime: sharedPrefs.getInt(_prefTea1BrewTime) ?? 240,
+        brewTemp: sharedPrefs.getInt(_prefTea1BrewTemp) ??
+            (isLocaleMetric ? 100 : 212),
+        color: sharedPrefs.getInt(_prefTea1Color) ?? 0,
+        isFavorite: sharedPrefs.getBool(_prefTea1IsFavorite) ?? true));
 
     // Default: Green tea
-    teaList[1].name = sharedPrefs.getString(_prefTea2Name) ??
+    String tea2Name = sharedPrefs.getString(_prefTea2Name) ??
         AppLocalizations.translate('tea_name_green');
-    teaList[1].brewTime = sharedPrefs.getInt(_prefTea2BrewTime) ?? 150;
-    // Select default temp of 212 if name changed from Green tea
-    teaList[1].brewTemp = sharedPrefs.getInt(_prefTea2BrewTemp) ??
-        (teaList[1].name != AppLocalizations.translate('tea_name_green')
-            ? (isLocaleMetric ? 100 : 212)
-            : (isLocaleMetric ? 80 : 180));
-    teaList[1].color = sharedPrefs.getInt(_prefTea2Color) ?? 3;
-    teaList[1].isFavorite = sharedPrefs.getBool(_prefTea2IsFavorite) ?? true;
+    teaList.add(new Tea(
+        name: tea2Name,
+        brewTime: sharedPrefs.getInt(_prefTea2BrewTime) ?? 150,
+        // Select default temp of 212 if name changed from Green tea
+        brewTemp: sharedPrefs.getInt(_prefTea2BrewTemp) ??
+            (tea2Name != AppLocalizations.translate('tea_name_green')
+                ? (isLocaleMetric ? 100 : 212)
+                : (isLocaleMetric ? 80 : 180)),
+        color: sharedPrefs.getInt(_prefTea2Color) ?? 3,
+        isFavorite: sharedPrefs.getBool(_prefTea2IsFavorite) ?? true));
 
     // Default: Herbal tea
-    teaList[2].name = sharedPrefs.getString(_prefTea3Name) ??
-        AppLocalizations.translate('tea_name_herbal');
-    teaList[2].brewTime = sharedPrefs.getInt(_prefTea3BrewTime) ?? 300;
-    teaList[2].brewTemp =
-        sharedPrefs.getInt(_prefTea3BrewTemp) ?? (isLocaleMetric ? 100 : 212);
-    teaList[2].color = sharedPrefs.getInt(_prefTea3Color) ?? 2;
-    teaList[2].isFavorite = sharedPrefs.getBool(_prefTea3IsFavorite) ?? true;
+    teaList.add(new Tea(
+        name: sharedPrefs.getString(_prefTea3Name) ??
+            AppLocalizations.translate('tea_name_herbal'),
+        brewTime: sharedPrefs.getInt(_prefTea3BrewTime) ?? 300,
+        brewTemp: sharedPrefs.getInt(_prefTea3BrewTemp) ??
+            (isLocaleMetric ? 100 : 212),
+        color: sharedPrefs.getInt(_prefTea3Color) ?? 2,
+        isFavorite: sharedPrefs.getBool(_prefTea3IsFavorite) ?? true));
 
     // More teas list
-    List<String> moreTeasJson =
+    List<String>? moreTeasJson =
         sharedPrefs.getStringList(_prefMoreTeas) ?? null;
     if (moreTeasJson != null)
       teaList += (moreTeasJson.map<Tea>((tea) => Tea.fromJson(jsonDecode(tea))))
@@ -341,7 +350,10 @@ class _PrefsWidgetState extends State<PrefsWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus.unfocus(),
+        onTap: () => {
+              if (FocusManager.instance.primaryFocus != null)
+                FocusManager.instance.primaryFocus!.unfocus()
+            },
         child: Scaffold(
             appBar: new PlatformAdaptiveAppBar(
               title: new Text(AppLocalizations.translate('prefs_title')
@@ -486,8 +498,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                   fontSize: 16.0,
                                   color: Theme.of(context)
                                       .textTheme
-                                      .bodyText1
-                                      .color,
+                                      .bodyText1!
+                                      .color!,
                                 )),
                             value: showExtra,
                             // Save showExtra setting to prefs
@@ -516,8 +528,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                   fontSize: 16.0,
                                   color: Theme.of(context)
                                       .textTheme
-                                      .bodyText1
-                                      .color,
+                                      .bodyText1!
+                                      .color!,
                                 )),
                             value: useCelsius,
                             // Save useCelsius setting to prefs
@@ -548,8 +560,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       fontSize: 16.0,
                                       color: Theme.of(context)
                                           .textTheme
-                                          .bodyText1
-                                          .color,
+                                          .bodyText1!
+                                          .color!,
                                     )),
                                 trailing:
                                     // App theme dropdown
@@ -565,7 +577,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       .map<DropdownMenuItem<int>>((int value) {
                                     return DropdownMenuItem<int>(
                                       value: value,
-                                      child: Text(Prefs.appThemeNames[value],
+                                      child: Text(Prefs.appThemeNames[value]!,
                                           style: TextStyle(
                                               fontSize: 16.0,
                                               fontWeight: value == appTheme
@@ -574,14 +586,15 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     );
                                   }).toList(),
                                   // Save appTheme to prefs
-                                  onChanged: (int newValue) {
-                                    setState(() {
-                                      appTheme = newValue;
-                                      Prefs.setTeas();
+                                  onChanged: (int? newValue) {
+                                    if (newValue != null)
+                                      setState(() {
+                                        appTheme = newValue;
+                                        Prefs.setTeas();
 
-                                      // Notify consumers when theme changes
-                                      themeProvider.changeTheme();
-                                    });
+                                        // Notify consumers when theme changes
+                                        themeProvider.changeTheme();
+                                      });
                                   },
                                   alignment: Alignment.centerRight,
                                 ),
@@ -609,7 +622,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       size: 20.0,
                                       color: Theme.of(context)
                                           .textTheme
-                                          .bodyText1
+                                          .bodyText1!
                                           .color,
                                     )),
                                 new Expanded(
@@ -622,8 +635,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                           fontSize: 14.0,
                                           color: Theme.of(context)
                                               .textTheme
-                                              .bodyText1
-                                              .color,
+                                              .bodyText1!
+                                              .color!,
                                         )))
                               ]))),
                     ]),
@@ -648,8 +661,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                         fontSize: 12.0,
                                         color: Theme.of(context)
                                             .textTheme
-                                            .bodyText1
-                                            .color,
+                                            .bodyText1!
+                                            .color!,
                                       )),
                                   new Row(children: [
                                     new Text(aboutCopyright,
@@ -657,8 +670,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                           fontSize: 12.0,
                                           color: Theme.of(context)
                                               .textTheme
-                                              .bodyText1
-                                              .color,
+                                              .bodyText1!
+                                              .color!,
                                         )),
                                     new VerticalDivider(),
                                     new Text(aboutURL,
@@ -682,7 +695,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
 // Widget defining a tea settings card
 class PrefsTeaRow extends StatefulWidget {
   PrefsTeaRow({
-    this.tea,
+    required this.tea,
   });
 
   final Tea tea;
@@ -693,7 +706,7 @@ class PrefsTeaRow extends StatefulWidget {
 
 class _PrefsTeaRowState extends State<PrefsTeaRow> {
   _PrefsTeaRowState({
-    this.tea,
+    required this.tea,
   });
 
   final Tea tea;
@@ -807,7 +820,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             color: tea.getThemeColor(context),
                           ),
                           // Checks for tea names that are blank or too long
-                          validator: (String newValue) {
+                          validator: (String? newValue) {
                             if (newValue == null || newValue.isEmpty) {
                               return AppLocalizations.translate(
                                   'error_name_missing');
@@ -820,7 +833,8 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                           },
                           // Save name to prefs
                           onChanged: (String newValue) {
-                            if (_formKey.currentState.validate()) {
+                            if (_formKey.currentState !=
+                                null) if (_formKey.currentState!.validate()) {
                               setState(() {
                                 tea.name = newValue;
                                 Prefs.setTeas();
@@ -846,8 +860,10 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               ),
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color:
-                                    Theme.of(context).textTheme.bodyText1.color,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color!,
                               ),
                               underline: SizedBox(),
                               alignment: AlignmentDirectional.center,
@@ -884,16 +900,17 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                 );
                               }).toList(),
                               // Save brew time to prefs
-                              onChanged: (int newValue) {
-                                setState(() {
-                                  // Ensure we never have a 0:00 brew time
-                                  if (newValue == 0 &&
-                                      tea.brewTimeSeconds == 0) {
-                                    tea.brewTimeSeconds = 15;
-                                  }
-                                  tea.brewTimeMinutes = newValue;
-                                  Prefs.setTeas();
-                                });
+                              onChanged: (int? newValue) {
+                                if (newValue != null)
+                                  setState(() {
+                                    // Ensure we never have a 0:00 brew time
+                                    if (newValue == 0 &&
+                                        tea.brewTimeSeconds == 0) {
+                                      tea.brewTimeSeconds = 15;
+                                    }
+                                    tea.brewTimeMinutes = newValue;
+                                    Prefs.setTeas();
+                                  });
                               },
                             ),
                             // Brew time separator
@@ -902,8 +919,10 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18.0,
-                                color:
-                                    Theme.of(context).textTheme.bodyText1.color,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color!,
                               ),
                             ),
                             // Brew time seconds dropdown
@@ -916,8 +935,10 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               ),
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color:
-                                    Theme.of(context).textTheme.bodyText1.color,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color!,
                               ),
                               underline: SizedBox(),
                               // Ensure we never have a 0:00 brew time
@@ -936,16 +957,17 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                 );
                               }).toList(),
                               // Save brew time to prefs
-                              onChanged: (int newValue) {
-                                setState(() {
-                                  // Ensure we never have a 0:00 brew time
-                                  if (newValue == 0 &&
-                                      tea.brewTimeMinutes == 0) {
-                                    newValue = 15;
-                                  }
-                                  tea.brewTimeSeconds = newValue;
-                                  Prefs.setTeas();
-                                });
+                              onChanged: (int? newValue) {
+                                if (newValue != null)
+                                  setState(() {
+                                    // Ensure we never have a 0:00 brew time
+                                    if (newValue == 0 &&
+                                        tea.brewTimeMinutes == 0) {
+                                      newValue = 15;
+                                    }
+                                    tea.brewTimeSeconds = newValue!;
+                                    Prefs.setTeas();
+                                  });
                               },
                             ),
                             new Flexible(
@@ -963,8 +985,10 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               ),
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color:
-                                    Theme.of(context).textTheme.bodyText1.color,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .color!,
                               ),
                               underline: SizedBox(),
                               items: (<int>[
@@ -996,11 +1020,12 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                 );
                               }).toList(),
                               // Save brew temp to prefs
-                              onChanged: (int newValue) {
-                                setState(() {
-                                  tea.brewTemp = newValue;
-                                  Prefs.setTeas();
-                                });
+                              onChanged: (int? newValue) {
+                                if (newValue != null)
+                                  setState(() {
+                                    tea.brewTemp = newValue;
+                                    Prefs.setTeas();
+                                  });
                               },
                             ),
                           ])),

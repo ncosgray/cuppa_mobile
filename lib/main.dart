@@ -4,7 +4,7 @@
  Class:    main.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2021 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2022 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -23,10 +23,10 @@ import 'prefs.dart';
 import 'timer.dart';
 
 // Globals
-SharedPreferences sharedPrefs;
-TargetPlatform appPlatform;
-double deviceWidth;
-double deviceHeight;
+late SharedPreferences sharedPrefs;
+late TargetPlatform appPlatform;
+late double deviceWidth;
+late double deviceHeight;
 bool isLocaleMetric = true;
 final String appName = 'Cuppa';
 final String aboutCopyright = '\u00a9 Nathan Cosgray';
@@ -62,7 +62,7 @@ class CuppaApp extends StatelessWidget {
 
                   // Set scale factor
                   return MediaQuery(
-                    child: child,
+                    child: child!,
                     data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                   );
                 },
@@ -104,13 +104,15 @@ class CuppaApp extends StatelessWidget {
                   GlobalWidgetsLocalizations.delegate,
                 ],
                 localeResolutionCallback: (locale, supportedLocales) {
-                  // Set metric locale based on country code
-                  if (locale.countryCode == 'US') isLocaleMetric = false;
+                  if (locale != null) {
+                    // Set metric locale based on country code
+                    if (locale.countryCode == 'US') isLocaleMetric = false;
 
-                  // Set language or default to English
-                  for (var supportedLocale in supportedLocales) {
-                    if (supportedLocale.languageCode == locale.languageCode) {
-                      return supportedLocale;
+                    // Set language or default to English
+                    for (var supportedLocale in supportedLocales) {
+                      if (supportedLocale.languageCode == locale.languageCode) {
+                        return supportedLocale;
+                      }
                     }
                   }
                   return supportedLocales.first;
