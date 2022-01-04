@@ -362,7 +362,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
             ),
             body: new SafeArea(
                 child: new Container(
-              padding: const EdgeInsets.fromLTRB(14.0, 0.0, 14.0, 0.0),
+              padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
               child: new CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
@@ -371,7 +371,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                     backgroundColor: Theme.of(context).canvasColor,
                     automaticallyImplyLeading: false,
                     leading: new Container(
-                        margin: const EdgeInsets.fromLTRB(7.0, 21.0, 7.0, 14.0),
+                        margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
                         child:
                             // Section: Teas
                             new Text(AppLocalizations.translate('teas_title'),
@@ -390,7 +390,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                               alignment: Alignment.topLeft,
                               child: new Container(
                                   margin: const EdgeInsets.fromLTRB(
-                                      7.0, 0.0, 7.0, 14.0),
+                                      6.0, 0.0, 6.0, 12.0),
                                   child: new Text(
                                       AppLocalizations.translate('prefs_header')
                                           .replaceAll('{{favorites_max}}',
@@ -511,13 +511,13 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                               });
                             },
                             contentPadding:
-                                const EdgeInsets.fromLTRB(7.0, 14.0, 7.0, 0.0),
+                                const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 0.0),
                             dense: true,
                           )),
                       const Divider(
                         thickness: 1.0,
-                        indent: 7.0,
-                        endIndent: 7.0,
+                        indent: 6.0,
+                        endIndent: 6.0,
                       ),
                       // Setting: default to Celsius or Fahrenheit
                       new Align(
@@ -537,13 +537,13 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                               });
                             },
                             contentPadding:
-                                const EdgeInsets.fromLTRB(7.0, 7.0, 7.0, 0.0),
+                                const EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 0.0),
                             dense: true,
                           )),
                       const Divider(
                         thickness: 1.0,
-                        indent: 7.0,
-                        endIndent: 7.0,
+                        indent: 6.0,
+                        endIndent: 6.0,
                       ),
                       // Setting: app theme selection
                       new Consumer<ThemeProvider>(
@@ -592,24 +592,24 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                   alignment: Alignment.centerRight,
                                 ),
                                 contentPadding: const EdgeInsets.fromLTRB(
-                                    7.0, 7.0, 7.0, 0.0),
+                                    6.0, 6.0, 6.0, 0.0),
                                 dense: true,
                               ))),
                       const Divider(
                         thickness: 1.0,
-                        indent: 7.0,
-                        endIndent: 7.0,
+                        indent: 6.0,
+                        endIndent: 6.0,
                       ),
                       // Notification settings info text
                       new Align(
                           alignment: Alignment.topLeft,
                           child: new Container(
                               margin: const EdgeInsets.fromLTRB(
-                                  7.0, 14.0, 7.0, 0.0),
+                                  6.0, 12.0, 6.0, 0.0),
                               child: new Row(children: [
                                 new Container(
                                     margin: const EdgeInsets.fromLTRB(
-                                        0.0, 0.0, 7.0, 0.0),
+                                        0.0, 0.0, 6.0, 0.0),
                                     child: Icon(
                                       Icons.info,
                                       size: 20.0,
@@ -632,7 +632,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                     child: new Align(
                       alignment: Alignment.bottomLeft,
                       child: new Container(
-                        margin: const EdgeInsets.fromLTRB(7.0, 42.0, 7.0, 21.0),
+                        margin: const EdgeInsets.fromLTRB(6.0, 36.0, 6.0, 18.0),
                         // About text linking to app website
                         child: new InkWell(
                             child: new Column(
@@ -696,6 +696,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
             key: _formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: new ListTile(
+              horizontalTitleGap: 4.0,
               // Tea color selection
               leading: new PopupMenuButton(
                 // Color icon
@@ -789,7 +790,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                 borderSide: BorderSide(color: Colors.red)),
                             counter: Offstage(),
                             contentPadding:
-                                const EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
+                                const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 0.0),
                           ),
                           style: new TextStyle(
                             fontWeight: FontWeight.bold,
@@ -823,7 +824,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                   // Tea brew time selection
                   new Container(
                       height: 30.0,
-                      padding: EdgeInsets.fromLTRB(7.0, 0.0, 0.0, 7.0),
+                      padding: EdgeInsets.fromLTRB(6.0, 0.0, 0.0, 6.0),
                       child: new Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
