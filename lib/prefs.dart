@@ -31,6 +31,7 @@ List<Tea> teaList = [];
 bool showExtra = false;
 bool useCelsius = isLocaleMetric;
 int appTheme = 0;
+String appLanguage = '';
 
 // Limits
 final int teaNameMaxLength = 16;
@@ -147,8 +148,9 @@ abstract class Prefs {
   static void initTeas() {
     teaList = [];
 
-    // Load app theme
+    // Load app theme and language
     appTheme = sharedPrefs.getInt(_prefAppTheme) ?? 0;
+    appLanguage = sharedPrefs.getString(_prefAppLanguage) ?? '';
   }
 
   // Color map
@@ -185,9 +187,9 @@ abstract class Prefs {
 
   // App theme name map
   static final Map<int, String> appThemeNames = {
-    0: AppLocalizations.translate('theme_system'),
-    1: AppLocalizations.translate('theme_light'),
-    2: AppLocalizations.translate('theme_dark')
+    0: 'theme_system',
+    1: 'theme_light',
+    2: 'theme_dark'
   };
 
   // Quick action shortcut icon map
@@ -226,6 +228,7 @@ abstract class Prefs {
   static const _prefShowExtra = 'Cuppa_show_extra';
   static const _prefUseCelsius = 'Cuppa_use_celsius';
   static const _prefAppTheme = 'Cuppa_app_theme';
+  static const _prefAppLanguage = 'Cuppa_app_language';
 
   // Fetch all teas from shared prefs or use defaults
   static void getTeas() {
@@ -304,10 +307,10 @@ abstract class Prefs {
         (teaList.sublist(3)).map((tea) => jsonEncode(tea.toJson())).toList();
     sharedPrefs.setStringList(_prefMoreTeas, moreTeasEncoded);
 
-    sharedPrefs.setInt(_prefAppTheme, appTheme);
-
     sharedPrefs.setBool(_prefShowExtra, showExtra);
     sharedPrefs.setBool(_prefUseCelsius, useCelsius);
+    sharedPrefs.setInt(_prefAppTheme, appTheme);
+    sharedPrefs.setString(_prefAppLanguage, appLanguage);
 
     // Manage quick actions
     setQuickActions();
@@ -546,8 +549,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                         endIndent: 6.0,
                       ),
                       // Setting: app theme selection
-                      new Consumer<ThemeProvider>(
-                          builder: (context, themeProvider, child) => Align(
+                      new Consumer<AppProvider>(
+                          builder: (context, provider, child) => Align(
                               alignment: Alignment.topLeft,
                               child: new ListTile(
                                 title: new Text(
@@ -570,7 +573,9 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       .map<DropdownMenuItem<int>>((int value) {
                                     return DropdownMenuItem<int>(
                                       value: value,
-                                      child: Text(Prefs.appThemeNames[value]!,
+                                      child: Text(
+                                          AppLocalizations.translate(
+                                              Prefs.appThemeNames[value]!),
                                           style: TextStyle(
                                               fontSize: 16.0,
                                               fontWeight: value == appTheme
@@ -586,7 +591,71 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                         Prefs.setTeas();
 
                                         // Notify consumers when theme changes
-                                        themeProvider.changeTheme();
+                                        provider.update();
+                                      });
+                                  },
+                                  alignment: Alignment.centerRight,
+                                ),
+                                contentPadding: const EdgeInsets.fromLTRB(
+                                    6.0, 6.0, 6.0, 0.0),
+                                dense: true,
+                              ))),
+                      const Divider(
+                        thickness: 1.0,
+                        indent: 6.0,
+                        endIndent: 6.0,
+                      ),
+                      // Setting: app language selection
+                      new Consumer<AppProvider>(
+                          builder: (context, provider, child) => Align(
+                              alignment: Alignment.topLeft,
+                              child: new ListTile(
+                                title: new Text(
+                                    AppLocalizations.translate(
+                                        'prefs_language'),
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                    )),
+                                trailing:
+                                    // App language dropdown
+                                    new DropdownButton<String>(
+                                  value: appLanguage,
+                                  icon: Icon(
+                                    Icons.arrow_drop_down,
+                                    size: 20.0,
+                                    color: Colors.grey,
+                                  ),
+                                  underline: SizedBox(),
+                                  items:
+                                      ([''] + supportedLanguages.keys.toList())
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                          value == ''
+                                              ? AppLocalizations.translate(
+                                                  'theme_system')
+                                              : supportedLanguages[value]! +
+                                                  ' (' +
+                                                  value +
+                                                  ')',
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: value == appLanguage
+                                                  ? FontWeight.w400
+                                                  : FontWeight.w300)),
+                                    );
+                                  }).toList(),
+                                  // Save appLanguage to prefs
+                                  onChanged: (String? newValue) {
+                                    if (newValue != null)
+                                      setState(() {
+                                        appLanguage = newValue;
+                                        Prefs.setTeas();
+
+                                        // Notify consumers when language changes
+                                        provider.update();
                                       });
                                   },
                                   alignment: Alignment.centerRight,

@@ -1,4 +1,5 @@
 {
+    "language_name": "Norsk Bokmål",
     "prefs_notifications": "Åpne systeminnstillingene på din enhet og sett merkander for {{app_name}}.",
     "notification_title": "Ferdigtrukket …",
     "about_app": "{{app_name}} er et gratis og fritt program.",
@@ -24,5 +25,6 @@
     "prefs_use_celsius": "Bruk Celsius temperatur for nye teer",
     "theme_light": "Lys",
     "theme_dark": "Mørk",
-    "teas_title": "Te"
+    "teas_title": "Te",
+    "prefs_language": "Velg appspråk"
 }

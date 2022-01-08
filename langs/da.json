@@ -1,4 +1,5 @@
 {
+    "language_name": "Dansk",
     "no_button": "Nej",
     "yes_button": "Ja",
     "confirm_message_line2": "Annuller og start en ny timer?",
@@ -24,5 +25,6 @@
     "theme_system": "Følg systemet",
     "theme_light": "Lys",
     "theme_dark": "Mørk",
-    "teas_title": "Teer"
+    "teas_title": "Teer",
+    "prefs_language": "Vælg app sprog"
 }

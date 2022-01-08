@@ -1,4 +1,5 @@
 {
+    "language_name": "Nederlands",
     "about_app": "{{app_name}} is een gratis, opensource-app.",
     "error_name_long": "* Deze naam is te lang.",
     "error_name_missing": "* Voer een naam in.",
@@ -24,5 +25,6 @@
     "theme_system": "Systeemthema",
     "theme_light": "Licht",
     "theme_dark": "Donker",
-    "teas_title": "Theeën"
+    "teas_title": "Theeën",
+    "prefs_language": "Kies app-taal"
 }

@@ -19,6 +19,27 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// Supported language codes and names
+final Map<String, String> supportedLanguages = {
+  'en': 'English',
+  'cs': 'Čeština',
+  'da': 'Dansk',
+  'de': 'Deutsch',
+  //'eo': 'Esperanto', // Not supported by GlobalMaterialLocalizations
+  'es': 'Español',
+  'et': 'Eesti',
+  'eu': 'Euskara',
+  'fi': 'Suomi',
+  'fr': 'Français',
+  //'ga': 'Gaeilge', // Not supported by GlobalMaterialLocalizations
+  //'ht': 'Ayisyen', // Not supported by GlobalMaterialLocalizations
+  'it': 'Italiano',
+  'nb': 'Norsk Bokmål',
+  'nl': 'Nederlands',
+  'ru': 'Русский',
+  'sl': 'Slovenščina',
+};
+
 class AppLocalizations {
   AppLocalizations(this.locale);
 
@@ -53,25 +74,8 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
 
   // Determine if a language is supported
   @override
-  bool isSupported(Locale locale) => [
-        'en',
-        'cs',
-        'da',
-        'de',
-        'eo',
-        'es',
-        'et',
-        'eu',
-        'fi',
-        'fr',
-        'ga',
-        'ht',
-        'it',
-        'nb',
-        'nl',
-        'ru',
-        'sl'
-      ].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      supportedLanguages.keys.contains(locale.languageCode);
 
   // Load localizations
   @override

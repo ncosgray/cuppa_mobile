@@ -1,4 +1,5 @@
 {
+    "language_name": "Eesti",
     "tea_name_black": "Musta tee",
     "tea_name_green": "Roheline tee",
     "tea_name_herbal": "Taimne tee",
@@ -24,5 +25,6 @@
     "theme_system": "Jälgi süsteemi",
     "theme_light": "Valgus",
     "theme_dark": "Tume",
-    "teas_title": "teed"
+    "teas_title": "teed",
+    "prefs_language": "Valige rakenduse keel"
 }

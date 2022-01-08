@@ -1,4 +1,5 @@
 {
+    "language_name": "Gaeilge",
     "notification_title": "Ullmhúchán críochnaithe…",
     "about_app": "Is aip foinse oscailte saor in aisce é {{app_name}}.",
     "error_name_long": "* Tá an t-ainm tae rófhada.",
@@ -24,5 +25,6 @@
     "theme_system": "Lean an córas",
     "theme_light": "Solas",
     "theme_dark": "Dorcha",
-    "teas_title": "Teas"
+    "teas_title": "Teas",
+    "prefs_language": "Roghnaigh teanga an aip"
 }

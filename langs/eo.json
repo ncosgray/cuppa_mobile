@@ -1,4 +1,5 @@
 {
+    "language_name": "Esperanto",
     "new_tea_default_name": "Nova teo",
     "prefs_notifications": "Malfermu la sisteman agordilon de via aparato por agordi sciigojn pri {{app_name}}.",
     "confirm_message_line2": "Ĉu nuligi kaj komenci novan tempumilon?",
@@ -24,5 +25,6 @@
     "theme_system": "Sekvu sistemon",
     "theme_light": "Lumo",
     "theme_dark": "Mallumo",
-    "teas_title": "Teoj"
+    "teas_title": "Teoj",
+    "prefs_language": "Elektu app-lingvon"
 }

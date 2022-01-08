@@ -52,8 +52,8 @@ class CuppaApp extends StatelessWidget {
     Prefs.initTeas();
 
     return ChangeNotifierProvider(
-        create: (_) => ThemeProvider(),
-        child: Consumer<ThemeProvider>(
+        create: (_) => AppProvider(),
+        child: Consumer<AppProvider>(
             builder: (context, themeProvider, child) => MaterialApp(
                 builder: (context, child) {
                   // Get device dimensions
@@ -79,25 +79,11 @@ class CuppaApp extends StatelessWidget {
                   '/prefs': (context) => PrefsWidget(),
                 },
                 // Localization
-                supportedLocales: [
-                  const Locale('en', ''),
-                  const Locale('cs', ''),
-                  const Locale('da', ''),
-                  const Locale('de', ''),
-                  const Locale('eo', ''),
-                  const Locale('es', ''),
-                  const Locale('et', ''),
-                  const Locale('eu', ''),
-                  const Locale('fi', ''),
-                  const Locale('fr', ''),
-                  const Locale('ga', ''),
-                  const Locale('ht', ''),
-                  const Locale('it', ''),
-                  const Locale('nb', ''),
-                  const Locale('nl', ''),
-                  const Locale('ru', ''),
-                  const Locale('sl', ''),
-                ],
+                locale: appLanguage != '' ? Locale(appLanguage, '') : null,
+                supportedLocales:
+                    supportedLanguages.keys.map<Locale>((String value) {
+                  return Locale(value, '');
+                }).toList(),
                 localizationsDelegates: [
                   const AppLocalizationsDelegate(),
                   GlobalMaterialLocalizations.delegate,
@@ -115,8 +101,15 @@ class CuppaApp extends StatelessWidget {
                       }
                     }
                   }
-                  return supportedLocales.first;
+                  return Locale('en', '');
                 })));
+  }
+}
+
+// Provider for theme and language changes
+class AppProvider extends ChangeNotifier {
+  void update() {
+    notifyListeners();
   }
 }
 
@@ -137,13 +130,6 @@ String formatTimer(s) {
   String secsString = secs.toString();
   if (secs < 10) secsString = '0' + secsString;
   return mins.toString() + ':' + secsString;
-}
-
-// Theme provider
-class ThemeProvider extends ChangeNotifier {
-  void changeTheme() {
-    notifyListeners();
-  }
 }
 
 // Add quick action shortcuts

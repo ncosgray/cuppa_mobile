@@ -1,4 +1,5 @@
 {
+    "language_name": "Français",
     "about_app": "{{app_name}} est une appli gratuite et à code source ouvert.",
     "error_name_long": "* Le nom du thé est trop long.",
     "error_name_missing": "* Veuillez entrer un nom de thé.",
@@ -24,5 +25,6 @@
     "theme_system": "Suivre le système",
     "theme_light": "Clair",
     "theme_dark": "Sombre",
-    "prefs_app_theme": "Choisissez le thème des couleurs de l’appli"
+    "prefs_app_theme": "Choisissez le thème des couleurs de l’appli",
+    "prefs_language": "Choisissez la langue de l’appli"
 }
