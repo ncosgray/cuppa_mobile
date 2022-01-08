@@ -178,6 +178,14 @@ abstract class Prefs {
       return Prefs.teaColors[color]!;
   }
 
+  // Brewing temperature options
+  static final List<int> brewTemps =
+      ([for (var i = 60; i <= 100; i += 5) i] // C temps 60-100
+          +
+          [for (var i = 140; i <= 200; i += 10) i] +
+          [212] // F temps 140-212
+      );
+
   // App theme map
   static final Map<int, ThemeMode> appThemes = {
     0: ThemeMode.system,
@@ -914,28 +922,8 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               ),
                               underline: SizedBox(),
                               alignment: AlignmentDirectional.center,
-                              items: <int>[
-                                0,
-                                1,
-                                2,
-                                3,
-                                4,
-                                5,
-                                6,
-                                7,
-                                8,
-                                9,
-                                10,
-                                11,
-                                12,
-                                13,
-                                14,
-                                15,
-                                16,
-                                17,
-                                18,
-                                19
-                              ].map<DropdownMenuItem<int>>((int value) {
+                              items: <int>[for (var i = 0; i <= 19; i++) i]
+                                  .map<DropdownMenuItem<int>>((int value) {
                                 return DropdownMenuItem<int>(
                                   value: value,
                                   child: Text(value.toString(),
@@ -1034,25 +1022,8 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                     .color!,
                               ),
                               underline: SizedBox(),
-                              items: (<int>[
-                                60,
-                                65,
-                                70,
-                                75,
-                                80,
-                                85,
-                                90,
-                                95,
-                                100,
-                                140,
-                                150,
-                                160,
-                                170,
-                                180,
-                                190,
-                                200,
-                                212
-                              ]).map<DropdownMenuItem<int>>((int value) {
+                              items: Prefs.brewTemps
+                                  .map<DropdownMenuItem<int>>((int value) {
                                 return DropdownMenuItem<int>(
                                   value: value,
                                   child: Text(formatTemp(value),
