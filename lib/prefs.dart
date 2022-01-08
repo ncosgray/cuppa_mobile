@@ -149,8 +149,8 @@ abstract class Prefs {
     teaList = [];
 
     // Load app theme and language
-    appTheme = sharedPrefs.getInt(_prefAppTheme) ?? 0;
-    appLanguage = sharedPrefs.getString(_prefAppLanguage) ?? '';
+    appTheme = sharedPrefs.getInt(_prefAppTheme) ?? appTheme;
+    appLanguage = sharedPrefs.getString(_prefAppLanguage) ?? appLanguage;
   }
 
   // Color map
@@ -276,8 +276,8 @@ abstract class Prefs {
           .toList();
 
     // Other settings
-    showExtra = sharedPrefs.getBool(_prefShowExtra) ?? false;
-    useCelsius = sharedPrefs.getBool(_prefUseCelsius) ?? isLocaleMetric;
+    showExtra = sharedPrefs.getBool(_prefShowExtra) ?? showExtra;
+    useCelsius = sharedPrefs.getBool(_prefUseCelsius) ?? useCelsius;
 
     // Manage quick actions
     setQuickActions();
