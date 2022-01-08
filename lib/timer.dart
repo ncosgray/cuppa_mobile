@@ -4,7 +4,7 @@
  Class:    timer.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2021 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2022 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -16,7 +16,6 @@
 // - Notification channels for platform code
 
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'main.dart';
@@ -38,10 +37,10 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // State variables
   bool _timerActive = false;
-  Tea _whichActive;
+  Tea? _whichActive;
   int _timerSeconds = 0;
-  DateTime _timerEndTime;
-  Timer _timer;
+  DateTime? _timerEndTime;
+  Timer? _timer;
 
   // Notification channel
   static const platform =
@@ -70,7 +69,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   // Confirmation dialog
-  Future<bool> _confirmTimer() {
+  Future _confirmTimer() {
     if (_timerActive) {
       return showDialog(
           context: context,
@@ -97,15 +96,20 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   // Update timer and handle brew finish
-  void _decrementTimer(Timer t) {
+  void _decrementTimer(Timer? t) {
     setState(() {
-      _timerSeconds = _timerEndTime.difference(new DateTime.now()).inSeconds;
+      if (_timerEndTime != null) {
+        _timerSeconds = _timerEndTime!.difference(new DateTime.now()).inSeconds;
+      } else {
+        _timerSeconds = 0;
+      }
       if (_timerSeconds <= 0) {
         // Brewing complete
         _timerActive = false;
         _whichActive = null;
         _timerSeconds = 0;
-        _timer.cancel();
+        _timerEndTime = null;
+        if (t != null) t.cancel();
         Prefs.clearNextAlarm();
       }
     });
@@ -131,7 +135,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       _timer = new Timer.periodic(new Duration(seconds: 1), _decrementTimer);
       _timerEndTime =
           new DateTime.now().add(new Duration(seconds: _timerSeconds + 1));
-      Prefs.setNextAlarm(tea.name, _timerEndTime);
+      Prefs.setNextAlarm(tea.name, _timerEndTime!);
     });
   }
 
@@ -144,8 +148,9 @@ class _TimerWidgetState extends State<TimerWidget> {
           .difference(DateTime.now());
       if (diff.inSeconds > 0) {
         // Resume timer from stored prefs
-        Tea nextTea = teaList.firstWhere((tea) => tea.name == Prefs.nextTeaName,
-            orElse: null);
+        Tea? nextTea = teaList
+            .firstWhere((tea) => tea.name == Prefs.nextTeaName, orElse: null);
+        // ignore: unnecessary_null_comparison
         if (nextTea != null) _setTimer(nextTea, diff.inSeconds);
       } else {
         Prefs.clearNextAlarm();
@@ -173,11 +178,9 @@ class _TimerWidgetState extends State<TimerWidget> {
 
     // Handle quick action selection
     quickActions.initialize((String shortcutType) async {
-      if (shortcutType != null) {
-        int teaIndex =
-            int.tryParse(shortcutType.replaceAll(shortcutPrefix, '')) ?? 0;
-        if (await _confirmTimer()) _setTimer(teaList[teaIndex]);
-      }
+      int? teaIndex = int.tryParse(shortcutType.replaceAll(shortcutPrefix, ''));
+      if (teaIndex != null) if (await _confirmTimer())
+        _setTimer(teaList[teaIndex]);
     });
   }
 
@@ -254,8 +257,8 @@ class _TimerWidgetState extends State<TimerWidget> {
                           fit: BoxFit.fitWidth, gaplessPlayback: true),
                       // While timing, gradually darken the tea in the cup
                       new Opacity(
-                          opacity: _timerActive
-                              ? (_timerSeconds / _whichActive.brewTime)
+                          opacity: _timerActive && _whichActive != null
+                              ? (_timerSeconds / _whichActive!.brewTime)
                               : 0.0,
                           child: new Image.asset(cupImageTea,
                               fit: BoxFit.fitWidth, gaplessPlayback: true)),
@@ -328,10 +331,10 @@ class _TimerWidgetState extends State<TimerWidget> {
 // Widget defining a tea brew start button
 class TeaButton extends StatelessWidget {
   TeaButton({
-    this.tea,
+    required this.tea,
     this.active = false,
     this.fade = false,
-    this.onPressed,
+    required this.onPressed,
   });
 
   final Tea tea;
@@ -423,7 +426,7 @@ class TeaButton extends StatelessWidget {
 
 // Widget defining a cancel brewing button
 class CancelButton extends StatelessWidget {
-  CancelButton({Key key, this.active: false, @required this.onPressed})
+  CancelButton({Key? key, this.active: false, required this.onPressed})
       : super(key: key);
 
   final bool active;

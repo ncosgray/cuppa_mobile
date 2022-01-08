@@ -1,4 +1,5 @@
 {
+    "language_name": "Suomi",
     "notification_title": "Haudutus valmis…",
     "about_app": "{{app_name}} on ilmainen, avoimen lähdekoodin sovellus.",
     "error_name_long": "* Teenimi on liian pitkä.",
@@ -24,5 +25,6 @@
     "theme_system": "Järjestelmän mukaan",
     "theme_light": "Vaalea",
     "theme_dark": "Tumma",
-    "teas_title": "Teet"
+    "teas_title": "Teet",
+    "prefs_language": "Valitse sovelluksen kieli"
 }

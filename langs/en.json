@@ -1,4 +1,5 @@
 {
+  "language_name": "English",
   "tea_name_black": "Black Tea",
   "tea_name_green": "Green Tea",
   "tea_name_herbal": "Herbal Tea",
@@ -24,5 +25,6 @@
   "theme_system": "Follow system",
   "theme_light": "Light",
   "theme_dark": "Dark",
-  "teas_title": "Teas"
+  "teas_title": "Teas",
+  "prefs_language": "Choose app language"
 }

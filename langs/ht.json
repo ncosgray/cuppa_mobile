@@ -1,4 +1,5 @@
 {
+    "language_name": "Ayisyen",
     "about_app": "{{app_name}} se yon aplikasyon gratis ak lib.",
     "error_name_long": "* Non te twò long.",
     "error_name_missing": "* Tanpri antre yon non te.",
@@ -24,5 +25,6 @@
     "theme_system": "Swiv sistèm",
     "theme_dark": "Nwa",
     "teas_title": "Te",
-    "theme_light": "Klè"
+    "theme_light": "Klè",
+    "prefs_language": "Chwazi lang pou aplikasyon an"
 }

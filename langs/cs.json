@@ -1,4 +1,5 @@
 {
+    "language_name": "Čeština",
     "tea_name_black": "Černý čaj",
     "tea_name_green": "Zelený čaj",
     "tea_name_herbal": "Bylinný čaj",
@@ -24,5 +25,6 @@
     "theme_system": "Sledujte systém",
     "theme_light": "Světlo",
     "theme_dark": "Temný",
-    "teas_title": "Čaje"
+    "teas_title": "Čaje",
+    "prefs_language": "Vyberte jazyk aplikace"
 }

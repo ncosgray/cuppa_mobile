@@ -1,4 +1,5 @@
 {
+    "language_name": "Русский",
     "about_app": "{{app_name}} это бесплатное приложение с открытым исходным кодом.",
     "error_name_long": "* Название чая слишком длинное.",
     "error_name_missing": "* Пожалуйста, введите название чая.",
@@ -24,5 +25,6 @@
     "theme_system": "Следуйте системе",
     "theme_light": "Свет",
     "theme_dark": "Темный",
-    "teas_title": "Чаи"
+    "teas_title": "Чаи",
+    "prefs_language": "Выберите язык приложения"
 }

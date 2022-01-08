@@ -4,7 +4,7 @@
  Class:    main.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2021 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2022 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -23,10 +23,10 @@ import 'prefs.dart';
 import 'timer.dart';
 
 // Globals
-SharedPreferences sharedPrefs;
-TargetPlatform appPlatform;
-double deviceWidth;
-double deviceHeight;
+late SharedPreferences sharedPrefs;
+late TargetPlatform appPlatform;
+late double deviceWidth;
+late double deviceHeight;
 bool isLocaleMetric = true;
 final String appName = 'Cuppa';
 final String aboutCopyright = '\u00a9 Nathan Cosgray';
@@ -52,8 +52,8 @@ class CuppaApp extends StatelessWidget {
     Prefs.initTeas();
 
     return ChangeNotifierProvider(
-        create: (_) => ThemeProvider(),
-        child: Consumer<ThemeProvider>(
+        create: (_) => AppProvider(),
+        child: Consumer<AppProvider>(
             builder: (context, themeProvider, child) => MaterialApp(
                 builder: (context, child) {
                   // Get device dimensions
@@ -62,7 +62,7 @@ class CuppaApp extends StatelessWidget {
 
                   // Set scale factor
                   return MediaQuery(
-                    child: child,
+                    child: child!,
                     data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
                   );
                 },
@@ -79,42 +79,37 @@ class CuppaApp extends StatelessWidget {
                   '/prefs': (context) => PrefsWidget(),
                 },
                 // Localization
-                supportedLocales: [
-                  const Locale('en', ''),
-                  const Locale('cs', ''),
-                  const Locale('da', ''),
-                  const Locale('de', ''),
-                  const Locale('eo', ''),
-                  const Locale('es', ''),
-                  const Locale('et', ''),
-                  const Locale('eu', ''),
-                  const Locale('fi', ''),
-                  const Locale('fr', ''),
-                  const Locale('ga', ''),
-                  const Locale('ht', ''),
-                  const Locale('it', ''),
-                  const Locale('nb', ''),
-                  const Locale('nl', ''),
-                  const Locale('ru', ''),
-                  const Locale('sl', ''),
-                ],
+                locale: appLanguage != '' ? Locale(appLanguage, '') : null,
+                supportedLocales:
+                    supportedLanguages.keys.map<Locale>((String value) {
+                  return Locale(value, '');
+                }).toList(),
                 localizationsDelegates: [
                   const AppLocalizationsDelegate(),
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
                 ],
                 localeResolutionCallback: (locale, supportedLocales) {
-                  // Set metric locale based on country code
-                  if (locale.countryCode == 'US') isLocaleMetric = false;
+                  if (locale != null) {
+                    // Set metric locale based on country code
+                    if (locale.countryCode == 'US') isLocaleMetric = false;
 
-                  // Set language or default to English
-                  for (var supportedLocale in supportedLocales) {
-                    if (supportedLocale.languageCode == locale.languageCode) {
-                      return supportedLocale;
+                    // Set language or default to English
+                    for (var supportedLocale in supportedLocales) {
+                      if (supportedLocale.languageCode == locale.languageCode) {
+                        return supportedLocale;
+                      }
                     }
                   }
-                  return supportedLocales.first;
+                  return Locale('en', '');
                 })));
+  }
+}
+
+// Provider for theme and language changes
+class AppProvider extends ChangeNotifier {
+  void update() {
+    notifyListeners();
   }
 }
 
@@ -135,13 +130,6 @@ String formatTimer(s) {
   String secsString = secs.toString();
   if (secs < 10) secsString = '0' + secsString;
   return mins.toString() + ':' + secsString;
-}
-
-// Theme provider
-class ThemeProvider extends ChangeNotifier {
-  void changeTheme() {
-    notifyListeners();
-  }
 }
 
 // Add quick action shortcuts

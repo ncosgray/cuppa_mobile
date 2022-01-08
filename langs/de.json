@@ -1,4 +1,5 @@
 {
+    "language_name": "Deutsch",
     "tea_name_black": "Schwarztee",
     "tea_name_green": "Grüntee",
     "tea_name_herbal": "Kräutertee",
@@ -24,5 +25,6 @@
     "theme_light": "Hell",
     "theme_dark": "Dunkel",
     "prefs_app_theme": "Farbschema der Anwendung auswählen",
-    "teas_title": "Tees"
+    "teas_title": "Tees",
+    "prefs_language": "Sprache der Anwendung auswählen"
 }

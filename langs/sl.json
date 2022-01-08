@@ -1,4 +1,5 @@
 {
+    "language_name": "Slovenščina",
     "about_app": "{{app_name}} je brezplačna, odprtokodna aplikacija.",
     "error_name_long": "* Ime čaja je predolgo.",
     "error_name_missing": "* Prosimo vnesite ime čaja.",
@@ -24,5 +25,6 @@
     "prefs_app_theme": "Izberite barvno temo aplikacije",
     "theme_dark": "Temna",
     "teas_title": "Čaji",
-    "theme_system": "Enaka sistemski"
+    "theme_system": "Enaka sistemski",
+    "prefs_language": "Izberite jezik aplikacije"
 }

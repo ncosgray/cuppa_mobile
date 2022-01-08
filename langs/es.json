@@ -1,4 +1,5 @@
 {
+    "language_name": "Español",
     "no_button": "No",
     "about_app": "{{app_name}} es una app libre y de código abierto.",
     "error_name_long": "* El nombre del té es muy largo.",
@@ -24,5 +25,6 @@
     "theme_system": "Seguir el sistema",
     "theme_light": "Luz",
     "theme_dark": "Oscuro",
-    "teas_title": "Tés"
+    "teas_title": "Tés",
+    "prefs_language": "Elija el idioma de la aplicación"
 }

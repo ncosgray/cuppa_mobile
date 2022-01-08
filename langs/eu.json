@@ -1,4 +1,5 @@
 {
+    "language_name": "Euskara",
     "about_app": "{{app_name}} librea da, kode irekiko aplikazioa.",
     "error_name_long": "* Tea izena luzeegia da.",
     "error_name_missing": "* Mesedez, idatzi bat tea izena.",
@@ -24,5 +25,6 @@
     "theme_system": "Jarraitu sistema",
     "theme_light": "Argia",
     "theme_dark": "Iluna",
-    "teas_title": "Teak"
+    "teas_title": "Teak",
+    "prefs_language": "Aukeratu aplikazioaren hizkuntza"
 }

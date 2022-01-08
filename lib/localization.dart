@@ -1,10 +1,10 @@
 /*
  *******************************************************************************
  Package:  cuppa_mobile
- Class:    main.dart
+ Class:    localization.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2021 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2022 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -19,16 +19,37 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// Supported language codes and names
+final Map<String, String> supportedLanguages = {
+  'en': 'English',
+  'cs': 'Čeština',
+  'da': 'Dansk',
+  'de': 'Deutsch',
+  //'eo': 'Esperanto', // Not supported by GlobalMaterialLocalizations
+  'es': 'Español',
+  'et': 'Eesti',
+  'eu': 'Euskara',
+  'fi': 'Suomi',
+  'fr': 'Français',
+  //'ga': 'Gaeilge', // Not supported by GlobalMaterialLocalizations
+  //'ht': 'Ayisyen', // Not supported by GlobalMaterialLocalizations
+  'it': 'Italiano',
+  'nb': 'Norsk Bokmål',
+  'nl': 'Nederlands',
+  'ru': 'Русский',
+  'sl': 'Slovenščina',
+};
+
 class AppLocalizations {
   AppLocalizations(this.locale);
 
   final Locale locale;
 
   // Localizations instance
-  static AppLocalizations get instance => AppLocalizationsDelegate.instance;
+  static AppLocalizations get instance => AppLocalizationsDelegate.instance!;
 
   // Populate strings map from JSON files in langs folder
-  Map<String, String> _localizedStrings;
+  Map<String, String> _localizedStrings = new Map();
   Future<bool> load() async {
     String jsonString =
         await rootBundle.loadString('langs/${locale.languageCode}.json');
@@ -43,35 +64,18 @@ class AppLocalizations {
 
   // Get translated string
   static String translate(String key) {
-    return AppLocalizations.instance._localizedStrings[key];
+    return AppLocalizations.instance._localizedStrings[key] ?? '';
   }
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const AppLocalizationsDelegate();
-  static AppLocalizations instance;
+  static AppLocalizations? instance;
 
   // Determine if a language is supported
   @override
-  bool isSupported(Locale locale) => [
-        'en',
-        'cs',
-        'da',
-        'de',
-        'eo',
-        'es',
-        'et',
-        'eu',
-        'fi',
-        'fr',
-        'ga',
-        'ht',
-        'it',
-        'nb',
-        'nl',
-        'ru',
-        'sl'
-      ].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      supportedLanguages.keys.contains(locale.languageCode);
 
   // Load localizations
   @override
