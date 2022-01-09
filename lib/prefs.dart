@@ -444,30 +444,10 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                               });
                             },
                             // Dismissible delete warning background
-                            background: Container(
-                                padding: const EdgeInsets.all(5.0),
-                                child: new Container(
-                                    color: Colors.red,
-                                    child: new Padding(
-                                        padding: const EdgeInsets.all(14.0),
-                                        child: new Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: new Icon(
-                                                Icons.delete_outline,
-                                                color: Colors.white,
-                                                size: 28.0))))),
-                            secondaryBackground: Container(
-                                padding: const EdgeInsets.all(5.0),
-                                child: new Container(
-                                    color: Colors.red,
-                                    child: new Padding(
-                                        padding: const EdgeInsets.all(14.0),
-                                        child: new Align(
-                                            alignment: Alignment.centerRight,
-                                            child: new Icon(
-                                                Icons.delete_outline,
-                                                color: Colors.white,
-                                                size: 28.0))))),
+                            background:
+                                _dismissibleBackground(Alignment.centerLeft),
+                            secondaryBackground:
+                                _dismissibleBackground(Alignment.centerRight),
                           );
                       }).toList())),
                   new SliverToBoxAdapter(
@@ -525,11 +505,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                 const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 0.0),
                             dense: true,
                           )),
-                      const Divider(
-                        thickness: 1.0,
-                        indent: 6.0,
-                        endIndent: 6.0,
-                      ),
+                      _divider(),
                       // Setting: default to Celsius or Fahrenheit
                       new Align(
                           alignment: Alignment.topLeft,
@@ -551,11 +527,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                 const EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 0.0),
                             dense: true,
                           )),
-                      const Divider(
-                        thickness: 1.0,
-                        indent: 6.0,
-                        endIndent: 6.0,
-                      ),
+                      _divider(),
                       // Setting: app theme selection
                       new Consumer<AppProvider>(
                           builder: (context, provider, child) => Align(
@@ -608,11 +580,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     6.0, 6.0, 6.0, 0.0),
                                 dense: true,
                               ))),
-                      const Divider(
-                        thickness: 1.0,
-                        indent: 6.0,
-                        endIndent: 6.0,
-                      ),
+                      _divider(),
                       // Setting: app language selection
                       new Consumer<AppProvider>(
                           builder: (context, provider, child) => Align(
@@ -672,11 +640,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     6.0, 6.0, 6.0, 0.0),
                                 dense: true,
                               ))),
-                      const Divider(
-                        thickness: 1.0,
-                        indent: 6.0,
-                        endIndent: 6.0,
-                      ),
+                      _divider(),
                       // Notification settings info text
                       new Align(
                           alignment: Alignment.topLeft,
@@ -1068,6 +1032,29 @@ String _getNextDefaultTeaName() {
     nextNumber++;
   } while (teaList.indexWhere((tea) => tea.name == nextName) >= 0);
   return nextName;
+}
+
+// Prefs settings list divider
+Widget _divider() {
+  return const Divider(
+    thickness: 1.0,
+    indent: 6.0,
+    endIndent: 6.0,
+  );
+}
+
+// Dismissible delete warning background
+Widget _dismissibleBackground(Alignment alignment) {
+  return new Container(
+      padding: const EdgeInsets.all(5.0),
+      child: new Container(
+          color: Colors.red,
+          child: new Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: new Align(
+                  alignment: alignment,
+                  child: new Icon(Icons.delete_outline,
+                      color: Colors.white, size: 28.0)))));
 }
 
 // Custom draggable feedback for reorderable list
