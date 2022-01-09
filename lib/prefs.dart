@@ -149,8 +149,8 @@ abstract class Prefs {
     teaList = [];
 
     // Load app theme and language
-    appTheme = sharedPrefs.getInt(_prefAppTheme) ?? 0;
-    appLanguage = sharedPrefs.getString(_prefAppLanguage) ?? '';
+    appTheme = sharedPrefs.getInt(_prefAppTheme) ?? appTheme;
+    appLanguage = sharedPrefs.getString(_prefAppLanguage) ?? appLanguage;
   }
 
   // Color map
@@ -177,6 +177,14 @@ abstract class Prefs {
     else
       return Prefs.teaColors[color]!;
   }
+
+  // Brewing temperature options
+  static final List<int> brewTemps =
+      ([for (var i = 60; i <= 100; i += 5) i] // C temps 60-100
+          +
+          [for (var i = 140; i <= 200; i += 10) i] +
+          [212] // F temps 140-212
+      );
 
   // App theme map
   static final Map<int, ThemeMode> appThemes = {
@@ -276,8 +284,8 @@ abstract class Prefs {
           .toList();
 
     // Other settings
-    showExtra = sharedPrefs.getBool(_prefShowExtra) ?? false;
-    useCelsius = sharedPrefs.getBool(_prefUseCelsius) ?? isLocaleMetric;
+    showExtra = sharedPrefs.getBool(_prefShowExtra) ?? showExtra;
+    useCelsius = sharedPrefs.getBool(_prefUseCelsius) ?? useCelsius;
 
     // Manage quick actions
     setQuickActions();
@@ -436,30 +444,10 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                               });
                             },
                             // Dismissible delete warning background
-                            background: Container(
-                                padding: const EdgeInsets.all(5.0),
-                                child: new Container(
-                                    color: Colors.red,
-                                    child: new Padding(
-                                        padding: const EdgeInsets.all(14.0),
-                                        child: new Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: new Icon(
-                                                Icons.delete_outline,
-                                                color: Colors.white,
-                                                size: 28.0))))),
-                            secondaryBackground: Container(
-                                padding: const EdgeInsets.all(5.0),
-                                child: new Container(
-                                    color: Colors.red,
-                                    child: new Padding(
-                                        padding: const EdgeInsets.all(14.0),
-                                        child: new Align(
-                                            alignment: Alignment.centerRight,
-                                            child: new Icon(
-                                                Icons.delete_outline,
-                                                color: Colors.white,
-                                                size: 28.0))))),
+                            background:
+                                _dismissibleBackground(Alignment.centerLeft),
+                            secondaryBackground:
+                                _dismissibleBackground(Alignment.centerRight),
                           );
                       }).toList())),
                   new SliverToBoxAdapter(
@@ -517,11 +505,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                 const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 0.0),
                             dense: true,
                           )),
-                      const Divider(
-                        thickness: 1.0,
-                        indent: 6.0,
-                        endIndent: 6.0,
-                      ),
+                      _divider(),
                       // Setting: default to Celsius or Fahrenheit
                       new Align(
                           alignment: Alignment.topLeft,
@@ -543,11 +527,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                 const EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 0.0),
                             dense: true,
                           )),
-                      const Divider(
-                        thickness: 1.0,
-                        indent: 6.0,
-                        endIndent: 6.0,
-                      ),
+                      _divider(),
                       // Setting: app theme selection
                       new Consumer<AppProvider>(
                           builder: (context, provider, child) => Align(
@@ -600,11 +580,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     6.0, 6.0, 6.0, 0.0),
                                 dense: true,
                               ))),
-                      const Divider(
-                        thickness: 1.0,
-                        indent: 6.0,
-                        endIndent: 6.0,
-                      ),
+                      _divider(),
                       // Setting: app language selection
                       new Consumer<AppProvider>(
                           builder: (context, provider, child) => Align(
@@ -664,11 +640,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     6.0, 6.0, 6.0, 0.0),
                                 dense: true,
                               ))),
-                      const Divider(
-                        thickness: 1.0,
-                        indent: 6.0,
-                        endIndent: 6.0,
-                      ),
+                      _divider(),
                       // Notification settings info text
                       new Align(
                           alignment: Alignment.topLeft,
@@ -914,28 +886,8 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               ),
                               underline: SizedBox(),
                               alignment: AlignmentDirectional.center,
-                              items: <int>[
-                                0,
-                                1,
-                                2,
-                                3,
-                                4,
-                                5,
-                                6,
-                                7,
-                                8,
-                                9,
-                                10,
-                                11,
-                                12,
-                                13,
-                                14,
-                                15,
-                                16,
-                                17,
-                                18,
-                                19
-                              ].map<DropdownMenuItem<int>>((int value) {
+                              items: <int>[for (var i = 0; i <= 19; i++) i]
+                                  .map<DropdownMenuItem<int>>((int value) {
                                 return DropdownMenuItem<int>(
                                   value: value,
                                   child: Text(value.toString(),
@@ -1034,25 +986,8 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                     .color!,
                               ),
                               underline: SizedBox(),
-                              items: (<int>[
-                                60,
-                                65,
-                                70,
-                                75,
-                                80,
-                                85,
-                                90,
-                                95,
-                                100,
-                                140,
-                                150,
-                                160,
-                                170,
-                                180,
-                                190,
-                                200,
-                                212
-                              ]).map<DropdownMenuItem<int>>((int value) {
+                              items: Prefs.brewTemps
+                                  .map<DropdownMenuItem<int>>((int value) {
                                 return DropdownMenuItem<int>(
                                   value: value,
                                   child: Text(formatTemp(value),
@@ -1097,6 +1032,29 @@ String _getNextDefaultTeaName() {
     nextNumber++;
   } while (teaList.indexWhere((tea) => tea.name == nextName) >= 0);
   return nextName;
+}
+
+// Prefs settings list divider
+Widget _divider() {
+  return const Divider(
+    thickness: 1.0,
+    indent: 6.0,
+    endIndent: 6.0,
+  );
+}
+
+// Dismissible delete warning background
+Widget _dismissibleBackground(Alignment alignment) {
+  return new Container(
+      padding: const EdgeInsets.all(5.0),
+      child: new Container(
+          color: Colors.red,
+          child: new Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: new Align(
+                  alignment: alignment,
+                  child: new Icon(Icons.delete_outline,
+                      color: Colors.white, size: 28.0)))));
 }
 
 // Custom draggable feedback for reorderable list
