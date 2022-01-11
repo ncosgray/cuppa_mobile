@@ -1,0 +1,4 @@
+* Ajoutez plus de 3 thés personnalisés dans les préférences de Cuppa.
+* Changez l'ordre des boutons représentant vos thés.
+* Qualité des graphismes améliorée.
+* Mise à jour des traductions - n'hésitez pas à contribuer avec Weblate !

@@ -1,0 +1,4 @@
+[NIEUW] Kies je eigen taal;
+[VERBETERD] Harder meldingsgeluid;
+[VERBETERD] Kleine aanpassingen aan de vormgeving;
+[VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!
