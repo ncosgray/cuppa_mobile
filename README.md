@@ -4,7 +4,6 @@ Cuppa is a small application to time your cup of tea as it steeps. Tired of leav
 
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/ncosgray/cuppa_mobile?label=latest%20version&sort=semver)](https://github.com/ncosgray/cuppa_mobile/releases)
 [![GitHub issues](https://img.shields.io/github/issues/ncosgray/cuppa_mobile?color=red)](https://github.com/ncosgray/cuppa_mobile/issues)
-[![Telegram](https://img.shields.io/badge/chat-on%20Telegram-blue)](https://t.me/CuppaMobile)
 [![Weblate project translated](https://img.shields.io/weblate/progress/cuppa?color=green&server=https%3A%2F%2Fhosted.weblate.org%2F)](https://hosted.weblate.org/engage/cuppa/)
 [![GitHub license](https://img.shields.io/github/license/ncosgray/cuppa_mobile?color=lightgrey)](https://github.com/ncosgray/cuppa_mobile/blob/master/LICENSE.txt)
 
@@ -21,17 +20,18 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 
 | Android (4.1+) | iOS (10+) |
 | :--: | :--: |
-| <a href="https://play.google.com/store/apps/details?id=com.nathanatos.Cuppa"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="80"/></a><br/><a href="https://f-droid.org/en/packages/com.nathanatos.Cuppa/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80"/></a> | <a href="https://itunes.apple.com/us/app/cuppa-tea-timer/id1241458171"><img src="https://www.nathanatos.com/software/images/ios-app-store-badge.png" alt="Download on the App Store" height="50"/></a> |
+| <a href="https://play.google.com/store/apps/details?id=com.nathanatos.Cuppa"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" width="206" height="80"/></a><br/><a href="https://f-droid.org/en/packages/com.nathanatos.Cuppa/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" width="206" height="80"/></a> | <a href="https://itunes.apple.com/us/app/cuppa-tea-timer/id1241458171"><img src="https://www.nathanatos.com/software/images/ios-app-store-badge.png" alt="Download on the App Store" width="168" height="50"/></a> |
 
 ### Join the Team
 
-- Chat in the [Telegram discussion group](https://t.me/CuppaMobile).
+- Pull requests for new features or bugfixes are welcome.
+- Chat in our [GitHub Discussions](https://github.com/ncosgray/cuppa_mobile/discussions) forum.
 - Use [Weblate](https://hosted.weblate.org/engage/cuppa/) to contribute a translation for your language.
 
 <a href="https://hosted.weblate.org/engage/cuppa/" target="_blank" rel="noopener"><img src="https://hosted.weblate.org/widgets/cuppa/-/open-graph.png" alt="Translation status" width="400"></a>
 
 <details>
-  <summary>Translation status</summary>
+<summary>Translation status</summary>
 
 #### Mobile app:
 
@@ -40,14 +40,13 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 #### Android app store description:
 
 [![Android description](https://hosted.weblate.org/widgets/cuppa/-/cuppa-mobile-app-store-android/multi-auto.svg)](https://hosted.weblate.org/projects/cuppa/cuppa-mobile-app-store-android/)
-
 </details>
 
 ### Support the Project
 
 Buy us a cup of tea to support active development of Cuppa.
 
-<a href="https://paypal.me/ncosgray"><img src="https://www.nathanatos.com/software/images/paypal-badge.png" alt="Donate with PayPal" height="80"/></a><br/>
+<a href="https://paypal.me/ncosgray"><img src="https://www.nathanatos.com/software/images/paypal-badge.png" alt="Donate with PayPal" width="185" height="50"/></a><br/>
 
 ### About
 
