@@ -88,6 +88,7 @@ class CuppaApp extends StatelessWidget {
                   const AppLocalizationsDelegate(),
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
+                  const FallbackMaterialLocalizationsDelegate(),
                 ],
                 localeResolutionCallback: (locale, supportedLocales) {
                   if (locale != null) {

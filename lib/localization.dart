@@ -25,20 +25,23 @@ final Map<String, String> supportedLanguages = {
   'cs': 'Čeština',
   'da': 'Dansk',
   'de': 'Deutsch',
-  //'eo': 'Esperanto', // Not supported by GlobalMaterialLocalizations
+  'eo': 'Esperanto',
   'es': 'Español',
   'et': 'Eesti',
   'eu': 'Euskara',
   'fi': 'Suomi',
   'fr': 'Français',
-  //'ga': 'Gaeilge', // Not supported by GlobalMaterialLocalizations
-  //'ht': 'Ayisyen', // Not supported by GlobalMaterialLocalizations
+  'ga': 'Gaeilge',
+  'ht': 'Ayisyen',
   'it': 'Italiano',
   'nb': 'Norsk Bokmål',
   'nl': 'Nederlands',
   'ru': 'Русский',
   'sl': 'Slovenščina',
 };
+
+// Languages not supported by GlobalMaterialLocalizations
+final List<String> fallbackLanguages = ['eo', 'ga', 'ht'];
 
 class AppLocalizations {
   AppLocalizations(this.locale);
@@ -87,5 +90,22 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   }
 
   @override
-  bool shouldReload(AppLocalizationsDelegate old) => false;
+  bool shouldReload(_) => false;
+}
+
+class FallbackMaterialLocalizationsDelegate
+    extends LocalizationsDelegate<MaterialLocalizations> {
+  const FallbackMaterialLocalizationsDelegate();
+
+  // Force defaults for locales not supported by GlobalMaterialLocalizations
+  @override
+  bool isSupported(Locale locale) =>
+      fallbackLanguages.contains(locale.languageCode);
+
+  @override
+  Future<MaterialLocalizations> load(Locale locale) async =>
+      DefaultMaterialLocalizations();
+
+  @override
+  bool shouldReload(_) => false;
 }
