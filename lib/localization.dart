@@ -32,12 +32,14 @@ final Map<String, String> supportedLanguages = {
   'fi': 'Suomi',
   'fr': 'Français',
   'ga': 'Gaeilge',
+  'he': 'עברית',
   'ht': 'Ayisyen',
   'it': 'Italiano',
   'nb': 'Norsk Bokmål',
   'nl': 'Nederlands',
   'ru': 'Русский',
   'sl': 'Slovenščina',
+  'uk': 'Українська',
 };
 
 // Languages not supported by GlobalMaterialLocalizations

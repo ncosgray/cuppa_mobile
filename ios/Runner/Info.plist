@@ -23,12 +23,14 @@
 		<string>fi</string>
 		<string>fr</string>
 		<string>ga</string>
+		<string>he</string>
 		<string>ht</string>
 		<string>it</string>
 		<string>nb</string>
 		<string>nl</string>
 		<string>ru</string>
 		<string>sl</string>
+		<string>uk</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>Cuppa</string>
