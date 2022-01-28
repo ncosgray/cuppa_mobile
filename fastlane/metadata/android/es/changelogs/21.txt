@@ -1,0 +1,4 @@
+* Sonido de notificaciones más alto.
+* Nueva opción para cambiar el lenguaje de la app
+* Mejoras a la interfaz y la usabilidad
+* Actualizaciones de las traducciones - ¡contribuye a través de Weblate!
