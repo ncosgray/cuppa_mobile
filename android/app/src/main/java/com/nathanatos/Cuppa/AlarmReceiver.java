@@ -63,6 +63,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Notification notification = builder.setContentTitle(title)
                 .setContentText(text)
                 .setSmallIcon(R.drawable.ic_stat_name)
+                .setShowWhen(true)
                 .setContentIntent(pendingIntent).build();
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
