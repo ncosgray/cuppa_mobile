@@ -26,5 +26,14 @@
     "theme_light": "Clair",
     "theme_dark": "Sombre",
     "prefs_app_theme": "Choisissez le thème des couleurs de l’appli",
-    "prefs_language": "Choisissez la langue de l’appli"
+    "prefs_language": "Choisissez la langue de l’appli",
+    "about_license": "Licence à source ouverte",
+    "source_code": "Code source",
+    "help_translate_info": "Contribuer via Weblate",
+    "issues_info": "Signalement d'erreur ou demande de fonctionnalité",
+    "issues": "Problèmes",
+    "help_translate": "Aidez à traduire {{app_name}}",
+    "about_title": "À propos de {{app_name}}",
+    "version_history": "Historique des versions",
+    "source_code_info": "Dépôt sur GitHub"
 }
