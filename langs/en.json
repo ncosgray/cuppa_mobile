@@ -26,5 +26,14 @@
   "theme_light": "Light",
   "theme_dark": "Dark",
   "teas_title": "Teas",
-  "prefs_language": "Choose app language"
+  "prefs_language": "Choose app language",
+  "about_title": "About {{app_name}}",
+  "version_history": "Version history",
+  "about_license": "Open-source license",
+  "source_code": "Source code",
+  "source_code_info": "Repository on GitHub",
+  "help_translate": "Help translate {{app_name}}",
+  "help_translate_info": "Contribute via Weblate",
+  "issues": "Issues",
+  "issues_info": "Bug report or feature request"
 }

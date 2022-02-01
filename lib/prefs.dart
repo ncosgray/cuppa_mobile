@@ -17,10 +17,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:reorderables/reorderables.dart';
 import 'dart:convert';
 import 'main.dart';
+import 'about.dart';
 import 'localization.dart';
 import 'platform_adaptive.dart';
 
@@ -367,10 +367,18 @@ class _PrefsWidgetState extends State<PrefsWidget> {
             },
         child: Scaffold(
             appBar: new PlatformAdaptiveAppBar(
-              title: new Text(AppLocalizations.translate('prefs_title')
-                  .replaceAll('{{app_name}}', appName)),
-              platform: appPlatform,
-            ),
+                title: new Text(AppLocalizations.translate('prefs_title')
+                    .replaceAll('{{app_name}}', appName)),
+                platform: appPlatform,
+                // Button to navigate to About page
+                actions: <Widget>[
+                  IconButton(
+                    icon: const Icon(Icons.help),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("/about");
+                    },
+                  ),
+                ]),
             body: new SafeArea(
                 child: new Container(
               padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
@@ -502,7 +510,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                               });
                             },
                             contentPadding:
-                                const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 0.0),
+                                const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 6.0),
                             dense: true,
                           )),
                       _divider(),
@@ -523,8 +531,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                 Prefs.setTeas();
                               });
                             },
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 0.0),
+                            contentPadding: const EdgeInsets.all(6.0),
                             dense: true,
                           )),
                       _divider(),
@@ -576,8 +583,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                   },
                                   alignment: Alignment.centerRight,
                                 ),
-                                contentPadding: const EdgeInsets.fromLTRB(
-                                    6.0, 6.0, 6.0, 0.0),
+                                contentPadding: const EdgeInsets.all(6.0),
                                 dense: true,
                               ))),
                       _divider(),
@@ -636,8 +642,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                   },
                                   alignment: Alignment.centerRight,
                                 ),
-                                contentPadding: const EdgeInsets.fromLTRB(
-                                    6.0, 6.0, 6.0, 0.0),
+                                contentPadding: const EdgeInsets.all(6.0),
                                 dense: true,
                               ))),
                       _divider(),
@@ -675,32 +680,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                       child: new Container(
                         margin: const EdgeInsets.fromLTRB(6.0, 36.0, 6.0, 18.0),
                         // About text linking to app website
-                        child: new InkWell(
-                            child: new Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  new Text(
-                                      AppLocalizations.translate('about_app')
-                                          .replaceAll('{{app_name}}', appName),
-                                      style: TextStyle(
-                                        fontSize: 12.0,
-                                      )),
-                                  new Row(children: [
-                                    new Text(aboutCopyright,
-                                        style: TextStyle(
-                                          fontSize: 12.0,
-                                        )),
-                                    new VerticalDivider(),
-                                    new Text(aboutURL,
-                                        style: TextStyle(
-                                            fontSize: 12.0,
-                                            color: Colors.blue,
-                                            decoration:
-                                                TextDecoration.underline))
-                                  ])
-                                ]),
-                            onTap: () => launch(aboutURL)),
+                        child: aboutText(),
                       ),
                     ),
                   )

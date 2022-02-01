@@ -14,6 +14,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,6 +22,7 @@ import 'localization.dart';
 import 'platform_adaptive.dart';
 import 'prefs.dart';
 import 'timer.dart';
+import 'about.dart';
 
 // Globals
 late SharedPreferences sharedPrefs;
@@ -29,8 +31,17 @@ late double deviceWidth;
 late double deviceHeight;
 bool isLocaleMetric = true;
 final String appName = 'Cuppa';
+final String appIcon = 'images/Cuppa_icon.png';
 final String aboutCopyright = '\u00a9 Nathan Cosgray';
 final String aboutURL = 'https://nathanatos.com';
+
+// Package info
+PackageInfo packageInfo = PackageInfo(
+  appName: 'Unknown',
+  packageName: 'Unknown',
+  version: 'Unknown',
+  buildNumber: 'Unknown',
+);
 
 // Quick actions
 QuickActions quickActions = const QuickActions();
@@ -40,6 +51,7 @@ final String shortcutPrefix = 'shortcutTea';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPrefs = await SharedPreferences.getInstance();
+  packageInfo = await PackageInfo.fromPlatform();
 
   runApp(new CuppaApp());
 }
@@ -77,6 +89,7 @@ class CuppaApp extends StatelessWidget {
                 routes: {
                   '/': (context) => TimerWidget(),
                   '/prefs': (context) => PrefsWidget(),
+                  '/about': (context) => AboutWidget(),
                 },
                 // Localization
                 locale: appLanguage != '' ? Locale(appLanguage, '') : null,

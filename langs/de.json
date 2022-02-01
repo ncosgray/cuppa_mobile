@@ -26,5 +26,14 @@
     "theme_dark": "Dunkel",
     "prefs_app_theme": "Farbschema der Anwendung auswählen",
     "teas_title": "Tees",
-    "prefs_language": "Sprache der Anwendung auswählen"
+    "prefs_language": "Sprache der Anwendung auswählen",
+    "about_title": "Über {{app_name}}",
+    "version_history": "Versionsgeschichte",
+    "about_license": "Quelloffene-Lizenz",
+    "source_code": "Quellcode",
+    "source_code_info": "Repository auf GitHub",
+    "help_translate": "Hilf beim Übersetzen von {{app_name}}",
+    "help_translate_info": "Über Weblate beitragen",
+    "issues": "Probleme",
+    "issues_info": "Fehlerbericht oder Funktionsanfrage"
 }
