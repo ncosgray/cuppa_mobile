@@ -26,5 +26,6 @@
     "theme_light": "Lys",
     "theme_dark": "Mørk",
     "teas_title": "Teer",
-    "prefs_language": "Vælg app sprog"
+    "prefs_language": "Vælg app sprog",
+    "about_title": "Om {{app_name}}"
 }
