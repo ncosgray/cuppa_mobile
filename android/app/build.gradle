@@ -39,6 +39,10 @@ android {
         disable 'InvalidPackage'
     }
 
+    packagingOptions {
+        exclude 'META-INF/proguard/coroutines.pro'
+    }
+    
     defaultConfig {
         applicationId "com.nathanatos.Cuppa"
         minSdkVersion 16
@@ -60,9 +64,6 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true
-            useProguard true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
