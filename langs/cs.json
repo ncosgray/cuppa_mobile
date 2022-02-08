@@ -26,5 +26,14 @@
     "theme_light": "Světlo",
     "theme_dark": "Temný",
     "teas_title": "Čaje",
-    "prefs_language": "Vyberte jazyk aplikace"
+    "prefs_language": "Vyberte jazyk aplikace",
+    "source_code_info": "Úložiště na GitHubu",
+    "help_translate": "Pomozte přeložit {{app_name}}",
+    "help_translate_info": "Přispívejte prostřednictvím Weblate",
+    "issues": "Problémy",
+    "about_title": "O {{app_name}}",
+    "version_history": "Historie verzí",
+    "about_license": "Licence open-source",
+    "source_code": "Zdrojový kód",
+    "issues_info": "Nahlášení chyby nebo požadavek na funkci"
 }
