@@ -14,6 +14,7 @@
 // - Populate strings from language files
 // - Get translated strings
 
+import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -108,6 +109,23 @@ class FallbackMaterialLocalizationsDelegate
   @override
   Future<MaterialLocalizations> load(Locale locale) async =>
       DefaultMaterialLocalizations();
+
+  @override
+  bool shouldReload(_) => false;
+}
+
+class FallbackCupertinoLocalizationsDelegate
+    extends LocalizationsDelegate<CupertinoLocalizations> {
+  const FallbackCupertinoLocalizationsDelegate();
+
+  // Force defaults for locales not supported by CupertinoLocalizations
+  @override
+  bool isSupported(Locale locale) =>
+      fallbackLanguages.contains(locale.languageCode);
+
+  @override
+  Future<CupertinoLocalizations> load(Locale locale) async =>
+      DefaultCupertinoLocalizations();
 
   @override
   bool shouldReload(_) => false;
