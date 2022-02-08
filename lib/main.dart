@@ -100,6 +100,7 @@ class CuppaApp extends StatelessWidget {
                 localizationsDelegates: [
                   const AppLocalizationsDelegate(),
                   GlobalMaterialLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
                   const FallbackMaterialLocalizationsDelegate(),
                   const FallbackCupertinoLocalizationsDelegate(),
