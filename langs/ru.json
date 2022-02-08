@@ -26,5 +26,14 @@
     "theme_light": "Свет",
     "theme_dark": "Темный",
     "teas_title": "Чаи",
-    "prefs_language": "Выберите язык приложения"
+    "prefs_language": "Выберите язык приложения",
+    "source_code_info": "Репозиторий на GitHub",
+    "help_translate_info": "Внесите свой вклад через Weblate",
+    "about_title": "О {{app_name}}",
+    "version_history": "История версий",
+    "about_license": "Лицензия с открытым исходным кодом",
+    "source_code": "Исходный код",
+    "help_translate": "Помогите перевести {{app_name}}",
+    "issues": "Проблемы",
+    "issues_info": "Отчет об ошибке или запрос функции"
 }
