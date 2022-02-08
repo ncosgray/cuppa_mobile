@@ -26,5 +26,14 @@
     "theme_light": "Solas",
     "theme_dark": "Dorcha",
     "teas_title": "Teas",
-    "prefs_language": "Roghnaigh teanga an aip"
+    "prefs_language": "Roghnaigh teanga an aip",
+    "about_title": "Maidir le {{app_name}}",
+    "version_history": "Stair leagan",
+    "about_license": "Ceadúnas foinse oscailte",
+    "source_code": "Cód foinse",
+    "source_code_info": "Stór ar GitHub",
+    "help_translate": "Cabhraigh le haistriú {{app_name}}",
+    "help_translate_info": "Ranníocaíocht trí Weblate",
+    "issues": "Saincheisteanna",
+    "issues_info": "Tuairisc ar fhabht nó iarratas gné"
 }

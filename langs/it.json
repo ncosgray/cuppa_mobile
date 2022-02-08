@@ -26,5 +26,14 @@
     "theme_light": "Chiaro",
     "teas_title": "Tè",
     "theme_dark": "Scuro",
-    "prefs_language": "Scegli la lingua dell’app"
+    "prefs_language": "Scegli la lingua dell’app",
+    "version_history": "Cronologia delle versioni",
+    "source_code": "Codice sorgente",
+    "source_code_info": "Repository su GitHub",
+    "help_translate_info": "Contribuisci tramite Weblate",
+    "issues_info": "Segnalazione di errore o richiesta di funzionalità",
+    "about_license": "Licenza da codice aperto",
+    "help_translate": "Aiuta a tradurre {{app_name}}",
+    "about_title": "Informazioni su {{app_name}}",
+    "issues": "Problemi"
 }

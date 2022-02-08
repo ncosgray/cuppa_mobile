@@ -26,5 +26,14 @@
     "theme_light": "Lys",
     "theme_dark": "Mørk",
     "teas_title": "Teer",
-    "prefs_language": "Vælg app sprog"
+    "prefs_language": "Vælg app sprog",
+    "about_title": "Om {{app_name}}",
+    "help_translate": "Hjælp til at oversætte {{app_name}}",
+    "help_translate_info": "Bidrag via Weblate",
+    "issues": "Emner",
+    "version_history": "Versionshistorik",
+    "about_license": "Licens til åben kildekode",
+    "source_code": "Kildekode",
+    "source_code_info": "Opbevaring på GitHub",
+    "issues_info": "Fejlrapport eller anmodning om en funktion"
 }

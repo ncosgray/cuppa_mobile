@@ -26,5 +26,14 @@
     "theme_light": "Argia",
     "theme_dark": "Iluna",
     "teas_title": "Teak",
-    "prefs_language": "Aukeratu aplikazioaren hizkuntza"
+    "prefs_language": "Aukeratu aplikazioaren hizkuntza",
+    "about_title": "{{app_name}} buruz",
+    "version_history": "Bertsioen historia",
+    "about_license": "Kode irekiko lizentzia",
+    "source_code": "Iturburu kodea",
+    "source_code_info": "Biltegia GitHub-en",
+    "help_translate": "Lagundu itzultzen {{app_name}}",
+    "help_translate_info": "Egin ekarpena Weblate bidez",
+    "issues": "Gaiak",
+    "issues_info": "Akatsen txostena edo eginbide eskaera"
 }

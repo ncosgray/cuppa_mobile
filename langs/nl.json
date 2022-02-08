@@ -26,5 +26,14 @@
     "theme_light": "Licht",
     "theme_dark": "Donker",
     "teas_title": "Theeën",
-    "prefs_language": "Kies app-taal"
+    "prefs_language": "Kies app-taal",
+    "about_license": "Opensourcelicentie",
+    "source_code_info": "Open de GitHub-repo",
+    "help_translate": "Vertaal {{app_name}}",
+    "help_translate_info": "Draag bij via Weblate",
+    "issues": "Problemen",
+    "issues_info": "Meld een bug of deel een idee",
+    "version_history": "Versiegeschiedenis",
+    "about_title": "Over {{app_name}}",
+    "source_code": "Broncode"
 }

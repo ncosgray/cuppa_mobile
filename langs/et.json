@@ -26,5 +26,14 @@
     "theme_light": "Valgus",
     "theme_dark": "Tume",
     "teas_title": "teed",
-    "prefs_language": "Valige rakenduse keel"
+    "prefs_language": "Valige rakenduse keel",
+    "source_code": "Allikakood",
+    "about_license": "Avatud lähtekoodiga litsents",
+    "issues": "Küsimused",
+    "about_title": "Umbes {{app_name}}",
+    "version_history": "Versiooniajalugu",
+    "source_code_info": "Repositoorium GitHubis",
+    "help_translate": "Abi tõlkida {{app_name}}",
+    "help_translate_info": "Panustage Weblate'i kaudu",
+    "issues_info": "Veaaruanne või funktsioonitaotlus"
 }

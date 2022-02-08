@@ -26,5 +26,14 @@
     "theme_light": "Vaalea",
     "theme_dark": "Tumma",
     "teas_title": "Teet",
-    "prefs_language": "Valitse sovelluksen kieli"
+    "prefs_language": "Valitse sovelluksen kieli",
+    "source_code": "Lähdekoodi",
+    "help_translate": "Auta kääntämään {{app_name}}",
+    "help_translate_info": "Osallistu Weblaten kautta",
+    "issues": "Ongelmat",
+    "source_code_info": "Arkisto GitHubissa",
+    "issues_info": "Vikailmoitus tai ominaisuuspyyntö",
+    "about_license": "Avoimen lähdekoodin lisenssi",
+    "about_title": "Tietoja {{app_name}}:sta",
+    "version_history": "Versiohistoria"
 }

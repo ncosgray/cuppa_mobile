@@ -26,5 +26,14 @@
     "prefs_show_extra": "הצג זמן בישול וטמפרטורה על לחצני הטיימר",
     "theme_system": "עקוב אחר המערכת",
     "prefs_header": "הגדר שמות תה, זמני חליטה, טמפרטורות וצבעים. אתה יכול גם למיין (לחיצה ארוכה), או להחליק כדי למחוק תה. סמן עד {{favorites_max}} סוגי תה מועדפים כדי להוסיף אותם כקיצורי דרך לסמל האפליקציה.",
-    "prefs_notifications": "פתח את הגדרות המערכת של המכשיר שלך כדי להגדיר התראות עבור {{app_name}}."
+    "prefs_notifications": "פתח את הגדרות המערכת של המכשיר שלך כדי להגדיר התראות עבור {{app_name}}.",
+    "help_translate": "עזרה לתרגם {{app_name}}",
+    "source_code_info": "מאגר ב- GitHub",
+    "help_translate_info": "לתרום באמצעות Weblate",
+    "issues_info": "דיווח באג או בקשה לתכונה",
+    "issues": "בעיות",
+    "about_title": "אודות {{app_name}}",
+    "version_history": "היסטוריית גירסאות",
+    "about_license": "רשיון קוד פתוח",
+    "source_code": "קוד מקור"
 }

@@ -26,5 +26,14 @@
     "theme_light": "Lys",
     "theme_dark": "Mørk",
     "teas_title": "Te",
-    "prefs_language": "Velg appspråk"
+    "prefs_language": "Velg appspråk",
+    "about_title": "Om {{app_name}}",
+    "version_history": "Versjonshistorikk",
+    "about_license": "Åpen kildekode-lisens",
+    "source_code": "Kildekode",
+    "source_code_info": "Repository på GitHub",
+    "help_translate": "Hjelp til å oversette {{app_name}}",
+    "help_translate_info": "Bidra via Weblate",
+    "issues": "Problemer",
+    "issues_info": "Feilrapport eller funksjonsforespørsel"
 }

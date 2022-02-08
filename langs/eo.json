@@ -26,5 +26,14 @@
     "theme_light": "Lumo",
     "theme_dark": "Mallumo",
     "teas_title": "Teoj",
-    "prefs_language": "Elektu app-lingvon"
+    "prefs_language": "Elektu app-lingvon",
+    "about_title": "Pri {{app_name}}",
+    "version_history": "Versiohistorio",
+    "about_license": "Malfermfonta permesilo",
+    "source_code": "Fontkodo",
+    "source_code_info": "Deponejo sur GitHub",
+    "help_translate": "Helpu traduki {{app_name}}",
+    "help_translate_info": "Kontribuas tra Weblate",
+    "issues": "Temoj",
+    "issues_info": "Cimraporto aŭ funkcio peto"
 }
