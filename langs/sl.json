@@ -26,5 +26,14 @@
     "theme_dark": "Temna",
     "teas_title": "Čaji",
     "theme_system": "Enaka sistemski",
-    "prefs_language": "Izberite jezik aplikacije"
+    "prefs_language": "Izberite jezik aplikacije",
+    "issues_info": "Poročilo o napaki ali zahteva za funkcijo",
+    "about_title": "O {{app_name}}",
+    "version_history": "Zgodovina različic",
+    "about_license": "Odprtokodna licenca",
+    "source_code": "Izvorna koda",
+    "source_code_info": "Skladišče na GitHubu",
+    "help_translate": "Pomagajte prevesti {{app_name}}",
+    "help_translate_info": "Prispevajte prek Weblate",
+    "issues": "Težave"
 }
