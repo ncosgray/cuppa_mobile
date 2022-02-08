@@ -26,5 +26,14 @@
     "theme_light": "Luz",
     "theme_dark": "Oscuro",
     "teas_title": "Tés",
-    "prefs_language": "Elija el idioma de la aplicación"
+    "prefs_language": "Elija el idioma de la aplicación",
+    "about_license": "Licencia de código abierto",
+    "source_code": "Código fuente",
+    "source_code_info": "Repositorio en GitHub",
+    "about_title": "Acerca de {{app_name}}",
+    "version_history": "Historial de versiones",
+    "help_translate": "Ayuda a traducir {{app_name}}",
+    "help_translate_info": "Contribuir a través de Weblate",
+    "issues": "Asuntos",
+    "issues_info": "Informe de error o solicitud de función"
 }
