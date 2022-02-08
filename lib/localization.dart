@@ -22,6 +22,7 @@ import 'package:flutter/services.dart';
 // Supported language codes and names
 final Map<String, String> supportedLanguages = {
   'en': 'English',
+  'br': 'Brezhoneg',
   'cs': 'Čeština',
   'da': 'Dansk',
   'de': 'Deutsch',
@@ -43,7 +44,7 @@ final Map<String, String> supportedLanguages = {
 };
 
 // Languages not supported by GlobalMaterialLocalizations
-final List<String> fallbackLanguages = ['eo', 'ga', 'ht'];
+final List<String> fallbackLanguages = ['br', 'eo', 'ga', 'ht'];
 
 class AppLocalizations {
   AppLocalizations(this.locale);
