@@ -19,6 +19,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 // Supported language codes and names
 final Map<String, String> supportedLanguages = {
@@ -45,7 +46,9 @@ final Map<String, String> supportedLanguages = {
 };
 
 // Languages not supported by GlobalMaterialLocalizations
-final List<String> fallbackLanguages = ['br', 'eo', 'ga', 'ht'];
+final List<String> fallbackLanguages = supportedLanguages.keys
+    .where((item) => !kMaterialSupportedLanguages.contains(item))
+    .toList();
 
 class AppLocalizations {
   AppLocalizations(this.locale);
