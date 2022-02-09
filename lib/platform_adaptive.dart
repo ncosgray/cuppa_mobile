@@ -15,8 +15,8 @@
 // - PlatformAdaptiveAppBar from https://github.com/efortuna/memechat
 // - PlatformAdaptiveDialog chooses showDialog type by context platform
 
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 // iOS themes
 final ThemeData kIOSTheme = new ThemeData(

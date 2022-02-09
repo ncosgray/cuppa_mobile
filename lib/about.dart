@@ -14,11 +14,12 @@
 // - Version and build number
 // - Links to GitHub, Weblate, etc.
 
+import 'localization.dart';
+import 'main.dart';
+import 'platform_adaptive.dart';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'main.dart';
-import 'localization.dart';
-import 'platform_adaptive.dart';
 
 // About page
 class AboutWidget extends StatelessWidget {

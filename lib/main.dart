@@ -12,17 +12,18 @@
 
 // Cuppa: a simple tea timer app for Android and iOS
 
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:provider/provider.dart';
-import 'package:quick_actions/quick_actions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'about.dart';
 import 'localization.dart';
 import 'platform_adaptive.dart';
 import 'prefs.dart';
 import 'timer.dart';
-import 'about.dart';
+
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:provider/provider.dart';
+import 'package:quick_actions/quick_actions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Globals
 late SharedPreferences sharedPrefs;

@@ -14,12 +14,12 @@
 // - Populate strings from language files
 // - Get translated strings
 
-import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 // Supported language codes and names
 final Map<String, String> supportedLanguages = {

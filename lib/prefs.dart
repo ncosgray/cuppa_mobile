@@ -15,14 +15,15 @@
 // - Handle shared prefs
 // - Build prefs interface and interactivity
 
+import 'about.dart';
+import 'localization.dart';
+import 'main.dart';
+import 'platform_adaptive.dart';
+
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reorderables/reorderables.dart';
-import 'dart:convert';
-import 'main.dart';
-import 'about.dart';
-import 'localization.dart';
-import 'platform_adaptive.dart';
 
 // Teas
 List<Tea> teaList = [];

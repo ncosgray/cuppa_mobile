@@ -15,13 +15,14 @@
 // - Start, confirm, cancel timers
 // - Notification channels for platform code
 
+import 'localization.dart';
+import 'main.dart';
+import 'platform_adaptive.dart';
+import 'prefs.dart';
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'main.dart';
-import 'localization.dart';
-import 'platform_adaptive.dart';
-import 'prefs.dart';
 
 // Cuppa Timer page
 class TimerWidget extends StatefulWidget {
