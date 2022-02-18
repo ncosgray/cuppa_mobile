@@ -21,6 +21,7 @@ import 'platform_adaptive.dart';
 import 'prefs.dart';
 
 import 'dart:async';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -150,9 +151,8 @@ class _TimerWidgetState extends State<TimerWidget> {
           .difference(DateTime.now());
       if (diff.inSeconds > 0) {
         // Resume timer from stored prefs
-        Tea? nextTea = teaList
-            .firstWhere((tea) => tea.name == Prefs.nextTeaName, orElse: null);
-        // ignore: unnecessary_null_comparison
+        Tea? nextTea =
+            teaList.firstWhereOrNull((tea) => tea.name == Prefs.nextTeaName);
         if (nextTea != null) _setTimer(nextTea, diff.inSeconds);
       } else {
         Prefs.clearNextAlarm();
@@ -199,13 +199,11 @@ class _TimerWidgetState extends State<TimerWidget> {
                 actions: <Widget>[
               IconButton(
                 icon: const Icon(Icons.settings),
-                onPressed: _timerActive
-                    ? null
-                    : () {
-                        Navigator.of(context)
-                            .pushNamed("/prefs")
-                            .then((value) => setState(() {}));
-                      },
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed("/prefs")
+                      .then((value) => setState(() {}));
+                },
               ),
             ]),
         body: Container(
