@@ -16,6 +16,7 @@ import android.content.Intent;
 public class AlarmReceiver extends BroadcastReceiver {
     private static final String CHANNEL = "Cuppa_timer_channel";
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onReceive(Context context, Intent intent) {
         // Define the intent to return to main activity
