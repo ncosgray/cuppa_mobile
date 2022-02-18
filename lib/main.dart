@@ -22,7 +22,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Globals
@@ -43,11 +42,6 @@ PackageInfo packageInfo = PackageInfo(
   version: 'Unknown',
   buildNumber: 'Unknown',
 );
-
-// Quick actions
-QuickActions quickActions = const QuickActions();
-final int favoritesMaxCount = 4; // iOS limitation
-final String shortcutPrefix = 'shortcutTea';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -147,19 +141,4 @@ String formatTimer(s) {
   String secsString = secs.toString();
   if (secs < 10) secsString = '0' + secsString;
   return mins.toString() + ':' + secsString;
-}
-
-// Add quick action shortcuts
-void setQuickActions() {
-  quickActions.setShortcutItems(teaList
-      .where((tea) => tea.isFavorite == true)
-      .take(favoritesMaxCount)
-      .map<ShortcutItem>((tea) {
-    // Create a shortcut item for this favorite tea
-    return ShortcutItem(
-      type: shortcutPrefix + teaList.indexOf(tea).toString(),
-      localizedTitle: tea.name,
-      icon: tea.shortcutIcon,
-    );
-  }).toList());
 }

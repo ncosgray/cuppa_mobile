@@ -23,6 +23,7 @@ import 'platform_adaptive.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:reorderables/reorderables.dart';
 
 // Teas
@@ -38,6 +39,11 @@ String appLanguage = '';
 final int teaNameMaxLength = 16;
 final int teasMinCount = 3;
 final int teasMaxCount = 15;
+
+// Quick actions
+final QuickActions quickActions = const QuickActions();
+final int favoritesMaxCount = 4; // iOS limitation
+final String shortcutPrefix = 'shortcutTea';
 
 // Tea definition
 class Tea {
@@ -323,6 +329,21 @@ abstract class Prefs {
 
     // Manage quick actions
     setQuickActions();
+  }
+
+// Add quick action shortcuts
+  static void setQuickActions() {
+    quickActions.setShortcutItems(teaList
+        .where((tea) => tea.isFavorite == true)
+        .take(favoritesMaxCount)
+        .map<ShortcutItem>((tea) {
+      // Create a shortcut item for this favorite tea
+      return ShortcutItem(
+        type: shortcutPrefix + teaList.indexOf(tea).toString(),
+        localizedTitle: tea.name,
+        icon: tea.shortcutIcon,
+      );
+    }).toList());
   }
 
   // Next alarm info
