@@ -48,7 +48,7 @@ void main() async {
   sharedPrefs = await SharedPreferences.getInstance();
   packageInfo = await PackageInfo.fromPlatform();
 
-  runApp(new CuppaApp());
+  runApp(CuppaApp());
 }
 
 // Create the app

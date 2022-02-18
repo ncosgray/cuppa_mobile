@@ -39,29 +39,29 @@ class AboutWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: new PlatformAdaptiveAppBar(
-          title: new Text(AppLocalizations.translate('about_title')
+        appBar: PlatformAdaptiveAppBar(
+          title: Text(AppLocalizations.translate('about_title')
               .replaceAll('{{app_name}}', appName)),
           platform: appPlatform,
         ),
-        body: new SafeArea(
-            child: new Container(
+        body: SafeArea(
+            child: Container(
                 padding: const EdgeInsets.fromLTRB(12.0, 18.0, 12.0, 0.0),
-                child: new CustomScrollView(
+                child: CustomScrollView(
                   physics: const BouncingScrollPhysics(),
                   slivers: [
-                    new SliverAppBar(
+                    SliverAppBar(
                       elevation: 0,
                       backgroundColor: Theme.of(context).canvasColor,
                       leading:
                           // Teacup icon
-                          new Container(
+                          Container(
                               padding: const EdgeInsets.all(4.0),
                               child:
                                   Image.asset(appIcon, fit: BoxFit.scaleDown)),
                       title:
                           // Cuppa version and build
-                          new Text(
+                          Text(
                               appName +
                                   ' ' +
                                   packageInfo.version +
@@ -77,8 +77,8 @@ class AboutWidget extends StatelessWidget {
                                     .color!,
                               )),
                     ),
-                    new SliverToBoxAdapter(
-                        child: new Column(children: [
+                    SliverToBoxAdapter(
+                        child: Column(children: [
                       // Changelog
                       _listItem(AppLocalizations.translate('version_history'),
                           null, versionsURL),
@@ -105,12 +105,12 @@ class AboutWidget extends StatelessWidget {
                           AppLocalizations.translate('issues_info'), issuesURL),
                       _divider(),
                     ])),
-                    new SliverFillRemaining(
+                    SliverFillRemaining(
                       hasScrollBody: false,
                       fillOverscroll: true,
-                      child: new Align(
+                      child: Align(
                         alignment: Alignment.bottomLeft,
-                        child: new Container(
+                        child: Container(
                           margin:
                               const EdgeInsets.fromLTRB(6.0, 36.0, 6.0, 18.0),
                           // About text linking to app website
@@ -124,9 +124,9 @@ class AboutWidget extends StatelessWidget {
 
   // About list item
   Widget _listItem(String title, String? subtitle, String url) {
-    return new InkWell(
+    return InkWell(
         child: ListTile(
-      title: new Text(title,
+      title: Text(title,
           style: TextStyle(
             fontSize: 16.0,
           )),
@@ -155,24 +155,24 @@ class AboutWidget extends StatelessWidget {
 
 // About text linking to app website
 Widget aboutText() {
-  return new InkWell(
-      child: new Column(
+  return InkWell(
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            new Text(
+            Text(
                 AppLocalizations.translate('about_app')
                     .replaceAll('{{app_name}}', appName),
                 style: TextStyle(
                   fontSize: 12.0,
                 )),
-            new Row(children: [
-              new Text(aboutCopyright,
+            Row(children: [
+              Text(aboutCopyright,
                   style: TextStyle(
                     fontSize: 12.0,
                   )),
-              new VerticalDivider(),
-              new Text(aboutURL,
+              VerticalDivider(),
+              Text(aboutURL,
                   style: TextStyle(
                       fontSize: 12.0,
                       color: Colors.blue,
