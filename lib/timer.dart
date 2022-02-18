@@ -26,6 +26,8 @@ import 'package:flutter/services.dart';
 
 // Cuppa Timer page
 class TimerWidget extends StatefulWidget {
+  const TimerWidget({Key? key}) : super(key: key);
+
   @override
   _TimerWidgetState createState() => new _TimerWidgetState();
 }
@@ -332,11 +334,12 @@ class _TimerWidgetState extends State<TimerWidget> {
 // Widget defining a tea brew start button
 class TeaButton extends StatelessWidget {
   TeaButton({
+    Key? key,
     required this.tea,
     this.active = false,
     this.fade = false,
     required this.onPressed,
-  });
+  }) : super(key: key);
 
   final Tea tea;
   final bool active;

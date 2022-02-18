@@ -354,6 +354,8 @@ abstract class Prefs {
 
 // Cuppa Preferences page
 class PrefsWidget extends StatefulWidget {
+  const PrefsWidget({Key? key}) : super(key: key);
+
   @override
   _PrefsWidgetState createState() => new _PrefsWidgetState();
 }
@@ -693,9 +695,10 @@ class _PrefsWidgetState extends State<PrefsWidget> {
 
 // Widget defining a tea settings card
 class PrefsTeaRow extends StatefulWidget {
-  PrefsTeaRow({
+  const PrefsTeaRow({
+    Key? key,
     required this.tea,
-  });
+  }) : super(key: key);
 
   final Tea tea;
 
