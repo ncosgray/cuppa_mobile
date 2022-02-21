@@ -1,0 +1,4 @@
+* Her çay için su sıcaklığı ayarını ekleyin.
+* Zamanlayıcı düğmelerinde ek demleme bilgilerini gösterme seçeneği.
+* 10 dakikadan fazla sürede demlenen çayları zamanlayın.
+* Daha fazla dil ve çeviri iyileştirmeleri - Weblate ile katkıda bulunun!

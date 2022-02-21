@@ -1,0 +1,3 @@
+* Yeni bir Ayarlar sayfası!
+* Kendi çay adlarınızı, demleme sürelerinizi ve renklerinizi belirleyin.
+* Üç farklı çay için ayarları kaydedin.
