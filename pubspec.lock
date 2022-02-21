@@ -253,7 +253,7 @@ packages:
       name: shared_preferences_ios
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.10"
+    version: "2.1.0"
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -391,7 +391,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.0"
+    version: "2.4.1"
   xdg_directories:
     dependency: transitive
     description:
@@ -401,4 +401,4 @@ packages:
     version: "0.2.0+1"
 sdks:
   dart: ">=2.15.0 <3.0.0"
-  flutter: ">=2.10.1"
+  flutter: ">=2.10.2"

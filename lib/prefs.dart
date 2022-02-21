@@ -751,7 +751,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                     return PopupMenuItem(
                       value: value,
                       child: Icon(
-                        Icons.timer,
+                        Icons.timer_outlined,
                         color: Prefs.themeColor(value, context),
                         size: 42.0,
                       ),
@@ -766,7 +766,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
-                          Icons.timer,
+                          Icons.timer_outlined,
                           color: tea.getThemeColor(context),
                           size: 42.0,
                         ),
