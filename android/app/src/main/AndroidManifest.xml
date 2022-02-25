@@ -11,7 +11,8 @@
 
         <activity android:name=".MainActivity"
                   android:exported="true"
-                  android:launchMode="singleTop"
+                  android:launchMode="standard"
+                  android:finishOnTaskLaunch="true"
                   android:theme="@style/LaunchTheme"
                   android:screenOrientation="portrait"
                   android:hardwareAccelerated="true">
