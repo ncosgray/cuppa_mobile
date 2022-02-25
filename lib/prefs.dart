@@ -15,14 +15,16 @@
 // - Handle shared prefs
 // - Build prefs interface and interactivity
 
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:reorderables/reorderables.dart';
-import 'dart:convert';
-import 'main.dart';
 import 'about.dart';
 import 'localization.dart';
+import 'main.dart';
 import 'platform_adaptive.dart';
+
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quick_actions/quick_actions.dart';
+import 'package:reorderables/reorderables.dart';
 
 // Teas
 List<Tea> teaList = [];
@@ -37,6 +39,11 @@ String appLanguage = '';
 final int teaNameMaxLength = 16;
 final int teasMinCount = 3;
 final int teasMaxCount = 15;
+
+// Quick actions
+final QuickActions quickActions = const QuickActions();
+final int favoritesMaxCount = 4; // iOS limitation
+final String shortcutPrefix = 'shortcutTea';
 
 // Tea definition
 class Tea {
@@ -104,7 +111,7 @@ class Tea {
 
   // Factories
   factory Tea.fromJson(Map<String, dynamic> json) {
-    return new Tea(
+    return Tea(
         name: json['name'] ?? '',
         brewTime: json['brewTime'] ?? 0,
         brewTemp: json['brewTemp'] ?? 0,
@@ -243,7 +250,7 @@ abstract class Prefs {
     Prefs.initTeas();
 
     // Default: Black tea
-    teaList.add(new Tea(
+    teaList.add(Tea(
         name: sharedPrefs.getString(_prefTea1Name) ??
             AppLocalizations.translate('tea_name_black'),
         brewTime: sharedPrefs.getInt(_prefTea1BrewTime) ?? 240,
@@ -255,7 +262,7 @@ abstract class Prefs {
     // Default: Green tea
     String tea2Name = sharedPrefs.getString(_prefTea2Name) ??
         AppLocalizations.translate('tea_name_green');
-    teaList.add(new Tea(
+    teaList.add(Tea(
         name: tea2Name,
         brewTime: sharedPrefs.getInt(_prefTea2BrewTime) ?? 150,
         // Select default temp of 212 if name changed from Green tea
@@ -267,7 +274,7 @@ abstract class Prefs {
         isFavorite: sharedPrefs.getBool(_prefTea2IsFavorite) ?? true));
 
     // Default: Herbal tea
-    teaList.add(new Tea(
+    teaList.add(Tea(
         name: sharedPrefs.getString(_prefTea3Name) ??
             AppLocalizations.translate('tea_name_herbal'),
         brewTime: sharedPrefs.getInt(_prefTea3BrewTime) ?? 300,
@@ -286,9 +293,6 @@ abstract class Prefs {
     // Other settings
     showExtra = sharedPrefs.getBool(_prefShowExtra) ?? showExtra;
     useCelsius = sharedPrefs.getBool(_prefUseCelsius) ?? useCelsius;
-
-    // Manage quick actions
-    setQuickActions();
   }
 
   // Store all teas in shared prefs
@@ -324,6 +328,22 @@ abstract class Prefs {
     setQuickActions();
   }
 
+  // Add quick action shortcuts
+  static void setQuickActions() {
+    quickActions.clearShortcutItems();
+    quickActions.setShortcutItems(teaList
+        .where((tea) => tea.isFavorite == true)
+        .take(favoritesMaxCount)
+        .map<ShortcutItem>((tea) {
+      // Create a shortcut item for this favorite tea
+      return ShortcutItem(
+        type: shortcutPrefix + teaList.indexOf(tea).toString(),
+        localizedTitle: tea.name,
+        icon: tea.shortcutIcon,
+      );
+    }).toList());
+  }
+
   // Next alarm info
   static String nextTeaName = '';
   static int nextAlarm = 0;
@@ -353,8 +373,10 @@ abstract class Prefs {
 
 // Cuppa Preferences page
 class PrefsWidget extends StatefulWidget {
+  const PrefsWidget({Key? key}) : super(key: key);
+
   @override
-  _PrefsWidgetState createState() => new _PrefsWidgetState();
+  _PrefsWidgetState createState() => _PrefsWidgetState();
 }
 
 class _PrefsWidgetState extends State<PrefsWidget> {
@@ -366,8 +388,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                 FocusManager.instance.primaryFocus!.unfocus()
             },
         child: Scaffold(
-            appBar: new PlatformAdaptiveAppBar(
-                title: new Text(AppLocalizations.translate('prefs_title')
+            appBar: PlatformAdaptiveAppBar(
+                title: Text(AppLocalizations.translate('prefs_title')
                     .replaceAll('{{app_name}}', appName)),
                 platform: appPlatform,
                 // Button to navigate to About page
@@ -379,21 +401,21 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                     },
                   ),
                 ]),
-            body: new SafeArea(
-                child: new Container(
+            body: SafeArea(
+                child: Container(
               padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
-              child: new CustomScrollView(
+              child: CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
-                  new SliverAppBar(
+                  SliverAppBar(
                     elevation: 0,
                     backgroundColor: Theme.of(context).canvasColor,
                     automaticallyImplyLeading: false,
-                    leading: new Container(
+                    leading: Container(
                         margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
                         child:
                             // Section: Teas
-                            new Text(AppLocalizations.translate('teas_title'),
+                            Text(AppLocalizations.translate('teas_title'),
                                 style: TextStyle(
                                   fontSize: 18.0,
                                   color: Theme.of(context)
@@ -402,15 +424,15 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       .color!,
                                 ))),
                   ),
-                  new SliverToBoxAdapter(
+                  SliverToBoxAdapter(
                       child:
                           // Prefs header info text
-                          new Align(
+                          Align(
                               alignment: Alignment.topLeft,
-                              child: new Container(
+                              child: Container(
                                   margin: const EdgeInsets.fromLTRB(
                                       6.0, 0.0, 6.0, 12.0),
-                                  child: new Text(
+                                  child: Text(
                                       AppLocalizations.translate('prefs_header')
                                           .replaceAll('{{favorites_max}}',
                                               favoritesMaxCount.toString()),
@@ -418,7 +440,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                         fontSize: 14.0,
                                       ))))),
                   // Tea settings cards
-                  new ReorderableSliverList(
+                  ReorderableSliverList(
                       buildDraggableFeedback: _draggableFeedback,
                       onReorder: (int oldIndex, int newIndex) {
                         setState(() {
@@ -428,20 +450,20 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           Prefs.setTeas();
                         });
                       },
-                      delegate: new ReorderableSliverChildListDelegate(
+                      delegate: ReorderableSliverChildListDelegate(
                           teaList.map<Widget>((tea) {
                         if (teaList.length <= teasMinCount)
                           // Don't allow deleting if there are only 3 teas
-                          return new Container(
+                          return Container(
                               key: Key(tea.id.toString()),
-                              child: new PrefsTeaRow(
+                              child: PrefsTeaRow(
                                 tea: tea,
                               ));
                         else
                           // Deleteable
-                          return new Dismissible(
+                          return Dismissible(
                             key: Key(tea.id.toString()),
-                            child: new PrefsTeaRow(
+                            child: PrefsTeaRow(
                               tea: tea,
                             ),
                             onDismissed: (direction) {
@@ -458,13 +480,13 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                 _dismissibleBackground(Alignment.centerRight),
                           );
                       }).toList())),
-                  new SliverToBoxAdapter(
-                    child: new Column(children: [
+                  SliverToBoxAdapter(
+                    child: Column(children: [
                       // Add tea button
-                      new Card(
-                          child: new ListTile(
-                              title: new TextButton.icon(
-                        label: new Text(
+                      Card(
+                          child: ListTile(
+                              title: TextButton.icon(
+                        label: Text(
                             AppLocalizations.translate('add_tea_button')
                                 .toUpperCase(),
                             style: TextStyle(
@@ -481,7 +503,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                             ? () {
                                 setState(() {
                                   // Add a blank tea
-                                  teaList.add(new Tea(
+                                  teaList.add(Tea(
                                       name: _getNextDefaultTeaName(),
                                       brewTime: 240,
                                       brewTemp: useCelsius ? 100 : 212,
@@ -493,10 +515,10 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                             : null,
                       ))),
                       // Setting: show extra info on buttons
-                      new Align(
+                      Align(
                           alignment: Alignment.topLeft,
-                          child: new SwitchListTile.adaptive(
-                            title: new Text(
+                          child: SwitchListTile.adaptive(
+                            title: Text(
                                 AppLocalizations.translate('prefs_show_extra'),
                                 style: TextStyle(
                                   fontSize: 16.0,
@@ -515,10 +537,10 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           )),
                       _divider(),
                       // Setting: default to Celsius or Fahrenheit
-                      new Align(
+                      Align(
                           alignment: Alignment.topLeft,
-                          child: new SwitchListTile.adaptive(
-                            title: new Text(
+                          child: SwitchListTile.adaptive(
+                            title: Text(
                                 AppLocalizations.translate('prefs_use_celsius'),
                                 style: TextStyle(
                                   fontSize: 16.0,
@@ -536,11 +558,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           )),
                       _divider(),
                       // Setting: app theme selection
-                      new Consumer<AppProvider>(
+                      Consumer<AppProvider>(
                           builder: (context, provider, child) => Align(
                               alignment: Alignment.topLeft,
-                              child: new ListTile(
-                                title: new Text(
+                              child: ListTile(
+                                title: Text(
                                     AppLocalizations.translate(
                                         'prefs_app_theme'),
                                     style: TextStyle(
@@ -548,7 +570,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     )),
                                 trailing:
                                     // App theme dropdown
-                                    new DropdownButton<int>(
+                                    DropdownButton<int>(
                                   value: appTheme,
                                   icon: Icon(
                                     Icons.arrow_drop_down,
@@ -588,11 +610,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                               ))),
                       _divider(),
                       // Setting: app language selection
-                      new Consumer<AppProvider>(
+                      Consumer<AppProvider>(
                           builder: (context, provider, child) => Align(
                               alignment: Alignment.topLeft,
-                              child: new ListTile(
-                                title: new Text(
+                              child: ListTile(
+                                title: Text(
                                     AppLocalizations.translate(
                                         'prefs_language'),
                                     style: TextStyle(
@@ -600,7 +622,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     )),
                                 trailing:
                                     // App language dropdown
-                                    new DropdownButton<String>(
+                                    DropdownButton<String>(
                                   value: appLanguage,
                                   icon: Icon(
                                     Icons.arrow_drop_down,
@@ -647,21 +669,21 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                               ))),
                       _divider(),
                       // Notification settings info text
-                      new Align(
+                      Align(
                           alignment: Alignment.topLeft,
-                          child: new Container(
+                          child: Container(
                               margin: const EdgeInsets.fromLTRB(
                                   6.0, 12.0, 6.0, 0.0),
-                              child: new Row(children: [
-                                new Container(
+                              child: Row(children: [
+                                Container(
                                     margin: const EdgeInsets.fromLTRB(
                                         0.0, 0.0, 6.0, 0.0),
                                     child: Icon(
                                       Icons.info,
                                       size: 20.0,
                                     )),
-                                new Expanded(
-                                    child: new Text(
+                                Expanded(
+                                    child: Text(
                                         AppLocalizations.translate(
                                                 'prefs_notifications')
                                             .replaceAll(
@@ -672,12 +694,12 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                               ]))),
                     ]),
                   ),
-                  new SliverFillRemaining(
+                  SliverFillRemaining(
                     hasScrollBody: false,
                     fillOverscroll: true,
-                    child: new Align(
+                    child: Align(
                       alignment: Alignment.bottomLeft,
-                      child: new Container(
+                      child: Container(
                         margin: const EdgeInsets.fromLTRB(6.0, 36.0, 6.0, 18.0),
                         // About text linking to app website
                         child: aboutText(),
@@ -692,9 +714,10 @@ class _PrefsWidgetState extends State<PrefsWidget> {
 
 // Widget defining a tea settings card
 class PrefsTeaRow extends StatefulWidget {
-  PrefsTeaRow({
+  const PrefsTeaRow({
+    Key? key,
     required this.tea,
-  });
+  }) : super(key: key);
 
   final Tea tea;
 
@@ -708,25 +731,25 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
   });
 
   final Tea tea;
-  GlobalKey<FormState> _formKey = new GlobalKey();
+  GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    return new Card(
-        child: new Form(
+    return Card(
+        child: Form(
             key: _formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: new ListTile(
+            child: ListTile(
               horizontalTitleGap: 4.0,
               // Tea color selection
-              leading: new PopupMenuButton(
+              leading: PopupMenuButton(
                 // Color icon
                 itemBuilder: (BuildContext context) {
                   return Prefs.teaColors.keys.map((int value) {
                     return PopupMenuItem(
                       value: value,
                       child: Icon(
-                        Icons.timer,
+                        Icons.timer_outlined,
                         color: Prefs.themeColor(value, context),
                         size: 42.0,
                       ),
@@ -734,14 +757,14 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                   }).toList();
                 },
                 // Color dropdown
-                child: new SizedBox(
+                child: SizedBox(
                     height: double.infinity,
-                    child: new Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
-                          Icons.timer,
+                          Icons.timer_outlined,
                           color: tea.getThemeColor(context),
                           size: 42.0,
                         ),
@@ -760,14 +783,14 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                   });
                 },
               ),
-              title: new Column(
+              title: Column(
                 children: [
-                  new Container(
+                  Container(
                       height: 54.0,
                       padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
-                      child: new Row(children: [
+                      child: Row(children: [
                         // Favorite status
-                        new IconButton(
+                        IconButton(
                             alignment: Alignment.topLeft,
                             constraints:
                                 BoxConstraints(minWidth: 30.0, minHeight: 30.0),
@@ -794,8 +817,8 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               });
                             }),
                         // Tea name entry
-                        new Expanded(
-                            child: new TextFormField(
+                        Expanded(
+                            child: TextFormField(
                           initialValue: tea.name,
                           autocorrect: false,
                           textCapitalization: TextCapitalization.words,
@@ -813,7 +836,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             contentPadding:
                                 const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 0.0),
                           ),
-                          style: new TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,
                             color: tea.getThemeColor(context),
@@ -843,14 +866,14 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                         )),
                       ])),
                   // Tea brew time selection
-                  new Container(
+                  Container(
                       height: 30.0,
                       padding: EdgeInsets.fromLTRB(6.0, 0.0, 0.0, 6.0),
-                      child: new Row(
+                      child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             // Brew time minutes dropdown
-                            new DropdownButton<int>(
+                            DropdownButton<int>(
                               value: tea.brewTimeMinutes,
                               icon: Icon(
                                 Icons.arrow_drop_down,
@@ -893,7 +916,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               },
                             ),
                             // Brew time separator
-                            new Text(
+                            Text(
                               ': ',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -901,7 +924,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               ),
                             ),
                             // Brew time seconds dropdown
-                            new DropdownButton<int>(
+                            DropdownButton<int>(
                               value: tea.brewTimeSeconds,
                               icon: Icon(
                                 Icons.arrow_drop_down,
@@ -945,13 +968,13 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                   });
                               },
                             ),
-                            new Flexible(
-                                child: new ConstrainedBox(
-                                    constraints: new BoxConstraints(
+                            Flexible(
+                                child: ConstrainedBox(
+                                    constraints: BoxConstraints(
                                         minWidth: 1.0, maxWidth: 30.0),
-                                    child: new Container())),
+                                    child: Container())),
                             // Brew temperature dropdown
-                            new DropdownButton<int>(
+                            DropdownButton<int>(
                               value: tea.brewTemp,
                               icon: Icon(
                                 Icons.arrow_drop_down,
@@ -989,9 +1012,9 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                           ])),
                 ],
               ),
-              trailing: new Container(
+              trailing: Container(
                   height: double.infinity,
-                  child: new Icon(
+                  child: Icon(
                     Icons.drag_handle,
                     size: 20.0,
                     color: Colors.grey,
@@ -1025,15 +1048,15 @@ Widget _divider() {
 
 // Dismissible delete warning background
 Widget _dismissibleBackground(Alignment alignment) {
-  return new Container(
+  return Container(
       padding: const EdgeInsets.all(5.0),
-      child: new Container(
+      child: Container(
           color: Colors.red,
-          child: new Padding(
+          child: Padding(
               padding: const EdgeInsets.all(14.0),
-              child: new Align(
+              child: Align(
                   alignment: alignment,
-                  child: new Icon(Icons.delete_outline,
+                  child: Icon(Icons.delete_outline,
                       color: Colors.white, size: 28.0)))));
 }
 

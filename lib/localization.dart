@@ -16,12 +16,15 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // Supported language codes and names
 final Map<String, String> supportedLanguages = {
   'en': 'English',
+  'br': 'Brezhoneg',
   'cs': 'Čeština',
   'da': 'Dansk',
   'de': 'Deutsch',
@@ -43,7 +46,9 @@ final Map<String, String> supportedLanguages = {
 };
 
 // Languages not supported by GlobalMaterialLocalizations
-final List<String> fallbackLanguages = ['eo', 'ga', 'ht'];
+final List<String> fallbackLanguages = supportedLanguages.keys
+    .where((item) => !kMaterialSupportedLanguages.contains(item))
+    .toList();
 
 class AppLocalizations {
   AppLocalizations(this.locale);
@@ -85,7 +90,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   // Load localizations
   @override
   Future<AppLocalizations> load(Locale locale) async {
-    AppLocalizations localizations = new AppLocalizations(locale);
+    AppLocalizations localizations = AppLocalizations(locale);
     await localizations.load();
     instance = localizations;
     return localizations;
@@ -107,6 +112,23 @@ class FallbackMaterialLocalizationsDelegate
   @override
   Future<MaterialLocalizations> load(Locale locale) async =>
       DefaultMaterialLocalizations();
+
+  @override
+  bool shouldReload(_) => false;
+}
+
+class FallbackCupertinoLocalizationsDelegate
+    extends LocalizationsDelegate<CupertinoLocalizations> {
+  const FallbackCupertinoLocalizationsDelegate();
+
+  // Force defaults for locales not supported by CupertinoLocalizations
+  @override
+  bool isSupported(Locale locale) =>
+      fallbackLanguages.contains(locale.languageCode);
+
+  @override
+  Future<CupertinoLocalizations> load(Locale locale) async =>
+      DefaultCupertinoLocalizations();
 
   @override
   bool shouldReload(_) => false;

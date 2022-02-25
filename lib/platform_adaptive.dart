@@ -15,34 +15,34 @@
 // - PlatformAdaptiveAppBar from https://github.com/efortuna/memechat
 // - PlatformAdaptiveDialog chooses showDialog type by context platform
 
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 // iOS themes
-final ThemeData kIOSTheme = new ThemeData(
+final ThemeData kIOSTheme = ThemeData(
   primaryColor: Colors.grey[100],
   textTheme: Typography.blackCupertino
-      .copyWith(button: new TextStyle(color: Colors.black54)),
+      .copyWith(button: const TextStyle(color: Colors.black54)),
   brightness: Brightness.light,
 );
-final ThemeData kIOSDarkTheme = new ThemeData(
+final ThemeData kIOSDarkTheme = ThemeData(
   primaryColor: Colors.grey[900],
   textTheme: Typography.whiteCupertino
-      .copyWith(button: new TextStyle(color: Colors.grey)),
+      .copyWith(button: const TextStyle(color: Colors.grey)),
   brightness: Brightness.dark,
 );
 
 // Android themes
-final ThemeData kDefaultTheme = new ThemeData(
+final ThemeData kDefaultTheme = ThemeData(
   primarySwatch: Colors.blue,
   textTheme: Typography.blackMountainView
-      .copyWith(button: new TextStyle(color: Colors.black54)),
+      .copyWith(button: const TextStyle(color: Colors.black54)),
   brightness: Brightness.light,
 );
-final ThemeData kDarkTheme = new ThemeData(
+final ThemeData kDarkTheme = ThemeData(
   primarySwatch: Colors.blue,
   textTheme: Typography.whiteMountainView
-      .copyWith(button: new TextStyle(color: Colors.grey)),
+      .copyWith(button: const TextStyle(color: Colors.grey)),
   brightness: Brightness.dark,
 );
 
@@ -93,7 +93,7 @@ class PlatformAdaptiveDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (platform == TargetPlatform.iOS) {
-      return new CupertinoAlertDialog(
+      return CupertinoAlertDialog(
         title: title,
         content: content,
         actions: <Widget>[
@@ -112,7 +112,7 @@ class PlatformAdaptiveDialog extends StatelessWidget {
         ],
       );
     } else {
-      return new AlertDialog(
+      return AlertDialog(
         title: title,
         content: content,
         actions: <Widget>[
