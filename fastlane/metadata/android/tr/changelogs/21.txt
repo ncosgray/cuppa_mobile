@@ -1,0 +1,4 @@
+* Daha yüksek bildirim sesi.
+* Yeni seçenek: tercih ettiğiniz dili seçin.
+* Kullanılabilirlik ve arayüz iyileştirmeleri.
+* Dil çeviri güncellemeleri - Weblate ile katkıda bulunun!

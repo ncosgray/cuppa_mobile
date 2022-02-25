@@ -1,0 +1,4 @@
+* Cuppa Ayarlarında 3'ten fazla özel çay ekleyin.
+* Çay düğmelerinizin sırasını değiştirin.
+* Grafik kalitesi iyileştirildi.
+* Dil çeviri güncellemeleri - Weblate ile katkıda bulunun!

@@ -1,0 +1,6 @@
+* Uygulama simgesi kısayolları olarak eklemek için sevdiğiniz çaylara yıldız ekleyin.
+* ABD'de olmayanlar için öntanımlı olarak Celsius cinsinden sıcaklıklar.
+* Yeni seçenek: temanızı seçin (açık veya koyu).
+* Daha fazla çay düğmesi renk seçeneği.
+* Kullanılabilirlik ve arayüz iyileştirmeleri.
+* Dil çeviri güncellemeleri - Weblate ile katkıda bulunun!
