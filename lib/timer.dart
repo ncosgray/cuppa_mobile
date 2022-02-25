@@ -142,9 +142,9 @@ class _TimerWidgetState extends State<TimerWidget> {
     });
   }
 
-  // Load next brewing timer info from shared prefs
-  void _checkNextAlarm() {
-    Prefs.getTeas();
+  // Start timer from stored prefs or shortcut
+  void _checkNextTimer() {
+    // Load saved brewing timer info from prefs
     Prefs.getNextAlarm();
     if (Prefs.nextAlarm > 0) {
       Duration diff = DateTime.fromMillisecondsSinceEpoch(Prefs.nextAlarm)
@@ -160,12 +160,19 @@ class _TimerWidgetState extends State<TimerWidget> {
     } else {
       Prefs.clearNextAlarm();
     }
+
+    // Start a timer from shortcut selection
+    quickActions.initialize((String shortcutType) async {
+      int? teaIndex = int.tryParse(shortcutType.replaceAll(shortcutPrefix, ''));
+      if (teaIndex != null) if (await _confirmTimer())
+        _setTimer(teaList[teaIndex]);
+    });
+    Prefs.setQuickActions();
   }
 
-  // Refresh tea settings and set up quick actions
+  // Refresh tea settings
   void _refreshTeas() {
     setState(() {
-      // Load user tea steep times
       Prefs.getTeas();
     });
   }
@@ -175,21 +182,17 @@ class _TimerWidgetState extends State<TimerWidget> {
   void initState() {
     super.initState();
 
-    // Check for an existing timer and resume if needed
-    _checkNextAlarm();
+    // Load user tea steep times
+    Prefs.getTeas();
 
-    // Handle quick action selection
-    quickActions.initialize((String shortcutType) async {
-      int? teaIndex = int.tryParse(shortcutType.replaceAll(shortcutPrefix, ''));
-      if (teaIndex != null) if (await _confirmTimer())
-        _setTimer(teaList[teaIndex]);
-    });
+    // Manage timers at app startup
+    _checkNextTimer();
   }
 
   // Build Timer page
   @override
   Widget build(BuildContext context) {
-    // Refresh tea settings and shortcuts on build
+    // Refresh tea settings
     _refreshTeas();
 
     return Scaffold(

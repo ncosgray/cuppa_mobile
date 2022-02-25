@@ -293,9 +293,6 @@ abstract class Prefs {
     // Other settings
     showExtra = sharedPrefs.getBool(_prefShowExtra) ?? showExtra;
     useCelsius = sharedPrefs.getBool(_prefUseCelsius) ?? useCelsius;
-
-    // Manage quick actions
-    setQuickActions();
   }
 
   // Store all teas in shared prefs
@@ -331,8 +328,9 @@ abstract class Prefs {
     setQuickActions();
   }
 
-// Add quick action shortcuts
+  // Add quick action shortcuts
   static void setQuickActions() {
+    quickActions.clearShortcutItems();
     quickActions.setShortcutItems(teaList
         .where((tea) => tea.isFavorite == true)
         .take(favoritesMaxCount)
