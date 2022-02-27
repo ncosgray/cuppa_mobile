@@ -441,6 +441,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       ))))),
                   // Tea settings cards
                   ReorderableSliverList(
+                      // Disable reordering teas while brewing
+                      enabled: !timerActive,
                       buildDraggableFeedback: _draggableFeedback,
                       onReorder: (int oldIndex, int newIndex) {
                         setState(() {
@@ -452,13 +454,18 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                       },
                       delegate: ReorderableSliverChildListDelegate(
                           teaList.map<Widget>((tea) {
-                        if (teaList.length <= teasMinCount)
-                          // Don't allow deleting if there are only 3 teas
-                          return Container(
-                              key: Key(tea.id.toString()),
-                              child: PrefsTeaRow(
-                                tea: tea,
-                              ));
+                        if (teaList.length <= teasMinCount || timerActive)
+                          // Don't allow deleting if there are minimum teas or timer is active
+                          return IgnorePointer(
+                              // Disable editing teas while brewing
+                              ignoring: timerActive,
+                              child: Opacity(
+                                  opacity: timerActive ? 0.4 : 1.0,
+                                  child: Container(
+                                      key: Key(tea.id.toString()),
+                                      child: PrefsTeaRow(
+                                        tea: tea,
+                                      ))));
                         else
                           // Deleteable
                           return Dismissible(
@@ -483,37 +490,43 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                   SliverToBoxAdapter(
                     child: Column(children: [
                       // Add tea button
-                      Card(
-                          child: ListTile(
-                              title: TextButton.icon(
-                        label: Text(
-                            AppLocalizations.translate('add_tea_button')
-                                .toUpperCase(),
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                color: teaList.length < teasMaxCount
+                      Opacity(
+                          opacity: timerActive ? 0.4 : 1.0,
+                          child: Card(
+                              child: ListTile(
+                                  title: TextButton.icon(
+                            label: Text(
+                                AppLocalizations.translate('add_tea_button')
+                                    .toUpperCase(),
+                                style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: (teaList.length < teasMaxCount &&
+                                            !timerActive)
+                                        ? Colors.blue
+                                        : Colors.grey)),
+                            icon: Icon(Icons.add_circle,
+                                color: (teaList.length < teasMaxCount &&
+                                        !timerActive)
                                     ? Colors.blue
-                                    : Colors.grey)),
-                        icon: Icon(Icons.add_circle,
-                            color: teaList.length < teasMaxCount
-                                ? Colors.blue
-                                : Colors.grey,
-                            size: 20.0),
-                        onPressed: teaList.length < teasMaxCount
-                            ? () {
-                                setState(() {
-                                  // Add a blank tea
-                                  teaList.add(Tea(
-                                      name: _getNextDefaultTeaName(),
-                                      brewTime: 240,
-                                      brewTemp: useCelsius ? 100 : 212,
-                                      color: 0,
-                                      isFavorite: false));
-                                  Prefs.setTeas();
-                                });
-                              }
-                            : null,
-                      ))),
+                                    : Colors.grey,
+                                size: 20.0),
+                            onPressed:
+                                // Disable adding teas while brewing
+                                (teaList.length < teasMaxCount && !timerActive)
+                                    ? () {
+                                        setState(() {
+                                          // Add a blank tea
+                                          teaList.add(Tea(
+                                              name: _getNextDefaultTeaName(),
+                                              brewTime: 240,
+                                              brewTemp: useCelsius ? 100 : 212,
+                                              color: 0,
+                                              isFavorite: false));
+                                          Prefs.setTeas();
+                                        });
+                                      }
+                                    : null,
+                          )))),
                       // Setting: show extra info on buttons
                       Align(
                           alignment: Alignment.topLeft,

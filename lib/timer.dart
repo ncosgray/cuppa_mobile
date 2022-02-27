@@ -40,7 +40,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   static final String cupImageTea = 'images/Cuppa_hires_tea.png';
 
   // State variables
-  bool _timerActive = false;
   Tea? _whichActive;
   int _timerSeconds = 0;
   DateTime? _timerEndTime;
@@ -74,7 +73,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Confirmation dialog
   Future _confirmTimer() {
-    if (_timerActive) {
+    if (timerActive) {
       return showDialog(
           context: context,
           barrierDismissible: false,
@@ -109,7 +108,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       }
       if (_timerSeconds <= 0) {
         // Brewing complete
-        _timerActive = false;
+        timerActive = false;
         _whichActive = null;
         _timerSeconds = 0;
         _timerEndTime = null;
@@ -122,7 +121,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Start a new brewing timer
   void _setTimer(Tea tea, [int secs = 0]) {
     setState(() {
-      if (!_timerActive) _timerActive = true;
+      if (!timerActive) timerActive = true;
       _whichActive = tea;
       if (secs == 0) {
         // Set up new timer
@@ -202,13 +201,11 @@ class _TimerWidgetState extends State<TimerWidget> {
                 actions: <Widget>[
               IconButton(
                 icon: const Icon(Icons.settings),
-                onPressed: _timerActive
-                    ? null
-                    : () {
-                        Navigator.of(context)
-                            .pushNamed("/prefs")
-                            .then((value) => setState(() {}));
-                      },
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed("/prefs")
+                      .then((value) => setState(() {}));
+                },
               ),
             ]),
         body: Container(
@@ -261,14 +258,14 @@ class _TimerWidgetState extends State<TimerWidget> {
                           fit: BoxFit.fitWidth, gaplessPlayback: true),
                       // While timing, gradually darken the tea in the cup
                       Opacity(
-                          opacity: _timerActive && _whichActive != null
+                          opacity: timerActive && _whichActive != null
                               ? (_timerSeconds / _whichActive!.brewTime)
                               : 0.0,
                           child: Image.asset(cupImageTea,
                               fit: BoxFit.fitWidth, gaplessPlayback: true)),
                       // While timing, put a teabag in the cup
                       Visibility(
-                          visible: _timerActive,
+                          visible: timerActive,
                           child: Image.asset(cupImageBag,
                               fit: BoxFit.fitWidth, gaplessPlayback: true)),
                     ])),
@@ -291,7 +288,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                               child: TeaButton(
                                   tea: tea,
                                   active: _whichActive == tea ? true : false,
-                                  fade: !_timerActive || _whichActive == tea
+                                  fade: !timerActive || _whichActive == tea
                                       ? false
                                       : true,
                                   onPressed: (bool newValue) async {
@@ -309,11 +306,11 @@ class _TimerWidgetState extends State<TimerWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       CancelButton(
-                        active: _timerActive ? true : false,
+                        active: timerActive ? true : false,
                         onPressed: (bool newValue) {
                           setState(() {
                             // Stop timing and reset
-                            _timerActive = false;
+                            timerActive = false;
                             _whichActive = null;
                             _timerEndTime = DateTime.now();
                             _decrementTimer(_timer);
