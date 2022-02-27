@@ -1,0 +1,5 @@
+* Timer notifications now include a timestamp.
+* Added an "About" page.
+* Some settings can now be changed while a timer is active.
+* Usability and interface tweaks.
+* Available in 7 new languages - contribute more via Weblate!
