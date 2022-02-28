@@ -1,0 +1,5 @@
+[NIEUW] Pagina ‘Over’;
+[VERBETERD] Meldingen tonen voortaan een tijdstip;
+[VERBETERD] Instellingen kunnen voortaan worden aangepast terwijl een kookwekker loopt;
+[VERBETERD] Vormgevingsaanpassingen om het gebruiksgemak te vergroten;
+[VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!
