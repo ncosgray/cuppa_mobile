@@ -166,23 +166,12 @@ class _TimerWidgetState extends State<TimerWidget> {
       if (teaIndex != null) if (await _confirmTimer())
         _setTimer(teaList[teaIndex]);
     });
-    Prefs.setQuickActions();
-  }
-
-  // Refresh tea settings
-  void _refreshTeas() {
-    setState(() {
-      Prefs.getTeas();
-    });
   }
 
   // Timer page state
   @override
   void initState() {
     super.initState();
-
-    // Load user tea steep times
-    Prefs.getTeas();
 
     // Manage timers at app startup
     _checkNextTimer();
@@ -191,9 +180,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Build Timer page
   @override
   Widget build(BuildContext context) {
-    // Refresh tea settings
-    _refreshTeas();
-
     return Scaffold(
         appBar:
             PlatformAdaptiveAppBar(title: Text(appName), platform: appPlatform,
@@ -202,9 +188,7 @@ class _TimerWidgetState extends State<TimerWidget> {
               IconButton(
                 icon: const Icon(Icons.settings),
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed("/prefs")
-                      .then((value) => setState(() {}));
+                  Navigator.of(context).pushNamed('/prefs');
                 },
               ),
             ]),

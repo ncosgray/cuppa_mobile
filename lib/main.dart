@@ -57,12 +57,14 @@ class CuppaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     appPlatform = Theme.of(context).platform;
-    Prefs.initTeas();
+
+    // Load user settings
+    Prefs.load();
 
     return ChangeNotifierProvider(
         create: (_) => AppProvider(),
         child: Consumer<AppProvider>(
-            builder: (context, themeProvider, child) => MaterialApp(
+            builder: (context, provider, child) => MaterialApp(
                 builder: (context, child) {
                   // Get device dimensions
                   deviceWidth = MediaQuery.of(context).size.width;
@@ -118,9 +120,13 @@ class CuppaApp extends StatelessWidget {
   }
 }
 
-// Provider for theme and language changes
+// Provider for settings changes
 class AppProvider extends ChangeNotifier {
   void update() {
+    // Save user settings
+    Prefs.save();
+
+    // Ensure UI elements get updated
     notifyListeners();
   }
 }
