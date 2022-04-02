@@ -40,7 +40,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   static final String cupImageTea = 'images/Cuppa_hires_tea.png';
 
   // State variables
-  Tea? _whichActive;
   int _timerSeconds = 0;
   DateTime? _timerEndTime;
   Timer? _timer;
@@ -109,7 +108,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       if (_timerSeconds <= 0) {
         // Brewing complete
         timerActive = false;
-        _whichActive = null;
+        whichActive = null;
         _timerSeconds = 0;
         _timerEndTime = null;
         if (t != null) t.cancel();
@@ -122,7 +121,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   void _setTimer(Tea tea, [int secs = 0]) {
     setState(() {
       if (!timerActive) timerActive = true;
-      _whichActive = tea;
+      whichActive = tea;
       if (secs == 0) {
         // Set up new timer
         _timerSeconds = tea.brewTime;
@@ -242,8 +241,8 @@ class _TimerWidgetState extends State<TimerWidget> {
                           fit: BoxFit.fitWidth, gaplessPlayback: true),
                       // While timing, gradually darken the tea in the cup
                       Opacity(
-                          opacity: timerActive && _whichActive != null
-                              ? (_timerSeconds / _whichActive!.brewTime)
+                          opacity: timerActive && whichActive != null
+                              ? (_timerSeconds / whichActive!.brewTime)
                               : 0.0,
                           child: Image.asset(cupImageTea,
                               fit: BoxFit.fitWidth, gaplessPlayback: true)),
@@ -271,12 +270,12 @@ class _TimerWidgetState extends State<TimerWidget> {
                                   const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 0.0),
                               child: TeaButton(
                                   tea: tea,
-                                  active: _whichActive == tea ? true : false,
-                                  fade: !timerActive || _whichActive == tea
+                                  active: whichActive == tea ? true : false,
+                                  fade: !timerActive || whichActive == tea
                                       ? false
                                       : true,
                                   onPressed: (bool newValue) async {
-                                    if (_whichActive !=
+                                    if (whichActive !=
                                         tea) if (await _confirmTimer())
                                       _setTimer(tea);
                                   }));
@@ -295,7 +294,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                           setState(() {
                             // Stop timing and reset
                             timerActive = false;
-                            _whichActive = null;
+                            whichActive = null;
                             _timerEndTime = DateTime.now();
                             _decrementTimer(_timer);
                             _cancelNotification();

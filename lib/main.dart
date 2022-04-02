@@ -26,6 +26,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // Globals
 bool timerActive = false;
+Tea? whichActive;
 late SharedPreferences sharedPrefs;
 late TargetPlatform appPlatform;
 late double deviceWidth;

@@ -394,7 +394,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                   IconButton(
                     icon: const Icon(Icons.help),
                     onPressed: () {
-                      Navigator.of(context).pushNamed("/about");
+                      Navigator.of(context).pushNamed('/about');
                     },
                   ),
                 ]),
@@ -440,8 +440,6 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                   Consumer<AppProvider>(
                       builder: (context, provider, child) =>
                           ReorderableSliverList(
-                              // Disable reordering teas while brewing
-                              enabled: !timerActive,
                               buildDraggableFeedback: _draggableFeedback,
                               onReorder: (int oldIndex, int newIndex) {
                                 setState(() {
@@ -453,12 +451,13 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                               },
                               delegate: ReorderableSliverChildListDelegate(
                                   teaList.map<Widget>((tea) {
-                                if (teaList.length <= teasMinCount ||
-                                    timerActive)
+                                if ((teaList.length <= teasMinCount) ||
+                                    (timerActive && whichActive == tea))
                                   // Don't allow deleting if there are minimum teas or timer is active
                                   return IgnorePointer(
-                                      // Disable editing teas while brewing
-                                      ignoring: timerActive,
+                                      // Disable editing actively brewing tea
+                                      ignoring:
+                                          timerActive && whichActive == tea,
                                       child: Opacity(
                                           opacity: timerActive ? 0.4 : 1.0,
                                           child: Container(
@@ -491,9 +490,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                     child: Column(children: [
                       // Add tea button
                       Consumer<AppProvider>(
-                          builder: (context, provider, child) => Opacity(
-                              opacity: timerActive ? 0.4 : 1.0,
-                              child: Card(
+                          builder: (context, provider, child) => Card(
                                   child: ListTile(
                                       title: TextButton.icon(
                                 label: Text(
@@ -501,20 +498,17 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                         .toUpperCase(),
                                     style: TextStyle(
                                         fontSize: 14.0,
-                                        color: (teaList.length < teasMaxCount &&
-                                                !timerActive)
+                                        color: teaList.length < teasMaxCount
                                             ? Colors.blue
                                             : Colors.grey)),
                                 icon: Icon(Icons.add_circle,
-                                    color: (teaList.length < teasMaxCount &&
-                                            !timerActive)
+                                    color: teaList.length < teasMaxCount
                                         ? Colors.blue
                                         : Colors.grey,
                                     size: 20.0),
                                 onPressed:
-                                    // Disable adding teas while brewing
-                                    (teaList.length < teasMaxCount &&
-                                            !timerActive)
+                                    // Disable adding teas if there are maximum teas
+                                    teaList.length < teasMaxCount
                                         ? () {
                                             setState(() {
                                               // Add a blank tea
@@ -530,7 +524,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                             });
                                           }
                                         : null,
-                              ))))),
+                              )))),
                       // Setting: show extra info on buttons
                       Align(
                           alignment: Alignment.topLeft,
