@@ -21,6 +21,7 @@ import 'main.dart';
 import 'platform_adaptive.dart';
 
 import 'dart:convert';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
@@ -56,6 +57,7 @@ class Tea {
   late int brewTemp;
   late int color;
   late bool isFavorite;
+  late bool isActive;
 
   // Constructor
   Tea(
@@ -63,13 +65,15 @@ class Tea {
       required int brewTime,
       required int brewTemp,
       required int color,
-      required bool isFavorite}) {
+      required bool isFavorite,
+      required bool isActive}) {
     id = UniqueKey();
     this.name = name;
     this.brewTime = brewTime;
     this.brewTemp = brewTemp;
     this.color = color;
     this.isFavorite = isFavorite;
+    this.isActive = isActive;
   }
 
   // Tea display getters
@@ -116,7 +120,8 @@ class Tea {
         brewTime: json['brewTime'] ?? 0,
         brewTemp: json['brewTemp'] ?? 0,
         color: json['color'] ?? 0,
-        isFavorite: json['isFavorite'] ?? false);
+        isFavorite: json['isFavorite'] ?? false,
+        isActive: json['isActive'] ?? false);
   }
 
   Map<String, dynamic> toJson() {
@@ -126,6 +131,7 @@ class Tea {
       'brewTemp': this.brewTemp,
       'color': this.color,
       'isFavorite': this.isFavorite,
+      'isActive': this.isActive,
     };
   }
 
@@ -137,7 +143,8 @@ class Tea {
         otherTea.brewTime == this.brewTime &&
         otherTea.brewTemp == this.brewTemp &&
         otherTea.color == this.color &&
-        otherTea.isFavorite == this.isFavorite;
+        otherTea.isFavorite == this.isFavorite &&
+        otherTea.isActive == this.isActive;
   }
 
   @override
@@ -146,7 +153,8 @@ class Tea {
       this.brewTime.hashCode ^
       this.brewTemp.hashCode ^
       this.color.hashCode ^
-      this.isFavorite.hashCode;
+      this.isFavorite.hashCode ^
+      this.isActive.hashCode;
 }
 
 // Shared prefs functionality
@@ -220,16 +228,19 @@ abstract class Prefs {
   static const _prefTea1BrewTemp = 'Cuppa_tea1_brew_temp';
   static const _prefTea1Color = 'Cuppa_tea1_color';
   static const _prefTea1IsFavorite = 'Cuppa_tea1_is_favorite';
+  static const _prefTea1IsActive = 'Cuppa_tea1_is_active';
   static const _prefTea2Name = 'Cuppa_tea2_name';
   static const _prefTea2BrewTime = 'Cuppa_tea2_brew_time';
   static const _prefTea2BrewTemp = 'Cuppa_tea2_brew_temp';
   static const _prefTea2Color = 'Cuppa_tea2_color';
   static const _prefTea2IsFavorite = 'Cuppa_tea2_is_favorite';
+  static const _prefTea2IsActive = 'Cuppa_tea2_is_active';
   static const _prefTea3Name = 'Cuppa_tea3_name';
   static const _prefTea3BrewTime = 'Cuppa_tea3_brew_time';
   static const _prefTea3BrewTemp = 'Cuppa_tea3_brew_temp';
   static const _prefTea3Color = 'Cuppa_tea3_color';
   static const _prefTea3IsFavorite = 'Cuppa_tea3_is_favorite';
+  static const _prefTea3IsActive = 'Cuppa_tea3_is_active';
   static const _prefMoreTeas = 'Cuppa_tea_list';
   static const _prefShowExtra = 'Cuppa_show_extra';
   static const _prefUseCelsius = 'Cuppa_use_celsius';
@@ -249,7 +260,8 @@ abstract class Prefs {
         brewTemp: sharedPrefs.getInt(_prefTea1BrewTemp) ??
             (isLocaleMetric ? 100 : 212),
         color: sharedPrefs.getInt(_prefTea1Color) ?? 0,
-        isFavorite: sharedPrefs.getBool(_prefTea1IsFavorite) ?? true));
+        isFavorite: sharedPrefs.getBool(_prefTea1IsFavorite) ?? true,
+        isActive: sharedPrefs.getBool(_prefTea1IsActive) ?? false));
 
     // Default: Green tea
     String tea2Name = sharedPrefs.getString(_prefTea2Name) ??
@@ -263,7 +275,8 @@ abstract class Prefs {
                 ? (isLocaleMetric ? 100 : 212)
                 : (isLocaleMetric ? 80 : 180)),
         color: sharedPrefs.getInt(_prefTea2Color) ?? 3,
-        isFavorite: sharedPrefs.getBool(_prefTea2IsFavorite) ?? true));
+        isFavorite: sharedPrefs.getBool(_prefTea2IsFavorite) ?? true,
+        isActive: sharedPrefs.getBool(_prefTea2IsActive) ?? false));
 
     // Default: Herbal tea
     teaList.add(Tea(
@@ -273,7 +286,8 @@ abstract class Prefs {
         brewTemp: sharedPrefs.getInt(_prefTea3BrewTemp) ??
             (isLocaleMetric ? 100 : 212),
         color: sharedPrefs.getInt(_prefTea3Color) ?? 2,
-        isFavorite: sharedPrefs.getBool(_prefTea3IsFavorite) ?? true));
+        isFavorite: sharedPrefs.getBool(_prefTea3IsFavorite) ?? true,
+        isActive: sharedPrefs.getBool(_prefTea3IsActive) ?? false));
 
     // More teas list
     List<String>? moreTeasJson =
@@ -299,18 +313,21 @@ abstract class Prefs {
     sharedPrefs.setInt(_prefTea1BrewTemp, teaList[0].brewTemp);
     sharedPrefs.setInt(_prefTea1Color, teaList[0].color);
     sharedPrefs.setBool(_prefTea1IsFavorite, teaList[0].isFavorite);
+    sharedPrefs.setBool(_prefTea1IsActive, teaList[0].isActive);
 
     sharedPrefs.setString(_prefTea2Name, teaList[1].name);
     sharedPrefs.setInt(_prefTea2BrewTime, teaList[1].brewTime);
     sharedPrefs.setInt(_prefTea2BrewTemp, teaList[1].brewTemp);
     sharedPrefs.setInt(_prefTea2Color, teaList[1].color);
     sharedPrefs.setBool(_prefTea2IsFavorite, teaList[1].isFavorite);
+    sharedPrefs.setBool(_prefTea2IsActive, teaList[1].isActive);
 
     sharedPrefs.setString(_prefTea3Name, teaList[2].name);
     sharedPrefs.setInt(_prefTea3BrewTime, teaList[2].brewTime);
     sharedPrefs.setInt(_prefTea3BrewTemp, teaList[2].brewTemp);
     sharedPrefs.setInt(_prefTea3Color, teaList[2].color);
     sharedPrefs.setBool(_prefTea3IsFavorite, teaList[2].isFavorite);
+    sharedPrefs.setBool(_prefTea3IsActive, teaList[2].isActive);
 
     List<String> moreTeasEncoded =
         (teaList.sublist(3)).map((tea) => jsonEncode(tea.toJson())).toList();
@@ -341,30 +358,32 @@ abstract class Prefs {
     }).toList());
   }
 
-  // Next alarm info
-  static String nextTeaName = '';
-  static int nextAlarm = 0;
+  // Get active tea
+  static Tea? getActiveTea() {
+    return teaList.firstWhereOrNull((tea) => tea.isActive == true);
+  }
 
   // Shared prefs next alarm info keys
-  static const _prefNextTeaName = 'Cuppa_next_tea_name';
   static const _prefNextAlarm = 'Cuppa_next_alarm_time';
 
   // Fetch next alarm info from shared prefs
-  static void getNextAlarm() {
-    nextTeaName = sharedPrefs.getString(_prefNextTeaName) ?? '';
-    nextAlarm = sharedPrefs.getInt(_prefNextAlarm) ?? 0;
+  static int getNextAlarm() {
+    return sharedPrefs.getInt(_prefNextAlarm) ?? 0;
   }
 
   // Store next alarm info in shared prefs to persist when app is closed
-  static void setNextAlarm(String teaName, DateTime timerEndTime) {
-    sharedPrefs.setString(_prefNextTeaName, teaName);
+  static void setNextAlarm(DateTime timerEndTime) {
     sharedPrefs.setInt(_prefNextAlarm, timerEndTime.millisecondsSinceEpoch);
+    Prefs.save();
   }
 
   // Clear shared prefs next alarm info
   static void clearNextAlarm() {
-    sharedPrefs.setString(_prefNextTeaName, '');
     sharedPrefs.setInt(_prefNextAlarm, 0);
+    teaList.where((tea) => tea.isActive == true).forEach((tea) {
+      tea.isActive = false;
+    });
+    Prefs.save();
   }
 }
 
@@ -452,12 +471,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                               delegate: ReorderableSliverChildListDelegate(
                                   teaList.map<Widget>((tea) {
                                 if ((teaList.length <= teasMinCount) ||
-                                    (timerActive && whichActive == tea))
+                                    (timerActive && tea.isActive))
                                   // Don't allow deleting if there are minimum teas or timer is active
                                   return IgnorePointer(
                                       // Disable editing actively brewing tea
-                                      ignoring:
-                                          timerActive && whichActive == tea,
+                                      ignoring: timerActive && tea.isActive,
                                       child: Opacity(
                                           opacity: timerActive ? 0.4 : 1.0,
                                           child: Container(
@@ -519,7 +537,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                                   brewTemp:
                                                       useCelsius ? 100 : 212,
                                                   color: 0,
-                                                  isFavorite: false));
+                                                  isFavorite: false,
+                                                  isActive: false));
                                               provider.update();
                                             });
                                           }

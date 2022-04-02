@@ -108,7 +108,6 @@ class _TimerWidgetState extends State<TimerWidget> {
       if (_timerSeconds <= 0) {
         // Brewing complete
         timerActive = false;
-        whichActive = null;
         _timerSeconds = 0;
         _timerEndTime = null;
         if (t != null) t.cancel();
@@ -120,8 +119,9 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Start a new brewing timer
   void _setTimer(Tea tea, [int secs = 0]) {
     setState(() {
+      Prefs.clearNextAlarm();
       if (!timerActive) timerActive = true;
-      whichActive = tea;
+      tea.isActive = true;
       if (secs == 0) {
         // Set up new timer
         _timerSeconds = tea.brewTime;
@@ -136,22 +136,21 @@ class _TimerWidgetState extends State<TimerWidget> {
       }
       _timer = Timer.periodic(Duration(seconds: 1), _decrementTimer);
       _timerEndTime = DateTime.now().add(Duration(seconds: _timerSeconds + 1));
-      Prefs.setNextAlarm(tea.name, _timerEndTime!);
+      Prefs.setNextAlarm(_timerEndTime!);
     });
   }
 
   // Start timer from stored prefs or shortcut
   void _checkNextTimer() {
     // Load saved brewing timer info from prefs
-    Prefs.getNextAlarm();
-    if (Prefs.nextAlarm > 0) {
-      Duration diff = DateTime.fromMillisecondsSinceEpoch(Prefs.nextAlarm)
+    int nextAlarm = Prefs.getNextAlarm();
+    Tea? nextTea = Prefs.getActiveTea();
+    if (nextAlarm > 0 && nextTea != null) {
+      Duration diff = DateTime.fromMillisecondsSinceEpoch(nextAlarm)
           .difference(DateTime.now());
       if (diff.inSeconds > 0) {
         // Resume timer from stored prefs
-        Tea? nextTea =
-            teaList.firstWhereOrNull((tea) => tea.name == Prefs.nextTeaName);
-        if (nextTea != null) _setTimer(nextTea, diff.inSeconds);
+        _setTimer(nextTea, diff.inSeconds);
       } else {
         Prefs.clearNextAlarm();
       }
@@ -241,8 +240,8 @@ class _TimerWidgetState extends State<TimerWidget> {
                           fit: BoxFit.fitWidth, gaplessPlayback: true),
                       // While timing, gradually darken the tea in the cup
                       Opacity(
-                          opacity: timerActive && whichActive != null
-                              ? (_timerSeconds / whichActive!.brewTime)
+                          opacity: timerActive && Prefs.getActiveTea() != null
+                              ? (_timerSeconds / Prefs.getActiveTea()!.brewTime)
                               : 0.0,
                           child: Image.asset(cupImageTea,
                               fit: BoxFit.fitWidth, gaplessPlayback: true)),
@@ -270,13 +269,13 @@ class _TimerWidgetState extends State<TimerWidget> {
                                   const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 0.0),
                               child: TeaButton(
                                   tea: tea,
-                                  active: whichActive == tea ? true : false,
-                                  fade: !timerActive || whichActive == tea
+                                  active: tea.isActive,
+                                  fade: !timerActive || tea.isActive
                                       ? false
                                       : true,
                                   onPressed: (bool newValue) async {
-                                    if (whichActive !=
-                                        tea) if (await _confirmTimer())
+                                    if (!tea
+                                        .isActive) if (await _confirmTimer())
                                       _setTimer(tea);
                                   }));
                         }).toList()),
@@ -294,7 +293,6 @@ class _TimerWidgetState extends State<TimerWidget> {
                           setState(() {
                             // Stop timing and reset
                             timerActive = false;
-                            whichActive = null;
                             _timerEndTime = DateTime.now();
                             _decrementTimer(_timer);
                             _cancelNotification();
