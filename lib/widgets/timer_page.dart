@@ -36,6 +36,7 @@ class TimerWidget extends StatefulWidget {
 
 class _TimerWidgetState extends State<TimerWidget> {
   // State variables
+  bool _timerActive = false;
   int _timerSeconds = 0;
   DateTime? _timerEndTime;
   Timer? _timer;
@@ -64,7 +65,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Confirmation dialog
   Future _confirmTimer() {
-    if (timerActive) {
+    if (_timerActive) {
       return showDialog(
           context: context,
           barrierDismissible: false,
@@ -99,7 +100,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       }
       if (_timerSeconds <= 0) {
         // Brewing complete
-        timerActive = false;
+        _timerActive = false;
         _timerSeconds = 0;
         _timerEndTime = null;
         if (t != null) t.cancel();
@@ -112,7 +113,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   void _setTimer(Tea tea, [int secs = 0]) {
     setState(() {
       Prefs.clearNextAlarm();
-      if (!timerActive) timerActive = true;
+      if (!_timerActive) _timerActive = true;
       tea.isActive = true;
       if (secs == 0) {
         // Set up new timer
@@ -234,14 +235,14 @@ class _TimerWidgetState extends State<TimerWidget> {
                           fit: BoxFit.fitWidth, gaplessPlayback: true),
                       // While timing, gradually darken the tea in the cup
                       Opacity(
-                          opacity: timerActive && Prefs.getActiveTea() != null
+                          opacity: _timerActive && Prefs.getActiveTea() != null
                               ? (_timerSeconds / Prefs.getActiveTea()!.brewTime)
                               : 0.0,
                           child: Image.asset(cupImageTea,
                               fit: BoxFit.fitWidth, gaplessPlayback: true)),
                       // While timing, put a teabag in the cup
                       Visibility(
-                          visible: timerActive,
+                          visible: _timerActive,
                           child: Image.asset(cupImageBag,
                               fit: BoxFit.fitWidth, gaplessPlayback: true)),
                     ])),
@@ -264,7 +265,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                               child: TeaButton(
                                   tea: tea,
                                   active: tea.isActive,
-                                  fade: !timerActive || tea.isActive
+                                  fade: !_timerActive || tea.isActive
                                       ? false
                                       : true,
                                   onPressed: (bool newValue) async {
@@ -282,10 +283,10 @@ class _TimerWidgetState extends State<TimerWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       CancelButton(
-                        active: timerActive ? true : false,
+                        active: _timerActive ? true : false,
                         onPressed: (bool newValue) {
                           // Stop timing and reset
-                          timerActive = false;
+                          _timerActive = false;
                           _timerEndTime = DateTime.now();
                           _decrementTimer(_timer);
                           _cancelNotification();

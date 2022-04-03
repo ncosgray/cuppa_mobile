@@ -107,11 +107,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                               delegate: ReorderableSliverChildListDelegate(
                                   Prefs.teaList.map<Widget>((tea) {
                                 if ((Prefs.teaList.length <= teasMinCount) ||
-                                    (timerActive && tea.isActive))
+                                    tea.isActive)
                                   // Don't allow deleting if there are minimum teas or timer is active
                                   return IgnorePointer(
                                       // Disable editing actively brewing tea
-                                      ignoring: timerActive && tea.isActive,
+                                      ignoring: tea.isActive,
                                       child: Opacity(
                                           opacity: tea.isActive ? 0.4 : 1.0,
                                           child: Container(
