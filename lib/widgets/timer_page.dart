@@ -178,7 +178,9 @@ class _TimerWidgetState extends State<TimerWidget> {
               IconButton(
                 icon: const Icon(Icons.settings),
                 onPressed: () {
-                  Navigator.of(context).pushNamed(routePrefs);
+                  Navigator.of(context)
+                      .pushNamed(routePrefs)
+                      .then((value) => setState(() {}));
                 },
               ),
             ]),
