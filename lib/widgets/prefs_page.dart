@@ -258,9 +258,10 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       }).toList(),
                                       // Save appTheme to prefs
                                       onChanged: (int? newValue) {
-                                        if (newValue != null)
+                                        if (newValue != null) {
                                           appTheme = newValue;
-                                        provider.update();
+                                          provider.update();
+                                        }
                                       },
                                       alignment: Alignment.centerRight,
                                     ),
@@ -313,9 +314,10 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       }).toList(),
                                       // Save appLanguage to prefs
                                       onChanged: (String? newValue) {
-                                        if (newValue != null)
+                                        if (newValue != null) {
                                           appLanguage = newValue;
-                                        provider.update();
+                                          provider.update();
+                                        }
                                       },
                                       alignment: Alignment.centerRight,
                                     ),
