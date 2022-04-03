@@ -165,6 +165,9 @@ class _TimerWidgetState extends State<TimerWidget> {
   void initState() {
     super.initState();
 
+    // Load tea settings
+    Prefs.loadTeas();
+
     // Manage timers at app startup
     _checkNextTimer();
   }

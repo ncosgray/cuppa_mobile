@@ -28,8 +28,10 @@ import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Globals
+// Shared preferences
 late SharedPreferences sharedPrefs;
+
+// Device info
 late TargetPlatform appPlatform;
 late double deviceWidth;
 late double deviceHeight;
@@ -63,8 +65,8 @@ class CuppaApp extends StatelessWidget {
   Widget build(BuildContext context) {
     appPlatform = Theme.of(context).platform;
 
-    // Load user settings
-    Prefs.load();
+    // Load app theme settings
+    Prefs.loadTheme();
 
     return ChangeNotifierProvider(
         create: (_) => AppProvider(),

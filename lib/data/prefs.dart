@@ -98,8 +98,15 @@ abstract class Prefs {
     11: appPlatform == TargetPlatform.iOS ? 'QuickAction' : 'shortcut_lavender',
   };
 
-  // Fetch all settings from shared prefs or use defaults
-  static void load() {
+  // Fetch top-level app settings such as theme and language
+  static void loadTheme() {
+    // App settings
+    appTheme = sharedPrefs.getInt(prefAppTheme) ?? appTheme;
+    appLanguage = sharedPrefs.getString(prefAppLanguage) ?? appLanguage;
+  }
+
+  // Fetch tea settings from shared prefs or use defaults
+  static void loadTeas() {
     // Initialize teas
     teaList = [];
 
@@ -150,8 +157,6 @@ abstract class Prefs {
     // Other settings
     showExtra = sharedPrefs.getBool(prefShowExtra) ?? showExtra;
     useCelsius = sharedPrefs.getBool(prefUseCelsius) ?? useCelsius;
-    appTheme = sharedPrefs.getInt(prefAppTheme) ?? appTheme;
-    appLanguage = sharedPrefs.getString(prefAppLanguage) ?? appLanguage;
 
     // Manage quick actions
     setQuickActions();
