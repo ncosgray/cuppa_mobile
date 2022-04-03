@@ -13,14 +13,14 @@
 // Cuppa Preferences page
 // - Build prefs interface and interactivity
 
-import 'package:Cuppa/main.dart';
-import 'package:Cuppa/helpers.dart';
-import 'package:Cuppa/data/constants.dart';
-import 'package:Cuppa/data/localization.dart';
-import 'package:Cuppa/data/prefs.dart';
-import 'package:Cuppa/data/tea.dart';
-import 'package:Cuppa/widgets/about_page.dart';
-import 'package:Cuppa/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/main.dart';
+import 'package:cuppa_mobile/helpers.dart';
+import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/data/prefs.dart';
+import 'package:cuppa_mobile/data/tea.dart';
+import 'package:cuppa_mobile/widgets/about_page.dart';
+import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

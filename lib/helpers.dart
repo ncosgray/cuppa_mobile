@@ -12,8 +12,8 @@
 
 // Cuppa helper functions
 
-import 'package:Cuppa/data/localization.dart';
-import 'package:Cuppa/data/prefs.dart';
+import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/data/prefs.dart';
 
 // Format brew temperature as number with units
 String formatTemp(i) {

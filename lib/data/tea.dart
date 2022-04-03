@@ -13,8 +13,8 @@
 // Cuppa data
 // - Tea definition class
 
-import 'package:Cuppa/helpers.dart';
-import 'package:Cuppa/data/prefs.dart';
+import 'package:cuppa_mobile/helpers.dart';
+import 'package:cuppa_mobile/data/prefs.dart';
 
 import 'package:flutter/material.dart';
 

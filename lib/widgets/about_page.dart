@@ -14,10 +14,10 @@
 // - Version and build number
 // - Links to GitHub, Weblate, etc.
 
-import 'package:Cuppa/main.dart';
-import 'package:Cuppa/data/constants.dart';
-import 'package:Cuppa/data/localization.dart';
-import 'package:Cuppa/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/main.dart';
+import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';

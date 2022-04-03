@@ -12,13 +12,13 @@
 
 // Cuppa: a simple tea timer app for Android and iOS
 
-import 'package:Cuppa/data/constants.dart';
-import 'package:Cuppa/data/localization.dart';
-import 'package:Cuppa/data/prefs.dart';
-import 'package:Cuppa/widgets/about_page.dart';
-import 'package:Cuppa/widgets/platform_adaptive.dart';
-import 'package:Cuppa/widgets/prefs_page.dart';
-import 'package:Cuppa/widgets/timer_page.dart';
+import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/data/prefs.dart';
+import 'package:cuppa_mobile/widgets/about_page.dart';
+import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/prefs_page.dart';
+import 'package:cuppa_mobile/widgets/timer_page.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';

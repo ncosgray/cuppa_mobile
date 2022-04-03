@@ -14,10 +14,10 @@
 // - Tea settings
 // - Handle shared prefs
 
-import 'package:Cuppa/main.dart';
-import 'package:Cuppa/data/constants.dart';
-import 'package:Cuppa/data/localization.dart';
-import 'package:Cuppa/data/tea.dart';
+import 'package:cuppa_mobile/main.dart';
+import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/data/tea.dart';
 
 import 'dart:convert';
 import 'package:collection/collection.dart';
