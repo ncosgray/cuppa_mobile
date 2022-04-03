@@ -21,7 +21,6 @@ import 'platform_adaptive.dart';
 import 'prefs.dart';
 
 import 'dart:async';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -290,14 +289,12 @@ class _TimerWidgetState extends State<TimerWidget> {
                       CancelButton(
                         active: timerActive ? true : false,
                         onPressed: (bool newValue) {
-                          setState(() {
-                            // Stop timing and reset
-                            timerActive = false;
-                            _timerEndTime = DateTime.now();
-                            _decrementTimer(_timer);
-                            _cancelNotification();
-                            Prefs.clearNextAlarm();
-                          });
+                          // Stop timing and reset
+                          timerActive = false;
+                          _timerEndTime = DateTime.now();
+                          _decrementTimer(_timer);
+                          _cancelNotification();
+                          Prefs.clearNextAlarm();
                         },
                       ),
                     ],

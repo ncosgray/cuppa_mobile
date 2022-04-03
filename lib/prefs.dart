@@ -461,12 +461,10 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           ReorderableSliverList(
                               buildDraggableFeedback: _draggableFeedback,
                               onReorder: (int oldIndex, int newIndex) {
-                                setState(() {
-                                  // Reorder the tea list
-                                  Tea oldTea = teaList.removeAt(oldIndex);
-                                  teaList.insert(newIndex, oldTea);
-                                  provider.update();
-                                });
+                                // Reorder the tea list
+                                Tea oldTea = teaList.removeAt(oldIndex);
+                                teaList.insert(newIndex, oldTea);
+                                provider.update();
                               },
                               delegate: ReorderableSliverChildListDelegate(
                                   teaList.map<Widget>((tea) {
@@ -491,11 +489,9 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       tea: tea,
                                     ),
                                     onDismissed: (direction) {
-                                      setState(() {
-                                        // Delete this from the tea list
-                                        teaList.remove(tea);
-                                        provider.update();
-                                      });
+                                      // Delete this from the tea list
+                                      teaList.remove(tea);
+                                      provider.update();
                                     },
                                     // Dismissible delete warning background
                                     background: _dismissibleBackground(
@@ -528,19 +524,16 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     // Disable adding teas if there are maximum teas
                                     teaList.length < teasMaxCount
                                         ? () {
-                                            setState(() {
-                                              // Add a blank tea
-                                              teaList.add(Tea(
-                                                  name:
-                                                      _getNextDefaultTeaName(),
-                                                  brewTime: 240,
-                                                  brewTemp:
-                                                      useCelsius ? 100 : 212,
-                                                  color: 0,
-                                                  isFavorite: false,
-                                                  isActive: false));
-                                              provider.update();
-                                            });
+                                            // Add a blank tea
+                                            teaList.add(Tea(
+                                                name: _getNextDefaultTeaName(),
+                                                brewTime: 240,
+                                                brewTemp:
+                                                    useCelsius ? 100 : 212,
+                                                color: 0,
+                                                isFavorite: false,
+                                                isActive: false));
+                                            provider.update();
                                           }
                                         : null,
                               )))),
@@ -559,10 +552,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     value: showExtra,
                                     // Save showExtra setting to prefs
                                     onChanged: (bool newValue) {
-                                      setState(() {
-                                        showExtra = newValue;
-                                        provider.update();
-                                      });
+                                      showExtra = newValue;
+                                      provider.update();
                                     },
                                     contentPadding: const EdgeInsets.fromLTRB(
                                         6.0, 12.0, 6.0, 6.0),
@@ -584,10 +575,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     value: useCelsius,
                                     // Save useCelsius setting to prefs
                                     onChanged: (bool newValue) {
-                                      setState(() {
-                                        useCelsius = newValue;
-                                        provider.update();
-                                      });
+                                      useCelsius = newValue;
+                                      provider.update();
                                     },
                                     contentPadding: const EdgeInsets.all(6.0),
                                     dense: true,
@@ -632,10 +621,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       // Save appTheme to prefs
                                       onChanged: (int? newValue) {
                                         if (newValue != null)
-                                          setState(() {
-                                            appTheme = newValue;
-                                            provider.update();
-                                          });
+                                          appTheme = newValue;
+                                        provider.update();
                                       },
                                       alignment: Alignment.centerRight,
                                     ),
@@ -689,10 +676,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       // Save appLanguage to prefs
                                       onChanged: (String? newValue) {
                                         if (newValue != null)
-                                          setState(() {
-                                            appLanguage = newValue;
-                                            provider.update();
-                                          });
+                                          appLanguage = newValue;
+                                        provider.update();
                                       },
                                       alignment: Alignment.centerRight,
                                     ),
@@ -810,10 +795,8 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                             )),
                         // Save selected color to prefs
                         onSelected: (int newValue) {
-                          setState(() {
-                            tea.color = newValue;
-                            provider.update();
-                          });
+                          tea.color = newValue;
+                          provider.update();
                         },
                       )),
               title: Column(
@@ -834,22 +817,20 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                     : Icon(Icons.star_border_outlined,
                                         color: Colors.grey),
                                 onPressed: () {
-                                  setState(() {
-                                    // Toggle favorite status off
-                                    if (tea.isFavorite) {
-                                      tea.isFavorite = false;
-                                      provider.update();
-                                    }
-                                    // Toggle favorite status on if max not reached
-                                    else if (teaList
-                                            .where(
-                                                (tea) => tea.isFavorite == true)
-                                            .length <
-                                        favoritesMaxCount) {
-                                      tea.isFavorite = true;
-                                      provider.update();
-                                    }
-                                  });
+                                  // Toggle favorite status off
+                                  if (tea.isFavorite) {
+                                    tea.isFavorite = false;
+                                    provider.update();
+                                  }
+                                  // Toggle favorite status on if max not reached
+                                  else if (teaList
+                                          .where(
+                                              (tea) => tea.isFavorite == true)
+                                          .length <
+                                      favoritesMaxCount) {
+                                    tea.isFavorite = true;
+                                    provider.update();
+                                  }
                                 })),
                         // Tea name entry
                         Expanded(
@@ -900,10 +881,8 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                         if (_formKey.currentState != null) if (_formKey
                                             .currentState!
                                             .validate()) {
-                                          setState(() {
-                                            tea.name = newValue;
-                                            provider.update();
-                                          });
+                                          tea.name = newValue;
+                                          provider.update();
                                         }
                                       },
                                     ))),
@@ -950,15 +929,13 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                       // Save brew time to prefs
                                       onChanged: (int? newValue) {
                                         if (newValue != null)
-                                          setState(() {
-                                            // Ensure we never have a 0:00 brew time
-                                            if (newValue == 0 &&
-                                                tea.brewTimeSeconds == 0) {
-                                              tea.brewTimeSeconds = 15;
-                                            }
-                                            tea.brewTimeMinutes = newValue;
-                                            provider.update();
-                                          });
+                                        // Ensure we never have a 0:00 brew time
+                                        if (newValue == 0 &&
+                                            tea.brewTimeSeconds == 0) {
+                                          tea.brewTimeSeconds = 15;
+                                        }
+                                        tea.brewTimeMinutes = newValue!;
+                                        provider.update();
                                       },
                                     )),
                             // Brew time separator
@@ -1007,15 +984,13 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                       // Save brew time to prefs
                                       onChanged: (int? newValue) {
                                         if (newValue != null)
-                                          setState(() {
-                                            // Ensure we never have a 0:00 brew time
-                                            if (newValue == 0 &&
-                                                tea.brewTimeMinutes == 0) {
-                                              newValue = 15;
-                                            }
-                                            tea.brewTimeSeconds = newValue!;
-                                            provider.update();
-                                          });
+                                        // Ensure we never have a 0:00 brew time
+                                        if (newValue == 0 &&
+                                            tea.brewTimeMinutes == 0) {
+                                          newValue = 15;
+                                        }
+                                        tea.brewTimeSeconds = newValue!;
+                                        provider.update();
                                       },
                                     )),
                             Flexible(
@@ -1057,10 +1032,8 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                       // Save brew temp to prefs
                                       onChanged: (int? newValue) {
                                         if (newValue != null)
-                                          setState(() {
-                                            tea.brewTemp = newValue;
-                                            provider.update();
-                                          });
+                                          tea.brewTemp = newValue;
+                                        provider.update();
                                       },
                                     )),
                           ])),
