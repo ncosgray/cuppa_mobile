@@ -12,29 +12,30 @@
 
 // Cuppa: a simple tea timer app for Android and iOS
 
-import 'about.dart';
-import 'localization.dart';
-import 'platform_adaptive.dart';
-import 'prefs.dart';
-import 'timer.dart';
+import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/data/prefs.dart';
+import 'package:cuppa_mobile/widgets/about_page.dart';
+import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/prefs_page.dart';
+import 'package:cuppa_mobile/widgets/timer_page.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Globals
-bool timerActive = false;
+// Shared preferences
 late SharedPreferences sharedPrefs;
+
+// Device info
 late TargetPlatform appPlatform;
 late double deviceWidth;
 late double deviceHeight;
 bool isLocaleMetric = true;
-final String appName = 'Cuppa';
-final String appIcon = 'images/Cuppa_icon.png';
-final String aboutCopyright = '\u00a9 Nathan Cosgray';
-final String aboutURL = 'https://nathanatos.com';
 
 // Package info
 PackageInfo packageInfo = PackageInfo(
@@ -43,6 +44,12 @@ PackageInfo packageInfo = PackageInfo(
   version: 'Unknown',
   buildNumber: 'Unknown',
 );
+
+// Quick actions
+final QuickActions quickActions = const QuickActions();
+
+// Notification channel
+final MethodChannel notifyPlatform = const MethodChannel(notifyChannel);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,12 +64,14 @@ class CuppaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     appPlatform = Theme.of(context).platform;
-    Prefs.initTeas();
+
+    // Load app theme settings
+    Prefs.loadTheme();
 
     return ChangeNotifierProvider(
         create: (_) => AppProvider(),
         child: Consumer<AppProvider>(
-            builder: (context, themeProvider, child) => MaterialApp(
+            builder: (context, provider, child) => MaterialApp(
                 builder: (context, child) {
                   // Get device dimensions
                   deviceWidth = MediaQuery.of(context).size.width;
@@ -79,16 +88,18 @@ class CuppaApp extends StatelessWidget {
                 // Configure app theme
                 theme: getPlatformAdaptiveTheme(appPlatform),
                 darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
-                themeMode: Prefs.appThemes[appTheme],
+                themeMode: Prefs.appThemes[Prefs.appTheme],
                 // Configure routes
-                initialRoute: '/',
+                initialRoute: routeTimer,
                 routes: {
-                  '/': (context) => TimerWidget(),
-                  '/prefs': (context) => PrefsWidget(),
-                  '/about': (context) => AboutWidget(),
+                  routeTimer: (context) => TimerWidget(),
+                  routePrefs: (context) => PrefsWidget(),
+                  routeAbout: (context) => AboutWidget(),
                 },
                 // Localization
-                locale: appLanguage != '' ? Locale(appLanguage, '') : null,
+                locale: Prefs.appLanguage != ''
+                    ? Locale(Prefs.appLanguage, '')
+                    : null,
                 supportedLocales:
                     supportedLanguages.keys.map<Locale>((String value) {
                   return Locale(value, '');
@@ -118,28 +129,13 @@ class CuppaApp extends StatelessWidget {
   }
 }
 
-// Provider for theme and language changes
+// Provider for settings changes
 class AppProvider extends ChangeNotifier {
   void update() {
+    // Save user settings
+    Prefs.save();
+
+    // Ensure UI elements get updated
     notifyListeners();
   }
-}
-
-// Format brew temperature as number with units
-String formatTemp(i) {
-  // Infer C or F based on temp range
-  if (i <= 100)
-    return i.toString() + '\u00b0C';
-  else
-    return i.toString() + '\u00b0F';
-}
-
-// Format brew remaining time as m:ss
-String formatTimer(s) {
-  // Build the time format string
-  int mins = (s / 60).floor();
-  int secs = s - (mins * 60);
-  String secsString = secs.toString();
-  if (secs < 10) secsString = '0' + secsString;
-  return mins.toString() + ':' + secsString;
 }

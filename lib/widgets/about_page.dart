@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  Package:  cuppa_mobile
- Class:    about.dart
+ Class:    about_page.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
  Copyright (c) 2017-2022 Nathan Cosgray. All rights reserved.
@@ -10,30 +10,21 @@
  *******************************************************************************
 */
 
-// About Cuppa
+// About Cuppa page
 // - Version and build number
 // - Links to GitHub, Weblate, etc.
 
-import 'localization.dart';
-import 'main.dart';
-import 'platform_adaptive.dart';
+import 'package:cuppa_mobile/main.dart';
+import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-// About page
+// About Cuppa page
 class AboutWidget extends StatelessWidget {
   const AboutWidget({Key? key}) : super(key: key);
-
-  // About list item link URLs
-  static final String versionsURL =
-      'https://github.com/ncosgray/cuppa_mobile/releases';
-  static final String licenseURL =
-      'https://github.com/ncosgray/cuppa_mobile/blob/master/LICENSE.txt';
-  static final String sourceURL = 'https://github.com/ncosgray/cuppa_mobile';
-  static final String translateURL = 'https://hosted.weblate.org/engage/cuppa/';
-  static final String issuesURL =
-      'https://github.com/ncosgray/cuppa_mobile/issues';
 
   // Build About page
   @override

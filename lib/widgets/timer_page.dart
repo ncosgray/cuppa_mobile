@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  Package:  cuppa_mobile
- Class:    timer.dart
+ Class:    timer_page.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
  Copyright (c) 2017-2022 Nathan Cosgray. All rights reserved.
@@ -10,18 +10,20 @@
  *******************************************************************************
 */
 
-// Cuppa timer widgets and logic
+// Cuppa Timer page
 // - Build interface and interactivity
 // - Start, confirm, cancel timers
 // - Notification channels for platform code
 
-import 'localization.dart';
-import 'main.dart';
-import 'platform_adaptive.dart';
-import 'prefs.dart';
+import 'package:cuppa_mobile/main.dart';
+import 'package:cuppa_mobile/helpers.dart';
+import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/data/prefs.dart';
+import 'package:cuppa_mobile/data/tea.dart';
+import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'dart:async';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -34,25 +36,16 @@ class TimerWidget extends StatefulWidget {
 }
 
 class _TimerWidgetState extends State<TimerWidget> {
-  // Cup images
-  static final String cupImageDefault = 'images/Cuppa_hires_default.png';
-  static final String cupImageBag = 'images/Cuppa_hires_bag.png';
-  static final String cupImageTea = 'images/Cuppa_hires_tea.png';
-
   // State variables
-  Tea? _whichActive;
+  bool _timerActive = false;
   int _timerSeconds = 0;
   DateTime? _timerEndTime;
   Timer? _timer;
 
-  // Notification channel
-  static const platform =
-      const MethodChannel('com.nathanatos.Cuppa/notification');
-
   // Set up the brewing complete notification
   Future<Null> _sendNotification(int secs, String title, String text) async {
     try {
-      platform.invokeMethod('setupNotification', <String, dynamic>{
+      notifyPlatform.invokeMethod(notifyMethodSetup, <String, dynamic>{
         'secs': secs,
         'title': title,
         'text': text,
@@ -65,7 +58,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Cancel the notification
   Future<Null> _cancelNotification() async {
     try {
-      platform.invokeMethod('cancelNotification');
+      notifyPlatform.invokeMethod(notifyMethodCancel);
     } on PlatformException {
       return;
     }
@@ -73,7 +66,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Confirmation dialog
   Future _confirmTimer() {
-    if (timerActive) {
+    if (_timerActive) {
       return showDialog(
           context: context,
           barrierDismissible: false,
@@ -108,8 +101,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       }
       if (_timerSeconds <= 0) {
         // Brewing complete
-        timerActive = false;
-        _whichActive = null;
+        _timerActive = false;
         _timerSeconds = 0;
         _timerEndTime = null;
         if (t != null) t.cancel();
@@ -121,8 +113,9 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Start a new brewing timer
   void _setTimer(Tea tea, [int secs = 0]) {
     setState(() {
-      if (!timerActive) timerActive = true;
-      _whichActive = tea;
+      Prefs.clearNextAlarm();
+      if (!_timerActive) _timerActive = true;
+      tea.isActive = true;
       if (secs == 0) {
         // Set up new timer
         _timerSeconds = tea.brewTime;
@@ -137,22 +130,21 @@ class _TimerWidgetState extends State<TimerWidget> {
       }
       _timer = Timer.periodic(Duration(seconds: 1), _decrementTimer);
       _timerEndTime = DateTime.now().add(Duration(seconds: _timerSeconds + 1));
-      Prefs.setNextAlarm(tea.name, _timerEndTime!);
+      Prefs.setNextAlarm(_timerEndTime!);
     });
   }
 
   // Start timer from stored prefs or shortcut
   void _checkNextTimer() {
     // Load saved brewing timer info from prefs
-    Prefs.getNextAlarm();
-    if (Prefs.nextAlarm > 0) {
-      Duration diff = DateTime.fromMillisecondsSinceEpoch(Prefs.nextAlarm)
+    int nextAlarm = Prefs.getNextAlarm();
+    Tea? nextTea = Prefs.getActiveTea();
+    if (nextAlarm > 0 && nextTea != null) {
+      Duration diff = DateTime.fromMillisecondsSinceEpoch(nextAlarm)
           .difference(DateTime.now());
       if (diff.inSeconds > 0) {
         // Resume timer from stored prefs
-        Tea? nextTea =
-            teaList.firstWhereOrNull((tea) => tea.name == Prefs.nextTeaName);
-        if (nextTea != null) _setTimer(nextTea, diff.inSeconds);
+        _setTimer(nextTea, diff.inSeconds);
       } else {
         Prefs.clearNextAlarm();
       }
@@ -164,15 +156,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     quickActions.initialize((String shortcutType) async {
       int? teaIndex = int.tryParse(shortcutType.replaceAll(shortcutPrefix, ''));
       if (teaIndex != null) if (await _confirmTimer())
-        _setTimer(teaList[teaIndex]);
-    });
-    Prefs.setQuickActions();
-  }
-
-  // Refresh tea settings
-  void _refreshTeas() {
-    setState(() {
-      Prefs.getTeas();
+        _setTimer(Prefs.teaList[teaIndex]);
     });
   }
 
@@ -181,8 +165,8 @@ class _TimerWidgetState extends State<TimerWidget> {
   void initState() {
     super.initState();
 
-    // Load user tea steep times
-    Prefs.getTeas();
+    // Load tea settings
+    Prefs.loadTeas();
 
     // Manage timers at app startup
     _checkNextTimer();
@@ -191,9 +175,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Build Timer page
   @override
   Widget build(BuildContext context) {
-    // Refresh tea settings
-    _refreshTeas();
-
     return Scaffold(
         appBar:
             PlatformAdaptiveAppBar(title: Text(appName), platform: appPlatform,
@@ -203,7 +184,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                 icon: const Icon(Icons.settings),
                 onPressed: () {
                   Navigator.of(context)
-                      .pushNamed("/prefs")
+                      .pushNamed(routePrefs)
                       .then((value) => setState(() {}));
                 },
               ),
@@ -258,14 +239,14 @@ class _TimerWidgetState extends State<TimerWidget> {
                           fit: BoxFit.fitWidth, gaplessPlayback: true),
                       // While timing, gradually darken the tea in the cup
                       Opacity(
-                          opacity: timerActive && _whichActive != null
-                              ? (_timerSeconds / _whichActive!.brewTime)
+                          opacity: _timerActive && Prefs.getActiveTea() != null
+                              ? (_timerSeconds / Prefs.getActiveTea()!.brewTime)
                               : 0.0,
                           child: Image.asset(cupImageTea,
                               fit: BoxFit.fitWidth, gaplessPlayback: true)),
                       // While timing, put a teabag in the cup
                       Visibility(
-                          visible: timerActive,
+                          visible: _timerActive,
                           child: Image.asset(cupImageBag,
                               fit: BoxFit.fitWidth, gaplessPlayback: true)),
                     ])),
@@ -280,20 +261,20 @@ class _TimerWidgetState extends State<TimerWidget> {
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
-                        children: teaList.map<Widget>((tea) {
+                        children: Prefs.teaList.map<Widget>((tea) {
                           // Build the list of teas
                           return Padding(
                               padding:
                                   const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 0.0),
                               child: TeaButton(
                                   tea: tea,
-                                  active: _whichActive == tea ? true : false,
-                                  fade: !timerActive || _whichActive == tea
+                                  active: tea.isActive,
+                                  fade: !_timerActive || tea.isActive
                                       ? false
                                       : true,
                                   onPressed: (bool newValue) async {
-                                    if (_whichActive !=
-                                        tea) if (await _confirmTimer())
+                                    if (!tea
+                                        .isActive) if (await _confirmTimer())
                                       _setTimer(tea);
                                   }));
                         }).toList()),
@@ -306,17 +287,14 @@ class _TimerWidgetState extends State<TimerWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       CancelButton(
-                        active: timerActive ? true : false,
+                        active: _timerActive ? true : false,
                         onPressed: (bool newValue) {
-                          setState(() {
-                            // Stop timing and reset
-                            timerActive = false;
-                            _whichActive = null;
-                            _timerEndTime = DateTime.now();
-                            _decrementTimer(_timer);
-                            _cancelNotification();
-                            Prefs.clearNextAlarm();
-                          });
+                          // Stop timing and reset
+                          _timerActive = false;
+                          _timerEndTime = DateTime.now();
+                          _decrementTimer(_timer);
+                          _cancelNotification();
+                          Prefs.clearNextAlarm();
                         },
                       ),
                     ],
@@ -384,7 +362,7 @@ class TeaButton extends StatelessWidget {
                 ),
                 // Optional extra info: brew time and temp display
                 Visibility(
-                    visible: showExtra,
+                    visible: Prefs.showExtra,
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
