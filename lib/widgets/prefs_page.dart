@@ -14,6 +14,7 @@
 // - Build prefs interface and interactivity
 
 import 'package:Cuppa/main.dart';
+import 'package:Cuppa/helpers.dart';
 import 'package:Cuppa/data/constants.dart';
 import 'package:Cuppa/data/localization.dart';
 import 'package:Cuppa/data/prefs.dart';
@@ -165,7 +166,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                         ? () {
                                             // Add a blank tea
                                             Prefs.teaList.add(Tea(
-                                                name: _getNextDefaultTeaName(),
+                                                name: getNextDefaultTeaName(),
                                                 brewTime: 240,
                                                 brewTemp: Prefs.useCelsius
                                                     ? 100
@@ -691,20 +692,6 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                   )),
             )));
   }
-}
-
-// Create a unique default tea name
-String _getNextDefaultTeaName() {
-  // Build the name string
-  String nextName;
-  int nextNumber = 1;
-  do {
-    nextName = AppLocalizations.translate('new_tea_default_name') +
-        ' ' +
-        nextNumber.toString();
-    nextNumber++;
-  } while (Prefs.teaList.indexWhere((tea) => tea.name == nextName) >= 0);
-  return nextName;
 }
 
 // Prefs settings list divider
