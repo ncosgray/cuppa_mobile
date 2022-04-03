@@ -1,0 +1,5 @@
+* Zamanlayıcı bildirimleri artık bir zaman damgası içeriyor.
+* "Hakkında" sayfası eklendi.
+* Bazı ayarlar artık bir zamanlayıcı etkinken değiştirilebilir.
+* Kullanılabilirlik ve arayüz iyileştirmeleri.
+* 7 yeni dilde kullanılabilir - Weblate ile daha fazlasına katkıda bulunun!
