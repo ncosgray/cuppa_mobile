@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  Package:  cuppa_mobile
- Class:    timer.dart
+ Class:    timer_page.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
  Copyright (c) 2017-2022 Nathan Cosgray. All rights reserved.
@@ -10,15 +10,15 @@
  *******************************************************************************
 */
 
-// Cuppa timer widgets and logic
+// Cuppa Timer page
 // - Build interface and interactivity
 // - Start, confirm, cancel timers
 // - Notification channels for platform code
 
-import 'localization.dart';
-import 'main.dart';
-import 'platform_adaptive.dart';
-import 'prefs.dart';
+import 'package:Cuppa/main.dart';
+import 'package:Cuppa/data/localization.dart';
+import 'package:Cuppa/data/prefs.dart';
+import 'package:Cuppa/widgets/platform_adaptive.dart';
 
 import 'dart:async';
 import 'package:flutter/material.dart';
