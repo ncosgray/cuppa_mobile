@@ -16,6 +16,7 @@
 // - Notification channels for platform code
 
 import 'package:Cuppa/main.dart';
+import 'package:Cuppa/data/constants.dart';
 import 'package:Cuppa/data/localization.dart';
 import 'package:Cuppa/data/prefs.dart';
 import 'package:Cuppa/widgets/platform_adaptive.dart';
@@ -33,24 +34,15 @@ class TimerWidget extends StatefulWidget {
 }
 
 class _TimerWidgetState extends State<TimerWidget> {
-  // Cup images
-  static final String cupImageDefault = 'images/Cuppa_hires_default.png';
-  static final String cupImageBag = 'images/Cuppa_hires_bag.png';
-  static final String cupImageTea = 'images/Cuppa_hires_tea.png';
-
   // State variables
   int _timerSeconds = 0;
   DateTime? _timerEndTime;
   Timer? _timer;
 
-  // Notification channel
-  static const platform =
-      const MethodChannel('com.nathanatos.Cuppa/notification');
-
   // Set up the brewing complete notification
   Future<Null> _sendNotification(int secs, String title, String text) async {
     try {
-      platform.invokeMethod('setupNotification', <String, dynamic>{
+      notifyPlatform.invokeMethod(notifyMethodSetup, <String, dynamic>{
         'secs': secs,
         'title': title,
         'text': text,
@@ -63,7 +55,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Cancel the notification
   Future<Null> _cancelNotification() async {
     try {
-      platform.invokeMethod('cancelNotification');
+      notifyPlatform.invokeMethod(notifyMethodCancel);
     } on PlatformException {
       return;
     }
@@ -185,7 +177,7 @@ class _TimerWidgetState extends State<TimerWidget> {
               IconButton(
                 icon: const Icon(Icons.settings),
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/prefs');
+                  Navigator.of(context).pushNamed(routePrefs);
                 },
               ),
             ]),

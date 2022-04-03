@@ -15,6 +15,7 @@
 // - Links to GitHub, Weblate, etc.
 
 import 'package:Cuppa/main.dart';
+import 'package:Cuppa/data/constants.dart';
 import 'package:Cuppa/data/localization.dart';
 import 'package:Cuppa/widgets/platform_adaptive.dart';
 
@@ -24,16 +25,6 @@ import 'package:url_launcher/url_launcher.dart';
 // About Cuppa page
 class AboutWidget extends StatelessWidget {
   const AboutWidget({Key? key}) : super(key: key);
-
-  // About list item link URLs
-  static final String versionsURL =
-      'https://github.com/ncosgray/cuppa_mobile/releases';
-  static final String licenseURL =
-      'https://github.com/ncosgray/cuppa_mobile/blob/master/LICENSE.txt';
-  static final String sourceURL = 'https://github.com/ncosgray/cuppa_mobile';
-  static final String translateURL = 'https://hosted.weblate.org/engage/cuppa/';
-  static final String issuesURL =
-      'https://github.com/ncosgray/cuppa_mobile/issues';
 
   // Build About page
   @override

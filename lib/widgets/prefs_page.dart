@@ -14,6 +14,7 @@
 // - Build prefs interface and interactivity
 
 import 'package:Cuppa/main.dart';
+import 'package:Cuppa/data/constants.dart';
 import 'package:Cuppa/data/localization.dart';
 import 'package:Cuppa/data/prefs.dart';
 import 'package:Cuppa/widgets/about_page.dart';
@@ -49,7 +50,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                   IconButton(
                     icon: const Icon(Icons.help),
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/about');
+                      Navigator.of(context).pushNamed(routeAbout);
                     },
                   ),
                 ]),

@@ -12,6 +12,7 @@
 
 // Cuppa: a simple tea timer app for Android and iOS
 
+import 'package:Cuppa/data/constants.dart';
 import 'package:Cuppa/data/localization.dart';
 import 'package:Cuppa/data/prefs.dart';
 import 'package:Cuppa/widgets/about_page.dart';
@@ -21,8 +22,10 @@ import 'package:Cuppa/widgets/timer_page.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Globals
@@ -32,10 +35,6 @@ late TargetPlatform appPlatform;
 late double deviceWidth;
 late double deviceHeight;
 bool isLocaleMetric = true;
-final String appName = 'Cuppa';
-final String appIcon = 'images/Cuppa_icon.png';
-final String aboutCopyright = '\u00a9 Nathan Cosgray';
-final String aboutURL = 'https://nathanatos.com';
 
 // Package info
 PackageInfo packageInfo = PackageInfo(
@@ -44,6 +43,12 @@ PackageInfo packageInfo = PackageInfo(
   version: 'Unknown',
   buildNumber: 'Unknown',
 );
+
+// Quick actions
+final QuickActions quickActions = const QuickActions();
+
+// Notification channel
+final MethodChannel notifyPlatform = const MethodChannel(notifyChannel);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -84,11 +89,11 @@ class CuppaApp extends StatelessWidget {
                 darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
                 themeMode: Prefs.appThemes[appTheme],
                 // Configure routes
-                initialRoute: '/',
+                initialRoute: routeTimer,
                 routes: {
-                  '/': (context) => TimerWidget(),
-                  '/prefs': (context) => PrefsWidget(),
-                  '/about': (context) => AboutWidget(),
+                  routeTimer: (context) => TimerWidget(),
+                  routePrefs: (context) => PrefsWidget(),
+                  routeAbout: (context) => AboutWidget(),
                 },
                 // Localization
                 locale: appLanguage != '' ? Locale(appLanguage, '') : null,

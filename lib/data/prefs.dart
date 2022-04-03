@@ -15,6 +15,7 @@
 // - Handle shared prefs
 
 import 'package:Cuppa/main.dart';
+import 'package:Cuppa/data/constants.dart';
 import 'package:Cuppa/data/localization.dart';
 
 import 'dart:convert';
@@ -31,16 +32,7 @@ bool useCelsius = isLocaleMetric;
 int appTheme = 0;
 String appLanguage = '';
 
-// Limits
-final int teaNameMaxLength = 16;
-final int teasMinCount = 3;
-final int teasMaxCount = 15;
-
-// Quick actions
-final QuickActions quickActions = const QuickActions();
-final int favoritesMaxCount = 4; // iOS limitation
-final String shortcutPrefix = 'shortcutTea';
-
+// TODO: clean this up!
 // Tea definition
 class Tea {
   // ID
@@ -217,31 +209,6 @@ abstract class Prefs {
     11: appPlatform == TargetPlatform.iOS ? 'QuickAction' : 'shortcut_lavender',
   };
 
-  // Shared prefs keys for teas and other settings
-  static const _prefTea1Name = 'Cuppa_tea1_name';
-  static const _prefTea1BrewTime = 'Cuppa_tea1_brew_time';
-  static const _prefTea1BrewTemp = 'Cuppa_tea1_brew_temp';
-  static const _prefTea1Color = 'Cuppa_tea1_color';
-  static const _prefTea1IsFavorite = 'Cuppa_tea1_is_favorite';
-  static const _prefTea1IsActive = 'Cuppa_tea1_is_active';
-  static const _prefTea2Name = 'Cuppa_tea2_name';
-  static const _prefTea2BrewTime = 'Cuppa_tea2_brew_time';
-  static const _prefTea2BrewTemp = 'Cuppa_tea2_brew_temp';
-  static const _prefTea2Color = 'Cuppa_tea2_color';
-  static const _prefTea2IsFavorite = 'Cuppa_tea2_is_favorite';
-  static const _prefTea2IsActive = 'Cuppa_tea2_is_active';
-  static const _prefTea3Name = 'Cuppa_tea3_name';
-  static const _prefTea3BrewTime = 'Cuppa_tea3_brew_time';
-  static const _prefTea3BrewTemp = 'Cuppa_tea3_brew_temp';
-  static const _prefTea3Color = 'Cuppa_tea3_color';
-  static const _prefTea3IsFavorite = 'Cuppa_tea3_is_favorite';
-  static const _prefTea3IsActive = 'Cuppa_tea3_is_active';
-  static const _prefMoreTeas = 'Cuppa_tea_list';
-  static const _prefShowExtra = 'Cuppa_show_extra';
-  static const _prefUseCelsius = 'Cuppa_use_celsius';
-  static const _prefAppTheme = 'Cuppa_app_theme';
-  static const _prefAppLanguage = 'Cuppa_app_language';
-
   // Fetch all settings from shared prefs or use defaults
   static void load() {
     // Initialize teas
@@ -249,53 +216,53 @@ abstract class Prefs {
 
     // Default: Black tea
     teaList.add(Tea(
-        name: sharedPrefs.getString(_prefTea1Name) ??
+        name: sharedPrefs.getString(prefTea1Name) ??
             AppLocalizations.translate('tea_name_black'),
-        brewTime: sharedPrefs.getInt(_prefTea1BrewTime) ?? 240,
-        brewTemp: sharedPrefs.getInt(_prefTea1BrewTemp) ??
+        brewTime: sharedPrefs.getInt(prefTea1BrewTime) ?? 240,
+        brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ??
             (isLocaleMetric ? 100 : 212),
-        color: sharedPrefs.getInt(_prefTea1Color) ?? 0,
-        isFavorite: sharedPrefs.getBool(_prefTea1IsFavorite) ?? true,
-        isActive: sharedPrefs.getBool(_prefTea1IsActive) ?? false));
+        color: sharedPrefs.getInt(prefTea1Color) ?? 0,
+        isFavorite: sharedPrefs.getBool(prefTea1IsFavorite) ?? true,
+        isActive: sharedPrefs.getBool(prefTea1IsActive) ?? false));
 
     // Default: Green tea
-    String tea2Name = sharedPrefs.getString(_prefTea2Name) ??
+    String tea2Name = sharedPrefs.getString(prefTea2Name) ??
         AppLocalizations.translate('tea_name_green');
     teaList.add(Tea(
         name: tea2Name,
-        brewTime: sharedPrefs.getInt(_prefTea2BrewTime) ?? 150,
+        brewTime: sharedPrefs.getInt(prefTea2BrewTime) ?? 150,
         // Select default temp of 212 if name changed from Green tea
-        brewTemp: sharedPrefs.getInt(_prefTea2BrewTemp) ??
+        brewTemp: sharedPrefs.getInt(prefTea2BrewTemp) ??
             (tea2Name != AppLocalizations.translate('tea_name_green')
                 ? (isLocaleMetric ? 100 : 212)
                 : (isLocaleMetric ? 80 : 180)),
-        color: sharedPrefs.getInt(_prefTea2Color) ?? 3,
-        isFavorite: sharedPrefs.getBool(_prefTea2IsFavorite) ?? true,
-        isActive: sharedPrefs.getBool(_prefTea2IsActive) ?? false));
+        color: sharedPrefs.getInt(prefTea2Color) ?? 3,
+        isFavorite: sharedPrefs.getBool(prefTea2IsFavorite) ?? true,
+        isActive: sharedPrefs.getBool(prefTea2IsActive) ?? false));
 
     // Default: Herbal tea
     teaList.add(Tea(
-        name: sharedPrefs.getString(_prefTea3Name) ??
+        name: sharedPrefs.getString(prefTea3Name) ??
             AppLocalizations.translate('tea_name_herbal'),
-        brewTime: sharedPrefs.getInt(_prefTea3BrewTime) ?? 300,
-        brewTemp: sharedPrefs.getInt(_prefTea3BrewTemp) ??
+        brewTime: sharedPrefs.getInt(prefTea3BrewTime) ?? 300,
+        brewTemp: sharedPrefs.getInt(prefTea3BrewTemp) ??
             (isLocaleMetric ? 100 : 212),
-        color: sharedPrefs.getInt(_prefTea3Color) ?? 2,
-        isFavorite: sharedPrefs.getBool(_prefTea3IsFavorite) ?? true,
-        isActive: sharedPrefs.getBool(_prefTea3IsActive) ?? false));
+        color: sharedPrefs.getInt(prefTea3Color) ?? 2,
+        isFavorite: sharedPrefs.getBool(prefTea3IsFavorite) ?? true,
+        isActive: sharedPrefs.getBool(prefTea3IsActive) ?? false));
 
     // More teas list
     List<String>? moreTeasJson =
-        sharedPrefs.getStringList(_prefMoreTeas) ?? null;
+        sharedPrefs.getStringList(prefMoreTeas) ?? null;
     if (moreTeasJson != null)
       teaList += (moreTeasJson.map<Tea>((tea) => Tea.fromJson(jsonDecode(tea))))
           .toList();
 
     // Other settings
-    showExtra = sharedPrefs.getBool(_prefShowExtra) ?? showExtra;
-    useCelsius = sharedPrefs.getBool(_prefUseCelsius) ?? useCelsius;
-    appTheme = sharedPrefs.getInt(_prefAppTheme) ?? appTheme;
-    appLanguage = sharedPrefs.getString(_prefAppLanguage) ?? appLanguage;
+    showExtra = sharedPrefs.getBool(prefShowExtra) ?? showExtra;
+    useCelsius = sharedPrefs.getBool(prefUseCelsius) ?? useCelsius;
+    appTheme = sharedPrefs.getInt(prefAppTheme) ?? appTheme;
+    appLanguage = sharedPrefs.getString(prefAppLanguage) ?? appLanguage;
 
     // Manage quick actions
     setQuickActions();
@@ -303,35 +270,35 @@ abstract class Prefs {
 
   // Store all settings in shared prefs
   static void save() {
-    sharedPrefs.setString(_prefTea1Name, teaList[0].name);
-    sharedPrefs.setInt(_prefTea1BrewTime, teaList[0].brewTime);
-    sharedPrefs.setInt(_prefTea1BrewTemp, teaList[0].brewTemp);
-    sharedPrefs.setInt(_prefTea1Color, teaList[0].color);
-    sharedPrefs.setBool(_prefTea1IsFavorite, teaList[0].isFavorite);
-    sharedPrefs.setBool(_prefTea1IsActive, teaList[0].isActive);
+    sharedPrefs.setString(prefTea1Name, teaList[0].name);
+    sharedPrefs.setInt(prefTea1BrewTime, teaList[0].brewTime);
+    sharedPrefs.setInt(prefTea1BrewTemp, teaList[0].brewTemp);
+    sharedPrefs.setInt(prefTea1Color, teaList[0].color);
+    sharedPrefs.setBool(prefTea1IsFavorite, teaList[0].isFavorite);
+    sharedPrefs.setBool(prefTea1IsActive, teaList[0].isActive);
 
-    sharedPrefs.setString(_prefTea2Name, teaList[1].name);
-    sharedPrefs.setInt(_prefTea2BrewTime, teaList[1].brewTime);
-    sharedPrefs.setInt(_prefTea2BrewTemp, teaList[1].brewTemp);
-    sharedPrefs.setInt(_prefTea2Color, teaList[1].color);
-    sharedPrefs.setBool(_prefTea2IsFavorite, teaList[1].isFavorite);
-    sharedPrefs.setBool(_prefTea2IsActive, teaList[1].isActive);
+    sharedPrefs.setString(prefTea2Name, teaList[1].name);
+    sharedPrefs.setInt(prefTea2BrewTime, teaList[1].brewTime);
+    sharedPrefs.setInt(prefTea2BrewTemp, teaList[1].brewTemp);
+    sharedPrefs.setInt(prefTea2Color, teaList[1].color);
+    sharedPrefs.setBool(prefTea2IsFavorite, teaList[1].isFavorite);
+    sharedPrefs.setBool(prefTea2IsActive, teaList[1].isActive);
 
-    sharedPrefs.setString(_prefTea3Name, teaList[2].name);
-    sharedPrefs.setInt(_prefTea3BrewTime, teaList[2].brewTime);
-    sharedPrefs.setInt(_prefTea3BrewTemp, teaList[2].brewTemp);
-    sharedPrefs.setInt(_prefTea3Color, teaList[2].color);
-    sharedPrefs.setBool(_prefTea3IsFavorite, teaList[2].isFavorite);
-    sharedPrefs.setBool(_prefTea3IsActive, teaList[2].isActive);
+    sharedPrefs.setString(prefTea3Name, teaList[2].name);
+    sharedPrefs.setInt(prefTea3BrewTime, teaList[2].brewTime);
+    sharedPrefs.setInt(prefTea3BrewTemp, teaList[2].brewTemp);
+    sharedPrefs.setInt(prefTea3Color, teaList[2].color);
+    sharedPrefs.setBool(prefTea3IsFavorite, teaList[2].isFavorite);
+    sharedPrefs.setBool(prefTea3IsActive, teaList[2].isActive);
 
     List<String> moreTeasEncoded =
         (teaList.sublist(3)).map((tea) => jsonEncode(tea.toJson())).toList();
-    sharedPrefs.setStringList(_prefMoreTeas, moreTeasEncoded);
+    sharedPrefs.setStringList(prefMoreTeas, moreTeasEncoded);
 
-    sharedPrefs.setBool(_prefShowExtra, showExtra);
-    sharedPrefs.setBool(_prefUseCelsius, useCelsius);
-    sharedPrefs.setInt(_prefAppTheme, appTheme);
-    sharedPrefs.setString(_prefAppLanguage, appLanguage);
+    sharedPrefs.setBool(prefShowExtra, showExtra);
+    sharedPrefs.setBool(prefUseCelsius, useCelsius);
+    sharedPrefs.setInt(prefAppTheme, appTheme);
+    sharedPrefs.setString(prefAppLanguage, appLanguage);
 
     // Manage quick actions
     setQuickActions();
@@ -358,23 +325,20 @@ abstract class Prefs {
     return teaList.firstWhereOrNull((tea) => tea.isActive == true);
   }
 
-  // Shared prefs next alarm info keys
-  static const _prefNextAlarm = 'Cuppa_next_alarm_time';
-
   // Fetch next alarm info from shared prefs
   static int getNextAlarm() {
-    return sharedPrefs.getInt(_prefNextAlarm) ?? 0;
+    return sharedPrefs.getInt(prefNextAlarm) ?? 0;
   }
 
   // Store next alarm info in shared prefs to persist when app is closed
   static void setNextAlarm(DateTime timerEndTime) {
-    sharedPrefs.setInt(_prefNextAlarm, timerEndTime.millisecondsSinceEpoch);
+    sharedPrefs.setInt(prefNextAlarm, timerEndTime.millisecondsSinceEpoch);
     Prefs.save();
   }
 
   // Clear shared prefs next alarm info
   static void clearNextAlarm() {
-    sharedPrefs.setInt(_prefNextAlarm, 0);
+    sharedPrefs.setInt(prefNextAlarm, 0);
     teaList.where((tea) => tea.isActive == true).forEach((tea) {
       tea.isActive = false;
     });
