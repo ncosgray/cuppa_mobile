@@ -87,7 +87,7 @@ class CuppaApp extends StatelessWidget {
                 // Configure app theme
                 theme: getPlatformAdaptiveTheme(appPlatform),
                 darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
-                themeMode: Prefs.appThemes[appTheme],
+                themeMode: Prefs.appThemes[Prefs.appTheme],
                 // Configure routes
                 initialRoute: routeTimer,
                 routes: {
@@ -96,7 +96,9 @@ class CuppaApp extends StatelessWidget {
                   routeAbout: (context) => AboutWidget(),
                 },
                 // Localization
-                locale: appLanguage != '' ? Locale(appLanguage, '') : null,
+                locale: Prefs.appLanguage != ''
+                    ? Locale(Prefs.appLanguage, '')
+                    : null,
                 supportedLocales:
                     supportedLanguages.keys.map<Locale>((String value) {
                   return Locale(value, '');

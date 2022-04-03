@@ -100,20 +100,20 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                               buildDraggableFeedback: _draggableFeedback,
                               onReorder: (int oldIndex, int newIndex) {
                                 // Reorder the tea list
-                                Tea oldTea = teaList.removeAt(oldIndex);
-                                teaList.insert(newIndex, oldTea);
+                                Tea oldTea = Prefs.teaList.removeAt(oldIndex);
+                                Prefs.teaList.insert(newIndex, oldTea);
                                 provider.update();
                               },
                               delegate: ReorderableSliverChildListDelegate(
-                                  teaList.map<Widget>((tea) {
-                                if ((teaList.length <= teasMinCount) ||
+                                  Prefs.teaList.map<Widget>((tea) {
+                                if ((Prefs.teaList.length <= teasMinCount) ||
                                     (timerActive && tea.isActive))
                                   // Don't allow deleting if there are minimum teas or timer is active
                                   return IgnorePointer(
                                       // Disable editing actively brewing tea
                                       ignoring: timerActive && tea.isActive,
                                       child: Opacity(
-                                          opacity: timerActive ? 0.4 : 1.0,
+                                          opacity: tea.isActive ? 0.4 : 1.0,
                                           child: Container(
                                               key: Key(tea.id.toString()),
                                               child: PrefsTeaRow(
@@ -128,7 +128,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     ),
                                     onDismissed: (direction) {
                                       // Delete this from the tea list
-                                      teaList.remove(tea);
+                                      Prefs.teaList.remove(tea);
                                       provider.update();
                                     },
                                     // Dismissible delete warning background
@@ -150,24 +150,26 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                         .toUpperCase(),
                                     style: TextStyle(
                                         fontSize: 14.0,
-                                        color: teaList.length < teasMaxCount
-                                            ? Colors.blue
-                                            : Colors.grey)),
+                                        color:
+                                            Prefs.teaList.length < teasMaxCount
+                                                ? Colors.blue
+                                                : Colors.grey)),
                                 icon: Icon(Icons.add_circle,
-                                    color: teaList.length < teasMaxCount
+                                    color: Prefs.teaList.length < teasMaxCount
                                         ? Colors.blue
                                         : Colors.grey,
                                     size: 20.0),
                                 onPressed:
                                     // Disable adding teas if there are maximum teas
-                                    teaList.length < teasMaxCount
+                                    Prefs.teaList.length < teasMaxCount
                                         ? () {
                                             // Add a blank tea
-                                            teaList.add(Tea(
+                                            Prefs.teaList.add(Tea(
                                                 name: _getNextDefaultTeaName(),
                                                 brewTime: 240,
-                                                brewTemp:
-                                                    useCelsius ? 100 : 212,
+                                                brewTemp: Prefs.useCelsius
+                                                    ? 100
+                                                    : 212,
                                                 color: 0,
                                                 isFavorite: false,
                                                 isActive: false));
@@ -187,10 +189,10 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                         style: TextStyle(
                                           fontSize: 16.0,
                                         )),
-                                    value: showExtra,
+                                    value: Prefs.showExtra,
                                     // Save showExtra setting to prefs
                                     onChanged: (bool newValue) {
-                                      showExtra = newValue;
+                                      Prefs.showExtra = newValue;
                                       provider.update();
                                     },
                                     contentPadding: const EdgeInsets.fromLTRB(
@@ -210,10 +212,10 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                         style: TextStyle(
                                           fontSize: 16.0,
                                         )),
-                                    value: useCelsius,
+                                    value: Prefs.useCelsius,
                                     // Save useCelsius setting to prefs
                                     onChanged: (bool newValue) {
-                                      useCelsius = newValue;
+                                      Prefs.useCelsius = newValue;
                                       provider.update();
                                     },
                                     contentPadding: const EdgeInsets.all(6.0),
@@ -234,7 +236,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     trailing:
                                         // App theme dropdown
                                         DropdownButton<int>(
-                                      value: appTheme,
+                                      value: Prefs.appTheme,
                                       icon: Icon(
                                         Icons.arrow_drop_down,
                                         size: 20.0,
@@ -251,15 +253,16 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                                   Prefs.appThemeNames[value]!),
                                               style: TextStyle(
                                                   fontSize: 16.0,
-                                                  fontWeight: value == appTheme
-                                                      ? FontWeight.w400
-                                                      : FontWeight.w300)),
+                                                  fontWeight:
+                                                      value == Prefs.appTheme
+                                                          ? FontWeight.w400
+                                                          : FontWeight.w300)),
                                         );
                                       }).toList(),
                                       // Save appTheme to prefs
                                       onChanged: (int? newValue) {
                                         if (newValue != null) {
-                                          appTheme = newValue;
+                                          Prefs.appTheme = newValue;
                                           provider.update();
                                         }
                                       },
@@ -283,7 +286,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     trailing:
                                         // App language dropdown
                                         DropdownButton<String>(
-                                      value: appLanguage,
+                                      value: Prefs.appLanguage,
                                       icon: Icon(
                                         Icons.arrow_drop_down,
                                         size: 20.0,
@@ -307,7 +310,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                               style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontWeight:
-                                                      value == appLanguage
+                                                      value == Prefs.appLanguage
                                                           ? FontWeight.w400
                                                           : FontWeight.w300)),
                                         );
@@ -315,7 +318,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       // Save appLanguage to prefs
                                       onChanged: (String? newValue) {
                                         if (newValue != null) {
-                                          appLanguage = newValue;
+                                          Prefs.appLanguage = newValue;
                                           provider.update();
                                         }
                                       },
@@ -463,7 +466,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                     provider.update();
                                   }
                                   // Toggle favorite status on if max not reached
-                                  else if (teaList
+                                  else if (Prefs.teaList
                                           .where(
                                               (tea) => tea.isFavorite == true)
                                           .length <
@@ -700,7 +703,7 @@ String _getNextDefaultTeaName() {
         ' ' +
         nextNumber.toString();
     nextNumber++;
-  } while (teaList.indexWhere((tea) => tea.name == nextName) >= 0);
+  } while (Prefs.teaList.indexWhere((tea) => tea.name == nextName) >= 0);
   return nextName;
 }
 

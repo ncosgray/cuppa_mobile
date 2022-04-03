@@ -24,17 +24,17 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:quick_actions/quick_actions.dart';
 
-// Teas
-List<Tea> teaList = [];
-
-// Settings
-bool showExtra = false;
-bool useCelsius = isLocaleMetric;
-int appTheme = 0;
-String appLanguage = '';
-
 // Shared prefs functionality
 abstract class Prefs {
+  // Teas
+  static List<Tea> teaList = [];
+
+  // Settings
+  static bool showExtra = false;
+  static bool useCelsius = isLocaleMetric;
+  static int appTheme = 0;
+  static String appLanguage = '';
+
   // Color map
   static final Map<int, Color> teaColors = {
     0: Colors.black,

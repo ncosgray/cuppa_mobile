@@ -154,7 +154,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     quickActions.initialize((String shortcutType) async {
       int? teaIndex = int.tryParse(shortcutType.replaceAll(shortcutPrefix, ''));
       if (teaIndex != null) if (await _confirmTimer())
-        _setTimer(teaList[teaIndex]);
+        _setTimer(Prefs.teaList[teaIndex]);
     });
   }
 
@@ -256,7 +256,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
-                        children: teaList.map<Widget>((tea) {
+                        children: Prefs.teaList.map<Widget>((tea) {
                           // Build the list of teas
                           return Padding(
                               padding:
@@ -357,7 +357,7 @@ class TeaButton extends StatelessWidget {
                 ),
                 // Optional extra info: brew time and temp display
                 Visibility(
-                    visible: showExtra,
+                    visible: Prefs.showExtra,
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
