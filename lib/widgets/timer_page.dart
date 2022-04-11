@@ -26,6 +26,7 @@ import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 // Cuppa Timer page
 class TimerWidget extends StatefulWidget {
@@ -41,6 +42,8 @@ class _TimerWidgetState extends State<TimerWidget> {
   int _timerSeconds = 0;
   DateTime? _timerEndTime;
   Timer? _timer;
+  final ItemScrollController _itemScrollController = ItemScrollController();
+  bool _doScroll = false;
 
   // Set up the brewing complete notification
   Future<Null> _sendNotification(int secs, String title, String text) async {
@@ -145,6 +148,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       if (diff.inSeconds > 0) {
         // Resume timer from stored prefs
         _setTimer(nextTea, diff.inSeconds);
+        _doScroll = true;
       } else {
         Prefs.clearNextAlarm();
       }
@@ -157,7 +161,18 @@ class _TimerWidgetState extends State<TimerWidget> {
       int? teaIndex = int.tryParse(shortcutType.replaceAll(shortcutPrefix, ''));
       if (teaIndex != null) if (await _confirmTimer())
         _setTimer(Prefs.teaList[teaIndex]);
+      _doScroll = true;
     });
+  }
+
+  // Autoscroll tea button list to specified tea
+  void _scrollToTeaButton(Tea? tea) {
+    if (tea != null && _doScroll && Prefs.teaList.length > teasMinCount) {
+      int teaIndex = Prefs.teaList.indexOf(tea);
+      if (teaIndex >= 0)
+        _itemScrollController.jumpTo(index: teaIndex, alignment: 0.3);
+    }
+    _doScroll = false;
   }
 
   // Timer page state
@@ -175,6 +190,10 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Build Timer page
   @override
   Widget build(BuildContext context) {
+    // Process tea list scroll request after build
+    Future.delayed(
+        Duration.zero, () => _scrollToTeaButton(Prefs.getActiveTea()));
+
     return Scaffold(
         appBar:
             PlatformAdaptiveAppBar(title: Text(appName), platform: appPlatform,
@@ -257,12 +276,15 @@ class _TimerWidgetState extends State<TimerWidget> {
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(12.0, 24.0, 12.0, 12.0),
                     alignment: Alignment.center,
-                    child: ListView(
+                    child: ScrollablePositionedList.builder(
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
-                        children: Prefs.teaList.map<Widget>((tea) {
-                          // Build the list of teas
+                        itemScrollController: _itemScrollController,
+                        // Build the list of teas
+                        itemCount: Prefs.teaList.length,
+                        itemBuilder: (context, index) {
+                          Tea tea = Prefs.teaList[index];
                           return Padding(
                               padding:
                                   const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 0.0),
@@ -277,7 +299,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                                         .isActive) if (await _confirmTimer())
                                       _setTimer(tea);
                                   }));
-                        }).toList()),
+                        }),
                   )),
               // Cancel brewing button
               SizedBox(
