@@ -28,7 +28,7 @@ dependencies:
   reorderables: ^0.4.3
   scrollable_positioned_list: ^0.2.3
   shared_preferences: ^2.0.13
-  url_launcher: ^6.0.20
+  url_launcher: ^6.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

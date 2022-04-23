@@ -128,7 +128,8 @@ class AboutWidget extends StatelessWidget {
               ))
           : null,
       trailing: const Icon(Icons.launch, size: 16.0),
-      onTap: () => launch(url),
+      onTap: () =>
+          launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication),
       contentPadding: const EdgeInsets.all(6.0),
       dense: true,
     ));
@@ -170,5 +171,6 @@ Widget aboutText() {
                       decoration: TextDecoration.underline))
             ])
           ]),
-      onTap: () => launch(aboutURL));
+      onTap: () =>
+          launchUrl(Uri.parse(aboutURL), mode: LaunchMode.externalApplication));
 }
