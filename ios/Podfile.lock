@@ -2,7 +2,7 @@ PODS:
   - Flutter (1.0.0)
   - package_info_plus (0.4.5):
     - Flutter
-  - quick_actions (0.0.1):
+  - quick_actions_ios (0.0.1):
     - Flutter
   - shared_preferences_ios (0.0.1):
     - Flutter
@@ -12,7 +12,7 @@ PODS:
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
-  - quick_actions (from `.symlinks/plugins/quick_actions/ios`)
+  - quick_actions_ios (from `.symlinks/plugins/quick_actions_ios/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
@@ -21,8 +21,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
-  quick_actions:
-    :path: ".symlinks/plugins/quick_actions/ios"
+  quick_actions_ios:
+    :path: ".symlinks/plugins/quick_actions_ios/ios"
   shared_preferences_ios:
     :path: ".symlinks/plugins/shared_preferences_ios/ios"
   url_launcher_ios:
@@ -31,7 +31,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
-  quick_actions: cd83314083fa994182e6cd9e7516167a215a4f83
+  quick_actions_ios: 622e9076602c57f1f937f1c13e5c59c3379347e9
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
 
