@@ -44,7 +44,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             // Set custom sound
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
+                    .setUsage(AudioAttributes.USAGE_ALARM)
                     .build();
             notificationChannel.setSound(Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.spoon), audioAttributes);
 
