@@ -35,5 +35,6 @@
     "help_translate": "Ede tradui {{app_name}}",
     "help_translate_info": "Kontribye via Weblate",
     "issues": "Pwoblèm",
-    "issues_info": "Rapò ensèk oswa demann prezante"
+    "issues_info": "Rapò ensèk oswa demann prezante",
+    "ok_button": "OK"
 }

@@ -35,5 +35,6 @@
     "help_translate": "Helpu traduki {{app_name}}",
     "help_translate_info": "Kontribuas tra Weblate",
     "issues": "Temoj",
-    "issues_info": "Cimraporto aŭ funkcio peto"
+    "issues_info": "Cimraporto aŭ funkcio peto",
+    "ok_button": "OK"
 }

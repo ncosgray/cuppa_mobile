@@ -35,5 +35,6 @@
     "help_translate": "Sikourit treiñ {{app_name}}",
     "help_translate_info": "Kendaoliñ dre Weblate",
     "issues": "Kudennoù",
-    "issues_info": "Danevell draen pe reked arc'hweladur"
+    "issues_info": "Danevell draen pe reked arc'hweladur",
+    "ok_button": "OK"
 }

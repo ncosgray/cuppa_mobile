@@ -35,5 +35,6 @@
     "issues_info": "Meld een bug of deel een idee",
     "version_history": "Versiegeschiedenis",
     "about_title": "Over {{app_name}}",
-    "source_code": "Broncode"
+    "source_code": "Broncode",
+    "ok_button": "OK"
 }

@@ -35,5 +35,6 @@
     "help_translate": "Допоможіть перекласти {{app_name}}",
     "help_translate_info": "Зробіть свій внесок через Weblate",
     "issues": "Проблеми",
-    "issues_info": "Звіт про помилку або запит на функцію"
+    "issues_info": "Звіт про помилку або запит на функцію",
+    "ok_button": "OK"
 }

@@ -35,5 +35,6 @@
     "issues_info": "Vikailmoitus tai ominaisuuspyyntö",
     "about_license": "Avoimen lähdekoodin lisenssi",
     "about_title": "Tietoja {{app_name}}:sta",
-    "version_history": "Versiohistoria"
+    "version_history": "Versiohistoria",
+    "ok_button": "OK"
 }

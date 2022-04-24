@@ -35,5 +35,6 @@
     "help_translate": "Hjelp til å oversette {{app_name}}",
     "help_translate_info": "Bidra via Weblate",
     "issues": "Problemer",
-    "issues_info": "Feilrapport eller funksjonsforespørsel"
+    "issues_info": "Feilrapport eller funksjonsforespørsel",
+    "ok_button": "OK"
 }

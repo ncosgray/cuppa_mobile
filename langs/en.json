@@ -35,5 +35,6 @@
   "help_translate": "Help translate {{app_name}}",
   "help_translate_info": "Contribute via Weblate",
   "issues": "Issues",
-  "issues_info": "Bug report or feature request"
+  "issues_info": "Bug report or feature request",
+  "ok_button": "OK"
 }

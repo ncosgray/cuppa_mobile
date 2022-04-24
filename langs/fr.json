@@ -35,5 +35,6 @@
     "help_translate": "Aidez à traduire {{app_name}}",
     "about_title": "À propos de {{app_name}}",
     "version_history": "Historique des versions",
-    "source_code_info": "Dépôt sur GitHub"
+    "source_code_info": "Dépôt sur GitHub",
+    "ok_button": "OK"
 }

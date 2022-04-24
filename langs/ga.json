@@ -35,5 +35,6 @@
     "help_translate": "Cabhraigh le haistriú {{app_name}}",
     "help_translate_info": "Ranníocaíocht trí Weblate",
     "issues": "Saincheisteanna",
-    "issues_info": "Tuairisc ar fhabht nó iarratas gné"
+    "issues_info": "Tuairisc ar fhabht nó iarratas gné",
+    "ok_button": "OK"
 }

@@ -35,5 +35,6 @@
     "source_code_info": "Repositoorium GitHubis",
     "help_translate": "Abi tõlkida {{app_name}}",
     "help_translate_info": "Panustage Weblate'i kaudu",
-    "issues_info": "Veaaruanne või funktsioonitaotlus"
+    "issues_info": "Veaaruanne või funktsioonitaotlus",
+    "ok_button": "OK"
 }

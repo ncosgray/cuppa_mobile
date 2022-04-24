@@ -35,5 +35,6 @@
     "help_translate": "Lagundu itzultzen {{app_name}}",
     "help_translate_info": "Egin ekarpena Weblate bidez",
     "issues": "Gaiak",
-    "issues_info": "Akatsen txostena edo eginbide eskaera"
+    "issues_info": "Akatsen txostena edo eginbide eskaera",
+    "ok_button": "OK"
 }

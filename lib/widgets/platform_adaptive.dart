@@ -14,6 +14,7 @@
 // - Light and dark themes for Android and iOS
 // - PlatformAdaptiveAppBar from https://github.com/efortuna/memechat
 // - PlatformAdaptiveDialog chooses showDialog type by context platform
+// - PlatformAdaptiveTextFormDialog text entry dialog for context platform
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -137,5 +138,193 @@ class PlatformAdaptiveDialog extends StatelessWidget {
         ],
       );
     }
+  }
+}
+
+// Text entry dialog that is Material on Android and Cupertino on iOS
+class PlatformAdaptiveTextFormDialog extends StatefulWidget {
+  const PlatformAdaptiveTextFormDialog({
+    Key? key,
+    required this.platform,
+    required this.initialValue,
+    required this.validator,
+    required this.buttonTextCancel,
+    required this.buttonTextOK,
+  }) : super(key: key);
+
+  final TargetPlatform platform;
+  final String initialValue;
+  final String? Function(String?) validator;
+  final String buttonTextCancel;
+  final String buttonTextOK;
+
+  @override
+  _PlatformAdaptiveTextFormDialogState createState() =>
+      _PlatformAdaptiveTextFormDialogState(
+          platform: platform,
+          initialValue: initialValue,
+          validator: validator,
+          buttonTextCancel: buttonTextCancel,
+          buttonTextOK: buttonTextOK);
+}
+
+class _PlatformAdaptiveTextFormDialogState
+    extends State<PlatformAdaptiveTextFormDialog> {
+  _PlatformAdaptiveTextFormDialogState({
+    required this.platform,
+    required this.initialValue,
+    required this.validator,
+    required this.buttonTextCancel,
+    required this.buttonTextOK,
+  });
+
+  final TargetPlatform platform;
+  final String initialValue;
+  final String? Function(String?) validator;
+  final String buttonTextCancel;
+  final String buttonTextOK;
+
+  // State variables
+  late GlobalKey<FormState> _formKey;
+  late String _newValue;
+  late bool _isValid;
+  late TextEditingController _controller;
+
+  // Initialize dialog state
+  @override
+  void initState() {
+    super.initState();
+
+    _formKey = GlobalKey();
+    _newValue = initialValue;
+    _isValid = true;
+    _controller = TextEditingController(text: _newValue);
+  }
+
+  // Build dialog
+  @override
+  Widget build(BuildContext context) {
+    if (platform == TargetPlatform.iOS) {
+      return CupertinoAlertDialog(
+        // Text entry
+        content: Card(
+            elevation: 0.0,
+            child: Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Container(
+                    padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                    child: _textField()))),
+        actions: <Widget>[
+          // Cancel and close dialog
+          CupertinoDialogAction(
+            child: Text(buttonTextCancel),
+            onPressed: () {
+              // Don't return anything
+              Navigator.of(context).pop();
+            },
+          ),
+          // Save and close dialog, if valid
+          CupertinoDialogAction(
+            child: Text(buttonTextOK),
+            isDefaultAction: true,
+            textStyle: _isValid ? null : TextStyle(color: Colors.grey),
+            onPressed: _isValid
+                ? () {
+                    // Return new text value
+                    Navigator.of(context).pop(_newValue);
+                  }
+                : null,
+          ),
+        ],
+      );
+    } else {
+      return AlertDialog(
+        // Text entry
+        content: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: _textField()),
+        actions: <Widget>[
+          // Cancel and close dialog
+          TextButton(
+            child: Text(buttonTextCancel),
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+            ),
+            onPressed: () {
+              // Don't return anything
+              Navigator.of(context).pop();
+            },
+          ),
+          // Save and close dialog, if valid
+          TextButton(
+            child: Text(buttonTextOK),
+            style: ButtonStyle(
+              foregroundColor: _isValid
+                  ? MaterialStateProperty.all<Color>(Colors.blue)
+                  : MaterialStateProperty.all<Color>(Colors.grey),
+            ),
+            onPressed: _isValid
+                ? () {
+                    // Return new text value
+                    Navigator.of(context).pop(_newValue);
+                  }
+                : null,
+          ),
+        ],
+      );
+    }
+  }
+
+  // Build a text field for PlatformAdaptiveStringFormDialog
+  Widget _textField() {
+    // Text form field with clear button and validation
+    return TextFormField(
+      controller: _controller,
+      autofocus: true,
+      autocorrect: false,
+      enableSuggestions: false,
+      enableInteractiveSelection: false,
+      textCapitalization: TextCapitalization.words,
+      maxLines: 1,
+      textAlignVertical: TextAlignVertical.center,
+      decoration: InputDecoration(
+        errorStyle: TextStyle(color: Colors.red),
+        focusedErrorBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.red, width: 2.0)),
+        counter: Offstage(),
+        suffixIcon: _controller.text.length > 0
+            // Clear field button
+            ? IconButton(
+                iconSize: 14.0,
+                icon: Icon(Icons.cancel_outlined, color: Colors.grey),
+                onPressed: () {
+                  setState(() {
+                    _isValid = false;
+                    _controller.clear();
+                  });
+                },
+              )
+            : null,
+      ),
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 18.0,
+      ),
+      // Checks for valid values
+      validator: validator,
+      onChanged: (String newValue) {
+        // Validate text and set new value
+        setState(() {
+          _isValid = false;
+          if (_formKey.currentState != null) if (_formKey.currentState!
+              .validate()) {
+            _isValid = true;
+            _newValue = newValue;
+          }
+        });
+      },
+    );
   }
 }

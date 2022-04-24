@@ -35,5 +35,6 @@
     "about_title": "אודות {{app_name}}",
     "version_history": "היסטוריית גירסאות",
     "about_license": "רשיון קוד פתוח",
-    "source_code": "קוד מקור"
+    "source_code": "קוד מקור",
+    "ok_button": "OK"
 }
