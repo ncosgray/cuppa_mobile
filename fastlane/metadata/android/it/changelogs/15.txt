@@ -1,0 +1,3 @@
+* una nuova pagina per le preferenze!
+* Imposta i nomi dei tuoi tè, tempi di infusione, e colori.
+* Salva le impostazioni per tre tè differenti.
