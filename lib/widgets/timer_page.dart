@@ -15,9 +15,9 @@
 // - Start, confirm, cancel timers
 // - Notification channels for platform code
 
-import 'package:cuppa_mobile/main.dart';
 import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/tea.dart';
