@@ -12,6 +12,7 @@
 
 // Cuppa: a simple tea timer app for Android and iOS
 
+import 'package:cuppa_mobile/provider.dart';
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -126,16 +127,5 @@ class CuppaApp extends StatelessWidget {
                   }
                   return Locale('en', '');
                 })));
-  }
-}
-
-// Provider for settings changes
-class AppProvider extends ChangeNotifier {
-  void update() {
-    // Save user settings
-    Prefs.save();
-
-    // Ensure UI elements get updated
-    notifyListeners();
   }
 }
