@@ -1,0 +1,10 @@
+Spiegazione completa dell'app e delle sue caratteristiche su App Store.
+
+
+Cuppa per dispositivi mobili è finalmente qui! Stanco di lasciare il tè troppo a lungo, a diventare amaro e freddo, o berlo troppo presto e non apprezzarne appieno le potenzialità? Allora questa prodotto è per te!
+
+Per rendere l'app così veloce e facile per essere effettivamente usata, l'abbiamo sviluppata tenendo presente la semplicità. Basta aprire l'app e cliccare il pulsante per il tipo di tè che stai preparando. Questo è tutto. Senza il bisogno di navigare in menù complessi per trovare un tè particolare, o smanettare con le impostazioni... a meno che tu non voglia personalizzare i tempi di infusione o aggiungere i tuoi tè preferiti (nuovo nella versione 1.4!).
+
+Una volta cliccato, Cuppa inizierà cronometrando l'infuso e vedrai una bustina di tè appare nella tazza e gradualmente scurirsi man mano che infusione continua. Un conto alla rovescia mostra il tempo rimasto. Quando il tè è pronto, Cuppa ti avviserà con una notifica, a seconda delle impostazioni del tuo dispositivo, questo potrebbe essere accompagnato da un suono e/o da una vibrazione.
+
+Noi speriamo che tu possa trovare utile Cuppa per il tuo dispositivo mobile!
