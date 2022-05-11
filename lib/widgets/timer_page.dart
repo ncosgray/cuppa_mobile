@@ -194,21 +194,15 @@ class _TimerWidgetState extends State<TimerWidget> {
     Future.delayed(
         Duration.zero, () => _scrollToTeaButton(Prefs.getActiveTea()));
 
-    return Scaffold(
-        appBar:
-            PlatformAdaptiveAppBar(title: Text(appName), platform: appPlatform,
-                // Button to navigate to Preferences page
-                actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(routePrefs)
-                      .then((value) => setState(() {}));
-                },
-              ),
-            ]),
-        body: Container(
+    return PlatformAdaptiveScaffold(
+        platform: appPlatform,
+        isPoppable: false,
+        title: appName,
+        // Button to navigate to Preferences page
+        actionIcon: getPlatformSettingsIcon(appPlatform),
+        actionRoute: routePrefs,
+        body: SafeArea(
+            child: Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -325,7 +319,7 @@ class _TimerWidgetState extends State<TimerWidget> {
               ),
             ],
           ),
-        ));
+        )));
   }
 }
 

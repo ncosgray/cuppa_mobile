@@ -38,20 +38,14 @@ class PrefsWidget extends StatefulWidget {
 class _PrefsWidgetState extends State<PrefsWidget> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: PlatformAdaptiveAppBar(
-            title: Text(AppLocalizations.translate('prefs_title')
-                .replaceAll('{{app_name}}', appName)),
-            platform: appPlatform,
-            // Button to navigate to About page
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.help),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(routeAbout);
-                },
-              ),
-            ]),
+    return PlatformAdaptiveScaffold(
+        platform: appPlatform,
+        isPoppable: true,
+        title: AppLocalizations.translate('prefs_title')
+            .replaceAll('{{app_name}}', appName),
+        // Button to navigate to About page
+        actionIcon: getPlatformAboutIcon(appPlatform),
+        actionRoute: routeAbout,
         body: SafeArea(
             child: Container(
           padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
