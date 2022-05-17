@@ -50,7 +50,6 @@ class _PrefsWidgetState extends State<PrefsWidget> {
             child: Container(
           padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
           child: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
             slivers: [
               SliverAppBar(
                 elevation: 0,

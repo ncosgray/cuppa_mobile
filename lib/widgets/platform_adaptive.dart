@@ -14,6 +14,7 @@
 // - Light and dark themes for Android and iOS
 // - Icons for Android and iOS
 // - PlatformAdaptiveScaffold creates a page scaffold for context platform
+// - PlatformAdaptiveScrollBehavior sets scroll behavior for context platform
 // - PlatformAdaptiveDialog chooses showDialog type by context platform
 // - PlatformAdaptiveTextFormDialog text entry dialog for context platform
 
@@ -80,9 +81,7 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
     this.actionRoute,
     this.actionIcon,
     required this.body,
-  }) : super(
-          key: key,
-        );
+  }) : super(key: key);
 
   final TargetPlatform platform;
   final bool isPoppable;
@@ -134,6 +133,34 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
   }
 }
 
+// Set scroll behavior appropriate to platform
+class PlatformAdaptiveScrollBehavior extends ScrollBehavior {
+  const PlatformAdaptiveScrollBehavior(
+    this.platform,
+  );
+
+  final TargetPlatform platform;
+
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    return platform == TargetPlatform.iOS
+        ? const BouncingScrollPhysics()
+        : const ClampingScrollPhysics();
+  }
+
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return platform == TargetPlatform.iOS
+        ? child
+        // Force stretch overscroll until Material 3 is fully implemented
+        : StretchingOverscrollIndicator(
+            axisDirection: details.direction,
+            child: child,
+          );
+  }
+}
+
 // Alert dialog that is Material on Android and Cupertino on iOS
 class PlatformAdaptiveDialog extends StatelessWidget {
   PlatformAdaptiveDialog({
@@ -143,9 +170,7 @@ class PlatformAdaptiveDialog extends StatelessWidget {
     required this.content,
     required this.buttonTextTrue,
     required this.buttonTextFalse,
-  }) : super(
-          key: key,
-        );
+  }) : super(key: key);
 
   final TargetPlatform platform;
   final Widget title;

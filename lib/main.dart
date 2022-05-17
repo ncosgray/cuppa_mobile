@@ -54,10 +54,13 @@ class CuppaApp extends StatelessWidget {
                   deviceWidth = MediaQuery.of(context).size.width;
                   deviceHeight = MediaQuery.of(context).size.height;
 
-                  // Set scale factor
                   return MediaQuery(
-                    child: child!,
+                    // Set scale factor
                     data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    // Set default scroll behavior
+                    child: ScrollConfiguration(
+                        behavior: PlatformAdaptiveScrollBehavior(appPlatform),
+                        child: child!),
                   );
                 },
                 title: appName,
