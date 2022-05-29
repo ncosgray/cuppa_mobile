@@ -149,15 +149,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                 // Disable adding teas if there are maximum teas
                                 Prefs.teaList.length < teasMaxCount
                                     ? () {
-                                        // Add a blank tea
-                                        Prefs.teaList.add(Tea(
-                                            name: getNextDefaultTeaName(),
-                                            brewTime: 240,
-                                            brewTemp:
-                                                Prefs.useCelsius ? 100 : 212,
-                                            color: 0,
-                                            isFavorite: false,
-                                            isActive: false));
+                                        // Add a new blank tea
+                                        Prefs.addNewTea();
                                         provider.update();
                                       }
                                     : null,

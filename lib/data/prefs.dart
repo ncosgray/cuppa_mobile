@@ -198,6 +198,28 @@ abstract class Prefs {
     setQuickActions();
   }
 
+  // Add a new blank tea
+  static void addNewTea() {
+    // Create a unique blank tea name
+    String nextDefaultTeaName;
+    int nextNumber = 1;
+    do {
+      nextDefaultTeaName = AppLocalizations.translate('new_tea_default_name') +
+          ' ' +
+          nextNumber.toString();
+      nextNumber++;
+    } while (teaList.indexWhere((tea) => tea.name == nextDefaultTeaName) >= 0);
+
+    // Add a tea using defaults
+    teaList.add(Tea(
+        name: nextDefaultTeaName,
+        brewTime: 240,
+        brewTemp: useCelsius ? 100 : 212,
+        color: 0,
+        isFavorite: false,
+        isActive: false));
+  }
+
   // Add quick action shortcuts
   static void setQuickActions() {
     quickActions.clearShortcutItems();

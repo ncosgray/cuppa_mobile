@@ -12,9 +12,6 @@
 
 // Cuppa helper functions
 
-import 'package:cuppa_mobile/data/localization.dart';
-import 'package:cuppa_mobile/data/prefs.dart';
-
 // Format brew temperature as number with units
 String formatTemp(i) {
   // Infer C or F based on temp range
@@ -32,18 +29,4 @@ String formatTimer(s) {
   String secsString = secs.toString();
   if (secs < 10) secsString = '0' + secsString;
   return mins.toString() + ':' + secsString;
-}
-
-// Create a unique default tea name
-String getNextDefaultTeaName() {
-  // Build the name string
-  String nextName;
-  int nextNumber = 1;
-  do {
-    nextName = AppLocalizations.translate('new_tea_default_name') +
-        ' ' +
-        nextNumber.toString();
-    nextNumber++;
-  } while (Prefs.teaList.indexWhere((tea) => tea.name == nextName) >= 0);
-  return nextName;
 }
