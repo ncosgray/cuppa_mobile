@@ -115,7 +115,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                             ),
                             onDismissed: (direction) {
                               // Delete this from the tea list
-                              Prefs.teaList.remove(tea);
+                              Prefs.teaList
+                                  .removeWhere((oldTea) => oldTea.id == tea.id);
                               provider.update();
                             },
                             // Dismissible delete warning background
