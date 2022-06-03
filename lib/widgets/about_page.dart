@@ -29,17 +29,15 @@ class AboutWidget extends StatelessWidget {
   // Build About page
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: PlatformAdaptiveAppBar(
-          title: Text(AppLocalizations.translate('about_title')
-              .replaceAll('{{app_name}}', appName)),
-          platform: appPlatform,
-        ),
+    return PlatformAdaptiveScaffold(
+        platform: appPlatform,
+        isPoppable: true,
+        title: AppLocalizations.translate('about_title')
+            .replaceAll('{{app_name}}', appName),
         body: SafeArea(
             child: Container(
                 padding: const EdgeInsets.fromLTRB(12.0, 18.0, 12.0, 0.0),
                 child: CustomScrollView(
-                  physics: const BouncingScrollPhysics(),
                   slivers: [
                     SliverAppBar(
                       elevation: 0,

@@ -17,6 +17,7 @@
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'dart:convert';
@@ -114,10 +115,12 @@ abstract class Prefs {
     teaList.add(Tea(
         name: sharedPrefs.getString(prefTea1Name) ??
             AppLocalizations.translate('tea_name_black'),
-        brewTime: sharedPrefs.getInt(prefTea1BrewTime) ?? 240,
+        brewTime: sharedPrefs.getInt(prefTea1BrewTime) ??
+            Presets.presetList['tea_name_black']!.brewTime,
         brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ??
-            (isLocaleMetric ? 100 : 212),
-        color: sharedPrefs.getInt(prefTea1Color) ?? 0,
+            Presets.presetList['tea_name_black']!.brewTemp,
+        color: sharedPrefs.getInt(prefTea1Color) ??
+            Presets.presetList['tea_name_black']!.color,
         isFavorite: sharedPrefs.getBool(prefTea1IsFavorite) ?? true,
         isActive: sharedPrefs.getBool(prefTea1IsActive) ?? false));
 
@@ -126,13 +129,15 @@ abstract class Prefs {
         AppLocalizations.translate('tea_name_green');
     teaList.add(Tea(
         name: tea2Name,
-        brewTime: sharedPrefs.getInt(prefTea2BrewTime) ?? 150,
-        // Select default temp of 212 if name changed from Green tea
+        brewTime: sharedPrefs.getInt(prefTea2BrewTime) ??
+            Presets.presetList['tea_name_green']!.brewTime,
+        // Select default temp if name changed from Green tea
         brewTemp: sharedPrefs.getInt(prefTea2BrewTemp) ??
             (tea2Name != AppLocalizations.translate('tea_name_green')
-                ? (isLocaleMetric ? 100 : 212)
-                : (isLocaleMetric ? 80 : 180)),
-        color: sharedPrefs.getInt(prefTea2Color) ?? 3,
+                ? Presets.presetList['tea_name_black']!.brewTemp
+                : Presets.presetList['tea_name_green']!.brewTemp),
+        color: sharedPrefs.getInt(prefTea2Color) ??
+            Presets.presetList['tea_name_green']!.color,
         isFavorite: sharedPrefs.getBool(prefTea2IsFavorite) ?? true,
         isActive: sharedPrefs.getBool(prefTea2IsActive) ?? false));
 
@@ -140,10 +145,12 @@ abstract class Prefs {
     teaList.add(Tea(
         name: sharedPrefs.getString(prefTea3Name) ??
             AppLocalizations.translate('tea_name_herbal'),
-        brewTime: sharedPrefs.getInt(prefTea3BrewTime) ?? 300,
+        brewTime: sharedPrefs.getInt(prefTea3BrewTime) ??
+            Presets.presetList['tea_name_herbal']!.brewTime,
         brewTemp: sharedPrefs.getInt(prefTea3BrewTemp) ??
-            (isLocaleMetric ? 100 : 212),
-        color: sharedPrefs.getInt(prefTea3Color) ?? 2,
+            Presets.presetList['tea_name_herbal']!.brewTemp,
+        color: sharedPrefs.getInt(prefTea3Color) ??
+            Presets.presetList['tea_name_herbal']!.color,
         isFavorite: sharedPrefs.getBool(prefTea3IsFavorite) ?? true,
         isActive: sharedPrefs.getBool(prefTea3IsActive) ?? false));
 

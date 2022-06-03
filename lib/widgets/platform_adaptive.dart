@@ -12,7 +12,9 @@
 
 // Cuppa platform adaptive elements
 // - Light and dark themes for Android and iOS
-// - PlatformAdaptiveAppBar from https://github.com/efortuna/memechat
+// - Icons for Android and iOS
+// - PlatformAdaptiveScaffold creates a page scaffold for context platform
+// - PlatformAdaptiveScrollBehavior sets scroll behavior for context platform
 // - PlatformAdaptiveDialog chooses showDialog type by context platform
 // - PlatformAdaptiveTextFormDialog text entry dialog for context platform
 
@@ -56,20 +58,107 @@ ThemeData getPlatformAdaptiveDarkTheme(TargetPlatform platform) {
   return platform == TargetPlatform.iOS ? kIOSDarkTheme : kDarkTheme;
 }
 
-// App bar that uses iOS styling on iOS
-class PlatformAdaptiveAppBar extends AppBar {
-  PlatformAdaptiveAppBar({
+// Platform specific icons
+Icon getPlatformSettingsIcon(TargetPlatform platform) {
+  return platform == TargetPlatform.iOS
+      ? Icon(CupertinoIcons.settings_solid)
+      : Icon(Icons.settings);
+}
+
+Icon getPlatformAboutIcon(TargetPlatform platform) {
+  return platform == TargetPlatform.iOS
+      ? Icon(CupertinoIcons.question)
+      : Icon(Icons.help);
+}
+
+// Page scaffold with nav bar that is Material on Android and Cupertino on iOS
+class PlatformAdaptiveScaffold extends StatelessWidget {
+  PlatformAdaptiveScaffold({
     Key? key,
-    required TargetPlatform platform,
-    List<Widget>? actions,
-    required Widget title,
-    Widget? body,
-  }) : super(
-          key: key,
-          elevation: platform == TargetPlatform.iOS ? 0.0 : 4.0,
-          title: title,
-          actions: actions,
-        );
+    required this.platform,
+    required this.isPoppable,
+    required this.title,
+    this.actionRoute,
+    this.actionIcon,
+    required this.body,
+  }) : super(key: key);
+
+  final TargetPlatform platform;
+  final bool isPoppable;
+  final String title;
+  final String? actionRoute;
+  final Icon? actionIcon;
+  final Widget body;
+
+  @override
+  Widget build(BuildContext context) {
+    if (platform == TargetPlatform.iOS) {
+      return CupertinoPageScaffold(
+          navigationBar: CupertinoNavigationBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            leading: isPoppable
+                ? CupertinoNavigationBarBackButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                  )
+                : null,
+            middle: Text(title,
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.titleLarge!.color)),
+            trailing: actionIcon != null && actionRoute != null
+                ? CupertinoButton(
+                    child: actionIcon!,
+                    padding: EdgeInsets.zero,
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(actionRoute!);
+                    })
+                : null,
+          ),
+          child: Card(elevation: 0.0, color: Colors.transparent, child: body));
+    } else {
+      return Scaffold(
+          appBar: AppBar(
+              title: Text(title),
+              actions: actionIcon != null && actionRoute != null
+                  ? <Widget>[
+                      IconButton(
+                        icon: actionIcon!,
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(actionRoute!);
+                        },
+                      ),
+                    ]
+                  : null),
+          body: body);
+    }
+  }
+}
+
+// Set scroll behavior appropriate to platform
+class PlatformAdaptiveScrollBehavior extends ScrollBehavior {
+  const PlatformAdaptiveScrollBehavior(
+    this.platform,
+  );
+
+  final TargetPlatform platform;
+
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    return platform == TargetPlatform.iOS
+        ? const BouncingScrollPhysics()
+        : const ClampingScrollPhysics();
+  }
+
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return platform == TargetPlatform.iOS
+        ? child
+        // Force stretch overscroll until Material 3 is fully implemented
+        : StretchingOverscrollIndicator(
+            axisDirection: details.direction,
+            child: child,
+          );
+  }
 }
 
 // Alert dialog that is Material on Android and Cupertino on iOS
@@ -81,9 +170,7 @@ class PlatformAdaptiveDialog extends StatelessWidget {
     required this.content,
     required this.buttonTextTrue,
     required this.buttonTextFalse,
-  }) : super(
-          key: key,
-        );
+  }) : super(key: key);
 
   final TargetPlatform platform;
   final Widget title;

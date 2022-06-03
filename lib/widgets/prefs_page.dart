@@ -13,12 +13,13 @@
 // Cuppa Preferences page
 // - Build prefs interface and interactivity
 
-import 'package:cuppa_mobile/provider.dart';
 import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
+import 'package:cuppa_mobile/data/presets.dart';
+import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/about_page.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
@@ -38,25 +39,18 @@ class PrefsWidget extends StatefulWidget {
 class _PrefsWidgetState extends State<PrefsWidget> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: PlatformAdaptiveAppBar(
-            title: Text(AppLocalizations.translate('prefs_title')
-                .replaceAll('{{app_name}}', appName)),
-            platform: appPlatform,
-            // Button to navigate to About page
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.help),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(routeAbout);
-                },
-              ),
-            ]),
+    return PlatformAdaptiveScaffold(
+        platform: appPlatform,
+        isPoppable: true,
+        title: AppLocalizations.translate('prefs_title')
+            .replaceAll('{{app_name}}', appName),
+        // Button to navigate to About page
+        actionIcon: getPlatformAboutIcon(appPlatform),
+        actionRoute: routeAbout,
         body: SafeArea(
             child: Container(
           padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
           child: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
             slivers: [
               SliverAppBar(
                 elevation: 0,
@@ -122,7 +116,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                             ),
                             onDismissed: (direction) {
                               // Delete this from the tea list
-                              Prefs.teaList.remove(tea);
+                              Prefs.teaList
+                                  .removeWhere((oldTea) => oldTea.id == tea.id);
                               provider.update();
                             },
                             // Dismissible delete warning background
@@ -137,38 +132,37 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                   // Add tea button
                   Consumer<AppProvider>(
                       builder: (context, provider, child) => Card(
-                              child: ListTile(
-                                  title: TextButton.icon(
-                            label: Text(
-                                AppLocalizations.translate('add_tea_button')
-                                    .toUpperCase(),
-                                style: TextStyle(
-                                    fontSize: 14.0,
-                                    color: Prefs.teaList.length < teasMaxCount
-                                        ? Colors.blue
-                                        : Colors.grey)),
-                            icon: Icon(Icons.add_circle,
-                                color: Prefs.teaList.length < teasMaxCount
-                                    ? Colors.blue
-                                    : Colors.grey,
-                                size: 20.0),
-                            onPressed:
-                                // Disable adding teas if there are maximum teas
-                                Prefs.teaList.length < teasMaxCount
-                                    ? () {
-                                        // Add a blank tea
-                                        Prefs.teaList.add(Tea(
-                                            name: getNextDefaultTeaName(),
-                                            brewTime: 240,
-                                            brewTemp:
-                                                Prefs.useCelsius ? 100 : 212,
-                                            color: 0,
-                                            isFavorite: false,
-                                            isActive: false));
-                                        provider.update();
-                                      }
-                                    : null,
-                          )))),
+                          child: ListTile(
+                              title: TextButton.icon(
+                                  label: Text(
+                                      AppLocalizations.translate(
+                                              'add_tea_button')
+                                          .toUpperCase(),
+                                      style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Prefs.teaList.length <
+                                                  teasMaxCount
+                                              ? Colors.blue
+                                              : Colors.grey)),
+                                  icon: Icon(Icons.add_circle,
+                                      color: Prefs.teaList.length < teasMaxCount
+                                          ? Colors.blue
+                                          : Colors.grey,
+                                      size: 20.0),
+                                  onPressed:
+                                      // Disable adding teas if there are maximum teas
+                                      Prefs.teaList.length < teasMaxCount
+                                          ? () {
+                                              // Open add tea dialog
+                                              _displayAddTeaDialog(context)
+                                                  .then((result) {
+                                                if (result ?? false) {
+                                                  // Refresh tea list
+                                                  provider.update();
+                                                }
+                                              });
+                                            }
+                                          : null)))),
                   // Setting: show extra info on buttons
                   Align(
                       alignment: Alignment.topLeft,
@@ -652,6 +646,69 @@ Future<String?> _displayTeaNameDialog(
             },
             buttonTextCancel: AppLocalizations.translate('cancel_button'),
             buttonTextOK: AppLocalizations.translate('ok_button'));
+      });
+}
+
+// Display an add tea selection dialog box
+Future<bool?> _displayAddTeaDialog(BuildContext context) async {
+  return showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return PlatformAdaptiveDialog(
+            platform: appPlatform,
+            title: Text(AppLocalizations.translate('add_tea_button')),
+            content: SizedBox(
+                width: double.maxFinite,
+                height: deviceHeight * 0.6,
+                child: Card(
+                    margin: EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
+                    elevation: 0,
+                    child: Scrollbar(
+                      thumbVisibility: true,
+                      child: ListView.separated(
+                        padding: EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 12.0),
+                        shrinkWrap: true,
+                        itemCount: Presets.presetList.length,
+                        // Tea name button
+                        itemBuilder: (BuildContext context, int index) {
+                          String key = Presets.presetList.keys.elementAt(index);
+                          return ListTile(
+                              dense: true,
+                              leading: Container(
+                                  height: double.infinity,
+                                  child: Icon(
+                                    Presets.presetList[key]!.isCustom
+                                        ? Icons.add_circle
+                                        : Icons.timer_outlined,
+                                    color: Prefs.themeColor(
+                                        Presets.presetList[key]!.color,
+                                        context),
+                                    size: 20.0,
+                                  )),
+                              title: Text(
+                                AppLocalizations.translate(key),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0,
+                                    color: Prefs.themeColor(
+                                        Presets.presetList[key]!.color,
+                                        context)),
+                              ),
+                              onTap: () {
+                                // Add selected tea
+                                Prefs.teaList
+                                    .add(Presets.newTeaFromPreset(key: key));
+                                Navigator.of(context).pop(true);
+                              });
+                        },
+                        separatorBuilder: (context, index) {
+                          return Divider();
+                        },
+                      ),
+                    ))),
+            buttonTextTrue: AppLocalizations.translate('ok_button'),
+            buttonTextFalse: AppLocalizations.translate('cancel_button'));
       });
 }
 
