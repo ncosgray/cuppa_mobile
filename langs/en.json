@@ -36,5 +36,13 @@
   "help_translate_info": "Contribute via Weblate",
   "issues": "Issues",
   "issues_info": "Bug report or feature request",
-  "ok_button": "OK"
+  "ok_button": "OK",
+  "tea_name_assam": "Assam",
+  "tea_name_chamomile": "Chamomile",
+  "tea_name_darjeeling": "Darjeeling",
+  "tea_name_mint": "Mint Tea",
+  "tea_name_oolong": "Oolong",
+  "tea_name_puer": "Pu'er",
+  "tea_name_rooibos": "Rooibos",
+  "tea_name_white": "White Tea"
 }
