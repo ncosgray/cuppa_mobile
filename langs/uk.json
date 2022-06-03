@@ -31,10 +31,10 @@
     "about_title": "Про {{app_name}}",
     "version_history": "Історія версій",
     "source_code": "Вихідний код",
-    "source_code_info": "Репозиторій на GitHub",
+    "source_code_info": "Сховище на GitHub",
     "help_translate": "Допоможіть перекласти {{app_name}}",
     "help_translate_info": "Зробіть свій внесок через Weblate",
     "issues": "Проблеми",
-    "issues_info": "Звіт про помилку або запит на функцію",
+    "issues_info": "Звіт про помилку або запит функції",
     "ok_button": "OK"
 }
