@@ -1,0 +1,5 @@
+* Tea type presets make adding new teas even easier!
+* Use alert notifications to get your attention.
+  (Note: To change to alerts, you may need to reinstall.)
+* Usability and interface tweaks.
+* Language translation updates - contribute via Weblate!
