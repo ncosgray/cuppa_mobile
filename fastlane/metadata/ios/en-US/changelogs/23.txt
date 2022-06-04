@@ -1,0 +1,4 @@
+* Tea type presets make adding new teas even easier!
+* Better styling to match iOS look and feel.
+* Usability and interface tweaks.
+* Language translation updates - contribute via Weblate!
