@@ -688,7 +688,6 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
                     },
                   )),
             ),
-            buttonTextTrue: AppLocalizations.translate('ok_button'),
             buttonTextFalse: AppLocalizations.translate('cancel_button'));
       });
 }
@@ -751,7 +750,6 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                         },
                       ),
                     ))),
-            buttonTextTrue: AppLocalizations.translate('ok_button'),
             buttonTextFalse: AppLocalizations.translate('cancel_button'));
       });
 }

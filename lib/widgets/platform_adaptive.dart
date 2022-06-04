@@ -168,61 +168,73 @@ class PlatformAdaptiveDialog extends StatelessWidget {
     required this.platform,
     required this.title,
     required this.content,
-    required this.buttonTextTrue,
     required this.buttonTextFalse,
+    this.buttonTextTrue,
   }) : super(key: key);
 
   final TargetPlatform platform;
   final Widget title;
   final Widget content;
-  final String buttonTextTrue;
   final String buttonTextFalse;
+  final String? buttonTextTrue;
 
   @override
   Widget build(BuildContext context) {
     if (platform == TargetPlatform.iOS) {
+      // Define Cupertino action button(s)
+      List<Widget> actionList = [
+        CupertinoDialogAction(
+          child: Text(buttonTextFalse),
+          onPressed: () {
+            Navigator.of(context).pop(false);
+          },
+        ),
+      ];
+      if (buttonTextTrue != null) {
+        actionList.add(CupertinoDialogAction(
+          child: Text(buttonTextTrue!),
+          onPressed: () {
+            Navigator.of(context).pop(true);
+          },
+        ));
+      }
+
+      // Build the Cupertino dialog
       return CupertinoAlertDialog(
         title: title,
         content: content,
-        actions: <Widget>[
-          CupertinoDialogAction(
-            child: Text(buttonTextTrue),
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-          ),
-          CupertinoDialogAction(
-            child: Text(buttonTextFalse),
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-          ),
-        ],
+        actions: actionList,
       );
     } else {
+      // Define Material action button(s)
+      List<Widget> actionList = [
+        TextButton(
+          child: Text(buttonTextFalse),
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop(false);
+          },
+        )
+      ];
+      if (buttonTextTrue != null) {
+        actionList.add(TextButton(
+          child: Text(buttonTextTrue!),
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop(true);
+          },
+        ));
+      }
+
+      // Build the Material dialog
       return AlertDialog(
         title: title,
         content: content,
-        actions: <Widget>[
-          TextButton(
-            child: Text(buttonTextTrue),
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-          ),
-          TextButton(
-            child: Text(buttonTextFalse),
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-          ),
-        ],
+        actions: actionList,
       );
     }
   }
