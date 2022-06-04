@@ -36,5 +36,13 @@
     "about_title": "À propos de {{app_name}}",
     "version_history": "Historique des versions",
     "source_code_info": "Dépôt sur GitHub",
-    "ok_button": "OK"
+    "ok_button": "OK",
+    "tea_name_chamomile": "Camomille",
+    "tea_name_rooibos": "Rooibos",
+    "tea_name_assam": "Assam",
+    "tea_name_darjeeling": "Darjeeling",
+    "tea_name_mint": "Thé à la menthe",
+    "tea_name_oolong": "Oolong",
+    "tea_name_puer": "Pu'er",
+    "tea_name_white": "Thé blanc"
 }
