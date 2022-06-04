@@ -36,5 +36,13 @@
     "teas_title": "Çaylar",
     "theme_dark": "Koyu",
     "prefs_language": "Uygulama dilini seç",
-    "ok_button": "Tamam"
+    "ok_button": "Tamam",
+    "tea_name_mint": "Nane Çayı",
+    "tea_name_oolong": "Oolong",
+    "tea_name_assam": "Assam",
+    "tea_name_chamomile": "Papatya",
+    "tea_name_darjeeling": "Darjeeling",
+    "tea_name_puer": "Pu-erh",
+    "tea_name_rooibos": "Roybos",
+    "tea_name_white": "Beyaz Çay"
 }

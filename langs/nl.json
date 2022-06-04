@@ -36,5 +36,13 @@
     "version_history": "Versiegeschiedenis",
     "about_title": "Over {{app_name}}",
     "source_code": "Broncode",
-    "ok_button": "OK"
+    "ok_button": "OK",
+    "tea_name_oolong": "Oolong",
+    "tea_name_puer": "Pu'er",
+    "tea_name_rooibos": "Rooibos",
+    "tea_name_white": "Witte thee",
+    "tea_name_chamomile": "Kamille",
+    "tea_name_darjeeling": "Darjeeling",
+    "tea_name_assam": "Assam",
+    "tea_name_mint": "Munt"
 }
