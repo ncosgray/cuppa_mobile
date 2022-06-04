@@ -307,6 +307,7 @@ class _PlatformAdaptiveTextFormDialogState
       return CupertinoAlertDialog(
         // Text entry
         content: Card(
+            color: Colors.transparent,
             elevation: 0.0,
             child: Form(
                 key: _formKey,

@@ -706,6 +706,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                 height: deviceHeight * 0.6,
                 child: Card(
                     margin: EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
+                    color: Colors.transparent,
                     elevation: 0,
                     child: Scrollbar(
                       thumbVisibility: true,
