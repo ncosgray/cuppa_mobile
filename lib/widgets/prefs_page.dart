@@ -383,45 +383,35 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
       horizontalTitleGap: 4.0,
       // Tea color selection
       leading: Consumer<AppProvider>(
-          builder: (context, provider, child) => PopupMenuButton(
-                // Color icon
-                itemBuilder: (BuildContext context) {
-                  return Prefs.teaColors.keys.map((int value) {
-                    return PopupMenuItem(
-                      value: value,
-                      child: Icon(
+          builder: (context, provider, child) => InkWell(
+              // Color icon
+              child: SizedBox(
+                  height: double.infinity,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
                         Icons.timer_outlined,
-                        color: Prefs.themeColor(value, context),
+                        color: tea.getThemeColor(context),
                         size: 42.0,
                       ),
-                    );
-                  }).toList();
-                },
-                // Color dropdown
-                child: SizedBox(
-                    height: double.infinity,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.timer_outlined,
-                          color: tea.getThemeColor(context),
-                          size: 42.0,
-                        ),
-                        Icon(
-                          Icons.arrow_drop_down,
-                          size: 24.0,
-                          color: Colors.grey,
-                        ),
-                      ],
-                    )),
-                // Save selected color to prefs
-                onSelected: (int newValue) {
-                  tea.color = newValue;
-                  provider.update();
-                },
-              )),
+                      Icon(
+                        Icons.arrow_drop_down,
+                        size: 24.0,
+                        color: Colors.grey,
+                      ),
+                    ],
+                  )),
+              onTap: () {
+                // Open tea color dialog
+                _displayColorDialog(tea, context).then((result) {
+                  if (result ?? false) {
+                    // Refresh tea list
+                    provider.update();
+                  }
+                });
+              })),
       title: Column(
         children: [
           Container(
@@ -646,6 +636,60 @@ Future<String?> _displayTeaNameDialog(
             },
             buttonTextCancel: AppLocalizations.translate('cancel_button'),
             buttonTextOK: AppLocalizations.translate('ok_button'));
+      });
+}
+
+// Display a tea color selection dialog box
+Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
+  return showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return PlatformAdaptiveDialog(
+            platform: appPlatform,
+            title: Container(),
+            content: SizedBox(
+              width: double.maxFinite,
+              height: Prefs.teaColors.length * 22,
+              child: Card(
+                  margin: EdgeInsets.all(0.0),
+                  color: Colors.transparent,
+                  elevation: 0,
+                  child: GridView.builder(
+                    padding: EdgeInsets.all(0.0),
+                    shrinkWrap: true,
+                    itemCount: Prefs.teaColors.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 120.0,
+                            childAspectRatio: 3 / 2,
+                            crossAxisSpacing: 12.0,
+                            mainAxisSpacing: 12.0),
+                    // Tea color button
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                          dense: true,
+                          title: Container(
+                              constraints: BoxConstraints.expand(),
+                              color: Prefs.themeColor(index, context),
+                              child: index == tea.color
+                                  ? Container(
+                                      // Timer icon indicates current color
+                                      child: Icon(
+                                      Icons.timer_outlined,
+                                      color: Colors.white,
+                                    ))
+                                  : Container()),
+                          onTap: () {
+                            // Set selected color
+                            tea.color = index;
+                            Navigator.of(context).pop(true);
+                          });
+                    },
+                  )),
+            ),
+            buttonTextTrue: AppLocalizations.translate('ok_button'),
+            buttonTextFalse: AppLocalizations.translate('cancel_button'));
       });
 }
 
