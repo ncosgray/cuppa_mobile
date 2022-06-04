@@ -36,5 +36,13 @@
     "version_history": "היסטוריית גרסאות",
     "about_license": "רישיון קוד פתוח",
     "source_code": "קוד מקור",
-    "ok_button": "אישור"
+    "ok_button": "אישור",
+    "tea_name_assam": "אסאם",
+    "tea_name_chamomile": "קמומיל",
+    "tea_name_darjeeling": "דרג׳ילינג",
+    "tea_name_mint": "תה נענע",
+    "tea_name_oolong": "אולונג",
+    "tea_name_puer": "תה פו-אר",
+    "tea_name_rooibos": "רויבוס",
+    "tea_name_white": "תה לבן"
 }
