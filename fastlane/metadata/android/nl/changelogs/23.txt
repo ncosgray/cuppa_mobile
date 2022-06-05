@@ -1,0 +1,5 @@
+* [NIEUW] Lijst met theesoorten om het toevoegen te vereenvoudigen;
+* [NIEUW] Alarmmeldingen als je aandacht vereist is;
+  (Let op: om dit aan te passen, dien je de app mogelijk opnieuw te installeren.)
+* [VERBETERD] Verbeterde vormgeving;
+* [VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!
