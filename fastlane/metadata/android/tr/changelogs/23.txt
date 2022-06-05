@@ -1,0 +1,5 @@
+* Çay türü ön ayarları yeni çaylar eklemeyi daha da kolaylaştırıyor!
+* Dikkatinizi çekmek için uyarı bildirimlerini kullanın.
+  (Not: Uyarılara geçmek için yeniden kurmanız gerekebilir).
+* Kullanılabilirlik ve arayüz iyileştirmeleri.
+* Dil çeviri güncellemeleri - Weblate ile katkıda bulunun!
