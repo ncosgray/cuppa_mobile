@@ -36,5 +36,7 @@
     "help_translate": "Помогите перевести {{app_name}}",
     "issues": "Проблемы",
     "issues_info": "Отчет об ошибке или запрос функции",
-    "ok_button": "ОК"
+    "ok_button": "ОК",
+    "tea_name_assam": "",
+    "tea_name_chamomile": "Ромашковый"
 }
