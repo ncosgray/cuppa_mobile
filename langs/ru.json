@@ -37,6 +37,12 @@
     "issues": "Проблемы",
     "issues_info": "Отчет об ошибке или запрос функции",
     "ok_button": "ОК",
-    "tea_name_assam": "",
-    "tea_name_chamomile": "Ромашковый"
+    "tea_name_assam": "Ассам",
+    "tea_name_chamomile": "Ромашковый",
+    "tea_name_mint": "Мятный чай",
+    "tea_name_puer": "Пуэр",
+    "tea_name_white": "Белый чай",
+    "tea_name_darjeeling": "Дарджилинг",
+    "tea_name_oolong": "Улун",
+    "tea_name_rooibos": "Роойбос"
 }
