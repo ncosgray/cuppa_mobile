@@ -36,5 +36,13 @@
     "about_license": "Avoimen lähdekoodin lisenssi",
     "about_title": "Tietoja {{app_name}}:sta",
     "version_history": "Versiohistoria",
-    "ok_button": "OK"
+    "ok_button": "OK",
+    "tea_name_assam": "Assam",
+    "tea_name_chamomile": "Kamomilla",
+    "tea_name_darjeeling": "Darjeeling",
+    "tea_name_mint": "Minttutee",
+    "tea_name_oolong": "Oolong",
+    "tea_name_puer": "Pu'er",
+    "tea_name_rooibos": "Rooibos",
+    "tea_name_white": "Valkoinen tee"
 }
