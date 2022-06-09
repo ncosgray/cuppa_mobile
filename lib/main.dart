@@ -104,7 +104,7 @@ class CuppaApp extends StatelessWidget {
                       }
                     }
                   }
-                  return Locale('en', '');
+                  return Locale(defaultLanguage, '');
                 })));
   }
 }

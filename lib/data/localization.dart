@@ -45,6 +45,7 @@ final Map<String, String> supportedLanguages = {
   'tr': 'Türkçe',
   'uk': 'Українська',
 };
+final String defaultLanguage = 'en';
 
 // Languages not supported by GlobalMaterialLocalizations
 final List<String> fallbackLanguages = supportedLanguages.keys
@@ -59,9 +60,11 @@ class AppLocalizations {
   // Localizations instance
   static AppLocalizations get instance => AppLocalizationsDelegate.instance!;
 
-  // Populate strings map from JSON files in langs folder
+  // Populate strings
   Map<String, String> _localizedStrings = new Map();
+  Map<String, String> _defaultStrings = new Map();
   Future<bool> load() async {
+    // Populate strings map from JSON file in langs folder
     String jsonString =
         await rootBundle.loadString('langs/${locale.languageCode}.json');
     Map<String, dynamic> jsonMap = json.decode(jsonString);
@@ -70,12 +73,22 @@ class AppLocalizations {
       return MapEntry(key, value.toString());
     });
 
+    // Populate default (English) strings map
+    String jsonDefaultString =
+        await rootBundle.loadString('langs/$defaultLanguage.json');
+    Map<String, dynamic> jsonDefaultMap = json.decode(jsonDefaultString);
+
+    _defaultStrings = jsonDefaultMap.map((key, value) {
+      return MapEntry(key, value.toString());
+    });
+
     return true;
   }
 
-  // Get translated string
+  // Get translated string (or use default string if unavailable)
   static String translate(String key) {
-    return AppLocalizations.instance._localizedStrings[key] ?? '';
+    return AppLocalizations.instance._localizedStrings[key] ??
+        AppLocalizations.instance._defaultStrings[key]!;
   }
 }
 
