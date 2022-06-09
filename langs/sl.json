@@ -36,5 +36,13 @@
     "help_translate": "Pomagajte prevesti {{app_name}}",
     "help_translate_info": "Prispevajte prek Weblate",
     "issues": "Težave",
-    "ok_button": "OK"
+    "ok_button": "OK",
+    "tea_name_assam": "Assam",
+    "tea_name_chamomile": "Kamilica",
+    "tea_name_oolong": "Oolong",
+    "tea_name_puer": "Pu'er",
+    "tea_name_rooibos": "Rooibos",
+    "tea_name_white": "Beli čaj",
+    "tea_name_darjeeling": "Darjeeling",
+    "tea_name_mint": "Metin čaj"
 }

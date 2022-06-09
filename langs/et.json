@@ -36,5 +36,13 @@
     "help_translate": "Abi tõlkida {{app_name}}",
     "help_translate_info": "Panustage Weblate'i kaudu",
     "issues_info": "Veaaruanne või funktsioonitaotlus",
-    "ok_button": "OK"
+    "ok_button": "OK",
+    "tea_name_assam": "Assam",
+    "tea_name_chamomile": "Kummel",
+    "tea_name_darjeeling": "Darjeeling",
+    "tea_name_mint": "Mündi tee",
+    "tea_name_oolong": "Oolong",
+    "tea_name_puer": "Pu'er",
+    "tea_name_rooibos": "Rooibos",
+    "tea_name_white": "Valge tee"
 }

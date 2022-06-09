@@ -36,5 +36,13 @@
     "help_translate_info": "Ranníocaíocht trí Weblate",
     "issues": "Saincheisteanna",
     "issues_info": "Tuairisc ar fhabht nó iarratas gné",
-    "ok_button": "OK"
+    "ok_button": "OK",
+    "tea_name_chamomile": "Camomile",
+    "tea_name_assam": "Assam",
+    "tea_name_darjeeling": "Darjeeling",
+    "tea_name_mint": "Tae Miontas",
+    "tea_name_oolong": "Oolong",
+    "tea_name_puer": "Pu'er",
+    "tea_name_rooibos": "Rooibos",
+    "tea_name_white": "Tae Bán"
 }

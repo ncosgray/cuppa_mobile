@@ -36,5 +36,13 @@
     "help_translate_info": "Зробіть свій внесок через Weblate",
     "issues": "Проблеми",
     "issues_info": "Звіт про помилку або запит функції",
-    "ok_button": "OK"
+    "ok_button": "OK",
+    "tea_name_oolong": "Улун",
+    "tea_name_puer": "Пуер",
+    "tea_name_rooibos": "Ройбуш",
+    "tea_name_white": "Білий чай",
+    "tea_name_assam": "Ассам",
+    "tea_name_chamomile": "Ромашка",
+    "tea_name_darjeeling": "Дарджілінг",
+    "tea_name_mint": "М'ятний чай"
 }
