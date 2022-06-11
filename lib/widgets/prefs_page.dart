@@ -221,7 +221,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     )),
                                 trailing:
                                     // App theme dropdown
-                                    DropdownButton<int>(
+                                    DropdownButton<AppTheme>(
                                   value: Prefs.appTheme,
                                   icon: Icon(
                                     Icons.arrow_drop_down,
@@ -229,13 +229,12 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     color: Colors.grey,
                                   ),
                                   underline: SizedBox(),
-                                  items: Prefs.appThemeNames.keys
-                                      .map<DropdownMenuItem<int>>((int value) {
-                                    return DropdownMenuItem<int>(
+                                  items: AppTheme.values
+                                      .map<DropdownMenuItem<AppTheme>>(
+                                          (AppTheme value) {
+                                    return DropdownMenuItem<AppTheme>(
                                       value: value,
-                                      child: Text(
-                                          AppLocalizations.translate(
-                                              Prefs.appThemeNames[value]!),
+                                      child: Text(value.localizedName,
                                           style: TextStyle(
                                               fontSize: 16.0,
                                               fontWeight:
@@ -245,7 +244,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                     );
                                   }).toList(),
                                   // Save appTheme to prefs
-                                  onChanged: (int? newValue) {
+                                  onChanged: (AppTheme? newValue) {
                                     if (newValue != null) {
                                       Prefs.appTheme = newValue;
                                       provider.update();
@@ -650,7 +649,7 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
             title: Container(),
             content: SizedBox(
               width: double.maxFinite,
-              height: Prefs.teaColors.length * 22,
+              height: TeaColor.values.length * 22,
               child: Card(
                   margin: EdgeInsets.all(0.0),
                   color: Colors.transparent,
@@ -658,7 +657,7 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
                   child: GridView.builder(
                     padding: EdgeInsets.all(0.0),
                     shrinkWrap: true,
-                    itemCount: Prefs.teaColors.length,
+                    itemCount: TeaColor.values.length,
                     gridDelegate:
                         const SliverGridDelegateWithMaxCrossAxisExtent(
                             maxCrossAxisExtent: 120.0,
@@ -667,12 +666,13 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
                             mainAxisSpacing: 12.0),
                     // Tea color button
                     itemBuilder: (BuildContext context, int index) {
+                      TeaColor value = TeaColor.values[index];
                       return ListTile(
                           dense: true,
                           title: Container(
                               constraints: BoxConstraints.expand(),
-                              color: Prefs.themeColor(index, context),
-                              child: index == tea.color
+                              color: value.getThemeColor(context),
+                              child: value == tea.color
                                   ? Container(
                                       // Timer icon indicates current color
                                       child: Icon(
@@ -682,7 +682,7 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
                                   : Container()),
                           onTap: () {
                             // Set selected color
-                            tea.color = index;
+                            tea.color = value;
                             Navigator.of(context).pop(true);
                           });
                     },
@@ -717,17 +717,16 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                         // Tea name button
                         itemBuilder: (BuildContext context, int index) {
                           String key = Presets.presetList.keys.elementAt(index);
+                          Preset preset = Presets.presetList[key]!;
                           return ListTile(
                               dense: true,
                               leading: Container(
                                   height: double.infinity,
                                   child: Icon(
-                                    Presets.presetList[key]!.isCustom
+                                    preset.isCustom
                                         ? Icons.add_circle
                                         : Icons.timer_outlined,
-                                    color: Prefs.themeColor(
-                                        Presets.presetList[key]!.color,
-                                        context),
+                                    color: preset.getThemeColor(context),
                                     size: 20.0,
                                   )),
                               title: Text(
@@ -735,9 +734,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18.0,
-                                    color: Prefs.themeColor(
-                                        Presets.presetList[key]!.color,
-                                        context)),
+                                    color: preset.getThemeColor(context)),
                               ),
                               onTap: () {
                                 // Add selected tea

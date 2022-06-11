@@ -17,13 +17,15 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
+import 'package:flutter/material.dart';
+
 // Preset definition
 class Preset {
   // Fields
   int brewTime;
   int brewTempDegreesC;
   int brewTempDegreesF;
-  int color;
+  TeaColor color;
   bool isCustom;
 
   // Constructor
@@ -38,6 +40,11 @@ class Preset {
   get brewTemp {
     return (Prefs.useCelsius ? this.brewTempDegreesC : this.brewTempDegreesF);
   }
+
+  // Color getter
+  Color getThemeColor(context) {
+    return this.color.getThemeColor(context);
+  }
 }
 
 // Preset tea types
@@ -49,41 +56,74 @@ abstract class Presets {
         brewTime: 240,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
-        color: 0,
+        color: TeaColor.black,
         isCustom: true),
     // Black tea
     'tea_name_black': Preset(
-        brewTime: 240, brewTempDegreesC: 100, brewTempDegreesF: 212, color: 0),
+        brewTime: 240,
+        brewTempDegreesC: 100,
+        brewTempDegreesF: 212,
+        color: TeaColor.black),
     // Assam
     'tea_name_assam': Preset(
-        brewTime: 210, brewTempDegreesC: 95, brewTempDegreesF: 200, color: 0),
+        brewTime: 210,
+        brewTempDegreesC: 95,
+        brewTempDegreesF: 200,
+        color: TeaColor.black),
     // Darjeeling
     'tea_name_darjeeling': Preset(
-        brewTime: 270, brewTempDegreesC: 95, brewTempDegreesF: 200, color: 0),
+        brewTime: 270,
+        brewTempDegreesC: 95,
+        brewTempDegreesF: 200,
+        color: TeaColor.black),
     // Green tea
     'tea_name_green': Preset(
-        brewTime: 150, brewTempDegreesC: 80, brewTempDegreesF: 180, color: 3),
+        brewTime: 150,
+        brewTempDegreesC: 80,
+        brewTempDegreesF: 180,
+        color: TeaColor.green),
     // White tea
     'tea_name_white': Preset(
-        brewTime: 300, brewTempDegreesC: 80, brewTempDegreesF: 180, color: 3),
+        brewTime: 300,
+        brewTempDegreesC: 80,
+        brewTempDegreesF: 180,
+        color: TeaColor.green),
     // Herbal tea
     'tea_name_herbal': Preset(
-        brewTime: 300, brewTempDegreesC: 100, brewTempDegreesF: 212, color: 2),
+        brewTime: 300,
+        brewTempDegreesC: 100,
+        brewTempDegreesF: 212,
+        color: TeaColor.orange),
     // Chamomile
     'tea_name_chamomile': Preset(
-        brewTime: 300, brewTempDegreesC: 100, brewTempDegreesF: 212, color: 2),
+        brewTime: 300,
+        brewTempDegreesC: 100,
+        brewTempDegreesF: 212,
+        color: TeaColor.orange),
     // Mint tea
     'tea_name_mint': Preset(
-        brewTime: 240, brewTempDegreesC: 100, brewTempDegreesF: 212, color: 2),
+        brewTime: 240,
+        brewTempDegreesC: 100,
+        brewTempDegreesF: 212,
+        color: TeaColor.orange),
     // Rooibos
     'tea_name_rooibos': Preset(
-        brewTime: 180, brewTempDegreesC: 100, brewTempDegreesF: 212, color: 2),
+        brewTime: 180,
+        brewTempDegreesC: 100,
+        brewTempDegreesF: 212,
+        color: TeaColor.orange),
     // Oolong
     'tea_name_oolong': Preset(
-        brewTime: 240, brewTempDegreesC: 100, brewTempDegreesF: 212, color: 6),
+        brewTime: 240,
+        brewTempDegreesC: 100,
+        brewTempDegreesF: 212,
+        color: TeaColor.brown),
     // Pu'er
     'tea_name_puer': Preset(
-        brewTime: 270, brewTempDegreesC: 95, brewTempDegreesF: 200, color: 6),
+        brewTime: 270,
+        brewTempDegreesC: 95,
+        brewTempDegreesF: 200,
+        color: TeaColor.brown),
   };
 
   // Create a new tea from a preset tea type

@@ -13,8 +13,8 @@
 // Cuppa data
 // - Tea definition class
 
+import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/helpers.dart';
-import 'package:cuppa_mobile/data/prefs.dart';
 
 import 'package:flutter/material.dart';
 
@@ -27,7 +27,7 @@ class Tea {
   late String name;
   late int brewTime;
   late int brewTemp;
-  late int color;
+  late TeaColor color;
   late bool isFavorite;
   late bool isActive;
 
@@ -36,14 +36,16 @@ class Tea {
       {required String name,
       required int brewTime,
       required int brewTemp,
-      required int color,
+      TeaColor? color,
+      int colorValue = 0,
       required bool isFavorite,
       required bool isActive}) {
-    id = UniqueKey();
+    this.id = UniqueKey();
     this.name = name;
     this.brewTime = brewTime;
     this.brewTemp = brewTemp;
-    this.color = color;
+    // Prefer TeaColor or lookup from value if color not given
+    this.color = color ?? TeaColor.values[colorValue];
     this.isFavorite = isFavorite;
     this.isActive = isActive;
   }
@@ -59,12 +61,12 @@ class Tea {
 
   // Color getter
   Color getThemeColor(context) {
-    return Prefs.themeColor(this.color, context);
+    return this.color.getThemeColor(context);
   }
 
   // Shortcut icon name based on color
   get shortcutIcon {
-    return Prefs.shortcutIcons[this.color];
+    return this.color.shortcutIcon;
   }
 
   // Brew time getters
@@ -91,7 +93,7 @@ class Tea {
         name: json['name'] ?? '',
         brewTime: json['brewTime'] ?? 0,
         brewTemp: json['brewTemp'] ?? 0,
-        color: json['color'] ?? 0,
+        colorValue: json['color'] ?? 0,
         isFavorite: json['isFavorite'] ?? false,
         isActive: json['isActive'] ?? false);
   }
@@ -101,7 +103,7 @@ class Tea {
       'name': this.name,
       'brewTime': this.brewTime,
       'brewTemp': this.brewTemp,
-      'color': this.color,
+      'color': this.color.value,
       'isFavorite': this.isFavorite,
       'isActive': this.isActive,
     };
@@ -127,4 +129,89 @@ class Tea {
       this.color.hashCode ^
       this.isFavorite.hashCode ^
       this.isActive.hashCode;
+}
+
+// Tea colors
+enum TeaColor {
+  black(0),
+  red(1),
+  orange(2),
+  green(3),
+  blue(4),
+  purple(5),
+  brown(6),
+  pink(7),
+  amber(8),
+  teal(9),
+  cyan(10),
+  lavender(11);
+
+  final int value;
+
+  const TeaColor(this.value);
+
+  // Themed color map
+  Color getThemeColor(context) {
+    switch (value) {
+      case 1:
+        return Colors.red[600]!;
+      case 2:
+        return Colors.orange;
+      case 3:
+        return Colors.green;
+      case 4:
+        return Colors.blue;
+      case 5:
+        return Colors.purple[400]!;
+      case 6:
+        return Colors.brown[400]!;
+      case 7:
+        return Colors.pink[200]!;
+      case 8:
+        return Colors.amber;
+      case 9:
+        return Colors.teal;
+      case 10:
+        return Colors.cyan[400]!;
+      case 11:
+        return Colors.deepPurple[200]!;
+      default:
+        // "Black" substitutes appropriate color for current theme
+        return Theme.of(context).textTheme.button!.color!;
+    }
+  }
+
+  // Quick action shortcut icons
+  get shortcutIcon {
+    if (appPlatform == TargetPlatform.iOS) {
+      return 'QuickAction';
+    } else {
+      switch (value) {
+        case 1:
+          return 'shortcut_red';
+        case 2:
+          return 'shortcut_orange';
+        case 3:
+          return 'shortcut_green';
+        case 4:
+          return 'shortcut_blue';
+        case 5:
+          return 'shortcut_purple';
+        case 6:
+          return 'shortcut_brown';
+        case 7:
+          return 'shortcut_pink';
+        case 8:
+          return 'shortcut_amber';
+        case 9:
+          return 'shortcut_teal';
+        case 10:
+          return 'shortcut_cyan';
+        case 11:
+          return 'shortcut_lavender';
+        default:
+          return 'shortcut_black';
+      }
+    }
+  }
 }
