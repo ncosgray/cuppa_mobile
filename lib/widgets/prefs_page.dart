@@ -712,8 +712,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                         itemCount: Presets.presetList.length,
                         // Tea name button
                         itemBuilder: (BuildContext context, int index) {
-                          String key = Presets.presetList.keys.elementAt(index);
-                          Preset preset = Presets.presetList[key]!;
+                          Preset preset = Presets.presetList[index];
                           return ListTile(
                               dense: true,
                               leading: Container(
@@ -726,7 +725,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                                     size: 20.0,
                                   )),
                               title: Text(
-                                AppLocalizations.translate(key),
+                                preset.localizedName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18.0,
@@ -734,8 +733,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                               ),
                               onTap: () {
                                 // Add selected tea
-                                Prefs.teaList
-                                    .add(Presets.newTeaFromPreset(key: key));
+                                Prefs.teaList.add(preset.createTea());
                                 Navigator.of(context).pop(true);
                               });
                         },

@@ -60,43 +60,43 @@ abstract class Prefs {
     // Default: Black tea
     teaList.add(Tea(
         name: sharedPrefs.getString(prefTea1Name) ??
-            AppLocalizations.translate('tea_name_black'),
+            Presets.getPreset('tea_name_black').localizedName,
         brewTime: sharedPrefs.getInt(prefTea1BrewTime) ??
-            Presets.presetList['tea_name_black']!.brewTime,
+            Presets.getPreset('tea_name_black').brewTime,
         brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ??
-            Presets.presetList['tea_name_black']!.brewTemp,
+            Presets.getPreset('tea_name_black').brewTemp,
         colorValue: sharedPrefs.getInt(prefTea1Color) ??
-            Presets.presetList['tea_name_black']!.color.value,
+            Presets.getPreset('tea_name_black').color.value,
         isFavorite: sharedPrefs.getBool(prefTea1IsFavorite) ?? true,
         isActive: sharedPrefs.getBool(prefTea1IsActive) ?? false));
 
     // Default: Green tea
     String tea2Name = sharedPrefs.getString(prefTea2Name) ??
-        AppLocalizations.translate('tea_name_green');
+        Presets.getPreset('tea_name_green').localizedName;
     teaList.add(Tea(
         name: tea2Name,
         brewTime: sharedPrefs.getInt(prefTea2BrewTime) ??
-            Presets.presetList['tea_name_green']!.brewTime,
+            Presets.getPreset('tea_name_green').brewTime,
         // Select default temp if name changed from Green tea
         brewTemp: sharedPrefs.getInt(prefTea2BrewTemp) ??
-            (tea2Name != AppLocalizations.translate('tea_name_green')
-                ? Presets.presetList['tea_name_black']!.brewTemp
-                : Presets.presetList['tea_name_green']!.brewTemp),
+            (tea2Name != Presets.getPreset('tea_name_green').localizedName
+                ? Presets.getPreset('tea_name_black').brewTemp
+                : Presets.getPreset('tea_name_green').brewTemp),
         colorValue: sharedPrefs.getInt(prefTea2Color) ??
-            Presets.presetList['tea_name_green']!.color.value,
+            Presets.getPreset('tea_name_green').color.value,
         isFavorite: sharedPrefs.getBool(prefTea2IsFavorite) ?? true,
         isActive: sharedPrefs.getBool(prefTea2IsActive) ?? false));
 
     // Default: Herbal tea
     teaList.add(Tea(
         name: sharedPrefs.getString(prefTea3Name) ??
-            AppLocalizations.translate('tea_name_herbal'),
+            Presets.getPreset('tea_name_herbal').localizedName,
         brewTime: sharedPrefs.getInt(prefTea3BrewTime) ??
-            Presets.presetList['tea_name_herbal']!.brewTime,
+            Presets.getPreset('tea_name_herbal').brewTime,
         brewTemp: sharedPrefs.getInt(prefTea3BrewTemp) ??
-            Presets.presetList['tea_name_herbal']!.brewTemp,
+            Presets.getPreset('tea_name_herbal').brewTemp,
         colorValue: sharedPrefs.getInt(prefTea3Color) ??
-            Presets.presetList['tea_name_herbal']!.color.value,
+            Presets.getPreset('tea_name_herbal').color.value,
         isFavorite: sharedPrefs.getBool(prefTea3IsFavorite) ?? true,
         isActive: sharedPrefs.getBool(prefTea3IsActive) ?? false));
 

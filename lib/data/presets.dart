@@ -22,6 +22,7 @@ import 'package:flutter/material.dart';
 // Preset definition
 class Preset {
   // Fields
+  String key;
   int brewTime;
   int brewTempDegreesC;
   int brewTempDegreesF;
@@ -30,11 +31,17 @@ class Preset {
 
   // Constructor
   Preset(
-      {required this.brewTime,
+      {required this.key,
+      required this.brewTime,
       required this.brewTempDegreesC,
       required this.brewTempDegreesF,
       required this.color,
       this.isCustom = false});
+
+  // Localized tea name
+  get localizedName {
+    return AppLocalizations.translate(this.key);
+  }
 
   // Brew temperature based on unit preference
   get brewTemp {
@@ -45,111 +52,113 @@ class Preset {
   Color getThemeColor(context) {
     return this.color.getThemeColor(context);
   }
+
+  // Create a new tea from this preset
+  Tea createTea({bool isFavorite = false}) {
+    return Tea(
+        name: this.localizedName,
+        brewTime: this.brewTime,
+        brewTemp: this.brewTemp,
+        color: this.color,
+        isFavorite: isFavorite,
+        isActive: false);
+  }
 }
 
 // Preset tea types
 abstract class Presets {
   // Tea types
-  static Map<String, Preset> presetList = {
+  static List<Preset> presetList = [
     // Custom blank tea
-    'new_tea_default_name': Preset(
+    Preset(
+        key: 'new_tea_default_name',
         brewTime: 240,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
         color: TeaColor.black,
         isCustom: true),
     // Black tea
-    'tea_name_black': Preset(
+    Preset(
+        key: 'tea_name_black',
         brewTime: 240,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
         color: TeaColor.black),
     // Assam
-    'tea_name_assam': Preset(
+    Preset(
+        key: 'tea_name_assam',
         brewTime: 210,
         brewTempDegreesC: 95,
         brewTempDegreesF: 200,
         color: TeaColor.black),
     // Darjeeling
-    'tea_name_darjeeling': Preset(
+    Preset(
+        key: 'tea_name_darjeeling',
         brewTime: 270,
         brewTempDegreesC: 95,
         brewTempDegreesF: 200,
         color: TeaColor.black),
     // Green tea
-    'tea_name_green': Preset(
+    Preset(
+        key: 'tea_name_green',
         brewTime: 150,
         brewTempDegreesC: 80,
         brewTempDegreesF: 180,
         color: TeaColor.green),
     // White tea
-    'tea_name_white': Preset(
+    Preset(
+        key: 'tea_name_white',
         brewTime: 300,
         brewTempDegreesC: 80,
         brewTempDegreesF: 180,
         color: TeaColor.green),
     // Herbal tea
-    'tea_name_herbal': Preset(
+    Preset(
+        key: 'tea_name_herbal',
         brewTime: 300,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
         color: TeaColor.orange),
     // Chamomile
-    'tea_name_chamomile': Preset(
+    Preset(
+        key: 'tea_name_chamomile',
         brewTime: 300,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
         color: TeaColor.orange),
     // Mint tea
-    'tea_name_mint': Preset(
+    Preset(
+        key: 'tea_name_mint',
         brewTime: 240,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
         color: TeaColor.orange),
     // Rooibos
-    'tea_name_rooibos': Preset(
+    Preset(
+        key: 'tea_name_rooibos',
         brewTime: 180,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
         color: TeaColor.orange),
     // Oolong
-    'tea_name_oolong': Preset(
+    Preset(
+        key: 'tea_name_oolong',
         brewTime: 240,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
         color: TeaColor.brown),
     // Pu'er
-    'tea_name_puer': Preset(
+    Preset(
+        key: 'tea_name_puer',
         brewTime: 270,
         brewTempDegreesC: 95,
         brewTempDegreesF: 200,
         color: TeaColor.brown),
-  };
+  ];
 
-  // Create a new tea from a preset tea type
-  static Tea newTeaFromPreset({required String key, bool isFavorite = false}) {
-    String teaName;
-
-    if (presetList[key]!.isCustom) {
-      // Choose a unique blank tea name for custom tea
-      int nextNumber = 1;
-      do {
-        teaName = AppLocalizations.translate('new_tea_default_name') +
-            ' ' +
-            nextNumber.toString();
-        nextNumber++;
-      } while (Prefs.teaList.indexWhere((tea) => tea.name == teaName) >= 0);
-    } else {
-      // Get translated tea name
-      teaName = AppLocalizations.translate(key);
-    }
-
-    return Tea(
-        name: teaName,
-        brewTime: presetList[key]!.brewTime,
-        brewTemp: presetList[key]!.brewTemp,
-        color: presetList[key]!.color,
-        isFavorite: isFavorite,
-        isActive: false);
+  // Get preset from key
+  static Preset getPreset(String key) {
+    return presetList.firstWhere((preset) => preset.key == key,
+        orElse: () => presetList[0]);
   }
 }
