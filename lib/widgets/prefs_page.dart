@@ -426,23 +426,19 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                         iconSize: 20.0,
                         icon: tea.isFavorite
                             ? Icon(Icons.star, color: Colors.amber)
-                            : Icon(Icons.star_border_outlined,
-                                color: Colors.grey),
-                        onPressed: () {
-                          // Toggle favorite status off
-                          if (tea.isFavorite) {
-                            tea.isFavorite = false;
-                            provider.update();
-                          }
-                          // Toggle favorite status on if max not reached
-                          else if (Prefs.teaList
-                                  .where((tea) => tea.isFavorite == true)
-                                  .length <
-                              favoritesMaxCount) {
-                            tea.isFavorite = true;
-                            provider.update();
-                          }
-                        })),
+                            : Prefs.favoritesList().length < favoritesMaxCount
+                                ? Icon(Icons.star, color: Colors.grey)
+                                : Icon(Icons.star_border_outlined,
+                                    color: Colors.grey),
+                        // Toggle favorite status if enabled or max not reached
+                        onPressed: tea.isFavorite ||
+                                Prefs.favoritesList().length < favoritesMaxCount
+                            ? () {
+                                // Toggle favorite status
+                                tea.isFavorite = !tea.isFavorite;
+                                provider.update();
+                              }
+                            : null)),
                 // Tea name with edit icon
                 Align(
                     alignment: Alignment.centerLeft,

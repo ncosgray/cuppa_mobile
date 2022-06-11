@@ -154,10 +154,8 @@ abstract class Prefs {
   // Add quick action shortcuts
   static void setQuickActions() {
     quickActions.clearShortcutItems();
-    quickActions.setShortcutItems(teaList
-        .where((tea) => tea.isFavorite == true)
-        .take(favoritesMaxCount)
-        .map<ShortcutItem>((tea) {
+    quickActions
+        .setShortcutItems(Prefs.favoritesList().map<ShortcutItem>((tea) {
       // Create a shortcut item for this favorite tea
       return ShortcutItem(
         type: shortcutPrefix + teaList.indexOf(tea).toString(),
@@ -165,6 +163,11 @@ abstract class Prefs {
         icon: tea.shortcutIcon,
       );
     }).toList());
+  }
+
+  // Get favorite tea list
+  static List<Tea> favoritesList() {
+    return teaList.where((tea) => tea.isFavorite == true).toList();
   }
 
   // Get active tea
