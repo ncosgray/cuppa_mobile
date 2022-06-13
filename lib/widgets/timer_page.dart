@@ -20,12 +20,14 @@ import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
+import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 // Cuppa Timer page
@@ -109,6 +111,8 @@ class _TimerWidgetState extends State<TimerWidget> {
         _timerEndTime = null;
         if (t != null) t.cancel();
         Prefs.clearNextAlarm();
+        // Notify the rest of the app that the timer ended
+        Provider.of<AppProvider>(context, listen: false).notify();
       }
     });
   }
@@ -134,6 +138,8 @@ class _TimerWidgetState extends State<TimerWidget> {
       _timer = Timer.periodic(Duration(seconds: 1), _decrementTimer);
       _timerEndTime = DateTime.now().add(Duration(seconds: _timerSeconds + 1));
       Prefs.setNextAlarm(_timerEndTime!);
+      // Notify the rest of the app that the timer started
+      Provider.of<AppProvider>(context, listen: false).notify();
     });
   }
 
@@ -310,7 +316,6 @@ class _TimerWidgetState extends State<TimerWidget> {
                           _timerEndTime = DateTime.now();
                           _decrementTimer(_timer);
                           _cancelNotification();
-                          Prefs.clearNextAlarm();
                         },
                       ),
                     ],
