@@ -108,27 +108,6 @@ class Tea {
       'isActive': this.isActive,
     };
   }
-
-  // Overrides for comparisons
-  @override
-  bool operator ==(otherTea) {
-    return (otherTea is Tea) &&
-        otherTea.name == this.name &&
-        otherTea.brewTime == this.brewTime &&
-        otherTea.brewTemp == this.brewTemp &&
-        otherTea.color == this.color &&
-        otherTea.isFavorite == this.isFavorite &&
-        otherTea.isActive == this.isActive;
-  }
-
-  @override
-  int get hashCode =>
-      this.name.hashCode ^
-      this.brewTime.hashCode ^
-      this.brewTemp.hashCode ^
-      this.color.hashCode ^
-      this.isFavorite.hashCode ^
-      this.isActive.hashCode;
 }
 
 // Tea colors
