@@ -20,13 +20,14 @@ import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
+import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:provider/provider.dart';
 
 // Cuppa Timer page
 class TimerWidget extends StatefulWidget {
@@ -42,7 +43,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   int _timerSeconds = 0;
   DateTime? _timerEndTime;
   Timer? _timer;
-  final ItemScrollController _itemScrollController = ItemScrollController();
+  final ScrollController _scrollController = ScrollController();
   bool _doScroll = false;
 
   // Set up the brewing complete notification
@@ -109,6 +110,8 @@ class _TimerWidgetState extends State<TimerWidget> {
         _timerEndTime = null;
         if (t != null) t.cancel();
         Prefs.clearNextAlarm();
+        // Notify the rest of the app that the timer ended
+        Provider.of<AppProvider>(context, listen: false).notify();
       }
     });
   }
@@ -134,6 +137,8 @@ class _TimerWidgetState extends State<TimerWidget> {
       _timer = Timer.periodic(Duration(seconds: 1), _decrementTimer);
       _timerEndTime = DateTime.now().add(Duration(seconds: _timerSeconds + 1));
       Prefs.setNextAlarm(_timerEndTime!);
+      // Notify the rest of the app that the timer started
+      Provider.of<AppProvider>(context, listen: false).notify();
     });
   }
 
@@ -168,9 +173,8 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Autoscroll tea button list to specified tea
   void _scrollToTeaButton(Tea? tea) {
     if (tea != null && _doScroll && Prefs.teaList.length > teasMinCount) {
-      int teaIndex = Prefs.teaList.indexOf(tea);
-      if (teaIndex >= 0)
-        _itemScrollController.jumpTo(index: teaIndex, alignment: 0.3);
+      BuildContext? target = GlobalObjectKey(tea.id).currentContext;
+      if (target != null) Scrollable.ensureVisible(target);
     }
     _doScroll = false;
   }
@@ -270,30 +274,23 @@ class _TimerWidgetState extends State<TimerWidget> {
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(12.0, 24.0, 12.0, 12.0),
                     alignment: Alignment.center,
-                    child: ScrollablePositionedList.builder(
+                    child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemScrollController: _itemScrollController,
-                        // Build the list of teas
-                        itemCount: Prefs.teaList.length,
-                        itemBuilder: (context, index) {
-                          Tea tea = Prefs.teaList[index];
-                          return Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 0.0),
-                              child: TeaButton(
-                                  tea: tea,
-                                  active: tea.isActive,
-                                  fade: !_timerActive || tea.isActive
-                                      ? false
-                                      : true,
-                                  onPressed: (bool newValue) async {
-                                    if (!tea
-                                        .isActive) if (await _confirmTimer())
-                                      _setTimer(tea);
-                                  }));
-                        }),
+                        controller: _scrollController,
+                        child: Row(
+                            children: Prefs.teaList.map<TeaButton>((Tea tea) {
+                          return TeaButton(
+                              key: GlobalObjectKey(tea.id),
+                              tea: tea,
+                              active: tea.isActive,
+                              fade:
+                                  !_timerActive || tea.isActive ? false : true,
+                              onPressed: (bool newValue) async {
+                                if (!tea.isActive) if (await _confirmTimer())
+                                  _setTimer(tea);
+                              });
+                        }).toList())),
                   )),
               // Cancel brewing button
               SizedBox(
@@ -310,7 +307,6 @@ class _TimerWidgetState extends State<TimerWidget> {
                           _timerEndTime = DateTime.now();
                           _decrementTimer(_timer);
                           _cancelNotification();
-                          Prefs.clearNextAlarm();
                         },
                       ),
                     ],
@@ -344,79 +340,83 @@ class TeaButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: fade ? 0.4 : 1.0,
-      duration: Duration(milliseconds: 400),
-      child: Card(
-          child: GestureDetector(
-        onTap: _handleTap,
-        child: Container(
-          decoration: BoxDecoration(
-            color: active ? tea.getThemeColor(context) : Colors.transparent,
-            borderRadius: const BorderRadius.all(const Radius.circular(2.0)),
-          ),
-          child: Container(
-            constraints:
-                BoxConstraints(minWidth: 80.0, maxWidth: double.infinity),
-            margin: const EdgeInsets.all(8.0),
-            // Timer icon with tea name
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.timer_outlined,
-                  color: active ? Colors.white : tea.getThemeColor(context),
-                  size: 64.0,
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 0.0),
+        child: AnimatedOpacity(
+          opacity: fade ? 0.4 : 1.0,
+          duration: Duration(milliseconds: 400),
+          child: Card(
+              child: GestureDetector(
+            onTap: _handleTap,
+            child: Container(
+              decoration: BoxDecoration(
+                color: active ? tea.getThemeColor(context) : Colors.transparent,
+                borderRadius:
+                    const BorderRadius.all(const Radius.circular(2.0)),
+              ),
+              child: Container(
+                constraints:
+                    BoxConstraints(minWidth: 80.0, maxWidth: double.infinity),
+                margin: const EdgeInsets.all(8.0),
+                // Timer icon with tea name
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.timer_outlined,
+                      color: active ? Colors.white : tea.getThemeColor(context),
+                      size: 64.0,
+                    ),
+                    Text(
+                      tea.buttonName,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.0,
+                        color:
+                            active ? Colors.white : tea.getThemeColor(context),
+                      ),
+                    ),
+                    // Optional extra info: brew time and temp display
+                    Visibility(
+                        visible: Prefs.showExtra,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Brew time
+                              Container(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      4.0, 2.0, 4.0, 0.0),
+                                  child: Text(
+                                    formatTimer(tea.brewTime),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12.0,
+                                      color: active
+                                          ? Colors.white
+                                          : tea.getThemeColor(context),
+                                    ),
+                                  )),
+                              // Brew temperature
+                              Container(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      4.0, 2.0, 4.0, 0.0),
+                                  child: Text(
+                                    tea.tempDisplay,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12.0,
+                                      color: active
+                                          ? Colors.white
+                                          : tea.getThemeColor(context),
+                                    ),
+                                  ))
+                            ])),
+                  ],
                 ),
-                Text(
-                  tea.buttonName,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14.0,
-                    color: active ? Colors.white : tea.getThemeColor(context),
-                  ),
-                ),
-                // Optional extra info: brew time and temp display
-                Visibility(
-                    visible: Prefs.showExtra,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Brew time
-                          Container(
-                              padding:
-                                  const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 0.0),
-                              child: Text(
-                                formatTimer(tea.brewTime),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12.0,
-                                  color: active
-                                      ? Colors.white
-                                      : tea.getThemeColor(context),
-                                ),
-                              )),
-                          // Brew temperature
-                          Container(
-                              padding:
-                                  const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 0.0),
-                              child: Text(
-                                tea.tempDisplay,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12.0,
-                                  color: active
-                                      ? Colors.white
-                                      : tea.getThemeColor(context),
-                                ),
-                              ))
-                        ])),
-              ],
+              ),
             ),
-          ),
-        ),
-      )),
-    );
+          )),
+        ));
   }
 }
 
@@ -440,11 +440,16 @@ class CancelButton extends StatelessWidget {
         style: TextStyle(
           fontSize: 12.0,
           fontWeight: FontWeight.bold,
-          color: active ? Colors.red[400] : Colors.grey,
+          color: active
+              ? Colors.red[400]
+              : Theme.of(context).textTheme.button!.color!,
         ),
       ),
       icon: Icon(Icons.cancel,
-          color: active ? Colors.red[400] : Colors.grey, size: 16.0),
+          color: active
+              ? Colors.red[400]
+              : Theme.of(context).textTheme.button!.color!,
+          size: 16.0),
       onPressed: active ? _handleTap : null,
     );
   }

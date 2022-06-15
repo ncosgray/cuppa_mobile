@@ -25,4 +25,9 @@ class AppProvider extends ChangeNotifier {
     // Ensure UI elements get updated
     notifyListeners();
   }
+
+  void notify() {
+    // Only update UI elements
+    notifyListeners();
+  }
 }

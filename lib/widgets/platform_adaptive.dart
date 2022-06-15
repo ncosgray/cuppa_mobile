@@ -385,7 +385,7 @@ class _PlatformAdaptiveTextFormDialogState
       autofocus: true,
       autocorrect: false,
       enableSuggestions: false,
-      enableInteractiveSelection: false,
+      enableInteractiveSelection: true,
       textCapitalization: TextCapitalization.words,
       maxLines: 1,
       textAlignVertical: TextAlignVertical.center,

@@ -68,7 +68,7 @@ class CuppaApp extends StatelessWidget {
                 // Configure app theme
                 theme: getPlatformAdaptiveTheme(appPlatform),
                 darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
-                themeMode: Prefs.appThemes[Prefs.appTheme],
+                themeMode: Prefs.appTheme.themeMode,
                 // Configure routes
                 initialRoute: routeTimer,
                 routes: {
