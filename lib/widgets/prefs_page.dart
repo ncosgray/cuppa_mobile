@@ -42,8 +42,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
     return PlatformAdaptiveScaffold(
         platform: appPlatform,
         isPoppable: true,
-        title: AppLocalizations.translate('prefs_title')
-            .replaceAll('{{app_name}}', appName),
+        title: AppString.prefs_title.translate(),
         // Button to navigate to About page
         actionIcon: getPlatformAboutIcon(appPlatform),
         actionRoute: routeAbout,
@@ -60,7 +59,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                     margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
                     child:
                         // Section: Teas
-                        Text(AppLocalizations.translate('teas_title'),
+                        Text(AppString.teas_title.translate(),
                             style: TextStyle(
                               fontSize: 18.0,
                               color:
@@ -75,10 +74,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           child: Container(
                               margin: const EdgeInsets.fromLTRB(
                                   6.0, 0.0, 6.0, 12.0),
-                              child: Text(
-                                  AppLocalizations.translate('prefs_header')
-                                      .replaceAll('{{favorites_max}}',
-                                          favoritesMaxCount.toString()),
+                              child: Text(AppString.prefs_header.translate(),
                                   style: TextStyle(
                                     fontSize: 14.0,
                                   ))))),
@@ -135,8 +131,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           child: ListTile(
                               title: TextButton.icon(
                                   label: Text(
-                                      AppLocalizations.translate(
-                                              'add_tea_button')
+                                      AppString.add_tea_button
+                                          .translate()
                                           .toUpperCase(),
                                       style: TextStyle(
                                           fontSize: 14.0,
@@ -169,12 +165,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                       child: Consumer<AppProvider>(
                           builder: (context, provider, child) =>
                               SwitchListTile.adaptive(
-                                title: Text(
-                                    AppLocalizations.translate(
-                                        'prefs_show_extra'),
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                    )),
+                                title:
+                                    Text(AppString.prefs_show_extra.translate(),
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                        )),
                                 value: Prefs.showExtra,
                                 // Save showExtra setting to prefs
                                 onChanged: (bool newValue) {
@@ -193,8 +188,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           builder: (context, provider, child) =>
                               SwitchListTile.adaptive(
                                 title: Text(
-                                    AppLocalizations.translate(
-                                        'prefs_use_celsius'),
+                                    AppString.prefs_use_celsius.translate(),
                                     style: TextStyle(
                                       fontSize: 16.0,
                                     )),
@@ -213,12 +207,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                       alignment: Alignment.topLeft,
                       child: Consumer<AppProvider>(
                           builder: (context, provider, child) => ListTile(
-                                title: Text(
-                                    AppLocalizations.translate(
-                                        'prefs_app_theme'),
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                    )),
+                                title:
+                                    Text(AppString.prefs_app_theme.translate(),
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                        )),
                                 trailing:
                                     // App theme dropdown
                                     DropdownButton<AppTheme>(
@@ -261,12 +254,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                       alignment: Alignment.topLeft,
                       child: Consumer<AppProvider>(
                           builder: (context, provider, child) => ListTile(
-                                title: Text(
-                                    AppLocalizations.translate(
-                                        'prefs_language'),
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                    )),
+                                title:
+                                    Text(AppString.prefs_language.translate(),
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                        )),
                                 trailing:
                                     // App language dropdown
                                     DropdownButton<String>(
@@ -285,8 +277,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                       value: value,
                                       child: Text(
                                           value == ''
-                                              ? AppLocalizations.translate(
-                                                  'theme_system')
+                                              ? AppString.theme_system
+                                                  .translate()
                                               : supportedLanguages[value]! +
                                                   ' (' +
                                                   value +
@@ -328,9 +320,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                                 )),
                             Expanded(
                                 child: Text(
-                                    AppLocalizations.translate(
-                                            'prefs_notifications')
-                                        .replaceAll('{{app_name}}', appName),
+                                    AppString.prefs_notifications.translate(),
                                     style: TextStyle(
                                       fontSize: 14.0,
                                     )))
@@ -623,14 +613,14 @@ Future<String?> _displayTeaNameDialog(
             initialValue: currentTeaName,
             validator: (String? newValue) {
               if (newValue == null || newValue.isEmpty) {
-                return AppLocalizations.translate('error_name_missing');
+                return AppString.error_name_missing.translate();
               } else if (newValue.characters.length > teaNameMaxLength) {
-                return AppLocalizations.translate('error_name_long');
+                return AppString.error_name_long.translate();
               }
               return null;
             },
-            buttonTextCancel: AppLocalizations.translate('cancel_button'),
-            buttonTextOK: AppLocalizations.translate('ok_button'));
+            buttonTextCancel: AppString.cancel_button.translate(),
+            buttonTextOK: AppString.ok_button.translate());
       });
 }
 
@@ -684,7 +674,7 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
                     },
                   )),
             ),
-            buttonTextFalse: AppLocalizations.translate('cancel_button'));
+            buttonTextFalse: AppString.cancel_button.translate());
       });
 }
 
@@ -696,7 +686,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
       builder: (BuildContext context) {
         return PlatformAdaptiveDialog(
             platform: appPlatform,
-            title: Text(AppLocalizations.translate('add_tea_button')),
+            title: Text(AppString.add_tea_button.translate()),
             content: SizedBox(
                 width: double.maxFinite,
                 height: deviceHeight * 0.6,
@@ -742,7 +732,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                         },
                       ),
                     ))),
-            buttonTextFalse: AppLocalizations.translate('cancel_button'));
+            buttonTextFalse: AppString.cancel_button.translate());
       });
 }
 

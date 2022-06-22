@@ -77,17 +77,17 @@ class _TimerWidgetState extends State<TimerWidget> {
           builder: (BuildContext context) {
             return PlatformAdaptiveDialog(
               platform: appPlatform,
-              title: Text(AppLocalizations.translate('confirm_title')),
+              title: Text(AppString.confirm_title.translate()),
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
-                    Text(AppLocalizations.translate('confirm_message_line1')),
-                    Text(AppLocalizations.translate('confirm_message_line2')),
+                    Text(AppString.confirm_message_line1.translate()),
+                    Text(AppString.confirm_message_line2.translate()),
                   ],
                 ),
               ),
-              buttonTextTrue: AppLocalizations.translate('yes_button'),
-              buttonTextFalse: AppLocalizations.translate('no_button'),
+              buttonTextTrue: AppString.yes_button.translate(),
+              buttonTextFalse: AppString.no_button.translate(),
             );
           });
     } else {
@@ -127,9 +127,8 @@ class _TimerWidgetState extends State<TimerWidget> {
         _timerSeconds = tea.brewTime;
         _sendNotification(
             _timerSeconds,
-            AppLocalizations.translate('notification_title'),
-            AppLocalizations.translate('notification_text')
-                .replaceAll('{{tea_name}}', tea.name));
+            AppString.notification_title.translate(),
+            AppString.notification_text.translate(teaName: tea.name));
       } else {
         // Resume timer from stored prefs
         _timerSeconds = secs;
@@ -436,7 +435,7 @@ class CancelButton extends StatelessWidget {
     // Button with "X" icon
     return TextButton.icon(
       label: Text(
-        AppLocalizations.translate('cancel_button').toUpperCase(),
+        AppString.cancel_button.translate().toUpperCase(),
         style: TextStyle(
           fontSize: 12.0,
           fontWeight: FontWeight.bold,
