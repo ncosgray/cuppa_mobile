@@ -50,9 +50,9 @@ class _TimerWidgetState extends State<TimerWidget> {
   Future<Null> _sendNotification(int secs, String title, String text) async {
     try {
       notifyPlatform.invokeMethod(notifyMethodSetup, <String, dynamic>{
-        'secs': secs,
-        'title': title,
-        'text': text,
+        notifyMethodSetupSecs: secs,
+        notifyMethodSetupTitle: title,
+        notifyMethodSetupText: text,
       });
     } on PlatformException {
       return;
