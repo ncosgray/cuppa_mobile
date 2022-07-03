@@ -14,7 +14,6 @@
 // - Preset tea types
 
 import 'package:cuppa_mobile/data/localization.dart';
-import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'package:flutter/material.dart';
@@ -43,22 +42,17 @@ class Preset {
     return this.key.translate();
   }
 
-  // Brew temperature based on unit preference
-  get brewTemp {
-    return (Prefs.useCelsius ? this.brewTempDegreesC : this.brewTempDegreesF);
-  }
-
   // Color getter
   Color getThemeColor(context) {
     return this.color.getThemeColor(context);
   }
 
   // Create a new tea from this preset
-  Tea createTea({bool isFavorite = false}) {
+  Tea createTea({required bool useCelsius, bool isFavorite = false}) {
     return Tea(
         name: this.localizedName,
         brewTime: this.brewTime,
-        brewTemp: this.brewTemp,
+        brewTemp: (useCelsius ? this.brewTempDegreesC : this.brewTempDegreesF),
         color: this.color,
         isFavorite: isFavorite,
         isActive: false);

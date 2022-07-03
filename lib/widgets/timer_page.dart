@@ -97,6 +97,8 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Update timer and handle brew finish
   void _decrementTimer(Timer? t) {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
     setState(() {
       if (_timerEndTime != null) {
         _timerSeconds = _timerEndTime!.difference(DateTime.now()).inSeconds;
@@ -109,19 +111,20 @@ class _TimerWidgetState extends State<TimerWidget> {
         _timerSeconds = 0;
         _timerEndTime = null;
         if (t != null) t.cancel();
-        Prefs.clearNextAlarm();
         // Notify the rest of the app that the timer ended
-        Provider.of<AppProvider>(context, listen: false).notify();
+        provider.clearActiveTea();
       }
     });
   }
 
   // Start a new brewing timer
   void _setTimer(Tea tea, [int secs = 0]) {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
     setState(() {
-      Prefs.clearNextAlarm();
       if (!_timerActive) _timerActive = true;
-      tea.isActive = true;
+      provider.clearActiveTea();
+      provider.updateTea(tea, isActive: true);
       if (secs == 0) {
         // Set up new timer
         _timerSeconds = tea.brewTime;
@@ -136,16 +139,16 @@ class _TimerWidgetState extends State<TimerWidget> {
       _timer = Timer.periodic(Duration(seconds: 1), _decrementTimer);
       _timerEndTime = DateTime.now().add(Duration(seconds: _timerSeconds + 1));
       Prefs.setNextAlarm(_timerEndTime!);
-      // Notify the rest of the app that the timer started
-      Provider.of<AppProvider>(context, listen: false).notify();
     });
   }
 
-  // Start timer from stored prefs or shortcut
+  // Start timer from stored prefs
   void _checkNextTimer() {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
     // Load saved brewing timer info from prefs
     int nextAlarm = Prefs.getNextAlarm();
-    Tea? nextTea = Prefs.getActiveTea();
+    Tea? nextTea = provider.activeTea;
     if (nextAlarm > 0 && nextTea != null) {
       Duration diff = DateTime.fromMillisecondsSinceEpoch(nextAlarm)
           .difference(DateTime.now());
@@ -154,24 +157,31 @@ class _TimerWidgetState extends State<TimerWidget> {
         _setTimer(nextTea, diff.inSeconds);
         _doScroll = true;
       } else {
-        Prefs.clearNextAlarm();
+        provider.clearActiveTea();
       }
     } else {
-      Prefs.clearNextAlarm();
+      provider.clearActiveTea();
     }
+  }
+
+  void _checkShortcutTimer() async {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
 
     // Start a timer from shortcut selection
     quickActions.initialize((String shortcutType) async {
       int? teaIndex = int.tryParse(shortcutType.replaceAll(shortcutPrefix, ''));
-      if (teaIndex != null) if (await _confirmTimer())
-        _setTimer(Prefs.teaList[teaIndex]);
-      _doScroll = true;
+      if (teaIndex != null && teaIndex < provider.teaCount) {
+        if (await _confirmTimer()) {
+          _setTimer(provider.teaList[teaIndex]);
+          _doScroll = true;
+        }
+      }
     });
   }
 
   // Autoscroll tea button list to specified tea
   void _scrollToTeaButton(Tea? tea) {
-    if (tea != null && _doScroll && Prefs.teaList.length > teasMinCount) {
+    if (tea != null && _doScroll) {
       BuildContext? target = GlobalObjectKey(tea.id).currentContext;
       if (target != null) Scrollable.ensureVisible(target);
     }
@@ -183,11 +193,21 @@ class _TimerWidgetState extends State<TimerWidget> {
   void initState() {
     super.initState();
 
-    // Load tea settings
-    Prefs.loadTeas();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      AppProvider provider = Provider.of<AppProvider>(context, listen: false);
 
-    // Manage timers at app startup
-    _checkNextTimer();
+      // Set default brew temp units based on locale
+      provider.useCelsius = Prefs.loadUseCelsius() ?? isLocaleMetric;
+
+      // Add default presets if no custom teas have been set
+      if (provider.teaCount == 0) {
+        provider.loadDefaults();
+      }
+
+      // Manage timers
+      _checkNextTimer();
+      _checkShortcutTimer();
+    });
   }
 
   // Build Timer page
@@ -195,7 +215,9 @@ class _TimerWidgetState extends State<TimerWidget> {
   Widget build(BuildContext context) {
     // Process tea list scroll request after build
     Future.delayed(
-        Duration.zero, () => _scrollToTeaButton(Prefs.getActiveTea()));
+        Duration.zero,
+        () => _scrollToTeaButton(
+            Provider.of<AppProvider>(context, listen: false).activeTea));
 
     return PlatformAdaptiveScaffold(
         platform: appPlatform,
@@ -254,12 +276,15 @@ class _TimerWidgetState extends State<TimerWidget> {
                       Image.asset(cupImageDefault,
                           fit: BoxFit.fitWidth, gaplessPlayback: true),
                       // While timing, gradually darken the tea in the cup
-                      Opacity(
-                          opacity: _timerActive && Prefs.getActiveTea() != null
-                              ? (_timerSeconds / Prefs.getActiveTea()!.brewTime)
-                              : 0.0,
-                          child: Image.asset(cupImageTea,
-                              fit: BoxFit.fitWidth, gaplessPlayback: true)),
+                      Selector<AppProvider, Tea?>(
+                          selector: (_, provider) => provider.activeTea,
+                          builder: (context, tea, child) => Opacity(
+                              opacity: _timerActive && tea != null
+                                  ? (_timerSeconds / tea.brewTime)
+                                  : 0.0,
+                              child: Image.asset(cupImageTea,
+                                  fit: BoxFit.fitWidth,
+                                  gaplessPlayback: true))),
                       // While timing, put a teabag in the cup
                       Visibility(
                           visible: _timerActive,
@@ -277,19 +302,22 @@ class _TimerWidgetState extends State<TimerWidget> {
                         scrollDirection: Axis.horizontal,
                         physics: const BouncingScrollPhysics(),
                         controller: _scrollController,
-                        child: Row(
-                            children: Prefs.teaList.map<TeaButton>((Tea tea) {
-                          return TeaButton(
-                              key: GlobalObjectKey(tea.id),
-                              tea: tea,
-                              active: tea.isActive,
-                              fade:
-                                  !_timerActive || tea.isActive ? false : true,
-                              onPressed: (bool newValue) async {
-                                if (!tea.isActive) if (await _confirmTimer())
-                                  _setTimer(tea);
-                              });
-                        }).toList())),
+                        child: Consumer<AppProvider>(
+                            builder: (context, provider, child) => Row(
+                                    children: provider.teaList
+                                        .map<TeaButton>((Tea tea) {
+                                  return TeaButton(
+                                      key: GlobalObjectKey(tea.id),
+                                      tea: tea,
+                                      fade: !_timerActive || tea.isActive
+                                          ? false
+                                          : true,
+                                      onPressed: (bool newValue) async {
+                                        if (!tea
+                                            .isActive) if (await _confirmTimer())
+                                          _setTimer(tea);
+                                      });
+                                }).toList()))),
                   )),
               // Cancel brewing button
               SizedBox(
@@ -320,21 +348,19 @@ class _TimerWidgetState extends State<TimerWidget> {
 
 // Widget defining a tea brew start button
 class TeaButton extends StatelessWidget {
-  TeaButton({
+  const TeaButton({
     Key? key,
     required this.tea,
-    this.active = false,
-    this.fade = false,
+    required this.fade,
     required this.onPressed,
   }) : super(key: key);
 
   final Tea tea;
-  final bool active;
   final bool fade;
-
   final ValueChanged<bool> onPressed;
+
   void _handleTap() {
-    onPressed(!active);
+    onPressed(!tea.isActive);
   }
 
   @override
@@ -349,7 +375,9 @@ class TeaButton extends StatelessWidget {
             onTap: _handleTap,
             child: Container(
               decoration: BoxDecoration(
-                color: active ? tea.getThemeColor(context) : Colors.transparent,
+                color: tea.isActive
+                    ? tea.getThemeColor(context)
+                    : Colors.transparent,
                 borderRadius:
                     const BorderRadius.all(const Radius.circular(2.0)),
               ),
@@ -363,7 +391,9 @@ class TeaButton extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.timer_outlined,
-                      color: active ? Colors.white : tea.getThemeColor(context),
+                      color: tea.isActive
+                          ? Colors.white
+                          : tea.getThemeColor(context),
                       size: 64.0,
                     ),
                     Text(
@@ -371,45 +401,49 @@ class TeaButton extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14.0,
-                        color:
-                            active ? Colors.white : tea.getThemeColor(context),
+                        color: tea.isActive
+                            ? Colors.white
+                            : tea.getThemeColor(context),
                       ),
                     ),
                     // Optional extra info: brew time and temp display
-                    Visibility(
-                        visible: Prefs.showExtra,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              // Brew time
-                              Container(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      4.0, 2.0, 4.0, 0.0),
-                                  child: Text(
-                                    formatTimer(tea.brewTime),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12.0,
-                                      color: active
-                                          ? Colors.white
-                                          : tea.getThemeColor(context),
-                                    ),
-                                  )),
-                              // Brew temperature
-                              Container(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      4.0, 2.0, 4.0, 0.0),
-                                  child: Text(
-                                    tea.tempDisplay,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12.0,
-                                      color: active
-                                          ? Colors.white
-                                          : tea.getThemeColor(context),
-                                    ),
-                                  ))
-                            ])),
+                    Selector<AppProvider, bool>(
+                        selector: (_, provider) => provider.showExtra,
+                        builder: (context, showExtra, child) => Visibility(
+                            visible: showExtra,
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Brew time
+                                  Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          4.0, 2.0, 4.0, 0.0),
+                                      child: Text(
+                                        formatTimer(tea.brewTime),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.0,
+                                          color: tea.isActive
+                                              ? Colors.white
+                                              : tea.getThemeColor(context),
+                                        ),
+                                      )),
+                                  // Brew temperature
+                                  Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          4.0, 2.0, 4.0, 0.0),
+                                      child: Text(
+                                        tea.tempDisplay,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.0,
+                                          color: tea.isActive
+                                              ? Colors.white
+                                              : tea.getThemeColor(context),
+                                        ),
+                                      ))
+                                ]))),
                   ],
                 ),
               ),

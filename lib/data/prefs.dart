@@ -11,93 +11,60 @@
 */
 
 // Cuppa preferences
-// - Tea settings
 // - Handle shared prefs
 
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
-import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'dart:convert';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:quick_actions/quick_actions.dart';
 
 // Shared prefs functionality
 abstract class Prefs {
-  // Teas
-  static List<Tea> teaList = [];
-
-  // Settings
-  static bool showExtra = false;
-  static bool useCelsius = isLocaleMetric;
-  static AppTheme appTheme = AppTheme.system;
-  static String appLanguage = '';
-
-  // Brewing temperature options
-  static final List<int> brewTemps =
-      ([for (var i = 60; i <= 100; i += 5) i] // C temps 60-100
-          +
-          [for (var i = 140; i <= 200; i += 10) i] +
-          [212] // F temps 140-212
-      );
-
-  // Fetch top-level app settings such as theme and language
-  static void loadTheme() {
-    // App settings
-    appTheme =
-        AppTheme.values[sharedPrefs.getInt(prefAppTheme) ?? appTheme.value];
-    appLanguage = sharedPrefs.getString(prefAppLanguage) ?? appLanguage;
+  // Determine if tea settings exist in shared prefs
+  static bool teaPrefsExist() {
+    return (sharedPrefs.containsKey(prefTea1Name) &&
+        sharedPrefs.containsKey(prefTea1BrewTime) &&
+        sharedPrefs.containsKey(prefTea2Name) &&
+        sharedPrefs.containsKey(prefTea2BrewTime) &&
+        sharedPrefs.containsKey(prefTea3Name) &&
+        sharedPrefs.containsKey(prefTea3BrewTime));
   }
 
   // Fetch tea settings from shared prefs or use defaults
-  static void loadTeas() {
+  static List<Tea> loadTeas() {
     // Initialize teas
-    teaList = [];
+    List<Tea> teaList = [];
 
-    // Default: Black tea
+    // Verify settings exist before continuing
+    if (!teaPrefsExist()) return teaList;
+
+    // Tea 1
     teaList.add(Tea(
-        name: sharedPrefs.getString(prefTea1Name) ??
-            Presets.getPreset(AppString.tea_name_black).localizedName,
-        brewTime: sharedPrefs.getInt(prefTea1BrewTime) ??
-            Presets.getPreset(AppString.tea_name_black).brewTime,
-        brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ??
-            Presets.getPreset(AppString.tea_name_black).brewTemp,
-        colorValue: sharedPrefs.getInt(prefTea1Color) ??
-            Presets.getPreset(AppString.tea_name_black).color.value,
+        name: sharedPrefs.getString(prefTea1Name) ?? '',
+        brewTime: sharedPrefs.getInt(prefTea1BrewTime) ?? 0,
+        brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ?? 100,
+        colorValue: sharedPrefs.getInt(prefTea1Color) ?? 0,
         isFavorite: sharedPrefs.getBool(prefTea1IsFavorite) ?? true,
         isActive: sharedPrefs.getBool(prefTea1IsActive) ?? false));
 
-    // Default: Green tea
-    String tea2Name = sharedPrefs.getString(prefTea2Name) ??
-        Presets.getPreset(AppString.tea_name_green).localizedName;
+    // Tea 2
     teaList.add(Tea(
-        name: tea2Name,
-        brewTime: sharedPrefs.getInt(prefTea2BrewTime) ??
-            Presets.getPreset(AppString.tea_name_green).brewTime,
-        // Select default temp if name changed from Green tea
-        brewTemp: sharedPrefs.getInt(prefTea2BrewTemp) ??
-            (tea2Name !=
-                    Presets.getPreset(AppString.tea_name_green).localizedName
-                ? Presets.getPreset(AppString.tea_name_black).brewTemp
-                : Presets.getPreset(AppString.tea_name_green).brewTemp),
-        colorValue: sharedPrefs.getInt(prefTea2Color) ??
-            Presets.getPreset(AppString.tea_name_green).color.value,
+        name: sharedPrefs.getString(prefTea2Name) ?? '',
+        brewTime: sharedPrefs.getInt(prefTea2BrewTime) ?? 0,
+        brewTemp: sharedPrefs.getInt(prefTea2BrewTemp) ?? 100,
+        colorValue: sharedPrefs.getInt(prefTea2Color) ?? 0,
         isFavorite: sharedPrefs.getBool(prefTea2IsFavorite) ?? true,
         isActive: sharedPrefs.getBool(prefTea2IsActive) ?? false));
 
-    // Default: Herbal tea
+    // Tea 3
     teaList.add(Tea(
-        name: sharedPrefs.getString(prefTea3Name) ??
-            Presets.getPreset(AppString.tea_name_herbal).localizedName,
-        brewTime: sharedPrefs.getInt(prefTea3BrewTime) ??
-            Presets.getPreset(AppString.tea_name_herbal).brewTime,
-        brewTemp: sharedPrefs.getInt(prefTea3BrewTemp) ??
-            Presets.getPreset(AppString.tea_name_herbal).brewTemp,
-        colorValue: sharedPrefs.getInt(prefTea3Color) ??
-            Presets.getPreset(AppString.tea_name_herbal).color.value,
+        name: sharedPrefs.getString(prefTea3Name) ?? '',
+        brewTime: sharedPrefs.getInt(prefTea3BrewTime) ?? 0,
+        brewTemp: sharedPrefs.getInt(prefTea3BrewTemp) ?? 100,
+        colorValue: sharedPrefs.getInt(prefTea3Color) ?? 0,
         isFavorite: sharedPrefs.getBool(prefTea3IsFavorite) ?? true,
         isActive: sharedPrefs.getBool(prefTea3IsActive) ?? false));
 
@@ -108,16 +75,11 @@ abstract class Prefs {
       teaList += (moreTeasJson.map<Tea>((tea) => Tea.fromJson(jsonDecode(tea))))
           .toList();
 
-    // Other settings
-    showExtra = sharedPrefs.getBool(prefShowExtra) ?? showExtra;
-    useCelsius = sharedPrefs.getBool(prefUseCelsius) ?? useCelsius;
-
-    // Manage quick actions
-    setQuickActions();
+    return teaList;
   }
 
-  // Store all settings in shared prefs
-  static void save() {
+  // Store teas in shared prefs
+  static void saveTeas(List<Tea> teaList) {
     sharedPrefs.setString(prefTea1Name, teaList[0].name);
     sharedPrefs.setInt(prefTea1BrewTime, teaList[0].brewTime);
     sharedPrefs.setInt(prefTea1BrewTemp, teaList[0].brewTemp);
@@ -142,38 +104,40 @@ abstract class Prefs {
     List<String> moreTeasEncoded =
         (teaList.sublist(3)).map((tea) => jsonEncode(tea.toJson())).toList();
     sharedPrefs.setStringList(prefMoreTeas, moreTeasEncoded);
-
-    sharedPrefs.setBool(prefShowExtra, showExtra);
-    sharedPrefs.setBool(prefUseCelsius, useCelsius);
-    sharedPrefs.setInt(prefAppTheme, appTheme.value);
-    sharedPrefs.setString(prefAppLanguage, appLanguage);
-
-    // Manage quick actions
-    setQuickActions();
   }
 
-  // Add quick action shortcuts
-  static void setQuickActions() {
-    quickActions.clearShortcutItems();
-    quickActions
-        .setShortcutItems(Prefs.favoritesList().map<ShortcutItem>((tea) {
-      // Create a shortcut item for this favorite tea
-      return ShortcutItem(
-        type: shortcutPrefix + teaList.indexOf(tea).toString(),
-        localizedTitle: tea.name,
-        icon: tea.shortcutIcon,
-      );
-    }).toList());
+  // Get settings from shared prefs
+  static bool? loadShowExtra() {
+    return sharedPrefs.getBool(prefShowExtra);
   }
 
-  // Get favorite tea list
-  static List<Tea> favoritesList() {
-    return teaList.where((tea) => tea.isFavorite == true).toList();
+  static bool? loadUseCelsius() {
+    return sharedPrefs.getBool(prefUseCelsius);
   }
 
-  // Get active tea
-  static Tea? getActiveTea() {
-    return teaList.firstWhereOrNull((tea) => tea.isActive == true);
+  static AppTheme? loadAppTheme() {
+    int? appThemeValue = sharedPrefs.getInt(prefAppTheme);
+    if (appThemeValue != null && appThemeValue < AppTheme.values.length)
+      return AppTheme.values[appThemeValue];
+    else
+      return null;
+  }
+
+  static String? loadAppLanguage() {
+    return sharedPrefs.getString(prefAppLanguage);
+  }
+
+  // Store setting(s) in shared prefs
+  static void saveSettings(
+      {bool? showExtra,
+      bool? useCelsius,
+      AppTheme? appTheme,
+      String? appLanguage}) {
+    if (showExtra != null) sharedPrefs.setBool(prefShowExtra, showExtra);
+    if (useCelsius != null) sharedPrefs.setBool(prefUseCelsius, useCelsius);
+    if (appTheme != null) sharedPrefs.setInt(prefAppTheme, appTheme.value);
+    if (appLanguage != null)
+      sharedPrefs.setString(prefAppLanguage, appLanguage);
   }
 
   // Fetch next alarm info from shared prefs
@@ -184,16 +148,11 @@ abstract class Prefs {
   // Store next alarm info in shared prefs to persist when app is closed
   static void setNextAlarm(DateTime timerEndTime) {
     sharedPrefs.setInt(prefNextAlarm, timerEndTime.millisecondsSinceEpoch);
-    Prefs.save();
   }
 
   // Clear shared prefs next alarm info
   static void clearNextAlarm() {
     sharedPrefs.setInt(prefNextAlarm, 0);
-    teaList.where((tea) => tea.isActive == true).forEach((tea) {
-      tea.isActive = false;
-    });
-    Prefs.save();
   }
 }
 
@@ -231,3 +190,11 @@ enum AppTheme {
     }
   }
 }
+
+// Brewing temperature options
+final List<int> brewTemps =
+    ([for (var i = 60; i <= 100; i += 5) i] // C temps 60-100
+        +
+        [for (var i = 140; i <= 200; i += 10) i] +
+        [212] // F temps 140-212
+    );

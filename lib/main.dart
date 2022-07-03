@@ -27,6 +27,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tuple/tuple.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,71 +41,74 @@ void main() async {
 class CuppaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Get platform
     appPlatform = Theme.of(context).platform;
-
-    // Load app theme settings
-    Prefs.loadTheme();
 
     return ChangeNotifierProvider(
         create: (_) => AppProvider(),
-        child: Consumer<AppProvider>(
-            builder: (context, provider, child) => MaterialApp(
-                builder: (context, child) {
-                  // Get device dimensions
-                  deviceWidth = MediaQuery.of(context).size.width;
-                  deviceHeight = MediaQuery.of(context).size.height;
+        child: Selector<AppProvider, Tuple2<AppTheme, String>>(
+            selector: (_, provider) =>
+                Tuple2(provider.appTheme, provider.appLanguage),
+            builder: (context, settings, child) {
+              return MaterialApp(
+                  builder: (context, child) {
+                    // Get device dimensions
+                    deviceWidth = MediaQuery.of(context).size.width;
+                    deviceHeight = MediaQuery.of(context).size.height;
 
-                  return MediaQuery(
-                    // Set scale factor
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                    // Set default scroll behavior
-                    child: ScrollConfiguration(
-                        behavior: PlatformAdaptiveScrollBehavior(appPlatform),
-                        child: child!),
-                  );
-                },
-                title: appName,
-                debugShowCheckedModeBanner: false,
-                // Configure app theme
-                theme: getPlatformAdaptiveTheme(appPlatform),
-                darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
-                themeMode: Prefs.appTheme.themeMode,
-                // Configure routes
-                initialRoute: routeTimer,
-                routes: {
-                  routeTimer: (context) => TimerWidget(),
-                  routePrefs: (context) => PrefsWidget(),
-                  routeAbout: (context) => AboutWidget(),
-                },
-                // Localization
-                locale: Prefs.appLanguage != ''
-                    ? Locale(Prefs.appLanguage, '')
-                    : null,
-                supportedLocales:
-                    supportedLanguages.keys.map<Locale>((String value) {
-                  return Locale(value, '');
-                }).toList(),
-                localizationsDelegates: [
-                  const AppLocalizationsDelegate(),
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  const FallbackMaterialLocalizationsDelegate(),
-                  const FallbackCupertinoLocalizationsDelegate(),
-                ],
-                localeResolutionCallback: (locale, supportedLocales) {
-                  if (locale != null) {
-                    // Set metric locale based on country code
-                    if (locale.countryCode == 'US') isLocaleMetric = false;
+                    return MediaQuery(
+                      // Set scale factor
+                      data:
+                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      // Set default scroll behavior
+                      child: ScrollConfiguration(
+                          behavior: PlatformAdaptiveScrollBehavior(appPlatform),
+                          child: child!),
+                    );
+                  },
+                  title: appName,
+                  debugShowCheckedModeBanner: false,
+                  // Configure app theme
+                  theme: getPlatformAdaptiveTheme(appPlatform),
+                  darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
+                  themeMode: settings.item1.themeMode,
+                  // Configure routes
+                  initialRoute: routeTimer,
+                  routes: {
+                    routeTimer: (context) => TimerWidget(),
+                    routePrefs: (context) => PrefsWidget(),
+                    routeAbout: (context) => AboutWidget(),
+                  },
+                  // Localization
+                  locale:
+                      settings.item2 != '' ? Locale(settings.item2, '') : null,
+                  supportedLocales:
+                      supportedLanguages.keys.map<Locale>((String value) {
+                    return Locale(value, '');
+                  }).toList(),
+                  localizationsDelegates: [
+                    const AppLocalizationsDelegate(),
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    const FallbackMaterialLocalizationsDelegate(),
+                    const FallbackCupertinoLocalizationsDelegate(),
+                  ],
+                  localeResolutionCallback: (locale, supportedLocales) {
+                    if (locale != null) {
+                      // Set metric locale based on country code
+                      if (locale.countryCode == 'US') isLocaleMetric = false;
 
-                    // Set language or default to English
-                    for (var supportedLocale in supportedLocales) {
-                      if (supportedLocale.languageCode == locale.languageCode) {
-                        return supportedLocale;
+                      // Set language or default to English
+                      for (var supportedLocale in supportedLocales) {
+                        if (supportedLocale.languageCode ==
+                            locale.languageCode) {
+                          return supportedLocale;
+                        }
                       }
                     }
-                  }
-                  return Locale(defaultLanguage, '');
-                })));
+                    return Locale(defaultLanguage, '');
+                  });
+            }));
   }
 }

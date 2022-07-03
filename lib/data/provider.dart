@@ -11,23 +11,178 @@
 */
 
 // Cuppa state provider
+// - Tea list management
+// - Store current app settings
 
+import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/data/globals.dart';
+import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
+import 'package:cuppa_mobile/data/presets.dart';
+import 'package:cuppa_mobile/data/tea.dart';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:quick_actions/quick_actions.dart';
 
 // Provider for settings changes
 class AppProvider extends ChangeNotifier {
-  void update() {
-    // Save user settings
-    Prefs.save();
+  // Teas
+  List<Tea> _teaList = [];
+  List<Tea> get teaList => [..._teaList];
 
-    // Ensure UI elements get updated
+  // Get number of teas
+  int get teaCount {
+    return _teaList.length;
+  }
+
+  // Add a new tea
+  void addTea(Tea newTea) {
+    _teaList.add(newTea);
+    saveTeas();
+  }
+
+  // Update one or more settings for a tea
+  void updateTea(Tea tea,
+      {String? name,
+      int? brewTimeMinutes,
+      int? brewTimeSeconds,
+      int? brewTemp,
+      TeaColor? color,
+      bool? isFavorite,
+      bool? isActive}) {
+    int teaIndex = _teaList.indexOf(tea);
+    if (teaIndex >= 0) {
+      if (name != null) _teaList[teaIndex].name = name;
+      if (brewTimeMinutes != null)
+        _teaList[teaIndex].brewTimeMinutes = brewTimeMinutes;
+      if (brewTimeSeconds != null)
+        _teaList[teaIndex].brewTimeSeconds = brewTimeSeconds;
+      if (brewTemp != null) _teaList[teaIndex].brewTemp = brewTemp;
+      if (color != null) _teaList[teaIndex].color = color;
+      if (isFavorite != null) _teaList[teaIndex].isFavorite = isFavorite;
+      if (isActive != null) _teaList[teaIndex].isActive = isActive;
+      saveTeas();
+    }
+  }
+
+  // Reorder the tea list
+  void reorderTeas(int oldIndex, int newIndex) {
+    Tea tea = _teaList.removeAt(oldIndex);
+    _teaList.insert(newIndex, tea);
+    saveTeas();
+  }
+
+  // Delete a tea
+  void deleteTea(Tea oldTea) {
+    _teaList.removeWhere((tea) => tea.id == oldTea.id);
+    saveTeas();
+  }
+
+  // Save teas to prefs and ensure UI elements get updated
+  void saveTeas() {
+    Prefs.saveTeas(_teaList);
+    notifyListeners();
+
+    // Manage quick actions
+    setQuickActions();
+  }
+
+  // Add quick action shortcuts
+  void setQuickActions() {
+    quickActions.clearShortcutItems();
+    quickActions.setShortcutItems(favoritesList.map<ShortcutItem>((tea) {
+      // Create a shortcut item for this favorite tea
+      return ShortcutItem(
+        type: shortcutPrefix + _teaList.indexOf(tea).toString(),
+        localizedTitle: tea.name,
+        icon: tea.shortcutIcon,
+      );
+    }).toList());
+  }
+
+  // Load teas from default presets
+  void loadDefaults() {
+    _teaList.add(Presets.getPreset(AppString.tea_name_black)
+        .createTea(useCelsius: _useCelsius, isFavorite: true));
+    _teaList.add(Presets.getPreset(AppString.tea_name_green)
+        .createTea(useCelsius: _useCelsius, isFavorite: true));
+    _teaList.add(Presets.getPreset(AppString.tea_name_herbal)
+        .createTea(useCelsius: _useCelsius, isFavorite: true));
+
+    // Manage quick actions
+    setQuickActions();
+  }
+
+  // Get favorite tea list
+  List<Tea> get favoritesList {
+    return _teaList.where((tea) => tea.isFavorite == true).toList();
+  }
+
+  // Get active tea
+  Tea? get activeTea {
+    return _teaList.firstWhereOrNull((tea) => tea.isActive == true);
+  }
+
+  // Clear active tea
+  void clearActiveTea() {
+    _teaList.where((tea) => tea.isActive == true).forEach((tea) {
+      tea.isActive = false;
+    });
+    Prefs.saveTeas(_teaList);
+    Prefs.clearNextAlarm();
     notifyListeners();
   }
 
-  void notify() {
-    // Only update UI elements
+  // Setting: show brew time and temperature on timer buttons
+  bool _showExtra = false;
+  bool get showExtra => _showExtra;
+  set showExtra(bool newValue) {
+    _showExtra = newValue;
+    Prefs.saveSettings(showExtra: _showExtra);
     notifyListeners();
+  }
+
+  // Setting: use Celsius temperature for new teas
+  bool _useCelsius = true;
+  bool get useCelsius => _useCelsius;
+  set useCelsius(bool newValue) {
+    _useCelsius = newValue;
+    Prefs.saveSettings(useCelsius: _useCelsius);
+    notifyListeners();
+  }
+
+  // Setting: app color theme
+  AppTheme _appTheme = AppTheme.system;
+  AppTheme get appTheme => _appTheme;
+  set appTheme(AppTheme newValue) {
+    _appTheme = newValue;
+    Prefs.saveSettings(appTheme: _appTheme);
+    notifyListeners();
+  }
+
+  // Setting: app language
+  String _appLanguage = '';
+  String get appLanguage => _appLanguage;
+  set appLanguage(String newValue) {
+    _appLanguage = newValue;
+    Prefs.saveSettings(appLanguage: _appLanguage);
+    notifyListeners();
+  }
+
+  // Initialize provider
+  AppProvider() {
+    // Fetch app settings such as theme and language
+    _showExtra = Prefs.loadShowExtra() ?? _showExtra;
+    _appTheme = Prefs.loadAppTheme() ?? _appTheme;
+    _appLanguage = Prefs.loadAppLanguage() ?? _appLanguage;
+
+    // Load teas from prefs
+    if (Prefs.teaPrefsExist()) {
+      _teaList = Prefs.loadTeas();
+
+      // Manage quick actions
+      setQuickActions();
+    }
   }
 }
