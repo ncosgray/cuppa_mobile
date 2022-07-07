@@ -52,10 +52,6 @@ class CuppaApp extends StatelessWidget {
             builder: (context, settings, child) {
               return MaterialApp(
                   builder: (context, child) {
-                    // Get device dimensions
-                    deviceWidth = MediaQuery.of(context).size.width;
-                    deviceHeight = MediaQuery.of(context).size.height;
-
                     return MediaQuery(
                       // Set scale factor
                       data:

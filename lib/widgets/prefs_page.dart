@@ -674,6 +674,8 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
 
 // Display an add tea selection dialog box
 Future<bool?> _displayAddTeaDialog(BuildContext context) async {
+  double deviceHeight = MediaQuery.of(context).size.height;
+
   return showDialog<bool>(
       context: context,
       barrierDismissible: true,

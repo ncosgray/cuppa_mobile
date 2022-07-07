@@ -216,6 +216,8 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Build Timer page
   @override
   Widget build(BuildContext context) {
+    double deviceHeight = MediaQuery.of(context).size.height;
+
     // Process tea list scroll request after build
     Future.delayed(
         Duration.zero,
