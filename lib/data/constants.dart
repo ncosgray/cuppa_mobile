@@ -42,6 +42,9 @@ const teaNameMaxLength = 16;
 const teasMinCount = 3;
 const teasMaxCount = 15;
 
+// Device size threshold
+const largeDeviceSize = 550;
+
 // Notification channel
 const notifyChannel = 'com.nathanatos.Cuppa/notification';
 const notifyMethodSetup = 'setupNotification';

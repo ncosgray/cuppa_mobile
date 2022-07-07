@@ -340,9 +340,11 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLargeDevice = MediaQuery.of(context).size.width >= largeDeviceSize;
+
     return Card(
         child: ListTile(
-      horizontalTitleGap: 4.0,
+      horizontalTitleGap: isLargeDevice ? 24.0 : 4.0,
       // Tea color selection
       leading: InkWell(
           // Color icon
@@ -368,197 +370,219 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
             // Open tea color dialog
             _displayColorDialog(tea, context);
           }),
-      title: Column(
-        children: [
-          Container(
-              height: 54.0,
-              padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
-              child: Row(children: [
-                // Favorite status
-                IconButton(
-                    alignment: Alignment.topLeft,
-                    constraints:
-                        BoxConstraints(minWidth: 30.0, minHeight: 30.0),
-                    iconSize: 20.0,
-                    icon: tea.isFavorite
-                        ? Icon(Icons.star, color: Colors.amber)
-                        : Provider.of<AppProvider>(context, listen: false)
-                                    .favoritesList
-                                    .length <
-                                favoritesMaxCount
-                            ? Icon(Icons.star, color: Colors.grey)
-                            : Icon(Icons.star_border_outlined,
-                                color: Colors.grey),
-                    // Toggle favorite status if enabled or max not reached
-                    onPressed: tea.isFavorite ||
-                            Provider.of<AppProvider>(context, listen: false)
-                                    .favoritesList
-                                    .length <
-                                favoritesMaxCount
-                        ? () {
-                            // Toggle favorite status
-                            Provider.of<AppProvider>(context, listen: false)
-                                .updateTea(tea, isFavorite: !tea.isFavorite);
-                          }
-                        : null),
-                // Tea name with edit icon
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: TextButton.icon(
-                        icon: Text(tea.name,
-                            textAlign: TextAlign.left,
-                            maxLines: 1,
+      title: Container(
+          height: 84.0,
+          child: Flex(
+            // Determine layout by device size
+            direction: isLargeDevice ? Axis.horizontal : Axis.vertical,
+            children: [
+              Flexible(
+                flex: 3,
+                child: Container(
+                    height: 54.0,
+                    padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
+                    child: Row(children: [
+                      // Favorite status
+                      IconButton(
+                          alignment: Alignment.topLeft,
+                          constraints:
+                              BoxConstraints(minWidth: 30.0, minHeight: 30.0),
+                          iconSize: 20.0,
+                          icon: tea.isFavorite
+                              ? Icon(Icons.star, color: Colors.amber)
+                              : Provider.of<AppProvider>(context, listen: false)
+                                          .favoritesList
+                                          .length <
+                                      favoritesMaxCount
+                                  ? Icon(Icons.star, color: Colors.grey)
+                                  : Icon(Icons.star_border_outlined,
+                                      color: Colors.grey),
+                          // Toggle favorite status if enabled or max not reached
+                          onPressed: tea.isFavorite ||
+                                  Provider.of<AppProvider>(context,
+                                              listen: false)
+                                          .favoritesList
+                                          .length <
+                                      favoritesMaxCount
+                              ? () {
+                                  // Toggle favorite status
+                                  Provider.of<AppProvider>(context,
+                                          listen: false)
+                                      .updateTea(tea,
+                                          isFavorite: !tea.isFavorite);
+                                }
+                              : null),
+                      // Tea name with edit icon
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: TextButton.icon(
+                              icon: Text(tea.name,
+                                  textAlign: TextAlign.left,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0,
+                                    color: tea.getThemeColor(context),
+                                  )),
+                              label: Icon(
+                                Icons.edit,
+                                color: Colors.grey,
+                                size: 20.0,
+                              ),
+                              onPressed: () {
+                                // Open tea name dialog
+                                _displayTeaNameDialog(context, tea.name)
+                                    .then((newValue) {
+                                  if (newValue != null) {
+                                    // Save name to prefs
+                                    Provider.of<AppProvider>(context,
+                                            listen: false)
+                                        .updateTea(tea, name: newValue);
+                                  }
+                                });
+                              })),
+                    ])),
+              ),
+              // Tea brew time selection
+              Flexible(
+                flex: 2,
+                child: Container(
+                    height: 30.0,
+                    padding: const EdgeInsets.fromLTRB(6.0, 2.0, 0.0, 6.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          // Brew time minutes dropdown
+                          DropdownButton<int>(
+                            value: tea.brewTimeMinutes,
+                            icon: Icon(
+                              Icons.arrow_drop_down,
+                              size: 24.0,
+                              color: Colors.grey,
+                            ),
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color!,
+                            ),
+                            underline: SizedBox(),
+                            alignment: AlignmentDirectional.center,
+                            items: <int>[for (var i = 0; i <= 19; i++) i]
+                                .map<DropdownMenuItem<int>>((int value) {
+                              return DropdownMenuItem<int>(
+                                value: value,
+                                child: Text(value.toString(),
+                                    style: TextStyle(
+                                        fontWeight: value == tea.brewTimeMinutes
+                                            ? FontWeight.w400
+                                            : FontWeight.w300)),
+                              );
+                            }).toList(),
+                            // Save brew time to prefs
+                            onChanged: (int? newValue) {
+                              if (newValue != null) {
+                                AppProvider provider = Provider.of<AppProvider>(
+                                    context,
+                                    listen: false);
+
+                                // Ensure we never have a 0:00 brew time
+                                if (newValue == 0 && tea.brewTimeSeconds == 0) {
+                                  provider.updateTea(tea, brewTimeSeconds: 15);
+                                }
+                                provider.updateTea(tea,
+                                    brewTimeMinutes: newValue);
+                              }
+                            },
+                          ),
+                          // Brew time separator
+                          Text(
+                            ': ',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18.0,
-                              color: tea.getThemeColor(context),
-                            )),
-                        label: Icon(
-                          Icons.edit,
-                          color: Colors.grey,
-                          size: 20.0,
-                        ),
-                        onPressed: () {
-                          // Open tea name dialog
-                          _displayTeaNameDialog(context, tea.name)
-                              .then((newValue) {
-                            if (newValue != null) {
-                              // Save name to prefs
-                              Provider.of<AppProvider>(context, listen: false)
-                                  .updateTea(tea, name: newValue);
-                            }
-                          });
-                        })),
-              ])),
-          // Tea brew time selection
-          Container(
-              height: 30.0,
-              padding: EdgeInsets.fromLTRB(6.0, 0.0, 0.0, 6.0),
-              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                // Brew time minutes dropdown
-                DropdownButton<int>(
-                  value: tea.brewTimeMinutes,
-                  icon: Icon(
-                    Icons.arrow_drop_down,
-                    size: 24.0,
-                    color: Colors.grey,
-                  ),
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    color: Theme.of(context).textTheme.bodyText1!.color!,
-                  ),
-                  underline: SizedBox(),
-                  alignment: AlignmentDirectional.center,
-                  items: <int>[for (var i = 0; i <= 19; i++) i]
-                      .map<DropdownMenuItem<int>>((int value) {
-                    return DropdownMenuItem<int>(
-                      value: value,
-                      child: Text(value.toString(),
-                          style: TextStyle(
-                              fontWeight: value == tea.brewTimeMinutes
-                                  ? FontWeight.w400
-                                  : FontWeight.w300)),
-                    );
-                  }).toList(),
-                  // Save brew time to prefs
-                  onChanged: (int? newValue) {
-                    if (newValue != null) {
-                      AppProvider provider =
-                          Provider.of<AppProvider>(context, listen: false);
-
-                      // Ensure we never have a 0:00 brew time
-                      if (newValue == 0 && tea.brewTimeSeconds == 0) {
-                        provider.updateTea(tea, brewTimeSeconds: 15);
-                      }
-                      provider.updateTea(tea, brewTimeMinutes: newValue);
-                    }
-                  },
-                ),
-                // Brew time separator
-                Text(
-                  ': ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                  ),
-                ),
-                // Brew time seconds dropdown
-                DropdownButton<int>(
-                  value: tea.brewTimeSeconds,
-                  icon: Icon(
-                    Icons.arrow_drop_down,
-                    size: 24.0,
-                    color: Colors.grey,
-                  ),
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    color: Theme.of(context).textTheme.bodyText1!.color!,
-                  ),
-                  underline: SizedBox(),
-                  // Ensure we never have a 0:00 brew time
-                  items: (tea.brewTimeMinutes == 0
-                          ? <int>[15, 30, 45]
-                          : <int>[0, 15, 30, 45])
-                      .map<DropdownMenuItem<int>>((int value) {
-                    return DropdownMenuItem<int>(
-                      value: value,
-                      child: Text(value.toString().padLeft(2, '0'),
-                          style: TextStyle(
-                              fontWeight: value == tea.brewTimeSeconds
-                                  ? FontWeight.w400
-                                  : FontWeight.w300)),
-                    );
-                  }).toList(),
-                  // Save brew time to prefs
-                  onChanged: (int? newValue) {
-                    if (newValue != null) {
-                      // Ensure we never have a 0:00 brew time
-                      if (newValue == 0 && tea.brewTimeMinutes == 0) {
-                        newValue = 15;
-                      }
-                      Provider.of<AppProvider>(context, listen: false)
-                          .updateTea(tea, brewTimeSeconds: newValue);
-                    }
-                  },
-                ),
-                Flexible(
-                    child: ConstrainedBox(
-                        constraints:
-                            BoxConstraints(minWidth: 1.0, maxWidth: 30.0),
-                        child: Container())),
-                // Brew temperature dropdown
-                DropdownButton<int>(
-                  value: tea.brewTemp,
-                  icon: Icon(
-                    Icons.arrow_drop_down,
-                    size: 24.0,
-                    color: Colors.grey,
-                  ),
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    color: Theme.of(context).textTheme.bodyText1!.color!,
-                  ),
-                  underline: SizedBox(),
-                  items: brewTemps.map<DropdownMenuItem<int>>((int value) {
-                    return DropdownMenuItem<int>(
-                      value: value,
-                      child: Text(formatTemp(value),
-                          style: TextStyle(
-                              fontWeight: value == tea.brewTemp
-                                  ? FontWeight.w400
-                                  : FontWeight.w300)),
-                    );
-                  }).toList(),
-                  // Save brew temp to prefs
-                  onChanged: (int? newValue) {
-                    if (newValue != null)
-                      Provider.of<AppProvider>(context, listen: false)
-                          .updateTea(tea, brewTemp: newValue);
-                  },
-                ),
-              ])),
-        ],
-      ),
+                            ),
+                          ),
+                          // Brew time seconds dropdown
+                          DropdownButton<int>(
+                            value: tea.brewTimeSeconds,
+                            icon: Icon(
+                              Icons.arrow_drop_down,
+                              size: 24.0,
+                              color: Colors.grey,
+                            ),
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color!,
+                            ),
+                            underline: SizedBox(),
+                            // Ensure we never have a 0:00 brew time
+                            items: (tea.brewTimeMinutes == 0
+                                    ? <int>[15, 30, 45]
+                                    : <int>[0, 15, 30, 45])
+                                .map<DropdownMenuItem<int>>((int value) {
+                              return DropdownMenuItem<int>(
+                                value: value,
+                                child: Text(value.toString().padLeft(2, '0'),
+                                    style: TextStyle(
+                                        fontWeight: value == tea.brewTimeSeconds
+                                            ? FontWeight.w400
+                                            : FontWeight.w300)),
+                              );
+                            }).toList(),
+                            // Save brew time to prefs
+                            onChanged: (int? newValue) {
+                              if (newValue != null) {
+                                // Ensure we never have a 0:00 brew time
+                                if (newValue == 0 && tea.brewTimeMinutes == 0) {
+                                  newValue = 15;
+                                }
+                                Provider.of<AppProvider>(context, listen: false)
+                                    .updateTea(tea, brewTimeSeconds: newValue);
+                              }
+                            },
+                          ),
+                          Flexible(
+                              child: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                      minWidth: 1.0, maxWidth: 30.0),
+                                  child: Container())),
+                          // Brew temperature dropdown
+                          DropdownButton<int>(
+                            value: tea.brewTemp,
+                            icon: Icon(
+                              Icons.arrow_drop_down,
+                              size: 24.0,
+                              color: Colors.grey,
+                            ),
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color!,
+                            ),
+                            underline: SizedBox(),
+                            items: brewTemps
+                                .map<DropdownMenuItem<int>>((int value) {
+                              return DropdownMenuItem<int>(
+                                value: value,
+                                child: Text(formatTemp(value),
+                                    style: TextStyle(
+                                        fontWeight: value == tea.brewTemp
+                                            ? FontWeight.w400
+                                            : FontWeight.w300)),
+                              );
+                            }).toList(),
+                            // Save brew temp to prefs
+                            onChanged: (int? newValue) {
+                              if (newValue != null)
+                                Provider.of<AppProvider>(context, listen: false)
+                                    .updateTea(tea, brewTemp: newValue);
+                            },
+                          ),
+                        ])),
+              ),
+            ],
+          )),
       trailing: Container(
           height: double.infinity,
           child: Icon(
