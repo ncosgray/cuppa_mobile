@@ -182,6 +182,9 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Autoscroll tea button list to specified tea
   void _scrollToTeaButton(Tea? tea) {
     if (tea != null && _doScroll) {
+      // Ensure we are on the timer screen
+      Navigator.popUntil(context, ModalRoute.withName(routeTimer));
+
       BuildContext? target = GlobalObjectKey(tea.id).currentContext;
       if (target != null) Scrollable.ensureVisible(target);
     }
