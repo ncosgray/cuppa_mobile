@@ -97,8 +97,6 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Update timer and handle brew finish
   void _decrementTimer(Timer? t) {
-    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-
     setState(() {
       if (_timerEndTime != null) {
         _timerSeconds = _timerEndTime!.difference(DateTime.now()).inSeconds;
@@ -112,7 +110,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         _timerEndTime = null;
         if (t != null) t.cancel();
         // Notify the rest of the app that the timer ended
-        provider.clearActiveTea();
+        Provider.of<AppProvider>(context, listen: false).clearActiveTea();
       }
     });
   }
