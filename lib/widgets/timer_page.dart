@@ -216,13 +216,18 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Build Timer page
   @override
   Widget build(BuildContext context) {
-    double deviceHeight = MediaQuery.of(context).size.height;
-
     // Process tea list scroll request after build
     Future.delayed(
         Duration.zero,
         () => _scrollToTeaButton(
             Provider.of<AppProvider>(context, listen: false).activeTea));
+
+    // Get device dimensions
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery.of(context).size.height;
+    bool isLargeDevice =
+        (deviceWidth >= largeDeviceSize && deviceHeight >= largeDeviceSize);
+    bool layoutPortrait = deviceHeight > deviceWidth || isLargeDevice;
 
     return PlatformAdaptiveScaffold(
         platform: appPlatform,
@@ -232,102 +237,125 @@ class _TimerWidgetState extends State<TimerWidget> {
         actionIcon: getPlatformSettingsIcon(appPlatform),
         actionRoute: routePrefs,
         body: SafeArea(
-            child: Container(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Countdown timer
-              Container(
-                  padding: const EdgeInsets.fromLTRB(48.0, 24.0, 48.0, 24.0),
-                  width: 480.0,
-                  height: 180.0,
-                  child: FittedBox(
-                    fit: BoxFit.fitHeight,
-                    alignment: Alignment.center,
-                    child: Container(
-                      width: (formatTimer(_timerSeconds)).length > 4
-                          ? 480.0
-                          : 420.0,
-                      height: 180.0,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius:
-                            const BorderRadius.all(const Radius.circular(12.0)),
-                      ),
-                      child: Center(
-                        child: Text(
-                          formatTimer(_timerSeconds),
-                          maxLines: 1,
-                          softWrap: false,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 150.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )),
-              // Teacup
               Expanded(
-                child: Container(
-                    constraints: BoxConstraints(maxWidth: deviceHeight * 0.6),
-                    padding: const EdgeInsets.fromLTRB(48.0, 0.0, 48.0, 0.0),
-                    alignment: Alignment.center,
-                    child: Stack(children: [
-                      // Teacup image
-                      Image.asset(cupImageDefault,
-                          fit: BoxFit.fitWidth, gaplessPlayback: true),
-                      // While timing, gradually darken the tea in the cup
-                      Selector<AppProvider, Tea?>(
-                          selector: (_, provider) => provider.activeTea,
-                          builder: (context, tea, child) => Opacity(
-                              opacity: _timerActive && tea != null
-                                  ? (_timerSeconds / tea.brewTime)
-                                  : 0.0,
-                              child: Image.asset(cupImageTea,
-                                  fit: BoxFit.fitWidth,
-                                  gaplessPlayback: true))),
-                      // While timing, put a teabag in the cup
-                      Visibility(
-                          visible: _timerActive,
-                          child: Image.asset(cupImageBag,
-                              fit: BoxFit.fitWidth, gaplessPlayback: true)),
-                    ])),
+                flex: layoutPortrait ? 8 : 2,
+                child: Flex(
+                    // Determine layout by device size
+                    direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Countdown timer
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                            padding: layoutPortrait
+                                ? const EdgeInsets.fromLTRB(
+                                    48.0, 12.0, 48.0, 12.0)
+                                : const EdgeInsets.all(12.0),
+                            alignment: layoutPortrait
+                                ? Alignment.center
+                                : Alignment.centerRight,
+                            child: FittedBox(
+                              fit: BoxFit.fitHeight,
+                              alignment: Alignment.center,
+                              child: Container(
+                                width: (formatTimer(_timerSeconds)).length > 4
+                                    ? 480.0
+                                    : 420.0,
+                                height: 180.0,
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: const BorderRadius.all(
+                                      const Radius.circular(12.0)),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    formatTimer(_timerSeconds),
+                                    maxLines: 1,
+                                    softWrap: false,
+                                    overflow: TextOverflow.clip,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 150.0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )),
+                      ),
+                      // Teacup
+                      Expanded(
+                        flex: layoutPortrait ? 3 : 2,
+                        child: Container(
+                            constraints:
+                                BoxConstraints(maxWidth: deviceHeight * 0.6),
+                            padding: layoutPortrait
+                                ? const EdgeInsets.all(12.0)
+                                : const EdgeInsets.fromLTRB(
+                                    48.0, 12.0, 48.0, 12.0),
+                            alignment: layoutPortrait
+                                ? Alignment.center
+                                : Alignment.centerLeft,
+                            child: Stack(children: [
+                              // Teacup image
+                              Image.asset(cupImageDefault,
+                                  fit: BoxFit.fitWidth, gaplessPlayback: true),
+                              // While timing, gradually darken the tea in the cup
+                              Selector<AppProvider, Tea?>(
+                                  selector: (_, provider) => provider.activeTea,
+                                  builder: (context, tea, child) => Opacity(
+                                      opacity: _timerActive && tea != null
+                                          ? (_timerSeconds / tea.brewTime)
+                                          : 0.0,
+                                      child: Image.asset(cupImageTea,
+                                          fit: BoxFit.fitWidth,
+                                          gaplessPlayback: true))),
+                              // While timing, put a teabag in the cup
+                              Visibility(
+                                  visible: _timerActive,
+                                  child: Image.asset(cupImageBag,
+                                      fit: BoxFit.fitWidth,
+                                      gaplessPlayback: true)),
+                            ])),
+                      ),
+                    ]),
               ),
               // Tea brew start buttons
               SizedBox(
-                  height: 170.0,
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(12.0, 24.0, 12.0, 12.0),
-                    alignment: Alignment.center,
-                    child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
-                        controller: _scrollController,
-                        child: Consumer<AppProvider>(
-                            builder: (context, provider, child) => Row(
-                                    children: provider.teaList
-                                        .map<TeaButton>((Tea tea) {
-                                  return TeaButton(
-                                      key: GlobalObjectKey(tea.id),
-                                      tea: tea,
-                                      fade: !_timerActive || tea.isActive
-                                          ? false
-                                          : true,
-                                      onPressed: (bool newValue) async {
-                                        if (!tea
-                                            .isActive) if (await _confirmTimer())
-                                          _setTimer(tea);
-                                      });
-                                }).toList()))),
-                  )),
-              // Cancel brewing button
-              SizedBox(
+                height: 134.0,
                 child: Container(
-                  margin: const EdgeInsets.only(bottom: 12.0),
+                  alignment: Alignment.center,
+                  child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      controller: _scrollController,
+                      child: Consumer<AppProvider>(
+                          builder: (context, provider, child) => Row(
+                                  children: provider.teaList
+                                      .map<TeaButton>((Tea tea) {
+                                return TeaButton(
+                                    key: GlobalObjectKey(tea.id),
+                                    tea: tea,
+                                    fade: !_timerActive || tea.isActive
+                                        ? false
+                                        : true,
+                                    onPressed: (bool newValue) async {
+                                      if (!tea
+                                          .isActive) if (await _confirmTimer())
+                                        _setTimer(tea);
+                                    });
+                              }).toList()))),
+                ),
+              ),
+              // Cancel brewing button
+              Expanded(
+                flex: 1,
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 6.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -347,7 +375,7 @@ class _TimerWidgetState extends State<TimerWidget> {
               ),
             ],
           ),
-        )));
+        ));
   }
 }
 
