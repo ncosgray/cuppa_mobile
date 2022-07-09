@@ -371,7 +371,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
             _displayColorDialog(tea, context);
           }),
       title: Container(
-          height: 84.0,
+          height: isLargeDevice ? 64.0 : 84.0,
           child: Flex(
             // Determine layout by device size
             direction: isLargeDevice ? Axis.horizontal : Axis.vertical,
