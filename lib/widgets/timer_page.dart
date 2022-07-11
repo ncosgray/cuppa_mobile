@@ -292,7 +292,8 @@ class _TimerWidgetState extends State<TimerWidget> {
                             constraints:
                                 BoxConstraints(maxWidth: deviceHeight * 0.6),
                             padding: layoutPortrait
-                                ? const EdgeInsets.all(12.0)
+                                ? const EdgeInsets.fromLTRB(
+                                    18.0, 12.0, 18.0, 12.0)
                                 : const EdgeInsets.fromLTRB(
                                     48.0, 12.0, 48.0, 12.0),
                             alignment: layoutPortrait
@@ -326,6 +327,7 @@ class _TimerWidgetState extends State<TimerWidget> {
               SizedBox(
                 height: 134.0,
                 child: Container(
+                  margin: const EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 0.0),
                   alignment: Alignment.center,
                   child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
