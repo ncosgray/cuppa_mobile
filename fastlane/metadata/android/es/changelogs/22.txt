@@ -1,0 +1,5 @@
+* Las notificaciones de los temporizadores ahora incluyen una marca de tiempo.
+* Se ha añadido una página «Acerca de».
+* Ahora se pueden cambiar algunos ajustes mientras un temporizador está activo.
+* Ajustes de usabilidad y de la interfaz.
+* Disponible en 7 nuevos idiomas - ¡Contribuye con más a través de Weblate!
