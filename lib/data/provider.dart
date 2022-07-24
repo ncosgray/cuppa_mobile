@@ -131,7 +131,6 @@ class AppProvider extends ChangeNotifier {
     });
     Prefs.saveTeas(_teaList);
     Prefs.clearNextAlarm();
-    notifyListeners();
   }
 
   // Setting: show brew time and temperature on timer buttons
@@ -167,6 +166,11 @@ class AppProvider extends ChangeNotifier {
   set appLanguage(String newValue) {
     _appLanguage = newValue;
     Prefs.saveSettings(appLanguage: _appLanguage);
+    notifyListeners();
+  }
+
+  // Notify listeners
+  void notify() {
     notifyListeners();
   }
 

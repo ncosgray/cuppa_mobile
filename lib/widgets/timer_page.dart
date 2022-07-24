@@ -104,13 +104,17 @@ class _TimerWidgetState extends State<TimerWidget> {
         _timerSeconds = 0;
       }
       if (_timerSeconds <= 0) {
+        AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
         // Brewing complete
         _timerActive = false;
+        provider.clearActiveTea();
         _timerSeconds = 0;
         _timerEndTime = null;
         if (t != null) t.cancel();
+
         // Notify the rest of the app that the timer ended
-        Provider.of<AppProvider>(context, listen: false).clearActiveTea();
+        provider.notify();
       }
     });
   }
@@ -120,7 +124,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
 
     setState(() {
-      if (!_timerActive) _timerActive = true;
+      _timerActive = true;
       provider.clearActiveTea();
       provider.updateTea(tea, isActive: true);
       if (secs == 0) {
