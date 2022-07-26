@@ -50,6 +50,10 @@ class CuppaApp extends StatelessWidget {
             selector: (_, provider) =>
                 Tuple2(provider.appTheme, provider.appLanguage),
             builder: (context, settings, child) {
+              // Settings from provider
+              ThemeMode appThemeMode = settings.item1.themeMode;
+              String appLanguage = settings.item2;
+
               return MaterialApp(
                   builder: (context, child) {
                     return MediaQuery(
@@ -67,7 +71,7 @@ class CuppaApp extends StatelessWidget {
                   // Configure app theme
                   theme: getPlatformAdaptiveTheme(appPlatform),
                   darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
-                  themeMode: settings.item1.themeMode,
+                  themeMode: appThemeMode,
                   // Configure routes
                   initialRoute: routeTimer,
                   routes: {
@@ -76,8 +80,7 @@ class CuppaApp extends StatelessWidget {
                     routeAbout: (context) => AboutWidget(),
                   },
                   // Localization
-                  locale:
-                      settings.item2 != '' ? Locale(settings.item2, '') : null,
+                  locale: appLanguage != '' ? Locale(appLanguage, '') : null,
                   supportedLocales:
                       supportedLanguages.keys.map<Locale>((String value) {
                     return Locale(value, '');
