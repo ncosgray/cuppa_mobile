@@ -1,0 +1,5 @@
+* Los preajustes del tipo de té hacen que añadir nuevos tés sea aún más fácil.
+* Utilice las notificaciones de alerta para llamar su atención.
+  (Nota: Para cambiar a las alertas, es posible que tenga que volver a instalar).
+* Ajustes de usabilidad e interfaz.
+* Actualizaciones de traducción de idiomas - ¡Contribuye a través de Weblate!
