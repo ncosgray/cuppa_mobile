@@ -13,6 +13,7 @@
 // Cuppa data
 // - Tea definition class
 
+import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/helpers.dart';
 
@@ -90,22 +91,22 @@ class Tea {
   // Factories
   factory Tea.fromJson(Map<String, dynamic> json) {
     return Tea(
-        name: json['name'] ?? '',
-        brewTime: json['brewTime'] ?? 0,
-        brewTemp: json['brewTemp'] ?? 0,
-        colorValue: json['color'] ?? 0,
-        isFavorite: json['isFavorite'] ?? false,
-        isActive: json['isActive'] ?? false);
+        name: json[jsonKeyName] ?? '',
+        brewTime: json[jsonKeyBrewTime] ?? 0,
+        brewTemp: json[jsonKeyBrewTemp] ?? 0,
+        colorValue: json[jsonKeyColor] ?? 0,
+        isFavorite: json[jsonKeyIsFavorite] ?? false,
+        isActive: json[jsonKeyIsActive] ?? false);
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'name': this.name,
-      'brewTime': this.brewTime,
-      'brewTemp': this.brewTemp,
-      'color': this.color.value,
-      'isFavorite': this.isFavorite,
-      'isActive': this.isActive,
+      jsonKeyName: this.name,
+      jsonKeyBrewTime: this.brewTime,
+      jsonKeyBrewTemp: this.brewTemp,
+      jsonKeyColor: this.color.value,
+      jsonKeyIsFavorite: this.isFavorite,
+      jsonKeyIsActive: this.isActive,
     };
   }
 }
@@ -163,33 +164,33 @@ enum TeaColor {
   // Quick action shortcut icons
   get shortcutIcon {
     if (appPlatform == TargetPlatform.iOS) {
-      return 'QuickAction';
+      return shortcutIconIOS;
     } else {
       switch (value) {
         case 1:
-          return 'shortcut_red';
+          return shortcutIconRed;
         case 2:
-          return 'shortcut_orange';
+          return shortcutIconOrange;
         case 3:
-          return 'shortcut_green';
+          return shortcutIconGreen;
         case 4:
-          return 'shortcut_blue';
+          return shortcutIconBlue;
         case 5:
-          return 'shortcut_purple';
+          return shortcutIconPurple;
         case 6:
-          return 'shortcut_brown';
+          return shortcutIconBrown;
         case 7:
-          return 'shortcut_pink';
+          return shortcutIconPink;
         case 8:
-          return 'shortcut_amber';
+          return shortcutIconAmber;
         case 9:
-          return 'shortcut_teal';
+          return shortcutIconTeal;
         case 10:
-          return 'shortcut_cyan';
+          return shortcutIconCyan;
         case 11:
-          return 'shortcut_lavender';
+          return shortcutIconLavender;
         default:
-          return 'shortcut_black';
+          return shortcutIconBlack;
       }
     }
   }

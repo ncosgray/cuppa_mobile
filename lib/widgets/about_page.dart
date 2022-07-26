@@ -32,8 +32,7 @@ class AboutWidget extends StatelessWidget {
     return PlatformAdaptiveScaffold(
         platform: appPlatform,
         isPoppable: true,
-        title: AppLocalizations.translate('about_title')
-            .replaceAll('{{app_name}}', appName),
+        title: AppString.about_title.translate(),
         body: SafeArea(
             child: Container(
                 padding: const EdgeInsets.fromLTRB(12.0, 18.0, 12.0, 0.0),
@@ -69,29 +68,26 @@ class AboutWidget extends StatelessWidget {
                     SliverToBoxAdapter(
                         child: Column(children: [
                       // Changelog
-                      _listItem(AppLocalizations.translate('version_history'),
-                          null, versionsURL),
+                      _listItem(AppString.version_history.translate(), null,
+                          versionsURL),
                       _divider(),
                       // App license info
-                      _listItem(AppLocalizations.translate('about_license'),
-                          null, licenseURL),
+                      _listItem(AppString.about_license.translate(), null,
+                          licenseURL),
                       _divider(),
                       // Link to app source code
-                      _listItem(
-                          AppLocalizations.translate('source_code'),
-                          AppLocalizations.translate('source_code_info'),
-                          sourceURL),
+                      _listItem(AppString.source_code.translate(),
+                          AppString.source_code_info.translate(), sourceURL),
                       _divider(),
                       // App localization info
                       _listItem(
-                          AppLocalizations.translate('help_translate')
-                              .replaceAll('{{app_name}}', appName),
-                          AppLocalizations.translate('help_translate_info'),
+                          AppString.help_translate.translate(),
+                          AppString.help_translate_info.translate(),
                           translateURL),
                       _divider(),
                       // How to report issues
-                      _listItem(AppLocalizations.translate('issues'),
-                          AppLocalizations.translate('issues_info'), issuesURL),
+                      _listItem(AppString.issues.translate(),
+                          AppString.issues_info.translate(), issuesURL),
                       _divider(),
                     ])),
                     SliverFillRemaining(
@@ -150,9 +146,7 @@ Widget aboutText() {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-                AppLocalizations.translate('about_app')
-                    .replaceAll('{{app_name}}', appName),
+            Text(AppString.about_app.translate(),
                 style: TextStyle(
                   fontSize: 12.0,
                 )),

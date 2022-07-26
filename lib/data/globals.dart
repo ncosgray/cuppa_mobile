@@ -26,8 +26,6 @@ late SharedPreferences sharedPrefs;
 
 // Device info
 late TargetPlatform appPlatform;
-late double deviceWidth;
-late double deviceHeight;
 bool isLocaleMetric = true;
 
 // Package info

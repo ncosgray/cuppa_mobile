@@ -340,6 +340,7 @@ class _PlatformAdaptiveTextFormDialogState
       );
     } else {
       return AlertDialog(
+        contentPadding: EdgeInsets.only(left: 16.0, right: 16.0),
         // Text entry
         content: Form(
             key: _formKey,

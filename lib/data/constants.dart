@@ -42,14 +42,33 @@ const teaNameMaxLength = 16;
 const teasMinCount = 3;
 const teasMaxCount = 15;
 
+// Device size threshold
+const largeDeviceSize = 550;
+
 // Notification channel
 const notifyChannel = 'com.nathanatos.Cuppa/notification';
 const notifyMethodSetup = 'setupNotification';
+const notifyMethodSetupSecs = 'secs';
+const notifyMethodSetupTitle = 'title';
+const notifyMethodSetupText = 'text';
 const notifyMethodCancel = 'cancelNotification';
 
 // Quick actions
 const favoritesMaxCount = 4; // iOS limitation
 const shortcutPrefix = 'shortcutTea';
+const shortcutIconIOS = 'QuickAction';
+const shortcutIconRed = 'shortcut_red';
+const shortcutIconOrange = 'shortcut_orange';
+const shortcutIconGreen = 'shortcut_green';
+const shortcutIconBlue = 'shortcut_blue';
+const shortcutIconPurple = 'shortcut_purple';
+const shortcutIconBrown = 'shortcut_brown';
+const shortcutIconPink = 'shortcut_pink';
+const shortcutIconAmber = 'shortcut_amber';
+const shortcutIconTeal = 'shortcut_teal';
+const shortcutIconCyan = 'shortcut_cyan';
+const shortcutIconLavender = 'shortcut_lavender';
+const shortcutIconBlack = 'shortcut_black';
 
 // Shared prefs keys for tea definitions
 const prefTea1Name = 'Cuppa_tea1_name';
@@ -80,3 +99,11 @@ const prefAppLanguage = 'Cuppa_app_language';
 
 // Shared prefs keys for next alarm info
 const prefNextAlarm = 'Cuppa_next_alarm_time';
+
+// More teas JSON keys
+const jsonKeyName = 'name';
+const jsonKeyBrewTime = 'brewTime';
+const jsonKeyBrewTemp = 'brewTemp';
+const jsonKeyColor = 'color';
+const jsonKeyIsFavorite = 'isFavorite';
+const jsonKeyIsActive = 'isActive';

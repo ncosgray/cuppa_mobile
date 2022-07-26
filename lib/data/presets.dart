@@ -14,7 +14,6 @@
 // - Preset tea types
 
 import 'package:cuppa_mobile/data/localization.dart';
-import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'package:flutter/material.dart';
@@ -22,7 +21,7 @@ import 'package:flutter/material.dart';
 // Preset definition
 class Preset {
   // Fields
-  String key;
+  AppString key;
   int brewTime;
   int brewTempDegreesC;
   int brewTempDegreesF;
@@ -40,12 +39,7 @@ class Preset {
 
   // Localized tea name
   get localizedName {
-    return AppLocalizations.translate(this.key);
-  }
-
-  // Brew temperature based on unit preference
-  get brewTemp {
-    return (Prefs.useCelsius ? this.brewTempDegreesC : this.brewTempDegreesF);
+    return this.key.translate();
   }
 
   // Color getter
@@ -54,11 +48,11 @@ class Preset {
   }
 
   // Create a new tea from this preset
-  Tea createTea({bool isFavorite = false}) {
+  Tea createTea({required bool useCelsius, bool isFavorite = false}) {
     return Tea(
         name: this.localizedName,
         brewTime: this.brewTime,
-        brewTemp: this.brewTemp,
+        brewTemp: (useCelsius ? this.brewTempDegreesC : this.brewTempDegreesF),
         color: this.color,
         isFavorite: isFavorite,
         isActive: false);
@@ -71,7 +65,7 @@ abstract class Presets {
   static List<Preset> presetList = [
     // Custom blank tea
     Preset(
-        key: 'new_tea_default_name',
+        key: AppString.new_tea_default_name,
         brewTime: 240,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
@@ -79,77 +73,77 @@ abstract class Presets {
         isCustom: true),
     // Black tea
     Preset(
-        key: 'tea_name_black',
+        key: AppString.tea_name_black,
         brewTime: 240,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
         color: TeaColor.black),
     // Assam
     Preset(
-        key: 'tea_name_assam',
+        key: AppString.tea_name_assam,
         brewTime: 210,
         brewTempDegreesC: 95,
         brewTempDegreesF: 200,
         color: TeaColor.black),
     // Darjeeling
     Preset(
-        key: 'tea_name_darjeeling',
+        key: AppString.tea_name_darjeeling,
         brewTime: 270,
         brewTempDegreesC: 95,
         brewTempDegreesF: 200,
         color: TeaColor.black),
     // Green tea
     Preset(
-        key: 'tea_name_green',
+        key: AppString.tea_name_green,
         brewTime: 150,
         brewTempDegreesC: 80,
         brewTempDegreesF: 180,
         color: TeaColor.green),
     // White tea
     Preset(
-        key: 'tea_name_white',
+        key: AppString.tea_name_white,
         brewTime: 300,
         brewTempDegreesC: 80,
         brewTempDegreesF: 180,
         color: TeaColor.green),
     // Herbal tea
     Preset(
-        key: 'tea_name_herbal',
+        key: AppString.tea_name_herbal,
         brewTime: 300,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
         color: TeaColor.orange),
     // Chamomile
     Preset(
-        key: 'tea_name_chamomile',
+        key: AppString.tea_name_chamomile,
         brewTime: 300,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
         color: TeaColor.orange),
     // Mint tea
     Preset(
-        key: 'tea_name_mint',
+        key: AppString.tea_name_mint,
         brewTime: 240,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
         color: TeaColor.orange),
     // Rooibos
     Preset(
-        key: 'tea_name_rooibos',
+        key: AppString.tea_name_rooibos,
         brewTime: 180,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
         color: TeaColor.orange),
     // Oolong
     Preset(
-        key: 'tea_name_oolong',
+        key: AppString.tea_name_oolong,
         brewTime: 240,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
         color: TeaColor.brown),
     // Pu'er
     Preset(
-        key: 'tea_name_puer',
+        key: AppString.tea_name_puer,
         brewTime: 270,
         brewTempDegreesC: 95,
         brewTempDegreesF: 200,
@@ -157,7 +151,7 @@ abstract class Presets {
   ];
 
   // Get preset from key
-  static Preset getPreset(String key) {
+  static Preset getPreset(AppString key) {
     return presetList.firstWhere((preset) => preset.key == key,
         orElse: () => presetList[0]);
   }
