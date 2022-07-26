@@ -166,16 +166,17 @@ class _TimerWidgetState extends State<TimerWidget> {
     }
   }
 
-  void _checkShortcutTimer() async {
-    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-
-    // Start a timer from shortcut selection
+  // Start a timer from shortcut selection
+  void _checkShortcutTimer() {
     quickActions.initialize((String shortcutType) async {
       int? teaIndex = int.tryParse(shortcutType.replaceAll(shortcutPrefix, ''));
-      if (teaIndex != null && teaIndex < provider.teaCount) {
-        if (await _confirmTimer()) {
-          _setTimer(provider.teaList[teaIndex]);
-          _doScroll = true;
+      if (teaIndex != null) {
+        AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+        if (teaIndex >= 0 && teaIndex < provider.teaCount) {
+          if (await _confirmTimer()) {
+            _setTimer(provider.teaList[teaIndex]);
+            _doScroll = true;
+          }
         }
       }
     });
