@@ -36,11 +36,12 @@ class AboutWidget extends StatelessWidget {
         title: AppString.about_title.translate(),
         body: SafeArea(
             child: Container(
-                padding: const EdgeInsets.fromLTRB(12.0, 18.0, 12.0, 0.0),
+                padding: const EdgeInsets.fromLTRB(12.0, 4.0, 12.0, 0.0),
                 child: CustomScrollView(
                   slivers: [
                     SliverAppBar(
                       elevation: 0,
+                      pinned: true,
                       backgroundColor: Theme.of(context).canvasColor,
                       leading:
                           // Teacup icon
