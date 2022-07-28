@@ -37,6 +37,7 @@ class PrefsWidget extends StatelessWidget {
     return PlatformAdaptiveScaffold(
         platform: appPlatform,
         isPoppable: true,
+        textScaleFactor: appTextScale,
         title: AppString.prefs_title.translate(),
         // Button to navigate to About page
         actionIcon: getPlatformAboutIcon(appPlatform),
@@ -447,7 +448,6 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
               Flexible(
                 flex: 2,
                 child: Container(
-                    height: 30.0,
                     padding: const EdgeInsets.fromLTRB(6.0, 2.0, 0.0, 6.0),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,

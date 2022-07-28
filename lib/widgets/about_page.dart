@@ -32,6 +32,7 @@ class AboutWidget extends StatelessWidget {
     return PlatformAdaptiveScaffold(
         platform: appPlatform,
         isPoppable: true,
+        textScaleFactor: appTextScale,
         title: AppString.about_title.translate(),
         body: SafeArea(
             child: Container(

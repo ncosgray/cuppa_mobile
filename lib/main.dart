@@ -56,10 +56,14 @@ class CuppaApp extends StatelessWidget {
 
               return MaterialApp(
                   builder: (context, child) {
+                    // Set scale factor, up to a limit
+                    appTextScale =
+                        MediaQuery.of(context).textScaleFactor > maxTextScale
+                            ? maxTextScale
+                            : MediaQuery.of(context).textScaleFactor;
                     return MediaQuery(
-                      // Set scale factor
-                      data:
-                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      data: MediaQuery.of(context)
+                          .copyWith(textScaleFactor: appTextScale),
                       // Set default scroll behavior
                       child: ScrollConfiguration(
                           behavior: PlatformAdaptiveScrollBehavior(appPlatform),

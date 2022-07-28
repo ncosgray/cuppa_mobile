@@ -235,6 +235,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     return PlatformAdaptiveScaffold(
         platform: appPlatform,
         isPoppable: false,
+        textScaleFactor: appTextScale,
         title: appName,
         // Button to navigate to Preferences page
         actionIcon: getPlatformSettingsIcon(appPlatform),
@@ -280,6 +281,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                                     maxLines: 1,
                                     softWrap: false,
                                     overflow: TextOverflow.clip,
+                                    textScaleFactor: 1.0,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 150.0,

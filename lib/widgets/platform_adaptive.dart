@@ -77,6 +77,7 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
     Key? key,
     required this.platform,
     required this.isPoppable,
+    this.textScaleFactor = 1.0,
     required this.title,
     this.actionRoute,
     this.actionIcon,
@@ -85,6 +86,7 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
 
   final TargetPlatform platform;
   final bool isPoppable;
+  final double textScaleFactor;
   final String title;
   final String? actionRoute;
   final Icon? actionIcon;
@@ -102,6 +104,7 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
                   )
                 : null,
             middle: Text(title,
+                textScaleFactor: textScaleFactor,
                 style: TextStyle(
                     color: Theme.of(context).textTheme.titleLarge!.color)),
             trailing: actionIcon != null && actionRoute != null

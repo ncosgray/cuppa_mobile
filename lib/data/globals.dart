@@ -26,6 +26,7 @@ late SharedPreferences sharedPrefs;
 
 // Device info
 late TargetPlatform appPlatform;
+double appTextScale = 1.0;
 bool isLocaleMetric = true;
 
 // Package info

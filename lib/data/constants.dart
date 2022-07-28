@@ -42,7 +42,8 @@ const teaNameMaxLength = 16;
 const teasMinCount = 3;
 const teasMaxCount = 15;
 
-// Device size threshold
+// UI sizing thresholds
+const maxTextScale = 1.4;
 const largeDeviceSize = 550;
 
 // Notification channel
