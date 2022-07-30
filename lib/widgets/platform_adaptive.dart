@@ -235,8 +235,10 @@ class PlatformAdaptiveDialog extends StatelessWidget {
 
       // Build the Material dialog
       return AlertDialog(
+        contentPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 0.0),
+        insetPadding: const EdgeInsets.all(4.0),
         title: title,
-        content: content,
+        content: SingleChildScrollView(child: content),
         actions: actionList,
       );
     }
@@ -343,12 +345,14 @@ class _PlatformAdaptiveTextFormDialogState
       );
     } else {
       return AlertDialog(
-        contentPadding: EdgeInsets.only(left: 16.0, right: 16.0),
+        contentPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 0.0),
+        insetPadding: const EdgeInsets.all(4.0),
         // Text entry
-        content: Form(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: _textField()),
+        content: SingleChildScrollView(
+            child: Form(
+                key: _formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: _textField())),
         actions: <Widget>[
           // Cancel and close dialog
           TextButton(
@@ -414,7 +418,6 @@ class _PlatformAdaptiveTextFormDialogState
       ),
       style: TextStyle(
         fontWeight: FontWeight.bold,
-        fontSize: 18.0,
       ),
       // Checks for valid values
       validator: validator,
