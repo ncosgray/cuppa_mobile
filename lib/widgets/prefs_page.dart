@@ -592,40 +592,42 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
                   margin: EdgeInsets.all(0.0),
                   color: Colors.transparent,
                   elevation: 0,
-                  child: GridView.builder(
-                    padding: EdgeInsets.all(0.0),
-                    shrinkWrap: true,
-                    itemCount: TeaColor.values.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 120.0,
-                            childAspectRatio: 3 / 2,
-                            crossAxisSpacing: 12.0,
-                            mainAxisSpacing: 12.0),
-                    // Tea color button
-                    itemBuilder: (BuildContext context, int index) {
-                      TeaColor value = TeaColor.values[index];
-                      return ListTile(
-                          dense: true,
-                          title: Container(
-                              constraints: BoxConstraints.expand(),
-                              color: value.getThemeColor(context),
-                              child: value == tea.color
-                                  ? Container(
-                                      // Timer icon indicates current color
-                                      child: Icon(
-                                      Icons.timer_outlined,
-                                      color: Colors.white,
-                                    ))
-                                  : Container()),
-                          onTap: () {
-                            // Set selected color
-                            Provider.of<AppProvider>(context, listen: false)
-                                .updateTea(tea, color: value);
-                            Navigator.of(context).pop(true);
-                          });
-                    },
-                  )),
+                  child: Scrollbar(
+                      thumbVisibility: true,
+                      child: GridView.builder(
+                        padding: EdgeInsets.all(0.0),
+                        shrinkWrap: true,
+                        itemCount: TeaColor.values.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: 120.0,
+                                childAspectRatio: 3 / 2,
+                                crossAxisSpacing: 12.0,
+                                mainAxisSpacing: 12.0),
+                        // Tea color button
+                        itemBuilder: (BuildContext context, int index) {
+                          TeaColor value = TeaColor.values[index];
+                          return ListTile(
+                              dense: true,
+                              title: Container(
+                                  constraints: BoxConstraints.expand(),
+                                  color: value.getThemeColor(context),
+                                  child: value == tea.color
+                                      ? Container(
+                                          // Timer icon indicates current color
+                                          child: Icon(
+                                          Icons.timer_outlined,
+                                          color: Colors.white,
+                                        ))
+                                      : Container()),
+                              onTap: () {
+                                // Set selected color
+                                Provider.of<AppProvider>(context, listen: false)
+                                    .updateTea(tea, color: value);
+                                Navigator.of(context).pop(true);
+                              });
+                        },
+                      ))),
             ),
             buttonTextFalse: AppString.cancel_button.translate());
       });
