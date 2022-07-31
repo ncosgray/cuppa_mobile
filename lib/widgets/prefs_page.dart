@@ -189,40 +189,19 @@ class PrefsWidget extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16.0,
                             )),
-                        trailing:
-                            // App theme dropdown
-                            DropdownButton<AppTheme>(
-                          value: Provider.of<AppProvider>(context).appTheme,
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            size: 20.0,
-                            color: Colors.grey,
-                          ),
-                          underline: SizedBox(),
-                          items: AppTheme.values
-                              .map<DropdownMenuItem<AppTheme>>(
-                                  (AppTheme value) {
-                            return DropdownMenuItem<AppTheme>(
-                              value: value,
-                              child: Text(value.localizedName,
-                                  style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: value ==
-                                              Provider.of<AppProvider>(context)
-                                                  .appTheme
-                                          ? FontWeight.w400
-                                          : FontWeight.w300)),
-                            );
-                          }).toList(),
-                          // Save appTheme to prefs
-                          onChanged: (AppTheme? newValue) {
-                            if (newValue != null) {
-                              Provider.of<AppProvider>(context, listen: false)
-                                  .appTheme = newValue;
-                            }
-                          },
-                          alignment: Alignment.centerRight,
-                        ),
+                        trailing: Text(
+                            Provider.of<AppProvider>(context)
+                                .appTheme
+                                .localizedName,
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.caption!.color!,
+                              fontSize: 16.0,
+                            )),
+                        onTap: () {
+                          // Open app theme dialog
+                          _displayAppThemeDialog(context);
+                        },
                         contentPadding: const EdgeInsets.all(6.0),
                         dense: true,
                       )),
@@ -235,45 +214,25 @@ class PrefsWidget extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 16.0,
                             )),
-                        trailing:
-                            // App language dropdown
-                            DropdownButton<String>(
-                          value: Provider.of<AppProvider>(context).appLanguage,
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            size: 20.0,
-                            color: Colors.grey,
-                          ),
-                          underline: SizedBox(),
-                          items: ([''] + supportedLanguages.keys.toList())
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                  value == ''
-                                      ? AppString.theme_system.translate()
-                                      : supportedLanguages[value]! +
-                                          ' (' +
-                                          value +
-                                          ')',
-                                  style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: value ==
-                                              Provider.of<AppProvider>(context)
-                                                  .appLanguage
-                                          ? FontWeight.w400
-                                          : FontWeight.w300)),
-                            );
-                          }).toList(),
-                          // Save appLanguage to prefs
-                          onChanged: (String? newValue) {
-                            if (newValue != null) {
-                              Provider.of<AppProvider>(context, listen: false)
-                                  .appLanguage = newValue;
-                            }
-                          },
-                          alignment: Alignment.centerRight,
-                        ),
+                        trailing: Text(
+                            Provider.of<AppProvider>(context).appLanguage == ''
+                                ? AppString.theme_system.translate()
+                                : supportedLanguages[
+                                        Provider.of<AppProvider>(context)
+                                            .appLanguage]! +
+                                    ' (' +
+                                    Provider.of<AppProvider>(context)
+                                        .appLanguage +
+                                    ')',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color:
+                                  Theme.of(context).textTheme.caption!.color!,
+                            )),
+                        onTap: () {
+                          // Open app language dialog
+                          _displayAppLanguageDialog(context);
+                        },
                         contentPadding: const EdgeInsets.all(6.0),
                         dense: true,
                       )),
@@ -733,6 +692,131 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                         },
                       ),
                     ))),
+            buttonTextFalse: AppString.cancel_button.translate());
+      });
+}
+
+// Display an app theme selection dialog box
+Future<bool?> _displayAppThemeDialog(BuildContext context) async {
+  return showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return PlatformAdaptiveDialog(
+            platform: appPlatform,
+            title: Text(AppString.prefs_app_theme.translate()),
+            content: Card(
+                margin: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
+                color: Colors.transparent,
+                elevation: 0,
+                child: SizedBox(
+                  width: double.maxFinite,
+                  height: AppTheme.values.length * 56,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 12.0),
+                    shrinkWrap: true,
+                    itemCount: AppTheme.values.length,
+                    // App theme button
+                    itemBuilder: (BuildContext context, int index) {
+                      AppProvider provider =
+                          Provider.of<AppProvider>(context, listen: false);
+                      AppTheme value = AppTheme.values.elementAt(index);
+
+                      return ListTile(
+                          dense: true,
+                          title: Row(children: [
+                            Container(
+                                padding: const EdgeInsets.only(right: 12.0),
+                                child: Icon(
+                                  value == provider.appTheme
+                                      ? Icons.radio_button_on
+                                      : Icons.radio_button_off,
+                                  size: 20.0,
+                                )),
+                            Expanded(
+                                child: Text(
+                              value.localizedName,
+                              style: TextStyle(
+                                fontSize: 18.0,
+                              ),
+                            )),
+                          ]),
+                          onTap: () {
+                            // Save appTheme to prefs
+                            provider.appTheme = value;
+                            Navigator.of(context).pop(true);
+                          });
+                    },
+                  ),
+                )),
+            buttonTextFalse: AppString.cancel_button.translate());
+      });
+}
+
+// Display an app language selection dialog box
+Future<bool?> _displayAppLanguageDialog(BuildContext context) async {
+  double deviceHeight = MediaQuery.of(context).size.height;
+  final List<String> languageOptions = [''] + supportedLanguages.keys.toList();
+
+  return showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return PlatformAdaptiveDialog(
+            platform: appPlatform,
+            title: Text(AppString.prefs_language.translate()),
+            content: Card(
+                margin: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
+                color: Colors.transparent,
+                elevation: 0,
+                child: SizedBox(
+                  width: double.maxFinite,
+                  height: deviceHeight * 0.6,
+                  child: Scrollbar(
+                      thumbVisibility: true,
+                      child: ListView.builder(
+                        padding:
+                            const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 12.0),
+                        shrinkWrap: true,
+                        itemCount: languageOptions.length,
+                        // App language button
+                        itemBuilder: (BuildContext context, int index) {
+                          AppProvider provider =
+                              Provider.of<AppProvider>(context, listen: false);
+                          String value = languageOptions[index];
+
+                          return ListTile(
+                              dense: true,
+                              title: Row(children: [
+                                Container(
+                                    padding: const EdgeInsets.only(right: 12.0),
+                                    child: Icon(
+                                      value == provider.appLanguage
+                                          ? Icons.radio_button_on
+                                          : Icons.radio_button_off,
+                                      size: 20.0,
+                                    )),
+                                Expanded(
+                                    child: Text(
+                                  value == ''
+                                      ? AppString.theme_system.translate()
+                                      : supportedLanguages[value]! +
+                                          ' (' +
+                                          value +
+                                          ')',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                  ),
+                                )),
+                              ]),
+                              onTap: () {
+                                // Save appLanguage to prefs
+                                provider.appLanguage = value;
+                                Navigator.of(context).pop(true);
+                              });
+                        },
+                      )),
+                )),
             buttonTextFalse: AppString.cancel_button.translate());
       });
 }

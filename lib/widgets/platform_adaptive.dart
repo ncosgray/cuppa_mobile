@@ -236,9 +236,8 @@ class PlatformAdaptiveDialog extends StatelessWidget {
       // Build the Material dialog
       return AlertDialog(
         contentPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 0.0),
-        insetPadding: const EdgeInsets.all(4.0),
         title: title,
-        content: SingleChildScrollView(child: content),
+        content: content,
         actions: actionList,
       );
     }
