@@ -646,20 +646,25 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                 width: double.maxFinite,
                 height: deviceHeight * 0.6,
                 child: Card(
-                    margin: EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
+                    margin: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
                     color: Colors.transparent,
                     elevation: 0,
                     child: Scrollbar(
                       thumbVisibility: true,
                       child: ListView.separated(
-                        padding: EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 12.0),
+                        padding:
+                            const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 12.0),
                         shrinkWrap: true,
                         itemCount: Presets.presetList.length,
                         // Tea name button
                         itemBuilder: (BuildContext context, int index) {
+                          AppProvider provider =
+                              Provider.of<AppProvider>(context, listen: false);
                           Preset preset = Presets.presetList[index];
+
                           return ListTile(
                               dense: true,
+                              // Present tea icon
                               leading: Container(
                                   height: double.infinity,
                                   child: Icon(
@@ -669,6 +674,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                                     color: preset.getThemeColor(context),
                                     size: 20.0,
                                   )),
+                              // Localized preset tea name
                               title: Text(
                                 preset.localizedName,
                                 style: TextStyle(
@@ -676,11 +682,33 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                                     fontSize: 18.0,
                                     color: preset.getThemeColor(context)),
                               ),
+                              // Preset tea brew time and temperature
+                              subtitle: preset.isCustom
+                                  ? null
+                                  : Container(
+                                      padding:
+                                          const EdgeInsets.only(right: 24.0),
+                                      child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              formatTimer(preset.brewTime),
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: preset
+                                                      .getThemeColor(context)),
+                                            ),
+                                            Text(
+                                              preset.tempDisplay(
+                                                  provider.useCelsius),
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: preset
+                                                      .getThemeColor(context)),
+                                            )
+                                          ])),
                               onTap: () {
-                                AppProvider provider = Provider.of<AppProvider>(
-                                    context,
-                                    listen: false);
-
                                 // Add selected tea
                                 provider.addTea(preset.createTea(
                                     useCelsius: provider.useCelsius));
