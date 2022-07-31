@@ -666,15 +666,16 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
 
                           return ListTile(
                               dense: true,
-                              // Present tea icon
-                              leading: Container(
+                              // Preset tea icon
+                              leading: SizedBox(
+                                  width: 24.0,
                                   height: double.infinity,
                                   child: Icon(
                                     preset.isCustom
                                         ? Icons.add_circle
                                         : Icons.timer_outlined,
                                     color: preset.getThemeColor(context),
-                                    size: 20.0,
+                                    size: preset.isCustom ? 20.0 : 24.0,
                                   )),
                               // Localized preset tea name
                               title: Text(
@@ -687,29 +688,30 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                               // Preset tea brew time and temperature
                               subtitle: preset.isCustom
                                   ? null
-                                  : Container(
-                                      padding:
-                                          const EdgeInsets.only(right: 24.0),
-                                      child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              formatTimer(preset.brewTime),
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  color: preset
-                                                      .getThemeColor(context)),
-                                            ),
-                                            Text(
-                                              preset.tempDisplay(
-                                                  provider.useCelsius),
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  color: preset
-                                                      .getThemeColor(context)),
-                                            )
-                                          ])),
+                                  : Row(children: [
+                                      Text(
+                                        formatTimer(preset.brewTime),
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            color:
+                                                preset.getThemeColor(context)),
+                                      ),
+                                      ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                              minWidth: 6.0, maxWidth: 30.0),
+                                          child: Container()),
+                                      Text(
+                                        preset.tempDisplay(provider.useCelsius),
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            color:
+                                                preset.getThemeColor(context)),
+                                      ),
+                                      ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                              maxWidth: double.infinity),
+                                          child: Container()),
+                                    ]),
                               onTap: () {
                                 // Add selected tea
                                 provider.addTea(preset.createTea(
