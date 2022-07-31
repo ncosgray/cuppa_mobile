@@ -71,6 +71,18 @@ Icon getPlatformAboutIcon(TargetPlatform platform) {
       : Icon(Icons.help);
 }
 
+Icon getPlatformRadioOnIcon(TargetPlatform platform) {
+  return platform == TargetPlatform.iOS
+      ? Icon(CupertinoIcons.check_mark)
+      : Icon(Icons.radio_button_on);
+}
+
+Icon getPlatformRadioOffIcon(TargetPlatform platform) {
+  return platform == TargetPlatform.iOS
+      ? Icon(null)
+      : Icon(Icons.radio_button_off);
+}
+
 // Page scaffold with nav bar that is Material on Android and Cupertino on iOS
 class PlatformAdaptiveScaffold extends StatelessWidget {
   PlatformAdaptiveScaffold({

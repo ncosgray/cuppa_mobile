@@ -757,17 +757,14 @@ Future<bool?> _displayAppThemeDialog(BuildContext context) async {
                           title: Row(children: [
                             Container(
                                 padding: const EdgeInsets.only(right: 12.0),
-                                child: Icon(
-                                  value == provider.appTheme
-                                      ? Icons.radio_button_on
-                                      : Icons.radio_button_off,
-                                  size: 20.0,
-                                )),
+                                child: value == provider.appTheme
+                                    ? getPlatformRadioOnIcon(appPlatform)
+                                    : getPlatformRadioOffIcon(appPlatform)),
                             Expanded(
                                 child: Text(
                               value.localizedName,
                               style: TextStyle(
-                                fontSize: 18.0,
+                                fontSize: 16.0,
                               ),
                             )),
                           ]),
@@ -820,12 +817,9 @@ Future<bool?> _displayAppLanguageDialog(BuildContext context) async {
                               title: Row(children: [
                                 Container(
                                     padding: const EdgeInsets.only(right: 12.0),
-                                    child: Icon(
-                                      value == provider.appLanguage
-                                          ? Icons.radio_button_on
-                                          : Icons.radio_button_off,
-                                      size: 20.0,
-                                    )),
+                                    child: value == provider.appLanguage
+                                        ? getPlatformRadioOnIcon(appPlatform)
+                                        : getPlatformRadioOffIcon(appPlatform)),
                                 Expanded(
                                     child: Text(
                                   value == ''
@@ -835,7 +829,7 @@ Future<bool?> _displayAppLanguageDialog(BuildContext context) async {
                                           value +
                                           ')',
                                   style: TextStyle(
-                                    fontSize: 18.0,
+                                    fontSize: 16.0,
                                   ),
                                 )),
                               ]),
