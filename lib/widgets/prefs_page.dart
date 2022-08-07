@@ -589,13 +589,13 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
               width: double.maxFinite,
               height: TeaColor.values.length * 22,
               child: Card(
-                  margin: EdgeInsets.all(0.0),
+                  margin: const EdgeInsets.all(0.0),
                   color: Colors.transparent,
                   elevation: 0,
                   child: Scrollbar(
                       thumbVisibility: true,
                       child: GridView.builder(
-                        padding: EdgeInsets.all(0.0),
+                        padding: const EdgeInsets.all(0.0),
                         shrinkWrap: true,
                         itemCount: TeaColor.values.length,
                         gridDelegate:
@@ -648,14 +648,13 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                 width: double.maxFinite,
                 height: deviceHeight * 0.6,
                 child: Card(
-                    margin: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
+                    margin: const EdgeInsets.only(top: 12.0),
                     color: Colors.transparent,
                     elevation: 0,
                     child: Scrollbar(
                       thumbVisibility: true,
                       child: ListView.separated(
-                        padding:
-                            const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 12.0),
+                        padding: const EdgeInsets.all(0.0),
                         shrinkWrap: true,
                         itemCount: Presets.presetList.length,
                         // Tea name button
@@ -666,6 +665,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
 
                           return ListTile(
                               dense: true,
+                              contentPadding: const EdgeInsets.all(0.0),
                               // Preset tea icon
                               leading: SizedBox(
                                   width: 24.0,
@@ -738,14 +738,14 @@ Future<bool?> _displayAppThemeDialog(BuildContext context) async {
             platform: appPlatform,
             title: Text(AppString.prefs_app_theme.translate()),
             content: Card(
-                margin: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
+                margin: const EdgeInsets.only(top: 12.0),
                 color: Colors.transparent,
                 elevation: 0,
                 child: SizedBox(
                   width: double.maxFinite,
-                  height: AppTheme.values.length * 56,
+                  height: AppTheme.values.length * 46,
                   child: ListView.builder(
-                    padding: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 12.0),
+                    padding: const EdgeInsets.all(0.0),
                     shrinkWrap: true,
                     itemCount: AppTheme.values.length,
                     // App theme button
@@ -756,6 +756,7 @@ Future<bool?> _displayAppThemeDialog(BuildContext context) async {
 
                       return ListTile(
                           dense: true,
+                          contentPadding: const EdgeInsets.all(0.0),
                           title: Row(children: [
                             Container(
                                 padding: const EdgeInsets.only(right: 12.0),
@@ -795,7 +796,7 @@ Future<bool?> _displayAppLanguageDialog(BuildContext context) async {
             platform: appPlatform,
             title: Text(AppString.prefs_language.translate()),
             content: Card(
-                margin: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
+                margin: const EdgeInsets.only(top: 12.0),
                 color: Colors.transparent,
                 elevation: 0,
                 child: SizedBox(
@@ -804,8 +805,7 @@ Future<bool?> _displayAppLanguageDialog(BuildContext context) async {
                   child: Scrollbar(
                       thumbVisibility: true,
                       child: ListView.builder(
-                        padding:
-                            const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 12.0),
+                        padding: const EdgeInsets.all(0.0),
                         shrinkWrap: true,
                         itemCount: languageOptions.length,
                         // App language button
@@ -816,6 +816,7 @@ Future<bool?> _displayAppLanguageDialog(BuildContext context) async {
 
                           return ListTile(
                               dense: true,
+                              contentPadding: const EdgeInsets.all(0.0),
                               title: Row(children: [
                                 Container(
                                     padding: const EdgeInsets.only(right: 12.0),
