@@ -31,7 +31,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
-  quick_actions_ios: 622e9076602c57f1f937f1c13e5c59c3379347e9
+  quick_actions_ios: 5ec8f5f1ae81512ac803fe10c197ebb875767a9e
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
 

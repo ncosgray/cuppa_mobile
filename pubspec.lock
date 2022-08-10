@@ -71,7 +71,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.4"
+    version: "0.13.5"
   http_parser:
     dependency: transitive
     description:
@@ -190,7 +190,7 @@ packages:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.2"
   platform:
     dependency: transitive
     description:
@@ -232,14 +232,14 @@ packages:
       name: quick_actions_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.1"
+    version: "0.6.2"
   quick_actions_ios:
     dependency: transitive
     description:
       name: quick_actions_ios
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.0+11"
+    version: "0.6.0+13"
   quick_actions_platform_interface:
     dependency: transitive
     description:
@@ -412,7 +412,7 @@ packages:
       name: url_launcher_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.12"
+    version: "2.0.13"
   url_launcher_windows:
     dependency: transitive
     description:
