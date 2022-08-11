@@ -1,0 +1,4 @@
+* [NIEUW] Horizontale modus op telefoons;
+* [VERBETERD] Grootte van de app op apparaten met aangepaste toegankelijkheidsinstellingen;
+* [VERBETERD] Vormgeving;
+* [VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!
