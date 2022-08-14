@@ -39,6 +39,8 @@ void main() async {
 
 // Create the app
 class CuppaApp extends StatelessWidget {
+  const CuppaApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // Get platform
