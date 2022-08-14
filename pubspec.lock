@@ -127,7 +127,7 @@ packages:
       name: package_info_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.3"
+    version: "1.4.3+1"
   package_info_plus_linux:
     dependency: transitive
     description:
