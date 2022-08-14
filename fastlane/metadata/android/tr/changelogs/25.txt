@@ -1,0 +1,4 @@
+* Telefonlar için yeni yatay mod.
+* Aygıt erişilebilirlik ayarları ile daha iyi ölçeklendirme.
+* Kullanılabilirlik ve arayüz iyileştirmeleri.
+* Dil çeviri güncellemeleri - Weblate ile katkıda bulunun!
