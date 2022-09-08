@@ -15,7 +15,6 @@
 
 import 'package:cuppa_mobile/data/constants.dart';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:quick_actions/quick_actions.dart';
