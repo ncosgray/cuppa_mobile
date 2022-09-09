@@ -44,5 +44,6 @@
     "tea_name_oolong": "Oolong",
     "tea_name_puer": "Pu'er",
     "tea_name_white": "Té blanco",
-    "tea_name_rooibos": "Rooibos"
+    "tea_name_rooibos": "Rooibos",
+    "notification_channel_name": "Notificaciones de temporizador"
 }

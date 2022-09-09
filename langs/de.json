@@ -44,5 +44,6 @@
     "tea_name_white": "Weißer Tee",
     "tea_name_chamomile": "Kamille",
     "tea_name_oolong": "Oolong",
-    "tea_name_puer": "Pu'er"
+    "tea_name_puer": "Pu'er",
+    "notification_channel_name": "Timer-Benachrichtigungen"
 }

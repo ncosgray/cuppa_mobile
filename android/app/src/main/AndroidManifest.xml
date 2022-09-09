@@ -22,14 +22,6 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".AlarmReceiver"
-                  android:exported="true">
-            <intent-filter>
-                <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </receiver>
-
     </application>
 
     <meta-data

@@ -46,13 +46,12 @@ const teasMaxCount = 15;
 const maxTextScale = 1.4;
 const largeDeviceSize = 550;
 
-// Notification channel
-const notifyChannel = 'com.nathanatos.Cuppa/notification';
-const notifyMethodSetup = 'setupNotification';
-const notifyMethodSetupSecs = 'secs';
-const notifyMethodSetupTitle = 'title';
-const notifyMethodSetupText = 'text';
-const notifyMethodCancel = 'cancelNotification';
+// Notifications
+const notifyID = 0;
+const notifyChannel = 'Cuppa_timer_channel';
+const notifyIcon = 'ic_stat_name';
+const notifySound = 'spoon';
+const notifySoundIOS = 'sound/spoon.aiff';
 
 // Quick actions
 const favoritesMaxCount = 4; // iOS limitation

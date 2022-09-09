@@ -25,8 +25,10 @@ dependencies:
   cupertino_icons: ^1.0.5
   flutter:
     sdk: flutter
+  flutter_local_notifications: ^9.9.1
   flutter_localizations:
     sdk: flutter
+  flutter_native_timezone: ^2.0.0
   package_info_plus: ^1.4.3
   provider: ^6.0.3
   quick_actions: ^1.0.0

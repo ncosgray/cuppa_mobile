@@ -44,5 +44,6 @@
     "tea_name_chamomile": "Kamille",
     "tea_name_darjeeling": "Darjeeling",
     "tea_name_assam": "Assam",
-    "tea_name_mint": "Munt"
+    "tea_name_mint": "Munt",
+    "notification_channel_name": "Timermeldingen"
 }

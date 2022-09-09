@@ -44,5 +44,6 @@
     "tea_name_oolong": "Oolong",
     "tea_name_puer": "Pu'er",
     "tea_name_rooibos": "Rooibos",
-    "tea_name_white": "Valge tee"
+    "tea_name_white": "Valge tee",
+    "notification_channel_name": "Taimeri märguanded"
 }
