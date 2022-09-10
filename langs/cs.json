@@ -44,5 +44,6 @@
     "tea_name_mint": "Mátový čaj",
     "tea_name_oolong": "Oolong",
     "tea_name_puer": "Pu'er",
-    "tea_name_white": "Bílý čaj"
+    "tea_name_white": "Bílý čaj",
+    "notification_channel_name": "Upozornění časovače"
 }

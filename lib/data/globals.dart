@@ -13,9 +13,7 @@
 // Cuppa globals
 // - Shared preferences, quick actions
 
-import 'package:cuppa_mobile/data/constants.dart';
-
-import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:quick_actions/quick_actions.dart';
@@ -40,5 +38,6 @@ PackageInfo packageInfo = PackageInfo(
 // Quick actions
 final QuickActions quickActions = const QuickActions();
 
-// Notification channel
-final MethodChannel notifyPlatform = const MethodChannel(notifyChannel);
+// Notifications
+final FlutterLocalNotificationsPlugin notify =
+    FlutterLocalNotificationsPlugin();

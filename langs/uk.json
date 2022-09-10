@@ -44,5 +44,6 @@
     "tea_name_assam": "Ассам",
     "tea_name_chamomile": "Ромашка",
     "tea_name_darjeeling": "Дарджілінг",
-    "tea_name_mint": "М'ятний чай"
+    "tea_name_mint": "М'ятний чай",
+    "notification_channel_name": "Сповіщення за таймером"
 }

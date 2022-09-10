@@ -22,17 +22,37 @@ import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/prefs_page.dart';
 import 'package:cuppa_mobile/widgets/timer_page.dart';
 
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 import 'package:tuple/tuple.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPrefs = await SharedPreferences.getInstance();
   packageInfo = await PackageInfo.fromPlatform();
+
+  // Get time zone
+  tz.initializeTimeZones();
+  final String? timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+  tz.setLocalLocation(tz.getLocation(timeZoneName!));
+
+  // Initialize notifications plugin
+  await notify.initialize(const InitializationSettings(
+    android: const AndroidInitializationSettings(notifyIcon),
+    iOS: const IOSInitializationSettings(
+      // Wait to request permissions when user starts a timer
+      requestSoundPermission: false,
+      requestBadgePermission: false,
+      requestAlertPermission: false,
+    ),
+  ));
 
   runApp(CuppaApp());
 }

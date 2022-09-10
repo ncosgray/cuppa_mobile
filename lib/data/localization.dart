@@ -69,6 +69,7 @@ enum AppString {
   language_name('language_name'),
   new_tea_default_name('new_tea_default_name'),
   no_button('no_button'),
+  notification_channel_name('notification_channel_name'),
   notification_text('notification_text'),
   notification_title('notification_title'),
   ok_button('ok_button'),

@@ -13,7 +13,6 @@
 // Cuppa Timer page
 // - Build interface and interactivity
 // - Start, confirm, cancel timers
-// - Notification channels for platform code
 
 import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
@@ -25,9 +24,10 @@ import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'dart:async';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 // Cuppa Timer page
 class TimerWidget extends StatefulWidget {
@@ -47,25 +47,59 @@ class _TimerWidgetState extends State<TimerWidget> {
   bool _doScroll = false;
 
   // Set up the brewing complete notification
-  Future<Null> _sendNotification(int secs, String title, String text) async {
-    try {
-      notifyPlatform.invokeMethod(notifyMethodSetup, <String, dynamic>{
-        notifyMethodSetupSecs: secs,
-        notifyMethodSetupTitle: title,
-        notifyMethodSetupText: text,
-      });
-    } on PlatformException {
-      return;
+  Future<void> _sendNotification(int secs, String title, String text) async {
+    tz.TZDateTime notifyTime =
+        tz.TZDateTime.now(tz.local).add(Duration(seconds: secs));
+
+    // Request notification permissions
+    if (appPlatform == TargetPlatform.iOS) {
+      await notify
+          .resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+          );
+    } else {
+      await notify
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.requestPermission();
     }
+
+    // Configure and schedule the alarm
+    NotificationDetails notifyDetails = NotificationDetails(
+      android: AndroidNotificationDetails(
+        notifyChannel,
+        AppString.notification_channel_name.translate(),
+        importance: Importance.high,
+        priority: Priority.high,
+        visibility: NotificationVisibility.public,
+        channelShowBadge: true,
+        showWhen: true,
+        enableLights: true,
+        color: Colors.green,
+        enableVibration: true,
+        playSound: true,
+        sound: RawResourceAndroidNotificationSound(notifySound),
+        audioAttributesUsage: AudioAttributesUsage.alarm,
+      ),
+      iOS: IOSNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+          sound: notifySoundIOS),
+    );
+    await notify.zonedSchedule(notifyID, title, text, notifyTime, notifyDetails,
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime);
   }
 
   // Cancel the notification
-  Future<Null> _cancelNotification() async {
-    try {
-      notifyPlatform.invokeMethod(notifyMethodCancel);
-    } on PlatformException {
-      return;
-    }
+  Future<void> _cancelNotification() async {
+    await notify.cancel(notifyID);
   }
 
   // Confirmation dialog

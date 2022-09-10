@@ -44,5 +44,6 @@
     "tea_name_puer": "Pu'er",
     "tea_name_rooibos": "Rooibos",
     "tea_name_white": "Tè bianco",
-    "tea_name_darjeeling": "Darjeeling"
+    "tea_name_darjeeling": "Darjeeling",
+    "notification_channel_name": "Notifiche del timer"
 }
