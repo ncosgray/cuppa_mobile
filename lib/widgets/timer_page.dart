@@ -52,18 +52,21 @@ class _TimerWidgetState extends State<TimerWidget> {
         tz.TZDateTime.now(tz.local).add(Duration(seconds: secs));
 
     // Request notification permissions
-    await notify
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestPermission();
-    await notify
-        .resolvePlatformSpecificImplementation<
-            IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
+    if (appPlatform == TargetPlatform.iOS) {
+      await notify
+          .resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+          );
+    } else {
+      await notify
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.requestPermission();
+    }
 
     // Configure and schedule the alarm
     NotificationDetails notifyDetails = NotificationDetails(
