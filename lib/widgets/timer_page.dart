@@ -48,6 +48,9 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Set up the brewing complete notification
   Future<void> _sendNotification(int secs, String title, String text) async {
+    tz.TZDateTime notifyTime =
+        tz.TZDateTime.now(tz.local).add(Duration(seconds: secs));
+
     // Request notification permissions
     await notify
         .resolvePlatformSpecificImplementation<
@@ -85,8 +88,7 @@ class _TimerWidgetState extends State<TimerWidget> {
           presentSound: true,
           sound: notifySoundIOS),
     );
-    await notify.zonedSchedule(notifyID, title, text,
-        tz.TZDateTime.now(tz.local).add(Duration(seconds: secs)), notifyDetails,
+    await notify.zonedSchedule(notifyID, title, text, notifyTime, notifyDetails,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
