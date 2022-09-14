@@ -1,0 +1,2 @@
+* [NIEUW] Ondersteuning voor Android 13's meldingstoegangsrechten;
+* [VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!
