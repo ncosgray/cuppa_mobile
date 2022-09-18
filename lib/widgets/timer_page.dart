@@ -368,11 +368,12 @@ class _TimerWidgetState extends State<TimerWidget> {
               SizedBox(
                 height: 134.0,
                 child: Container(
-                  margin: const EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 0.0),
+                  margin: const EdgeInsets.only(left: 12.0),
                   alignment: Alignment.center,
                   child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
+                      clipBehavior: Clip.none,
                       controller: _scrollController,
                       child: Consumer<AppProvider>(
                           builder: (context, provider, child) => Row(
@@ -440,7 +441,7 @@ class TeaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 0.0),
+        padding: const EdgeInsets.only(right: 12.0),
         child: AnimatedOpacity(
           opacity: fade ? 0.4 : 1.0,
           duration: Duration(milliseconds: 400),
