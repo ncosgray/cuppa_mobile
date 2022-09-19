@@ -39,7 +39,7 @@ abstract class Prefs {
 
     // Tea 1
     teaList.add(Tea(
-        name: sharedPrefs.getString(prefTea1Name) ?? 'Unknown',
+        name: sharedPrefs.getString(prefTea1Name) ?? unknownString,
         brewTime: sharedPrefs.getInt(prefTea1BrewTime) ?? 0,
         brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ?? 100,
         colorValue: sharedPrefs.getInt(prefTea1Color) ?? 0,
@@ -50,7 +50,7 @@ abstract class Prefs {
     if (sharedPrefs.containsKey(prefTea2Name) &&
         sharedPrefs.containsKey(prefTea2BrewTime)) {
       teaList.add(Tea(
-          name: sharedPrefs.getString(prefTea2Name) ?? 'Unknown',
+          name: sharedPrefs.getString(prefTea2Name) ?? unknownString,
           brewTime: sharedPrefs.getInt(prefTea2BrewTime) ?? 0,
           brewTemp: sharedPrefs.getInt(prefTea2BrewTemp) ?? 100,
           colorValue: sharedPrefs.getInt(prefTea2Color) ?? 0,
@@ -68,7 +68,7 @@ abstract class Prefs {
     if (sharedPrefs.containsKey(prefTea3Name) &&
         sharedPrefs.containsKey(prefTea3BrewTime)) {
       teaList.add(Tea(
-          name: sharedPrefs.getString(prefTea3Name) ?? 'Unknown',
+          name: sharedPrefs.getString(prefTea3Name) ?? unknownString,
           brewTime: sharedPrefs.getInt(prefTea3BrewTime) ?? 0,
           brewTemp: sharedPrefs.getInt(prefTea3BrewTemp) ?? 100,
           colorValue: sharedPrefs.getInt(prefTea3Color) ?? 0,

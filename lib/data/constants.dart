@@ -18,6 +18,7 @@ const appName = 'Cuppa';
 const appIcon = 'images/Cuppa_icon.png';
 const aboutCopyright = '\u00a9 Nathan Cosgray';
 const aboutURL = 'https://nathanatos.com';
+const unknownString = '?';
 
 // Routes
 const routeAbout = '/about';

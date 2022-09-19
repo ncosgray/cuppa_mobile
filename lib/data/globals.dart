@@ -13,6 +13,8 @@
 // Cuppa globals
 // - Shared preferences, quick actions
 
+import 'package:cuppa_mobile/data/constants.dart';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -29,10 +31,10 @@ bool isLocaleMetric = true;
 
 // Package info
 PackageInfo packageInfo = PackageInfo(
-  appName: 'Unknown',
-  packageName: 'Unknown',
-  version: 'Unknown',
-  buildNumber: 'Unknown',
+  appName: unknownString,
+  packageName: unknownString,
+  version: unknownString,
+  buildNumber: unknownString,
 );
 
 // Quick actions
