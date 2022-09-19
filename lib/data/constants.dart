@@ -39,7 +39,7 @@ const cupImageTea = 'images/Cuppa_hires_tea.png';
 
 // Limits
 const teaNameMaxLength = 16;
-const teasMinCount = 3;
+const teasMinCount = 1;
 const teasMaxCount = 15;
 
 // UI sizing thresholds
