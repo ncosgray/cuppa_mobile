@@ -85,7 +85,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         sound: RawResourceAndroidNotificationSound(notifySound),
         audioAttributesUsage: AudioAttributesUsage.alarm,
       ),
-      iOS: IOSNotificationDetails(
+      iOS: DarwinNotificationDetails(
           presentAlert: true,
           presentBadge: true,
           presentSound: true,

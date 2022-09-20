@@ -46,7 +46,7 @@ void main() async {
   // Initialize notifications plugin
   await notify.initialize(const InitializationSettings(
     android: const AndroidInitializationSettings(notifyIcon),
-    iOS: const IOSInitializationSettings(
+    iOS: const DarwinInitializationSettings(
       // Wait to request permissions when user starts a timer
       requestSoundPermission: false,
       requestBadgePermission: false,
