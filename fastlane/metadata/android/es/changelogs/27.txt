@@ -1,0 +1,2 @@
+* Soporta el permiso de notificación de Android 13.
+* ¡Actualizaciones de traducción de idiomas - colabora a través de Weblate!
