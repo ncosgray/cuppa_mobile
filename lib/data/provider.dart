@@ -45,6 +45,7 @@ class AppProvider extends ChangeNotifier {
   // Update one or more settings for a tea
   void updateTea(Tea tea,
       {String? name,
+      int? brewTime,
       int? brewTimeMinutes,
       int? brewTimeSeconds,
       int? brewTemp,
@@ -54,6 +55,7 @@ class AppProvider extends ChangeNotifier {
     int teaIndex = _teaList.indexOf(tea);
     if (teaIndex >= 0) {
       if (name != null) _teaList[teaIndex].name = name;
+      if (brewTime != null) _teaList[teaIndex].brewTime = brewTime;
       if (brewTimeMinutes != null)
         _teaList[teaIndex].brewTimeMinutes = brewTimeMinutes;
       if (brewTimeSeconds != null)

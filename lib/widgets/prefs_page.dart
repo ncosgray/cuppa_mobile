@@ -411,96 +411,42 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          // Brew time minutes dropdown
-                          DropdownButton<int>(
-                            value: tea.brewTimeMinutes,
-                            icon: Icon(
-                              Icons.arrow_drop_down,
-                              size: 24.0,
-                              color: Colors.grey,
-                            ),
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color:
-                                  Theme.of(context).textTheme.bodyText1!.color!,
-                            ),
-                            underline: SizedBox(),
-                            alignment: AlignmentDirectional.center,
-                            items: <int>[for (var i = 0; i <= 19; i++) i]
-                                .map<DropdownMenuItem<int>>((int value) {
-                              return DropdownMenuItem<int>(
-                                value: value,
-                                child: Text(value.toString(),
-                                    style: TextStyle(
-                                        fontWeight: value == tea.brewTimeMinutes
-                                            ? FontWeight.w400
-                                            : FontWeight.w300)),
-                              );
-                            }).toList(),
-                            // Save brew time to prefs
-                            onChanged: (int? newValue) {
-                              if (newValue != null) {
-                                AppProvider provider = Provider.of<AppProvider>(
-                                    context,
-                                    listen: false);
-
-                                // Ensure we never have a 0:00 brew time
-                                if (newValue == 0 && tea.brewTimeSeconds == 0) {
-                                  provider.updateTea(tea, brewTimeSeconds: 15);
-                                }
-                                provider.updateTea(tea,
-                                    brewTimeMinutes: newValue);
-                              }
-                            },
-                          ),
-                          // Brew time separator
-                          Text(
-                            ': ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.0,
-                            ),
-                          ),
-                          // Brew time seconds dropdown
-                          DropdownButton<int>(
-                            value: tea.brewTimeSeconds,
-                            icon: Icon(
-                              Icons.arrow_drop_down,
-                              size: 24.0,
-                              color: Colors.grey,
-                            ),
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color:
-                                  Theme.of(context).textTheme.bodyText1!.color!,
-                            ),
-                            underline: SizedBox(),
-                            // Ensure we never have a 0:00 brew time
-                            items: (tea.brewTimeMinutes == 0
-                                    ? <int>[15, 30, 45]
-                                    : <int>[0, 15, 30, 45])
-                                .map<DropdownMenuItem<int>>((int value) {
-                              return DropdownMenuItem<int>(
-                                value: value,
-                                child: Text(value.toString().padLeft(2, '0'),
-                                    style: TextStyle(
-                                        fontWeight: value == tea.brewTimeSeconds
-                                            ? FontWeight.w400
-                                            : FontWeight.w300)),
-                              );
-                            }).toList(),
-                            // Save brew time to prefs
-                            onChanged: (int? newValue) {
-                              if (newValue != null) {
-                                // Ensure we never have a 0:00 brew time
-                                if (newValue == 0 && tea.brewTimeMinutes == 0) {
-                                  newValue = 15;
-                                }
-                                Provider.of<AppProvider>(context, listen: false)
-                                    .updateTea(tea, brewTimeSeconds: newValue);
-                              }
-                            },
-                          ),
+                          // Brew time
+                          InkWell(
+                              child: SizedBox(
+                                  height: double.infinity,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        formatTimer(tea.brewTime),
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.arrow_drop_down,
+                                        size: 24.0,
+                                        color: Colors.grey,
+                                      ),
+                                    ],
+                                  )),
+                              onTap: () {
+                                // Open tea brew time dialog
+                                _displayTeaBrewTimeDialog(
+                                        context,
+                                        tea.brewTimeMinutes,
+                                        tea.brewTimeSeconds)
+                                    .then((newValue) {
+                                  if (newValue != null) {
+                                    // Save brew time to prefs
+                                    Provider.of<AppProvider>(context,
+                                            listen: false)
+                                        .updateTea(tea, brewTime: newValue);
+                                  }
+                                });
+                              }),
                           Flexible(
                               child: ConstrainedBox(
                                   constraints: BoxConstraints(
@@ -571,6 +517,24 @@ Future<String?> _displayTeaNameDialog(
               }
               return null;
             },
+            buttonTextCancel: AppString.cancel_button.translate(),
+            buttonTextOK: AppString.ok_button.translate());
+      });
+}
+
+// Display a tea brew time entry dialog box
+Future<int?> _displayTeaBrewTimeDialog(
+    BuildContext context, int currentMinutes, int currentSeconds) async {
+  return showDialog<int>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return PlatformAdaptiveTimePickerDialog(
+            platform: appPlatform,
+            initialMinutes: currentMinutes,
+            minuteOptions: brewTimeMinuteOptions,
+            initialSeconds: currentSeconds,
+            secondOptions: brewTimeSecondOptions,
             buttonTextCancel: AppString.cancel_button.translate(),
             buttonTextOK: AppString.ok_button.translate());
       });

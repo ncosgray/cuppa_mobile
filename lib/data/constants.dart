@@ -40,6 +40,7 @@ const cupImageTea = 'images/Cuppa_hires_tea.png';
 
 // Limits
 const teaNameMaxLength = 16;
+const teaBrewTimeMaxMinutes = 20;
 const teasMinCount = 1;
 const teasMaxCount = 15;
 

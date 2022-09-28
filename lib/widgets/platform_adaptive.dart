@@ -17,6 +17,7 @@
 // - PlatformAdaptiveScrollBehavior sets scroll behavior for context platform
 // - PlatformAdaptiveDialog chooses showDialog type by context platform
 // - PlatformAdaptiveTextFormDialog text entry dialog for context platform
+// - PlatformAdaptiveTimePickerDialog time entry dialog for context platform
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -443,6 +444,224 @@ class _PlatformAdaptiveTextFormDialogState
           }
         });
       },
+    );
+  }
+}
+
+// Display a tea brew time entry dialog box
+class PlatformAdaptiveTimePickerDialog extends StatefulWidget {
+  const PlatformAdaptiveTimePickerDialog({
+    Key? key,
+    required this.platform,
+    required this.initialMinutes,
+    required this.minuteOptions,
+    required this.initialSeconds,
+    required this.secondOptions,
+    required this.buttonTextCancel,
+    required this.buttonTextOK,
+  }) : super(key: key);
+
+  final TargetPlatform platform;
+  final int initialMinutes;
+  final List<int> minuteOptions;
+  final int initialSeconds;
+  final List<int> secondOptions;
+  final String buttonTextCancel;
+  final String buttonTextOK;
+
+  @override
+  State<PlatformAdaptiveTimePickerDialog> createState() =>
+      _PlatformAdaptiveTimePickerDialogState(
+          platform: platform,
+          initialMinutes: initialMinutes,
+          minuteOptions: minuteOptions,
+          initialSeconds: initialSeconds,
+          secondOptions: secondOptions,
+          buttonTextCancel: buttonTextCancel,
+          buttonTextOK: buttonTextOK);
+}
+
+class _PlatformAdaptiveTimePickerDialogState
+    extends State<PlatformAdaptiveTimePickerDialog> {
+  _PlatformAdaptiveTimePickerDialogState({
+    required this.platform,
+    required this.initialMinutes,
+    required this.minuteOptions,
+    required this.initialSeconds,
+    required this.secondOptions,
+    required this.buttonTextCancel,
+    required this.buttonTextOK,
+  });
+
+  final TargetPlatform platform;
+  final int initialMinutes;
+  final List<int> minuteOptions;
+  final int initialSeconds;
+  final List<int> secondOptions;
+  final String buttonTextCancel;
+  final String buttonTextOK;
+
+  // State variables
+  late int _newMinutes;
+  late int _newSeconds;
+
+  // Initialize dialog state
+  @override
+  void initState() {
+    super.initState();
+
+    _newMinutes = initialMinutes;
+    _newSeconds = initialSeconds;
+  }
+
+  // Build dialog
+  @override
+  Widget build(BuildContext context) {
+    if (platform == TargetPlatform.iOS) {
+      return CupertinoAlertDialog(
+        // Time entry
+        content: _timePicker(),
+        actions: <Widget>[
+          // Cancel and close dialog
+          CupertinoDialogAction(
+            child: Text(buttonTextCancel),
+            onPressed: () {
+              // Cancel and close dialog
+              Navigator.pop(context, null);
+            },
+          ),
+          // Save and close dialog
+          CupertinoDialogAction(
+              child: Text(buttonTextOK),
+              isDefaultAction: true,
+              onPressed: () {
+                // Return selected time
+                Navigator.pop(context, (_newMinutes * 60 + _newSeconds));
+              }),
+        ],
+      );
+    } else {
+      return AlertDialog(
+        contentPadding: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
+        insetPadding: const EdgeInsets.all(4.0),
+        // Time entry
+        content: _timePicker(),
+        actions: <Widget>[
+          // Cancel and close dialog
+          TextButton(
+              child: Text(buttonTextCancel),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              onPressed: () {
+                Navigator.pop(context, null);
+              }),
+          // Save and close dialog
+          TextButton(
+              child: Text(buttonTextOK),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              onPressed: () {
+                // Return selected time
+                Navigator.pop(context, (_newMinutes * 60) + _newSeconds);
+              }),
+        ],
+      );
+    }
+  }
+
+  // Build a time picker
+  Widget _timePicker() {
+    return Container(
+      height: 120.0,
+      child: Stack(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Minutes picker
+              _timePickerScrollWheel(
+                  initialValue: initialMinutes,
+                  timeValues: minuteOptions,
+                  onChanged: (newValue) {
+                    _newMinutes = minuteOptions[newValue];
+
+                    // Ensure we never have a 0:00 brew time
+                    if (_newMinutes == 0 && _newSeconds == 0) {
+                      _newSeconds = 15;
+                    }
+                  }),
+              SizedBox(width: 18.0),
+              // Separator
+              Text(
+                ':',
+                style: TextStyle(
+                  fontSize: 18.0,
+                ),
+              ),
+              SizedBox(width: 18.0),
+              // Seconds picker
+              _timePickerScrollWheel(
+                  initialValue: initialSeconds,
+                  timeValues: secondOptions,
+                  onChanged: (newValue) {
+                    _newSeconds = secondOptions[newValue];
+
+                    // Ensure we never have a 0:00 brew time
+                    if (_newSeconds == 0 && _newMinutes == 0) {
+                      _newSeconds = 15;
+                    }
+                  },
+                  padTime: true),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Build a time picker scroll wheel
+  Widget _timePickerScrollWheel(
+      {required int initialValue,
+      required Null Function(dynamic value) onChanged,
+      required List<int> timeValues,
+      bool padTime = false}) {
+    int initialItem = 0;
+    if (timeValues.contains(initialValue)) {
+      initialItem = timeValues.indexOf(initialValue);
+    }
+
+    return Container(
+      width: 30.0,
+      child: ListWheelScrollView(
+        controller: FixedExtentScrollController(initialItem: initialItem),
+        physics: FixedExtentScrollPhysics(),
+        itemExtent: 22.0,
+        squeeze: 1.1,
+        diameterRatio: 1.1,
+        useMagnifier: true,
+        magnification: 1.1,
+        perspective: 0.01,
+        overAndUnderCenterOpacity: 0.2,
+        // Time values menu
+        children: List<Widget>.generate(
+          timeValues.length,
+          (int index) {
+            return Text(
+              // Format time with or without zero padding
+              padTime
+                  ? timeValues[index].toString().padLeft(2, '0')
+                  : timeValues[index].toString(),
+              style: TextStyle(
+                fontSize: 18.0,
+              ),
+            );
+          },
+        ),
+        onSelectedItemChanged: onChanged,
+      ),
     );
   }
 }

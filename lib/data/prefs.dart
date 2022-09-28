@@ -194,6 +194,11 @@ enum AppTheme {
   }
 }
 
+// Brewing time options
+final List<int> brewTimeMinuteOptions =
+    List.generate(teaBrewTimeMaxMinutes, (i) => i);
+final List<int> brewTimeSecondOptions = [0, 15, 30, 45];
+
 // Brewing temperature options
 final List<int> brewTemps =
     ([for (var i = 60; i <= 100; i += 5) i] // C temps 60-100
