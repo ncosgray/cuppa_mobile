@@ -429,6 +429,7 @@ class _PlatformAdaptiveTextFormDialogState
             : null,
       ),
       style: TextStyle(
+        fontSize: 18.0,
         fontWeight: FontWeight.bold,
       ),
       // Checks for valid values
@@ -542,7 +543,7 @@ class _PlatformAdaptiveTimePickerDialogState
       );
     } else {
       return AlertDialog(
-        contentPadding: const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 0.0),
+        contentPadding: const EdgeInsets.only(top: 12.0),
         insetPadding: const EdgeInsets.all(4.0),
         // Time entry
         content: _timePicker(),
@@ -575,48 +576,43 @@ class _PlatformAdaptiveTimePickerDialogState
   Widget _timePicker() {
     return Container(
       height: 120.0,
-      child: Stack(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Minutes picker
-              _timePickerScrollWheel(
-                  initialValue: initialMinutes,
-                  timeValues: minuteOptions,
-                  onChanged: (newValue) {
-                    _newMinutes = minuteOptions[newValue];
+          // Minutes picker
+          _timePickerScrollWheel(
+              initialValue: initialMinutes,
+              timeValues: minuteOptions,
+              onChanged: (newValue) {
+                _newMinutes = minuteOptions[newValue];
 
-                    // Ensure we never have a 0:00 brew time
-                    if (_newMinutes == 0 && _newSeconds == 0) {
-                      _newSeconds = 15;
-                    }
-                  }),
-              SizedBox(width: 18.0),
-              // Separator
-              Text(
-                ':',
-                style: TextStyle(
-                  fontSize: 18.0,
-                ),
-              ),
-              SizedBox(width: 18.0),
-              // Seconds picker
-              _timePickerScrollWheel(
-                  initialValue: initialSeconds,
-                  timeValues: secondOptions,
-                  onChanged: (newValue) {
-                    _newSeconds = secondOptions[newValue];
-
-                    // Ensure we never have a 0:00 brew time
-                    if (_newSeconds == 0 && _newMinutes == 0) {
-                      _newSeconds = 15;
-                    }
-                  },
-                  padTime: true),
-            ],
+                // Ensure we never have a 0:00 brew time
+                if (_newMinutes == 0 && _newSeconds == 0) {
+                  _newSeconds = 15;
+                }
+              }),
+          SizedBox(width: 18.0),
+          // Separator
+          Text(
+            ':',
+            style: TextStyle(
+              fontSize: 18.0,
+            ),
           ),
+          SizedBox(width: 18.0),
+          // Seconds picker
+          _timePickerScrollWheel(
+              initialValue: initialSeconds,
+              timeValues: secondOptions,
+              onChanged: (newValue) {
+                _newSeconds = secondOptions[newValue];
+
+                // Ensure we never have a 0:00 brew time
+                if (_newSeconds == 0 && _newMinutes == 0) {
+                  _newSeconds = 15;
+                }
+              },
+              padTime: true),
         ],
       ),
     );
@@ -649,7 +645,8 @@ class _PlatformAdaptiveTimePickerDialogState
         children: List<Widget>.generate(
           timeValues.length,
           (int index) {
-            return Text(
+            return Center(
+                child: Text(
               // Format time with or without zero padding
               padTime
                   ? timeValues[index].toString().padLeft(2, '0')
@@ -657,7 +654,7 @@ class _PlatformAdaptiveTimePickerDialogState
               style: TextStyle(
                 fontSize: 18.0,
               ),
-            );
+            ));
           },
         ),
         onSelectedItemChanged: onChanged,
