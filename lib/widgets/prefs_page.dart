@@ -452,38 +452,39 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                   constraints: BoxConstraints(
                                       minWidth: 1.0, maxWidth: 30.0),
                                   child: Container())),
-                          // Brew temperature dropdown
-                          DropdownButton<int>(
-                            value: tea.brewTemp,
-                            icon: Icon(
-                              Icons.arrow_drop_down,
-                              size: 24.0,
-                              color: Colors.grey,
-                            ),
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color:
-                                  Theme.of(context).textTheme.bodyText1!.color!,
-                            ),
-                            underline: SizedBox(),
-                            items: brewTemps
-                                .map<DropdownMenuItem<int>>((int value) {
-                              return DropdownMenuItem<int>(
-                                value: value,
-                                child: Text(formatTemp(value),
-                                    style: TextStyle(
-                                        fontWeight: value == tea.brewTemp
-                                            ? FontWeight.w400
-                                            : FontWeight.w300)),
-                              );
-                            }).toList(),
-                            // Save brew temp to prefs
-                            onChanged: (int? newValue) {
-                              if (newValue != null)
-                                Provider.of<AppProvider>(context, listen: false)
-                                    .updateTea(tea, brewTemp: newValue);
-                            },
-                          ),
+                          // Brew temperature
+                          InkWell(
+                              child: SizedBox(
+                                  height: double.infinity,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        formatTemp(tea.brewTemp),
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.arrow_drop_down,
+                                        size: 24.0,
+                                        color: Colors.grey,
+                                      ),
+                                    ],
+                                  )),
+                              onTap: () {
+                                // Open tea brew temp dialog
+                                _displayTeaBrewTempDialog(context, tea.brewTemp)
+                                    .then((newValue) {
+                                  if (newValue != null) {
+                                    // Save brew temp to prefs
+                                    Provider.of<AppProvider>(context,
+                                            listen: false)
+                                        .updateTea(tea, brewTemp: newValue);
+                                  }
+                                });
+                              }),
                         ])),
               ),
             ],
@@ -535,6 +536,23 @@ Future<int?> _displayTeaBrewTimeDialog(
             minuteOptions: brewTimeMinuteOptions,
             initialSeconds: currentSeconds,
             secondOptions: brewTimeSecondOptions,
+            buttonTextCancel: AppString.cancel_button.translate(),
+            buttonTextOK: AppString.ok_button.translate());
+      });
+}
+
+// Display a tea brew temperature entry dialog box
+Future<int?> _displayTeaBrewTempDialog(
+    BuildContext context, int currentTemp) async {
+  return showDialog<int>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return PlatformAdaptiveTempPickerDialog(
+            platform: appPlatform,
+            initialTemp: currentTemp,
+            tempFOptions: brewTempFOptions,
+            tempCOptions: brewTempCOptions,
             buttonTextCancel: AppString.cancel_button.translate(),
             buttonTextOK: AppString.ok_button.translate());
       });

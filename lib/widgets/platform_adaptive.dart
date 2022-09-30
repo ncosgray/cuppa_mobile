@@ -18,6 +18,9 @@
 // - PlatformAdaptiveDialog chooses showDialog type by context platform
 // - PlatformAdaptiveTextFormDialog text entry dialog for context platform
 // - PlatformAdaptiveTimePickerDialog time entry dialog for context platform
+// - PlatformAdaptiveTempPickerDialog temp entry dialog for context platform
+
+import 'package:cuppa_mobile/helpers.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -660,5 +663,253 @@ class _PlatformAdaptiveTimePickerDialogState
         onSelectedItemChanged: onChanged,
       ),
     );
+  }
+}
+
+// Display a tea brew temperature entry dialog box
+class PlatformAdaptiveTempPickerDialog extends StatefulWidget {
+  const PlatformAdaptiveTempPickerDialog({
+    Key? key,
+    required this.platform,
+    required this.initialTemp,
+    required this.tempFOptions,
+    required this.tempCOptions,
+    required this.buttonTextCancel,
+    required this.buttonTextOK,
+  }) : super(key: key);
+
+  final TargetPlatform platform;
+  final int initialTemp;
+  final List<int> tempFOptions;
+  final List<int> tempCOptions;
+  final String buttonTextCancel;
+  final String buttonTextOK;
+
+  @override
+  State<PlatformAdaptiveTempPickerDialog> createState() =>
+      _PlatformAdaptiveTempPickerDialogState(
+          platform: platform,
+          initialTemp: initialTemp,
+          tempFOptions: tempFOptions,
+          tempCOptions: tempCOptions,
+          buttonTextCancel: buttonTextCancel,
+          buttonTextOK: buttonTextOK);
+}
+
+class _PlatformAdaptiveTempPickerDialogState
+    extends State<PlatformAdaptiveTempPickerDialog> {
+  _PlatformAdaptiveTempPickerDialogState({
+    required this.platform,
+    required this.initialTemp,
+    required this.tempFOptions,
+    required this.tempCOptions,
+    required this.buttonTextCancel,
+    required this.buttonTextOK,
+  });
+
+  final TargetPlatform platform;
+  final int initialTemp;
+  final List<int> tempFOptions;
+  final List<int> tempCOptions;
+  final String buttonTextCancel;
+  final String buttonTextOK;
+
+  // State variables
+  late int _newTemp;
+  int _newTempIndex = 0;
+  late bool _unitsCelsius;
+
+  // Initialize dialog state
+  @override
+  void initState() {
+    super.initState();
+
+    // Set starting values
+    _newTemp = initialTemp;
+    if (tempCOptions.contains(_newTemp)) {
+      _newTempIndex = tempCOptions.indexOf(_newTemp);
+    }
+    if (tempFOptions.contains(_newTemp)) {
+      _newTempIndex = tempFOptions.indexOf(_newTemp);
+    }
+    _unitsCelsius = initialTemp <= maxDegreesC ? true : false;
+  }
+
+  // Build dialog
+  @override
+  Widget build(BuildContext context) {
+    if (platform == TargetPlatform.iOS) {
+      return CupertinoAlertDialog(
+        // Temperature entry
+        content: _tempPicker(),
+        actions: <Widget>[
+          // Cancel and close dialog
+          CupertinoDialogAction(
+            child: Text(buttonTextCancel),
+            onPressed: () {
+              // Cancel and close dialog
+              Navigator.pop(context, null);
+            },
+          ),
+          // Save and close dialog
+          CupertinoDialogAction(
+              child: Text(buttonTextOK),
+              isDefaultAction: true,
+              onPressed: () {
+                // Return selected time
+                Navigator.pop(context, _newTemp);
+              }),
+        ],
+      );
+    } else {
+      return AlertDialog(
+        contentPadding: const EdgeInsets.only(top: 12.0),
+        insetPadding: const EdgeInsets.all(4.0),
+        // Temperature entry
+        content: _tempPicker(),
+        actions: <Widget>[
+          // Cancel and close dialog
+          TextButton(
+              child: Text(buttonTextCancel),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              onPressed: () {
+                Navigator.pop(context, null);
+              }),
+          // Save and close dialog
+          TextButton(
+              child: Text(buttonTextOK),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              onPressed: () {
+                // Return selected time
+                Navigator.pop(context, _newTemp);
+              }),
+        ],
+      );
+    }
+  }
+
+  // Build a temperature picker
+  Widget _tempPicker() {
+    return Container(
+      height: 130.0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Unit selector
+          _adaptiveUnitPicker(),
+          SizedBox(height: 18.0),
+          // Display selected temperature
+          Text(
+            formatTemp(_newTemp),
+            style: TextStyle(
+              fontSize: 18.0,
+            ),
+          ),
+          Container(
+              padding: EdgeInsets.only(left: 18.0, right: 18.0),
+              // Temperature picker
+              child: _adaptiveTempSlider(
+                  tempValueCount: tempCOptions.length - 1,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _newTempIndex = newValue.toInt();
+                      _newTemp = _unitsCelsius
+                          ? tempCOptions[_newTempIndex]
+                          : tempFOptions[_newTempIndex];
+                    });
+                  })),
+        ],
+      ),
+    );
+  }
+
+  // Build an adaptive temperature unit picker (sliding control or chips)
+  Widget _adaptiveUnitPicker() {
+    if (platform == TargetPlatform.iOS) {
+      return CupertinoSlidingSegmentedControl<bool>(
+          groupValue: _unitsCelsius,
+          onValueChanged: (bool? selected) {
+            if (selected != null)
+              setState(() {
+                _unitsCelsius = selected;
+                if (_unitsCelsius) {
+                  _newTemp = tempCOptions[_newTempIndex];
+                } else {
+                  _newTemp = tempFOptions[_newTempIndex];
+                }
+              });
+          },
+          children: <bool, Widget>{
+            // Degrees C
+            true: Text(
+              degreesC,
+            ),
+            // Degrees F
+            false: Text(
+              degreesF,
+            ),
+          });
+    } else {
+      return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        // Degrees C
+        ChoiceChip(
+            label: Text(degreesC),
+            labelPadding: EdgeInsets.only(left: 18.0, right: 18.0),
+            selected: _unitsCelsius,
+            selectedColor: Colors.blue,
+            elevation: 0,
+            pressElevation: 0,
+            onSelected: (bool selected) {
+              setState(() {
+                if (selected) {
+                  _unitsCelsius = true;
+                  _newTemp = tempCOptions[_newTempIndex];
+                }
+              });
+            }),
+        SizedBox(width: 18.0),
+        // Degrees F
+        ChoiceChip(
+            label: Text(degreesF),
+            labelPadding: EdgeInsets.only(left: 18.0, right: 18.0),
+            selected: !_unitsCelsius,
+            selectedColor: Colors.blue,
+            elevation: 0,
+            pressElevation: 0,
+            onSelected: (bool selected) {
+              setState(() {
+                if (selected) {
+                  _unitsCelsius = false;
+                  _newTemp = tempFOptions[_newTempIndex];
+                }
+              });
+            })
+      ]);
+    }
+  }
+
+  // Build an adaptive temperature slider
+  Widget _adaptiveTempSlider(
+      {required int tempValueCount,
+      required Null Function(dynamic value) onChanged}) {
+    if (platform == TargetPlatform.iOS) {
+      return CupertinoSlider(
+          value: _newTempIndex.toDouble(),
+          min: 0.0,
+          max: tempValueCount.toDouble(),
+          divisions: tempValueCount,
+          onChanged: onChanged);
+    } else {
+      return Slider(
+          value: _newTempIndex.toDouble(),
+          min: 0.0,
+          max: tempValueCount.toDouble(),
+          divisions: tempValueCount,
+          onChanged: onChanged);
+    }
   }
 }
