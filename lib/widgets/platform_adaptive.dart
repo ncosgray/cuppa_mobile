@@ -633,11 +633,11 @@ class _PlatformAdaptiveTimePickerDialogState
     }
 
     return Container(
-      width: 30.0,
+      width: 36.0,
       child: ListWheelScrollView(
         controller: FixedExtentScrollController(initialItem: initialItem),
         physics: FixedExtentScrollPhysics(),
-        itemExtent: 22.0,
+        itemExtent: 28.0,
         squeeze: 1.1,
         diameterRatio: 1.1,
         useMagnifier: true,
