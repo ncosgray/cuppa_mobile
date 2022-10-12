@@ -24,6 +24,7 @@ import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/about_page.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reorderables/reorderables.dart';
@@ -237,27 +238,24 @@ class PrefsWidget extends StatelessWidget {
                         dense: true,
                       )),
                   _divider(),
-                  // Notification settings info text
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                          margin:
-                              const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 0.0),
-                          child: Row(children: [
-                            Container(
-                                margin: const EdgeInsets.fromLTRB(
-                                    0.0, 0.0, 6.0, 0.0),
-                                child: Icon(
-                                  Icons.info,
-                                  size: 20.0,
-                                )),
-                            Expanded(
-                                child: Text(
-                                    AppString.prefs_notifications.translate(),
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                    )))
-                          ]))),
+                  // Notification settings info text and link
+                  InkWell(
+                      child: ListTile(
+                    minLeadingWidth: 30.0,
+                    leading: Icon(
+                      Icons.info,
+                      size: 20.0,
+                    ),
+                    horizontalTitleGap: 0.0,
+                    title: Text(AppString.prefs_notifications.translate(),
+                        style: TextStyle(
+                          fontSize: 14.0,
+                        )),
+                    trailing: const Icon(Icons.launch, size: 16.0),
+                    onTap: () => AppSettings.openNotificationSettings(),
+                    contentPadding: const EdgeInsets.all(6.0),
+                    dense: true,
+                  )),
                 ]),
               ),
               SliverFillRemaining(

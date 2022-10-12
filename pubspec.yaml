@@ -22,6 +22,7 @@ environment:
   flutter: ^3.0.0
 
 dependencies:
+  app_settings: ^4.1.8
   cupertino_icons: ^1.0.5
   flutter:
     sdk: flutter
