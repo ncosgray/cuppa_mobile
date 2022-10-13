@@ -29,6 +29,7 @@ class Tea {
   late int brewTime;
   late int brewTemp;
   late TeaColor color;
+  late TeaIcon icon;
   late bool isFavorite;
   late bool isActive;
 
@@ -39,6 +40,8 @@ class Tea {
       required int brewTemp,
       TeaColor? color,
       int colorValue = 0,
+      TeaIcon? icon,
+      int iconValue = 0,
       required bool isFavorite,
       required bool isActive}) {
     this.id = UniqueKey();
@@ -47,6 +50,8 @@ class Tea {
     this.brewTemp = brewTemp;
     // Prefer TeaColor or lookup from value if color not given
     this.color = color ?? TeaColor.values[colorValue];
+    // Prefer TeaIcon or lookup from value if icon not given
+    this.icon = icon ?? TeaIcon.values[iconValue];
     this.isFavorite = isFavorite;
     this.isActive = isActive;
   }
@@ -63,6 +68,11 @@ class Tea {
   // Color getter
   Color getThemeColor(context) {
     return this.color.getThemeColor(context);
+  }
+
+  // Icon getter
+  IconData get teaIcon {
+    return this.icon.getIcon();
   }
 
   // Shortcut icon name based on color
@@ -95,6 +105,7 @@ class Tea {
         brewTime: json[jsonKeyBrewTime] ?? 0,
         brewTemp: json[jsonKeyBrewTemp] ?? 0,
         colorValue: json[jsonKeyColor] ?? 0,
+        iconValue: json[jsonKeyIcon] ?? 0,
         isFavorite: json[jsonKeyIsFavorite] ?? false,
         isActive: json[jsonKeyIsActive] ?? false);
   }
@@ -105,6 +116,7 @@ class Tea {
       jsonKeyBrewTime: this.brewTime,
       jsonKeyBrewTemp: this.brewTemp,
       jsonKeyColor: this.color.value,
+      jsonKeyIcon: this.icon.value,
       jsonKeyIsFavorite: this.isFavorite,
       jsonKeyIsActive: this.isActive,
     };
@@ -192,6 +204,29 @@ enum TeaColor {
         default:
           return shortcutIconBlack;
       }
+    }
+  }
+}
+
+// Tea icons
+enum TeaIcon {
+  timer(0),
+  cup(1),
+  flower(2);
+
+  final int value;
+
+  const TeaIcon(this.value);
+
+  // Material icon map
+  IconData getIcon() {
+    switch (value) {
+      case 1:
+        return Icons.local_cafe_outlined;
+      case 2:
+        return Icons.local_florist_outlined;
+      default:
+        return Icons.timer_outlined;
     }
   }
 }

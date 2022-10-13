@@ -43,6 +43,7 @@ abstract class Prefs {
         brewTime: sharedPrefs.getInt(prefTea1BrewTime) ?? 0,
         brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ?? 100,
         colorValue: sharedPrefs.getInt(prefTea1Color) ?? 0,
+        iconValue: sharedPrefs.getInt(prefTea1Icon) ?? 0,
         isFavorite: sharedPrefs.getBool(prefTea1IsFavorite) ?? true,
         isActive: sharedPrefs.getBool(prefTea1IsActive) ?? false));
 
@@ -54,6 +55,7 @@ abstract class Prefs {
           brewTime: sharedPrefs.getInt(prefTea2BrewTime) ?? 0,
           brewTemp: sharedPrefs.getInt(prefTea2BrewTemp) ?? 100,
           colorValue: sharedPrefs.getInt(prefTea2Color) ?? 0,
+          iconValue: 0,
           isFavorite: sharedPrefs.getBool(prefTea2IsFavorite) ?? true,
           isActive: sharedPrefs.getBool(prefTea2IsActive) ?? false));
       sharedPrefs.remove(prefTea2Name);
@@ -72,6 +74,7 @@ abstract class Prefs {
           brewTime: sharedPrefs.getInt(prefTea3BrewTime) ?? 0,
           brewTemp: sharedPrefs.getInt(prefTea3BrewTemp) ?? 100,
           colorValue: sharedPrefs.getInt(prefTea3Color) ?? 0,
+          iconValue: 0,
           isFavorite: sharedPrefs.getBool(prefTea3IsFavorite) ?? true,
           isActive: sharedPrefs.getBool(prefTea3IsActive) ?? false));
       sharedPrefs.remove(prefTea3Name);
@@ -99,6 +102,7 @@ abstract class Prefs {
     sharedPrefs.setInt(prefTea1BrewTime, teaList[0].brewTime);
     sharedPrefs.setInt(prefTea1BrewTemp, teaList[0].brewTemp);
     sharedPrefs.setInt(prefTea1Color, teaList[0].color.value);
+    sharedPrefs.setInt(prefTea1Icon, teaList[0].icon.value);
     sharedPrefs.setBool(prefTea1IsFavorite, teaList[0].isFavorite);
     sharedPrefs.setBool(prefTea1IsActive, teaList[0].isActive);
 

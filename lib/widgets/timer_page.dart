@@ -465,7 +465,7 @@ class TeaButton extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      Icons.timer_outlined,
+                      tea.teaIcon,
                       color: tea.isActive
                           ? Colors.white
                           : tea.getThemeColor(context),

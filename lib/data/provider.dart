@@ -50,6 +50,7 @@ class AppProvider extends ChangeNotifier {
       int? brewTimeSeconds,
       int? brewTemp,
       TeaColor? color,
+      TeaIcon? icon,
       bool? isFavorite,
       bool? isActive}) {
     int teaIndex = _teaList.indexOf(tea);
@@ -62,6 +63,7 @@ class AppProvider extends ChangeNotifier {
         _teaList[teaIndex].brewTimeSeconds = brewTimeSeconds;
       if (brewTemp != null) _teaList[teaIndex].brewTemp = brewTemp;
       if (color != null) _teaList[teaIndex].color = color;
+      if (icon != null) _teaList[teaIndex].icon = icon;
       if (isFavorite != null) _teaList[teaIndex].isFavorite = isFavorite;
       if (isActive != null) _teaList[teaIndex].isActive = isActive;
       saveTeas();
