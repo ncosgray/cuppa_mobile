@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "QuickActions.png",
+      "filename" : "QuickActionsCup.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "QuickActions@2x.png",
+      "filename" : "QuickActionsCup@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "QuickActions@3x.png",
+      "filename" : "QuickActionsCup@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

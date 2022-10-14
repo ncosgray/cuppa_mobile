@@ -75,11 +75,6 @@ class Tea {
     return this.icon.getIcon();
   }
 
-  // Shortcut icon name based on color
-  get shortcutIcon {
-    return this.color.shortcutIcon;
-  }
-
   // Brew time getters
   int get brewTimeSeconds {
     return this.brewTime - (this.brewTimeMinutes * 60);
@@ -96,6 +91,155 @@ class Tea {
 
   set brewTimeMinutes(int newMins) {
     this.brewTime = (newMins * 60) + this.brewTimeSeconds;
+  }
+
+  // Quick action shortcut icons based on color and tea icon
+  get shortcutIcon {
+    if (appPlatform == TargetPlatform.iOS) {
+      switch (this.icon) {
+        case TeaIcon.cup:
+          return shortcutIconIOSCup;
+        case TeaIcon.flower:
+          return shortcutIconIOSFlower;
+        default:
+          return shortcutIconIOS;
+      }
+    } else {
+      switch (this.color) {
+        case TeaColor.red:
+          {
+            switch (this.icon) {
+              case TeaIcon.cup:
+                return shortcutIconCupRed;
+              case TeaIcon.flower:
+                return shortcutIconFlowerRed;
+              default:
+                return shortcutIconRed;
+            }
+          }
+        case TeaColor.orange:
+          {
+            switch (this.icon) {
+              case TeaIcon.cup:
+                return shortcutIconCupOrange;
+              case TeaIcon.flower:
+                return shortcutIconFlowerOrange;
+              default:
+                return shortcutIconOrange;
+            }
+          }
+        case TeaColor.green:
+          {
+            switch (this.icon) {
+              case TeaIcon.cup:
+                return shortcutIconCupGreen;
+              case TeaIcon.flower:
+                return shortcutIconFlowerGreen;
+              default:
+                return shortcutIconGreen;
+            }
+          }
+        case TeaColor.blue:
+          {
+            switch (this.icon) {
+              case TeaIcon.cup:
+                return shortcutIconCupBlue;
+              case TeaIcon.flower:
+                return shortcutIconFlowerBlue;
+              default:
+                return shortcutIconBlue;
+            }
+          }
+        case TeaColor.purple:
+          {
+            switch (this.icon) {
+              case TeaIcon.cup:
+                return shortcutIconCupPurple;
+              case TeaIcon.flower:
+                return shortcutIconFlowerPurple;
+              default:
+                return shortcutIconPurple;
+            }
+          }
+        case TeaColor.brown:
+          {
+            switch (this.icon) {
+              case TeaIcon.cup:
+                return shortcutIconCupBrown;
+              case TeaIcon.flower:
+                return shortcutIconFlowerBrown;
+              default:
+                return shortcutIconBrown;
+            }
+          }
+        case TeaColor.pink:
+          {
+            switch (this.icon) {
+              case TeaIcon.cup:
+                return shortcutIconCupPink;
+              case TeaIcon.flower:
+                return shortcutIconFlowerPink;
+              default:
+                return shortcutIconPink;
+            }
+          }
+        case TeaColor.amber:
+          {
+            switch (this.icon) {
+              case TeaIcon.cup:
+                return shortcutIconCupAmber;
+              case TeaIcon.flower:
+                return shortcutIconFlowerAmber;
+              default:
+                return shortcutIconAmber;
+            }
+          }
+        case TeaColor.teal:
+          {
+            switch (this.icon) {
+              case TeaIcon.cup:
+                return shortcutIconCupTeal;
+              case TeaIcon.flower:
+                return shortcutIconFlowerTeal;
+              default:
+                return shortcutIconTeal;
+            }
+          }
+        case TeaColor.cyan:
+          {
+            switch (this.icon) {
+              case TeaIcon.cup:
+                return shortcutIconCupCyan;
+              case TeaIcon.flower:
+                return shortcutIconFlowerCyan;
+              default:
+                return shortcutIconCyan;
+            }
+          }
+        case TeaColor.lavender:
+          {
+            switch (this.icon) {
+              case TeaIcon.cup:
+                return shortcutIconCupLavender;
+              case TeaIcon.flower:
+                return shortcutIconFlowerLavender;
+              default:
+                return shortcutIconLavender;
+            }
+          }
+        default:
+          {
+            switch (this.icon) {
+              case TeaIcon.cup:
+                return shortcutIconCupBlack;
+              case TeaIcon.flower:
+                return shortcutIconFlowerBlack;
+              default:
+                return shortcutIconBlack;
+            }
+          }
+      }
+    }
   }
 
   // Factories
@@ -170,40 +314,6 @@ enum TeaColor {
       default:
         // "Black" substitutes appropriate color for current theme
         return Theme.of(context).textTheme.button!.color!;
-    }
-  }
-
-  // Quick action shortcut icons
-  get shortcutIcon {
-    if (appPlatform == TargetPlatform.iOS) {
-      return shortcutIconIOS;
-    } else {
-      switch (value) {
-        case 1:
-          return shortcutIconRed;
-        case 2:
-          return shortcutIconOrange;
-        case 3:
-          return shortcutIconGreen;
-        case 4:
-          return shortcutIconBlue;
-        case 5:
-          return shortcutIconPurple;
-        case 6:
-          return shortcutIconBrown;
-        case 7:
-          return shortcutIconPink;
-        case 8:
-          return shortcutIconAmber;
-        case 9:
-          return shortcutIconTeal;
-        case 10:
-          return shortcutIconCyan;
-        case 11:
-          return shortcutIconLavender;
-        default:
-          return shortcutIconBlack;
-      }
     }
   }
 }
