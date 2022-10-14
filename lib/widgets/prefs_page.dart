@@ -671,6 +671,7 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
                                           // Timer icon indicates current color
                                           child: Icon(
                                           tea.teaIcon,
+                                          size: 36.0,
                                           color: Colors.white,
                                         ))
                                       : Container()),
