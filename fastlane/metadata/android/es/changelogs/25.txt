@@ -1,0 +1,4 @@
+* Nuevo modo horizontal para teléfonos.
+* Mejor escala con ajustes de accesibilidad de dispositivo.
+* Mejorías de usabilidad e interfaz.
+* Actualizaciones de traducción de idiomas - ¡colabora a través de Weblate!
