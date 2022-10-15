@@ -48,7 +48,7 @@ final Map<String, String> supportedLanguages = {
   'tr': 'Türkçe',
   'uk': 'Українська',
 };
-final String defaultLanguage = 'en';
+const String defaultLanguage = 'en';
 
 // Localizable app strings
 enum AppString {
@@ -127,8 +127,8 @@ class AppLocalizations {
   static AppLocalizations get instance => AppLocalizationsDelegate.instance!;
 
   // Populate strings
-  Map<String, String> _localizedStrings = new Map();
-  Map<String, String> _defaultStrings = new Map();
+  Map<String, String> _localizedStrings = {};
+  Map<String, String> _defaultStrings = {};
   Future<bool> load() async {
     // Populate strings map from JSON file in langs folder
     String jsonString =
@@ -177,7 +177,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   }
 
   @override
-  bool shouldReload(_) => false;
+  bool shouldReload(old) => false;
 }
 
 class FallbackMaterialLocalizationsDelegate
@@ -191,10 +191,10 @@ class FallbackMaterialLocalizationsDelegate
 
   @override
   Future<MaterialLocalizations> load(Locale locale) async =>
-      DefaultMaterialLocalizations();
+      const DefaultMaterialLocalizations();
 
   @override
-  bool shouldReload(_) => false;
+  bool shouldReload(old) => false;
 }
 
 class FallbackCupertinoLocalizationsDelegate
@@ -208,8 +208,8 @@ class FallbackCupertinoLocalizationsDelegate
 
   @override
   Future<CupertinoLocalizations> load(Locale locale) async =>
-      DefaultCupertinoLocalizations();
+      const DefaultCupertinoLocalizations();
 
   @override
-  bool shouldReload(_) => false;
+  bool shouldReload(old) => false;
 }

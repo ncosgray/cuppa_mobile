@@ -72,7 +72,7 @@ class PrefsWidget extends StatelessWidget {
                               margin: const EdgeInsets.fromLTRB(
                                   6.0, 0.0, 6.0, 12.0),
                               child: Text(AppString.prefs_header.translate(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 14.0,
                                   ))))),
               // Tea settings cards
@@ -85,7 +85,8 @@ class PrefsWidget extends StatelessWidget {
                       },
                       delegate: ReorderableSliverChildListDelegate(
                           provider.teaList.map<Widget>((tea) {
-                        if ((provider.teaCount <= teasMinCount) || tea.isActive)
+                        if ((provider.teaCount <= teasMinCount) ||
+                            tea.isActive) {
                           // Don't allow deleting if there are minimum teas or timer is active
                           return IgnorePointer(
                               // Disable editing actively brewing tea
@@ -97,13 +98,10 @@ class PrefsWidget extends StatelessWidget {
                                       child: PrefsTeaRow(
                                         tea: tea,
                                       ))));
-                        else
+                        } else {
                           // Deleteable
                           return Dismissible(
                             key: Key(tea.id.toString()),
-                            child: PrefsTeaRow(
-                              tea: tea,
-                            ),
                             onDismissed: (direction) {
                               // Delete this from the tea list
                               provider.deleteTea(tea);
@@ -113,7 +111,11 @@ class PrefsWidget extends StatelessWidget {
                                 _dismissibleBackground(Alignment.centerLeft),
                             secondaryBackground:
                                 _dismissibleBackground(Alignment.centerRight),
+                            child: PrefsTeaRow(
+                              tea: tea,
+                            ),
                           );
+                        }
                       }).toList()))),
               SliverToBoxAdapter(
                 child: Column(children: [
@@ -150,7 +152,7 @@ class PrefsWidget extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: SwitchListTile.adaptive(
                         title: Text(AppString.prefs_show_extra.translate(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16.0,
                             )),
                         value: Provider.of<AppProvider>(context).showExtra,
@@ -169,7 +171,7 @@ class PrefsWidget extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: SwitchListTile.adaptive(
                         title: Text(AppString.prefs_use_celsius.translate(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16.0,
                             )),
                         value: Provider.of<AppProvider>(context).useCelsius,
@@ -187,7 +189,7 @@ class PrefsWidget extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: ListTile(
                         title: Text(AppString.prefs_app_theme.translate(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16.0,
                             )),
                         trailing: Text(
@@ -212,19 +214,13 @@ class PrefsWidget extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: ListTile(
                         title: Text(AppString.prefs_language.translate(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16.0,
                             )),
                         trailing: Text(
                             Provider.of<AppProvider>(context).appLanguage == ''
                                 ? AppString.theme_system.translate()
-                                : supportedLanguages[
-                                        Provider.of<AppProvider>(context)
-                                            .appLanguage]! +
-                                    ' (' +
-                                    Provider.of<AppProvider>(context)
-                                        .appLanguage +
-                                    ')',
+                                : '${supportedLanguages[Provider.of<AppProvider>(context).appLanguage]!} (${Provider.of<AppProvider>(context).appLanguage})',
                             style: TextStyle(
                               fontSize: 16.0,
                               color:
@@ -242,7 +238,7 @@ class PrefsWidget extends StatelessWidget {
                   InkWell(
                       child: ListTile(
                     minLeadingWidth: 30.0,
-                    leading: Container(
+                    leading: const SizedBox(
                         height: double.infinity,
                         child: Icon(
                           Icons.info,
@@ -250,10 +246,10 @@ class PrefsWidget extends StatelessWidget {
                         )),
                     horizontalTitleGap: 0.0,
                     title: Text(AppString.prefs_notifications.translate(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14.0,
                         )),
-                    trailing: Container(
+                    trailing: const SizedBox(
                         height: double.infinity,
                         child: Icon(
                           Icons.launch,
@@ -313,21 +309,22 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
       minLeadingWidth: 0.0,
       leading:
           // Favorite status
-          Container(
+          SizedBox(
               height: double.infinity,
               child: IconButton(
                   padding: EdgeInsets.zero,
-                  constraints: BoxConstraints(minWidth: 20.0, minHeight: 20.0),
+                  constraints:
+                      const BoxConstraints(minWidth: 20.0, minHeight: 20.0),
                   splashRadius: 20.0,
                   iconSize: 20.0,
                   icon: tea.isFavorite
-                      ? Icon(Icons.star, color: Colors.amber)
+                      ? const Icon(Icons.star, color: Colors.amber)
                       : Provider.of<AppProvider>(context, listen: false)
                                   .favoritesList
                                   .length <
                               favoritesMaxCount
-                          ? Icon(Icons.star, color: Colors.grey)
-                          : Icon(Icons.star_border_outlined,
+                          ? const Icon(Icons.star, color: Colors.grey)
+                          : const Icon(Icons.star_border_outlined,
                               color: Colors.grey),
                   // Toggle favorite status if enabled or max not reached
                   onPressed: tea.isFavorite ||
@@ -341,7 +338,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               .updateTea(tea, isFavorite: !tea.isFavorite);
                         }
                       : null)),
-      title: Container(
+      title: SizedBox(
           height: isLargeDevice ? 64.0 : 84.0,
           child: Flex(
             // Determine layout by device size
@@ -364,7 +361,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                     fontSize: 18.0,
                                     color: tea.getThemeColor(context),
                                   )),
-                              label: Icon(
+                              label: const Icon(
                                 Icons.edit,
                                 color: Colors.grey,
                                 size: 20.0,
@@ -398,12 +395,12 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Container(
+                                      SizedBox(
                                           width: 18.0,
                                           child: Icon(tea.teaIcon,
                                               color:
                                                   tea.getThemeColor(context))),
-                                      Icon(
+                                      const Icon(
                                         Icons.arrow_drop_down,
                                         size: 24.0,
                                         color: Colors.grey,
@@ -416,7 +413,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               }),
                           Flexible(
                               child: ConstrainedBox(
-                                  constraints: BoxConstraints(
+                                  constraints: const BoxConstraints(
                                       minWidth: 1.0, maxWidth: 30.0),
                                   child: Container())),
                           // Tea color selection
@@ -432,7 +429,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                         height: 18.0,
                                         color: tea.getThemeColor(context),
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.arrow_drop_down,
                                         size: 24.0,
                                         color: Colors.grey,
@@ -445,7 +442,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               }),
                           Flexible(
                               child: ConstrainedBox(
-                                  constraints: BoxConstraints(
+                                  constraints: const BoxConstraints(
                                       minWidth: 1.0, maxWidth: 30.0),
                                   child: Container())),
                           // Brew time
@@ -458,11 +455,11 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                     children: <Widget>[
                                       Text(
                                         formatTimer(tea.brewTime),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 18.0,
                                         ),
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.arrow_drop_down,
                                         size: 24.0,
                                         color: Colors.grey,
@@ -486,7 +483,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                               }),
                           Flexible(
                               child: ConstrainedBox(
-                                  constraints: BoxConstraints(
+                                  constraints: const BoxConstraints(
                                       minWidth: 1.0, maxWidth: 30.0),
                                   child: Container())),
                           // Brew temperature
@@ -499,11 +496,11 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                     children: <Widget>[
                                       Text(
                                         formatTemp(tea.brewTemp),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 18.0,
                                         ),
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.arrow_drop_down,
                                         size: 24.0,
                                         color: Colors.grey,
@@ -526,7 +523,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
               ),
             ],
           )),
-      trailing: Container(
+      trailing: const SizedBox(
           height: double.infinity,
           child: Icon(
             Icons.drag_handle,
@@ -670,16 +667,16 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
                           TeaColor value = TeaColor.values[index];
                           return InkWell(
                               child: Container(
-                                  constraints: BoxConstraints.expand(),
+                                  constraints: const BoxConstraints.expand(),
                                   color: value.getThemeColor(context),
                                   child: value == tea.color
-                                      ? Container(
-                                          // Timer icon indicates current color
-                                          child: Icon(
+                                      ?
+                                      // Timer icon indicates current color
+                                      Icon(
                                           tea.teaIcon,
                                           size: 32.0,
                                           color: Colors.white,
-                                        ))
+                                        )
                                       : Container()),
                               onTap: () {
                                 // Set selected color
@@ -758,7 +755,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                                                 preset.getThemeColor(context)),
                                       ),
                                       ConstrainedBox(
-                                          constraints: BoxConstraints(
+                                          constraints: const BoxConstraints(
                                               minWidth: 6.0, maxWidth: 30.0),
                                           child: Container()),
                                       Text(
@@ -769,7 +766,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                                                 preset.getThemeColor(context)),
                                       ),
                                       ConstrainedBox(
-                                          constraints: BoxConstraints(
+                                          constraints: const BoxConstraints(
                                               maxWidth: double.infinity),
                                           child: Container()),
                                     ]),
@@ -781,7 +778,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                               });
                         },
                         separatorBuilder: (context, index) {
-                          return Divider();
+                          return const Divider();
                         },
                       ),
                     ))),
@@ -827,7 +824,7 @@ Future<bool?> _displayAppThemeDialog(BuildContext context) async {
                             Expanded(
                                 child: Text(
                               value.localizedName,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16.0,
                               ),
                             )),
@@ -888,11 +885,8 @@ Future<bool?> _displayAppLanguageDialog(BuildContext context) async {
                                     child: Text(
                                   value == ''
                                       ? AppString.theme_system.translate()
-                                      : supportedLanguages[value]! +
-                                          ' (' +
-                                          value +
-                                          ')',
-                                  style: TextStyle(
+                                      : '${supportedLanguages[value]!} ($value)',
+                                  style: const TextStyle(
                                     fontSize: 16.0,
                                   ),
                                 )),
@@ -928,7 +922,7 @@ Widget _dismissibleBackground(Alignment alignment) {
               padding: const EdgeInsets.all(14.0),
               child: Align(
                   alignment: alignment,
-                  child: Icon(Icons.delete_outline,
+                  child: const Icon(Icons.delete_outline,
                       color: Colors.white, size: 28.0)))));
 }
 
@@ -939,11 +933,11 @@ Widget _draggableFeedback(
     transform: Matrix4.rotationZ(0),
     alignment: FractionalOffset.topLeft,
     child: Container(
-      child: ConstrainedBox(constraints: constraints, child: child),
-      decoration: BoxDecoration(boxShadow: <BoxShadow>[
+      decoration: const BoxDecoration(boxShadow: <BoxShadow>[
         BoxShadow(
             color: Colors.black26, blurRadius: 7.0, offset: Offset(0.0, 0.75))
       ]),
+      child: ConstrainedBox(constraints: constraints, child: child),
     ),
   );
 }

@@ -38,7 +38,7 @@ PackageInfo packageInfo = PackageInfo(
 );
 
 // Quick actions
-final QuickActions quickActions = const QuickActions();
+const QuickActions quickActions = QuickActions();
 
 // Notifications
 final FlutterLocalNotificationsPlugin notify =

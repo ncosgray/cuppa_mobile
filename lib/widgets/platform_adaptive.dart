@@ -65,31 +65,31 @@ ThemeData getPlatformAdaptiveDarkTheme(TargetPlatform platform) {
 // Platform specific icons
 Icon getPlatformSettingsIcon(TargetPlatform platform) {
   return platform == TargetPlatform.iOS
-      ? Icon(CupertinoIcons.settings_solid)
-      : Icon(Icons.settings);
+      ? const Icon(CupertinoIcons.settings_solid)
+      : const Icon(Icons.settings);
 }
 
 Icon getPlatformAboutIcon(TargetPlatform platform) {
   return platform == TargetPlatform.iOS
-      ? Icon(CupertinoIcons.question)
-      : Icon(Icons.help);
+      ? const Icon(CupertinoIcons.question)
+      : const Icon(Icons.help);
 }
 
 Icon getPlatformRadioOnIcon(TargetPlatform platform) {
   return platform == TargetPlatform.iOS
-      ? Icon(CupertinoIcons.check_mark)
-      : Icon(Icons.radio_button_on);
+      ? const Icon(CupertinoIcons.check_mark)
+      : const Icon(Icons.radio_button_on);
 }
 
 Icon getPlatformRadioOffIcon(TargetPlatform platform) {
   return platform == TargetPlatform.iOS
-      ? Icon(null)
-      : Icon(Icons.radio_button_off);
+      ? const Icon(null)
+      : const Icon(Icons.radio_button_off);
 }
 
 // Page scaffold with nav bar that is Material on Android and Cupertino on iOS
 class PlatformAdaptiveScaffold extends StatelessWidget {
-  PlatformAdaptiveScaffold({
+  const PlatformAdaptiveScaffold({
     Key? key,
     required this.platform,
     required this.isPoppable,
@@ -125,11 +125,11 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
                     color: Theme.of(context).textTheme.titleLarge!.color)),
             trailing: actionIcon != null && actionRoute != null
                 ? CupertinoButton(
-                    child: actionIcon!,
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       Navigator.of(context).pushNamed(actionRoute!);
-                    })
+                    },
+                    child: actionIcon!)
                 : null,
           ),
           child: Card(elevation: 0.0, color: Colors.transparent, child: body));
@@ -182,7 +182,7 @@ class PlatformAdaptiveScrollBehavior extends ScrollBehavior {
 
 // Alert dialog that is Material on Android and Cupertino on iOS
 class PlatformAdaptiveDialog extends StatelessWidget {
-  PlatformAdaptiveDialog({
+  const PlatformAdaptiveDialog({
     Key? key,
     required this.platform,
     required this.title,
@@ -228,24 +228,24 @@ class PlatformAdaptiveDialog extends StatelessWidget {
       // Define Material action button(s)
       List<Widget> actionList = [
         TextButton(
-          child: Text(buttonTextFalse),
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
           ),
           onPressed: () {
             Navigator.of(context).pop(false);
           },
+          child: Text(buttonTextFalse),
         )
       ];
       if (buttonTextTrue != null) {
         actionList.add(TextButton(
-          child: Text(buttonTextTrue!),
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
           ),
           onPressed: () {
             Navigator.of(context).pop(true);
           },
+          child: Text(buttonTextTrue!),
         ));
       }
 
@@ -346,15 +346,15 @@ class _PlatformAdaptiveTextFormDialogState
           ),
           // Save and close dialog, if valid
           CupertinoDialogAction(
-            child: Text(buttonTextOK),
             isDefaultAction: true,
-            textStyle: _isValid ? null : TextStyle(color: Colors.grey),
+            textStyle: _isValid ? null : const TextStyle(color: Colors.grey),
             onPressed: _isValid
                 ? () {
                     // Return new text value
                     Navigator.of(context).pop(_newValue);
                   }
                 : null,
+            child: Text(buttonTextOK),
           ),
         ],
       );
@@ -371,7 +371,6 @@ class _PlatformAdaptiveTextFormDialogState
         actions: <Widget>[
           // Cancel and close dialog
           TextButton(
-            child: Text(buttonTextCancel),
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
             ),
@@ -379,10 +378,10 @@ class _PlatformAdaptiveTextFormDialogState
               // Don't return anything
               Navigator.of(context).pop();
             },
+            child: Text(buttonTextCancel),
           ),
           // Save and close dialog, if valid
           TextButton(
-            child: Text(buttonTextOK),
             style: ButtonStyle(
               foregroundColor: _isValid
                   ? MaterialStateProperty.all<Color>(Colors.blue)
@@ -394,6 +393,7 @@ class _PlatformAdaptiveTextFormDialogState
                     Navigator.of(context).pop(_newValue);
                   }
                 : null,
+            child: Text(buttonTextOK),
           ),
         ],
       );
@@ -413,15 +413,15 @@ class _PlatformAdaptiveTextFormDialogState
       maxLines: 1,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
-        errorStyle: TextStyle(color: Colors.red),
-        focusedErrorBorder: UnderlineInputBorder(
+        errorStyle: const TextStyle(color: Colors.red),
+        focusedErrorBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.red, width: 2.0)),
-        counter: Offstage(),
-        suffixIcon: _controller.text.length > 0
+        counter: const Offstage(),
+        suffixIcon: _controller.text.isNotEmpty
             // Clear field button
             ? IconButton(
                 iconSize: 14.0,
-                icon: Icon(Icons.cancel_outlined, color: Colors.grey),
+                icon: const Icon(Icons.cancel_outlined, color: Colors.grey),
                 onPressed: () {
                   setState(() {
                     _isValid = false;
@@ -431,7 +431,7 @@ class _PlatformAdaptiveTextFormDialogState
               )
             : null,
       ),
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 18.0,
         fontWeight: FontWeight.bold,
       ),
@@ -441,10 +441,11 @@ class _PlatformAdaptiveTextFormDialogState
         // Validate text and set new value
         setState(() {
           _isValid = false;
-          if (_formKey.currentState != null) if (_formKey.currentState!
-              .validate()) {
-            _isValid = true;
-            _newValue = newValue;
+          if (_formKey.currentState != null) {
+            if (_formKey.currentState!.validate()) {
+              _isValid = true;
+              _newValue = newValue;
+            }
           }
         });
       },
@@ -536,12 +537,12 @@ class _PlatformAdaptiveTimePickerDialogState
           ),
           // Save and close dialog
           CupertinoDialogAction(
-              child: Text(buttonTextOK),
               isDefaultAction: true,
               onPressed: () {
                 // Return selected time
                 Navigator.pop(context, (_newMinutes * 60 + _newSeconds));
-              }),
+              },
+              child: Text(buttonTextOK)),
         ],
       );
     } else {
@@ -553,23 +554,23 @@ class _PlatformAdaptiveTimePickerDialogState
         actions: <Widget>[
           // Cancel and close dialog
           TextButton(
-              child: Text(buttonTextCancel),
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
               ),
               onPressed: () {
                 Navigator.pop(context, null);
-              }),
+              },
+              child: Text(buttonTextCancel)),
           // Save and close dialog
           TextButton(
-              child: Text(buttonTextOK),
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
               ),
               onPressed: () {
                 // Return selected time
                 Navigator.pop(context, (_newMinutes * 60) + _newSeconds);
-              }),
+              },
+              child: Text(buttonTextOK)),
         ],
       );
     }
@@ -577,7 +578,7 @@ class _PlatformAdaptiveTimePickerDialogState
 
   // Build a time picker
   Widget _timePicker() {
-    return Container(
+    return SizedBox(
       height: 120.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -594,15 +595,15 @@ class _PlatformAdaptiveTimePickerDialogState
                   _newSeconds = 15;
                 }
               }),
-          SizedBox(width: 18.0),
+          const SizedBox(width: 18.0),
           // Separator
-          Text(
+          const Text(
             ':',
             style: TextStyle(
               fontSize: 18.0,
             ),
           ),
-          SizedBox(width: 18.0),
+          const SizedBox(width: 18.0),
           // Seconds picker
           _timePickerScrollWheel(
               initialValue: initialSeconds,
@@ -632,11 +633,11 @@ class _PlatformAdaptiveTimePickerDialogState
       initialItem = timeValues.indexOf(initialValue);
     }
 
-    return Container(
+    return SizedBox(
       width: 36.0,
       child: ListWheelScrollView(
         controller: FixedExtentScrollController(initialItem: initialItem),
-        physics: FixedExtentScrollPhysics(),
+        physics: const FixedExtentScrollPhysics(),
         itemExtent: 28.0,
         squeeze: 1.1,
         diameterRatio: 1.1,
@@ -644,6 +645,7 @@ class _PlatformAdaptiveTimePickerDialogState
         magnification: 1.1,
         perspective: 0.01,
         overAndUnderCenterOpacity: 0.2,
+        onSelectedItemChanged: onChanged,
         // Time values menu
         children: List<Widget>.generate(
           timeValues.length,
@@ -654,13 +656,12 @@ class _PlatformAdaptiveTimePickerDialogState
               padTime
                   ? timeValues[index].toString().padLeft(2, '0')
                   : timeValues[index].toString(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18.0,
               ),
             ));
           },
         ),
-        onSelectedItemChanged: onChanged,
       ),
     );
   }
@@ -753,12 +754,12 @@ class _PlatformAdaptiveTempPickerDialogState
           ),
           // Save and close dialog
           CupertinoDialogAction(
-              child: Text(buttonTextOK),
               isDefaultAction: true,
               onPressed: () {
                 // Return selected time
                 Navigator.pop(context, _newTemp);
-              }),
+              },
+              child: Text(buttonTextOK)),
         ],
       );
     } else {
@@ -770,23 +771,23 @@ class _PlatformAdaptiveTempPickerDialogState
         actions: <Widget>[
           // Cancel and close dialog
           TextButton(
-              child: Text(buttonTextCancel),
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
               ),
               onPressed: () {
                 Navigator.pop(context, null);
-              }),
+              },
+              child: Text(buttonTextCancel)),
           // Save and close dialog
           TextButton(
-              child: Text(buttonTextOK),
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
               ),
               onPressed: () {
                 // Return selected time
                 Navigator.pop(context, _newTemp);
-              }),
+              },
+              child: Text(buttonTextOK)),
         ],
       );
     }
@@ -794,23 +795,23 @@ class _PlatformAdaptiveTempPickerDialogState
 
   // Build a temperature picker
   Widget _tempPicker() {
-    return Container(
+    return SizedBox(
       height: 130.0,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Unit selector
           _adaptiveUnitPicker(),
-          SizedBox(height: 18.0),
+          const SizedBox(height: 18.0),
           // Display selected temperature
           Text(
             formatTemp(_newTemp),
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18.0,
             ),
           ),
           Container(
-              padding: EdgeInsets.only(left: 18.0, right: 18.0),
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
               // Temperature picker
               child: _adaptiveTempSlider(
                   tempValueCount: tempCOptions.length - 1,
@@ -833,7 +834,7 @@ class _PlatformAdaptiveTempPickerDialogState
       return CupertinoSlidingSegmentedControl<bool>(
           groupValue: _unitsCelsius,
           onValueChanged: (bool? selected) {
-            if (selected != null)
+            if (selected != null) {
               setState(() {
                 _unitsCelsius = selected;
                 if (_unitsCelsius) {
@@ -842,8 +843,9 @@ class _PlatformAdaptiveTempPickerDialogState
                   _newTemp = tempFOptions[_newTempIndex];
                 }
               });
+            }
           },
-          children: <bool, Widget>{
+          children: const <bool, Widget>{
             // Degrees C
             true: Text(
               degreesC,
@@ -857,8 +859,8 @@ class _PlatformAdaptiveTempPickerDialogState
       return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         // Degrees C
         ChoiceChip(
-            label: Text(degreesC),
-            labelPadding: EdgeInsets.only(left: 18.0, right: 18.0),
+            label: const Text(degreesC),
+            labelPadding: const EdgeInsets.only(left: 18.0, right: 18.0),
             selected: _unitsCelsius,
             selectedColor: Colors.blue,
             elevation: 0,
@@ -871,11 +873,11 @@ class _PlatformAdaptiveTempPickerDialogState
                 }
               });
             }),
-        SizedBox(width: 18.0),
+        const SizedBox(width: 18.0),
         // Degrees F
         ChoiceChip(
-            label: Text(degreesF),
-            labelPadding: EdgeInsets.only(left: 18.0, right: 18.0),
+            label: const Text(degreesF),
+            labelPadding: const EdgeInsets.only(left: 18.0, right: 18.0),
             selected: !_unitsCelsius,
             selectedColor: Colors.blue,
             elevation: 0,

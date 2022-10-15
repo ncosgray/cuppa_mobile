@@ -52,12 +52,7 @@ class AboutWidget extends StatelessWidget {
                       title:
                           // Cuppa version and build
                           Text(
-                              appName +
-                                  ' ' +
-                                  packageInfo.version +
-                                  ' (' +
-                                  packageInfo.buildNumber +
-                                  ')',
+                              '$appName ${packageInfo.version} (${packageInfo.buildNumber})',
                               style: TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontSize: 18.0,
@@ -114,12 +109,12 @@ class AboutWidget extends StatelessWidget {
     return InkWell(
         child: ListTile(
       title: Text(title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16.0,
           )),
       subtitle: subtitle != null
           ? Text(subtitle,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14.0,
               ))
           : null,
@@ -149,10 +144,10 @@ Widget aboutText() {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(AppString.about_app.translate(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12.0,
                 )),
-            Row(children: [
+            Row(children: const [
               Text(aboutCopyright,
                   style: TextStyle(
                     fontSize: 12.0,

@@ -35,7 +35,9 @@ abstract class Prefs {
     List<Tea> teaList = [];
 
     // Verify settings exist before continuing
-    if (!teaPrefsExist()) return teaList;
+    if (!teaPrefsExist()) {
+      return teaList;
+    }
 
     // Tea 1
     teaList.add(Tea(
@@ -86,11 +88,11 @@ abstract class Prefs {
     }
 
     // More teas list
-    List<String>? moreTeasJson =
-        sharedPrefs.getStringList(prefMoreTeas) ?? null;
-    if (moreTeasJson != null)
+    List<String>? moreTeasJson = sharedPrefs.getStringList(prefMoreTeas);
+    if (moreTeasJson != null) {
       teaList += (moreTeasJson.map<Tea>((tea) => Tea.fromJson(jsonDecode(tea))))
           .toList();
+    }
 
     return teaList;
   }
@@ -124,10 +126,11 @@ abstract class Prefs {
 
   static AppTheme? loadAppTheme() {
     int? appThemeValue = sharedPrefs.getInt(prefAppTheme);
-    if (appThemeValue != null && appThemeValue < AppTheme.values.length)
+    if (appThemeValue != null && appThemeValue < AppTheme.values.length) {
       return AppTheme.values[appThemeValue];
-    else
+    } else {
       return null;
+    }
   }
 
   static String? loadAppLanguage() {
@@ -140,11 +143,18 @@ abstract class Prefs {
       bool? useCelsius,
       AppTheme? appTheme,
       String? appLanguage}) {
-    if (showExtra != null) sharedPrefs.setBool(prefShowExtra, showExtra);
-    if (useCelsius != null) sharedPrefs.setBool(prefUseCelsius, useCelsius);
-    if (appTheme != null) sharedPrefs.setInt(prefAppTheme, appTheme.value);
-    if (appLanguage != null)
+    if (showExtra != null) {
+      sharedPrefs.setBool(prefShowExtra, showExtra);
+    }
+    if (useCelsius != null) {
+      sharedPrefs.setBool(prefUseCelsius, useCelsius);
+    }
+    if (appTheme != null) {
+      sharedPrefs.setInt(prefAppTheme, appTheme.value);
+    }
+    if (appLanguage != null) {
       sharedPrefs.setString(prefAppLanguage, appLanguage);
+    }
   }
 
   // Fetch next alarm info from shared prefs

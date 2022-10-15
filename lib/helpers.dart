@@ -19,10 +19,11 @@ const degreesF = '\u00b0F';
 // Format brew temperature as number with units
 String formatTemp(i) {
   // Infer C or F based on temp range
-  if (i <= maxDegreesC)
+  if (i <= maxDegreesC) {
     return i.toString() + degreesC;
-  else
+  } else {
     return i.toString() + degreesF;
+  }
 }
 
 // Format brew remaining time as m:ss
@@ -30,5 +31,5 @@ String formatTimer(s) {
   // Build the time format string
   int mins = (s / 60).floor();
   int secs = s - (mins * 60);
-  return mins.toString() + ':' + secs.toString().padLeft(2, '0');
+  return '$mins:${secs.toString().padLeft(2, '0')}';
 }

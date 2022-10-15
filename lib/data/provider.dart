@@ -21,6 +21,7 @@ import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
+// ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:quick_actions/quick_actions.dart';
@@ -55,17 +56,33 @@ class AppProvider extends ChangeNotifier {
       bool? isActive}) {
     int teaIndex = _teaList.indexOf(tea);
     if (teaIndex >= 0) {
-      if (name != null) _teaList[teaIndex].name = name;
-      if (brewTime != null) _teaList[teaIndex].brewTime = brewTime;
-      if (brewTimeMinutes != null)
+      if (name != null) {
+        _teaList[teaIndex].name = name;
+      }
+      if (brewTime != null) {
+        _teaList[teaIndex].brewTime = brewTime;
+      }
+      if (brewTimeMinutes != null) {
         _teaList[teaIndex].brewTimeMinutes = brewTimeMinutes;
-      if (brewTimeSeconds != null)
+      }
+      if (brewTimeSeconds != null) {
         _teaList[teaIndex].brewTimeSeconds = brewTimeSeconds;
-      if (brewTemp != null) _teaList[teaIndex].brewTemp = brewTemp;
-      if (color != null) _teaList[teaIndex].color = color;
-      if (icon != null) _teaList[teaIndex].icon = icon;
-      if (isFavorite != null) _teaList[teaIndex].isFavorite = isFavorite;
-      if (isActive != null) _teaList[teaIndex].isActive = isActive;
+      }
+      if (brewTemp != null) {
+        _teaList[teaIndex].brewTemp = brewTemp;
+      }
+      if (color != null) {
+        _teaList[teaIndex].color = color;
+      }
+      if (icon != null) {
+        _teaList[teaIndex].icon = icon;
+      }
+      if (isFavorite != null) {
+        _teaList[teaIndex].isFavorite = isFavorite;
+      }
+      if (isActive != null) {
+        _teaList[teaIndex].isActive = isActive;
+      }
       saveTeas();
     }
   }
