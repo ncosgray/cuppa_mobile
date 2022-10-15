@@ -647,8 +647,8 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
             platform: appPlatform,
             title: Container(),
             content: SizedBox(
-              width: double.maxFinite,
-              height: TeaColor.values.length * 22,
+              width: TeaColor.values.length * 24,
+              height: TeaColor.values.length * 24,
               child: Card(
                   margin: const EdgeInsets.all(0.0),
                   color: Colors.transparent,
@@ -656,21 +656,20 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
                   child: Scrollbar(
                       thumbVisibility: true,
                       child: GridView.builder(
-                        padding: const EdgeInsets.all(0.0),
+                        padding: const EdgeInsets.only(left: 12.0, right: 12.0),
                         shrinkWrap: true,
                         itemCount: TeaColor.values.length,
                         gridDelegate:
                             const SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 120.0,
-                                childAspectRatio: 3 / 2,
+                                maxCrossAxisExtent: 90.0,
+                                childAspectRatio: 1,
                                 crossAxisSpacing: 12.0,
                                 mainAxisSpacing: 12.0),
                         // Tea color button
                         itemBuilder: (BuildContext context, int index) {
                           TeaColor value = TeaColor.values[index];
-                          return ListTile(
-                              dense: true,
-                              title: Container(
+                          return InkWell(
+                              child: Container(
                                   constraints: BoxConstraints.expand(),
                                   color: value.getThemeColor(context),
                                   child: value == tea.color
@@ -678,7 +677,7 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
                                           // Timer icon indicates current color
                                           child: Icon(
                                           tea.teaIcon,
-                                          size: 36.0,
+                                          size: 32.0,
                                           color: Colors.white,
                                         ))
                                       : Container()),
