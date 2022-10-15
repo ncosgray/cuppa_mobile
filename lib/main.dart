@@ -29,7 +29,9 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// ignore: depend_on_referenced_packages
 import 'package:timezone/data/latest_all.dart' as tz;
+// ignore: depend_on_referenced_packages
 import 'package:timezone/timezone.dart' as tz;
 import 'package:tuple/tuple.dart';
 
@@ -40,13 +42,13 @@ void main() async {
 
   // Get time zone
   tz.initializeTimeZones();
-  final String? timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
-  tz.setLocalLocation(tz.getLocation(timeZoneName!));
+  final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+  tz.setLocalLocation(tz.getLocation(timeZoneName));
 
   // Initialize notifications plugin
   await notify.initialize(const InitializationSettings(
-    android: const AndroidInitializationSettings(notifyIcon),
-    iOS: const IOSInitializationSettings(
+    android: AndroidInitializationSettings(notifyIcon),
+    iOS: DarwinInitializationSettings(
       // Wait to request permissions when user starts a timer
       requestSoundPermission: false,
       requestBadgePermission: false,
@@ -54,7 +56,7 @@ void main() async {
     ),
   ));
 
-  runApp(CuppaApp());
+  runApp(const CuppaApp());
 }
 
 // Create the app
@@ -101,9 +103,9 @@ class CuppaApp extends StatelessWidget {
                   // Configure routes
                   initialRoute: routeTimer,
                   routes: {
-                    routeTimer: (context) => TimerWidget(),
-                    routePrefs: (context) => PrefsWidget(),
-                    routeAbout: (context) => AboutWidget(),
+                    routeTimer: (context) => const TimerWidget(),
+                    routePrefs: (context) => const PrefsWidget(),
+                    routeAbout: (context) => const AboutWidget(),
                   },
                   // Localization
                   locale: appLanguage != '' ? Locale(appLanguage, '') : null,
@@ -111,18 +113,20 @@ class CuppaApp extends StatelessWidget {
                       supportedLanguages.keys.map<Locale>((String value) {
                     return Locale(value, '');
                   }).toList(),
-                  localizationsDelegates: [
-                    const AppLocalizationsDelegate(),
+                  localizationsDelegates: const [
+                    AppLocalizationsDelegate(),
                     GlobalMaterialLocalizations.delegate,
                     GlobalCupertinoLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
-                    const FallbackMaterialLocalizationsDelegate(),
-                    const FallbackCupertinoLocalizationsDelegate(),
+                    FallbackMaterialLocalizationsDelegate(),
+                    FallbackCupertinoLocalizationsDelegate(),
                   ],
                   localeResolutionCallback: (locale, supportedLocales) {
                     if (locale != null) {
                       // Set metric locale based on country code
-                      if (locale.countryCode == 'US') isLocaleMetric = false;
+                      if (locale.countryCode == 'US') {
+                        isLocaleMetric = false;
+                      }
 
                       // Set language or default to English
                       for (var supportedLocale in supportedLocales) {
@@ -132,7 +136,7 @@ class CuppaApp extends StatelessWidget {
                         }
                       }
                     }
-                    return Locale(defaultLanguage, '');
+                    return const Locale(defaultLanguage, '');
                   });
             }));
   }

@@ -27,6 +27,7 @@ import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+// ignore: depend_on_referenced_packages
 import 'package:timezone/timezone.dart' as tz;
 
 // Cuppa Timer page
@@ -82,10 +83,10 @@ class _TimerWidgetState extends State<TimerWidget> {
         color: Colors.green,
         enableVibration: true,
         playSound: true,
-        sound: RawResourceAndroidNotificationSound(notifySound),
+        sound: const RawResourceAndroidNotificationSound(notifySound),
         audioAttributesUsage: AudioAttributesUsage.alarm,
       ),
-      iOS: IOSNotificationDetails(
+      iOS: const DarwinNotificationDetails(
           presentAlert: true,
           presentBadge: true,
           presentSound: true,
@@ -145,7 +146,9 @@ class _TimerWidgetState extends State<TimerWidget> {
         provider.clearActiveTea();
         _timerSeconds = 0;
         _timerEndTime = null;
-        if (t != null) t.cancel();
+        if (t != null) {
+          t.cancel();
+        }
 
         // Notify the rest of the app that the timer ended
         provider.notify();
@@ -172,7 +175,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         // Resume timer from stored prefs
         _timerSeconds = secs;
       }
-      _timer = Timer.periodic(Duration(seconds: 1), _decrementTimer);
+      _timer = Timer.periodic(const Duration(seconds: 1), _decrementTimer);
       _timerEndTime = DateTime.now().add(Duration(seconds: _timerSeconds + 1));
       Prefs.setNextAlarm(_timerEndTime!);
     });
@@ -223,7 +226,9 @@ class _TimerWidgetState extends State<TimerWidget> {
       Navigator.popUntil(context, ModalRoute.withName(routeTimer));
 
       BuildContext? target = GlobalObjectKey(tea.id).currentContext;
-      if (target != null) Scrollable.ensureVisible(target);
+      if (target != null) {
+        Scrollable.ensureVisible(target);
+      }
     }
     _doScroll = false;
   }
@@ -304,10 +309,10 @@ class _TimerWidgetState extends State<TimerWidget> {
                                     : 420.0,
                                 height: 180.0,
                                 clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Colors.green,
-                                  borderRadius: const BorderRadius.all(
-                                      const Radius.circular(12.0)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0)),
                                 ),
                                 child: Center(
                                   child: Text(
@@ -316,7 +321,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                                     softWrap: false,
                                     overflow: TextOverflow.clip,
                                     textScaleFactor: 1.0,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 150.0,
                                       color: Colors.white,
@@ -368,11 +373,12 @@ class _TimerWidgetState extends State<TimerWidget> {
               SizedBox(
                 height: 134.0,
                 child: Container(
-                  margin: const EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 0.0),
+                  margin: const EdgeInsets.only(left: 12.0),
                   alignment: Alignment.center,
                   child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
+                      clipBehavior: Clip.none,
                       controller: _scrollController,
                       child: Consumer<AppProvider>(
                           builder: (context, provider, child) => Row(
@@ -385,9 +391,11 @@ class _TimerWidgetState extends State<TimerWidget> {
                                         ? false
                                         : true,
                                     onPressed: (bool newValue) async {
-                                      if (!tea
-                                          .isActive) if (await _confirmTimer())
-                                        _setTimer(tea);
+                                      if (!tea.isActive) {
+                                        if (await _confirmTimer()) {
+                                          _setTimer(tea);
+                                        }
+                                      }
                                     });
                               }).toList()))),
                 ),
@@ -440,10 +448,10 @@ class TeaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 0.0),
+        padding: const EdgeInsets.only(right: 12.0),
         child: AnimatedOpacity(
           opacity: fade ? 0.4 : 1.0,
-          duration: Duration(milliseconds: 400),
+          duration: const Duration(milliseconds: 400),
           child: Card(
               child: GestureDetector(
             onTap: _handleTap,
@@ -452,19 +460,18 @@ class TeaButton extends StatelessWidget {
                 color: tea.isActive
                     ? tea.getThemeColor(context)
                     : Colors.transparent,
-                borderRadius:
-                    const BorderRadius.all(const Radius.circular(2.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(2.0)),
               ),
               child: Container(
-                constraints:
-                    BoxConstraints(minWidth: 80.0, maxWidth: double.infinity),
+                constraints: const BoxConstraints(
+                    minWidth: 80.0, maxWidth: double.infinity),
                 margin: const EdgeInsets.all(8.0),
                 // Timer icon with tea name
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      Icons.timer_outlined,
+                      tea.teaIcon,
                       color: tea.isActive
                           ? Colors.white
                           : tea.getThemeColor(context),
@@ -529,7 +536,7 @@ class TeaButton extends StatelessWidget {
 
 // Widget defining a cancel brewing button
 class CancelButton extends StatelessWidget {
-  CancelButton({Key? key, this.active: false, required this.onPressed})
+  const CancelButton({Key? key, this.active = false, required this.onPressed})
       : super(key: key);
 
   final bool active;
@@ -539,6 +546,7 @@ class CancelButton extends StatelessWidget {
     onPressed(!active);
   }
 
+  @override
   Widget build(BuildContext context) {
     // Button with "X" icon
     return TextButton.icon(

@@ -26,11 +26,7 @@ abstract class Prefs {
   // Determine if tea settings exist in shared prefs
   static bool teaPrefsExist() {
     return (sharedPrefs.containsKey(prefTea1Name) &&
-        sharedPrefs.containsKey(prefTea1BrewTime) &&
-        sharedPrefs.containsKey(prefTea2Name) &&
-        sharedPrefs.containsKey(prefTea2BrewTime) &&
-        sharedPrefs.containsKey(prefTea3Name) &&
-        sharedPrefs.containsKey(prefTea3BrewTime));
+        sharedPrefs.containsKey(prefTea1BrewTime));
   }
 
   // Fetch tea settings from shared prefs or use defaults
@@ -39,70 +35,83 @@ abstract class Prefs {
     List<Tea> teaList = [];
 
     // Verify settings exist before continuing
-    if (!teaPrefsExist()) return teaList;
+    if (!teaPrefsExist()) {
+      return teaList;
+    }
 
     // Tea 1
     teaList.add(Tea(
-        name: sharedPrefs.getString(prefTea1Name) ?? '',
+        name: sharedPrefs.getString(prefTea1Name) ?? unknownString,
         brewTime: sharedPrefs.getInt(prefTea1BrewTime) ?? 0,
         brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ?? 100,
         colorValue: sharedPrefs.getInt(prefTea1Color) ?? 0,
+        iconValue: sharedPrefs.getInt(prefTea1Icon) ?? 0,
         isFavorite: sharedPrefs.getBool(prefTea1IsFavorite) ?? true,
         isActive: sharedPrefs.getBool(prefTea1IsActive) ?? false));
 
-    // Tea 2
-    teaList.add(Tea(
-        name: sharedPrefs.getString(prefTea2Name) ?? '',
-        brewTime: sharedPrefs.getInt(prefTea2BrewTime) ?? 0,
-        brewTemp: sharedPrefs.getInt(prefTea2BrewTemp) ?? 100,
-        colorValue: sharedPrefs.getInt(prefTea2Color) ?? 0,
-        isFavorite: sharedPrefs.getBool(prefTea2IsFavorite) ?? true,
-        isActive: sharedPrefs.getBool(prefTea2IsActive) ?? false));
+    // Migrate legacy Tea 2
+    if (sharedPrefs.containsKey(prefTea2Name) &&
+        sharedPrefs.containsKey(prefTea2BrewTime)) {
+      teaList.add(Tea(
+          name: sharedPrefs.getString(prefTea2Name) ?? unknownString,
+          brewTime: sharedPrefs.getInt(prefTea2BrewTime) ?? 0,
+          brewTemp: sharedPrefs.getInt(prefTea2BrewTemp) ?? 100,
+          colorValue: sharedPrefs.getInt(prefTea2Color) ?? 0,
+          iconValue: 0,
+          isFavorite: sharedPrefs.getBool(prefTea2IsFavorite) ?? true,
+          isActive: sharedPrefs.getBool(prefTea2IsActive) ?? false));
+      sharedPrefs.remove(prefTea2Name);
+      sharedPrefs.remove(prefTea2BrewTime);
+      sharedPrefs.remove(prefTea2BrewTemp);
+      sharedPrefs.remove(prefTea2Color);
+      sharedPrefs.remove(prefTea2IsFavorite);
+      sharedPrefs.remove(prefTea2IsActive);
+    }
 
-    // Tea 3
-    teaList.add(Tea(
-        name: sharedPrefs.getString(prefTea3Name) ?? '',
-        brewTime: sharedPrefs.getInt(prefTea3BrewTime) ?? 0,
-        brewTemp: sharedPrefs.getInt(prefTea3BrewTemp) ?? 100,
-        colorValue: sharedPrefs.getInt(prefTea3Color) ?? 0,
-        isFavorite: sharedPrefs.getBool(prefTea3IsFavorite) ?? true,
-        isActive: sharedPrefs.getBool(prefTea3IsActive) ?? false));
+    // Migrate legacy Tea 3
+    if (sharedPrefs.containsKey(prefTea3Name) &&
+        sharedPrefs.containsKey(prefTea3BrewTime)) {
+      teaList.add(Tea(
+          name: sharedPrefs.getString(prefTea3Name) ?? unknownString,
+          brewTime: sharedPrefs.getInt(prefTea3BrewTime) ?? 0,
+          brewTemp: sharedPrefs.getInt(prefTea3BrewTemp) ?? 100,
+          colorValue: sharedPrefs.getInt(prefTea3Color) ?? 0,
+          iconValue: 0,
+          isFavorite: sharedPrefs.getBool(prefTea3IsFavorite) ?? true,
+          isActive: sharedPrefs.getBool(prefTea3IsActive) ?? false));
+      sharedPrefs.remove(prefTea3Name);
+      sharedPrefs.remove(prefTea3BrewTime);
+      sharedPrefs.remove(prefTea3BrewTemp);
+      sharedPrefs.remove(prefTea3Color);
+      sharedPrefs.remove(prefTea3IsFavorite);
+      sharedPrefs.remove(prefTea3IsActive);
+    }
 
     // More teas list
-    List<String>? moreTeasJson =
-        sharedPrefs.getStringList(prefMoreTeas) ?? null;
-    if (moreTeasJson != null)
+    List<String>? moreTeasJson = sharedPrefs.getStringList(prefMoreTeas);
+    if (moreTeasJson != null) {
       teaList += (moreTeasJson.map<Tea>((tea) => Tea.fromJson(jsonDecode(tea))))
           .toList();
+    }
 
     return teaList;
   }
 
   // Store teas in shared prefs
   static void saveTeas(List<Tea> teaList) {
+    // Tea 1
     sharedPrefs.setString(prefTea1Name, teaList[0].name);
     sharedPrefs.setInt(prefTea1BrewTime, teaList[0].brewTime);
     sharedPrefs.setInt(prefTea1BrewTemp, teaList[0].brewTemp);
     sharedPrefs.setInt(prefTea1Color, teaList[0].color.value);
+    sharedPrefs.setInt(prefTea1Icon, teaList[0].icon.value);
     sharedPrefs.setBool(prefTea1IsFavorite, teaList[0].isFavorite);
     sharedPrefs.setBool(prefTea1IsActive, teaList[0].isActive);
 
-    sharedPrefs.setString(prefTea2Name, teaList[1].name);
-    sharedPrefs.setInt(prefTea2BrewTime, teaList[1].brewTime);
-    sharedPrefs.setInt(prefTea2BrewTemp, teaList[1].brewTemp);
-    sharedPrefs.setInt(prefTea2Color, teaList[1].color.value);
-    sharedPrefs.setBool(prefTea2IsFavorite, teaList[1].isFavorite);
-    sharedPrefs.setBool(prefTea2IsActive, teaList[1].isActive);
-
-    sharedPrefs.setString(prefTea3Name, teaList[2].name);
-    sharedPrefs.setInt(prefTea3BrewTime, teaList[2].brewTime);
-    sharedPrefs.setInt(prefTea3BrewTemp, teaList[2].brewTemp);
-    sharedPrefs.setInt(prefTea3Color, teaList[2].color.value);
-    sharedPrefs.setBool(prefTea3IsFavorite, teaList[2].isFavorite);
-    sharedPrefs.setBool(prefTea3IsActive, teaList[2].isActive);
-
-    List<String> moreTeasEncoded =
-        (teaList.sublist(3)).map((tea) => jsonEncode(tea.toJson())).toList();
+    // More teas list
+    List<String> moreTeasEncoded = (teaList.sublist(teasMinCount))
+        .map((tea) => jsonEncode(tea.toJson()))
+        .toList();
     sharedPrefs.setStringList(prefMoreTeas, moreTeasEncoded);
   }
 
@@ -117,10 +126,11 @@ abstract class Prefs {
 
   static AppTheme? loadAppTheme() {
     int? appThemeValue = sharedPrefs.getInt(prefAppTheme);
-    if (appThemeValue != null && appThemeValue < AppTheme.values.length)
+    if (appThemeValue != null && appThemeValue < AppTheme.values.length) {
       return AppTheme.values[appThemeValue];
-    else
+    } else {
       return null;
+    }
   }
 
   static String? loadAppLanguage() {
@@ -133,11 +143,18 @@ abstract class Prefs {
       bool? useCelsius,
       AppTheme? appTheme,
       String? appLanguage}) {
-    if (showExtra != null) sharedPrefs.setBool(prefShowExtra, showExtra);
-    if (useCelsius != null) sharedPrefs.setBool(prefUseCelsius, useCelsius);
-    if (appTheme != null) sharedPrefs.setInt(prefAppTheme, appTheme.value);
-    if (appLanguage != null)
+    if (showExtra != null) {
+      sharedPrefs.setBool(prefShowExtra, showExtra);
+    }
+    if (useCelsius != null) {
+      sharedPrefs.setBool(prefUseCelsius, useCelsius);
+    }
+    if (appTheme != null) {
+      sharedPrefs.setInt(prefAppTheme, appTheme.value);
+    }
+    if (appLanguage != null) {
       sharedPrefs.setString(prefAppLanguage, appLanguage);
+    }
   }
 
   // Fetch next alarm info from shared prefs
@@ -191,10 +208,13 @@ enum AppTheme {
   }
 }
 
+// Brewing time options
+final List<int> brewTimeMinuteOptions =
+    List.generate(teaBrewTimeMaxMinutes, (i) => i);
+final List<int> brewTimeSecondOptions = [0, 15, 30, 45];
+
 // Brewing temperature options
-final List<int> brewTemps =
-    ([for (var i = 60; i <= 100; i += 5) i] // C temps 60-100
-        +
-        [for (var i = 140; i <= 200; i += 10) i] +
-        [212] // F temps 140-212
-    );
+final List<int> brewTempCOptions =
+    ([for (var i = 60; i <= 100; i += 5) i]); // C temps 60-100
+final List<int> brewTempFOptions =
+    ([for (var i = 130; i <= 200; i += 10) i] + [212]); // F temps 130-212

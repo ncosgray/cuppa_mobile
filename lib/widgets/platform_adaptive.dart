@@ -17,6 +17,10 @@
 // - PlatformAdaptiveScrollBehavior sets scroll behavior for context platform
 // - PlatformAdaptiveDialog chooses showDialog type by context platform
 // - PlatformAdaptiveTextFormDialog text entry dialog for context platform
+// - PlatformAdaptiveTimePickerDialog time entry dialog for context platform
+// - PlatformAdaptiveTempPickerDialog temp entry dialog for context platform
+
+import 'package:cuppa_mobile/helpers.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,31 +65,31 @@ ThemeData getPlatformAdaptiveDarkTheme(TargetPlatform platform) {
 // Platform specific icons
 Icon getPlatformSettingsIcon(TargetPlatform platform) {
   return platform == TargetPlatform.iOS
-      ? Icon(CupertinoIcons.settings_solid)
-      : Icon(Icons.settings);
+      ? const Icon(CupertinoIcons.settings_solid)
+      : const Icon(Icons.settings);
 }
 
 Icon getPlatformAboutIcon(TargetPlatform platform) {
   return platform == TargetPlatform.iOS
-      ? Icon(CupertinoIcons.question)
-      : Icon(Icons.help);
+      ? const Icon(CupertinoIcons.question)
+      : const Icon(Icons.help);
 }
 
 Icon getPlatformRadioOnIcon(TargetPlatform platform) {
   return platform == TargetPlatform.iOS
-      ? Icon(CupertinoIcons.check_mark)
-      : Icon(Icons.radio_button_on);
+      ? const Icon(CupertinoIcons.check_mark)
+      : const Icon(Icons.radio_button_on);
 }
 
 Icon getPlatformRadioOffIcon(TargetPlatform platform) {
   return platform == TargetPlatform.iOS
-      ? Icon(null)
-      : Icon(Icons.radio_button_off);
+      ? const Icon(null)
+      : const Icon(Icons.radio_button_off);
 }
 
 // Page scaffold with nav bar that is Material on Android and Cupertino on iOS
 class PlatformAdaptiveScaffold extends StatelessWidget {
-  PlatformAdaptiveScaffold({
+  const PlatformAdaptiveScaffold({
     Key? key,
     required this.platform,
     required this.isPoppable,
@@ -121,11 +125,11 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
                     color: Theme.of(context).textTheme.titleLarge!.color)),
             trailing: actionIcon != null && actionRoute != null
                 ? CupertinoButton(
-                    child: actionIcon!,
                     padding: EdgeInsets.zero,
                     onPressed: () {
                       Navigator.of(context).pushNamed(actionRoute!);
-                    })
+                    },
+                    child: actionIcon!)
                 : null,
           ),
           child: Card(elevation: 0.0, color: Colors.transparent, child: body));
@@ -178,7 +182,7 @@ class PlatformAdaptiveScrollBehavior extends ScrollBehavior {
 
 // Alert dialog that is Material on Android and Cupertino on iOS
 class PlatformAdaptiveDialog extends StatelessWidget {
-  PlatformAdaptiveDialog({
+  const PlatformAdaptiveDialog({
     Key? key,
     required this.platform,
     required this.title,
@@ -224,24 +228,24 @@ class PlatformAdaptiveDialog extends StatelessWidget {
       // Define Material action button(s)
       List<Widget> actionList = [
         TextButton(
-          child: Text(buttonTextFalse),
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
           ),
           onPressed: () {
             Navigator.of(context).pop(false);
           },
+          child: Text(buttonTextFalse),
         )
       ];
       if (buttonTextTrue != null) {
         actionList.add(TextButton(
-          child: Text(buttonTextTrue!),
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
           ),
           onPressed: () {
             Navigator.of(context).pop(true);
           },
+          child: Text(buttonTextTrue!),
         ));
       }
 
@@ -342,15 +346,15 @@ class _PlatformAdaptiveTextFormDialogState
           ),
           // Save and close dialog, if valid
           CupertinoDialogAction(
-            child: Text(buttonTextOK),
             isDefaultAction: true,
-            textStyle: _isValid ? null : TextStyle(color: Colors.grey),
+            textStyle: _isValid ? null : const TextStyle(color: Colors.grey),
             onPressed: _isValid
                 ? () {
                     // Return new text value
                     Navigator.of(context).pop(_newValue);
                   }
                 : null,
+            child: Text(buttonTextOK),
           ),
         ],
       );
@@ -367,7 +371,6 @@ class _PlatformAdaptiveTextFormDialogState
         actions: <Widget>[
           // Cancel and close dialog
           TextButton(
-            child: Text(buttonTextCancel),
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
             ),
@@ -375,10 +378,10 @@ class _PlatformAdaptiveTextFormDialogState
               // Don't return anything
               Navigator.of(context).pop();
             },
+            child: Text(buttonTextCancel),
           ),
           // Save and close dialog, if valid
           TextButton(
-            child: Text(buttonTextOK),
             style: ButtonStyle(
               foregroundColor: _isValid
                   ? MaterialStateProperty.all<Color>(Colors.blue)
@@ -390,6 +393,7 @@ class _PlatformAdaptiveTextFormDialogState
                     Navigator.of(context).pop(_newValue);
                   }
                 : null,
+            child: Text(buttonTextOK),
           ),
         ],
       );
@@ -409,15 +413,15 @@ class _PlatformAdaptiveTextFormDialogState
       maxLines: 1,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
-        errorStyle: TextStyle(color: Colors.red),
-        focusedErrorBorder: UnderlineInputBorder(
+        errorStyle: const TextStyle(color: Colors.red),
+        focusedErrorBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.red, width: 2.0)),
-        counter: Offstage(),
-        suffixIcon: _controller.text.length > 0
+        counter: const Offstage(),
+        suffixIcon: _controller.text.isNotEmpty
             // Clear field button
             ? IconButton(
                 iconSize: 14.0,
-                icon: Icon(Icons.cancel_outlined, color: Colors.grey),
+                icon: const Icon(Icons.cancel_outlined, color: Colors.grey),
                 onPressed: () {
                   setState(() {
                     _isValid = false;
@@ -427,7 +431,8 @@ class _PlatformAdaptiveTextFormDialogState
               )
             : null,
       ),
-      style: TextStyle(
+      style: const TextStyle(
+        fontSize: 18.0,
         fontWeight: FontWeight.bold,
       ),
       // Checks for valid values
@@ -436,13 +441,477 @@ class _PlatformAdaptiveTextFormDialogState
         // Validate text and set new value
         setState(() {
           _isValid = false;
-          if (_formKey.currentState != null) if (_formKey.currentState!
-              .validate()) {
-            _isValid = true;
-            _newValue = newValue;
+          if (_formKey.currentState != null) {
+            if (_formKey.currentState!.validate()) {
+              _isValid = true;
+              _newValue = newValue;
+            }
           }
         });
       },
     );
+  }
+}
+
+// Display a tea brew time entry dialog box
+class PlatformAdaptiveTimePickerDialog extends StatefulWidget {
+  const PlatformAdaptiveTimePickerDialog({
+    Key? key,
+    required this.platform,
+    required this.initialMinutes,
+    required this.minuteOptions,
+    required this.initialSeconds,
+    required this.secondOptions,
+    required this.buttonTextCancel,
+    required this.buttonTextOK,
+  }) : super(key: key);
+
+  final TargetPlatform platform;
+  final int initialMinutes;
+  final List<int> minuteOptions;
+  final int initialSeconds;
+  final List<int> secondOptions;
+  final String buttonTextCancel;
+  final String buttonTextOK;
+
+  @override
+  State<PlatformAdaptiveTimePickerDialog> createState() =>
+      _PlatformAdaptiveTimePickerDialogState(
+          platform: platform,
+          initialMinutes: initialMinutes,
+          minuteOptions: minuteOptions,
+          initialSeconds: initialSeconds,
+          secondOptions: secondOptions,
+          buttonTextCancel: buttonTextCancel,
+          buttonTextOK: buttonTextOK);
+}
+
+class _PlatformAdaptiveTimePickerDialogState
+    extends State<PlatformAdaptiveTimePickerDialog> {
+  _PlatformAdaptiveTimePickerDialogState({
+    required this.platform,
+    required this.initialMinutes,
+    required this.minuteOptions,
+    required this.initialSeconds,
+    required this.secondOptions,
+    required this.buttonTextCancel,
+    required this.buttonTextOK,
+  });
+
+  final TargetPlatform platform;
+  final int initialMinutes;
+  final List<int> minuteOptions;
+  final int initialSeconds;
+  final List<int> secondOptions;
+  final String buttonTextCancel;
+  final String buttonTextOK;
+
+  // State variables
+  late int _newMinutes;
+  late int _newSeconds;
+
+  // Initialize dialog state
+  @override
+  void initState() {
+    super.initState();
+
+    _newMinutes = initialMinutes;
+    _newSeconds = initialSeconds;
+  }
+
+  // Build dialog
+  @override
+  Widget build(BuildContext context) {
+    if (platform == TargetPlatform.iOS) {
+      return CupertinoAlertDialog(
+        // Time entry
+        content: _timePicker(),
+        actions: <Widget>[
+          // Cancel and close dialog
+          CupertinoDialogAction(
+            child: Text(buttonTextCancel),
+            onPressed: () {
+              // Cancel and close dialog
+              Navigator.pop(context, null);
+            },
+          ),
+          // Save and close dialog
+          CupertinoDialogAction(
+              isDefaultAction: true,
+              onPressed: () {
+                // Return selected time
+                Navigator.pop(context, (_newMinutes * 60 + _newSeconds));
+              },
+              child: Text(buttonTextOK)),
+        ],
+      );
+    } else {
+      return AlertDialog(
+        contentPadding: const EdgeInsets.only(top: 12.0),
+        insetPadding: const EdgeInsets.all(4.0),
+        // Time entry
+        content: _timePicker(),
+        actions: <Widget>[
+          // Cancel and close dialog
+          TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              onPressed: () {
+                Navigator.pop(context, null);
+              },
+              child: Text(buttonTextCancel)),
+          // Save and close dialog
+          TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              onPressed: () {
+                // Return selected time
+                Navigator.pop(context, (_newMinutes * 60) + _newSeconds);
+              },
+              child: Text(buttonTextOK)),
+        ],
+      );
+    }
+  }
+
+  // Build a time picker
+  Widget _timePicker() {
+    return SizedBox(
+      height: 120.0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Minutes picker
+          _timePickerScrollWheel(
+              initialValue: initialMinutes,
+              timeValues: minuteOptions,
+              onChanged: (newValue) {
+                _newMinutes = minuteOptions[newValue];
+
+                // Ensure we never have a 0:00 brew time
+                if (_newMinutes == 0 && _newSeconds == 0) {
+                  _newSeconds = 15;
+                }
+              }),
+          const SizedBox(width: 18.0),
+          // Separator
+          const Text(
+            ':',
+            style: TextStyle(
+              fontSize: 18.0,
+            ),
+          ),
+          const SizedBox(width: 18.0),
+          // Seconds picker
+          _timePickerScrollWheel(
+              initialValue: initialSeconds,
+              timeValues: secondOptions,
+              onChanged: (newValue) {
+                _newSeconds = secondOptions[newValue];
+
+                // Ensure we never have a 0:00 brew time
+                if (_newSeconds == 0 && _newMinutes == 0) {
+                  _newSeconds = 15;
+                }
+              },
+              padTime: true),
+        ],
+      ),
+    );
+  }
+
+  // Build a time picker scroll wheel
+  Widget _timePickerScrollWheel(
+      {required int initialValue,
+      required Null Function(dynamic value) onChanged,
+      required List<int> timeValues,
+      bool padTime = false}) {
+    int initialItem = 0;
+    if (timeValues.contains(initialValue)) {
+      initialItem = timeValues.indexOf(initialValue);
+    }
+
+    return SizedBox(
+      width: 36.0,
+      child: ListWheelScrollView(
+        controller: FixedExtentScrollController(initialItem: initialItem),
+        physics: const FixedExtentScrollPhysics(),
+        itemExtent: 28.0,
+        squeeze: 1.1,
+        diameterRatio: 1.1,
+        useMagnifier: true,
+        magnification: 1.1,
+        perspective: 0.01,
+        overAndUnderCenterOpacity: 0.2,
+        onSelectedItemChanged: onChanged,
+        // Time values menu
+        children: List<Widget>.generate(
+          timeValues.length,
+          (int index) {
+            return Center(
+                child: Text(
+              // Format time with or without zero padding
+              padTime
+                  ? timeValues[index].toString().padLeft(2, '0')
+                  : timeValues[index].toString(),
+              style: const TextStyle(
+                fontSize: 18.0,
+              ),
+            ));
+          },
+        ),
+      ),
+    );
+  }
+}
+
+// Display a tea brew temperature entry dialog box
+class PlatformAdaptiveTempPickerDialog extends StatefulWidget {
+  const PlatformAdaptiveTempPickerDialog({
+    Key? key,
+    required this.platform,
+    required this.initialTemp,
+    required this.tempFOptions,
+    required this.tempCOptions,
+    required this.buttonTextCancel,
+    required this.buttonTextOK,
+  }) : super(key: key);
+
+  final TargetPlatform platform;
+  final int initialTemp;
+  final List<int> tempFOptions;
+  final List<int> tempCOptions;
+  final String buttonTextCancel;
+  final String buttonTextOK;
+
+  @override
+  State<PlatformAdaptiveTempPickerDialog> createState() =>
+      _PlatformAdaptiveTempPickerDialogState(
+          platform: platform,
+          initialTemp: initialTemp,
+          tempFOptions: tempFOptions,
+          tempCOptions: tempCOptions,
+          buttonTextCancel: buttonTextCancel,
+          buttonTextOK: buttonTextOK);
+}
+
+class _PlatformAdaptiveTempPickerDialogState
+    extends State<PlatformAdaptiveTempPickerDialog> {
+  _PlatformAdaptiveTempPickerDialogState({
+    required this.platform,
+    required this.initialTemp,
+    required this.tempFOptions,
+    required this.tempCOptions,
+    required this.buttonTextCancel,
+    required this.buttonTextOK,
+  });
+
+  final TargetPlatform platform;
+  final int initialTemp;
+  final List<int> tempFOptions;
+  final List<int> tempCOptions;
+  final String buttonTextCancel;
+  final String buttonTextOK;
+
+  // State variables
+  late int _newTemp;
+  int _newTempIndex = 0;
+  late bool _unitsCelsius;
+
+  // Initialize dialog state
+  @override
+  void initState() {
+    super.initState();
+
+    // Set starting values
+    _newTemp = initialTemp;
+    if (tempCOptions.contains(_newTemp)) {
+      _newTempIndex = tempCOptions.indexOf(_newTemp);
+    }
+    if (tempFOptions.contains(_newTemp)) {
+      _newTempIndex = tempFOptions.indexOf(_newTemp);
+    }
+    _unitsCelsius = initialTemp <= maxDegreesC ? true : false;
+  }
+
+  // Build dialog
+  @override
+  Widget build(BuildContext context) {
+    if (platform == TargetPlatform.iOS) {
+      return CupertinoAlertDialog(
+        // Temperature entry
+        content: _tempPicker(),
+        actions: <Widget>[
+          // Cancel and close dialog
+          CupertinoDialogAction(
+            child: Text(buttonTextCancel),
+            onPressed: () {
+              // Cancel and close dialog
+              Navigator.pop(context, null);
+            },
+          ),
+          // Save and close dialog
+          CupertinoDialogAction(
+              isDefaultAction: true,
+              onPressed: () {
+                // Return selected time
+                Navigator.pop(context, _newTemp);
+              },
+              child: Text(buttonTextOK)),
+        ],
+      );
+    } else {
+      return AlertDialog(
+        contentPadding: const EdgeInsets.only(top: 12.0),
+        insetPadding: const EdgeInsets.all(4.0),
+        // Temperature entry
+        content: _tempPicker(),
+        actions: <Widget>[
+          // Cancel and close dialog
+          TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              onPressed: () {
+                Navigator.pop(context, null);
+              },
+              child: Text(buttonTextCancel)),
+          // Save and close dialog
+          TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              onPressed: () {
+                // Return selected time
+                Navigator.pop(context, _newTemp);
+              },
+              child: Text(buttonTextOK)),
+        ],
+      );
+    }
+  }
+
+  // Build a temperature picker
+  Widget _tempPicker() {
+    return SizedBox(
+      height: 130.0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Unit selector
+          _adaptiveUnitPicker(),
+          const SizedBox(height: 18.0),
+          // Display selected temperature
+          Text(
+            formatTemp(_newTemp),
+            style: const TextStyle(
+              fontSize: 18.0,
+            ),
+          ),
+          Container(
+              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
+              // Temperature picker
+              child: _adaptiveTempSlider(
+                  tempValueCount: tempCOptions.length - 1,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _newTempIndex = newValue.toInt();
+                      _newTemp = _unitsCelsius
+                          ? tempCOptions[_newTempIndex]
+                          : tempFOptions[_newTempIndex];
+                    });
+                  })),
+        ],
+      ),
+    );
+  }
+
+  // Build an adaptive temperature unit picker (sliding control or chips)
+  Widget _adaptiveUnitPicker() {
+    if (platform == TargetPlatform.iOS) {
+      return CupertinoSlidingSegmentedControl<bool>(
+          groupValue: _unitsCelsius,
+          onValueChanged: (bool? selected) {
+            if (selected != null) {
+              setState(() {
+                _unitsCelsius = selected;
+                if (_unitsCelsius) {
+                  _newTemp = tempCOptions[_newTempIndex];
+                } else {
+                  _newTemp = tempFOptions[_newTempIndex];
+                }
+              });
+            }
+          },
+          children: const <bool, Widget>{
+            // Degrees C
+            true: Text(
+              degreesC,
+            ),
+            // Degrees F
+            false: Text(
+              degreesF,
+            ),
+          });
+    } else {
+      return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        // Degrees C
+        ChoiceChip(
+            label: const Text(degreesC),
+            labelPadding: const EdgeInsets.only(left: 18.0, right: 18.0),
+            selected: _unitsCelsius,
+            selectedColor: Colors.blue,
+            elevation: 0,
+            pressElevation: 0,
+            onSelected: (bool selected) {
+              setState(() {
+                if (selected) {
+                  _unitsCelsius = true;
+                  _newTemp = tempCOptions[_newTempIndex];
+                }
+              });
+            }),
+        const SizedBox(width: 18.0),
+        // Degrees F
+        ChoiceChip(
+            label: const Text(degreesF),
+            labelPadding: const EdgeInsets.only(left: 18.0, right: 18.0),
+            selected: !_unitsCelsius,
+            selectedColor: Colors.blue,
+            elevation: 0,
+            pressElevation: 0,
+            onSelected: (bool selected) {
+              setState(() {
+                if (selected) {
+                  _unitsCelsius = false;
+                  _newTemp = tempFOptions[_newTempIndex];
+                }
+              });
+            })
+      ]);
+    }
+  }
+
+  // Build an adaptive temperature slider
+  Widget _adaptiveTempSlider(
+      {required int tempValueCount,
+      required Null Function(dynamic value) onChanged}) {
+    if (platform == TargetPlatform.iOS) {
+      return CupertinoSlider(
+          value: _newTempIndex.toDouble(),
+          min: 0.0,
+          max: tempValueCount.toDouble(),
+          divisions: tempValueCount,
+          onChanged: onChanged);
+    } else {
+      return Slider(
+          value: _newTempIndex.toDouble(),
+          min: 0.0,
+          max: tempValueCount.toDouble(),
+          divisions: tempValueCount,
+          onChanged: onChanged);
+    }
   }
 }

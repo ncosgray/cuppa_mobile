@@ -24,6 +24,7 @@ import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/about_page.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reorderables/reorderables.dart';
@@ -71,7 +72,7 @@ class PrefsWidget extends StatelessWidget {
                               margin: const EdgeInsets.fromLTRB(
                                   6.0, 0.0, 6.0, 12.0),
                               child: Text(AppString.prefs_header.translate(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 14.0,
                                   ))))),
               // Tea settings cards
@@ -84,7 +85,8 @@ class PrefsWidget extends StatelessWidget {
                       },
                       delegate: ReorderableSliverChildListDelegate(
                           provider.teaList.map<Widget>((tea) {
-                        if ((provider.teaCount <= teasMinCount) || tea.isActive)
+                        if ((provider.teaCount <= teasMinCount) ||
+                            tea.isActive) {
                           // Don't allow deleting if there are minimum teas or timer is active
                           return IgnorePointer(
                               // Disable editing actively brewing tea
@@ -96,13 +98,10 @@ class PrefsWidget extends StatelessWidget {
                                       child: PrefsTeaRow(
                                         tea: tea,
                                       ))));
-                        else
+                        } else {
                           // Deleteable
                           return Dismissible(
                             key: Key(tea.id.toString()),
-                            child: PrefsTeaRow(
-                              tea: tea,
-                            ),
                             onDismissed: (direction) {
                               // Delete this from the tea list
                               provider.deleteTea(tea);
@@ -112,7 +111,11 @@ class PrefsWidget extends StatelessWidget {
                                 _dismissibleBackground(Alignment.centerLeft),
                             secondaryBackground:
                                 _dismissibleBackground(Alignment.centerRight),
+                            child: PrefsTeaRow(
+                              tea: tea,
+                            ),
                           );
+                        }
                       }).toList()))),
               SliverToBoxAdapter(
                 child: Column(children: [
@@ -149,7 +152,7 @@ class PrefsWidget extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: SwitchListTile.adaptive(
                         title: Text(AppString.prefs_show_extra.translate(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16.0,
                             )),
                         value: Provider.of<AppProvider>(context).showExtra,
@@ -168,7 +171,7 @@ class PrefsWidget extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: SwitchListTile.adaptive(
                         title: Text(AppString.prefs_use_celsius.translate(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16.0,
                             )),
                         value: Provider.of<AppProvider>(context).useCelsius,
@@ -186,7 +189,7 @@ class PrefsWidget extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: ListTile(
                         title: Text(AppString.prefs_app_theme.translate(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16.0,
                             )),
                         trailing: Text(
@@ -211,19 +214,13 @@ class PrefsWidget extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: ListTile(
                         title: Text(AppString.prefs_language.translate(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16.0,
                             )),
                         trailing: Text(
                             Provider.of<AppProvider>(context).appLanguage == ''
                                 ? AppString.theme_system.translate()
-                                : supportedLanguages[
-                                        Provider.of<AppProvider>(context)
-                                            .appLanguage]! +
-                                    ' (' +
-                                    Provider.of<AppProvider>(context)
-                                        .appLanguage +
-                                    ')',
+                                : '${supportedLanguages[Provider.of<AppProvider>(context).appLanguage]!} (${Provider.of<AppProvider>(context).appLanguage})',
                             style: TextStyle(
                               fontSize: 16.0,
                               color:
@@ -237,27 +234,31 @@ class PrefsWidget extends StatelessWidget {
                         dense: true,
                       )),
                   _divider(),
-                  // Notification settings info text
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                          margin:
-                              const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 0.0),
-                          child: Row(children: [
-                            Container(
-                                margin: const EdgeInsets.fromLTRB(
-                                    0.0, 0.0, 6.0, 0.0),
-                                child: Icon(
-                                  Icons.info,
-                                  size: 20.0,
-                                )),
-                            Expanded(
-                                child: Text(
-                                    AppString.prefs_notifications.translate(),
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                    )))
-                          ]))),
+                  // Notification settings info text and link
+                  InkWell(
+                      child: ListTile(
+                    minLeadingWidth: 30.0,
+                    leading: const SizedBox(
+                        height: double.infinity,
+                        child: Icon(
+                          Icons.info,
+                          size: 20.0,
+                        )),
+                    horizontalTitleGap: 0.0,
+                    title: Text(AppString.prefs_notifications.translate(),
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                        )),
+                    trailing: const SizedBox(
+                        height: double.infinity,
+                        child: Icon(
+                          Icons.launch,
+                          size: 16.0,
+                        )),
+                    onTap: () => AppSettings.openNotificationSettings(),
+                    contentPadding: const EdgeInsets.all(6.0),
+                    dense: true,
+                  )),
                 ]),
               ),
               SliverFillRemaining(
@@ -305,73 +306,49 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
     return Card(
         child: ListTile(
       horizontalTitleGap: isLargeDevice ? 24.0 : 4.0,
-      // Tea color selection
-      leading: InkWell(
-          // Color icon
-          child: SizedBox(
+      minLeadingWidth: 0.0,
+      leading:
+          // Favorite status
+          SizedBox(
               height: double.infinity,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    Icons.timer_outlined,
-                    color: tea.getThemeColor(context),
-                    size: 42.0,
-                  ),
-                  Icon(
-                    Icons.arrow_drop_down,
-                    size: 24.0,
-                    color: Colors.grey,
-                  ),
-                ],
-              )),
-          onTap: () {
-            // Open tea color dialog
-            _displayColorDialog(tea, context);
-          }),
-      title: Container(
+              child: IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints:
+                      const BoxConstraints(minWidth: 20.0, minHeight: 20.0),
+                  splashRadius: 20.0,
+                  iconSize: 20.0,
+                  icon: tea.isFavorite
+                      ? const Icon(Icons.star, color: Colors.amber)
+                      : Provider.of<AppProvider>(context, listen: false)
+                                  .favoritesList
+                                  .length <
+                              favoritesMaxCount
+                          ? const Icon(Icons.star, color: Colors.grey)
+                          : const Icon(Icons.star_border_outlined,
+                              color: Colors.grey),
+                  // Toggle favorite status if enabled or max not reached
+                  onPressed: tea.isFavorite ||
+                          Provider.of<AppProvider>(context, listen: false)
+                                  .favoritesList
+                                  .length <
+                              favoritesMaxCount
+                      ? () {
+                          // Toggle favorite status
+                          Provider.of<AppProvider>(context, listen: false)
+                              .updateTea(tea, isFavorite: !tea.isFavorite);
+                        }
+                      : null)),
+      title: SizedBox(
           height: isLargeDevice ? 64.0 : 84.0,
           child: Flex(
             // Determine layout by device size
             direction: isLargeDevice ? Axis.horizontal : Axis.vertical,
             children: [
               Flexible(
-                flex: 3,
                 child: Container(
                     height: 54.0,
                     padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
                     child: Row(children: [
-                      // Favorite status
-                      IconButton(
-                          alignment: Alignment.topLeft,
-                          constraints:
-                              BoxConstraints(minWidth: 30.0, minHeight: 30.0),
-                          iconSize: 20.0,
-                          icon: tea.isFavorite
-                              ? Icon(Icons.star, color: Colors.amber)
-                              : Provider.of<AppProvider>(context, listen: false)
-                                          .favoritesList
-                                          .length <
-                                      favoritesMaxCount
-                                  ? Icon(Icons.star, color: Colors.grey)
-                                  : Icon(Icons.star_border_outlined,
-                                      color: Colors.grey),
-                          // Toggle favorite status if enabled or max not reached
-                          onPressed: tea.isFavorite ||
-                                  Provider.of<AppProvider>(context,
-                                              listen: false)
-                                          .favoritesList
-                                          .length <
-                                      favoritesMaxCount
-                              ? () {
-                                  // Toggle favorite status
-                                  Provider.of<AppProvider>(context,
-                                          listen: false)
-                                      .updateTea(tea,
-                                          isFavorite: !tea.isFavorite);
-                                }
-                              : null),
                       // Tea name with edit icon
                       Align(
                           alignment: Alignment.centerLeft,
@@ -384,7 +361,7 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
                                     fontSize: 18.0,
                                     color: tea.getThemeColor(context),
                                   )),
-                              label: Icon(
+                              label: const Icon(
                                 Icons.edit,
                                 color: Colors.grey,
                                 size: 20.0,
@@ -405,144 +382,148 @@ class _PrefsTeaRowState extends State<PrefsTeaRow> {
               ),
               // Tea brew time selection
               Flexible(
-                flex: 2,
                 child: Container(
                     padding: const EdgeInsets.fromLTRB(6.0, 2.0, 0.0, 6.0),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          // Brew time minutes dropdown
-                          DropdownButton<int>(
-                            value: tea.brewTimeMinutes,
-                            icon: Icon(
-                              Icons.arrow_drop_down,
-                              size: 24.0,
-                              color: Colors.grey,
-                            ),
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color:
-                                  Theme.of(context).textTheme.bodyText1!.color!,
-                            ),
-                            underline: SizedBox(),
-                            alignment: AlignmentDirectional.center,
-                            items: <int>[for (var i = 0; i <= 19; i++) i]
-                                .map<DropdownMenuItem<int>>((int value) {
-                              return DropdownMenuItem<int>(
-                                value: value,
-                                child: Text(value.toString(),
-                                    style: TextStyle(
-                                        fontWeight: value == tea.brewTimeMinutes
-                                            ? FontWeight.w400
-                                            : FontWeight.w300)),
-                              );
-                            }).toList(),
-                            // Save brew time to prefs
-                            onChanged: (int? newValue) {
-                              if (newValue != null) {
-                                AppProvider provider = Provider.of<AppProvider>(
-                                    context,
-                                    listen: false);
-
-                                // Ensure we never have a 0:00 brew time
-                                if (newValue == 0 && tea.brewTimeSeconds == 0) {
-                                  provider.updateTea(tea, brewTimeSeconds: 15);
-                                }
-                                provider.updateTea(tea,
-                                    brewTimeMinutes: newValue);
-                              }
-                            },
-                          ),
-                          // Brew time separator
-                          Text(
-                            ': ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.0,
-                            ),
-                          ),
-                          // Brew time seconds dropdown
-                          DropdownButton<int>(
-                            value: tea.brewTimeSeconds,
-                            icon: Icon(
-                              Icons.arrow_drop_down,
-                              size: 24.0,
-                              color: Colors.grey,
-                            ),
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color:
-                                  Theme.of(context).textTheme.bodyText1!.color!,
-                            ),
-                            underline: SizedBox(),
-                            // Ensure we never have a 0:00 brew time
-                            items: (tea.brewTimeMinutes == 0
-                                    ? <int>[15, 30, 45]
-                                    : <int>[0, 15, 30, 45])
-                                .map<DropdownMenuItem<int>>((int value) {
-                              return DropdownMenuItem<int>(
-                                value: value,
-                                child: Text(value.toString().padLeft(2, '0'),
-                                    style: TextStyle(
-                                        fontWeight: value == tea.brewTimeSeconds
-                                            ? FontWeight.w400
-                                            : FontWeight.w300)),
-                              );
-                            }).toList(),
-                            // Save brew time to prefs
-                            onChanged: (int? newValue) {
-                              if (newValue != null) {
-                                // Ensure we never have a 0:00 brew time
-                                if (newValue == 0 && tea.brewTimeMinutes == 0) {
-                                  newValue = 15;
-                                }
-                                Provider.of<AppProvider>(context, listen: false)
-                                    .updateTea(tea, brewTimeSeconds: newValue);
-                              }
-                            },
-                          ),
+                          // Icon selection
+                          InkWell(
+                              child: SizedBox(
+                                  height: double.infinity,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      SizedBox(
+                                          width: 18.0,
+                                          child: Icon(tea.teaIcon,
+                                              color:
+                                                  tea.getThemeColor(context))),
+                                      const Icon(
+                                        Icons.arrow_drop_down,
+                                        size: 24.0,
+                                        color: Colors.grey,
+                                      ),
+                                    ],
+                                  )),
+                              onTap: () {
+                                // Open tea icon dialog
+                                _displayIconDialog(tea, context);
+                              }),
                           Flexible(
                               child: ConstrainedBox(
-                                  constraints: BoxConstraints(
+                                  constraints: const BoxConstraints(
                                       minWidth: 1.0, maxWidth: 30.0),
                                   child: Container())),
-                          // Brew temperature dropdown
-                          DropdownButton<int>(
-                            value: tea.brewTemp,
-                            icon: Icon(
-                              Icons.arrow_drop_down,
-                              size: 24.0,
-                              color: Colors.grey,
-                            ),
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color:
-                                  Theme.of(context).textTheme.bodyText1!.color!,
-                            ),
-                            underline: SizedBox(),
-                            items: brewTemps
-                                .map<DropdownMenuItem<int>>((int value) {
-                              return DropdownMenuItem<int>(
-                                value: value,
-                                child: Text(formatTemp(value),
-                                    style: TextStyle(
-                                        fontWeight: value == tea.brewTemp
-                                            ? FontWeight.w400
-                                            : FontWeight.w300)),
-                              );
-                            }).toList(),
-                            // Save brew temp to prefs
-                            onChanged: (int? newValue) {
-                              if (newValue != null)
-                                Provider.of<AppProvider>(context, listen: false)
-                                    .updateTea(tea, brewTemp: newValue);
-                            },
-                          ),
+                          // Tea color selection
+                          InkWell(
+                              child: SizedBox(
+                                  height: double.infinity,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        width: 18.0,
+                                        height: 18.0,
+                                        color: tea.getThemeColor(context),
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_drop_down,
+                                        size: 24.0,
+                                        color: Colors.grey,
+                                      ),
+                                    ],
+                                  )),
+                              onTap: () {
+                                // Open tea color dialog
+                                _displayColorDialog(tea, context);
+                              }),
+                          Flexible(
+                              child: ConstrainedBox(
+                                  constraints: const BoxConstraints(
+                                      minWidth: 1.0, maxWidth: 30.0),
+                                  child: Container())),
+                          // Brew time
+                          InkWell(
+                              child: SizedBox(
+                                  height: double.infinity,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        formatTimer(tea.brewTime),
+                                        style: const TextStyle(
+                                          fontSize: 18.0,
+                                        ),
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_drop_down,
+                                        size: 24.0,
+                                        color: Colors.grey,
+                                      ),
+                                    ],
+                                  )),
+                              onTap: () {
+                                // Open tea brew time dialog
+                                _displayTeaBrewTimeDialog(
+                                        context,
+                                        tea.brewTimeMinutes,
+                                        tea.brewTimeSeconds)
+                                    .then((newValue) {
+                                  if (newValue != null) {
+                                    // Save brew time to prefs
+                                    Provider.of<AppProvider>(context,
+                                            listen: false)
+                                        .updateTea(tea, brewTime: newValue);
+                                  }
+                                });
+                              }),
+                          Flexible(
+                              child: ConstrainedBox(
+                                  constraints: const BoxConstraints(
+                                      minWidth: 1.0, maxWidth: 30.0),
+                                  child: Container())),
+                          // Brew temperature
+                          InkWell(
+                              child: SizedBox(
+                                  height: double.infinity,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        formatTemp(tea.brewTemp),
+                                        style: const TextStyle(
+                                          fontSize: 18.0,
+                                        ),
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_drop_down,
+                                        size: 24.0,
+                                        color: Colors.grey,
+                                      ),
+                                    ],
+                                  )),
+                              onTap: () {
+                                // Open tea brew temp dialog
+                                _displayTeaBrewTempDialog(context, tea.brewTemp)
+                                    .then((newValue) {
+                                  if (newValue != null) {
+                                    // Save brew temp to prefs
+                                    Provider.of<AppProvider>(context,
+                                            listen: false)
+                                        .updateTea(tea, brewTemp: newValue);
+                                  }
+                                });
+                              }),
                         ])),
               ),
             ],
           )),
-      trailing: Container(
+      trailing: const SizedBox(
           height: double.infinity,
           child: Icon(
             Icons.drag_handle,
@@ -576,6 +557,83 @@ Future<String?> _displayTeaNameDialog(
       });
 }
 
+// Display a tea brew time entry dialog box
+Future<int?> _displayTeaBrewTimeDialog(
+    BuildContext context, int currentMinutes, int currentSeconds) async {
+  return showDialog<int>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return PlatformAdaptiveTimePickerDialog(
+            platform: appPlatform,
+            initialMinutes: currentMinutes,
+            minuteOptions: brewTimeMinuteOptions,
+            initialSeconds: currentSeconds,
+            secondOptions: brewTimeSecondOptions,
+            buttonTextCancel: AppString.cancel_button.translate(),
+            buttonTextOK: AppString.ok_button.translate());
+      });
+}
+
+// Display a tea brew temperature entry dialog box
+Future<int?> _displayTeaBrewTempDialog(
+    BuildContext context, int currentTemp) async {
+  return showDialog<int>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return PlatformAdaptiveTempPickerDialog(
+            platform: appPlatform,
+            initialTemp: currentTemp,
+            tempFOptions: brewTempFOptions,
+            tempCOptions: brewTempCOptions,
+            buttonTextCancel: AppString.cancel_button.translate(),
+            buttonTextOK: AppString.ok_button.translate());
+      });
+}
+
+// Display a tea icon selection dialog box
+Future<bool?> _displayIconDialog(Tea tea, BuildContext context) async {
+  return showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return PlatformAdaptiveDialog(
+            platform: appPlatform,
+            title: Container(),
+            content: SizedBox(
+              width: TeaIcon.values.length * 12,
+              height: TeaIcon.values.length * 12,
+              child: Card(
+                  margin: const EdgeInsets.all(0.0),
+                  color: Colors.transparent,
+                  elevation: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    // Tea icon buttons
+                    children: List.generate(TeaIcon.values.length, (index) {
+                      TeaIcon value = TeaIcon.values[index];
+                      return InkWell(
+                          child: Icon(
+                            value.getIcon(),
+                            size: 36.0,
+                            color: value == tea.icon
+                                ? tea.getThemeColor(context)
+                                : null,
+                          ),
+                          onTap: () {
+                            // Set selected icon
+                            Provider.of<AppProvider>(context, listen: false)
+                                .updateTea(tea, icon: value);
+                            Navigator.of(context).pop(true);
+                          });
+                    }),
+                  )),
+            ),
+            buttonTextFalse: AppString.cancel_button.translate());
+      });
+}
+
 // Display a tea color selection dialog box
 Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
   return showDialog<bool>(
@@ -586,8 +644,8 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
             platform: appPlatform,
             title: Container(),
             content: SizedBox(
-              width: double.maxFinite,
-              height: TeaColor.values.length * 22,
+              width: TeaColor.values.length * 24,
+              height: TeaColor.values.length * 24,
               child: Card(
                   margin: const EdgeInsets.all(0.0),
                   color: Colors.transparent,
@@ -595,30 +653,30 @@ Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
                   child: Scrollbar(
                       thumbVisibility: true,
                       child: GridView.builder(
-                        padding: const EdgeInsets.all(0.0),
+                        padding: const EdgeInsets.only(left: 12.0, right: 12.0),
                         shrinkWrap: true,
                         itemCount: TeaColor.values.length,
                         gridDelegate:
                             const SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 120.0,
-                                childAspectRatio: 3 / 2,
+                                maxCrossAxisExtent: 90.0,
+                                childAspectRatio: 1,
                                 crossAxisSpacing: 12.0,
                                 mainAxisSpacing: 12.0),
                         // Tea color button
                         itemBuilder: (BuildContext context, int index) {
                           TeaColor value = TeaColor.values[index];
-                          return ListTile(
-                              dense: true,
-                              title: Container(
-                                  constraints: BoxConstraints.expand(),
+                          return InkWell(
+                              child: Container(
+                                  constraints: const BoxConstraints.expand(),
                                   color: value.getThemeColor(context),
                                   child: value == tea.color
-                                      ? Container(
-                                          // Timer icon indicates current color
-                                          child: Icon(
-                                          Icons.timer_outlined,
+                                      ?
+                                      // Timer icon indicates current color
+                                      Icon(
+                                          tea.teaIcon,
+                                          size: 32.0,
                                           color: Colors.white,
-                                        ))
+                                        )
                                       : Container()),
                               onTap: () {
                                 // Set selected color
@@ -673,7 +731,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                                   child: Icon(
                                     preset.isCustom
                                         ? Icons.add_circle
-                                        : Icons.timer_outlined,
+                                        : preset.getIcon(),
                                     color: preset.getThemeColor(context),
                                     size: preset.isCustom ? 20.0 : 24.0,
                                   )),
@@ -697,7 +755,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                                                 preset.getThemeColor(context)),
                                       ),
                                       ConstrainedBox(
-                                          constraints: BoxConstraints(
+                                          constraints: const BoxConstraints(
                                               minWidth: 6.0, maxWidth: 30.0),
                                           child: Container()),
                                       Text(
@@ -708,7 +766,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                                                 preset.getThemeColor(context)),
                                       ),
                                       ConstrainedBox(
-                                          constraints: BoxConstraints(
+                                          constraints: const BoxConstraints(
                                               maxWidth: double.infinity),
                                           child: Container()),
                                     ]),
@@ -720,7 +778,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                               });
                         },
                         separatorBuilder: (context, index) {
-                          return Divider();
+                          return const Divider();
                         },
                       ),
                     ))),
@@ -766,7 +824,7 @@ Future<bool?> _displayAppThemeDialog(BuildContext context) async {
                             Expanded(
                                 child: Text(
                               value.localizedName,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16.0,
                               ),
                             )),
@@ -827,11 +885,8 @@ Future<bool?> _displayAppLanguageDialog(BuildContext context) async {
                                     child: Text(
                                   value == ''
                                       ? AppString.theme_system.translate()
-                                      : supportedLanguages[value]! +
-                                          ' (' +
-                                          value +
-                                          ')',
-                                  style: TextStyle(
+                                      : '${supportedLanguages[value]!} ($value)',
+                                  style: const TextStyle(
                                     fontSize: 16.0,
                                   ),
                                 )),
@@ -867,7 +922,7 @@ Widget _dismissibleBackground(Alignment alignment) {
               padding: const EdgeInsets.all(14.0),
               child: Align(
                   alignment: alignment,
-                  child: Icon(Icons.delete_outline,
+                  child: const Icon(Icons.delete_outline,
                       color: Colors.white, size: 28.0)))));
 }
 
@@ -878,11 +933,11 @@ Widget _draggableFeedback(
     transform: Matrix4.rotationZ(0),
     alignment: FractionalOffset.topLeft,
     child: Container(
-      child: ConstrainedBox(constraints: constraints, child: child),
-      decoration: BoxDecoration(boxShadow: <BoxShadow>[
+      decoration: const BoxDecoration(boxShadow: <BoxShadow>[
         BoxShadow(
             color: Colors.black26, blurRadius: 7.0, offset: Offset(0.0, 0.75))
       ]),
+      child: ConstrainedBox(constraints: constraints, child: child),
     ),
   );
 }

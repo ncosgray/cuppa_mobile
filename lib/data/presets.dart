@@ -27,6 +27,7 @@ class Preset {
   int brewTempDegreesC;
   int brewTempDegreesF;
   TeaColor color;
+  TeaIcon icon;
   bool isCustom;
 
   // Constructor
@@ -36,6 +37,7 @@ class Preset {
       required this.brewTempDegreesC,
       required this.brewTempDegreesF,
       required this.color,
+      required this.icon,
       this.isCustom = false});
 
   // Localized tea name
@@ -46,6 +48,11 @@ class Preset {
   // Color getter
   Color getThemeColor(context) {
     return this.color.getThemeColor(context);
+  }
+
+  // Icon getter
+  IconData getIcon() {
+    return this.icon.getIcon();
   }
 
   // Brew temp getter
@@ -61,6 +68,7 @@ class Preset {
         brewTime: this.brewTime,
         brewTemp: (useCelsius ? this.brewTempDegreesC : this.brewTempDegreesF),
         color: this.color,
+        icon: this.icon,
         isFavorite: isFavorite,
         isActive: false);
   }
@@ -77,6 +85,7 @@ abstract class Presets {
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
         color: TeaColor.black,
+        icon: TeaIcon.timer,
         isCustom: true),
     // Black tea
     Preset(
@@ -84,77 +93,88 @@ abstract class Presets {
         brewTime: 240,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
-        color: TeaColor.black),
+        color: TeaColor.black,
+        icon: TeaIcon.timer),
     // Assam
     Preset(
         key: AppString.tea_name_assam,
         brewTime: 210,
         brewTempDegreesC: 95,
         brewTempDegreesF: 200,
-        color: TeaColor.black),
+        color: TeaColor.black,
+        icon: TeaIcon.timer),
     // Darjeeling
     Preset(
         key: AppString.tea_name_darjeeling,
         brewTime: 270,
         brewTempDegreesC: 95,
         brewTempDegreesF: 200,
-        color: TeaColor.black),
+        color: TeaColor.black,
+        icon: TeaIcon.timer),
     // Green tea
     Preset(
         key: AppString.tea_name_green,
         brewTime: 150,
         brewTempDegreesC: 80,
         brewTempDegreesF: 180,
-        color: TeaColor.green),
+        color: TeaColor.green,
+        icon: TeaIcon.timer),
     // White tea
     Preset(
         key: AppString.tea_name_white,
         brewTime: 300,
         brewTempDegreesC: 80,
         brewTempDegreesF: 180,
-        color: TeaColor.green),
+        color: TeaColor.green,
+        icon: TeaIcon.timer),
     // Herbal tea
     Preset(
         key: AppString.tea_name_herbal,
         brewTime: 300,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
-        color: TeaColor.orange),
+        color: TeaColor.orange,
+        icon: TeaIcon.timer),
     // Chamomile
     Preset(
         key: AppString.tea_name_chamomile,
         brewTime: 300,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
-        color: TeaColor.orange),
+        color: TeaColor.orange,
+        icon: TeaIcon.timer),
     // Mint tea
     Preset(
         key: AppString.tea_name_mint,
         brewTime: 240,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
-        color: TeaColor.orange),
+        color: TeaColor.orange,
+        icon: TeaIcon.timer),
     // Rooibos
     Preset(
         key: AppString.tea_name_rooibos,
         brewTime: 180,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
-        color: TeaColor.orange),
+        color: TeaColor.orange,
+        icon: TeaIcon.timer),
     // Oolong
     Preset(
         key: AppString.tea_name_oolong,
         brewTime: 240,
         brewTempDegreesC: 100,
         brewTempDegreesF: 212,
-        color: TeaColor.brown),
+        color: TeaColor.brown,
+        icon: TeaIcon.timer),
     // Pu'er
     Preset(
         key: AppString.tea_name_puer,
         brewTime: 270,
         brewTempDegreesC: 95,
         brewTempDegreesF: 200,
-        color: TeaColor.brown),
+        color: TeaColor.brown,
+        icon: TeaIcon.timer),
   ];
 
   // Get preset from key
