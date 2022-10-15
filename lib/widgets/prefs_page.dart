@@ -242,16 +242,23 @@ class PrefsWidget extends StatelessWidget {
                   InkWell(
                       child: ListTile(
                     minLeadingWidth: 30.0,
-                    leading: Icon(
-                      Icons.info,
-                      size: 20.0,
-                    ),
+                    leading: Container(
+                        height: double.infinity,
+                        child: Icon(
+                          Icons.info,
+                          size: 20.0,
+                        )),
                     horizontalTitleGap: 0.0,
                     title: Text(AppString.prefs_notifications.translate(),
                         style: TextStyle(
                           fontSize: 14.0,
                         )),
-                    trailing: const Icon(Icons.launch, size: 16.0),
+                    trailing: Container(
+                        height: double.infinity,
+                        child: Icon(
+                          Icons.launch,
+                          size: 16.0,
+                        )),
                     onTap: () => AppSettings.openNotificationSettings(),
                     contentPadding: const EdgeInsets.all(6.0),
                     dense: true,
