@@ -1,0 +1,6 @@
+* New tea option: Choose from three different icons.
+* Easier selection of brew time and temperature.
+* Allow having as few as one tea button.
+* Added a link to device notification settings.
+* Usability and interface tweaks.
+* Language translation updates - contribute via Weblate!
