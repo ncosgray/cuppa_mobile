@@ -49,7 +49,7 @@ SPEC CHECKSUMS:
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_native_timezone: 5f05b2de06c9776b4cc70e1839f03de178394d22
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
-  quick_actions_ios: 5ec8f5f1ae81512ac803fe10c197ebb875767a9e
+  quick_actions_ios: 56c03753992beabaa6c598e470e12d430d6e5e2f
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
 
