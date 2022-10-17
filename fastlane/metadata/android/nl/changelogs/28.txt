@@ -1,0 +1,6 @@
+[NIEUW] Kies uit drie verschillende pictogrammen bij theeën;
+[NIEUW] Verwijzing naar meldingsinstellingen van apparaat;
+[VERBETERD] Eenvoudigere zettijd- en temperatuurkeuze;
+[VERBETERD] Kies optioneel voor slechts één theeknop;
+[VERBETERD] Kleine aanpassingen aan de vormgeving;
+[VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!
