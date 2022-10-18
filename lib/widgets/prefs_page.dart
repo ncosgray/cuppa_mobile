@@ -703,7 +703,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
             platform: appPlatform,
             title: Text(AppString.add_tea_button.translate()),
             content: SizedBox(
-                width: double.maxFinite,
+                width: 120.0,
                 height: deviceHeight * 0.6,
                 child: Card(
                     margin: const EdgeInsets.only(top: 12.0),
@@ -778,7 +778,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                               });
                         },
                         separatorBuilder: (context, index) {
-                          return const Divider();
+                          return _divider();
                         },
                       ),
                     ))),
