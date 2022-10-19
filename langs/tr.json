@@ -12,7 +12,7 @@
     "yes_button": "Evet",
     "no_button": "Hayır",
     "prefs_title": "{{app_name}} Ayarları",
-    "prefs_header": "Çay adlarını, demleme sürelerini, sıcaklıkları ve renkleri ayarlayın. Ayrıca çayları sıralayabilir (uzun basın) veya silmek için kaydırabilirsiniz. Uygulama simgesi kısayolları olarak eklemek için sevdiğiniz {{favorites_max}} çaya yıldız ekleyin.",
+    "prefs_header": "Çay adlarını, demleme sürelerini, sıcaklıkları ve düğme tarzlarını ayarlayın. Ayrıca çayları sıralayabilir (uzun basın) veya silmek için kaydırabilirsiniz. Uygulama simgesi kısayolları olarak eklemek için sevdiğiniz {{favorites_max}} çaya yıldız ekleyin.",
     "error_name_long": "* Çay adı çok uzun.",
     "prefs_show_extra": "Zamanlayıcı düğmelerinde demleme süresini ve sıcaklığını göster",
     "prefs_use_celsius": "Yeni çaylar için Celsius sıcaklığını kullan",
