@@ -21,7 +21,7 @@ import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:cuppa_mobile/widgets/about_page.dart';
+import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'package:app_settings/app_settings.dart';
@@ -78,7 +78,7 @@ class PrefsWidget extends StatelessWidget {
               // Tea settings cards
               Consumer<AppProvider>(
                   builder: (context, provider, child) => ReorderableSliverList(
-                      buildDraggableFeedback: _draggableFeedback,
+                      buildDraggableFeedback: draggableFeedback,
                       onReorder: (int oldIndex, int newIndex) {
                         // Reorder the tea list
                         provider.reorderTeas(oldIndex, newIndex);
@@ -108,9 +108,9 @@ class PrefsWidget extends StatelessWidget {
                             },
                             // Dismissible delete warning background
                             background:
-                                _dismissibleBackground(Alignment.centerLeft),
+                                dismissibleBackground(Alignment.centerLeft),
                             secondaryBackground:
-                                _dismissibleBackground(Alignment.centerRight),
+                                dismissibleBackground(Alignment.centerRight),
                             child: PrefsTeaRow(
                               tea: tea,
                             ),
@@ -165,7 +165,7 @@ class PrefsWidget extends StatelessWidget {
                             const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 6.0),
                         dense: true,
                       )),
-                  _divider(),
+                  listDivider(),
                   // Setting: default to Celsius or Fahrenheit
                   Align(
                       alignment: Alignment.topLeft,
@@ -183,7 +183,7 @@ class PrefsWidget extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(6.0),
                         dense: true,
                       )),
-                  _divider(),
+                  listDivider(),
                   // Setting: app theme selection
                   Align(
                       alignment: Alignment.topLeft,
@@ -208,7 +208,7 @@ class PrefsWidget extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(6.0),
                         dense: true,
                       )),
-                  _divider(),
+                  listDivider(),
                   // Setting: app language selection
                   Align(
                       alignment: Alignment.topLeft,
@@ -233,7 +233,7 @@ class PrefsWidget extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(6.0),
                         dense: true,
                       )),
-                  _divider(),
+                  listDivider(),
                   // Notification settings info text and link
                   InkWell(
                       child: ListTile(
@@ -778,7 +778,7 @@ Future<bool?> _displayAddTeaDialog(BuildContext context) async {
                               });
                         },
                         separatorBuilder: (context, index) {
-                          return _divider();
+                          return listDivider();
                         },
                       ),
                     ))),
@@ -901,43 +901,4 @@ Future<bool?> _displayAppLanguageDialog(BuildContext context) async {
                 )),
             buttonTextFalse: AppString.cancel_button.translate());
       });
-}
-
-// Prefs settings list divider
-Widget _divider() {
-  return const Divider(
-    thickness: 1.0,
-    indent: 6.0,
-    endIndent: 6.0,
-  );
-}
-
-// Dismissible delete warning background
-Widget _dismissibleBackground(Alignment alignment) {
-  return Container(
-      padding: const EdgeInsets.all(5.0),
-      child: Container(
-          color: Colors.red,
-          child: Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: Align(
-                  alignment: alignment,
-                  child: const Icon(Icons.delete_outline,
-                      color: Colors.white, size: 28.0)))));
-}
-
-// Custom draggable feedback for reorderable list
-Widget _draggableFeedback(
-    BuildContext context, BoxConstraints constraints, Widget child) {
-  return Transform(
-    transform: Matrix4.rotationZ(0),
-    alignment: FractionalOffset.topLeft,
-    child: Container(
-      decoration: const BoxDecoration(boxShadow: <BoxShadow>[
-        BoxShadow(
-            color: Colors.black26, blurRadius: 7.0, offset: Offset(0.0, 0.75))
-      ]),
-      child: ConstrainedBox(constraints: constraints, child: child),
-    ),
-  );
 }
