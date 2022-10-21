@@ -20,9 +20,9 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/provider.dart';
-import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
 
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +33,7 @@ import 'package:reorderables/reorderables.dart';
 class PrefsWidget extends StatelessWidget {
   const PrefsWidget({Key? key}) : super(key: key);
 
+  // Build Prefs page
   @override
   Widget build(BuildContext context) {
     return PlatformAdaptiveScaffold(
@@ -95,7 +96,7 @@ class PrefsWidget extends StatelessWidget {
                                   opacity: tea.isActive ? 0.4 : 1.0,
                                   child: Container(
                                       key: Key(tea.id.toString()),
-                                      child: PrefsTeaRow(
+                                      child: TeaSettingsCard(
                                         tea: tea,
                                       ))));
                         } else {
@@ -111,7 +112,7 @@ class PrefsWidget extends StatelessWidget {
                                 dismissibleBackground(Alignment.centerLeft),
                             secondaryBackground:
                                 dismissibleBackground(Alignment.centerRight),
-                            child: PrefsTeaRow(
+                            child: TeaSettingsCard(
                               tea: tea,
                             ),
                           );
@@ -277,628 +278,222 @@ class PrefsWidget extends StatelessWidget {
           ),
         )));
   }
-}
 
-// Widget defining a tea settings card
-class PrefsTeaRow extends StatefulWidget {
-  const PrefsTeaRow({
-    Key? key,
-    required this.tea,
-  }) : super(key: key);
+  // Display an add tea selection dialog box
+  Future<bool?> _displayAddTeaDialog(BuildContext context) async {
+    double deviceHeight = MediaQuery.of(context).size.height;
 
-  final Tea tea;
-
-  @override
-  _PrefsTeaRowState createState() => _PrefsTeaRowState(tea: tea);
-}
-
-class _PrefsTeaRowState extends State<PrefsTeaRow> {
-  _PrefsTeaRowState({
-    required this.tea,
-  });
-
-  final Tea tea;
-
-  @override
-  Widget build(BuildContext context) {
-    bool isLargeDevice = MediaQuery.of(context).size.width >= largeDeviceSize;
-
-    return Card(
-        child: ListTile(
-      horizontalTitleGap: isLargeDevice ? 24.0 : 4.0,
-      minLeadingWidth: 0.0,
-      leading:
-          // Favorite status
-          SizedBox(
-              height: double.infinity,
-              child: IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints:
-                      const BoxConstraints(minWidth: 20.0, minHeight: 20.0),
-                  splashRadius: 20.0,
-                  iconSize: 20.0,
-                  icon: tea.isFavorite
-                      ? const Icon(Icons.star, color: Colors.amber)
-                      : Provider.of<AppProvider>(context, listen: false)
-                                  .favoritesList
-                                  .length <
-                              favoritesMaxCount
-                          ? const Icon(Icons.star, color: Colors.grey)
-                          : const Icon(Icons.star_border_outlined,
-                              color: Colors.grey),
-                  // Toggle favorite status if enabled or max not reached
-                  onPressed: tea.isFavorite ||
-                          Provider.of<AppProvider>(context, listen: false)
-                                  .favoritesList
-                                  .length <
-                              favoritesMaxCount
-                      ? () {
-                          // Toggle favorite status
-                          Provider.of<AppProvider>(context, listen: false)
-                              .updateTea(tea, isFavorite: !tea.isFavorite);
-                        }
-                      : null)),
-      title: SizedBox(
-          height: isLargeDevice ? 64.0 : 84.0,
-          child: Flex(
-            // Determine layout by device size
-            direction: isLargeDevice ? Axis.horizontal : Axis.vertical,
-            children: [
-              Flexible(
-                child: Container(
-                    height: 54.0,
-                    padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
-                    child: Row(children: [
-                      // Tea name with edit icon
-                      TextButton.icon(
-                          icon: Text(tea.name,
-                              textAlign: TextAlign.left,
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0,
-                                color: tea.getThemeColor(context),
-                              )),
-                          label: const Icon(
-                            Icons.edit,
-                            color: Colors.grey,
-                            size: 20.0,
-                          ),
-                          onPressed: () {
-                            // Open tea name dialog
-                            _displayTeaNameDialog(context, tea.name)
-                                .then((newValue) {
-                              if (newValue != null) {
-                                // Save name to prefs
-                                Provider.of<AppProvider>(context, listen: false)
-                                    .updateTea(tea, name: newValue);
-                              }
-                            });
-                          }),
-                    ])),
-              ),
-              // Tea settings selection
-              Flexible(
-                child: Container(
-                    padding: const EdgeInsets.fromLTRB(8.0, 2.0, 0.0, 2.0),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          // Brew time
-                          InkWell(
-                              child: SizedBox(
-                                  height: double.infinity,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        formatTimer(tea.brewTime),
-                                        style: const TextStyle(
-                                          fontSize: 18.0,
-                                        ),
-                                      ),
-                                      const Icon(
-                                        Icons.arrow_drop_down,
-                                        size: 24.0,
-                                        color: Colors.grey,
-                                      ),
-                                    ],
-                                  )),
-                              onTap: () {
-                                // Open tea brew time dialog
-                                _displayTeaBrewTimeDialog(
-                                        context,
-                                        tea.brewTimeMinutes,
-                                        tea.brewTimeSeconds)
-                                    .then((newValue) {
-                                  if (newValue != null) {
-                                    // Save brew time to prefs
-                                    Provider.of<AppProvider>(context,
-                                            listen: false)
-                                        .updateTea(tea, brewTime: newValue);
-                                  }
-                                });
-                              }),
-                          _flexibleSpacer(),
-                          // Brew temperature
-                          InkWell(
-                              child: SizedBox(
-                                  height: double.infinity,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        formatTemp(tea.brewTemp),
-                                        style: const TextStyle(
-                                          fontSize: 18.0,
-                                        ),
-                                      ),
-                                      const Icon(
-                                        Icons.arrow_drop_down,
-                                        size: 24.0,
-                                        color: Colors.grey,
-                                      ),
-                                    ],
-                                  )),
-                              onTap: () {
-                                // Open tea brew temp dialog
-                                _displayTeaBrewTempDialog(context, tea.brewTemp)
-                                    .then((newValue) {
-                                  if (newValue != null) {
-                                    // Save brew temp to prefs
-                                    Provider.of<AppProvider>(context,
-                                            listen: false)
-                                        .updateTea(tea, brewTemp: newValue);
-                                  }
-                                });
-                              }),
-                          _flexibleSpacer(),
-                          Align(
-                              alignment: Alignment.centerRight,
-                              child: Row(children: [
-                                // Tea color selection
-                                InkWell(
-                                    child: SizedBox(
-                                        height: double.infinity,
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              width: 18.0,
-                                              height: 18.0,
-                                              color: tea.getThemeColor(context),
-                                            ),
-                                            const Icon(
-                                              Icons.arrow_drop_down,
-                                              size: 24.0,
-                                              color: Colors.grey,
-                                            ),
-                                          ],
-                                        )),
-                                    onTap: () {
-                                      // Open tea color dialog
-                                      _displayColorDialog(tea, context);
-                                    }),
-                                SizedBox(width: isLargeDevice ? 30.0 : 5.0),
-                                // Icon selection
-                                InkWell(
-                                    child: SizedBox(
-                                        height: double.infinity,
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            SizedBox(
-                                                width: 18.0,
-                                                child: Icon(tea.teaIcon,
-                                                    color: tea.getThemeColor(
-                                                        context))),
-                                            const Icon(
-                                              Icons.arrow_drop_down,
-                                              size: 24.0,
-                                              color: Colors.grey,
-                                            ),
-                                          ],
-                                        )),
-                                    onTap: () {
-                                      // Open tea icon dialog
-                                      _displayIconDialog(tea, context);
-                                    }),
-                              ])),
-                        ])),
-              ),
-            ],
-          )),
-      trailing: const SizedBox(
-          height: double.infinity,
-          child: Icon(
-            Icons.drag_handle,
-            size: 20.0,
-            color: Colors.grey,
-          )),
-    ));
-  }
-
-  // Tea settings spacer
-  Widget _flexibleSpacer() {
-    return Flexible(
-        child: ConstrainedBox(
-            constraints:
-                const BoxConstraints(minWidth: 5.0, maxWidth: double.infinity),
-            child: Container()));
-  }
-}
-
-// Display a tea name entry dialog box
-Future<String?> _displayTeaNameDialog(
-    BuildContext context, String currentTeaName) async {
-  return showDialog<String>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return PlatformAdaptiveTextFormDialog(
-            platform: appPlatform,
-            initialValue: currentTeaName,
-            validator: (String? newValue) {
-              if (newValue == null || newValue.isEmpty) {
-                return AppString.error_name_missing.translate();
-              } else if (newValue.characters.length > teaNameMaxLength) {
-                return AppString.error_name_long.translate();
-              }
-              return null;
-            },
-            buttonTextCancel: AppString.cancel_button.translate(),
-            buttonTextOK: AppString.ok_button.translate());
-      });
-}
-
-// Display a tea brew time entry dialog box
-Future<int?> _displayTeaBrewTimeDialog(
-    BuildContext context, int currentMinutes, int currentSeconds) async {
-  return showDialog<int>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return PlatformAdaptiveTimePickerDialog(
-            platform: appPlatform,
-            initialMinutes: currentMinutes,
-            minuteOptions: brewTimeMinuteOptions,
-            initialSeconds: currentSeconds,
-            secondOptions: brewTimeSecondOptions,
-            buttonTextCancel: AppString.cancel_button.translate(),
-            buttonTextOK: AppString.ok_button.translate());
-      });
-}
-
-// Display a tea brew temperature entry dialog box
-Future<int?> _displayTeaBrewTempDialog(
-    BuildContext context, int currentTemp) async {
-  return showDialog<int>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return PlatformAdaptiveTempPickerDialog(
-            platform: appPlatform,
-            initialTemp: currentTemp,
-            tempFOptions: brewTempFOptions,
-            tempCOptions: brewTempCOptions,
-            buttonTextCancel: AppString.cancel_button.translate(),
-            buttonTextOK: AppString.ok_button.translate());
-      });
-}
-
-// Display a tea icon selection dialog box
-Future<bool?> _displayIconDialog(Tea tea, BuildContext context) async {
-  return showDialog<bool>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return PlatformAdaptiveDialog(
-            platform: appPlatform,
-            title: Container(),
-            content: SizedBox(
-              width: TeaIcon.values.length * 12,
-              height: TeaIcon.values.length * 12,
-              child: Card(
-                  margin: const EdgeInsets.all(0.0),
-                  color: Colors.transparent,
-                  elevation: 0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    // Tea icon buttons
-                    children: List.generate(TeaIcon.values.length, (index) {
-                      TeaIcon value = TeaIcon.values[index];
-                      return InkWell(
-                          child: Icon(
-                            value.getIcon(),
-                            size: 36.0,
-                            color: value == tea.icon
-                                ? tea.getThemeColor(context)
-                                : null,
-                          ),
-                          onTap: () {
-                            // Set selected icon
-                            Provider.of<AppProvider>(context, listen: false)
-                                .updateTea(tea, icon: value);
-                            Navigator.of(context).pop(true);
-                          });
-                    }),
-                  )),
-            ),
-            buttonTextFalse: AppString.cancel_button.translate());
-      });
-}
-
-// Display a tea color selection dialog box
-Future<bool?> _displayColorDialog(Tea tea, BuildContext context) async {
-  return showDialog<bool>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return PlatformAdaptiveDialog(
-            platform: appPlatform,
-            title: Container(),
-            content: SizedBox(
-              width: TeaColor.values.length * 24,
-              height: TeaColor.values.length * 24,
-              child: Card(
-                  margin: const EdgeInsets.all(0.0),
-                  color: Colors.transparent,
-                  elevation: 0,
-                  child: Scrollbar(
-                      thumbVisibility: true,
-                      child: GridView.builder(
-                        padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                        shrinkWrap: true,
-                        itemCount: TeaColor.values.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 90.0,
-                                childAspectRatio: 1,
-                                crossAxisSpacing: 12.0,
-                                mainAxisSpacing: 12.0),
-                        // Tea color button
-                        itemBuilder: (BuildContext context, int index) {
-                          TeaColor value = TeaColor.values[index];
-                          return InkWell(
-                              child: Container(
-                                  constraints: const BoxConstraints.expand(),
-                                  color: value.getThemeColor(context),
-                                  child: value == tea.color
-                                      ?
-                                      // Timer icon indicates current color
-                                      Icon(
-                                          tea.teaIcon,
-                                          size: 32.0,
-                                          color: Colors.white,
-                                        )
-                                      : Container()),
-                              onTap: () {
-                                // Set selected color
-                                Provider.of<AppProvider>(context, listen: false)
-                                    .updateTea(tea, color: value);
-                                Navigator.of(context).pop(true);
-                              });
-                        },
-                      ))),
-            ),
-            buttonTextFalse: AppString.cancel_button.translate());
-      });
-}
-
-// Display an add tea selection dialog box
-Future<bool?> _displayAddTeaDialog(BuildContext context) async {
-  double deviceHeight = MediaQuery.of(context).size.height;
-
-  return showDialog<bool>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return PlatformAdaptiveDialog(
-            platform: appPlatform,
-            title: Text(AppString.add_tea_button.translate()),
-            content: SizedBox(
-                width: 120.0,
-                height: deviceHeight * 0.6,
-                child: Card(
-                    margin: const EdgeInsets.only(top: 12.0),
-                    color: Colors.transparent,
-                    elevation: 0,
-                    child: Scrollbar(
-                      thumbVisibility: true,
-                      child: ListView.separated(
-                        padding: const EdgeInsets.all(0.0),
-                        shrinkWrap: true,
-                        itemCount: Presets.presetList.length,
-                        // Tea name button
-                        itemBuilder: (BuildContext context, int index) {
-                          AppProvider provider =
-                              Provider.of<AppProvider>(context, listen: false);
-                          Preset preset = Presets.presetList[index];
-
-                          return ListTile(
-                              dense: true,
-                              contentPadding: const EdgeInsets.all(0.0),
-                              // Preset tea icon
-                              leading: SizedBox(
-                                  width: 24.0,
-                                  height: double.infinity,
-                                  child: Icon(
-                                    preset.isCustom
-                                        ? Icons.add_circle
-                                        : preset.getIcon(),
-                                    color: preset.getThemeColor(context),
-                                    size: preset.isCustom ? 20.0 : 24.0,
-                                  )),
-                              // Localized preset tea name
-                              title: Text(
-                                preset.localizedName,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0,
-                                    color: preset.getThemeColor(context)),
-                              ),
-                              // Preset tea brew time and temperature
-                              subtitle: preset.isCustom
-                                  ? null
-                                  : Row(children: [
-                                      Text(
-                                        formatTimer(preset.brewTime),
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            color:
-                                                preset.getThemeColor(context)),
-                                      ),
-                                      ConstrainedBox(
-                                          constraints: const BoxConstraints(
-                                              minWidth: 6.0, maxWidth: 30.0),
-                                          child: Container()),
-                                      Text(
-                                        preset.tempDisplay(provider.useCelsius),
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            color:
-                                                preset.getThemeColor(context)),
-                                      ),
-                                      ConstrainedBox(
-                                          constraints: const BoxConstraints(
-                                              maxWidth: double.infinity),
-                                          child: Container()),
-                                    ]),
-                              onTap: () {
-                                // Add selected tea
-                                provider.addTea(preset.createTea(
-                                    useCelsius: provider.useCelsius));
-                                Navigator.of(context).pop(true);
-                              });
-                        },
-                        separatorBuilder: (context, index) {
-                          return listDivider();
-                        },
-                      ),
-                    ))),
-            buttonTextFalse: AppString.cancel_button.translate());
-      });
-}
-
-// Display an app theme selection dialog box
-Future<bool?> _displayAppThemeDialog(BuildContext context) async {
-  return showDialog<bool>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return PlatformAdaptiveDialog(
-            platform: appPlatform,
-            title: Text(AppString.prefs_app_theme.translate()),
-            content: Card(
-                margin: const EdgeInsets.only(top: 12.0),
-                color: Colors.transparent,
-                elevation: 0,
-                child: SizedBox(
-                  width: double.maxFinite,
-                  height: AppTheme.values.length * 46,
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(0.0),
-                    shrinkWrap: true,
-                    itemCount: AppTheme.values.length,
-                    // App theme button
-                    itemBuilder: (BuildContext context, int index) {
-                      AppProvider provider =
-                          Provider.of<AppProvider>(context, listen: false);
-                      AppTheme value = AppTheme.values.elementAt(index);
-
-                      return ListTile(
-                          dense: true,
-                          contentPadding: const EdgeInsets.all(0.0),
-                          title: Row(children: [
-                            Container(
-                                padding: const EdgeInsets.only(right: 12.0),
-                                child: value == provider.appTheme
-                                    ? getPlatformRadioOnIcon(appPlatform)
-                                    : getPlatformRadioOffIcon(appPlatform)),
-                            Expanded(
-                                child: Text(
-                              value.localizedName,
-                              style: const TextStyle(
-                                fontSize: 16.0,
-                              ),
-                            )),
-                          ]),
-                          onTap: () {
-                            // Save appTheme to prefs
-                            provider.appTheme = value;
-                            Navigator.of(context).pop(true);
-                          });
-                    },
-                  ),
-                )),
-            buttonTextFalse: AppString.cancel_button.translate());
-      });
-}
-
-// Display an app language selection dialog box
-Future<bool?> _displayAppLanguageDialog(BuildContext context) async {
-  double deviceHeight = MediaQuery.of(context).size.height;
-  final List<String> languageOptions = [''] + supportedLanguages.keys.toList();
-
-  return showDialog<bool>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return PlatformAdaptiveDialog(
-            platform: appPlatform,
-            title: Text(AppString.prefs_language.translate()),
-            content: Card(
-                margin: const EdgeInsets.only(top: 12.0),
-                color: Colors.transparent,
-                elevation: 0,
-                child: SizedBox(
-                  width: double.maxFinite,
+    return showDialog<bool>(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return PlatformAdaptiveDialog(
+              platform: appPlatform,
+              title: Text(AppString.add_tea_button.translate()),
+              content: SizedBox(
+                  width: 120.0,
                   height: deviceHeight * 0.6,
-                  child: Scrollbar(
-                      thumbVisibility: true,
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(0.0),
-                        shrinkWrap: true,
-                        itemCount: languageOptions.length,
-                        // App language button
-                        itemBuilder: (BuildContext context, int index) {
-                          AppProvider provider =
-                              Provider.of<AppProvider>(context, listen: false);
-                          String value = languageOptions[index];
+                  child: Card(
+                      margin: const EdgeInsets.only(top: 12.0),
+                      color: Colors.transparent,
+                      elevation: 0,
+                      child: Scrollbar(
+                        thumbVisibility: true,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.all(0.0),
+                          shrinkWrap: true,
+                          itemCount: Presets.presetList.length,
+                          // Tea name button
+                          itemBuilder: (BuildContext context, int index) {
+                            AppProvider provider = Provider.of<AppProvider>(
+                                context,
+                                listen: false);
+                            Preset preset = Presets.presetList[index];
 
-                          return ListTile(
-                              dense: true,
-                              contentPadding: const EdgeInsets.all(0.0),
-                              title: Row(children: [
-                                Container(
-                                    padding: const EdgeInsets.only(right: 12.0),
-                                    child: value == provider.appLanguage
-                                        ? getPlatformRadioOnIcon(appPlatform)
-                                        : getPlatformRadioOffIcon(appPlatform)),
-                                Expanded(
-                                    child: Text(
-                                  value == ''
-                                      ? AppString.theme_system.translate()
-                                      : '${supportedLanguages[value]!} ($value)',
-                                  style: const TextStyle(
-                                    fontSize: 16.0,
-                                  ),
-                                )),
-                              ]),
-                              onTap: () {
-                                // Save appLanguage to prefs
-                                provider.appLanguage = value;
-                                Navigator.of(context).pop(true);
-                              });
-                        },
-                      )),
-                )),
-            buttonTextFalse: AppString.cancel_button.translate());
-      });
+                            return ListTile(
+                                dense: true,
+                                contentPadding: const EdgeInsets.all(0.0),
+                                // Preset tea icon
+                                leading: SizedBox(
+                                    width: 24.0,
+                                    height: double.infinity,
+                                    child: Icon(
+                                      preset.isCustom
+                                          ? Icons.add_circle
+                                          : preset.getIcon(),
+                                      color: preset.getThemeColor(context),
+                                      size: preset.isCustom ? 20.0 : 24.0,
+                                    )),
+                                // Localized preset tea name
+                                title: Text(
+                                  preset.localizedName,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0,
+                                      color: preset.getThemeColor(context)),
+                                ),
+                                // Preset tea brew time and temperature
+                                subtitle: preset.isCustom
+                                    ? null
+                                    : Row(children: [
+                                        Text(
+                                          formatTimer(preset.brewTime),
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              color: preset
+                                                  .getThemeColor(context)),
+                                        ),
+                                        ConstrainedBox(
+                                            constraints: const BoxConstraints(
+                                                minWidth: 6.0, maxWidth: 30.0),
+                                            child: Container()),
+                                        Text(
+                                          preset
+                                              .tempDisplay(provider.useCelsius),
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              color: preset
+                                                  .getThemeColor(context)),
+                                        ),
+                                        ConstrainedBox(
+                                            constraints: const BoxConstraints(
+                                                maxWidth: double.infinity),
+                                            child: Container()),
+                                      ]),
+                                onTap: () {
+                                  // Add selected tea
+                                  provider.addTea(preset.createTea(
+                                      useCelsius: provider.useCelsius));
+                                  Navigator.of(context).pop(true);
+                                });
+                          },
+                          separatorBuilder: (context, index) {
+                            return listDivider();
+                          },
+                        ),
+                      ))),
+              buttonTextFalse: AppString.cancel_button.translate());
+        });
+  }
+
+  // Display an app theme selection dialog box
+  Future<bool?> _displayAppThemeDialog(BuildContext context) async {
+    return showDialog<bool>(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return PlatformAdaptiveDialog(
+              platform: appPlatform,
+              title: Text(AppString.prefs_app_theme.translate()),
+              content: Card(
+                  margin: const EdgeInsets.only(top: 12.0),
+                  color: Colors.transparent,
+                  elevation: 0,
+                  child: SizedBox(
+                    width: double.maxFinite,
+                    height: AppTheme.values.length * 46,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(0.0),
+                      shrinkWrap: true,
+                      itemCount: AppTheme.values.length,
+                      // App theme button
+                      itemBuilder: (BuildContext context, int index) {
+                        AppProvider provider =
+                            Provider.of<AppProvider>(context, listen: false);
+                        AppTheme value = AppTheme.values.elementAt(index);
+
+                        return ListTile(
+                            dense: true,
+                            contentPadding: const EdgeInsets.all(0.0),
+                            title: Row(children: [
+                              Container(
+                                  padding: const EdgeInsets.only(right: 12.0),
+                                  child: value == provider.appTheme
+                                      ? getPlatformRadioOnIcon(appPlatform)
+                                      : getPlatformRadioOffIcon(appPlatform)),
+                              Expanded(
+                                  child: Text(
+                                value.localizedName,
+                                style: const TextStyle(
+                                  fontSize: 16.0,
+                                ),
+                              )),
+                            ]),
+                            onTap: () {
+                              // Save appTheme to prefs
+                              provider.appTheme = value;
+                              Navigator.of(context).pop(true);
+                            });
+                      },
+                    ),
+                  )),
+              buttonTextFalse: AppString.cancel_button.translate());
+        });
+  }
+
+  // Display an app language selection dialog box
+  Future<bool?> _displayAppLanguageDialog(BuildContext context) async {
+    double deviceHeight = MediaQuery.of(context).size.height;
+    final List<String> languageOptions =
+        [''] + supportedLanguages.keys.toList();
+
+    return showDialog<bool>(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return PlatformAdaptiveDialog(
+              platform: appPlatform,
+              title: Text(AppString.prefs_language.translate()),
+              content: Card(
+                  margin: const EdgeInsets.only(top: 12.0),
+                  color: Colors.transparent,
+                  elevation: 0,
+                  child: SizedBox(
+                    width: double.maxFinite,
+                    height: deviceHeight * 0.6,
+                    child: Scrollbar(
+                        thumbVisibility: true,
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(0.0),
+                          shrinkWrap: true,
+                          itemCount: languageOptions.length,
+                          // App language button
+                          itemBuilder: (BuildContext context, int index) {
+                            AppProvider provider = Provider.of<AppProvider>(
+                                context,
+                                listen: false);
+                            String value = languageOptions[index];
+
+                            return ListTile(
+                                dense: true,
+                                contentPadding: const EdgeInsets.all(0.0),
+                                title: Row(children: [
+                                  Container(
+                                      padding:
+                                          const EdgeInsets.only(right: 12.0),
+                                      child: value == provider.appLanguage
+                                          ? getPlatformRadioOnIcon(appPlatform)
+                                          : getPlatformRadioOffIcon(
+                                              appPlatform)),
+                                  Expanded(
+                                      child: Text(
+                                    value == ''
+                                        ? AppString.theme_system.translate()
+                                        : '${supportedLanguages[value]!} ($value)',
+                                    style: const TextStyle(
+                                      fontSize: 16.0,
+                                    ),
+                                  )),
+                                ]),
+                                onTap: () {
+                                  // Save appLanguage to prefs
+                                  provider.appLanguage = value;
+                                  Navigator.of(context).pop(true);
+                                });
+                          },
+                        )),
+                  )),
+              buttonTextFalse: AppString.cancel_button.translate());
+        });
+  }
 }

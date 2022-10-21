@@ -21,7 +21,9 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
+import 'package:cuppa_mobile/widgets/cancel_button.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/tea_button.dart';
 
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -46,192 +48,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   Timer? _timer;
   final ScrollController _scrollController = ScrollController();
   bool _doScroll = false;
-
-  // Set up the brewing complete notification
-  Future<void> _sendNotification(int secs, String title, String text) async {
-    tz.TZDateTime notifyTime =
-        tz.TZDateTime.now(tz.local).add(Duration(seconds: secs));
-
-    // Request notification permissions
-    if (appPlatform == TargetPlatform.iOS) {
-      await notify
-          .resolvePlatformSpecificImplementation<
-              IOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
-    } else {
-      await notify
-          .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()
-          ?.requestPermission();
-    }
-
-    // Configure and schedule the alarm
-    NotificationDetails notifyDetails = NotificationDetails(
-      android: AndroidNotificationDetails(
-        notifyChannel,
-        AppString.notification_channel_name.translate(),
-        importance: Importance.high,
-        priority: Priority.high,
-        visibility: NotificationVisibility.public,
-        channelShowBadge: true,
-        showWhen: true,
-        enableLights: true,
-        color: Colors.green,
-        enableVibration: true,
-        playSound: true,
-        sound: const RawResourceAndroidNotificationSound(notifySound),
-        audioAttributesUsage: AudioAttributesUsage.alarm,
-      ),
-      iOS: const DarwinNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-          sound: notifySoundIOS),
-    );
-    await notify.zonedSchedule(notifyID, title, text, notifyTime, notifyDetails,
-        androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
-  }
-
-  // Cancel the notification
-  Future<void> _cancelNotification() async {
-    await notify.cancel(notifyID);
-  }
-
-  // Confirmation dialog
-  Future _confirmTimer() {
-    if (_timerActive) {
-      return showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return PlatformAdaptiveDialog(
-              platform: appPlatform,
-              title: Text(AppString.confirm_title.translate()),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    Text(AppString.confirm_message_line1.translate()),
-                    Text(AppString.confirm_message_line2.translate()),
-                  ],
-                ),
-              ),
-              buttonTextTrue: AppString.yes_button.translate(),
-              buttonTextFalse: AppString.no_button.translate(),
-            );
-          });
-    } else {
-      return Future.value(true);
-    }
-  }
-
-  // Update timer and handle brew finish
-  void _decrementTimer(Timer? t) {
-    setState(() {
-      if (_timerEndTime != null) {
-        _timerSeconds = _timerEndTime!.difference(DateTime.now()).inSeconds;
-      } else {
-        _timerSeconds = 0;
-      }
-      if (_timerSeconds <= 0) {
-        AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-
-        // Brewing complete
-        _timerActive = false;
-        provider.clearActiveTea();
-        _timerSeconds = 0;
-        _timerEndTime = null;
-        if (t != null) {
-          t.cancel();
-        }
-
-        // Notify the rest of the app that the timer ended
-        provider.notify();
-      }
-    });
-  }
-
-  // Start a new brewing timer
-  void _setTimer(Tea tea, [int secs = 0]) {
-    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-
-    setState(() {
-      _timerActive = true;
-      provider.clearActiveTea();
-      provider.updateTea(tea, isActive: true);
-      if (secs == 0) {
-        // Set up new timer
-        _timerSeconds = tea.brewTime;
-        _sendNotification(
-            _timerSeconds,
-            AppString.notification_title.translate(),
-            AppString.notification_text.translate(teaName: tea.name));
-      } else {
-        // Resume timer from stored prefs
-        _timerSeconds = secs;
-      }
-      _timer = Timer.periodic(const Duration(seconds: 1), _decrementTimer);
-      _timerEndTime = DateTime.now().add(Duration(seconds: _timerSeconds + 1));
-      Prefs.setNextAlarm(_timerEndTime!);
-    });
-  }
-
-  // Start timer from stored prefs
-  void _checkNextTimer() {
-    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-
-    // Load saved brewing timer info from prefs
-    int nextAlarm = Prefs.getNextAlarm();
-    Tea? nextTea = provider.activeTea;
-    if (nextAlarm > 0 && nextTea != null) {
-      Duration diff = DateTime.fromMillisecondsSinceEpoch(nextAlarm)
-          .difference(DateTime.now());
-      if (diff.inSeconds > 0) {
-        // Resume timer from stored prefs
-        _setTimer(nextTea, diff.inSeconds);
-        _doScroll = true;
-      } else {
-        provider.clearActiveTea();
-      }
-    } else {
-      provider.clearActiveTea();
-    }
-  }
-
-  // Start a timer from shortcut selection
-  void _checkShortcutTimer() {
-    quickActions.initialize((String shortcutType) async {
-      int? teaIndex = int.tryParse(shortcutType.replaceAll(shortcutPrefix, ''));
-      if (teaIndex != null) {
-        AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-        if (teaIndex >= 0 && teaIndex < provider.teaCount) {
-          if (await _confirmTimer()) {
-            _setTimer(provider.teaList[teaIndex]);
-            _doScroll = true;
-          }
-        }
-      }
-    });
-  }
-
-  // Autoscroll tea button list to specified tea
-  void _scrollToTeaButton(Tea? tea) {
-    if (tea != null && _doScroll) {
-      // Ensure we are on the timer screen
-      Navigator.popUntil(context, ModalRoute.withName(routeTimer));
-
-      BuildContext? target = GlobalObjectKey(tea.id).currentContext;
-      if (target != null) {
-        Scrollable.ensureVisible(target);
-      }
-    }
-    _doScroll = false;
-  }
 
   // Timer page state
   @override
@@ -426,146 +242,190 @@ class _TimerWidgetState extends State<TimerWidget> {
           ),
         ));
   }
-}
 
-// Widget defining a tea brew start button
-class TeaButton extends StatelessWidget {
-  const TeaButton({
-    Key? key,
-    required this.tea,
-    required this.fade,
-    required this.onPressed,
-  }) : super(key: key);
+  // Set up the brewing complete notification
+  Future<void> _sendNotification(int secs, String title, String text) async {
+    tz.TZDateTime notifyTime =
+        tz.TZDateTime.now(tz.local).add(Duration(seconds: secs));
 
-  final Tea tea;
-  final bool fade;
-  final ValueChanged<bool> onPressed;
+    // Request notification permissions
+    if (appPlatform == TargetPlatform.iOS) {
+      await notify
+          .resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin>()
+          ?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+          );
+    } else {
+      await notify
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.requestPermission();
+    }
 
-  void _handleTap() {
-    onPressed(!tea.isActive);
+    // Configure and schedule the alarm
+    NotificationDetails notifyDetails = NotificationDetails(
+      android: AndroidNotificationDetails(
+        notifyChannel,
+        AppString.notification_channel_name.translate(),
+        importance: Importance.high,
+        priority: Priority.high,
+        visibility: NotificationVisibility.public,
+        channelShowBadge: true,
+        showWhen: true,
+        enableLights: true,
+        color: Colors.green,
+        enableVibration: true,
+        playSound: true,
+        sound: const RawResourceAndroidNotificationSound(notifySound),
+        audioAttributesUsage: AudioAttributesUsage.alarm,
+      ),
+      iOS: const DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+          sound: notifySoundIOS),
+    );
+    await notify.zonedSchedule(notifyID, title, text, notifyTime, notifyDetails,
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(right: 12.0),
-        child: AnimatedOpacity(
-          opacity: fade ? 0.4 : 1.0,
-          duration: const Duration(milliseconds: 400),
-          child: Card(
-              child: GestureDetector(
-            onTap: _handleTap,
-            child: Container(
-              decoration: BoxDecoration(
-                color: tea.isActive
-                    ? tea.getThemeColor(context)
-                    : Colors.transparent,
-                borderRadius: const BorderRadius.all(Radius.circular(2.0)),
-              ),
-              child: Container(
-                constraints: const BoxConstraints(
-                    minWidth: 80.0, maxWidth: double.infinity),
-                margin: const EdgeInsets.all(8.0),
-                // Timer icon with tea name
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      tea.teaIcon,
-                      color: tea.isActive
-                          ? Colors.white
-                          : tea.getThemeColor(context),
-                      size: 64.0,
-                    ),
-                    Text(
-                      tea.buttonName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.0,
-                        color: tea.isActive
-                            ? Colors.white
-                            : tea.getThemeColor(context),
-                      ),
-                    ),
-                    // Optional extra info: brew time and temp display
-                    Selector<AppProvider, bool>(
-                        selector: (_, provider) => provider.showExtra,
-                        builder: (context, showExtra, child) => Visibility(
-                            visible: showExtra,
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  // Brew time
-                                  Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          4.0, 2.0, 4.0, 0.0),
-                                      child: Text(
-                                        formatTimer(tea.brewTime),
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12.0,
-                                          color: tea.isActive
-                                              ? Colors.white
-                                              : tea.getThemeColor(context),
-                                        ),
-                                      )),
-                                  // Brew temperature
-                                  Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          4.0, 2.0, 4.0, 0.0),
-                                      child: Text(
-                                        tea.tempDisplay,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12.0,
-                                          color: tea.isActive
-                                              ? Colors.white
-                                              : tea.getThemeColor(context),
-                                        ),
-                                      ))
-                                ]))),
+  // Cancel the notification
+  Future<void> _cancelNotification() async {
+    await notify.cancel(notifyID);
+  }
+
+  // Confirmation dialog
+  Future _confirmTimer() {
+    if (_timerActive) {
+      return showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return PlatformAdaptiveDialog(
+              platform: appPlatform,
+              title: Text(AppString.confirm_title.translate()),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text(AppString.confirm_message_line1.translate()),
+                    Text(AppString.confirm_message_line2.translate()),
                   ],
                 ),
               ),
-            ),
-          )),
-        ));
-  }
-}
-
-// Widget defining a cancel brewing button
-class CancelButton extends StatelessWidget {
-  const CancelButton({Key? key, this.active = false, required this.onPressed})
-      : super(key: key);
-
-  final bool active;
-  final ValueChanged<bool> onPressed;
-
-  void _handleTap() {
-    onPressed(!active);
+              buttonTextTrue: AppString.yes_button.translate(),
+              buttonTextFalse: AppString.no_button.translate(),
+            );
+          });
+    } else {
+      return Future.value(true);
+    }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // Button with "X" icon
-    return TextButton.icon(
-      label: Text(
-        AppString.cancel_button.translate().toUpperCase(),
-        style: TextStyle(
-          fontSize: 12.0,
-          fontWeight: FontWeight.bold,
-          color: active
-              ? Colors.red[400]
-              : Theme.of(context).textTheme.button!.color!,
-        ),
-      ),
-      icon: Icon(Icons.cancel,
-          color: active
-              ? Colors.red[400]
-              : Theme.of(context).textTheme.button!.color!,
-          size: 16.0),
-      onPressed: active ? _handleTap : null,
-    );
+  // Update timer and handle brew finish
+  void _decrementTimer(Timer? t) {
+    setState(() {
+      if (_timerEndTime != null) {
+        _timerSeconds = _timerEndTime!.difference(DateTime.now()).inSeconds;
+      } else {
+        _timerSeconds = 0;
+      }
+      if (_timerSeconds <= 0) {
+        AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
+        // Brewing complete
+        _timerActive = false;
+        provider.clearActiveTea();
+        _timerSeconds = 0;
+        _timerEndTime = null;
+        if (t != null) {
+          t.cancel();
+        }
+
+        // Notify the rest of the app that the timer ended
+        provider.notify();
+      }
+    });
+  }
+
+  // Start a new brewing timer
+  void _setTimer(Tea tea, [int secs = 0]) {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
+    setState(() {
+      _timerActive = true;
+      provider.clearActiveTea();
+      provider.updateTea(tea, isActive: true);
+      if (secs == 0) {
+        // Set up new timer
+        _timerSeconds = tea.brewTime;
+        _sendNotification(
+            _timerSeconds,
+            AppString.notification_title.translate(),
+            AppString.notification_text.translate(teaName: tea.name));
+      } else {
+        // Resume timer from stored prefs
+        _timerSeconds = secs;
+      }
+      _timer = Timer.periodic(const Duration(seconds: 1), _decrementTimer);
+      _timerEndTime = DateTime.now().add(Duration(seconds: _timerSeconds + 1));
+      Prefs.setNextAlarm(_timerEndTime!);
+    });
+  }
+
+  // Start timer from stored prefs
+  void _checkNextTimer() {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
+    // Load saved brewing timer info from prefs
+    int nextAlarm = Prefs.getNextAlarm();
+    Tea? nextTea = provider.activeTea;
+    if (nextAlarm > 0 && nextTea != null) {
+      Duration diff = DateTime.fromMillisecondsSinceEpoch(nextAlarm)
+          .difference(DateTime.now());
+      if (diff.inSeconds > 0) {
+        // Resume timer from stored prefs
+        _setTimer(nextTea, diff.inSeconds);
+        _doScroll = true;
+      } else {
+        provider.clearActiveTea();
+      }
+    } else {
+      provider.clearActiveTea();
+    }
+  }
+
+  // Start a timer from shortcut selection
+  void _checkShortcutTimer() {
+    quickActions.initialize((String shortcutType) async {
+      int? teaIndex = int.tryParse(shortcutType.replaceAll(shortcutPrefix, ''));
+      if (teaIndex != null) {
+        AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+        if (teaIndex >= 0 && teaIndex < provider.teaCount) {
+          if (await _confirmTimer()) {
+            _setTimer(provider.teaList[teaIndex]);
+            _doScroll = true;
+          }
+        }
+      }
+    });
+  }
+
+  // Autoscroll tea button list to specified tea
+  void _scrollToTeaButton(Tea? tea) {
+    if (tea != null && _doScroll) {
+      // Ensure we are on the timer screen
+      Navigator.popUntil(context, ModalRoute.withName(routeTimer));
+
+      BuildContext? target = GlobalObjectKey(tea.id).currentContext;
+      if (target != null) {
+        Scrollable.ensureVisible(target);
+      }
+    }
+    _doScroll = false;
   }
 }
