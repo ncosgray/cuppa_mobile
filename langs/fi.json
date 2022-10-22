@@ -5,7 +5,7 @@
     "error_name_long": "* Teenimi on liian pitkä.",
     "error_name_missing": "* Kirjoita teenimi.",
     "prefs_notifications": "Avaa laitteen järjestelmäasetukset määrittääksesi {{app_name}}-ilmoitukset.",
-    "prefs_header": "Aseta teetä koskevat nimet, haudutusajat, lämpötilat ja värit. Voit myös lajitella (pitkä painallus) tai pyyhkäisemällä poistaa teetä. Tähditä jopa {{favorites_max}} suosikkiteetä lisätäksesi ne sovelluksen kuvakkeiden pikakuvakkeiksi.",
+    "prefs_header": "Aseta teetä koskevat nimet, haudutusajat, lämpötilat ja painikkeiden tyylit. Voit myös lajitella (pitkä painallus) tai pyyhkäisemällä poistaa teetä. Tähditä jopa {{favorites_max}} suosikkiteetä lisätäksesi ne sovelluksen kuvakkeiden pikakuvakkeiksi.",
     "prefs_title": "{{app_name}}-asetukset",
     "no_button": "Ei",
     "yes_button": "Kyllä",
