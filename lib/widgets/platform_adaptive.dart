@@ -796,7 +796,7 @@ class _PlatformAdaptiveTempPickerDialogState
   // Build a temperature picker
   Widget _tempPicker() {
     return SizedBox(
-      height: 130.0,
+      height: 145.0,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

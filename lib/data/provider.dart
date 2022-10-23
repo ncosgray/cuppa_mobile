@@ -111,7 +111,6 @@ class AppProvider extends ChangeNotifier {
 
   // Add quick action shortcuts
   void setQuickActions() {
-    quickActions.clearShortcutItems();
     quickActions.setShortcutItems(favoritesList.map<ShortcutItem>((tea) {
       // Create a shortcut item for this favorite tea
       return ShortcutItem(

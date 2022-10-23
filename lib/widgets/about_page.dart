@@ -17,6 +17,7 @@
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'package:flutter/material.dart';
@@ -67,25 +68,25 @@ class AboutWidget extends StatelessWidget {
                       // Changelog
                       _listItem(AppString.version_history.translate(), null,
                           versionsURL),
-                      _divider(),
+                      listDivider(),
                       // App license info
                       _listItem(AppString.about_license.translate(), null,
                           licenseURL),
-                      _divider(),
+                      listDivider(),
                       // Link to app source code
                       _listItem(AppString.source_code.translate(),
                           AppString.source_code_info.translate(), sourceURL),
-                      _divider(),
+                      listDivider(),
                       // App localization info
                       _listItem(
                           AppString.help_translate.translate(),
                           AppString.help_translate_info.translate(),
                           translateURL),
-                      _divider(),
+                      listDivider(),
                       // How to report issues
                       _listItem(AppString.issues.translate(),
                           AppString.issues_info.translate(), issuesURL),
-                      _divider(),
+                      listDivider(),
                     ])),
                     SliverFillRemaining(
                       hasScrollBody: false,
@@ -125,41 +126,4 @@ class AboutWidget extends StatelessWidget {
       dense: true,
     ));
   }
-
-  // About list divider
-  Widget _divider() {
-    return const Divider(
-      thickness: 1.0,
-      indent: 6.0,
-      endIndent: 6.0,
-    );
-  }
-}
-
-// About text linking to app website
-Widget aboutText() {
-  return InkWell(
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(AppString.about_app.translate(),
-                style: const TextStyle(
-                  fontSize: 12.0,
-                )),
-            Row(children: const [
-              Text(aboutCopyright,
-                  style: TextStyle(
-                    fontSize: 12.0,
-                  )),
-              VerticalDivider(),
-              Text(aboutURL,
-                  style: TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline))
-            ])
-          ]),
-      onTap: () =>
-          launchUrl(Uri.parse(aboutURL), mode: LaunchMode.externalApplication));
 }
