@@ -12,7 +12,7 @@
     "yes_button": "Jah",
     "no_button": "Ei",
     "prefs_title": "{{app_name}} eelistused",
-    "prefs_header": "Määra tee nimed, tõmbamisajad, temperatuurid ja värvid. Samuti saad (pika vajutusega) loendeid sorteerida või kustutada (pühkida). Tähista kuni {{favorites_max}} lemmikteed, et lisada need rakenduse kiirvalikutena.",
+    "prefs_header": "Määra tee nimed, tõmbamisajad, temperatuurid ja nuppude välimus. Samuti saad (pika vajutusega) loendeid sorteerida või kustutada (pühkida). Tähista kuni {{favorites_max}} lemmikteed, et lisada need rakenduse kiirvalikutena.",
     "prefs_show_extra": "Taimeri nuppudel näidatakse keetmisaega ja temperatuuri",
     "prefs_notifications": "Konfigureerimaks teated rakendusele {{app_name}}, ava oma nutiseadme süsteemi seadistused.",
     "error_name_missing": "* Palun sisestage tee nimi.",

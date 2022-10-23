@@ -1,0 +1,6 @@
+* Nueva opción de té: Elija entre tres iconos diferentes.
+* Selección más fácil del tiempo y de la temperatura de infusión.
+* Permitir tener sólo un botón de té.
+* Se ha añadido un enlace a la configuración de las notificaciones del dispositivo.
+* Ajustes de usabilidad e interfaz.
+* Actualizaciones de traducción de idiomas - ¡contribuye a través de Weblate!

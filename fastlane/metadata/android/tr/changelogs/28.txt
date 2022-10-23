@@ -1,0 +1,6 @@
+* Yeni çay seçeneği: Üç farklı simge arasından seçim yapın.
+* Demleme süresi ve sıcaklığının daha kolay seçilmesi.
+* En az bir çay düğmesi bulunmasına izin verildi.
+* Aygıt bildirim ayarlarına bir bağlantı eklendi.
+* Kullanılabilirlik ve arayüz iyileştirmeleri.
+* Dil çeviri güncellemeleri - Weblate ile katkıda bulunun!

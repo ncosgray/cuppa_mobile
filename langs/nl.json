@@ -5,7 +5,7 @@
     "error_name_missing": "* Voer een naam in.",
     "prefs_notifications": "Open de systeeminstellingen van je apparaat om {{app_name}}-meldingen in te stellen.",
     "prefs_show_extra": "Trektijd en temperatuur tonen op kookwekkerknoppen",
-    "prefs_header": "Stel theenamen, trektijden, temperaturen en kleuren in. Ook kun je de theeën sorteren (lang indrukken), verwijderen (vegen) van de lijst of max. {{favorites_max}} theeën toevoegen aan je favorieten om ze te gebruiken als snelkoppelingen.",
+    "prefs_header": "Stel theenamen, trektijden, temperaturen en knopstijlen in. Ook kun je de theeën sorteren (lang indrukken), verwijderen (vegen) van de lijst of max. {{favorites_max}} theeën toevoegen aan je favorieten om ze te gebruiken als snelkoppelingen.",
     "prefs_title": "{{app_name}}-instellingen",
     "no_button": "Nee",
     "yes_button": "Ja",
