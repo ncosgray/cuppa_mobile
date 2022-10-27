@@ -32,6 +32,7 @@ const licenseURL =
 const sourceURL = 'https://github.com/ncosgray/cuppa_mobile';
 const translateURL = 'https://hosted.weblate.org/engage/cuppa/';
 const issuesURL = 'https://github.com/ncosgray/cuppa_mobile/issues';
+const privacyURL = 'https://www.nathanatos.com/privacy/';
 
 // Cup images
 const cupImageDefault = 'images/Cuppa_hires_default.png';

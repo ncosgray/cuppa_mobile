@@ -87,6 +87,10 @@ class AboutWidget extends StatelessWidget {
                       _listItem(AppString.issues.translate(),
                           AppString.issues_info.translate(), issuesURL),
                       listDivider(),
+                      // Privacy policy
+                      _listItem(AppString.privacy_policy.translate(), null,
+                          privacyURL),
+                      listDivider(),
                     ])),
                     SliverFillRemaining(
                       hasScrollBody: false,

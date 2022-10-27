@@ -80,6 +80,7 @@ enum AppString {
   prefs_show_extra('prefs_show_extra'),
   prefs_title('prefs_title'),
   prefs_use_celsius('prefs_use_celsius'),
+  privacy_policy('privacy_policy'),
   source_code_info('source_code_info'),
   source_code('source_code'),
   tea_name_assam('tea_name_assam'),
