@@ -45,5 +45,6 @@
     "tea_name_puer": "Pu'er",
     "tea_name_rooibos": "Rooibos",
     "tea_name_white": "Valkoinen tee",
-    "notification_channel_name": "Ajastimen ilmoitukset"
+    "notification_channel_name": "Ajastimen ilmoitukset",
+    "privacy_policy": "Tietosuojakäytäntö"
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="darkgray">#303030</color>
-    <color name="shortcut_background">#FFFFFF</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
+    <color name="ic_shortcut_background">#F5F5F5</color>
 </resources>

@@ -45,5 +45,6 @@
     "tea_name_oolong": "Oolong",
     "tea_name_puer": "Pu'er",
     "tea_name_white": "Thé blanc",
-    "notification_channel_name": "Notifications de la minuterie"
+    "notification_channel_name": "Notifications de la minuterie",
+    "privacy_policy": "Politique de confidentialité"
 }

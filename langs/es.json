@@ -45,5 +45,6 @@
     "tea_name_puer": "Pu'er",
     "tea_name_white": "Té blanco",
     "tea_name_rooibos": "Arbusto rojo (Rooibos)",
-    "notification_channel_name": "Notificaciones de temporizador"
+    "notification_channel_name": "Notificaciones de temporizador",
+    "privacy_policy": "Política de privacidad"
 }
