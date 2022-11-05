@@ -41,13 +41,15 @@ final ThemeData kIOSDarkTheme = ThemeData(
 
 // Android themes
 final ThemeData kDefaultTheme = ThemeData(
-  primarySwatch: Colors.blue,
+  primaryColor: Colors.blue,
+  toggleableActiveColor: Colors.blue,
   textTheme: Typography.blackMountainView
       .copyWith(button: const TextStyle(color: Colors.black54)),
   brightness: Brightness.light,
 );
 final ThemeData kDarkTheme = ThemeData(
-  primarySwatch: Colors.blue,
+  primaryColor: Colors.blue,
+  toggleableActiveColor: Colors.blue,
   textTheme: Typography.whiteMountainView
       .copyWith(button: const TextStyle(color: Colors.grey)),
   brightness: Brightness.dark,
@@ -251,7 +253,7 @@ class PlatformAdaptiveDialog extends StatelessWidget {
 
       // Build the Material dialog
       return AlertDialog(
-        contentPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 0.0),
+        contentPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
         title: title,
         content: content,
         actions: actionList,

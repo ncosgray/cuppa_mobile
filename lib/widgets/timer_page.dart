@@ -123,7 +123,6 @@ class _TimerWidgetState extends State<TimerWidget> {
                                 width: (formatTimer(_timerSeconds)).length > 4
                                     ? 480.0
                                     : 420.0,
-                                height: 180.0,
                                 clipBehavior: Clip.hardEdge,
                                 decoration: const BoxDecoration(
                                   color: Colors.green,
@@ -187,7 +186,7 @@ class _TimerWidgetState extends State<TimerWidget> {
               ),
               // Tea brew start buttons
               SizedBox(
-                height: 134.0,
+                height: 140.0,
                 child: Container(
                   margin: const EdgeInsets.only(left: 12.0),
                   alignment: Alignment.center,

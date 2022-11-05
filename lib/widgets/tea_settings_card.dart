@@ -52,18 +52,17 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
 
     return Card(
         child: ListTile(
+      contentPadding: const EdgeInsets.only(left: 8.0, right: 16.0),
       horizontalTitleGap: isLargeDevice ? 24.0 : 4.0,
-      minLeadingWidth: 0.0,
+      minLeadingWidth: 20.0,
+      visualDensity: VisualDensity.compact,
       leading:
           // Favorite status
           SizedBox(
               height: double.infinity,
               child: IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints:
-                      const BoxConstraints(minWidth: 20.0, minHeight: 20.0),
-                  splashRadius: 20.0,
-                  iconSize: 20.0,
+                  visualDensity: VisualDensity.compact,
+                  iconSize: 24.0,
                   icon: tea.isFavorite
                       ? const Icon(Icons.star, color: Colors.amber)
                       : Provider.of<AppProvider>(context, listen: false)

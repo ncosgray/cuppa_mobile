@@ -39,20 +39,14 @@ class TeaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(right: 12.0),
-        child: AnimatedOpacity(
+      padding: const EdgeInsets.only(right: 12.0),
+      child: AnimatedOpacity(
           opacity: fade ? 0.4 : 1.0,
           duration: const Duration(milliseconds: 400),
           child: Card(
-              child: GestureDetector(
-            onTap: _handleTap,
-            child: Container(
-              decoration: BoxDecoration(
-                color: tea.isActive
-                    ? tea.getThemeColor(context)
-                    : Colors.transparent,
-                borderRadius: const BorderRadius.all(Radius.circular(2.0)),
-              ),
+            color: tea.isActive ? tea.getThemeColor(context) : null,
+            child: GestureDetector(
+              onTap: _handleTap,
               child: Container(
                 constraints: const BoxConstraints(
                     minWidth: 80.0, maxWidth: double.infinity),
@@ -121,6 +115,6 @@ class TeaButton extends StatelessWidget {
               ),
             ),
           )),
-        ));
+    );
   }
 }
