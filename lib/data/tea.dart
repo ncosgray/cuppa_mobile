@@ -313,7 +313,9 @@ enum TeaColor {
         return Colors.deepPurple[200]!;
       default:
         // "Black" substitutes appropriate color for current theme
-        return Theme.of(context).textTheme.button!.color!;
+        return Theme.of(context).brightness == Brightness.dark
+            ? Colors.grey
+            : Colors.black54;
     }
   }
 }

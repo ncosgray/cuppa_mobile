@@ -69,9 +69,10 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                                   .favoritesList
                                   .length <
                               favoritesMaxCount
-                          ? const Icon(Icons.star, color: Colors.grey)
-                          : const Icon(Icons.star_border_outlined,
-                              color: Colors.grey),
+                          ? const Icon(Icons.star)
+                          : const Icon(
+                              Icons.star_border_outlined,
+                            ),
                   // Toggle favorite status if enabled or max not reached
                   onPressed: tea.isFavorite ||
                           Provider.of<AppProvider>(context, listen: false)
@@ -105,9 +106,9 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                                 fontSize: 18.0,
                                 color: tea.getThemeColor(context),
                               )),
-                          label: const Icon(
+                          label: Icon(
                             Icons.edit,
-                            color: Colors.grey,
+                            color: Theme.of(context).iconTheme.color,
                             size: 20.0,
                           ),
                           onPressed: () {
@@ -147,7 +148,6 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                                       const Icon(
                                         Icons.arrow_drop_down,
                                         size: 24.0,
-                                        color: Colors.grey,
                                       ),
                                     ],
                                   )),
@@ -184,7 +184,6 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                                       const Icon(
                                         Icons.arrow_drop_down,
                                         size: 24.0,
-                                        color: Colors.grey,
                                       ),
                                     ],
                                   )),
@@ -221,7 +220,6 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                                             const Icon(
                                               Icons.arrow_drop_down,
                                               size: 24.0,
-                                              color: Colors.grey,
                                             ),
                                           ],
                                         )),
@@ -247,7 +245,6 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                                             const Icon(
                                               Icons.arrow_drop_down,
                                               size: 24.0,
-                                              color: Colors.grey,
                                             ),
                                           ],
                                         )),
@@ -265,7 +262,6 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
           child: Icon(
             Icons.drag_handle,
             size: 20.0,
-            color: Colors.grey,
           )),
     ));
   }

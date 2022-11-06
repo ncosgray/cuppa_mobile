@@ -130,16 +130,11 @@ class PrefsWidget extends StatelessWidget {
                                       AppString.add_tea_button
                                           .translate()
                                           .toUpperCase(),
-                                      style: TextStyle(
-                                          fontSize: 14.0,
-                                          color: count < teasMaxCount
-                                              ? Colors.blue
-                                              : Colors.grey)),
-                                  icon: Icon(Icons.add_circle,
-                                      color: count < teasMaxCount
-                                          ? Colors.blue
-                                          : Colors.grey,
-                                      size: 20.0),
+                                      style: const TextStyle(
+                                        fontSize: 14.0,
+                                      )),
+                                  icon:
+                                      const Icon(Icons.add_circle, size: 20.0),
                                   onPressed:
                                       // Disable adding teas if there are maximum teas
                                       count < teasMaxCount

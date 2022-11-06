@@ -37,15 +37,11 @@ class CancelButton extends StatelessWidget {
         style: TextStyle(
           fontSize: 12.0,
           fontWeight: FontWeight.bold,
-          color: active
-              ? Colors.red[400]
-              : Theme.of(context).textTheme.button!.color!,
+          color: active ? Colors.red[400] : Theme.of(context).disabledColor,
         ),
       ),
       icon: Icon(Icons.cancel,
-          color: active
-              ? Colors.red[400]
-              : Theme.of(context).textTheme.button!.color!,
+          color: active ? Colors.red[400] : Theme.of(context).disabledColor,
           size: 16.0),
       onPressed: active ? _handleTap : null,
     );

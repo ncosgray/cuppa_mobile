@@ -28,14 +28,18 @@ import 'package:flutter/material.dart';
 // iOS themes
 final ThemeData kIOSTheme = ThemeData(
   primaryColor: Colors.grey[100],
-  textTheme: Typography.blackCupertino
-      .copyWith(button: const TextStyle(color: Colors.black54)),
+  textTheme: Typography.blackCupertino,
+  iconTheme: const IconThemeData(
+    color: Colors.grey,
+  ),
   brightness: Brightness.light,
 );
 final ThemeData kIOSDarkTheme = ThemeData(
   primaryColor: Colors.grey[900],
-  textTheme: Typography.whiteCupertino
-      .copyWith(button: const TextStyle(color: Colors.grey)),
+  textTheme: Typography.whiteCupertino,
+  iconTheme: const IconThemeData(
+    color: Colors.white,
+  ),
   brightness: Brightness.dark,
 );
 
@@ -43,15 +47,19 @@ final ThemeData kIOSDarkTheme = ThemeData(
 final ThemeData kDefaultTheme = ThemeData(
   primaryColor: Colors.blue,
   toggleableActiveColor: Colors.blue,
-  textTheme: Typography.blackMountainView
-      .copyWith(button: const TextStyle(color: Colors.black54)),
+  textTheme: Typography.blackMountainView,
+  iconTheme: const IconThemeData(
+    color: Colors.grey,
+  ),
   brightness: Brightness.light,
 );
 final ThemeData kDarkTheme = ThemeData(
   primaryColor: Colors.blue,
   toggleableActiveColor: Colors.blue,
-  textTheme: Typography.whiteMountainView
-      .copyWith(button: const TextStyle(color: Colors.grey)),
+  textTheme: Typography.whiteMountainView,
+  iconTheme: const IconThemeData(
+    color: Colors.white,
+  ),
   brightness: Brightness.dark,
 );
 
@@ -230,9 +238,6 @@ class PlatformAdaptiveDialog extends StatelessWidget {
       // Define Material action button(s)
       List<Widget> actionList = [
         TextButton(
-          style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-          ),
           onPressed: () {
             Navigator.of(context).pop(false);
           },
@@ -241,9 +246,6 @@ class PlatformAdaptiveDialog extends StatelessWidget {
       ];
       if (buttonTextTrue != null) {
         actionList.add(TextButton(
-          style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-          ),
           onPressed: () {
             Navigator.of(context).pop(true);
           },
@@ -373,9 +375,6 @@ class _PlatformAdaptiveTextFormDialogState
         actions: <Widget>[
           // Cancel and close dialog
           TextButton(
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-            ),
             onPressed: () {
               // Don't return anything
               Navigator.of(context).pop();
@@ -384,11 +383,6 @@ class _PlatformAdaptiveTextFormDialogState
           ),
           // Save and close dialog, if valid
           TextButton(
-            style: ButtonStyle(
-              foregroundColor: _isValid
-                  ? MaterialStateProperty.all<Color>(Colors.blue)
-                  : MaterialStateProperty.all<Color>(Colors.grey),
-            ),
             onPressed: _isValid
                 ? () {
                     // Return new text value
@@ -556,18 +550,12 @@ class _PlatformAdaptiveTimePickerDialogState
         actions: <Widget>[
           // Cancel and close dialog
           TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-              ),
               onPressed: () {
                 Navigator.pop(context, null);
               },
               child: Text(buttonTextCancel)),
           // Save and close dialog
           TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-              ),
               onPressed: () {
                 // Return selected time
                 Navigator.pop(context, (_newMinutes * 60) + _newSeconds);
@@ -773,18 +761,12 @@ class _PlatformAdaptiveTempPickerDialogState
         actions: <Widget>[
           // Cancel and close dialog
           TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-              ),
               onPressed: () {
                 Navigator.pop(context, null);
               },
               child: Text(buttonTextCancel)),
           // Save and close dialog
           TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-              ),
               onPressed: () {
                 // Return selected time
                 Navigator.pop(context, _newTemp);
