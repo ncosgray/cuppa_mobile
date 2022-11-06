@@ -21,6 +21,7 @@
 // - PlatformAdaptiveTempPickerDialog temp entry dialog for context platform
 
 import 'package:cuppa_mobile/helpers.dart';
+import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,9 @@ final ThemeData kDefaultTheme = ThemeData(
   iconTheme: const IconThemeData(
     color: Colors.grey,
   ),
+  chipTheme: const ChipThemeData(
+    selectedColor: Colors.blue,
+  ),
   brightness: Brightness.light,
 );
 final ThemeData kDarkTheme = ThemeData(
@@ -59,6 +63,9 @@ final ThemeData kDarkTheme = ThemeData(
   textTheme: Typography.whiteMountainView,
   iconTheme: const IconThemeData(
     color: Colors.white,
+  ),
+  chipTheme: const ChipThemeData(
+    selectedColor: Colors.blue,
   ),
   brightness: Brightness.dark,
 );
@@ -427,10 +434,7 @@ class _PlatformAdaptiveTextFormDialogState
               )
             : null,
       ),
-      style: const TextStyle(
-        fontSize: 18.0,
-        fontWeight: FontWeight.bold,
-      ),
+      style: textStyleSetting,
       // Checks for valid values
       validator: validator,
       onChanged: (String newValue) {
@@ -589,9 +593,7 @@ class _PlatformAdaptiveTimePickerDialogState
           // Separator
           const Text(
             ':',
-            style: TextStyle(
-              fontSize: 18.0,
-            ),
+            style: textStyleSettingSeconday,
           ),
           const SizedBox(width: 18.0),
           // Seconds picker
@@ -646,9 +648,7 @@ class _PlatformAdaptiveTimePickerDialogState
               padTime
                   ? timeValues[index].toString().padLeft(2, '0')
                   : timeValues[index].toString(),
-              style: const TextStyle(
-                fontSize: 18.0,
-              ),
+              style: textStyleSettingSeconday,
             ));
           },
         ),
@@ -790,9 +790,7 @@ class _PlatformAdaptiveTempPickerDialogState
           // Display selected temperature
           Text(
             formatTemp(_newTemp),
-            style: const TextStyle(
-              fontSize: 18.0,
-            ),
+            style: textStyleSettingSeconday,
           ),
           Container(
               padding: const EdgeInsets.only(left: 18.0, right: 18.0),
@@ -846,7 +844,6 @@ class _PlatformAdaptiveTempPickerDialogState
             label: const Text(degreesC),
             labelPadding: const EdgeInsets.only(left: 18.0, right: 18.0),
             selected: _unitsCelsius,
-            selectedColor: Colors.blue,
             elevation: 0,
             pressElevation: 0,
             onSelected: (bool selected) {
@@ -863,7 +860,6 @@ class _PlatformAdaptiveTempPickerDialogState
             label: const Text(degreesF),
             labelPadding: const EdgeInsets.only(left: 18.0, right: 18.0),
             selected: !_unitsCelsius,
-            selectedColor: Colors.blue,
             elevation: 0,
             pressElevation: 0,
             onSelected: (bool selected) {

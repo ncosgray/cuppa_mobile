@@ -21,6 +21,7 @@ import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -101,9 +102,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                           icon: Text(tea.name,
                               textAlign: TextAlign.left,
                               maxLines: 1,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0,
+                              style: textStyleSetting.copyWith(
                                 color: tea.getThemeColor(context),
                               )),
                           label: Icon(
@@ -141,9 +140,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                                     children: <Widget>[
                                       Text(
                                         formatTimer(tea.brewTime),
-                                        style: const TextStyle(
-                                          fontSize: 18.0,
-                                        ),
+                                        style: textStyleSettingSeconday,
                                       ),
                                       const Icon(
                                         Icons.arrow_drop_down,
@@ -177,9 +174,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                                     children: <Widget>[
                                       Text(
                                         formatTemp(tea.brewTemp),
-                                        style: const TextStyle(
-                                          fontSize: 18.0,
-                                        ),
+                                        style: textStyleSettingSeconday,
                                       ),
                                       const Icon(
                                         Icons.arrow_drop_down,

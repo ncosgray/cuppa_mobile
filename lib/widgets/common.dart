@@ -14,6 +14,7 @@
 
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -34,21 +35,11 @@ Widget aboutText() {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(AppString.about_app.translate(),
-                style: const TextStyle(
-                  fontSize: 12.0,
-                )),
+            Text(AppString.about_app.translate(), style: textStyleFooter),
             Row(children: const [
-              Text(aboutCopyright,
-                  style: TextStyle(
-                    fontSize: 12.0,
-                  )),
+              Text(aboutCopyright, style: textStyleFooter),
               VerticalDivider(),
-              Text(aboutURL,
-                  style: TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline))
+              Text(aboutURL, style: textStyleFooterLink)
             ])
           ]),
       onTap: () =>

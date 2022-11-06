@@ -19,6 +19,7 @@ import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -54,9 +55,7 @@ class AboutWidget extends StatelessWidget {
                           // Cuppa version and build
                           Text(
                               '$appName ${packageInfo.version} (${packageInfo.buildNumber})',
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 18.0,
+                              style: textStyleHeader.copyWith(
                                 color: Theme.of(context)
                                     .textTheme
                                     .bodyText1!
@@ -113,16 +112,9 @@ class AboutWidget extends StatelessWidget {
   Widget _listItem(String title, String? subtitle, String url) {
     return InkWell(
         child: ListTile(
-      title: Text(title,
-          style: const TextStyle(
-            fontSize: 16.0,
-          )),
-      subtitle: subtitle != null
-          ? Text(subtitle,
-              style: const TextStyle(
-                fontSize: 14.0,
-              ))
-          : null,
+      title: Text(title, style: textStyleTitle),
+      subtitle:
+          subtitle != null ? Text(subtitle, style: textStyleSubtitle) : null,
       trailing: const Icon(Icons.launch, size: 16.0),
       onTap: () =>
           launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication),

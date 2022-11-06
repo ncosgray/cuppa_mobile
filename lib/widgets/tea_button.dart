@@ -15,6 +15,7 @@
 import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
+import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -64,9 +65,7 @@ class TeaButton extends StatelessWidget {
                     ),
                     Text(
                       tea.buttonName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.0,
+                      style: textStyleButton.copyWith(
                         color: tea.isActive
                             ? Colors.white
                             : tea.getThemeColor(context),
@@ -87,9 +86,8 @@ class TeaButton extends StatelessWidget {
                                           4.0, 2.0, 4.0, 0.0),
                                       child: Text(
                                         formatTimer(tea.brewTime),
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12.0,
+                                        style:
+                                            textStyleButtonSecondary.copyWith(
                                           color: tea.isActive
                                               ? Colors.white
                                               : tea.getThemeColor(context),
@@ -101,9 +99,8 @@ class TeaButton extends StatelessWidget {
                                           4.0, 2.0, 4.0, 0.0),
                                       child: Text(
                                         tea.tempDisplay,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12.0,
+                                        style:
+                                            textStyleButtonSecondary.copyWith(
                                           color: tea.isActive
                                               ? Colors.white
                                               : tea.getThemeColor(context),
