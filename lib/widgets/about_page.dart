@@ -67,29 +67,29 @@ class AboutWidget extends StatelessWidget {
                       // Changelog
                       _listItem(AppString.version_history.translate(), null,
                           versionsURL),
-                      listDivider(),
+                      listDivider,
                       // App license info
                       _listItem(AppString.about_license.translate(), null,
                           licenseURL),
-                      listDivider(),
+                      listDivider,
                       // Link to app source code
                       _listItem(AppString.source_code.translate(),
                           AppString.source_code_info.translate(), sourceURL),
-                      listDivider(),
+                      listDivider,
                       // App localization info
                       _listItem(
                           AppString.help_translate.translate(),
                           AppString.help_translate_info.translate(),
                           translateURL),
-                      listDivider(),
+                      listDivider,
                       // How to report issues
                       _listItem(AppString.issues.translate(),
                           AppString.issues_info.translate(), issuesURL),
-                      listDivider(),
+                      listDivider,
                       // Privacy policy
                       _listItem(AppString.privacy_policy.translate(), null,
                           privacyURL),
-                      listDivider(),
+                      listDivider,
                     ])),
                     SliverFillRemaining(
                       hasScrollBody: false,
@@ -115,7 +115,7 @@ class AboutWidget extends StatelessWidget {
       title: Text(title, style: textStyleTitle),
       subtitle:
           subtitle != null ? Text(subtitle, style: textStyleSubtitle) : null,
-      trailing: const Icon(Icons.launch, size: 16.0),
+      trailing: launchIcon,
       onTap: () =>
           launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication),
       contentPadding: const EdgeInsets.all(6.0),

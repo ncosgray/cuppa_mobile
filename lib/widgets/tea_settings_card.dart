@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
+import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
@@ -142,10 +143,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                                         formatTimer(tea.brewTime),
                                         style: textStyleSettingSeconday,
                                       ),
-                                      const Icon(
-                                        Icons.arrow_drop_down,
-                                        size: 24.0,
-                                      ),
+                                      dropdownArrow,
                                     ],
                                   )),
                               onTap: () {
@@ -176,10 +174,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                                         formatTemp(tea.brewTemp),
                                         style: textStyleSettingSeconday,
                                       ),
-                                      const Icon(
-                                        Icons.arrow_drop_down,
-                                        size: 24.0,
-                                      ),
+                                      dropdownArrow,
                                     ],
                                   )),
                               onTap: () {
@@ -212,10 +207,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                                               height: 18.0,
                                               color: tea.getThemeColor(context),
                                             ),
-                                            const Icon(
-                                              Icons.arrow_drop_down,
-                                              size: 24.0,
-                                            ),
+                                            dropdownArrow,
                                           ],
                                         )),
                                     onTap: () {
@@ -237,10 +229,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                                                 child: Icon(tea.teaIcon,
                                                     color: tea.getThemeColor(
                                                         context))),
-                                            const Icon(
-                                              Icons.arrow_drop_down,
-                                              size: 24.0,
-                                            ),
+                                            dropdownArrow,
                                           ],
                                         )),
                                     onTap: () {
@@ -252,12 +241,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
               ),
             ],
           )),
-      trailing: const SizedBox(
-          height: double.infinity,
-          child: Icon(
-            Icons.drag_handle,
-            size: 20.0,
-          )),
+      trailing: const SizedBox(height: double.infinity, child: dragHandle),
     ));
   }
 

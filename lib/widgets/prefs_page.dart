@@ -155,7 +155,7 @@ class PrefsWidget extends StatelessWidget {
                             const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 6.0),
                         dense: true,
                       )),
-                  listDivider(),
+                  listDivider,
                   // Setting: default to Celsius or Fahrenheit
                   Align(
                       alignment: Alignment.topLeft,
@@ -171,7 +171,7 @@ class PrefsWidget extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(6.0),
                         dense: true,
                       )),
-                  listDivider(),
+                  listDivider,
                   // Setting: app theme selection
                   Align(
                       alignment: Alignment.topLeft,
@@ -193,7 +193,7 @@ class PrefsWidget extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(6.0),
                         dense: true,
                       )),
-                  listDivider(),
+                  listDivider,
                   // Setting: app language selection
                   Align(
                       alignment: Alignment.topLeft,
@@ -216,7 +216,7 @@ class PrefsWidget extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(6.0),
                         dense: true,
                       )),
-                  listDivider(),
+                  listDivider,
                   // Notification settings info text and link
                   InkWell(
                       child: ListTile(
@@ -231,11 +231,7 @@ class PrefsWidget extends StatelessWidget {
                     title: Text(AppString.prefs_notifications.translate(),
                         style: textStyleSubtitle),
                     trailing: const SizedBox(
-                        height: double.infinity,
-                        child: Icon(
-                          Icons.launch,
-                          size: 16.0,
-                        )),
+                        height: double.infinity, child: launchIcon),
                     onTap: () => AppSettings.openNotificationSettings(),
                     contentPadding: const EdgeInsets.all(6.0),
                     dense: true,
@@ -346,7 +342,7 @@ class PrefsWidget extends StatelessWidget {
                                 });
                           },
                           separatorBuilder: (context, index) {
-                            return listDivider();
+                            return listDivider;
                           },
                         ),
                       ))),

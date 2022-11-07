@@ -20,13 +20,11 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // List divider
-Widget listDivider() {
-  return const Divider(
-    thickness: 1.0,
-    indent: 6.0,
-    endIndent: 6.0,
-  );
-}
+const Widget listDivider = Divider(
+  thickness: 1.0,
+  indent: 6.0,
+  endIndent: 6.0,
+);
 
 // About text linking to app website
 Widget aboutText() {
@@ -75,3 +73,19 @@ Widget draggableFeedback(
     ),
   );
 }
+
+// Icons
+const Widget dropdownArrow = Icon(
+  Icons.arrow_drop_down,
+  size: 24.0,
+);
+
+const Widget launchIcon = Icon(
+  Icons.launch,
+  size: 16.0,
+);
+
+const Widget dragHandle = Icon(
+  Icons.drag_handle,
+  size: 20.0,
+);
