@@ -44,7 +44,7 @@ class AboutWidget extends StatelessWidget {
                     SliverAppBar(
                       elevation: 0,
                       pinned: true,
-                      backgroundColor: Theme.of(context).canvasColor,
+                      backgroundColor: Colors.transparent,
                       leading:
                           // Teacup icon
                           Container(
