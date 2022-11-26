@@ -28,7 +28,7 @@ import 'package:flutter/material.dart';
 
 // iOS themes
 final ThemeData kIOSTheme = ThemeData(
-  primaryColor: Colors.grey[100],
+  primaryColor: Colors.grey.shade100,
   textTheme: Typography.blackCupertino,
   iconTheme: const IconThemeData(
     color: Colors.grey,
@@ -36,9 +36,9 @@ final ThemeData kIOSTheme = ThemeData(
   brightness: Brightness.light,
 );
 final ThemeData kIOSDarkTheme = ThemeData(
-  primaryColor: Colors.grey[900],
+  primaryColor: Colors.grey.shade900,
   scaffoldBackgroundColor: Colors.black,
-  cardColor: Colors.grey[900],
+  cardColor: Colors.grey.shade900,
   textTheme: Typography.whiteCupertino,
   iconTheme: const IconThemeData(
     color: Colors.white,
@@ -62,7 +62,7 @@ final ThemeData kDefaultTheme = ThemeData(
 final ThemeData kDarkTheme = ThemeData(
   primaryColor: Colors.blue,
   scaffoldBackgroundColor: Colors.black,
-  cardColor: Colors.grey[900],
+  cardColor: Colors.grey.shade900,
   toggleableActiveColor: Colors.blue,
   textTheme: Typography.whiteMountainView,
   iconTheme: const IconThemeData(
