@@ -65,12 +65,10 @@ Widget draggableFeedback(
     transform: Matrix4.rotationZ(0),
     alignment: FractionalOffset.topLeft,
     child: Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Theme.of(context).shadowColor,
-              blurRadius: 7.0,
-              offset: const Offset(0.0, 0.75))
+              color: Colors.grey, blurRadius: 7.0, offset: Offset(0.0, 0.75))
         ],
       ),
       child: ConstrainedBox(constraints: constraints, child: child),
