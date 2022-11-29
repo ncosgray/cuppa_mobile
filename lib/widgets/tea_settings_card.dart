@@ -55,40 +55,6 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
     return Card(
         child: ListTile(
       horizontalTitleGap: isLargeDevice ? 24.0 : 4.0,
-      minLeadingWidth: 0.0,
-      leading:
-          // Favorite status
-          SizedBox(
-              height: double.infinity,
-              child: IconButton(
-                  visualDensity: VisualDensity.compact,
-                  iconSize: 24.0,
-                  padding: EdgeInsets.zero,
-                  constraints:
-                      const BoxConstraints(minWidth: 24.0, minHeight: 24.0),
-                  splashRadius: 24.0,
-                  icon: tea.isFavorite
-                      ? const Icon(Icons.star, color: Colors.amber)
-                      : Provider.of<AppProvider>(context, listen: false)
-                                  .favoritesList
-                                  .length <
-                              favoritesMaxCount
-                          ? const Icon(Icons.star)
-                          : const Icon(
-                              Icons.star_border_outlined,
-                            ),
-                  // Toggle favorite status if enabled or max not reached
-                  onPressed: tea.isFavorite ||
-                          Provider.of<AppProvider>(context, listen: false)
-                                  .favoritesList
-                                  .length <
-                              favoritesMaxCount
-                      ? () {
-                          // Toggle favorite status
-                          Provider.of<AppProvider>(context, listen: false)
-                              .updateTea(tea, isFavorite: !tea.isFavorite);
-                        }
-                      : null)),
       title: SizedBox(
           height: isLargeDevice ? 64.0 : 88.0,
           child: Flex(
@@ -100,6 +66,39 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                     height: 54.0,
                     padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
                     child: Row(children: [
+                      // Favorite status
+                      IconButton(
+                          iconSize: 24.0,
+                          padding:
+                              const EdgeInsets.fromLTRB(2.0, 0.0, 2.0, 0.0),
+                          constraints: const BoxConstraints(
+                              minWidth: 32.0, minHeight: 32.0),
+                          splashRadius: 32.0,
+                          icon: tea.isFavorite
+                              ? const Icon(Icons.star, color: Colors.amber)
+                              : Provider.of<AppProvider>(context, listen: false)
+                                          .favoritesList
+                                          .length <
+                                      favoritesMaxCount
+                                  ? const Icon(Icons.star)
+                                  : const Icon(
+                                      Icons.star_border_outlined,
+                                    ),
+                          // Toggle favorite status if enabled or max not reached
+                          onPressed: tea.isFavorite ||
+                                  Provider.of<AppProvider>(context,
+                                              listen: false)
+                                          .favoritesList
+                                          .length <
+                                      favoritesMaxCount
+                              ? () {
+                                  // Toggle favorite status
+                                  Provider.of<AppProvider>(context,
+                                          listen: false)
+                                      .updateTea(tea,
+                                          isFavorite: !tea.isFavorite);
+                                }
+                              : null),
                       // Tea name with edit icon
                       TextButton.icon(
                           icon: Text(tea.name,
@@ -173,7 +172,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                           Flexible(
                               flex: 10,
                               child: Align(
-                                  alignment: Alignment.centerLeft,
+                                  alignment: Alignment.center,
                                   child: InkWell(
                                       child: SizedBox(
                                           height: double.infinity,
@@ -211,7 +210,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                           Flexible(
                               flex: 7,
                               child: Align(
-                                  alignment: Alignment.centerLeft,
+                                  alignment: Alignment.center,
                                   child: InkWell(
                                       child: SizedBox(
                                           height: double.infinity,
@@ -237,7 +236,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                           Flexible(
                               flex: 7,
                               child: Align(
-                                  alignment: Alignment.center,
+                                  alignment: Alignment.centerRight,
                                   child: InkWell(
                                       child: SizedBox(
                                           height: double.infinity,
