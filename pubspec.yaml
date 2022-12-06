@@ -19,24 +19,24 @@ version: 1.7.1+30
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
-  flutter: ^3.0.0
+  flutter: ^3.3.0
 
 dependencies:
   app_settings: ^4.1.8
   cupertino_icons: ^1.0.5
   flutter:
     sdk: flutter
-  flutter_local_notifications: ^12.0.0
+  flutter_local_notifications: ^12.0.4
   flutter_localizations:
     sdk: flutter
   flutter_native_timezone: ^2.0.0
-  package_info_plus: ^2.0.0
-  provider: ^6.0.3
-  quick_actions: ^1.0.0
-  reorderables: ^0.5.0
+  package_info_plus: ^3.0.2
+  provider: ^6.0.4
+  quick_actions: ^1.0.1
+  reorderables: ^0.5.1
   shared_preferences: ^2.0.15
-  tuple: ^2.0.0
-  url_launcher: ^6.1.5
+  tuple: ^2.0.1
+  url_launcher: ^6.1.7
 
 dev_dependencies:
   flutter_test:
