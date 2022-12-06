@@ -1,0 +1,4 @@
+* [NIEUW] Gitzwart donker thema;
+* [OPGELOST] Bug die per ongeluk snelkoppelingen startte;
+* [VERBETERD] Verbeterde vormgeving;
+* [VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!
