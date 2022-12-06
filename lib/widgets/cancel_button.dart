@@ -13,6 +13,7 @@
 // Cuppa cancel timer button
 
 import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/material.dart';
 
@@ -34,18 +35,12 @@ class CancelButton extends StatelessWidget {
     return TextButton.icon(
       label: Text(
         AppString.cancel_button.translate().toUpperCase(),
-        style: TextStyle(
-          fontSize: 12.0,
-          fontWeight: FontWeight.bold,
-          color: active
-              ? Colors.red[400]
-              : Theme.of(context).textTheme.button!.color!,
+        style: textStyleButtonSecondary.copyWith(
+          color: active ? Colors.red.shade400 : Theme.of(context).disabledColor,
         ),
       ),
       icon: Icon(Icons.cancel,
-          color: active
-              ? Colors.red[400]
-              : Theme.of(context).textTheme.button!.color!,
+          color: active ? Colors.red.shade400 : Theme.of(context).disabledColor,
           size: 16.0),
       onPressed: active ? _handleTap : null,
     );

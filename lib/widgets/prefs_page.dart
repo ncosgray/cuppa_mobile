@@ -23,6 +23,7 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
+import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
@@ -51,15 +52,14 @@ class PrefsWidget extends StatelessWidget {
             slivers: [
               SliverAppBar(
                 elevation: 0,
-                backgroundColor: Theme.of(context).canvasColor,
+                backgroundColor: Colors.transparent,
                 automaticallyImplyLeading: false,
                 leading: Container(
                     margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
                     child:
                         // Section: Teas
                         Text(AppString.teas_title.translate(),
-                            style: TextStyle(
-                              fontSize: 18.0,
+                            style: textStyleHeader.copyWith(
                               color:
                                   Theme.of(context).textTheme.bodyText1!.color!,
                             ))),
@@ -73,9 +73,7 @@ class PrefsWidget extends StatelessWidget {
                               margin: const EdgeInsets.fromLTRB(
                                   6.0, 0.0, 6.0, 12.0),
                               child: Text(AppString.prefs_header.translate(),
-                                  style: const TextStyle(
-                                    fontSize: 14.0,
-                                  ))))),
+                                  style: textStyleSubtitle)))),
               // Tea settings cards
               Consumer<AppProvider>(
                   builder: (context, provider, child) => ReorderableSliverList(
@@ -130,16 +128,9 @@ class PrefsWidget extends StatelessWidget {
                                       AppString.add_tea_button
                                           .translate()
                                           .toUpperCase(),
-                                      style: TextStyle(
-                                          fontSize: 14.0,
-                                          color: count < teasMaxCount
-                                              ? Colors.blue
-                                              : Colors.grey)),
-                                  icon: Icon(Icons.add_circle,
-                                      color: count < teasMaxCount
-                                          ? Colors.blue
-                                          : Colors.grey,
-                                      size: 20.0),
+                                      style: textStyleButton),
+                                  icon:
+                                      const Icon(Icons.add_circle, size: 20.0),
                                   onPressed:
                                       // Disable adding teas if there are maximum teas
                                       count < teasMaxCount
@@ -153,9 +144,7 @@ class PrefsWidget extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: SwitchListTile.adaptive(
                         title: Text(AppString.prefs_show_extra.translate(),
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                            )),
+                            style: textStyleTitle),
                         value: Provider.of<AppProvider>(context).showExtra,
                         // Save showExtra setting to prefs
                         onChanged: (bool newValue) {
@@ -166,15 +155,13 @@ class PrefsWidget extends StatelessWidget {
                             const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 6.0),
                         dense: true,
                       )),
-                  listDivider(),
+                  listDivider,
                   // Setting: default to Celsius or Fahrenheit
                   Align(
                       alignment: Alignment.topLeft,
                       child: SwitchListTile.adaptive(
                         title: Text(AppString.prefs_use_celsius.translate(),
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                            )),
+                            style: textStyleTitle),
                         value: Provider.of<AppProvider>(context).useCelsius,
                         // Save useCelsius setting to prefs
                         onChanged: (bool newValue) {
@@ -184,24 +171,21 @@ class PrefsWidget extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(6.0),
                         dense: true,
                       )),
-                  listDivider(),
+                  listDivider,
                   // Setting: app theme selection
                   Align(
                       alignment: Alignment.topLeft,
                       child: ListTile(
                         title: Text(AppString.prefs_app_theme.translate(),
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                            )),
+                            style: textStyleTitle),
                         trailing: Text(
-                            Provider.of<AppProvider>(context)
-                                .appTheme
-                                .localizedName,
-                            style: TextStyle(
+                          Provider.of<AppProvider>(context)
+                              .appTheme
+                              .localizedName,
+                          style: textStyleTitle.copyWith(
                               color:
-                                  Theme.of(context).textTheme.caption!.color!,
-                              fontSize: 16.0,
-                            )),
+                                  Theme.of(context).textTheme.caption!.color!),
+                        ),
                         onTap: () {
                           // Open app theme dialog
                           _displayAppThemeDialog(context);
@@ -209,24 +193,22 @@ class PrefsWidget extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(6.0),
                         dense: true,
                       )),
-                  listDivider(),
+                  listDivider,
                   // Setting: app language selection
                   Align(
                       alignment: Alignment.topLeft,
                       child: ListTile(
                         title: Text(AppString.prefs_language.translate(),
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                            )),
+                            style: textStyleTitle),
                         trailing: Text(
                             Provider.of<AppProvider>(context).appLanguage == ''
                                 ? AppString.theme_system.translate()
                                 : '${supportedLanguages[Provider.of<AppProvider>(context).appLanguage]!} (${Provider.of<AppProvider>(context).appLanguage})',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color:
-                                  Theme.of(context).textTheme.caption!.color!,
-                            )),
+                            style: textStyleTitle.copyWith(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .caption!
+                                    .color!)),
                         onTap: () {
                           // Open app language dialog
                           _displayAppLanguageDialog(context);
@@ -234,7 +216,7 @@ class PrefsWidget extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(6.0),
                         dense: true,
                       )),
-                  listDivider(),
+                  listDivider,
                   // Notification settings info text and link
                   InkWell(
                       child: ListTile(
@@ -247,15 +229,9 @@ class PrefsWidget extends StatelessWidget {
                         )),
                     horizontalTitleGap: 0.0,
                     title: Text(AppString.prefs_notifications.translate(),
-                        style: const TextStyle(
-                          fontSize: 14.0,
-                        )),
+                        style: textStyleSubtitle),
                     trailing: const SizedBox(
-                        height: double.infinity,
-                        child: Icon(
-                          Icons.launch,
-                          size: 16.0,
-                        )),
+                        height: double.infinity, child: launchIcon),
                     onTap: () => AppSettings.openNotificationSettings(),
                     contentPadding: const EdgeInsets.all(6.0),
                     dense: true,
@@ -327,9 +303,7 @@ class PrefsWidget extends StatelessWidget {
                                 // Localized preset tea name
                                 title: Text(
                                   preset.localizedName,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
+                                  style: textStyleSetting.copyWith(
                                       color: preset.getThemeColor(context)),
                                 ),
                                 // Preset tea brew time and temperature
@@ -338,10 +312,10 @@ class PrefsWidget extends StatelessWidget {
                                     : Row(children: [
                                         Text(
                                           formatTimer(preset.brewTime),
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              color: preset
-                                                  .getThemeColor(context)),
+                                          style:
+                                              textStyleSettingSeconday.copyWith(
+                                                  color: preset
+                                                      .getThemeColor(context)),
                                         ),
                                         ConstrainedBox(
                                             constraints: const BoxConstraints(
@@ -350,10 +324,10 @@ class PrefsWidget extends StatelessWidget {
                                         Text(
                                           preset
                                               .tempDisplay(provider.useCelsius),
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              color: preset
-                                                  .getThemeColor(context)),
+                                          style:
+                                              textStyleSettingSeconday.copyWith(
+                                                  color: preset
+                                                      .getThemeColor(context)),
                                         ),
                                         ConstrainedBox(
                                             constraints: const BoxConstraints(
@@ -368,7 +342,7 @@ class PrefsWidget extends StatelessWidget {
                                 });
                           },
                           separatorBuilder: (context, index) {
-                            return listDivider();
+                            return listDivider;
                           },
                         ),
                       ))),
@@ -414,9 +388,7 @@ class PrefsWidget extends StatelessWidget {
                               Expanded(
                                   child: Text(
                                 value.localizedName,
-                                style: const TextStyle(
-                                  fontSize: 16.0,
-                                ),
+                                style: textStyleTitle,
                               )),
                             ]),
                             onTap: () {
@@ -480,9 +452,7 @@ class PrefsWidget extends StatelessWidget {
                                     value == ''
                                         ? AppString.theme_system.translate()
                                         : '${supportedLanguages[value]!} ($value)',
-                                    style: const TextStyle(
-                                      fontSize: 16.0,
-                                    ),
+                                    style: textStyleTitle,
                                   )),
                                 ]),
                                 onTap: () {

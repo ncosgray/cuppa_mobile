@@ -21,35 +21,56 @@
 // - PlatformAdaptiveTempPickerDialog temp entry dialog for context platform
 
 import 'package:cuppa_mobile/helpers.dart';
+import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // iOS themes
 final ThemeData kIOSTheme = ThemeData(
-  primaryColor: Colors.grey[100],
-  textTheme: Typography.blackCupertino
-      .copyWith(button: const TextStyle(color: Colors.black54)),
+  primaryColor: Colors.grey.shade100,
+  textTheme: Typography.blackCupertino,
+  iconTheme: const IconThemeData(
+    color: Colors.grey,
+  ),
   brightness: Brightness.light,
 );
 final ThemeData kIOSDarkTheme = ThemeData(
-  primaryColor: Colors.grey[900],
-  textTheme: Typography.whiteCupertino
-      .copyWith(button: const TextStyle(color: Colors.grey)),
+  primaryColor: Colors.grey.shade900,
+  scaffoldBackgroundColor: Colors.black,
+  cardColor: Colors.grey.shade900,
+  textTheme: Typography.whiteCupertino,
+  iconTheme: const IconThemeData(
+    color: Colors.white,
+  ),
   brightness: Brightness.dark,
 );
 
 // Android themes
 final ThemeData kDefaultTheme = ThemeData(
-  primarySwatch: Colors.blue,
-  textTheme: Typography.blackMountainView
-      .copyWith(button: const TextStyle(color: Colors.black54)),
+  primaryColor: Colors.blue,
+  toggleableActiveColor: Colors.blue,
+  textTheme: Typography.blackMountainView,
+  iconTheme: const IconThemeData(
+    color: Colors.grey,
+  ),
+  chipTheme: const ChipThemeData(
+    selectedColor: Colors.blue,
+  ),
   brightness: Brightness.light,
 );
 final ThemeData kDarkTheme = ThemeData(
-  primarySwatch: Colors.blue,
-  textTheme: Typography.whiteMountainView
-      .copyWith(button: const TextStyle(color: Colors.grey)),
+  primaryColor: Colors.blue,
+  scaffoldBackgroundColor: Colors.black,
+  cardColor: Colors.grey.shade900,
+  toggleableActiveColor: Colors.blue,
+  textTheme: Typography.whiteMountainView,
+  iconTheme: const IconThemeData(
+    color: Colors.white,
+  ),
+  chipTheme: const ChipThemeData(
+    selectedColor: Colors.blue,
+  ),
   brightness: Brightness.dark,
 );
 
@@ -228,9 +249,6 @@ class PlatformAdaptiveDialog extends StatelessWidget {
       // Define Material action button(s)
       List<Widget> actionList = [
         TextButton(
-          style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-          ),
           onPressed: () {
             Navigator.of(context).pop(false);
           },
@@ -239,9 +257,6 @@ class PlatformAdaptiveDialog extends StatelessWidget {
       ];
       if (buttonTextTrue != null) {
         actionList.add(TextButton(
-          style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-          ),
           onPressed: () {
             Navigator.of(context).pop(true);
           },
@@ -251,7 +266,7 @@ class PlatformAdaptiveDialog extends StatelessWidget {
 
       // Build the Material dialog
       return AlertDialog(
-        contentPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 0.0),
+        contentPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
         title: title,
         content: content,
         actions: actionList,
@@ -371,9 +386,6 @@ class _PlatformAdaptiveTextFormDialogState
         actions: <Widget>[
           // Cancel and close dialog
           TextButton(
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-            ),
             onPressed: () {
               // Don't return anything
               Navigator.of(context).pop();
@@ -382,11 +394,6 @@ class _PlatformAdaptiveTextFormDialogState
           ),
           // Save and close dialog, if valid
           TextButton(
-            style: ButtonStyle(
-              foregroundColor: _isValid
-                  ? MaterialStateProperty.all<Color>(Colors.blue)
-                  : MaterialStateProperty.all<Color>(Colors.grey),
-            ),
             onPressed: _isValid
                 ? () {
                     // Return new text value
@@ -431,10 +438,7 @@ class _PlatformAdaptiveTextFormDialogState
               )
             : null,
       ),
-      style: const TextStyle(
-        fontSize: 18.0,
-        fontWeight: FontWeight.bold,
-      ),
+      style: textStyleSetting,
       // Checks for valid values
       validator: validator,
       onChanged: (String newValue) {
@@ -554,18 +558,12 @@ class _PlatformAdaptiveTimePickerDialogState
         actions: <Widget>[
           // Cancel and close dialog
           TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-              ),
               onPressed: () {
                 Navigator.pop(context, null);
               },
               child: Text(buttonTextCancel)),
           // Save and close dialog
           TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-              ),
               onPressed: () {
                 // Return selected time
                 Navigator.pop(context, (_newMinutes * 60) + _newSeconds);
@@ -599,9 +597,7 @@ class _PlatformAdaptiveTimePickerDialogState
           // Separator
           const Text(
             ':',
-            style: TextStyle(
-              fontSize: 18.0,
-            ),
+            style: textStyleSettingSeconday,
           ),
           const SizedBox(width: 18.0),
           // Seconds picker
@@ -656,9 +652,7 @@ class _PlatformAdaptiveTimePickerDialogState
               padTime
                   ? timeValues[index].toString().padLeft(2, '0')
                   : timeValues[index].toString(),
-              style: const TextStyle(
-                fontSize: 18.0,
-              ),
+              style: textStyleSettingSeconday,
             ));
           },
         ),
@@ -771,18 +765,12 @@ class _PlatformAdaptiveTempPickerDialogState
         actions: <Widget>[
           // Cancel and close dialog
           TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-              ),
               onPressed: () {
                 Navigator.pop(context, null);
               },
               child: Text(buttonTextCancel)),
           // Save and close dialog
           TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-              ),
               onPressed: () {
                 // Return selected time
                 Navigator.pop(context, _newTemp);
@@ -806,9 +794,7 @@ class _PlatformAdaptiveTempPickerDialogState
           // Display selected temperature
           Text(
             formatTemp(_newTemp),
-            style: const TextStyle(
-              fontSize: 18.0,
-            ),
+            style: textStyleSettingSeconday,
           ),
           Container(
               padding: const EdgeInsets.only(left: 18.0, right: 18.0),
@@ -862,7 +848,6 @@ class _PlatformAdaptiveTempPickerDialogState
             label: const Text(degreesC),
             labelPadding: const EdgeInsets.only(left: 18.0, right: 18.0),
             selected: _unitsCelsius,
-            selectedColor: Colors.blue,
             elevation: 0,
             pressElevation: 0,
             onSelected: (bool selected) {
@@ -879,7 +864,6 @@ class _PlatformAdaptiveTempPickerDialogState
             label: const Text(degreesF),
             labelPadding: const EdgeInsets.only(left: 18.0, right: 18.0),
             selected: !_unitsCelsius,
-            selectedColor: Colors.blue,
             elevation: 0,
             pressElevation: 0,
             onSelected: (bool selected) {

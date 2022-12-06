@@ -15,6 +15,7 @@
 import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
+import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,20 +40,14 @@ class TeaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(right: 12.0),
-        child: AnimatedOpacity(
+      padding: const EdgeInsets.only(right: 12.0),
+      child: AnimatedOpacity(
           opacity: fade ? 0.4 : 1.0,
           duration: const Duration(milliseconds: 400),
           child: Card(
-              child: GestureDetector(
-            onTap: _handleTap,
-            child: Container(
-              decoration: BoxDecoration(
-                color: tea.isActive
-                    ? tea.getThemeColor(context)
-                    : Colors.transparent,
-                borderRadius: const BorderRadius.all(Radius.circular(2.0)),
-              ),
+            color: tea.isActive ? tea.getThemeColor(context) : null,
+            child: GestureDetector(
+              onTap: _handleTap,
               child: Container(
                 constraints: const BoxConstraints(
                     minWidth: 80.0, maxWidth: double.infinity),
@@ -70,9 +65,7 @@ class TeaButton extends StatelessWidget {
                     ),
                     Text(
                       tea.buttonName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.0,
+                      style: textStyleButton.copyWith(
                         color: tea.isActive
                             ? Colors.white
                             : tea.getThemeColor(context),
@@ -93,9 +86,8 @@ class TeaButton extends StatelessWidget {
                                           4.0, 2.0, 4.0, 0.0),
                                       child: Text(
                                         formatTimer(tea.brewTime),
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12.0,
+                                        style:
+                                            textStyleButtonSecondary.copyWith(
                                           color: tea.isActive
                                               ? Colors.white
                                               : tea.getThemeColor(context),
@@ -107,9 +99,8 @@ class TeaButton extends StatelessWidget {
                                           4.0, 2.0, 4.0, 0.0),
                                       child: Text(
                                         tea.tempDisplay,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12.0,
+                                        style:
+                                            textStyleButtonSecondary.copyWith(
                                           color: tea.isActive
                                               ? Colors.white
                                               : tea.getThemeColor(context),
@@ -121,6 +112,6 @@ class TeaButton extends StatelessWidget {
               ),
             ),
           )),
-        ));
+    );
   }
 }

@@ -19,6 +19,7 @@ import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -43,7 +44,7 @@ class AboutWidget extends StatelessWidget {
                     SliverAppBar(
                       elevation: 0,
                       pinned: true,
-                      backgroundColor: Theme.of(context).canvasColor,
+                      backgroundColor: Colors.transparent,
                       leading:
                           // Teacup icon
                           Container(
@@ -54,9 +55,7 @@ class AboutWidget extends StatelessWidget {
                           // Cuppa version and build
                           Text(
                               '$appName ${packageInfo.version} (${packageInfo.buildNumber})',
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 18.0,
+                              style: textStyleHeader.copyWith(
                                 color: Theme.of(context)
                                     .textTheme
                                     .bodyText1!
@@ -68,29 +67,29 @@ class AboutWidget extends StatelessWidget {
                       // Changelog
                       _listItem(AppString.version_history.translate(), null,
                           versionsURL),
-                      listDivider(),
+                      listDivider,
                       // App license info
                       _listItem(AppString.about_license.translate(), null,
                           licenseURL),
-                      listDivider(),
+                      listDivider,
                       // Link to app source code
                       _listItem(AppString.source_code.translate(),
                           AppString.source_code_info.translate(), sourceURL),
-                      listDivider(),
+                      listDivider,
                       // App localization info
                       _listItem(
                           AppString.help_translate.translate(),
                           AppString.help_translate_info.translate(),
                           translateURL),
-                      listDivider(),
+                      listDivider,
                       // How to report issues
                       _listItem(AppString.issues.translate(),
                           AppString.issues_info.translate(), issuesURL),
-                      listDivider(),
+                      listDivider,
                       // Privacy policy
                       _listItem(AppString.privacy_policy.translate(), null,
                           privacyURL),
-                      listDivider(),
+                      listDivider,
                     ])),
                     SliverFillRemaining(
                       hasScrollBody: false,
@@ -113,17 +112,10 @@ class AboutWidget extends StatelessWidget {
   Widget _listItem(String title, String? subtitle, String url) {
     return InkWell(
         child: ListTile(
-      title: Text(title,
-          style: const TextStyle(
-            fontSize: 16.0,
-          )),
-      subtitle: subtitle != null
-          ? Text(subtitle,
-              style: const TextStyle(
-                fontSize: 14.0,
-              ))
-          : null,
-      trailing: const Icon(Icons.launch, size: 16.0),
+      title: Text(title, style: textStyleTitle),
+      subtitle:
+          subtitle != null ? Text(subtitle, style: textStyleSubtitle) : null,
+      trailing: launchIcon,
       onTap: () =>
           launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication),
       contentPadding: const EdgeInsets.all(6.0),

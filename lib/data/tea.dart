@@ -290,7 +290,7 @@ enum TeaColor {
   Color getThemeColor(context) {
     switch (value) {
       case 1:
-        return Colors.red[600]!;
+        return Colors.red.shade600;
       case 2:
         return Colors.orange;
       case 3:
@@ -298,22 +298,24 @@ enum TeaColor {
       case 4:
         return Colors.blue;
       case 5:
-        return Colors.purple[400]!;
+        return Colors.purple.shade400;
       case 6:
-        return Colors.brown[400]!;
+        return Colors.brown.shade400;
       case 7:
-        return Colors.pink[200]!;
+        return Colors.pink.shade200;
       case 8:
         return Colors.amber;
       case 9:
         return Colors.teal;
       case 10:
-        return Colors.cyan[400]!;
+        return Colors.cyan.shade400;
       case 11:
-        return Colors.deepPurple[200]!;
+        return Colors.deepPurple.shade200;
       default:
         // "Black" substitutes appropriate color for current theme
-        return Theme.of(context).textTheme.button!.color!;
+        return Theme.of(context).brightness == Brightness.dark
+            ? Colors.grey
+            : Colors.black54;
     }
   }
 }
