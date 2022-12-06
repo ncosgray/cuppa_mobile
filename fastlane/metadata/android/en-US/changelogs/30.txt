@@ -1,0 +1,4 @@
+* New pure black Dark Theme.
+* Fixed a bug that caused shortcuts to start unexpectedly.
+* Usability and interface tweaks.
+* Language translation updates - contribute via Weblate!
