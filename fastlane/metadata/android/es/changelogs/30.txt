@@ -1,0 +1,4 @@
+* Nuevo tema negro oscuro.
+* Corregido un error que provocaba que los accesos directos se iniciaran inesperadamente.
+* Ajustes de usabilidad e interfaz.
+* Actualizaciones de traducción - ¡contribuye a través de Weblate!
