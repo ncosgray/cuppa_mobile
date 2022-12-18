@@ -20,11 +20,6 @@ const aboutCopyright = '\u00a9 Nathan Cosgray';
 const aboutURL = 'https://nathanatos.com';
 const unknownString = '?';
 
-// Routes
-const routeAbout = '/about';
-const routePrefs = '/prefs';
-const routeTimer = '/';
-
 // About list item link URLs
 const versionsURL = 'https://github.com/ncosgray/cuppa_mobile/releases';
 const licenseURL =

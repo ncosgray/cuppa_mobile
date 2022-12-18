@@ -23,6 +23,7 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/cancel_button.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/prefs_page.dart';
 import 'package:cuppa_mobile/widgets/tea_button.dart';
 
 import 'dart:async';
@@ -94,7 +95,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         title: appName,
         // Button to navigate to Preferences page
         actionIcon: getPlatformSettingsIcon(appPlatform),
-        actionRoute: routePrefs,
+        actionRoute: const PrefsWidget(),
         body: SafeArea(
           child: Column(
             children: [
@@ -417,8 +418,8 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Autoscroll tea button list to specified tea
   void _scrollToTeaButton(Tea? tea) {
     if (tea != null && _doScroll) {
-      // Ensure we are on the timer screen
-      Navigator.popUntil(context, ModalRoute.withName(routeTimer));
+      // Ensure we are on the home screen
+      Navigator.of(context).popUntil((route) => route.isFirst);
 
       BuildContext? target = GlobalObjectKey(tea.id).currentContext;
       if (target != null) {

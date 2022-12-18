@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/provider.dart';
+import 'package:cuppa_mobile/widgets/about_page.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
@@ -44,7 +45,7 @@ class PrefsWidget extends StatelessWidget {
         title: AppString.prefs_title.translate(),
         // Button to navigate to About page
         actionIcon: getPlatformAboutIcon(appPlatform),
-        actionRoute: routeAbout,
+        actionRoute: const AboutWidget(),
         body: SafeArea(
             child: Container(
           padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),

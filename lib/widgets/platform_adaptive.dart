@@ -125,7 +125,7 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
   final bool isPoppable;
   final double textScaleFactor;
   final String title;
-  final String? actionRoute;
+  final Widget? actionRoute;
   final Icon? actionIcon;
   final Widget body;
 
@@ -148,7 +148,8 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
                 ? CupertinoButton(
                     padding: EdgeInsets.zero,
                     onPressed: () {
-                      Navigator.of(context).pushNamed(actionRoute!);
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => actionRoute!));
                     },
                     child: actionIcon!)
                 : null,
@@ -163,7 +164,8 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
                       IconButton(
                         icon: actionIcon!,
                         onPressed: () {
-                          Navigator.of(context).pushNamed(actionRoute!);
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => actionRoute!));
                         },
                       ),
                     ]
