@@ -235,23 +235,12 @@ class PrefsWidget extends StatelessWidget {
                     trailing: const SizedBox(
                         height: double.infinity, child: launchIcon),
                     onTap: () => AppSettings.openNotificationSettings(),
-                    contentPadding: const EdgeInsets.all(6.0),
+                    contentPadding:
+                        const EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 18.0),
                     dense: true,
                   )),
                 ]),
               ),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                fillOverscroll: true,
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(6.0, 36.0, 6.0, 18.0),
-                    // About text linking to app website
-                    child: aboutText(),
-                  ),
-                ),
-              )
             ],
           ),
         )));
