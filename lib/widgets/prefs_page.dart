@@ -53,7 +53,8 @@ class PrefsWidget extends StatelessWidget {
             slivers: [
               SliverAppBar(
                 elevation: 0,
-                backgroundColor: Colors.transparent,
+                pinned: true,
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 automaticallyImplyLeading: false,
                 leading: Container(
                     margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
