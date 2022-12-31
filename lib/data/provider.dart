@@ -100,6 +100,13 @@ class AppProvider extends ChangeNotifier {
     saveTeas();
   }
 
+  // Replace the entire tea list with the given tea
+  void replaceListWith(Tea newTea) {
+    _teaList.clear();
+    _teaList.add(newTea);
+    saveTeas();
+  }
+
   // Save teas to prefs and ensure UI elements get updated
   void saveTeas() {
     Prefs.saveTeas(_teaList);

@@ -38,6 +38,9 @@ class PrefsWidget extends StatelessWidget {
   // Build Prefs page
   @override
   Widget build(BuildContext context) {
+    // Show remove all teas button for testing
+    bool showRemoveAllButton = false;
+
     return PlatformAdaptiveScaffold(
         platform: appPlatform,
         isPoppable: true,
@@ -120,27 +123,53 @@ class PrefsWidget extends StatelessWidget {
                       }).toList()))),
               SliverToBoxAdapter(
                 child: Column(children: [
-                  // Add tea button
-                  Selector<AppProvider, int>(
-                      selector: (_, provider) => provider.teaCount,
-                      builder: (context, count, child) => Card(
-                          child: ListTile(
-                              title: TextButton.icon(
-                                  label: Text(
-                                      AppString.add_tea_button
-                                          .translate()
-                                          .toUpperCase(),
-                                      style: textStyleButton),
-                                  icon:
-                                      const Icon(Icons.add_circle, size: 20.0),
-                                  onPressed:
-                                      // Disable adding teas if there are maximum teas
-                                      count < teasMaxCount
-                                          ? () {
-                                              // Open add tea dialog
-                                              _displayAddTeaDialog(context);
-                                            }
-                                          : null)))),
+                  Row(children: [
+                    // Add tea button
+                    Expanded(
+                        child: Selector<AppProvider, int>(
+                            selector: (_, provider) => provider.teaCount,
+                            builder: (context, count, child) => Card(
+                                child: ListTile(
+                                    title: TextButton.icon(
+                                        label: Text(
+                                            AppString.add_tea_button
+                                                .translate()
+                                                .toUpperCase(),
+                                            style: textStyleButton),
+                                        icon: const Icon(Icons.add_circle,
+                                            size: 20.0),
+                                        onPressed:
+                                            // Disable adding teas if there are maximum teas
+                                            count < teasMaxCount
+                                                ? () {
+                                                    // Open add tea dialog
+                                                    _displayAddTeaDialog(
+                                                        context);
+                                                  }
+                                                : null))))),
+                    // Remove all teas button
+                    showRemoveAllButton
+                        // ignore: dead_code
+                        ? IntrinsicWidth(
+                            child: ConstrainedBox(
+                                constraints:
+                                    const BoxConstraints.tightForFinite(),
+                                child: Card(
+                                    child: ListTile(
+                                        title: IconButton(
+                                            icon: const Icon(
+                                                Icons.delete_sweep_outlined,
+                                                color: Colors.red),
+                                            onPressed: () async {
+                                              if (await _confirmDelete(
+                                                  context)) {
+                                                // Open add tea dialog to replace
+                                                _displayAddTeaDialog(context,
+                                                    replaceAll: true);
+                                              }
+                                            })))))
+                        : const SizedBox.shrink()
+                  ]),
                   // Setting: show extra info on buttons
                   Align(
                       alignment: Alignment.topLeft,
@@ -247,7 +276,8 @@ class PrefsWidget extends StatelessWidget {
   }
 
   // Display an add tea selection dialog box
-  Future<bool?> _displayAddTeaDialog(BuildContext context) async {
+  Future<bool?> _displayAddTeaDialog(BuildContext context,
+      {bool replaceAll = false}) async {
     double deviceHeight = MediaQuery.of(context).size.height;
 
     return showDialog<bool>(
@@ -327,8 +357,13 @@ class PrefsWidget extends StatelessWidget {
                                       ]),
                                 onTap: () {
                                   // Add selected tea
-                                  provider.addTea(preset.createTea(
-                                      useCelsius: provider.useCelsius));
+                                  if (replaceAll) {
+                                    provider.replaceListWith(preset.createTea(
+                                        useCelsius: provider.useCelsius));
+                                  } else {
+                                    provider.addTea(preset.createTea(
+                                        useCelsius: provider.useCelsius));
+                                  }
                                   Navigator.of(context).pop(true);
                                 });
                           },
@@ -455,6 +490,28 @@ class PrefsWidget extends StatelessWidget {
                         )),
                   )),
               buttonTextFalse: AppString.cancel_button.translate());
+        });
+  }
+
+  // Delete confirmation dialog
+  Future _confirmDelete(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return PlatformAdaptiveDialog(
+            platform: appPlatform,
+            title: Text(AppString.confirm_title.translate()),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(AppString.confirm_delete.translate()),
+                ],
+              ),
+            ),
+            buttonTextTrue: AppString.yes_button.translate(),
+            buttonTextFalse: AppString.no_button.translate(),
+          );
         });
   }
 }

@@ -46,5 +46,6 @@
   "tea_name_rooibos": "Rooibos",
   "tea_name_white": "White Tea",
   "notification_channel_name": "Timer notifications",
-  "privacy_policy": "Privacy policy"
+  "privacy_policy": "Privacy policy",
+  "confirm_delete": "Are you sure you want to delete all teas?"
 }

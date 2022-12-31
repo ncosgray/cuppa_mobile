@@ -57,6 +57,7 @@ enum AppString {
   about_title('about_title'),
   add_tea_button('add_tea_button'),
   cancel_button('cancel_button'),
+  confirm_delete('confirm_delete'),
   confirm_message_line1('confirm_message_line1'),
   confirm_message_line2('confirm_message_line2'),
   confirm_title('confirm_title'),
