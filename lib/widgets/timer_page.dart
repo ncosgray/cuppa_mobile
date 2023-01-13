@@ -162,6 +162,21 @@ class _TimerWidgetState extends State<TimerWidget> {
                                 ? Alignment.center
                                 : Alignment.centerLeft,
                             child: Stack(children: [
+                              // Border color adjusted for theme darkness
+                              Selector<AppProvider, bool>(
+                                  selector: (_, provider) =>
+                                      provider.appTheme.blackTheme,
+                                  builder: (context, blackTheme, child) =>
+                                      ColorFiltered(
+                                          colorFilter: ColorFilter.mode(
+                                            blackTheme
+                                                ? Colors.grey.shade900
+                                                : Colors.black,
+                                            BlendMode.srcIn,
+                                          ),
+                                          child: Image.asset(cupImageBorder,
+                                              fit: BoxFit.fitWidth,
+                                              gaplessPlayback: true))),
                               // Teacup image
                               Image.asset(cupImageDefault,
                                   fit: BoxFit.fitWidth, gaplessPlayback: true),

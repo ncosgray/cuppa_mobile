@@ -74,6 +74,7 @@ class CuppaApp extends StatelessWidget {
             builder: (context, settings, child) {
               // Settings from provider
               ThemeMode appThemeMode = settings.item1.themeMode;
+              bool appThemeBlack = settings.item1.blackTheme;
               String appLanguage = settings.item2;
 
               return MaterialApp(
@@ -96,7 +97,8 @@ class CuppaApp extends StatelessWidget {
                   debugShowCheckedModeBanner: false,
                   // Configure app theme
                   theme: getPlatformAdaptiveTheme(appPlatform),
-                  darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
+                  darkTheme: getPlatformAdaptiveDarkTheme(appPlatform,
+                      blackTheme: appThemeBlack),
                   themeMode: appThemeMode,
                   // Initial route
                   home: const TimerWidget(),

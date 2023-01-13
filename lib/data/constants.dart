@@ -31,6 +31,7 @@ const privacyURL = 'https://www.nathanatos.com/privacy/';
 
 // Cup images
 const cupImageDefault = 'images/Cuppa_hires_default.png';
+const cupImageBorder = 'images/Cuppa_hires_border.png';
 const cupImageBag = 'images/Cuppa_hires_bag.png';
 const cupImageTea = 'images/Cuppa_hires_tea.png';
 

@@ -39,7 +39,7 @@ class PrefsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Show remove all teas button for testing
-    bool showRemoveAllButton = false;
+    bool showRemoveAllButton = true;
 
     return PlatformAdaptiveScaffold(
         platform: appPlatform,
@@ -168,6 +168,7 @@ class PrefsWidget extends StatelessWidget {
                                                     replaceAll: true);
                                               }
                                             })))))
+                        // ignore: dead_code
                         : const SizedBox.shrink()
                   ]),
                   // Setting: show extra info on buttons

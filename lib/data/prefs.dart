@@ -177,7 +177,9 @@ abstract class Prefs {
 enum AppTheme {
   system(0),
   theme_light(1),
-  theme_dark(2);
+  theme_dark(2),
+  theme_black(3),
+  system_black(4);
 
   final int value;
 
@@ -189,9 +191,21 @@ enum AppTheme {
       case 1:
         return ThemeMode.light;
       case 2:
+      case 3:
         return ThemeMode.dark;
       default:
         return ThemeMode.system;
+    }
+  }
+
+  // Dark theme darkness
+  get blackTheme {
+    switch (value) {
+      case 3:
+      case 4:
+        return true;
+      default:
+        return false;
     }
   }
 
@@ -202,6 +216,10 @@ enum AppTheme {
         return AppString.theme_light.translate();
       case 2:
         return AppString.theme_dark.translate();
+      case 3:
+        return AppString.theme_black.translate();
+      case 4:
+        return AppString.theme_system_black.translate();
       default:
         return AppString.theme_system.translate();
     }

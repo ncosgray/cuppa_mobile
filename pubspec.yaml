@@ -66,10 +66,7 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
-    - images/Cuppa_hires_default.png
-    - images/Cuppa_hires_bag.png
-    - images/Cuppa_hires_tea.png
-    - images/Cuppa_icon.png
+    - images/
     - langs/
 
   # To add assets from package dependencies, first ensure the asset
