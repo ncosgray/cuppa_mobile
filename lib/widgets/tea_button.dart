@@ -46,8 +46,8 @@ class TeaButton extends StatelessWidget {
           duration: const Duration(milliseconds: 400),
           child: Card(
             color: tea.isActive ? tea.getThemeColor(context) : null,
-            child: GestureDetector(
-              onTap: _handleTap,
+            child: InkWell(
+              onTap: tea.isActive ? null : _handleTap,
               child: Container(
                 constraints: const BoxConstraints(
                     minWidth: 80.0, maxWidth: double.infinity),
