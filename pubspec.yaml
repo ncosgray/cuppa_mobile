@@ -22,7 +22,7 @@ environment:
   flutter: ^3.3.0
 
 dependencies:
-  app_settings: ^4.1.8
+  app_settings: ^4.2.0
   cupertino_icons: ^1.0.5
   flutter:
     sdk: flutter
@@ -34,7 +34,7 @@ dependencies:
   provider: ^6.0.5
   quick_actions: ^1.0.1
   reorderables: ^0.5.1
-  shared_preferences: ^2.0.15
+  shared_preferences: ^2.0.16
   tuple: ^2.0.1
   url_launcher: ^6.1.7
 
