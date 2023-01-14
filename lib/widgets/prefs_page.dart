@@ -55,7 +55,7 @@ class PrefsWidget extends StatelessWidget {
                 elevation: 0,
                 pinned: true,
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                automaticallyImplyLeading: false,
+                leadingWidth: 100.0,
                 leading: Container(
                     margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
                     child:
