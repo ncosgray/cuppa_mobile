@@ -57,6 +57,7 @@ enum AppString {
   about_title('about_title'),
   add_tea_button('add_tea_button'),
   cancel_button('cancel_button'),
+  confirm_delete('confirm_delete'),
   confirm_message_line1('confirm_message_line1'),
   confirm_message_line2('confirm_message_line2'),
   confirm_title('confirm_title'),
@@ -95,9 +96,11 @@ enum AppString {
   tea_name_rooibos('tea_name_rooibos'),
   tea_name_white('tea_name_white'),
   teas_title('teas_title'),
+  theme_black('theme_black'),
   theme_dark('theme_dark'),
   theme_light('theme_light'),
   theme_system('theme_system'),
+  theme_system_black('theme_system_black'),
   version_history('version_history'),
   yes_button('yes_button');
 

@@ -23,7 +23,9 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/cancel_button.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/prefs_page.dart';
 import 'package:cuppa_mobile/widgets/tea_button.dart';
+import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -61,7 +63,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       provider.useCelsius = Prefs.loadUseCelsius() ?? isLocaleMetric;
 
       // Add default presets if no custom teas have been set
-      if (provider.teaCount == 0) {
+      if (provider.teaCount == 0 && !Prefs.teaPrefsExist()) {
         provider.loadDefaults();
       }
 
@@ -94,7 +96,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         title: appName,
         // Button to navigate to Preferences page
         actionIcon: getPlatformSettingsIcon(appPlatform),
-        actionRoute: routePrefs,
+        actionRoute: const PrefsWidget(),
         body: SafeArea(
           child: Column(
             children: [
@@ -161,6 +163,21 @@ class _TimerWidgetState extends State<TimerWidget> {
                                 ? Alignment.center
                                 : Alignment.centerLeft,
                             child: Stack(children: [
+                              // Border color adjusted for theme darkness
+                              Selector<AppProvider, bool>(
+                                  selector: (_, provider) =>
+                                      provider.appTheme.blackTheme,
+                                  builder: (context, blackTheme, child) =>
+                                      ColorFiltered(
+                                          colorFilter: ColorFilter.mode(
+                                            blackTheme
+                                                ? Colors.grey.shade900
+                                                : Colors.black,
+                                            BlendMode.srcIn,
+                                          ),
+                                          child: Image.asset(cupImageBorder,
+                                              fit: BoxFit.fitWidth,
+                                              gaplessPlayback: true))),
                               // Teacup image
                               Image.asset(cupImageDefault,
                                   fit: BoxFit.fitWidth, gaplessPlayback: true),
@@ -196,23 +213,68 @@ class _TimerWidgetState extends State<TimerWidget> {
                       clipBehavior: Clip.none,
                       controller: _scrollController,
                       child: Consumer<AppProvider>(
-                          builder: (context, provider, child) => Row(
-                                  children: provider.teaList
-                                      .map<TeaButton>((Tea tea) {
-                                return TeaButton(
-                                    key: GlobalObjectKey(tea.id),
-                                    tea: tea,
-                                    fade: !_timerActive || tea.isActive
-                                        ? false
-                                        : true,
-                                    onPressed: (bool newValue) async {
-                                      if (!tea.isActive) {
-                                        if (await _confirmTimer()) {
-                                          _setTimer(tea);
-                                        }
-                                      }
-                                    });
-                              }).toList()))),
+                          builder: (context, provider, child) {
+                        if (provider.teaCount > 0) {
+                          // Tea buttons
+                          return Row(
+                              children:
+                                  provider.teaList.map<TeaButton>((Tea tea) {
+                            return TeaButton(
+                                key: GlobalObjectKey(tea.id),
+                                tea: tea,
+                                fade: !_timerActive || tea.isActive
+                                    ? false
+                                    : true,
+                                onPressed: (bool newValue) async {
+                                  if (!tea.isActive) {
+                                    if (await _confirmTimer()) {
+                                      _setTimer(tea);
+                                    }
+                                  }
+                                });
+                          }).toList());
+                        } else {
+                          // Add button if tea list is empty
+                          return Padding(
+                              padding: const EdgeInsets.only(right: 12.0),
+                              child: Card(
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const PrefsWidget()));
+                                  },
+                                  child: Container(
+                                    constraints: const BoxConstraints(
+                                        minWidth: 80.0,
+                                        maxWidth: double.infinity),
+                                    margin: const EdgeInsets.all(8.0),
+                                    // Add icon linking to Prefs page
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          AppString.teas_title
+                                              .translate()
+                                              .toUpperCase(),
+                                          style: textStyleButton.copyWith(
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        const Icon(
+                                          Icons.arrow_circle_right,
+                                          size: 28.0,
+                                          color: Colors.blue,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ));
+                        }
+                      })),
                 ),
               ),
               // Cancel brewing button
@@ -393,8 +455,6 @@ class _TimerWidgetState extends State<TimerWidget> {
       } else {
         provider.clearActiveTea();
       }
-    } else {
-      provider.clearActiveTea();
     }
   }
 
@@ -417,8 +477,8 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Autoscroll tea button list to specified tea
   void _scrollToTeaButton(Tea? tea) {
     if (tea != null && _doScroll) {
-      // Ensure we are on the timer screen
-      Navigator.popUntil(context, ModalRoute.withName(routeTimer));
+      // Ensure we are on the home screen
+      Navigator.of(context).popUntil((route) => route.isFirst);
 
       BuildContext? target = GlobalObjectKey(tea.id).currentContext;
       if (target != null) {

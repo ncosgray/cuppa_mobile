@@ -25,29 +25,34 @@ import 'package:flutter/material.dart';
 abstract class Prefs {
   // Determine if tea settings exist in shared prefs
   static bool teaPrefsExist() {
-    return (sharedPrefs.containsKey(prefTea1Name) &&
-        sharedPrefs.containsKey(prefTea1BrewTime));
+    return sharedPrefs.containsKey(prefTeaList);
   }
 
   // Fetch tea settings from shared prefs or use defaults
   static List<Tea> loadTeas() {
     // Initialize teas
     List<Tea> teaList = [];
+    bool migrated = false;
 
-    // Verify settings exist before continuing
-    if (!teaPrefsExist()) {
-      return teaList;
+    // Migrate legacy Tea 1
+    if (sharedPrefs.containsKey(prefTea1Name) &&
+        sharedPrefs.containsKey(prefTea1BrewTime)) {
+      teaList.add(Tea(
+          name: sharedPrefs.getString(prefTea1Name) ?? unknownString,
+          brewTime: sharedPrefs.getInt(prefTea1BrewTime) ?? 0,
+          brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ?? 100,
+          colorValue: sharedPrefs.getInt(prefTea1Color) ?? 0,
+          iconValue: sharedPrefs.getInt(prefTea1Icon) ?? 0,
+          isFavorite: sharedPrefs.getBool(prefTea1IsFavorite) ?? true,
+          isActive: sharedPrefs.getBool(prefTea1IsActive) ?? false));
+      sharedPrefs.remove(prefTea1Name);
+      sharedPrefs.remove(prefTea1BrewTime);
+      sharedPrefs.remove(prefTea1BrewTemp);
+      sharedPrefs.remove(prefTea1Color);
+      sharedPrefs.remove(prefTea1IsFavorite);
+      sharedPrefs.remove(prefTea1IsActive);
+      migrated = true;
     }
-
-    // Tea 1
-    teaList.add(Tea(
-        name: sharedPrefs.getString(prefTea1Name) ?? unknownString,
-        brewTime: sharedPrefs.getInt(prefTea1BrewTime) ?? 0,
-        brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ?? 100,
-        colorValue: sharedPrefs.getInt(prefTea1Color) ?? 0,
-        iconValue: sharedPrefs.getInt(prefTea1Icon) ?? 0,
-        isFavorite: sharedPrefs.getBool(prefTea1IsFavorite) ?? true,
-        isActive: sharedPrefs.getBool(prefTea1IsActive) ?? false));
 
     // Migrate legacy Tea 2
     if (sharedPrefs.containsKey(prefTea2Name) &&
@@ -66,6 +71,7 @@ abstract class Prefs {
       sharedPrefs.remove(prefTea2Color);
       sharedPrefs.remove(prefTea2IsFavorite);
       sharedPrefs.remove(prefTea2IsActive);
+      migrated = true;
     }
 
     // Migrate legacy Tea 3
@@ -85,13 +91,19 @@ abstract class Prefs {
       sharedPrefs.remove(prefTea3Color);
       sharedPrefs.remove(prefTea3IsFavorite);
       sharedPrefs.remove(prefTea3IsActive);
+      migrated = true;
     }
 
-    // More teas list
-    List<String>? moreTeasJson = sharedPrefs.getStringList(prefMoreTeas);
-    if (moreTeasJson != null) {
-      teaList += (moreTeasJson.map<Tea>((tea) => Tea.fromJson(jsonDecode(tea))))
+    // Load tea list
+    List<String>? teaListJson = sharedPrefs.getStringList(prefTeaList);
+    if (teaListJson != null) {
+      teaList += (teaListJson.map<Tea>((tea) => Tea.fromJson(jsonDecode(tea))))
           .toList();
+    }
+
+    // Save to shared prefs if any legacy teas were migrated
+    if (migrated) {
+      saveTeas(teaList);
     }
 
     return teaList;
@@ -99,20 +111,9 @@ abstract class Prefs {
 
   // Store teas in shared prefs
   static void saveTeas(List<Tea> teaList) {
-    // Tea 1
-    sharedPrefs.setString(prefTea1Name, teaList[0].name);
-    sharedPrefs.setInt(prefTea1BrewTime, teaList[0].brewTime);
-    sharedPrefs.setInt(prefTea1BrewTemp, teaList[0].brewTemp);
-    sharedPrefs.setInt(prefTea1Color, teaList[0].color.value);
-    sharedPrefs.setInt(prefTea1Icon, teaList[0].icon.value);
-    sharedPrefs.setBool(prefTea1IsFavorite, teaList[0].isFavorite);
-    sharedPrefs.setBool(prefTea1IsActive, teaList[0].isActive);
-
-    // More teas list
-    List<String> moreTeasEncoded = (teaList.sublist(teasMinCount))
-        .map((tea) => jsonEncode(tea.toJson()))
-        .toList();
-    sharedPrefs.setStringList(prefMoreTeas, moreTeasEncoded);
+    List<String> teaListEncoded =
+        teaList.map((tea) => jsonEncode(tea.toJson())).toList();
+    sharedPrefs.setStringList(prefTeaList, teaListEncoded);
   }
 
   // Get settings from shared prefs
@@ -177,7 +178,9 @@ abstract class Prefs {
 enum AppTheme {
   system(0),
   theme_light(1),
-  theme_dark(2);
+  theme_dark(2),
+  theme_black(3),
+  system_black(4);
 
   final int value;
 
@@ -189,9 +192,21 @@ enum AppTheme {
       case 1:
         return ThemeMode.light;
       case 2:
+      case 3:
         return ThemeMode.dark;
       default:
         return ThemeMode.system;
+    }
+  }
+
+  // Dark theme darkness
+  get blackTheme {
+    switch (value) {
+      case 3:
+      case 4:
+        return true;
+      default:
+        return false;
     }
   }
 
@@ -202,6 +217,10 @@ enum AppTheme {
         return AppString.theme_light.translate();
       case 2:
         return AppString.theme_dark.translate();
+      case 3:
+        return AppString.theme_black.translate();
+      case 4:
+        return AppString.theme_system_black.translate();
       default:
         return AppString.theme_system.translate();
     }

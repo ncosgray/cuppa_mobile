@@ -37,6 +37,14 @@ final ThemeData kIOSTheme = ThemeData(
 );
 final ThemeData kIOSDarkTheme = ThemeData(
   primaryColor: Colors.grey.shade900,
+  textTheme: Typography.whiteCupertino,
+  iconTheme: const IconThemeData(
+    color: Colors.white,
+  ),
+  brightness: Brightness.dark,
+);
+final ThemeData kIOSBlackTheme = ThemeData(
+  primaryColor: Colors.grey.shade900,
   scaffoldBackgroundColor: Colors.black,
   cardColor: Colors.grey.shade900,
   textTheme: Typography.whiteCupertino,
@@ -61,6 +69,18 @@ final ThemeData kDefaultTheme = ThemeData(
 );
 final ThemeData kDarkTheme = ThemeData(
   primaryColor: Colors.blue,
+  toggleableActiveColor: Colors.blue,
+  textTheme: Typography.whiteMountainView,
+  iconTheme: const IconThemeData(
+    color: Colors.white,
+  ),
+  chipTheme: const ChipThemeData(
+    selectedColor: Colors.blue,
+  ),
+  brightness: Brightness.dark,
+);
+final ThemeData kBlackTheme = ThemeData(
+  primaryColor: Colors.blue,
   scaffoldBackgroundColor: Colors.black,
   cardColor: Colors.grey.shade900,
   toggleableActiveColor: Colors.blue,
@@ -79,8 +99,11 @@ ThemeData getPlatformAdaptiveTheme(TargetPlatform platform) {
   return platform == TargetPlatform.iOS ? kIOSTheme : kDefaultTheme;
 }
 
-ThemeData getPlatformAdaptiveDarkTheme(TargetPlatform platform) {
-  return platform == TargetPlatform.iOS ? kIOSDarkTheme : kDarkTheme;
+ThemeData getPlatformAdaptiveDarkTheme(TargetPlatform platform,
+    {bool blackTheme = true}) {
+  return platform == TargetPlatform.iOS
+      ? (blackTheme ? kIOSBlackTheme : kIOSDarkTheme)
+      : (blackTheme ? kBlackTheme : kDarkTheme);
 }
 
 // Platform specific icons
@@ -125,7 +148,7 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
   final bool isPoppable;
   final double textScaleFactor;
   final String title;
-  final String? actionRoute;
+  final Widget? actionRoute;
   final Icon? actionIcon;
   final Widget body;
 
@@ -148,7 +171,8 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
                 ? CupertinoButton(
                     padding: EdgeInsets.zero,
                     onPressed: () {
-                      Navigator.of(context).pushNamed(actionRoute!);
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => actionRoute!));
                     },
                     child: actionIcon!)
                 : null,
@@ -163,7 +187,8 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
                       IconButton(
                         icon: actionIcon!,
                         onPressed: () {
-                          Navigator.of(context).pushNamed(actionRoute!);
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => actionRoute!));
                         },
                       ),
                     ]

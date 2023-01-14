@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/provider.dart';
+import 'package:cuppa_mobile/widgets/about_page.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
@@ -44,16 +45,17 @@ class PrefsWidget extends StatelessWidget {
         title: AppString.prefs_title.translate(),
         // Button to navigate to About page
         actionIcon: getPlatformAboutIcon(appPlatform),
-        actionRoute: routeAbout,
+        actionRoute: const AboutWidget(),
         body: SafeArea(
             child: Container(
           padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
-                elevation: 0,
-                backgroundColor: Colors.transparent,
-                automaticallyImplyLeading: false,
+                elevation: 1,
+                pinned: true,
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                leadingWidth: 100.0,
                 leading: Container(
                     margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
                     child:
@@ -84,9 +86,8 @@ class PrefsWidget extends StatelessWidget {
                       },
                       delegate: ReorderableSliverChildListDelegate(
                           provider.teaList.map<Widget>((tea) {
-                        if ((provider.teaCount <= teasMinCount) ||
-                            tea.isActive) {
-                          // Don't allow deleting if there are minimum teas or timer is active
+                        if (tea.isActive) {
+                          // Don't allow deleting if timer is active
                           return IgnorePointer(
                               // Disable editing actively brewing tea
                               ignoring: tea.isActive,
@@ -118,27 +119,55 @@ class PrefsWidget extends StatelessWidget {
                       }).toList()))),
               SliverToBoxAdapter(
                 child: Column(children: [
-                  // Add tea button
-                  Selector<AppProvider, int>(
-                      selector: (_, provider) => provider.teaCount,
-                      builder: (context, count, child) => Card(
-                          child: ListTile(
-                              title: TextButton.icon(
-                                  label: Text(
-                                      AppString.add_tea_button
-                                          .translate()
-                                          .toUpperCase(),
-                                      style: textStyleButton),
-                                  icon:
-                                      const Icon(Icons.add_circle, size: 20.0),
-                                  onPressed:
-                                      // Disable adding teas if there are maximum teas
-                                      count < teasMaxCount
-                                          ? () {
-                                              // Open add tea dialog
-                                              _displayAddTeaDialog(context);
-                                            }
-                                          : null)))),
+                  Row(children: [
+                    // Add tea button
+                    Expanded(
+                        child: Selector<AppProvider, int>(
+                            selector: (_, provider) => provider.teaCount,
+                            builder: (context, count, child) => Card(
+                                child: ListTile(
+                                    title: TextButton.icon(
+                                        label: Text(
+                                            AppString.add_tea_button
+                                                .translate()
+                                                .toUpperCase(),
+                                            style: textStyleButton),
+                                        icon: const Icon(Icons.add_circle,
+                                            size: 20.0),
+                                        onPressed:
+                                            // Disable adding teas if there are maximum teas
+                                            count < teasMaxCount
+                                                ? () {
+                                                    // Open add tea dialog
+                                                    _displayAddTeaDialog(
+                                                        context);
+                                                  }
+                                                : null))))),
+                    // Remove all teas button
+                    (Provider.of<AppProvider>(context).teaCount > 0 &&
+                            Provider.of<AppProvider>(context).activeTea == null)
+                        ? IntrinsicWidth(
+                            child: ConstrainedBox(
+                                constraints:
+                                    const BoxConstraints.tightForFinite(),
+                                child: Card(
+                                    child: ListTile(
+                                        title: IconButton(
+                                            icon: const Icon(
+                                                Icons.delete_sweep_outlined,
+                                                color: Colors.red),
+                                            onPressed: () async {
+                                              if (await _confirmDelete(
+                                                  context)) {
+                                                // Clear tea list
+                                                Provider.of<AppProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .clearTeaList();
+                                              }
+                                            })))))
+                        : const SizedBox.shrink()
+                  ]),
                   // Setting: show extra info on buttons
                   Align(
                       alignment: Alignment.topLeft,
@@ -233,23 +262,12 @@ class PrefsWidget extends StatelessWidget {
                     trailing: const SizedBox(
                         height: double.infinity, child: launchIcon),
                     onTap: () => AppSettings.openNotificationSettings(),
-                    contentPadding: const EdgeInsets.all(6.0),
+                    contentPadding:
+                        const EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 18.0),
                     dense: true,
                   )),
                 ]),
               ),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                fillOverscroll: true,
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(6.0, 36.0, 6.0, 18.0),
-                    // About text linking to app website
-                    child: aboutText(),
-                  ),
-                ),
-              )
             ],
           ),
         )));
@@ -464,6 +482,28 @@ class PrefsWidget extends StatelessWidget {
                         )),
                   )),
               buttonTextFalse: AppString.cancel_button.translate());
+        });
+  }
+
+  // Delete confirmation dialog
+  Future _confirmDelete(BuildContext context) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return PlatformAdaptiveDialog(
+            platform: appPlatform,
+            title: Text(AppString.confirm_title.translate()),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(AppString.confirm_delete.translate()),
+                ],
+              ),
+            ),
+            buttonTextTrue: AppString.yes_button.translate(),
+            buttonTextFalse: AppString.no_button.translate(),
+          );
         });
   }
 }

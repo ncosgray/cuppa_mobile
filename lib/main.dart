@@ -17,9 +17,7 @@ import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
-import 'package:cuppa_mobile/widgets/about_page.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
-import 'package:cuppa_mobile/widgets/prefs_page.dart';
 import 'package:cuppa_mobile/widgets/timer_page.dart';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -76,6 +74,7 @@ class CuppaApp extends StatelessWidget {
             builder: (context, settings, child) {
               // Settings from provider
               ThemeMode appThemeMode = settings.item1.themeMode;
+              bool appThemeBlack = settings.item1.blackTheme;
               String appLanguage = settings.item2;
 
               return MaterialApp(
@@ -98,15 +97,11 @@ class CuppaApp extends StatelessWidget {
                   debugShowCheckedModeBanner: false,
                   // Configure app theme
                   theme: getPlatformAdaptiveTheme(appPlatform),
-                  darkTheme: getPlatformAdaptiveDarkTheme(appPlatform),
+                  darkTheme: getPlatformAdaptiveDarkTheme(appPlatform,
+                      blackTheme: appThemeBlack),
                   themeMode: appThemeMode,
-                  // Configure routes
-                  initialRoute: routeTimer,
-                  routes: {
-                    routeTimer: (context) => const TimerWidget(),
-                    routePrefs: (context) => const PrefsWidget(),
-                    routeAbout: (context) => const AboutWidget(),
-                  },
+                  // Initial route
+                  home: const TimerWidget(),
                   // Localization
                   locale: appLanguage != '' ? Locale(appLanguage, '') : null,
                   supportedLocales:

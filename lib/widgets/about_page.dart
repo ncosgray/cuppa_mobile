@@ -42,9 +42,10 @@ class AboutWidget extends StatelessWidget {
                 child: CustomScrollView(
                   slivers: [
                     SliverAppBar(
-                      elevation: 0,
+                      elevation: 1,
                       pinned: true,
-                      backgroundColor: Colors.transparent,
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
                       leading:
                           // Teacup icon
                           Container(

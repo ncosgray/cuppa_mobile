@@ -20,11 +20,6 @@ const aboutCopyright = '\u00a9 Nathan Cosgray';
 const aboutURL = 'https://nathanatos.com';
 const unknownString = '?';
 
-// Routes
-const routeAbout = '/about';
-const routePrefs = '/prefs';
-const routeTimer = '/';
-
 // About list item link URLs
 const versionsURL = 'https://github.com/ncosgray/cuppa_mobile/releases';
 const licenseURL =
@@ -36,13 +31,13 @@ const privacyURL = 'https://www.nathanatos.com/privacy/';
 
 // Cup images
 const cupImageDefault = 'images/Cuppa_hires_default.png';
+const cupImageBorder = 'images/Cuppa_hires_border.png';
 const cupImageBag = 'images/Cuppa_hires_bag.png';
 const cupImageTea = 'images/Cuppa_hires_tea.png';
 
 // Limits
 const teaNameMaxLength = 18;
 const teaBrewTimeMaxMinutes = 20;
-const teasMinCount = 1;
 const teasMaxCount = 15;
 
 // UI sizing thresholds
@@ -119,7 +114,7 @@ const prefTea3BrewTemp = 'Cuppa_tea3_brew_temp';
 const prefTea3Color = 'Cuppa_tea3_color';
 const prefTea3IsFavorite = 'Cuppa_tea3_is_favorite';
 const prefTea3IsActive = 'Cuppa_tea3_is_active';
-const prefMoreTeas = 'Cuppa_tea_list';
+const prefTeaList = 'Cuppa_tea_list';
 
 // Shared prefs keys for other settings
 const prefShowExtra = 'Cuppa_show_extra';
