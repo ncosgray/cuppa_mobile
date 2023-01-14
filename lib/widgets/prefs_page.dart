@@ -38,9 +38,6 @@ class PrefsWidget extends StatelessWidget {
   // Build Prefs page
   @override
   Widget build(BuildContext context) {
-    // Show remove all teas button for testing
-    bool showRemoveAllButton = true;
-
     return PlatformAdaptiveScaffold(
         platform: appPlatform,
         isPoppable: true,
@@ -147,8 +144,7 @@ class PrefsWidget extends StatelessWidget {
                                                   }
                                                 : null))))),
                     // Remove all teas button
-                    (showRemoveAllButton &&
-                            Provider.of<AppProvider>(context).teaCount > 0 &&
+                    (Provider.of<AppProvider>(context).teaCount > 0 &&
                             Provider.of<AppProvider>(context).activeTea == null)
                         ? IntrinsicWidth(
                             child: ConstrainedBox(
