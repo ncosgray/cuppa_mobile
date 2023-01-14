@@ -52,7 +52,7 @@ class PrefsWidget extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
-                elevation: 0,
+                elevation: 1,
                 pinned: true,
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 leadingWidth: 100.0,
