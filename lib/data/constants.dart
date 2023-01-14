@@ -38,7 +38,6 @@ const cupImageTea = 'images/Cuppa_hires_tea.png';
 // Limits
 const teaNameMaxLength = 18;
 const teaBrewTimeMaxMinutes = 20;
-const teasMinCount = 1;
 const teasMaxCount = 15;
 
 // UI sizing thresholds
@@ -115,7 +114,7 @@ const prefTea3BrewTemp = 'Cuppa_tea3_brew_temp';
 const prefTea3Color = 'Cuppa_tea3_color';
 const prefTea3IsFavorite = 'Cuppa_tea3_is_favorite';
 const prefTea3IsActive = 'Cuppa_tea3_is_active';
-const prefMoreTeas = 'Cuppa_tea_list';
+const prefTeaList = 'Cuppa_tea_list';
 
 // Shared prefs keys for other settings
 const prefShowExtra = 'Cuppa_show_extra';

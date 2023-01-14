@@ -89,9 +89,8 @@ class PrefsWidget extends StatelessWidget {
                       },
                       delegate: ReorderableSliverChildListDelegate(
                           provider.teaList.map<Widget>((tea) {
-                        if ((provider.teaCount <= teasMinCount) ||
-                            tea.isActive) {
-                          // Don't allow deleting if there are minimum teas or timer is active
+                        if (tea.isActive) {
+                          // Don't allow deleting if timer is active
                           return IgnorePointer(
                               // Disable editing actively brewing tea
                               ignoring: tea.isActive,
@@ -148,8 +147,9 @@ class PrefsWidget extends StatelessWidget {
                                                   }
                                                 : null))))),
                     // Remove all teas button
-                    showRemoveAllButton
-                        // ignore: dead_code
+                    (showRemoveAllButton &&
+                            Provider.of<AppProvider>(context).teaCount > 0 &&
+                            Provider.of<AppProvider>(context).activeTea == null)
                         ? IntrinsicWidth(
                             child: ConstrainedBox(
                                 constraints:
@@ -163,12 +163,13 @@ class PrefsWidget extends StatelessWidget {
                                             onPressed: () async {
                                               if (await _confirmDelete(
                                                   context)) {
-                                                // Open add tea dialog to replace
-                                                _displayAddTeaDialog(context,
-                                                    replaceAll: true);
+                                                // Clear tea list
+                                                Provider.of<AppProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .clearTeaList();
                                               }
                                             })))))
-                        // ignore: dead_code
                         : const SizedBox.shrink()
                   ]),
                   // Setting: show extra info on buttons
@@ -277,8 +278,7 @@ class PrefsWidget extends StatelessWidget {
   }
 
   // Display an add tea selection dialog box
-  Future<bool?> _displayAddTeaDialog(BuildContext context,
-      {bool replaceAll = false}) async {
+  Future<bool?> _displayAddTeaDialog(BuildContext context) async {
     double deviceHeight = MediaQuery.of(context).size.height;
 
     return showDialog<bool>(
@@ -358,13 +358,8 @@ class PrefsWidget extends StatelessWidget {
                                       ]),
                                 onTap: () {
                                   // Add selected tea
-                                  if (replaceAll) {
-                                    provider.replaceListWith(preset.createTea(
-                                        useCelsius: provider.useCelsius));
-                                  } else {
-                                    provider.addTea(preset.createTea(
-                                        useCelsius: provider.useCelsius));
-                                  }
+                                  provider.addTea(preset.createTea(
+                                      useCelsius: provider.useCelsius));
                                   Navigator.of(context).pop(true);
                                 });
                           },

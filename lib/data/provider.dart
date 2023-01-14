@@ -100,10 +100,9 @@ class AppProvider extends ChangeNotifier {
     saveTeas();
   }
 
-  // Replace the entire tea list with the given tea
-  void replaceListWith(Tea newTea) {
+  // Delete entire tea list
+  void clearTeaList() {
     _teaList.clear();
-    _teaList.add(newTea);
     saveTeas();
   }
 
