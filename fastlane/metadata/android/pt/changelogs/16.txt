@@ -1,0 +1,3 @@
+* Cuppa foi traduzido para 9 novos idiomas - contribua via Weblate!
+* Chás de tempo de infusão de menos de um minuto.
+* Várias pequenas melhorias na interface do usuário e correções de erros.

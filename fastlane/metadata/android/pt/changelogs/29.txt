@@ -1,0 +1,2 @@
+* correção de falha em dispositivos dobráveis
+* ícone monocromático aprimorado

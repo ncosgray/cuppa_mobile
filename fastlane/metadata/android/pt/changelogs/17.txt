@@ -1,0 +1,4 @@
+* Inclui configuração de temperatura da água para cada chá.
+* Opção para mostrar informações extras de preparo nos botões do timer.
+* Chás de tempo de infusão que duram mais de 10 minutos.
+* Mais idiomas e melhorias de tradução - contribua via Weblate!
