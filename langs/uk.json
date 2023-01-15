@@ -46,5 +46,8 @@
     "tea_name_darjeeling": "Дарджилінг",
     "tea_name_mint": "М'ятний Чай",
     "notification_channel_name": "Сповіщення за таймером",
-    "privacy_policy": "Політика конфіденційності"
+    "privacy_policy": "Політика конфіденційності",
+    "confirm_delete": "Ви впевнені, що хочете видалити всі чаї?",
+    "theme_black": "Чорна",
+    "theme_system_black": "Системна (Чорна)"
 }
