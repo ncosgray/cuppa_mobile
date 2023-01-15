@@ -46,5 +46,8 @@
     "tea_name_rooibos": "רויבוס",
     "tea_name_white": "תה לבן",
     "notification_channel_name": "התראות קוצב זמן",
-    "privacy_policy": "מדיניות הפרטיות"
+    "privacy_policy": "מדיניות הפרטיות",
+    "confirm_delete": "למחוק את כל משקאות התה?",
+    "theme_black": "שחור",
+    "theme_system_black": "כמו המערכת (שחור)"
 }
