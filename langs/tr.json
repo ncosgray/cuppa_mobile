@@ -46,5 +46,8 @@
     "tea_name_rooibos": "Roybos",
     "tea_name_white": "Beyaz Çay",
     "notification_channel_name": "Zamanlayıcı bildirimleri",
-    "privacy_policy": "Gizlilik Politikası"
+    "privacy_policy": "Gizlilik Politikası",
+    "confirm_delete": "Tüm çayları silmek istediğinizden emin misiniz?",
+    "theme_black": "Siyah",
+    "theme_system_black": "Sistemi takip et (Siyah)"
 }
