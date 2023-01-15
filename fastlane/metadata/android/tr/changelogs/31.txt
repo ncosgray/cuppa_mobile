@@ -1,0 +1,5 @@
+* Saf siyah Koyu Tema artık isteğe bağlı.
+* Tüm çayları kaldırmak için bir düğme eklendi.
+* Kısayolların beklenmedik şekilde başlamasına neden olan bir hata düzeltildi.
+* Kullanılabilirlik ve arayüz iyileştirmeleri.
+* Dil çeviri güncellemeleri - Weblate ile katkıda bulunun!
