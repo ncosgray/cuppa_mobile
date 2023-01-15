@@ -171,7 +171,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                                       ColorFiltered(
                                           colorFilter: ColorFilter.mode(
                                             blackTheme
-                                                ? Colors.grey.shade900
+                                                ? const Color(0xff323232)
                                                 : Colors.black,
                                             BlendMode.srcIn,
                                           ),
