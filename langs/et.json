@@ -46,5 +46,8 @@
     "tea_name_rooibos": "Rooibos",
     "tea_name_white": "Valge tee",
     "notification_channel_name": "Taimeri märguanded",
-    "privacy_policy": "Privaatsuspoliitika"
+    "privacy_policy": "Privaatsuspoliitika",
+    "confirm_delete": "Kas sa oled kindel, et soovid kõik teed kustutada?",
+    "theme_black": "Süsimust",
+    "theme_system_black": "Kasuta süsteemset teemat (must)"
 }
