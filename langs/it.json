@@ -46,5 +46,7 @@
     "tea_name_white": "Tè bianco",
     "tea_name_darjeeling": "Darjeeling",
     "notification_channel_name": "Notifiche del contaminuti",
-    "privacy_policy": "Politica sulla riservatezza"
+    "privacy_policy": "Politica sulla riservatezza",
+    "confirm_delete": "Sei sicuro di voler cancellare tutti i tè?",
+    "theme_black": "Nero"
 }
