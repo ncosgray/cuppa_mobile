@@ -48,5 +48,6 @@
     "notification_channel_name": "Notifiche del contaminuti",
     "privacy_policy": "Politica sulla riservatezza",
     "confirm_delete": "Sei sicuro di voler cancellare tutti i tè?",
-    "theme_black": "Nero"
+    "theme_black": "Nero",
+    "theme_system_black": "Segui il sistema (Nero)"
 }
