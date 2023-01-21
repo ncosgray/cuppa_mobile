@@ -46,5 +46,8 @@
     "tea_name_white": "Blanka Teo",
     "tea_name_chamomile": "Kamomila infuzaĵo",
     "notification_channel_name": "Temporizigaj sciigoj",
-    "privacy_policy": "Privateca politiko"
+    "privacy_policy": "Privateca politiko",
+    "confirm_delete": "Ĉu vi volas forigi ĉiujn teon?",
+    "theme_black": "Nigra",
+    "theme_system_black": "Sekvu sistemon (Nigra)"
 }
