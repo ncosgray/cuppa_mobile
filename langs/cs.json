@@ -46,5 +46,8 @@
     "tea_name_puer": "Pu'er",
     "tea_name_white": "Bílý čaj",
     "notification_channel_name": "Upozornění časovače",
-    "privacy_policy": "Zásady ochrany osobních údajů"
+    "privacy_policy": "Zásady ochrany osobních údajů",
+    "theme_system_black": "Sledujte systém (Černý)",
+    "confirm_delete": "Opravdu chcete smazat všechny čaje?",
+    "theme_black": "Černý"
 }
