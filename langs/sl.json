@@ -46,5 +46,8 @@
     "tea_name_darjeeling": "Darjeeling",
     "tea_name_mint": "Metin čaj",
     "notification_channel_name": "Obvestila časovnika",
-    "privacy_policy": "Politika zasebnosti"
+    "privacy_policy": "Politika zasebnosti",
+    "confirm_delete": "Ali ste prepričani, da želite izbrisati vse čaje?",
+    "theme_black": "Črn",
+    "theme_system_black": "Enaka sistemski (Črn)"
 }
