@@ -46,5 +46,8 @@
     "tea_name_white": "Te gwenn",
     "tea_name_mint": "Te bent",
     "notification_channel_name": "Kemennadoù an eur",
-    "privacy_policy": "Politikerez prevez"
+    "privacy_policy": "Politikerez prevez",
+    "confirm_delete": "Ha sur oc'h e fell deoc'h dilemel an holl te ?",
+    "theme_black": "Du",
+    "theme_system_black": "Evel ar reizhad (Du)"
 }
