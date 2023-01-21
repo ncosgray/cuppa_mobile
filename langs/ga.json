@@ -46,5 +46,8 @@
     "tea_name_rooibos": "Rooibos",
     "tea_name_white": "Tae Bán",
     "notification_channel_name": "Fógraí lasc ama",
-    "privacy_policy": "Beartas Príobháideachais"
+    "privacy_policy": "Beartas Príobháideachais",
+    "confirm_delete": "An bhfuil tú cinnte gur mhaith leat gach teas a scriosadh?",
+    "theme_black": "Dubh",
+    "theme_system_black": "Lean an córas (Dubh)"
 }
