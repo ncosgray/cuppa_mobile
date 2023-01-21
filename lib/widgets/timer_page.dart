@@ -4,7 +4,7 @@
  Class:    timer_page.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2022 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2023 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -171,7 +171,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                                       ColorFiltered(
                                           colorFilter: ColorFilter.mode(
                                             blackTheme
-                                                ? Colors.grey.shade900
+                                                ? const Color(0xff323232)
                                                 : Colors.black,
                                             BlendMode.srcIn,
                                           ),
