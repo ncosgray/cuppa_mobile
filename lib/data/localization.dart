@@ -43,6 +43,7 @@ final Map<String, String> supportedLanguages = {
   'it': 'Italiano',
   'nb': 'Norsk Bokmål',
   'nl': 'Nederlands',
+  'pt': 'Português',
   'ru': 'Русский',
   'sl': 'Slovenščina',
   'tr': 'Türkçe',
