@@ -45,6 +45,9 @@
     "tea_name_darjeeling": "Darjeeling",
     "tea_name_assam": "Assam",
     "tea_name_mint": "Munt",
-    "notification_channel_name": "Timer meldingen",
-    "privacy_policy": "Privacybeleid"
+    "notification_channel_name": "Tijdklokmeldingen",
+    "privacy_policy": "Privacybeleid",
+    "confirm_delete": "Weet je zeker dat je alle theeën wilt verwijderen?",
+    "theme_black": "Zwart",
+    "theme_system_black": "Systeemthema (zwart)"
 }

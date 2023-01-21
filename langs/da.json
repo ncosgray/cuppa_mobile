@@ -46,5 +46,8 @@
     "tea_name_rooibos": "Rooibos",
     "tea_name_white": "Hvid te",
     "notification_channel_name": "Timer notifikationer",
-    "privacy_policy": "Fortrolighedspolitik"
+    "privacy_policy": "Fortrolighedspolitik",
+    "confirm_delete": "Er du sikker på, at du vil slette alle teer?",
+    "theme_black": "Sort",
+    "theme_system_black": "Følg systemet (Sort)"
 }

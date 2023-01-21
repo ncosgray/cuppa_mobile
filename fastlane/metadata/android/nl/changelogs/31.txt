@@ -1,0 +1,5 @@
+* [NIEUW] Knop om alle theeën te verwijderen;
+* [OPGELOST] Bug die onverwachts snelkoppelingen startte;
+* [VERBETERD] Het gitzwarte thema is nu optioneel;
+* [VERBETERD] Vormgeving;
+* [VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!

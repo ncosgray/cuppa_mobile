@@ -1,0 +1,3 @@
+* Uma nova página de preferências!
+* Defina seus próprios nomes de chá, tempos de preparação e cores.
+* Salve as configurações para três chás diferentes.

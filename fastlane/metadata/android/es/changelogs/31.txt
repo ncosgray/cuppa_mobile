@@ -1,0 +1,5 @@
+* El tema negro oscuro puro ahora es opcional.
+* Se agregó un botón para eliminar todos los tés.
+* Se corrigió un error que causaba que los accesos directos se iniciaran inesperadamente.
+* Facilidad de uso y personalización de la interfaz.
+* Actualización en la traducción de los idiomas: ¡Contribuya a través de Weblate!

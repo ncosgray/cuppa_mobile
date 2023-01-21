@@ -46,5 +46,8 @@
     "tea_name_oolong": "Улун",
     "tea_name_rooibos": "Роойбос",
     "notification_channel_name": "Уведомления таймера",
-    "privacy_policy": "Политика конфиденциальности"
+    "privacy_policy": "Политика конфиденциальности",
+    "confirm_delete": "Вы уверены, что хотите удалить все чаи?",
+    "theme_system_black": "Следовать системе (черный)",
+    "theme_black": "Черный"
 }

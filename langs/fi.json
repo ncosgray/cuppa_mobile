@@ -46,5 +46,8 @@
     "tea_name_rooibos": "Rooibos",
     "tea_name_white": "Valkoinen tee",
     "notification_channel_name": "Ajastimen ilmoitukset",
-    "privacy_policy": "Tietosuojakäytäntö"
+    "privacy_policy": "Tietosuojakäytäntö",
+    "confirm_delete": "Oletko varma, että haluat poistaa kaikki teet?",
+    "theme_system_black": "Järjestelmän mukaan (Musta)",
+    "theme_black": "Musta"
 }

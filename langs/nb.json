@@ -46,5 +46,8 @@
     "tea_name_rooibos": "Rooibos",
     "tea_name_white": "Hvit te",
     "notification_channel_name": "Timervarsler",
-    "privacy_policy": "Personvernerklæring"
+    "privacy_policy": "Personvernerklæring",
+    "confirm_delete": "Er du sikker på at du vil slette alle teene?",
+    "theme_black": "Svart",
+    "theme_system_black": "Følg systemet (Svart)"
 }

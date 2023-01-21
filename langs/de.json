@@ -46,5 +46,8 @@
     "tea_name_oolong": "Oolong",
     "tea_name_puer": "Pu'er",
     "notification_channel_name": "Timer-Benachrichtigungen",
-    "privacy_policy": "Datenschutz-Bestimmungen"
+    "privacy_policy": "Datenschutz-Bestimmungen",
+    "theme_black": "Schwarz",
+    "confirm_delete": "Sind Sie sicher, dass Sie alle Tees löschen möchten?",
+    "theme_system_black": "System folgen (Schwarz)"
 }

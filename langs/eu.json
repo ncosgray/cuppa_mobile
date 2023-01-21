@@ -46,5 +46,8 @@
     "tea_name_rooibos": "Rooibos",
     "tea_name_white": "Te Zuria",
     "notification_channel_name": "Tenporizadorearen jakinarazpenak",
-    "privacy_policy": "Pribatutasun politika"
+    "privacy_policy": "Pribatutasun politika",
+    "confirm_delete": "Ziur al zaude te guztiak kendu nahi dituzula?",
+    "theme_black": "Beltza",
+    "theme_system_black": "Jarraitu sistema (Beltza)"
 }

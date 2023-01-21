@@ -46,5 +46,8 @@
     "tea_name_puer": "Pu'er",
     "tea_name_white": "Thé blanc",
     "notification_channel_name": "Notifications de la minuterie",
-    "privacy_policy": "Politique de confidentialité"
+    "privacy_policy": "Politique de confidentialité",
+    "theme_black": "Noir",
+    "theme_system_black": "Suivre le système (Noir)",
+    "confirm_delete": "Êtes-vous sûr de vouloir supprimer tous les thés ?"
 }

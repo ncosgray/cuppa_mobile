@@ -46,5 +46,8 @@
     "tea_name_white": "Té blanco",
     "tea_name_rooibos": "Arbusto rojo (Rooibos)",
     "notification_channel_name": "Notificaciones de temporizador",
-    "privacy_policy": "Política de privacidad"
+    "privacy_policy": "Política de privacidad",
+    "confirm_delete": "¿Está seguro de que desea eliminar todos los tés?",
+    "theme_black": "Negro",
+    "theme_system_black": "Tema del sistema (negro)"
 }
