@@ -55,6 +55,8 @@ class PrefsWidget extends StatelessWidget {
                 elevation: 1,
                 pinned: true,
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+                shadowColor: Theme.of(context).shadowColor,
                 leadingWidth: 100.0,
                 leading: Container(
                     margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
@@ -63,7 +65,7 @@ class PrefsWidget extends StatelessWidget {
                         Text(AppString.teas_title.translate(),
                             style: textStyleHeader.copyWith(
                               color:
-                                  Theme.of(context).textTheme.bodyText1!.color!,
+                                  Theme.of(context).textTheme.bodyLarge!.color!,
                             ))),
               ),
               SliverToBoxAdapter(
@@ -212,8 +214,10 @@ class PrefsWidget extends StatelessWidget {
                               .appTheme
                               .localizedName,
                           style: textStyleTitle.copyWith(
-                              color:
-                                  Theme.of(context).textTheme.caption!.color!),
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .color!),
                         ),
                         onTap: () {
                           // Open app theme dialog
@@ -236,7 +240,7 @@ class PrefsWidget extends StatelessWidget {
                             style: textStyleTitle.copyWith(
                                 color: Theme.of(context)
                                     .textTheme
-                                    .caption!
+                                    .bodySmall!
                                     .color!)),
                         onTap: () {
                           // Open app language dialog
@@ -275,7 +279,7 @@ class PrefsWidget extends StatelessWidget {
 
   // Display an add tea selection dialog box
   Future<bool?> _displayAddTeaDialog(BuildContext context) async {
-    double deviceHeight = MediaQuery.of(context).size.height;
+    double deviceWidth = MediaQuery.of(context).size.width;
 
     return showDialog<bool>(
         context: context,
@@ -285,8 +289,8 @@ class PrefsWidget extends StatelessWidget {
               platform: appPlatform,
               title: Text(AppString.add_tea_button.translate()),
               content: SizedBox(
-                  width: 120.0,
-                  height: deviceHeight * 0.6,
+                  width: deviceWidth * 0.4,
+                  height: Presets.presetList.length * 46,
                   child: Card(
                       margin: const EdgeInsets.only(top: 12.0),
                       color: Colors.transparent,
@@ -370,6 +374,8 @@ class PrefsWidget extends StatelessWidget {
 
   // Display an app theme selection dialog box
   Future<bool?> _displayAppThemeDialog(BuildContext context) async {
+    double deviceWidth = MediaQuery.of(context).size.width;
+
     return showDialog<bool>(
         context: context,
         barrierDismissible: true,
@@ -382,7 +388,7 @@ class PrefsWidget extends StatelessWidget {
                   color: Colors.transparent,
                   elevation: 0,
                   child: SizedBox(
-                    width: double.maxFinite,
+                    width: deviceWidth * 0.4,
                     height: AppTheme.values.length * 46,
                     child: ListView.builder(
                       padding: const EdgeInsets.all(0.0),
@@ -423,7 +429,7 @@ class PrefsWidget extends StatelessWidget {
 
   // Display an app language selection dialog box
   Future<bool?> _displayAppLanguageDialog(BuildContext context) async {
-    double deviceHeight = MediaQuery.of(context).size.height;
+    double deviceWidth = MediaQuery.of(context).size.width;
     final List<String> languageOptions =
         [''] + supportedLanguages.keys.toList();
 
@@ -439,8 +445,8 @@ class PrefsWidget extends StatelessWidget {
                   color: Colors.transparent,
                   elevation: 0,
                   child: SizedBox(
-                    width: double.maxFinite,
-                    height: deviceHeight * 0.6,
+                    width: deviceWidth * 0.4,
+                    height: languageOptions.length * 46,
                     child: Scrollbar(
                         thumbVisibility: true,
                         child: ListView.builder(

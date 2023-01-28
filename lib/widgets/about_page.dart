@@ -46,6 +46,9 @@ class AboutWidget extends StatelessWidget {
                       pinned: true,
                       backgroundColor:
                           Theme.of(context).scaffoldBackgroundColor,
+                      surfaceTintColor:
+                          Theme.of(context).scaffoldBackgroundColor,
+                      shadowColor: Theme.of(context).shadowColor,
                       leading:
                           // Teacup icon
                           Container(
@@ -59,7 +62,7 @@ class AboutWidget extends StatelessWidget {
                               style: textStyleHeader.copyWith(
                                 color: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .color!,
                               )),
                     ),

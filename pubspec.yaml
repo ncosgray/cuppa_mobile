@@ -19,7 +19,7 @@ version: 1.7.3+31
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
-  flutter: ^3.3.0
+  flutter: ^3.7.0
 
 dependencies:
   app_settings: ^4.2.0
@@ -33,7 +33,7 @@ dependencies:
   package_info_plus: ^3.0.2
   provider: ^6.0.5
   quick_actions: ^1.0.1
-  reorderables: ^0.5.1
+  reorderables: ^0.6.0
   shared_preferences: ^2.0.17
   tuple: ^2.0.1
   url_launcher: ^6.1.8

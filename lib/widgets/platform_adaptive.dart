@@ -56,40 +56,31 @@ final ThemeData kIOSBlackTheme = ThemeData(
 
 // Android themes
 final ThemeData kDefaultTheme = ThemeData(
-  primaryColor: Colors.blue,
-  toggleableActiveColor: Colors.blue,
+  useMaterial3: true,
+  colorSchemeSeed: Colors.blue,
   textTheme: Typography.blackMountainView,
   iconTheme: const IconThemeData(
     color: Colors.grey,
   ),
-  chipTheme: const ChipThemeData(
-    selectedColor: Colors.blue,
-  ),
   brightness: Brightness.light,
 );
 final ThemeData kDarkTheme = ThemeData(
-  primaryColor: Colors.blue,
-  toggleableActiveColor: Colors.blue,
+  useMaterial3: true,
+  colorSchemeSeed: Colors.blue,
+  scaffoldBackgroundColor: const Color(0xff323232),
   textTheme: Typography.whiteMountainView,
   iconTheme: const IconThemeData(
     color: Colors.white,
-  ),
-  chipTheme: const ChipThemeData(
-    selectedColor: Colors.blue,
   ),
   brightness: Brightness.dark,
 );
 final ThemeData kBlackTheme = ThemeData(
-  primaryColor: Colors.blue,
+  useMaterial3: true,
+  colorSchemeSeed: Colors.blue,
   scaffoldBackgroundColor: Colors.black,
-  cardColor: Colors.grey.shade900,
-  toggleableActiveColor: Colors.blue,
   textTheme: Typography.whiteMountainView,
   iconTheme: const IconThemeData(
     color: Colors.white,
-  ),
-  chipTheme: const ChipThemeData(
-    selectedColor: Colors.blue,
   ),
   brightness: Brightness.dark,
 );
@@ -181,6 +172,7 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
     } else {
       return Scaffold(
           appBar: AppBar(
+              elevation: 4,
               title: Text(title),
               actions: actionIcon != null && actionRoute != null
                   ? <Widget>[
@@ -198,32 +190,15 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
   }
 }
 
-// Set scroll behavior appropriate to platform
-class PlatformAdaptiveScrollBehavior extends ScrollBehavior {
-  const PlatformAdaptiveScrollBehavior(
-    this.platform,
+// Material alert dialog with padding
+AlertDialog materialAlertDialog({title, content, actions}) {
+  return AlertDialog(
+    contentPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
+    actionsPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 18.0),
+    title: title,
+    content: content,
+    actions: actions,
   );
-
-  final TargetPlatform platform;
-
-  @override
-  ScrollPhysics getScrollPhysics(BuildContext context) {
-    return platform == TargetPlatform.iOS
-        ? const BouncingScrollPhysics()
-        : const ClampingScrollPhysics();
-  }
-
-  @override
-  Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details) {
-    return platform == TargetPlatform.iOS
-        ? child
-        // Force stretch overscroll until Material 3 is fully implemented
-        : StretchingOverscrollIndicator(
-            axisDirection: details.direction,
-            child: child,
-          );
-  }
 }
 
 // Alert dialog that is Material on Android and Cupertino on iOS
@@ -273,7 +248,7 @@ class PlatformAdaptiveDialog extends StatelessWidget {
     } else {
       // Define Material action button(s)
       List<Widget> actionList = [
-        TextButton(
+        FilledButton.tonal(
           onPressed: () {
             Navigator.of(context).pop(false);
           },
@@ -281,7 +256,7 @@ class PlatformAdaptiveDialog extends StatelessWidget {
         )
       ];
       if (buttonTextTrue != null) {
-        actionList.add(TextButton(
+        actionList.add(FilledButton.tonal(
           onPressed: () {
             Navigator.of(context).pop(true);
           },
@@ -290,8 +265,7 @@ class PlatformAdaptiveDialog extends StatelessWidget {
       }
 
       // Build the Material dialog
-      return AlertDialog(
-        contentPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
+      return materialAlertDialog(
         title: title,
         content: content,
         actions: actionList,
@@ -399,9 +373,7 @@ class _PlatformAdaptiveTextFormDialogState
         ],
       );
     } else {
-      return AlertDialog(
-        contentPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 0.0),
-        insetPadding: const EdgeInsets.all(4.0),
+      return materialAlertDialog(
         // Text entry
         content: SingleChildScrollView(
             child: Form(
@@ -410,7 +382,7 @@ class _PlatformAdaptiveTextFormDialogState
                 child: _textField())),
         actions: <Widget>[
           // Cancel and close dialog
-          TextButton(
+          FilledButton.tonal(
             onPressed: () {
               // Don't return anything
               Navigator.of(context).pop();
@@ -418,7 +390,7 @@ class _PlatformAdaptiveTextFormDialogState
             child: Text(buttonTextCancel),
           ),
           // Save and close dialog, if valid
-          TextButton(
+          FilledButton.tonal(
             onPressed: _isValid
                 ? () {
                     // Return new text value
@@ -575,20 +547,18 @@ class _PlatformAdaptiveTimePickerDialogState
         ],
       );
     } else {
-      return AlertDialog(
-        contentPadding: const EdgeInsets.only(top: 12.0),
-        insetPadding: const EdgeInsets.all(4.0),
+      return materialAlertDialog(
         // Time entry
         content: _timePicker(),
         actions: <Widget>[
           // Cancel and close dialog
-          TextButton(
+          FilledButton.tonal(
               onPressed: () {
                 Navigator.pop(context, null);
               },
               child: Text(buttonTextCancel)),
           // Save and close dialog
-          TextButton(
+          FilledButton.tonal(
               onPressed: () {
                 // Return selected time
                 Navigator.pop(context, (_newMinutes * 60) + _newSeconds);
@@ -782,20 +752,18 @@ class _PlatformAdaptiveTempPickerDialogState
         ],
       );
     } else {
-      return AlertDialog(
-        contentPadding: const EdgeInsets.only(top: 12.0),
-        insetPadding: const EdgeInsets.all(4.0),
+      return materialAlertDialog(
         // Temperature entry
         content: _tempPicker(),
         actions: <Widget>[
           // Cancel and close dialog
-          TextButton(
+          FilledButton.tonal(
               onPressed: () {
                 Navigator.pop(context, null);
               },
               child: Text(buttonTextCancel)),
           // Save and close dialog
-          TextButton(
+          FilledButton.tonal(
               onPressed: () {
                 // Return selected time
                 Navigator.pop(context, _newTemp);
@@ -839,7 +807,7 @@ class _PlatformAdaptiveTempPickerDialogState
     );
   }
 
-  // Build an adaptive temperature unit picker (sliding control or chips)
+  // Build an adaptive temperature unit picker (sliding control or segments)
   Widget _adaptiveUnitPicker() {
     if (platform == TargetPlatform.iOS) {
       return CupertinoSlidingSegmentedControl<bool>(
@@ -858,48 +826,35 @@ class _PlatformAdaptiveTempPickerDialogState
           },
           children: const <bool, Widget>{
             // Degrees C
-            true: Text(
-              degreesC,
-            ),
+            true: Text(degreesC),
             // Degrees F
-            false: Text(
-              degreesF,
-            ),
+            false: Text(degreesF),
           });
     } else {
-      return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        // Degrees C
-        ChoiceChip(
-            label: const Text(degreesC),
-            labelPadding: const EdgeInsets.only(left: 18.0, right: 18.0),
-            selected: _unitsCelsius,
-            elevation: 0,
-            pressElevation: 0,
-            onSelected: (bool selected) {
-              setState(() {
-                if (selected) {
-                  _unitsCelsius = true;
-                  _newTemp = tempCOptions[_newTempIndex];
-                }
-              });
-            }),
-        const SizedBox(width: 18.0),
-        // Degrees F
-        ChoiceChip(
-            label: const Text(degreesF),
-            labelPadding: const EdgeInsets.only(left: 18.0, right: 18.0),
-            selected: !_unitsCelsius,
-            elevation: 0,
-            pressElevation: 0,
-            onSelected: (bool selected) {
-              setState(() {
-                if (selected) {
-                  _unitsCelsius = false;
-                  _newTemp = tempFOptions[_newTempIndex];
-                }
-              });
-            })
-      ]);
+      return SegmentedButton<bool>(
+          selected: <bool>{_unitsCelsius},
+          onSelectionChanged: (Set<bool> selected) {
+            setState(() {
+              _unitsCelsius = selected.first;
+              if (_unitsCelsius) {
+                _newTemp = tempCOptions[_newTempIndex];
+              } else {
+                _newTemp = tempFOptions[_newTempIndex];
+              }
+            });
+          },
+          segments: const <ButtonSegment<bool>>[
+            // Degrees C
+            ButtonSegment<bool>(
+              value: true,
+              label: Text(degreesC),
+            ),
+            // Degrees F
+            ButtonSegment<bool>(
+              value: false,
+              label: Text(degreesF),
+            ),
+          ]);
     }
   }
 

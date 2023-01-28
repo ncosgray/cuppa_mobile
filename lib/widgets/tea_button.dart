@@ -45,6 +45,7 @@ class TeaButton extends StatelessWidget {
           opacity: fade ? 0.4 : 1.0,
           duration: const Duration(milliseconds: 400),
           child: Card(
+            clipBehavior: Clip.hardEdge,
             color: tea.isActive ? tea.getThemeColor(context) : null,
             child: InkWell(
               onTap: tea.isActive ? null : _handleTap,

@@ -87,10 +87,7 @@ class CuppaApp extends StatelessWidget {
                     return MediaQuery(
                       data: MediaQuery.of(context)
                           .copyWith(textScaleFactor: appTextScale),
-                      // Set default scroll behavior
-                      child: ScrollConfiguration(
-                          behavior: PlatformAdaptiveScrollBehavior(appPlatform),
-                          child: child!),
+                      child: child!,
                     );
                   },
                   title: appName,
