@@ -159,13 +159,15 @@ class PrefsWidget extends StatelessWidget {
                                                 Icons.delete_sweep_outlined,
                                                 color: Colors.red),
                                             onPressed: () async {
-                                              if (await _confirmDelete(
-                                                  context)) {
+                                              AppProvider provider =
+                                                  Provider.of<AppProvider>(
+                                                      context,
+                                                      listen: false);
+                                              bool confirmed =
+                                                  await _confirmDelete(context);
+                                              if (confirmed) {
                                                 // Clear tea list
-                                                Provider.of<AppProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .clearTeaList();
+                                                provider.clearTeaList();
                                               }
                                             })))))
                         : const SizedBox.shrink()
