@@ -23,6 +23,7 @@
 import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -86,15 +87,26 @@ final ThemeData kBlackTheme = ThemeData(
 );
 
 // Get theme appropriate to platform
-ThemeData getPlatformAdaptiveTheme(TargetPlatform platform) {
-  return platform == TargetPlatform.iOS ? kIOSTheme : kDefaultTheme;
+ThemeData getPlatformAdaptiveTheme(TargetPlatform platform,
+    {ColorScheme? dynamicColors}) {
+  ThemeData theme = platform == TargetPlatform.iOS ? kIOSTheme : kDefaultTheme;
+  if (dynamicColors != null) {
+    // Use dynamic colors if provided
+    theme = theme.copyWith(colorScheme: dynamicColors.harmonized());
+  }
+  return theme;
 }
 
 ThemeData getPlatformAdaptiveDarkTheme(TargetPlatform platform,
-    {bool blackTheme = true}) {
-  return platform == TargetPlatform.iOS
+    {ColorScheme? dynamicColors, bool blackTheme = true}) {
+  ThemeData theme = platform == TargetPlatform.iOS
       ? (blackTheme ? kIOSBlackTheme : kIOSDarkTheme)
       : (blackTheme ? kBlackTheme : kDarkTheme);
+  if (dynamicColors != null) {
+    // Use dynamic colors if provided
+    theme = theme.copyWith(colorScheme: dynamicColors.harmonized());
+  }
+  return theme;
 }
 
 // Platform specific icons
