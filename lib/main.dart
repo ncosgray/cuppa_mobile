@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/timer_page.dart';
 
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
@@ -77,62 +78,63 @@ class CuppaApp extends StatelessWidget {
               bool appThemeBlack = settings.item1.blackTheme;
               String appLanguage = settings.item2;
 
-              return MaterialApp(
-                  builder: (context, child) {
-                    // Set scale factor, up to a limit
-                    appTextScale =
-                        MediaQuery.of(context).textScaleFactor > maxTextScale
-                            ? maxTextScale
-                            : MediaQuery.of(context).textScaleFactor;
-                    return MediaQuery(
-                      data: MediaQuery.of(context)
-                          .copyWith(textScaleFactor: appTextScale),
-                      // Set default scroll behavior
-                      child: ScrollConfiguration(
-                          behavior: PlatformAdaptiveScrollBehavior(appPlatform),
-                          child: child!),
-                    );
-                  },
-                  title: appName,
-                  debugShowCheckedModeBanner: false,
-                  // Configure app theme
-                  theme: getPlatformAdaptiveTheme(appPlatform),
-                  darkTheme: getPlatformAdaptiveDarkTheme(appPlatform,
-                      blackTheme: appThemeBlack),
-                  themeMode: appThemeMode,
-                  // Initial route
-                  home: const TimerWidget(),
-                  // Localization
-                  locale: appLanguage != '' ? Locale(appLanguage, '') : null,
-                  supportedLocales:
-                      supportedLanguages.keys.map<Locale>((String value) {
-                    return Locale(value, '');
-                  }).toList(),
-                  localizationsDelegates: const [
-                    AppLocalizationsDelegate(),
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    FallbackMaterialLocalizationsDelegate(),
-                    FallbackCupertinoLocalizationsDelegate(),
-                  ],
-                  localeResolutionCallback: (locale, supportedLocales) {
-                    if (locale != null) {
-                      // Set metric locale based on country code
-                      if (locale.countryCode == 'US') {
-                        isLocaleMetric = false;
-                      }
+              return DynamicColorBuilder(builder:
+                  (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+                return MaterialApp(
+                    builder: (context, child) {
+                      // Set scale factor, up to a limit
+                      appTextScale =
+                          MediaQuery.of(context).textScaleFactor > maxTextScale
+                              ? maxTextScale
+                              : MediaQuery.of(context).textScaleFactor;
+                      return MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(textScaleFactor: appTextScale),
+                        child: child!,
+                      );
+                    },
+                    title: appName,
+                    debugShowCheckedModeBanner: false,
+                    // Configure app theme including dynamic colors if supported
+                    theme: getPlatformAdaptiveTheme(appPlatform,
+                        dynamicColors: lightDynamic),
+                    darkTheme: getPlatformAdaptiveDarkTheme(appPlatform,
+                        dynamicColors: darkDynamic, blackTheme: appThemeBlack),
+                    themeMode: appThemeMode,
+                    // Initial route
+                    home: const TimerWidget(),
+                    // Localization
+                    locale: appLanguage != '' ? Locale(appLanguage, '') : null,
+                    supportedLocales:
+                        supportedLanguages.keys.map<Locale>((String value) {
+                      return Locale(value, '');
+                    }).toList(),
+                    localizationsDelegates: const [
+                      AppLocalizationsDelegate(),
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      FallbackMaterialLocalizationsDelegate(),
+                      FallbackCupertinoLocalizationsDelegate(),
+                    ],
+                    localeResolutionCallback: (locale, supportedLocales) {
+                      if (locale != null) {
+                        // Set metric locale based on country code
+                        if (locale.countryCode == 'US') {
+                          isLocaleMetric = false;
+                        }
 
-                      // Set language or default to English
-                      for (var supportedLocale in supportedLocales) {
-                        if (supportedLocale.languageCode ==
-                            locale.languageCode) {
-                          return supportedLocale;
+                        // Set language or default to English
+                        for (var supportedLocale in supportedLocales) {
+                          if (supportedLocale.languageCode ==
+                              locale.languageCode) {
+                            return supportedLocale;
+                          }
                         }
                       }
-                    }
-                    return const Locale(defaultLanguage, '');
-                  });
+                      return const Locale(defaultLanguage, '');
+                    });
+              });
             }));
   }
 }

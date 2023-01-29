@@ -15,8 +15,8 @@
 import 'package:flutter/material.dart';
 
 const TextStyle textStyleHeader = TextStyle(
-  fontWeight: FontWeight.normal,
   fontSize: 18.0,
+  fontWeight: FontWeight.bold,
 );
 
 const TextStyle textStyleTitle = TextStyle(
@@ -25,6 +25,7 @@ const TextStyle textStyleTitle = TextStyle(
 
 const TextStyle textStyleSubtitle = TextStyle(
   fontSize: 14.0,
+  fontWeight: FontWeight.normal,
 );
 
 const TextStyle textStyleFooter = TextStyle(
