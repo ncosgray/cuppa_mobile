@@ -260,14 +260,10 @@ class _TimerWidgetState extends State<TimerWidget> {
                                               .translate()
                                               .toUpperCase(),
                                           style: textStyleButton.copyWith(
-                                            color: Colors.blue,
-                                          ),
+                                              color: textColorWarn),
                                         ),
-                                        const Icon(
-                                          Icons.arrow_circle_right,
-                                          size: 28.0,
-                                          color: Colors.blue,
-                                        ),
+                                        Icon(Icons.arrow_circle_right,
+                                            size: 28.0, color: textColorWarn),
                                       ],
                                     ),
                                   ),

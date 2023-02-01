@@ -14,6 +14,9 @@
 
 import 'package:flutter/material.dart';
 
+final Color textColorWarn = Colors.red.shade400;
+const Color textColorLink = Colors.blue;
+
 const TextStyle textStyleHeader = TextStyle(
   fontSize: 18.0,
   fontWeight: FontWeight.bold,
@@ -34,8 +37,9 @@ const TextStyle textStyleFooter = TextStyle(
 
 const TextStyle textStyleFooterLink = TextStyle(
   fontSize: 12.0,
-  color: Colors.blue,
+  color: textColorLink,
   decoration: TextDecoration.underline,
+  decorationColor: textColorLink,
 );
 
 const TextStyle textStyleButton = TextStyle(

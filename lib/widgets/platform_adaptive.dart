@@ -63,6 +63,9 @@ final ThemeData kDefaultTheme = ThemeData(
   iconTheme: const IconThemeData(
     color: Colors.grey,
   ),
+  listTileTheme: const ListTileThemeData(
+    iconColor: Colors.grey,
+  ),
   brightness: Brightness.light,
 );
 final ThemeData kDarkTheme = ThemeData(
@@ -73,6 +76,9 @@ final ThemeData kDarkTheme = ThemeData(
   iconTheme: const IconThemeData(
     color: Colors.white,
   ),
+  listTileTheme: const ListTileThemeData(
+    iconColor: Colors.white,
+  ),
   brightness: Brightness.dark,
 );
 final ThemeData kBlackTheme = ThemeData(
@@ -82,6 +88,9 @@ final ThemeData kBlackTheme = ThemeData(
   textTheme: Typography.whiteMountainView,
   iconTheme: const IconThemeData(
     color: Colors.white,
+  ),
+  listTileTheme: const ListTileThemeData(
+    iconColor: Colors.white,
   ),
   brightness: Brightness.dark,
 );
@@ -429,9 +438,6 @@ class _PlatformAdaptiveTextFormDialogState
       maxLines: 1,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
-        errorStyle: const TextStyle(color: Colors.red),
-        focusedErrorBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.red, width: 2.0)),
         counter: const Offstage(),
         suffixIcon: _controller.text.isNotEmpty
             // Clear field button

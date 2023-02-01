@@ -36,11 +36,11 @@ class CancelButton extends StatelessWidget {
       label: Text(
         AppString.cancel_button.translate().toUpperCase(),
         style: textStyleButtonSecondary.copyWith(
-          color: active ? Colors.red.shade400 : Theme.of(context).disabledColor,
+          color: active ? textColorWarn : Theme.of(context).disabledColor,
         ),
       ),
       icon: Icon(Icons.cancel,
-          color: active ? Colors.red.shade400 : Theme.of(context).disabledColor,
+          color: active ? textColorWarn : Theme.of(context).disabledColor,
           size: 16.0),
       onPressed: active ? _handleTap : null,
     );

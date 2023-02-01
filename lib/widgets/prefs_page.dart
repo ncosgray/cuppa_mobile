@@ -155,9 +155,9 @@ class PrefsWidget extends StatelessWidget {
                                 child: Card(
                                     child: ListTile(
                                         title: IconButton(
-                                            icon: const Icon(
+                                            icon: Icon(
                                                 Icons.delete_sweep_outlined,
-                                                color: Colors.red),
+                                                color: textColorWarn),
                                             onPressed: () async {
                                               AppProvider provider =
                                                   Provider.of<AppProvider>(
