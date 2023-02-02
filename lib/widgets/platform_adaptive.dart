@@ -72,6 +72,9 @@ final ThemeData kDarkTheme = ThemeData(
   useMaterial3: true,
   colorSchemeSeed: Colors.blue,
   scaffoldBackgroundColor: const Color(0xff323232),
+  cardTheme: CardTheme(
+    color: Colors.grey.shade800,
+  ),
   textTheme: Typography.whiteMountainView,
   iconTheme: const IconThemeData(
     color: Colors.white,
