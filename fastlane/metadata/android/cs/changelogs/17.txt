@@ -1,0 +1,4 @@
+* Zahrnuje nastavení teploty vody pro každý čaj.
+* Možnost zobrazení dalších informací o louhování na tlačítkách časovače.
+* Časování čajů, které se louhují déle než 10 minut.
+* Více jazyků a vylepšení překladů - přispívejte přes Weblate!
