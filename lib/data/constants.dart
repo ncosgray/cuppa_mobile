@@ -122,9 +122,6 @@ const prefUseCelsius = 'Cuppa_use_celsius';
 const prefAppTheme = 'Cuppa_app_theme';
 const prefAppLanguage = 'Cuppa_app_language';
 
-// Shared prefs keys for next alarm info
-const prefNextAlarm = 'Cuppa_next_alarm_time';
-
 // More teas JSON keys
 const jsonKeyName = 'name';
 const jsonKeyBrewTime = 'brewTime';
@@ -133,3 +130,4 @@ const jsonKeyColor = 'color';
 const jsonKeyIcon = 'icon';
 const jsonKeyIsFavorite = 'isFavorite';
 const jsonKeyIsActive = 'isActive';
+const jsonKeyTimerEndTime = 'timerEndTime';

@@ -44,9 +44,8 @@ class TimerWidget extends StatefulWidget {
 
 class _TimerWidgetState extends State<TimerWidget> {
   // State variables
-  bool _timerActive = false;
+  Tea? _timerTea;
   int _timerSeconds = 0;
-  DateTime? _timerEndTime;
   Timer? _timer;
   final ScrollController _scrollController = ScrollController();
   bool _doScroll = false;
@@ -77,10 +76,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   @override
   Widget build(BuildContext context) {
     // Process tea list scroll request after build
-    Future.delayed(
-        Duration.zero,
-        () => _scrollToTeaButton(
-            Provider.of<AppProvider>(context, listen: false).activeTea));
+    Future.delayed(Duration.zero, () => _scrollToTeaButton(_timerTea));
 
     // Get device dimensions
     double deviceWidth = MediaQuery.of(context).size.width;
@@ -182,18 +178,16 @@ class _TimerWidgetState extends State<TimerWidget> {
                               Image.asset(cupImageDefault,
                                   fit: BoxFit.fitWidth, gaplessPlayback: true),
                               // While timing, gradually darken the tea in the cup
-                              Selector<AppProvider, Tea?>(
-                                  selector: (_, provider) => provider.activeTea,
-                                  builder: (context, tea, child) => Opacity(
-                                      opacity: _timerActive && tea != null
-                                          ? (_timerSeconds / tea.brewTime)
-                                          : 0.0,
-                                      child: Image.asset(cupImageTea,
-                                          fit: BoxFit.fitWidth,
-                                          gaplessPlayback: true))),
+                              Opacity(
+                                  opacity: _timerTea != null
+                                      ? (_timerSeconds / _timerTea!.brewTime)
+                                      : 0.0,
+                                  child: Image.asset(cupImageTea,
+                                      fit: BoxFit.fitWidth,
+                                      gaplessPlayback: true)),
                               // While timing, put a teabag in the cup
                               Visibility(
-                                  visible: _timerActive,
+                                  visible: _activeTimers > 0,
                                   child: Image.asset(cupImageBag,
                                       fit: BoxFit.fitWidth,
                                       gaplessPlayback: true)),
@@ -222,7 +216,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                             return TeaButton(
                                 key: GlobalObjectKey(tea.id),
                                 tea: tea,
-                                fade: !_timerActive || tea.isActive
+                                fade: _activeTimers == 0 || tea.isActive
                                     ? false
                                     : true,
                                 onPressed: (bool newValue) async {
@@ -282,12 +276,11 @@ class _TimerWidgetState extends State<TimerWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       CancelButton(
-                        active: _timerActive ? true : false,
+                        active: _activeTimers > 0,
                         onPressed: (bool newValue) {
                           // Stop timing and reset
-                          _timerActive = false;
-                          _timerEndTime = DateTime.now();
-                          _decrementTimer(_timer);
+                          _timerSeconds = 0;
+                          _handleTick(_timer);
                           _cancelNotification();
                         },
                       ),
@@ -298,6 +291,15 @@ class _TimerWidgetState extends State<TimerWidget> {
             ],
           ),
         ));
+  }
+
+  // Count of currently active timers
+  int get _activeTimers {
+    int timers = 0;
+    if (_timerTea != null) {
+      timers++;
+    }
+    return timers;
   }
 
   // Set up the brewing complete notification
@@ -358,7 +360,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Confirmation dialog
   Future _confirmTimer() {
-    if (_timerActive) {
+    if (_activeTimers > 0) {
       return showDialog(
           context: context,
           barrierDismissible: false,
@@ -384,53 +386,49 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 
   // Update timer and handle brew finish
-  void _decrementTimer(Timer? t) {
+  void _handleTick(Timer? timer) {
     setState(() {
-      if (_timerEndTime != null) {
-        _timerSeconds = _timerEndTime!.difference(DateTime.now()).inSeconds;
+      if (--_timerSeconds <= 0) {
+        // Brewing complete
+        _timerSeconds = 0;
+        if (_timerTea != null) {
+          Provider.of<AppProvider>(context, listen: false)
+              .deactivateTea(_timerTea!);
+          _timerTea = null;
+        }
+      } else if (_timerTea != null) {
+        // Continue brewing
+        _timerSeconds = _timerTea!.brewTimeRemaining;
       } else {
         _timerSeconds = 0;
       }
-      if (_timerSeconds <= 0) {
-        AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-
-        // Brewing complete
-        _timerActive = false;
-        provider.clearActiveTea();
-        _timerSeconds = 0;
-        _timerEndTime = null;
-        if (t != null) {
-          t.cancel();
-        }
-
-        // Notify the rest of the app that the timer ended
-        provider.notify();
-      }
     });
+
+    // Reset
+    if (_timerSeconds == 0 && timer != null) {
+      timer.cancel();
+    }
   }
 
   // Start a new brewing timer
-  void _setTimer(Tea tea, [int secs = 0]) {
-    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-
+  void _setTimer(Tea tea, {bool resume = false}) {
     setState(() {
-      _timerActive = true;
-      provider.clearActiveTea();
-      provider.updateTea(tea, isActive: true);
-      if (secs == 0) {
-        // Set up new timer
-        _timerSeconds = tea.brewTime;
+      if (!resume) {
+        AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
+        // Start a new timer
+        provider.clearActiveTea();
+        provider.activateTea(tea);
         _sendNotification(
-            _timerSeconds,
+            tea.brewTimeRemaining,
             AppString.notification_title.translate(),
             AppString.notification_text.translate(teaName: tea.name));
-      } else {
-        // Resume timer from stored prefs
-        _timerSeconds = secs;
       }
-      _timer = Timer.periodic(const Duration(seconds: 1), _decrementTimer);
-      _timerEndTime = DateTime.now().add(Duration(seconds: _timerSeconds + 1));
-      Prefs.setNextAlarm(_timerEndTime!);
+
+      // Set up timer state
+      _timerTea = tea;
+      _timerSeconds = tea.brewTimeRemaining;
+      _timer = Timer.periodic(const Duration(seconds: 1), _handleTick);
     });
   }
 
@@ -439,17 +437,13 @@ class _TimerWidgetState extends State<TimerWidget> {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
 
     // Load saved brewing timer info from prefs
-    int nextAlarm = Prefs.getNextAlarm();
-    Tea? nextTea = provider.activeTea;
-    if (nextAlarm > 0 && nextTea != null) {
-      Duration diff = DateTime.fromMillisecondsSinceEpoch(nextAlarm)
-          .difference(DateTime.now());
-      if (diff.inSeconds > 0) {
+    for (Tea tea in provider.activeTeas) {
+      if (tea.brewTimeRemaining > 0) {
         // Resume timer from stored prefs
-        _setTimer(nextTea, diff.inSeconds);
+        _setTimer(tea, resume: true);
         _doScroll = true;
       } else {
-        provider.clearActiveTea();
+        provider.deactivateTea(tea);
       }
     }
   }

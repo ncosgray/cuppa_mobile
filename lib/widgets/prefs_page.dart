@@ -147,7 +147,9 @@ class PrefsWidget extends StatelessWidget {
                                                 : null))))),
                     // Remove all teas button
                     (Provider.of<AppProvider>(context).teaCount > 0 &&
-                            Provider.of<AppProvider>(context).activeTea == null)
+                            Provider.of<AppProvider>(context)
+                                .activeTeas
+                                .isEmpty)
                         ? IntrinsicWidth(
                             child: ConstrainedBox(
                                 constraints:

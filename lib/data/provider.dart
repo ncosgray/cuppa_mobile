@@ -52,8 +52,7 @@ class AppProvider extends ChangeNotifier {
       int? brewTemp,
       TeaColor? color,
       TeaIcon? icon,
-      bool? isFavorite,
-      bool? isActive}) {
+      bool? isFavorite}) {
     int teaIndex = _teaList.indexOf(tea);
     if (teaIndex >= 0) {
       if (name != null) {
@@ -79,9 +78,6 @@ class AppProvider extends ChangeNotifier {
       }
       if (isFavorite != null) {
         _teaList[teaIndex].isFavorite = isFavorite;
-      }
-      if (isActive != null) {
-        _teaList[teaIndex].isActive = isActive;
       }
       saveTeas();
     }
@@ -145,18 +141,38 @@ class AppProvider extends ChangeNotifier {
     return _teaList.where((tea) => tea.isFavorite == true).toList();
   }
 
-  // Get active tea
-  Tea? get activeTea {
-    return _teaList.firstWhereOrNull((tea) => tea.isActive == true);
+  // Activate a tea
+  void activateTea(Tea tea) {
+    int teaIndex = _teaList.indexOf(tea);
+    if (teaIndex >= 0) {
+      _teaList[teaIndex].activate();
+      Prefs.saveTeas(_teaList);
+      notifyListeners();
+    }
+  }
+
+  // Deactivate a tea
+  void deactivateTea(Tea tea) {
+    int teaIndex = _teaList.indexOf(tea);
+    if (teaIndex >= 0) {
+      _teaList[teaIndex].deactivate();
+      Prefs.saveTeas(_teaList);
+      notifyListeners();
+    }
   }
 
   // Clear active tea
   void clearActiveTea() {
     _teaList.where((tea) => tea.isActive == true).forEach((tea) {
-      tea.isActive = false;
+      tea.deactivate();
     });
     Prefs.saveTeas(_teaList);
-    Prefs.clearNextAlarm();
+    notifyListeners();
+  }
+
+  // Get active tea list
+  List<Tea> get activeTeas {
+    return _teaList.where((tea) => tea.isActive == true).toList();
   }
 
   // Setting: show brew time and temperature on timer buttons
