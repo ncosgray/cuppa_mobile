@@ -1,0 +1,4 @@
+* Nový čistě černý tmavý motiv.
+* Opravena chyba, která způsobovala neočekávané spouštění zkratek.
+* Vylepšení použitelnosti a rozhraní.
+* Aktualizace překladů – přispějte přes Weblate!

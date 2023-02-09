@@ -1,0 +1,5 @@
+* Oznámení časovače nyní obsahují časové razítko.
+* Přidána stránka "O nás".
+* Některá nastavení lze nyní změnit, když je časovač aktivní.
+* Vylepšení použitelnost a rozhraní.
+* K dispozici v 7 nových jazycích – přispějte více prostřednictvím Weblate!

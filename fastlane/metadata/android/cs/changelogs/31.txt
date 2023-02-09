@@ -1,0 +1,5 @@
+* Čistě černý tmavý motiv je nyní volitelný.
+* Přidáno tlačítko pro odstranění všech čajů.
+* Opravena chyba, která způsobovala neočekávané spouštění zkratek.
+* Vylepšení použitelnosti a rozhraní.
+* Aktualizace překladů – přispějte přes Weblate!

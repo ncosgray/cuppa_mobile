@@ -1,0 +1,5 @@
+* Předvolby typu čaje ještě více usnadňují přidávání nových čajů!
+* K upoutání pozornosti použijte .
+  (Poznámka: Chcete-li zapnout upozornění, možná budete muset aplikaci přeinstalovat.)
+* Vylepšení použitelnosti a rozhraní.
+* Aktualizace překladů – přispějte přes Weblate!

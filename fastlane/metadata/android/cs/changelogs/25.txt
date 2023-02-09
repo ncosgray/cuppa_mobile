@@ -1,0 +1,4 @@
+* Nový režim na šířku pro telefony.
+* Lepší škálování pomocí nastavení přístupnosti zařízení.
+* Vylepšení použitelnosti a rozhraní. 
+* Aktualizace překladů – přispějte přes Weblate!
