@@ -1,5 +1,5 @@
 * Označte své oblíbené čaje hvězdičkou a přidejte je jako zástupce ikon aplikací.
-* Výchozí teploty ve stupních Celsia pro osoby mimo USA.
+* Výchozí teploty ve stupních Celsia pro uživatele mimo USA.
 * Nová možnost: vyberte si motiv (světlý nebo tmavý).
 * Více barevných možností tlačítek.
 * Vylepšení použitelnosti a rozhraní.

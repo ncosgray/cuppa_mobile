@@ -1,4 +1,4 @@
 * Přidejte více než 3 vlastní čaje v předvolbách Cuppa.
 * Změňte pořadí čajů.
-* Vylepšená kvalita grafiky.
-* Aktualizace překladů – přispějte přes Weblate!
+* Vylepšená kvalita grafiky
+* Aktualizace překladů - přispějte přes Weblate!
