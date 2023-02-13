@@ -14,13 +14,13 @@
 // - Build interface and interactivity
 // - Start, confirm, cancel timers
 
-import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
+import 'package:cuppa_mobile/data/tea_timer.dart';
 import 'package:cuppa_mobile/widgets/cancel_button.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/prefs_page.dart';
@@ -28,6 +28,7 @@ import 'package:cuppa_mobile/widgets/tea_button.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -44,9 +45,8 @@ class TimerWidget extends StatefulWidget {
 
 class _TimerWidgetState extends State<TimerWidget> {
   // State variables
-  Tea? _timerTea;
-  int _timerSeconds = 0;
-  Timer? _timer;
+  final TeaTimer _timer1 = TeaTimer(notifyID: notifyID1);
+  final TeaTimer _timer2 = TeaTimer(notifyID: notifyID2);
   final ScrollController _scrollController = ScrollController();
   bool _doScroll = false;
 
@@ -76,7 +76,8 @@ class _TimerWidgetState extends State<TimerWidget> {
   @override
   Widget build(BuildContext context) {
     // Process tea list scroll request after build
-    Future.delayed(Duration.zero, () => _scrollToTeaButton(_timerTea));
+    Future.delayed(
+        Duration.zero, () => _scrollToTeaButton(_timer1.tea ?? _timer2.tea));
 
     // Get device dimensions
     double deviceWidth = MediaQuery.of(context).size.width;
@@ -103,13 +104,13 @@ class _TimerWidgetState extends State<TimerWidget> {
                     direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Countdown timer
+                      // Countdown timers
                       Expanded(
                         flex: 2,
                         child: Container(
                             padding: layoutPortrait
                                 ? const EdgeInsets.fromLTRB(
-                                    48.0, 12.0, 48.0, 12.0)
+                                    48.0, 24.0, 48.0, 12.0)
                                 : const EdgeInsets.all(12.0),
                             alignment: layoutPortrait
                                 ? Alignment.center
@@ -118,7 +119,9 @@ class _TimerWidgetState extends State<TimerWidget> {
                               fit: BoxFit.fitHeight,
                               alignment: Alignment.center,
                               child: Container(
-                                width: (formatTimer(_timerSeconds)).length > 4
+                                width: max(_timer1.timerString.length,
+                                            _timer2.timerString.length) >
+                                        4
                                     ? 480.0
                                     : 420.0,
                                 clipBehavior: Clip.hardEdge,
@@ -127,20 +130,27 @@ class _TimerWidgetState extends State<TimerWidget> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(12.0)),
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    formatTimer(_timerSeconds),
-                                    maxLines: 1,
-                                    softWrap: false,
-                                    overflow: TextOverflow.clip,
-                                    textScaleFactor: 1.0,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 150.0,
-                                      color: Colors.white,
-                                    ),
+                                child: Column(children: [
+                                  // Timer 1
+                                  Visibility(
+                                    visible:
+                                        _timer1.isActive || _timerCount == 0,
+                                    child: _timerText(_timer1.timerString),
                                   ),
-                                ),
+                                  // Separator
+                                  Visibility(
+                                      visible: _timerCount > 1,
+                                      child: Container(
+                                          margin: const EdgeInsets.only(
+                                              left: 24.0, right: 24.0),
+                                          height: 12.0,
+                                          color: Colors.white)),
+                                  // Timer 2
+                                  Visibility(
+                                    visible: _timer2.isActive,
+                                    child: _timerText(_timer2.timerString),
+                                  ),
+                                ]),
                               ),
                             )),
                       ),
@@ -152,7 +162,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                                 BoxConstraints(maxWidth: deviceHeight * 0.6),
                             padding: layoutPortrait
                                 ? const EdgeInsets.fromLTRB(
-                                    18.0, 12.0, 18.0, 12.0)
+                                    18.0, 0.0, 18.0, 12.0)
                                 : const EdgeInsets.fromLTRB(
                                     48.0, 12.0, 48.0, 12.0),
                             alignment: layoutPortrait
@@ -179,15 +189,16 @@ class _TimerWidgetState extends State<TimerWidget> {
                                   fit: BoxFit.fitWidth, gaplessPlayback: true),
                               // While timing, gradually darken the tea in the cup
                               Opacity(
-                                  opacity: _timerTea != null
-                                      ? (_timerSeconds / _timerTea!.brewTime)
-                                      : 0.0,
+                                  opacity: _timerCount == 0
+                                      ? 0.0
+                                      : min(_timer1.timerPercent,
+                                          _timer2.timerPercent),
                                   child: Image.asset(cupImageTea,
                                       fit: BoxFit.fitWidth,
                                       gaplessPlayback: true)),
                               // While timing, put a teabag in the cup
                               Visibility(
-                                  visible: _activeTimers > 0,
+                                  visible: _timerCount > 0,
                                   child: Image.asset(cupImageBag,
                                       fit: BoxFit.fitWidth,
                                       gaplessPlayback: true)),
@@ -197,7 +208,7 @@ class _TimerWidgetState extends State<TimerWidget> {
               ),
               // Tea brew start buttons
               SizedBox(
-                height: 140.0,
+                height: 190.0,
                 child: Container(
                   margin: const EdgeInsets.only(left: 12.0),
                   alignment: Alignment.center,
@@ -212,20 +223,35 @@ class _TimerWidgetState extends State<TimerWidget> {
                           // Tea buttons
                           return Row(
                               children:
-                                  provider.teaList.map<TeaButton>((Tea tea) {
-                            return TeaButton(
-                                key: GlobalObjectKey(tea.id),
-                                tea: tea,
-                                fade: _activeTimers == 0 || tea.isActive
-                                    ? false
-                                    : true,
-                                onPressed: (bool newValue) async {
-                                  if (!tea.isActive) {
-                                    if (await _confirmTimer()) {
-                                      _setTimer(tea);
-                                    }
-                                  }
-                                });
+                                  provider.teaList.map<Padding>((Tea tea) {
+                            return Padding(
+                                padding: const EdgeInsets.only(right: 12.0),
+                                child: Column(children: [
+                                  // Start brewing button
+                                  TeaButton(
+                                      key: GlobalObjectKey(tea.id),
+                                      tea: tea,
+                                      fade: _timerCount < timersMaxCount ||
+                                              tea.isActive
+                                          ? false
+                                          : true,
+                                      onPressed: _timerCount < timersMaxCount &&
+                                              !tea.isActive
+                                          ? (bool newValue) {
+                                              _setTimer(tea);
+                                            }
+                                          : null),
+                                  // Cancel brewing button
+                                  Visibility(
+                                    visible: tea.isActive,
+                                    child: CancelButton(
+                                      active: tea.isActive,
+                                      onPressed: (bool newValue) {
+                                        _cancelTimerForTea(tea);
+                                      },
+                                    ),
+                                  )
+                                ]));
                           }).toList());
                         } else {
                           // Add button if tea list is empty
@@ -241,6 +267,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                                   },
                                   child: Container(
                                     constraints: const BoxConstraints(
+                                        maxHeight: 100.0,
                                         minWidth: 80.0,
                                         maxWidth: double.infinity),
                                     margin: const EdgeInsets.all(8.0),
@@ -267,43 +294,35 @@ class _TimerWidgetState extends State<TimerWidget> {
                       })),
                 ),
               ),
-              // Cancel brewing button
-              Expanded(
-                flex: 1,
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 6.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CancelButton(
-                        active: _activeTimers > 0,
-                        onPressed: (bool newValue) {
-                          // Stop timing and reset
-                          _timerSeconds = 0;
-                          _handleTick(_timer);
-                          _cancelNotification();
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ],
           ),
         ));
   }
 
+  // Countdown timer text
+  Text _timerText(String text) {
+    return Text(text,
+        maxLines: 1,
+        softWrap: false,
+        overflow: TextOverflow.clip,
+        textScaleFactor: 1.0,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 150.0,
+          color: Colors.white,
+        ));
+  }
+
   // Count of currently active timers
-  int get _activeTimers {
-    int timers = 0;
-    if (_timerTea != null) {
-      timers++;
-    }
-    return timers;
+  int get _timerCount {
+    return [_timer1.isActive, _timer2.isActive]
+        .where((active) => active)
+        .length;
   }
 
   // Set up the brewing complete notification
-  Future<void> _sendNotification(int secs, String title, String text) async {
+  Future<void> _sendNotification(
+      int secs, String title, String text, int notifyID) async {
     tz.TZDateTime notifyTime =
         tz.TZDateTime.now(tz.local).add(Duration(seconds: secs));
 
@@ -353,14 +372,9 @@ class _TimerWidgetState extends State<TimerWidget> {
             UILocalNotificationDateInterpretation.absoluteTime);
   }
 
-  // Cancel the notification
-  Future<void> _cancelNotification() async {
-    await notify.cancel(notifyID);
-  }
-
   // Confirmation dialog
   Future _confirmTimer() {
-    if (_activeTimers > 0) {
+    if (_timerCount > 0) {
       return showDialog(
           context: context,
           barrierDismissible: false,
@@ -385,50 +399,74 @@ class _TimerWidgetState extends State<TimerWidget> {
     }
   }
 
-  // Update timer and handle brew finish
-  void _handleTick(Timer? timer) {
-    setState(() {
-      if (--_timerSeconds <= 0) {
-        // Brewing complete
-        _timerSeconds = 0;
-        if (_timerTea != null) {
-          Provider.of<AppProvider>(context, listen: false)
-              .deactivateTea(_timerTea!);
-          _timerTea = null;
+  // Ticker handler for a TeaTimer
+  void Function(Timer? ticker) _handleTick(TeaTimer timer) {
+    return (ticker) {
+      if (timer.isActive) {
+        int timerSeconds = timer.timerSeconds;
+        if (timerSeconds > 0) {
+          timer.decrement();
+          if (timer.timerSeconds != timerSeconds) {
+            // Only update UI if the timer countdown changed
+            setState(() {});
+          }
+        } else {
+          setState(() {
+            // Brewing complete
+            if (timer.tea != null) {
+              Provider.of<AppProvider>(context, listen: false)
+                  .deactivateTea(timer.tea!);
+            }
+            timer.stop();
+          });
         }
-      } else if (_timerTea != null) {
-        // Continue brewing
-        _timerSeconds = _timerTea!.brewTimeRemaining;
-      } else {
-        _timerSeconds = 0;
       }
-    });
-
-    // Reset
-    if (_timerSeconds == 0 && timer != null) {
-      timer.cancel();
-    }
+    };
   }
 
   // Start a new brewing timer
   void _setTimer(Tea tea, {bool resume = false}) {
     setState(() {
       if (!resume) {
-        AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-
         // Start a new timer
-        provider.clearActiveTea();
-        provider.activateTea(tea);
+        Provider.of<AppProvider>(context, listen: false).activateTea(tea);
         _sendNotification(
-            tea.brewTimeRemaining,
+            tea.brewTime,
             AppString.notification_title.translate(),
-            AppString.notification_text.translate(teaName: tea.name));
+            AppString.notification_text.translate(teaName: tea.name),
+            !_timer1.isActive ? _timer1.notifyID : _timer2.notifyID);
       }
 
       // Set up timer state
-      _timerTea = tea;
-      _timerSeconds = tea.brewTimeRemaining;
-      _timer = Timer.periodic(const Duration(seconds: 1), _handleTick);
+      if (!_timer1.isActive) {
+        _timer1.start(tea, _handleTick(_timer1));
+      } else {
+        _timer2.start(tea, _handleTick(_timer2));
+      }
+    });
+  }
+
+  // Cancel a timer
+  void _cancelTimer(TeaTimer timer) async {
+    timer.reset();
+    await notify.cancel(timer.notifyID);
+  }
+
+  // Cancel timer for a given tea
+  void _cancelTimerForTea(Tea tea) {
+    if (_timer1.tea == tea) {
+      _cancelTimer(_timer1);
+    } else if (_timer2.tea == tea) {
+      _cancelTimer(_timer2);
+    }
+  }
+
+  // Force cancel and reset all timers
+  void _cancelAllTimers() {
+    setState(() {
+      Provider.of<AppProvider>(context, listen: false).clearActiveTea();
+      _cancelTimer(_timer1);
+      _cancelTimer(_timer2);
     });
   }
 
@@ -456,6 +494,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         AppProvider provider = Provider.of<AppProvider>(context, listen: false);
         if (teaIndex >= 0 && teaIndex < provider.teaCount) {
           if (await _confirmTimer()) {
+            _cancelAllTimers();
             _setTimer(provider.teaList[teaIndex]);
             _doScroll = true;
           }

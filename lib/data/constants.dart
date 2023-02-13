@@ -39,13 +39,15 @@ const cupImageTea = 'images/Cuppa_hires_tea.png';
 const teaNameMaxLength = 18;
 const teaBrewTimeMaxMinutes = 20;
 const teasMaxCount = 15;
+const timersMaxCount = 2;
 
 // UI sizing thresholds
 const maxTextScale = 1.4;
 const largeDeviceSize = 550;
 
 // Notifications
-const notifyID = 0;
+const notifyID1 = 0;
+const notifyID2 = 1;
 const notifyChannel = 'Cuppa_timer_channel';
 const notifyIcon = 'ic_stat_name';
 const notifySound = 'spoon';
