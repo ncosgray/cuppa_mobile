@@ -1,0 +1,2 @@
+* [NIEUW] ‘Material You’-vormgeving;
+* [NIEUW] Het systeemthema wordt voortaan automatisch ingesteld.
