@@ -32,6 +32,7 @@ class Tea {
   late TeaIcon icon;
   late bool isFavorite;
   late bool isActive;
+  late int timerEndTime;
 
   // Constructor
   Tea(
@@ -43,7 +44,8 @@ class Tea {
       TeaIcon? icon,
       int iconValue = 0,
       required bool isFavorite,
-      required bool isActive}) {
+      required bool isActive,
+      int timerEndTime = 0}) {
     this.id = UniqueKey();
     this.name = name;
     this.brewTime = brewTime;
@@ -54,6 +56,29 @@ class Tea {
     this.icon = icon ?? TeaIcon.values[iconValue];
     this.isFavorite = isFavorite;
     this.isActive = isActive;
+    this.timerEndTime = timerEndTime;
+  }
+
+  // Activate brew timer
+  void activate() {
+    this.isActive = true;
+    this.timerEndTime = DateTime.now()
+        .add(Duration(seconds: this.brewTime + 1))
+        .millisecondsSinceEpoch;
+  }
+
+  // Deactivate brew timer
+  void deactivate() {
+    this.isActive = false;
+    this.timerEndTime = 0;
+  }
+
+  // Get brew time remaining
+  int get brewTimeRemaining {
+    int secs = DateTime.fromMillisecondsSinceEpoch(timerEndTime)
+        .difference(DateTime.now())
+        .inSeconds;
+    return secs < 0 ? 0 : secs;
   }
 
   // Tea display getters
@@ -245,13 +270,15 @@ class Tea {
   // Factories
   factory Tea.fromJson(Map<String, dynamic> json) {
     return Tea(
-        name: json[jsonKeyName] ?? '',
-        brewTime: json[jsonKeyBrewTime] ?? 0,
-        brewTemp: json[jsonKeyBrewTemp] ?? 0,
-        colorValue: json[jsonKeyColor] ?? 0,
-        iconValue: json[jsonKeyIcon] ?? 0,
-        isFavorite: json[jsonKeyIsFavorite] ?? false,
-        isActive: json[jsonKeyIsActive] ?? false);
+      name: json[jsonKeyName] ?? '',
+      brewTime: json[jsonKeyBrewTime] ?? 0,
+      brewTemp: json[jsonKeyBrewTemp] ?? 0,
+      colorValue: json[jsonKeyColor] ?? 0,
+      iconValue: json[jsonKeyIcon] ?? 0,
+      isFavorite: json[jsonKeyIsFavorite] ?? false,
+      isActive: json[jsonKeyIsActive] ?? false,
+      timerEndTime: json[jsonKeyTimerEndTime] ?? 0,
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -263,6 +290,7 @@ class Tea {
       jsonKeyIcon: this.icon.value,
       jsonKeyIsFavorite: this.isFavorite,
       jsonKeyIsActive: this.isActive,
+      jsonKeyTimerEndTime: this.timerEndTime,
     };
   }
 }

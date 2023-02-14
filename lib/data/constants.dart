@@ -39,13 +39,15 @@ const cupImageTea = 'images/Cuppa_hires_tea.png';
 const teaNameMaxLength = 18;
 const teaBrewTimeMaxMinutes = 20;
 const teasMaxCount = 15;
+const timersMaxCount = 2;
 
 // UI sizing thresholds
 const maxTextScale = 1.4;
 const largeDeviceSize = 550;
 
 // Notifications
-const notifyID = 0;
+const notifyID1 = 0;
+const notifyID2 = 1;
 const notifyChannel = 'Cuppa_timer_channel';
 const notifyIcon = 'ic_stat_name';
 const notifySound = 'spoon';
@@ -122,9 +124,6 @@ const prefUseCelsius = 'Cuppa_use_celsius';
 const prefAppTheme = 'Cuppa_app_theme';
 const prefAppLanguage = 'Cuppa_app_language';
 
-// Shared prefs keys for next alarm info
-const prefNextAlarm = 'Cuppa_next_alarm_time';
-
 // More teas JSON keys
 const jsonKeyName = 'name';
 const jsonKeyBrewTime = 'brewTime';
@@ -133,3 +132,4 @@ const jsonKeyColor = 'color';
 const jsonKeyIcon = 'icon';
 const jsonKeyIsFavorite = 'isFavorite';
 const jsonKeyIsActive = 'isActive';
+const jsonKeyTimerEndTime = 'timerEndTime';

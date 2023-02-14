@@ -157,21 +157,6 @@ abstract class Prefs {
       sharedPrefs.setString(prefAppLanguage, appLanguage);
     }
   }
-
-  // Fetch next alarm info from shared prefs
-  static int getNextAlarm() {
-    return sharedPrefs.getInt(prefNextAlarm) ?? 0;
-  }
-
-  // Store next alarm info in shared prefs to persist when app is closed
-  static void setNextAlarm(DateTime timerEndTime) {
-    sharedPrefs.setInt(prefNextAlarm, timerEndTime.millisecondsSinceEpoch);
-  }
-
-  // Clear shared prefs next alarm info
-  static void clearNextAlarm() {
-    sharedPrefs.setInt(prefNextAlarm, 0);
-  }
 }
 
 // App themes

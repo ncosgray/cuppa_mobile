@@ -49,7 +49,7 @@ Widget dismissibleBackground(Alignment alignment) {
   return Container(
       padding: const EdgeInsets.all(5.0),
       child: Container(
-          color: Colors.red,
+          color: textColorWarn,
           child: Padding(
               padding: const EdgeInsets.all(14.0),
               child: Align(
