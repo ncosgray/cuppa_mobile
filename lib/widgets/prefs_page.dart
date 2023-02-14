@@ -79,206 +79,223 @@ class PrefsWidget extends StatelessWidget {
                               child: Text(AppString.prefs_header.translate(),
                                   style: textStyleSubtitle)))),
               // Tea settings cards
-              Consumer<AppProvider>(
-                  builder: (context, provider, child) => ReorderableSliverList(
-                      buildDraggableFeedback: draggableFeedback,
-                      onReorder: (int oldIndex, int newIndex) {
-                        // Reorder the tea list
-                        provider.reorderTeas(oldIndex, newIndex);
-                      },
-                      delegate: ReorderableSliverChildListDelegate(
-                          provider.teaList.map<Widget>((tea) {
-                        if (tea.isActive) {
-                          // Don't allow deleting if timer is active
-                          return IgnorePointer(
-                              // Disable editing actively brewing tea
-                              ignoring: tea.isActive,
-                              child: Opacity(
-                                  opacity: tea.isActive ? 0.4 : 1.0,
-                                  child: Container(
-                                      key: Key(tea.id.toString()),
-                                      child: TeaSettingsCard(
-                                        tea: tea,
-                                      ))));
-                        } else {
-                          // Deleteable
-                          return Dismissible(
-                            key: Key(tea.id.toString()),
-                            onDismissed: (direction) {
-                              // Delete this from the tea list
-                              provider.deleteTea(tea);
-                            },
-                            // Dismissible delete warning background
-                            background:
-                                dismissibleBackground(Alignment.centerLeft),
-                            secondaryBackground:
-                                dismissibleBackground(Alignment.centerRight),
-                            child: TeaSettingsCard(
-                              tea: tea,
-                            ),
-                          );
-                        }
-                      }).toList()))),
+              _teaSettingsList(),
               SliverToBoxAdapter(
                 child: Column(children: [
                   Row(children: [
                     // Add tea button
-                    Expanded(
-                        child: Selector<AppProvider, int>(
-                            selector: (_, provider) => provider.teaCount,
-                            builder: (context, count, child) => Card(
-                                child: ListTile(
-                                    title: TextButton.icon(
-                                        label: Text(
-                                            AppString.add_tea_button
-                                                .translate()
-                                                .toUpperCase(),
-                                            style: textStyleButton),
-                                        icon: const Icon(Icons.add_circle,
-                                            size: 20.0),
-                                        onPressed:
-                                            // Disable adding teas if there are maximum teas
-                                            count < teasMaxCount
-                                                ? () {
-                                                    // Open add tea dialog
-                                                    _displayAddTeaDialog(
-                                                        context);
-                                                  }
-                                                : null))))),
+                    Expanded(child: _addTeaButton()),
                     // Remove all teas button
-                    (Provider.of<AppProvider>(context).teaCount > 0 &&
-                            Provider.of<AppProvider>(context)
-                                .activeTeas
-                                .isEmpty)
-                        ? IntrinsicWidth(
-                            child: ConstrainedBox(
-                                constraints:
-                                    const BoxConstraints.tightForFinite(),
-                                child: Card(
-                                    child: ListTile(
-                                        title: IconButton(
-                                            icon: Icon(
-                                                Icons.delete_sweep_outlined,
-                                                color: textColorWarn),
-                                            onPressed: () async {
-                                              AppProvider provider =
-                                                  Provider.of<AppProvider>(
-                                                      context,
-                                                      listen: false);
-                                              bool confirmed =
-                                                  await _confirmDelete(context);
-                                              if (confirmed) {
-                                                // Clear tea list
-                                                provider.clearTeaList();
-                                              }
-                                            })))))
-                        : const SizedBox.shrink()
+                    _removeAllButton(context),
                   ]),
                   // Setting: show extra info on buttons
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: SwitchListTile.adaptive(
-                        title: Text(AppString.prefs_show_extra.translate(),
-                            style: textStyleTitle),
-                        value: Provider.of<AppProvider>(context).showExtra,
-                        // Save showExtra setting to prefs
-                        onChanged: (bool newValue) {
-                          Provider.of<AppProvider>(context, listen: false)
-                              .showExtra = newValue;
-                        },
-                        contentPadding:
-                            const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 6.0),
-                        dense: true,
-                      )),
+                  _showExtraSetting(context),
                   listDivider,
                   // Setting: default to Celsius or Fahrenheit
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: SwitchListTile.adaptive(
-                        title: Text(AppString.prefs_use_celsius.translate(),
-                            style: textStyleTitle),
-                        value: Provider.of<AppProvider>(context).useCelsius,
-                        // Save useCelsius setting to prefs
-                        onChanged: (bool newValue) {
-                          Provider.of<AppProvider>(context, listen: false)
-                              .useCelsius = newValue;
-                        },
-                        contentPadding: const EdgeInsets.all(6.0),
-                        dense: true,
-                      )),
+                  _useCelsiusSetting(context),
                   listDivider,
                   // Setting: app theme selection
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: ListTile(
-                        title: Text(AppString.prefs_app_theme.translate(),
-                            style: textStyleTitle),
-                        trailing: Text(
-                          Provider.of<AppProvider>(context)
-                              .appTheme
-                              .localizedName,
-                          style: textStyleTitle.copyWith(
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .color!),
-                        ),
-                        onTap: () {
-                          // Open app theme dialog
-                          _displayAppThemeDialog(context);
-                        },
-                        contentPadding: const EdgeInsets.all(6.0),
-                        dense: true,
-                      )),
+                  _appThemeSetting(context),
                   listDivider,
                   // Setting: app language selection
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: ListTile(
-                        title: Text(AppString.prefs_language.translate(),
-                            style: textStyleTitle),
-                        trailing: Text(
-                            Provider.of<AppProvider>(context).appLanguage == ''
-                                ? AppString.theme_system.translate()
-                                : '${supportedLanguages[Provider.of<AppProvider>(context).appLanguage]!} (${Provider.of<AppProvider>(context).appLanguage})',
-                            style: textStyleTitle.copyWith(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .color!)),
-                        onTap: () {
-                          // Open app language dialog
-                          _displayAppLanguageDialog(context);
-                        },
-                        contentPadding: const EdgeInsets.all(6.0),
-                        dense: true,
-                      )),
+                  _appLanguageSetting(context),
                   listDivider,
-                  // Notification settings info text and link
-                  InkWell(
-                      child: ListTile(
-                    minLeadingWidth: 30.0,
-                    leading: const SizedBox(
-                        height: double.infinity,
-                        child: Icon(
-                          Icons.info,
-                          size: 20.0,
-                        )),
-                    horizontalTitleGap: 0.0,
-                    title: Text(AppString.prefs_notifications.translate(),
-                        style: textStyleSubtitle),
-                    trailing: const SizedBox(
-                        height: double.infinity, child: launchIcon),
-                    onTap: () => AppSettings.openNotificationSettings(),
-                    contentPadding:
-                        const EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 18.0),
-                    dense: true,
-                  )),
+                  // Notification info
+                  _notificationLink(),
                 ]),
               ),
             ],
           ),
         )));
+  }
+
+  // Reoderable list of tea settings cards
+  Widget _teaSettingsList() {
+    return Consumer<AppProvider>(
+        builder: (context, provider, child) => ReorderableSliverList(
+            buildDraggableFeedback: draggableFeedback,
+            onReorder: (int oldIndex, int newIndex) {
+              // Reorder the tea list
+              provider.reorderTeas(oldIndex, newIndex);
+            },
+            delegate: ReorderableSliverChildListDelegate(
+                provider.teaList.map<Widget>((tea) {
+              if (tea.isActive) {
+                // Don't allow deleting if timer is active
+                return IgnorePointer(
+                    // Disable editing actively brewing tea
+                    ignoring: tea.isActive,
+                    child: Opacity(
+                        opacity: tea.isActive ? 0.4 : 1.0,
+                        child: Container(
+                            key: Key(tea.id.toString()),
+                            child: TeaSettingsCard(
+                              tea: tea,
+                            ))));
+              } else {
+                // Deleteable
+                return Dismissible(
+                  key: Key(tea.id.toString()),
+                  onDismissed: (direction) {
+                    // Delete this from the tea list
+                    provider.deleteTea(tea);
+                  },
+                  // Dismissible delete warning background
+                  background: dismissibleBackground(Alignment.centerLeft),
+                  secondaryBackground:
+                      dismissibleBackground(Alignment.centerRight),
+                  child: TeaSettingsCard(
+                    tea: tea,
+                  ),
+                );
+              }
+            }).toList())));
+  }
+
+  // Add tea button
+  Widget _addTeaButton() {
+    return Selector<AppProvider, int>(
+        selector: (_, provider) => provider.teaCount,
+        builder: (context, count, child) => Card(
+                child: ListTile(
+                    title: TextButton.icon(
+              label: Text(AppString.add_tea_button.translate().toUpperCase(),
+                  style: textStyleButton),
+              icon: const Icon(Icons.add_circle, size: 20.0),
+              onPressed:
+                  // Disable adding teas if there are maximum teas
+                  count < teasMaxCount
+                      ? () => _displayAddTeaDialog(context)
+                      : null,
+            ))));
+  }
+
+  // Remove all teas button
+  Widget _removeAllButton(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
+    return (provider.teaCount > 0 && provider.activeTeas.isEmpty)
+        ? IntrinsicWidth(
+            child: ConstrainedBox(
+                constraints: const BoxConstraints.tightForFinite(),
+                child: Card(
+                    child: ListTile(
+                        title: IconButton(
+                            icon: Icon(Icons.delete_sweep_outlined,
+                                color: textColorWarn),
+                            onPressed: () async {
+                              AppProvider provider = Provider.of<AppProvider>(
+                                  context,
+                                  listen: false);
+                              bool confirmed = await _confirmDelete(context);
+                              if (confirmed) {
+                                // Clear tea list
+                                provider.clearTeaList();
+                              }
+                            })))))
+        : const SizedBox.shrink();
+  }
+
+  // Setting: show extra info on buttons
+  Widget _showExtraSetting(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
+    return Align(
+        alignment: Alignment.topLeft,
+        child: SwitchListTile.adaptive(
+          title: Text(AppString.prefs_show_extra.translate(),
+              style: textStyleTitle),
+          value: provider.showExtra,
+          // Save showExtra setting to prefs
+          onChanged: (bool newValue) {
+            provider.showExtra = newValue;
+          },
+          contentPadding: const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 6.0),
+          dense: true,
+        ));
+  }
+
+  // Setting: default to Celsius or Fahrenheit
+  Widget _useCelsiusSetting(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
+    return Align(
+        alignment: Alignment.topLeft,
+        child: SwitchListTile.adaptive(
+          title: Text(AppString.prefs_use_celsius.translate(),
+              style: textStyleTitle),
+          value: provider.useCelsius,
+          // Save useCelsius setting to prefs
+          onChanged: (bool newValue) {
+            provider.useCelsius = newValue;
+          },
+          contentPadding: const EdgeInsets.all(6.0),
+          dense: true,
+        ));
+  }
+
+  // Setting: app theme selection
+  Widget _appThemeSetting(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
+    return Align(
+        alignment: Alignment.topLeft,
+        child: ListTile(
+          title: Text(AppString.prefs_app_theme.translate(),
+              style: textStyleTitle),
+          trailing: Text(
+            provider.appTheme.localizedName,
+            style: textStyleTitle.copyWith(
+                color: Theme.of(context).textTheme.bodySmall!.color!),
+          ),
+          // Open app theme dialog
+          onTap: () => _displayAppThemeDialog(context),
+          contentPadding: const EdgeInsets.all(6.0),
+          dense: true,
+        ));
+  }
+
+  // Setting: app language selection
+  Widget _appLanguageSetting(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
+    return Align(
+        alignment: Alignment.topLeft,
+        child: ListTile(
+          title:
+              Text(AppString.prefs_language.translate(), style: textStyleTitle),
+          trailing: Text(
+              provider.appLanguage == ''
+                  ? AppString.theme_system.translate()
+                  : '${supportedLanguages[provider.appLanguage]!} (${provider.appLanguage})',
+              style: textStyleTitle.copyWith(
+                  color: Theme.of(context).textTheme.bodySmall!.color!)),
+          // Open app language dialog
+          onTap: () => _displayAppLanguageDialog(context),
+          contentPadding: const EdgeInsets.all(6.0),
+          dense: true,
+        ));
+  }
+
+  // Notification settings info text and link
+  Widget _notificationLink() {
+    return InkWell(
+        child: ListTile(
+      minLeadingWidth: 30.0,
+      leading: const SizedBox(
+          height: double.infinity,
+          child: Icon(
+            Icons.info,
+            size: 20.0,
+          )),
+      horizontalTitleGap: 0.0,
+      title: Text(AppString.prefs_notifications.translate(),
+          style: textStyleSubtitle),
+      trailing: const SizedBox(height: double.infinity, child: launchIcon),
+      onTap: () => AppSettings.openNotificationSettings(),
+      contentPadding: const EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 18.0),
+      dense: true,
+    ));
   }
 
   // Display an add tea selection dialog box

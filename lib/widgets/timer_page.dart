@@ -118,91 +118,24 @@ class _TimerWidgetState extends State<TimerWidget> {
                             child: FittedBox(
                               fit: BoxFit.fitHeight,
                               alignment: Alignment.center,
-                              child: Container(
-                                width: max(_timer1.timerString.length,
-                                            _timer2.timerString.length) >
-                                        4
-                                    ? 480.0
-                                    : 420.0,
-                                clipBehavior: Clip.hardEdge,
-                                decoration: const BoxDecoration(
-                                  color: Colors.green,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12.0)),
-                                ),
-                                child: Column(children: [
-                                  // Timer 1
-                                  Visibility(
-                                    visible:
-                                        _timer1.isActive || _timerCount == 0,
-                                    child: _timerText(_timer1.timerString),
-                                  ),
-                                  // Separator
-                                  Visibility(
-                                      visible: _timerCount > 1,
-                                      child: Container(
-                                          margin: const EdgeInsets.only(
-                                              left: 24.0, right: 24.0),
-                                          height: 12.0,
-                                          color: Colors.white)),
-                                  // Timer 2
-                                  Visibility(
-                                    visible: _timer2.isActive,
-                                    child: _timerText(_timer2.timerString),
-                                  ),
-                                ]),
-                              ),
+                              child: _countdownTimer(),
                             )),
                       ),
                       // Teacup
                       Expanded(
                         flex: layoutPortrait ? 3 : 2,
                         child: Container(
-                            constraints:
-                                BoxConstraints(maxWidth: deviceHeight * 0.6),
-                            padding: layoutPortrait
-                                ? const EdgeInsets.fromLTRB(
-                                    18.0, 0.0, 18.0, 12.0)
-                                : const EdgeInsets.fromLTRB(
-                                    48.0, 12.0, 48.0, 12.0),
-                            alignment: layoutPortrait
-                                ? Alignment.center
-                                : Alignment.centerLeft,
-                            child: Stack(children: [
-                              // Border color adjusted for theme darkness
-                              Selector<AppProvider, bool>(
-                                  selector: (_, provider) =>
-                                      provider.appTheme.blackTheme,
-                                  builder: (context, blackTheme, child) =>
-                                      ColorFiltered(
-                                          colorFilter: ColorFilter.mode(
-                                            blackTheme
-                                                ? const Color(0xff323232)
-                                                : Colors.black,
-                                            BlendMode.srcIn,
-                                          ),
-                                          child: Image.asset(cupImageBorder,
-                                              fit: BoxFit.fitWidth,
-                                              gaplessPlayback: true))),
-                              // Teacup image
-                              Image.asset(cupImageDefault,
-                                  fit: BoxFit.fitWidth, gaplessPlayback: true),
-                              // While timing, gradually darken the tea in the cup
-                              Opacity(
-                                  opacity: _timerCount == 0
-                                      ? 0.0
-                                      : min(_timer1.timerPercent,
-                                          _timer2.timerPercent),
-                                  child: Image.asset(cupImageTea,
-                                      fit: BoxFit.fitWidth,
-                                      gaplessPlayback: true)),
-                              // While timing, put a teabag in the cup
-                              Visibility(
-                                  visible: _timerCount > 0,
-                                  child: Image.asset(cupImageBag,
-                                      fit: BoxFit.fitWidth,
-                                      gaplessPlayback: true)),
-                            ])),
+                          constraints:
+                              BoxConstraints(maxWidth: deviceHeight * 0.6),
+                          padding: layoutPortrait
+                              ? const EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 12.0)
+                              : const EdgeInsets.fromLTRB(
+                                  48.0, 12.0, 48.0, 12.0),
+                          alignment: layoutPortrait
+                              ? Alignment.center
+                              : Alignment.centerLeft,
+                          child: _teacup(),
+                        ),
                       ),
                     ]),
               ),
@@ -212,91 +145,45 @@ class _TimerWidgetState extends State<TimerWidget> {
                 child: Container(
                   margin: const EdgeInsets.only(left: 12.0),
                   alignment: Alignment.center,
-                  child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      physics: const BouncingScrollPhysics(),
-                      clipBehavior: Clip.none,
-                      controller: _scrollController,
-                      child: Consumer<AppProvider>(
-                          builder: (context, provider, child) {
-                        if (provider.teaCount > 0) {
-                          // Tea buttons
-                          return Row(
-                              children:
-                                  provider.teaList.map<Padding>((Tea tea) {
-                            return Padding(
-                                padding: const EdgeInsets.only(right: 12.0),
-                                child: Column(children: [
-                                  // Start brewing button
-                                  TeaButton(
-                                      key: GlobalObjectKey(tea.id),
-                                      tea: tea,
-                                      fade: _timerCount < timersMaxCount ||
-                                              tea.isActive
-                                          ? false
-                                          : true,
-                                      onPressed: _timerCount < timersMaxCount &&
-                                              !tea.isActive
-                                          ? (bool newValue) {
-                                              _setTimer(tea);
-                                            }
-                                          : null),
-                                  // Cancel brewing button
-                                  Visibility(
-                                    visible: tea.isActive,
-                                    child: CancelButton(
-                                      active: tea.isActive,
-                                      onPressed: (bool newValue) {
-                                        _cancelTimerForTea(tea);
-                                      },
-                                    ),
-                                  )
-                                ]));
-                          }).toList());
-                        } else {
-                          // Add button if tea list is empty
-                          return Padding(
-                              padding: const EdgeInsets.only(right: 12.0),
-                              child: Card(
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                const PrefsWidget()));
-                                  },
-                                  child: Container(
-                                    constraints: const BoxConstraints(
-                                        maxHeight: 100.0,
-                                        minWidth: 80.0,
-                                        maxWidth: double.infinity),
-                                    margin: const EdgeInsets.all(8.0),
-                                    // Add icon linking to Prefs page
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          AppString.teas_title
-                                              .translate()
-                                              .toUpperCase(),
-                                          style: textStyleButton.copyWith(
-                                              color: textColorWarn),
-                                        ),
-                                        Icon(Icons.arrow_circle_right,
-                                            size: 28.0, color: textColorWarn),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ));
-                        }
-                      })),
+                  child: _teaButtonList(),
                 ),
               ),
             ],
           ),
         ));
+  }
+
+  // Countdown timer display
+  Widget _countdownTimer() {
+    return Container(
+      width: max(_timer1.timerString.length, _timer2.timerString.length) > 4
+          ? 480.0
+          : 420.0,
+      clipBehavior: Clip.hardEdge,
+      decoration: const BoxDecoration(
+        color: Colors.green,
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+      ),
+      child: Column(children: [
+        // Timer 1
+        Visibility(
+          visible: _timer1.isActive || _timerCount == 0,
+          child: _timerText(_timer1.timerString),
+        ),
+        // Separator
+        Visibility(
+            visible: _timerCount > 1,
+            child: Container(
+                margin: const EdgeInsets.only(left: 24.0, right: 24.0),
+                height: 12.0,
+                color: Colors.white)),
+        // Timer 2
+        Visibility(
+          visible: _timer2.isActive,
+          child: _timerText(_timer2.timerString),
+        ),
+      ]),
+    );
   }
 
   // Countdown timer text
@@ -311,6 +198,104 @@ class _TimerWidgetState extends State<TimerWidget> {
           fontSize: 150.0,
           color: Colors.white,
         ));
+  }
+
+  // Teacup graphic
+  Widget _teacup() {
+    return Stack(children: [
+      // Border color adjusted for theme darkness
+      Selector<AppProvider, bool>(
+          selector: (_, provider) => provider.appTheme.blackTheme,
+          builder: (context, blackTheme, child) => ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                blackTheme ? const Color(0xff323232) : Colors.black,
+                BlendMode.srcIn,
+              ),
+              child: Image.asset(cupImageBorder,
+                  fit: BoxFit.fitWidth, gaplessPlayback: true))),
+      // Teacup image
+      Image.asset(cupImageDefault, fit: BoxFit.fitWidth, gaplessPlayback: true),
+      // While timing, gradually darken the tea in the cup
+      Opacity(
+          opacity: _timerCount == 0
+              ? 0.0
+              : min(_timer1.timerPercent, _timer2.timerPercent),
+          child: Image.asset(cupImageTea,
+              fit: BoxFit.fitWidth, gaplessPlayback: true)),
+      // While timing, put a teabag in the cup
+      Visibility(
+          visible: _timerCount > 0,
+          child: Image.asset(cupImageBag,
+              fit: BoxFit.fitWidth, gaplessPlayback: true)),
+    ]);
+  }
+
+  // Horizontally scrollable list of available tea buttons
+  Widget _teaButtonList() {
+    return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        clipBehavior: Clip.none,
+        controller: _scrollController,
+        child: Consumer<AppProvider>(builder: (context, provider, child) {
+          if (provider.teaCount > 0) {
+            // Tea buttons
+            return Row(
+                children: provider.teaList.map<Padding>((Tea tea) {
+              return Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: Column(children: [
+                    // Start brewing button
+                    TeaButton(
+                        key: GlobalObjectKey(tea.id),
+                        tea: tea,
+                        fade: !(_timerCount < timersMaxCount || tea.isActive),
+                        onPressed: _timerCount < timersMaxCount && !tea.isActive
+                            ? (_) => _setTimer(tea)
+                            : null),
+                    // Cancel brewing button
+                    Visibility(
+                      visible: tea.isActive,
+                      child: CancelButton(
+                          active: tea.isActive,
+                          onPressed: (_) => _cancelTimerForTea(tea)),
+                    )
+                  ]));
+            }).toList());
+          } else {
+            // Add button if tea list is empty
+            return Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: _addButton());
+          }
+        }));
+  }
+
+  // Add button linking to Prefs page
+  Widget _addButton() {
+    return Card(
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => const PrefsWidget()));
+        },
+        child: Container(
+          constraints: const BoxConstraints(
+              maxHeight: 100.0, minWidth: 80.0, maxWidth: double.infinity),
+          margin: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                AppString.teas_title.translate().toUpperCase(),
+                style: textStyleButton.copyWith(color: textColorWarn),
+              ),
+              Icon(Icons.arrow_circle_right, size: 28.0, color: textColorWarn),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   // Count of currently active timers
