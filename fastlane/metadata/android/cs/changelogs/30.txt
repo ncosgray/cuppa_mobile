@@ -1,0 +1,4 @@
+* Nové čistě černé tmavé téma.
+* Opravena chyba, která způsobovala neočekávané spouštění zkratek.
+* Vylepšení použitelnosti a rozhraní.
+* Aktualizace překladů – přispějte přes Weblate!

@@ -1,0 +1,6 @@
+* Nová možnost tlačítka čaje: Vyberte si ze tří různých ikon.
+* Jednodušší výběr doby louhování a teploty.
+* Umožňuje mít jen jedno tlačítko pro stejný druh čaje.
+* Přidán odkaz na nastavení oznámení zařízení.
+* Vylepšení použitelnosti a rozhraní.
+* Aktualizace překladů – přispějte přes Weblate!

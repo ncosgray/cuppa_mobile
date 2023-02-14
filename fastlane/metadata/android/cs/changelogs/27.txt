@@ -1,0 +1,2 @@
+* Podpora oprávnění k oznámení pro Android 13.
+* Aktualizace překladů – přispějte přes Weblate!

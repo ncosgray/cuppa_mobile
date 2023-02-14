@@ -1,3 +1,3 @@
-* Cuppa byla přeložena do 9ti nových jazyků - podílejte se na překládání přes Weblate!
-* Časování čajů které se namočí za méně než minutu.
+* Cuppa byla přeložena do 9 nových jazyků - podílejte se na překládání přes Weblate!
+* Časy čajů které se louhují méně než minutu.
 * Různá menší vylepšení uživatelského rozhraní a oprava chyb.

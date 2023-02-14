@@ -1,0 +1,2 @@
+* oprava pádu na skládacích zařízeních
+* vylepšená monochromatická ikona

@@ -1,0 +1,7 @@
+Cuppa pro mobilní zařízení je konečně tady! Už vás nebaví nechávat čaj příliš dlouho, aby zhořkl a vystydl, nebo ho pít příliš brzy a nedocenit jeho plný potenciál? Pak je tato aplikace určena právě vám!
+
+Aby byla aplikace tak rychlá a snadná, že ji budete skutečně používat, vytvořili jsme ji s ohledem na jednoduchost. Stačí otevřít aplikaci a klepnout na tlačítko pro typ čaje, který právě vaříte. To je vše. Není třeba procházet složité nabídky, abyste našli konkrétní čaj, ani se piplat s nastavením... pokud si nechcete přizpůsobit časy louhování nebo přidat vlastní oblíbené čaje (novinka ve verzi 1.4!).
+
+Jakmile klepnete na tlačítko, Cuppa začne časovat louhování a uvidíte, jak se v šálku objeví sáček čaje, který postupně tmavne, jak se čaj louhuje. Odpočítávací časovač ukazuje zbývající čas louhování. Když je čaj hotový, dá vám to Cuppa vědět oznámením - v závislosti na nastavení vašeho zařízení může být doprovázeno zvukem a/nebo vibracemi.
+
+Doufáme, že vám aplikace Cuppa pro vaše mobilní zařízení bude užitečná!

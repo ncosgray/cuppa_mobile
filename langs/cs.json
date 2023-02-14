@@ -4,7 +4,7 @@
     "tea_name_green": "Zelený čaj",
     "tea_name_herbal": "Bylinný čaj",
     "cancel_button": "Zrušit",
-    "prefs_header": "Nastavení názvů čajů, délky vaření, teploty, a barvy. Můžete také setřídit (dlouhé podržení), nebo vymazat (přetáhnutím) čaje z listu. Označte hvězdičkou až {{favorites_max}} oblíbené čaje a přidejte je jako zástupce ikon aplikací.",
+    "prefs_header": "Nastavte názvy čajů, časy louhování, teploty a barvy tlačítek. Můžete také třídit (dlouhým stisknutím) nebo přejetím prstem smazat čaje z listu. Označte hvězdičkou až {{favorites_max}} oblíbené čaje a přidejte je jako zástupce ikon aplikací.",
     "prefs_notifications": "Otevřte si nastavení vašeho zařízení pro konfiguraci oznámení pro {{app_name}}.",
     "notification_title": "Vaření je hotovo...",
     "notification_text": "{{tea_name}} je připravený!",
