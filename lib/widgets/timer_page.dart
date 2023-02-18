@@ -118,7 +118,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                             child: FittedBox(
                               fit: BoxFit.fitHeight,
                               alignment: Alignment.center,
-                              child: _countdownTimer(),
+                              child: _countdownTimer(layoutPortrait),
                             )),
                       ),
                       // Teacup
@@ -130,7 +130,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                           padding: layoutPortrait
                               ? const EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 12.0)
                               : const EdgeInsets.fromLTRB(
-                                  48.0, 12.0, 48.0, 12.0),
+                                  48.0, 12.0, 12.0, 12.0),
                           alignment: layoutPortrait
                               ? Alignment.center
                               : Alignment.centerLeft,
@@ -153,51 +153,57 @@ class _TimerWidgetState extends State<TimerWidget> {
         ));
   }
 
-  // Countdown timer display
-  Widget _countdownTimer() {
+  // Countdown timer display adjusted for orientation
+  Widget _countdownTimer(bool layoutPortrait) {
     return Container(
-      width: max(_timer1.timerString.length, _timer2.timerString.length) > 4
-          ? 480.0
-          : 420.0,
+      padding: const EdgeInsets.symmetric(horizontal: 36.0),
       clipBehavior: Clip.hardEdge,
       decoration: const BoxDecoration(
         color: Colors.green,
         borderRadius: BorderRadius.all(Radius.circular(12.0)),
       ),
-      child: Column(children: [
-        // Timer 1
-        Visibility(
-          visible: _timer1.isActive || _timerCount == 0,
-          child: _timerText(_timer1.timerString),
-        ),
-        // Separator
-        Visibility(
-            visible: _timerCount > 1,
-            child: Container(
-                margin: const EdgeInsets.only(left: 24.0, right: 24.0),
-                height: 12.0,
-                color: Colors.white)),
-        // Timer 2
-        Visibility(
-          visible: _timer2.isActive,
-          child: _timerText(_timer2.timerString),
-        ),
-      ]),
+      child: Flex(
+          // Determine layout by orientation
+          direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Timer 1
+            Visibility(
+              visible: _timer1.isActive || _timerCount == 0,
+              child: _timerText(_timer1.timerString),
+            ),
+            // Separator
+            Visibility(
+                visible: _timerCount > 1,
+                child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                    width: layoutPortrait ? 420.0 : 12.0,
+                    height: layoutPortrait ? 12.0 : 140.0,
+                    color: Colors.white)),
+            // Timer 2
+            Visibility(
+              visible: _timer2.isActive,
+              child: _timerText(_timer2.timerString),
+            ),
+          ]),
     );
   }
 
   // Countdown timer text
-  Text _timerText(String text) {
-    return Text(text,
-        maxLines: 1,
-        softWrap: false,
-        overflow: TextOverflow.clip,
-        textScaleFactor: 1.0,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 150.0,
-          color: Colors.white,
-        ));
+  Widget _timerText(String text) {
+    return SizedBox(
+        width: text.length * 100.0,
+        child: Center(
+            child: Text(text,
+                maxLines: 1,
+                softWrap: false,
+                overflow: TextOverflow.clip,
+                textScaleFactor: 1.0,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 150.0,
+                  color: Colors.white,
+                ))));
   }
 
   // Teacup graphic
