@@ -418,22 +418,25 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Start a new brewing timer
   void _setTimer(Tea tea, {bool resume = false}) {
     setState(() {
+      // Determine next available timer
+      TeaTimer timer = !_timer1.isActive ? _timer1 : _timer2;
+
       if (!resume) {
         // Start a new timer
-        Provider.of<AppProvider>(context, listen: false).activateTea(tea);
+        Provider.of<AppProvider>(context, listen: false)
+            .activateTea(tea, timer.notifyID);
         _sendNotification(
             tea.brewTime,
             AppString.notification_title.translate(),
             AppString.notification_text.translate(teaName: tea.name),
-            !_timer1.isActive ? _timer1.notifyID : _timer2.notifyID);
+            timer.notifyID);
+      } else if (tea.timerNotifyID != null) {
+        // Resume with same timer ID
+        timer = tea.timerNotifyID == _timer1.notifyID ? _timer1 : _timer2;
       }
 
       // Set up timer state
-      if (!_timer1.isActive) {
-        _timer1.start(tea, _handleTick(_timer1));
-      } else {
-        _timer2.start(tea, _handleTick(_timer2));
-      }
+      timer.start(tea, _handleTick(timer));
     });
   }
 

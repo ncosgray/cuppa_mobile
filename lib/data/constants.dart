@@ -133,3 +133,4 @@ const jsonKeyIcon = 'icon';
 const jsonKeyIsFavorite = 'isFavorite';
 const jsonKeyIsActive = 'isActive';
 const jsonKeyTimerEndTime = 'timerEndTime';
+const jsonKeyTimerNotifyID = 'timerNotifyID';
