@@ -365,7 +365,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Confirmation dialog
   Future _confirmTimer() {
-    if (_timerCount > 0) {
+    if (_timerCount == timersMaxCount) {
       return showDialog(
           context: context,
           barrierDismissible: false,
@@ -487,10 +487,16 @@ class _TimerWidgetState extends State<TimerWidget> {
       if (teaIndex != null) {
         AppProvider provider = Provider.of<AppProvider>(context, listen: false);
         if (teaIndex >= 0 && teaIndex < provider.teaCount) {
-          if (await _confirmTimer()) {
-            _cancelAllTimers();
-            _setTimer(provider.teaList[teaIndex]);
-            _doScroll = true;
+          Tea tea = provider.teaList[teaIndex];
+          if (!tea.isActive) {
+            if (await _confirmTimer()) {
+              if (_timerCount == timersMaxCount) {
+                // Cancel to free a timer slot if needed
+                _cancelAllTimers();
+              }
+              _setTimer(tea);
+              _doScroll = true;
+            }
           }
         }
       }
