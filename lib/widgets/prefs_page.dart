@@ -125,13 +125,11 @@ class PrefsWidget extends StatelessWidget {
                 return IgnorePointer(
                     // Disable editing actively brewing tea
                     ignoring: tea.isActive,
-                    child: Opacity(
-                        opacity: tea.isActive ? 0.4 : 1.0,
-                        child: Container(
-                            key: Key(tea.id.toString()),
-                            child: TeaSettingsCard(
-                              tea: tea,
-                            ))));
+                    child: Container(
+                        key: Key(tea.id.toString()),
+                        child: TeaSettingsCard(
+                          tea: tea,
+                        )));
               } else {
                 // Deleteable
                 return Dismissible(
