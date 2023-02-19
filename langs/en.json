@@ -7,7 +7,7 @@
   "notification_title": "Brewing complete...",
   "notification_text": "{{tea_name}} is now ready!",
   "confirm_title": "Warning!",
-  "confirm_message_line1": "There is an active timer.",
+  "confirm_message_line1": "There are active timers.",
   "confirm_message_line2": "Cancel and start a new timer?",
   "yes_button": "Yes",
   "no_button": "No",
