@@ -41,74 +41,82 @@ class TeaButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: fade ? 0.4 : 1.0,
-      duration: const Duration(milliseconds: 400),
-      child: Card(
-        clipBehavior: Clip.hardEdge,
-        color: tea.isActive ? tea.getThemeColor(context) : null,
-        child: InkWell(
-          onTap: onPressed != null ? _handleTap : null,
-          child: Container(
-            constraints: const BoxConstraints(
-                maxHeight: 110.0, minWidth: 80.0, maxWidth: double.infinity),
-            margin: const EdgeInsets.all(8.0),
-            // Timer icon with tea name
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  tea.teaIcon,
-                  color:
-                      tea.isActive ? Colors.white : tea.getThemeColor(context),
-                  size: 64.0,
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      color: tea.isActive ? tea.getThemeColor(context) : null,
+      child: IgnorePointer(
+          ignoring: onPressed == null,
+          child: InkWell(
+            onTap: _handleTap,
+            child: AnimatedOpacity(
+              opacity: fade ? 0.4 : 1.0,
+              duration: const Duration(milliseconds: 200),
+              child: Container(
+                constraints: const BoxConstraints(
+                    maxHeight: 110.0,
+                    minWidth: 80.0,
+                    maxWidth: double.infinity),
+                margin: const EdgeInsets.all(8.0),
+                // Timer icon with tea name
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      tea.teaIcon,
+                      color: tea.isActive
+                          ? Colors.white
+                          : tea.getThemeColor(context),
+                      size: 64.0,
+                    ),
+                    Text(
+                      tea.buttonName,
+                      style: textStyleButton.copyWith(
+                        color: tea.isActive
+                            ? Colors.white
+                            : tea.getThemeColor(context),
+                      ),
+                    ),
+                    // Optional extra info: brew time and temp display
+                    Selector<AppProvider, bool>(
+                        selector: (_, provider) => provider.showExtra,
+                        builder: (context, showExtra, child) => Visibility(
+                            visible: showExtra,
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Brew time
+                                  Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          4.0, 2.0, 4.0, 0.0),
+                                      child: Text(
+                                        formatTimer(tea.brewTime),
+                                        style:
+                                            textStyleButtonSecondary.copyWith(
+                                          color: tea.isActive
+                                              ? Colors.white
+                                              : tea.getThemeColor(context),
+                                        ),
+                                      )),
+                                  // Brew temperature
+                                  Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          4.0, 2.0, 4.0, 0.0),
+                                      child: Text(
+                                        tea.tempDisplay,
+                                        style:
+                                            textStyleButtonSecondary.copyWith(
+                                          color: tea.isActive
+                                              ? Colors.white
+                                              : tea.getThemeColor(context),
+                                        ),
+                                      ))
+                                ]))),
+                  ],
                 ),
-                Text(
-                  tea.buttonName,
-                  style: textStyleButton.copyWith(
-                    color: tea.isActive
-                        ? Colors.white
-                        : tea.getThemeColor(context),
-                  ),
-                ),
-                // Optional extra info: brew time and temp display
-                Selector<AppProvider, bool>(
-                    selector: (_, provider) => provider.showExtra,
-                    builder: (context, showExtra, child) => Visibility(
-                        visible: showExtra,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              // Brew time
-                              Container(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      4.0, 2.0, 4.0, 0.0),
-                                  child: Text(
-                                    formatTimer(tea.brewTime),
-                                    style: textStyleButtonSecondary.copyWith(
-                                      color: tea.isActive
-                                          ? Colors.white
-                                          : tea.getThemeColor(context),
-                                    ),
-                                  )),
-                              // Brew temperature
-                              Container(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      4.0, 2.0, 4.0, 0.0),
-                                  child: Text(
-                                    tea.tempDisplay,
-                                    style: textStyleButtonSecondary.copyWith(
-                                      color: tea.isActive
-                                          ? Colors.white
-                                          : tea.getThemeColor(context),
-                                    ),
-                                  ))
-                            ]))),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
+          )),
     );
   }
 }

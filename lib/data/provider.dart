@@ -140,10 +140,10 @@ class AppProvider extends ChangeNotifier {
   }
 
   // Activate a tea
-  void activateTea(Tea tea) {
+  void activateTea(Tea tea, int notifyID) {
     int teaIndex = _teaList.indexOf(tea);
     if (teaIndex >= 0) {
-      _teaList[teaIndex].activate();
+      _teaList[teaIndex].activate(notifyID);
       Prefs.saveTeas(_teaList);
       notifyListeners();
     }

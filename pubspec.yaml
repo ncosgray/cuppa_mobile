@@ -38,6 +38,7 @@ dependencies:
   shared_preferences: ^2.0.17
   tuple: ^2.0.1
   url_launcher: ^6.1.9
+  wakelock: ^0.6.2
 
 dev_dependencies:
   flutter_test:

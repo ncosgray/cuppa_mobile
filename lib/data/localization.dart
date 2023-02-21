@@ -27,6 +27,7 @@ import 'package:flutter/services.dart';
 // Supported language codes and names
 final Map<String, String> supportedLanguages = {
   'en': 'English',
+  'az': 'Azərbaycanca',
   'br': 'Brezhoneg',
   'cs': 'Čeština',
   'da': 'Dansk',

@@ -33,6 +33,7 @@ class Tea {
   late bool isFavorite;
   late bool isActive;
   late int timerEndTime;
+  int? timerNotifyID;
 
   // Constructor
   Tea(
@@ -45,7 +46,8 @@ class Tea {
       int iconValue = 0,
       required bool isFavorite,
       required bool isActive,
-      int timerEndTime = 0}) {
+      int timerEndTime = 0,
+      int? timerNotifyID}) {
     this.id = UniqueKey();
     this.name = name;
     this.brewTime = brewTime;
@@ -57,20 +59,23 @@ class Tea {
     this.isFavorite = isFavorite;
     this.isActive = isActive;
     this.timerEndTime = timerEndTime;
+    this.timerNotifyID = timerNotifyID;
   }
 
   // Activate brew timer
-  void activate() {
+  void activate(int notifyID) {
     this.isActive = true;
     this.timerEndTime = DateTime.now()
         .add(Duration(seconds: this.brewTime + 1))
         .millisecondsSinceEpoch;
+    this.timerNotifyID = notifyID;
   }
 
   // Deactivate brew timer
   void deactivate() {
     this.isActive = false;
     this.timerEndTime = 0;
+    this.timerNotifyID = null;
   }
 
   // Get brew time remaining
@@ -278,6 +283,7 @@ class Tea {
       isFavorite: json[jsonKeyIsFavorite] ?? false,
       isActive: json[jsonKeyIsActive] ?? false,
       timerEndTime: json[jsonKeyTimerEndTime] ?? 0,
+      timerNotifyID: json[jsonKeyTimerNotifyID],
     );
   }
 
@@ -291,6 +297,7 @@ class Tea {
       jsonKeyIsFavorite: this.isFavorite,
       jsonKeyIsActive: this.isActive,
       jsonKeyTimerEndTime: this.timerEndTime,
+      jsonKeyTimerNotifyID: this.timerNotifyID,
     };
   }
 }
