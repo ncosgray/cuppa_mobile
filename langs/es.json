@@ -9,7 +9,7 @@
     "prefs_title": "Preferencias de {{app_name}}",
     "confirm_message_line2": "¿Cancelar e iniciar un nuevo cronómetro?",
     "yes_button": "Sí",
-    "confirm_message_line1": "Hay un cronómetro activo.",
+    "confirm_message_line1": "Hay temporizadores activos.",
     "confirm_title": "¡Alerta!",
     "notification_text": "¡{{tea_name}} está listo!",
     "notification_title": "Preparación completa...",
