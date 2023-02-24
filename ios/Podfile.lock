@@ -55,9 +55,9 @@ SPEC CHECKSUMS:
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_native_timezone: 5f05b2de06c9776b4cc70e1839f03de178394d22
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
-  quick_actions_ios: d211ffc5d7619ace7e9fb1800540b14a1aafe940
-  shared_preferences_foundation: 297b3ebca31b34ec92be11acd7fb0ba932c822ca
-  url_launcher_ios: fb12c43172927bb5cf75aeebd073f883801f1993
+  quick_actions_ios: bb09d1c35b4a89f9dbb15487039fa1b983ca375e
+  shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
+  url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
 
 PODFILE CHECKSUM: 5e0519c353b094b90a416156ba423a6b71b5693a
