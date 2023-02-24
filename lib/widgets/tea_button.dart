@@ -53,8 +53,8 @@ class TeaButton extends StatelessWidget {
               duration: const Duration(milliseconds: 200),
               child: Container(
                 constraints: const BoxConstraints(
-                    maxHeight: 110.0,
-                    minWidth: 80.0,
+                    maxHeight: 116.0,
+                    minWidth: 88.0,
                     maxWidth: double.infinity),
                 margin: const EdgeInsets.all(8.0),
                 // Timer icon with tea name

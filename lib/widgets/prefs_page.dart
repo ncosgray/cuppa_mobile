@@ -157,7 +157,7 @@ class PrefsWidget extends StatelessWidget {
         builder: (context, count, child) => Card(
                 child: ListTile(
                     title: TextButton.icon(
-              label: Text(AppString.add_tea_button.translate().toUpperCase(),
+              label: Text(AppString.add_tea_button.translate(),
                   style: textStyleButton),
               icon: const Icon(Icons.add_circle, size: 20.0),
               onPressed:

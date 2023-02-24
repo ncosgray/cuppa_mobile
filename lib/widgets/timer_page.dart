@@ -143,7 +143,7 @@ class _TimerWidgetState extends State<TimerWidget> {
               SizedBox(
                 height: 190.0,
                 child: Container(
-                  margin: const EdgeInsets.only(left: 12.0),
+                  margin: const EdgeInsets.only(left: 10.0),
                   alignment: Alignment.center,
                   child: _teaButtonList(),
                 ),
@@ -249,7 +249,7 @@ class _TimerWidgetState extends State<TimerWidget> {
             return Row(
                 children: provider.teaList.map<Padding>((Tea tea) {
               return Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
+                  padding: const EdgeInsets.only(right: 10.0),
                   child: Column(children: [
                     // Start brewing button
                     TeaButton(
@@ -271,7 +271,7 @@ class _TimerWidgetState extends State<TimerWidget> {
           } else {
             // Add button if tea list is empty
             return Padding(
-                padding: const EdgeInsets.only(right: 12.0),
+                padding: const EdgeInsets.only(right: 10.0),
                 child: _addButton());
           }
         }));
@@ -287,13 +287,13 @@ class _TimerWidgetState extends State<TimerWidget> {
         },
         child: Container(
           constraints: const BoxConstraints(
-              maxHeight: 100.0, minWidth: 80.0, maxWidth: double.infinity),
+              maxHeight: 116.0, minWidth: 88.0, maxWidth: double.infinity),
           margin: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppString.teas_title.translate().toUpperCase(),
+                AppString.teas_title.translate(),
                 style: textStyleButton.copyWith(color: textColorWarn),
               ),
               Icon(Icons.arrow_circle_right, size: 28.0, color: textColorWarn),
