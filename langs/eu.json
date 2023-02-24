@@ -10,7 +10,7 @@
     "no_button": "Ez",
     "yes_button": "Bai",
     "confirm_message_line2": "Bertan behera utzi eta berri bat hasteko tenporizadorea?",
-    "confirm_message_line1": "Ez dago aktibo bat tenporizadorea.",
+    "confirm_message_line1": "Aktibatuta dauden tenporizadoreak daude.",
     "confirm_title": "Abisua!",
     "notification_text": "{{tea_name}} orain prest!",
     "notification_title": "Brewing osoa...",
