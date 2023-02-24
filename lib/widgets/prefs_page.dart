@@ -307,15 +307,14 @@ class PrefsWidget extends StatelessWidget {
           return PlatformAdaptiveDialog(
               platform: appPlatform,
               title: Text(AppString.add_tea_button.translate()),
-              content: SizedBox(
-                  width: deviceWidth * 0.4,
-                  height: Presets.presetList.length * 46,
-                  child: Card(
-                      margin: const EdgeInsets.only(top: 12.0),
-                      color: Colors.transparent,
-                      elevation: 0,
+              content: Card(
+                  margin: const EdgeInsets.only(top: 12.0),
+                  color: Colors.transparent,
+                  elevation: 0,
+                  child: SizedBox(
+                      width: deviceWidth * 0.4,
+                      height: Presets.presetList.length * 46,
                       child: Scrollbar(
-                        thumbVisibility: true,
                         child: ListView.separated(
                           padding: const EdgeInsets.all(0.0),
                           shrinkWrap: true,
@@ -332,7 +331,7 @@ class PrefsWidget extends StatelessWidget {
                                 contentPadding: const EdgeInsets.all(0.0),
                                 // Preset tea icon
                                 leading: SizedBox(
-                                    width: 24.0,
+                                    width: 30.0,
                                     height: double.infinity,
                                     child: Icon(
                                       preset.isCustom
@@ -407,41 +406,45 @@ class PrefsWidget extends StatelessWidget {
                   color: Colors.transparent,
                   elevation: 0,
                   child: SizedBox(
-                    width: deviceWidth * 0.4,
-                    height: AppTheme.values.length * 46,
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(0.0),
-                      shrinkWrap: true,
-                      itemCount: AppTheme.values.length,
-                      // App theme button
-                      itemBuilder: (BuildContext context, int index) {
-                        AppProvider provider =
-                            Provider.of<AppProvider>(context, listen: false);
-                        AppTheme value = AppTheme.values.elementAt(index);
+                      width: deviceWidth * 0.4,
+                      height: AppTheme.values.length * 46,
+                      child: Scrollbar(
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(0.0),
+                          shrinkWrap: true,
+                          itemCount: AppTheme.values.length,
+                          // App theme button
+                          itemBuilder: (BuildContext context, int index) {
+                            AppProvider provider = Provider.of<AppProvider>(
+                                context,
+                                listen: false);
+                            AppTheme value = AppTheme.values.elementAt(index);
 
-                        return ListTile(
-                            dense: true,
-                            contentPadding: const EdgeInsets.all(0.0),
-                            title: Row(children: [
-                              Container(
-                                  padding: const EdgeInsets.only(right: 12.0),
-                                  child: value == provider.appTheme
-                                      ? getPlatformRadioOnIcon(appPlatform)
-                                      : getPlatformRadioOffIcon(appPlatform)),
-                              Expanded(
-                                  child: Text(
-                                value.localizedName,
-                                style: textStyleTitle,
-                              )),
-                            ]),
-                            onTap: () {
-                              // Save appTheme to prefs
-                              provider.appTheme = value;
-                              Navigator.of(context).pop(true);
-                            });
-                      },
-                    ),
-                  )),
+                            return ListTile(
+                                dense: true,
+                                contentPadding: const EdgeInsets.all(0.0),
+                                title: Row(children: [
+                                  Container(
+                                      padding:
+                                          const EdgeInsets.only(right: 12.0),
+                                      child: value == provider.appTheme
+                                          ? getPlatformRadioOnIcon(appPlatform)
+                                          : getPlatformRadioOffIcon(
+                                              appPlatform)),
+                                  Expanded(
+                                      child: Text(
+                                    value.localizedName,
+                                    style: textStyleTitle,
+                                  )),
+                                ]),
+                                onTap: () {
+                                  // Save appTheme to prefs
+                                  provider.appTheme = value;
+                                  Navigator.of(context).pop(true);
+                                });
+                          },
+                        ),
+                      ))),
               buttonTextFalse: AppString.cancel_button.translate());
         });
   }
@@ -460,52 +463,48 @@ class PrefsWidget extends StatelessWidget {
               platform: appPlatform,
               title: Text(AppString.prefs_language.translate()),
               content: Card(
-                  margin: const EdgeInsets.only(top: 12.0),
-                  color: Colors.transparent,
-                  elevation: 0,
-                  child: SizedBox(
+                margin: const EdgeInsets.only(top: 12.0),
+                color: Colors.transparent,
+                elevation: 0,
+                child: SizedBox(
                     width: deviceWidth * 0.4,
-                    height: languageOptions.length * 46,
+                    height: languageOptions.length * 20,
                     child: Scrollbar(
-                        thumbVisibility: true,
                         child: ListView.builder(
-                          padding: const EdgeInsets.all(0.0),
-                          shrinkWrap: true,
-                          itemCount: languageOptions.length,
-                          // App language button
-                          itemBuilder: (BuildContext context, int index) {
-                            AppProvider provider = Provider.of<AppProvider>(
-                                context,
-                                listen: false);
-                            String value = languageOptions[index];
+                      padding: const EdgeInsets.all(0.0),
+                      shrinkWrap: true,
+                      itemCount: languageOptions.length,
+                      // App language button
+                      itemBuilder: (BuildContext context, int index) {
+                        AppProvider provider =
+                            Provider.of<AppProvider>(context, listen: false);
+                        String value = languageOptions[index];
 
-                            return ListTile(
-                                dense: true,
-                                contentPadding: const EdgeInsets.all(0.0),
-                                title: Row(children: [
-                                  Container(
-                                      padding:
-                                          const EdgeInsets.only(right: 12.0),
-                                      child: value == provider.appLanguage
-                                          ? getPlatformRadioOnIcon(appPlatform)
-                                          : getPlatformRadioOffIcon(
-                                              appPlatform)),
-                                  Expanded(
-                                      child: Text(
-                                    value == ''
-                                        ? AppString.theme_system.translate()
-                                        : '${supportedLanguages[value]!} ($value)',
-                                    style: textStyleTitle,
-                                  )),
-                                ]),
-                                onTap: () {
-                                  // Save appLanguage to prefs
-                                  provider.appLanguage = value;
-                                  Navigator.of(context).pop(true);
-                                });
-                          },
-                        )),
-                  )),
+                        return ListTile(
+                            dense: true,
+                            contentPadding: const EdgeInsets.all(0.0),
+                            title: Row(children: [
+                              Container(
+                                  padding: const EdgeInsets.only(right: 12.0),
+                                  child: value == provider.appLanguage
+                                      ? getPlatformRadioOnIcon(appPlatform)
+                                      : getPlatformRadioOffIcon(appPlatform)),
+                              Expanded(
+                                  child: Text(
+                                value == ''
+                                    ? AppString.theme_system.translate()
+                                    : '${supportedLanguages[value]!} ($value)',
+                                style: textStyleTitle,
+                              )),
+                            ]),
+                            onTap: () {
+                              // Save appLanguage to prefs
+                              provider.appLanguage = value;
+                              Navigator.of(context).pop(true);
+                            });
+                      },
+                    ))),
+              ),
               buttonTextFalse: AppString.cancel_button.translate());
         });
   }
