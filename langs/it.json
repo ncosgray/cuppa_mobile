@@ -9,7 +9,7 @@
     "no_button": "No",
     "yes_button": "Sì",
     "confirm_message_line2": "Annullare e avviare un nuovo contaminuti?",
-    "confirm_message_line1": "C’è un contaminuti attivo.",
+    "confirm_message_line1": "Ci sono contaminuti attivi.",
     "confirm_title": "Attenzione!",
     "notification_text": "{{tea_name}} è ora pronto!",
     "notification_title": "Infusione completa…",
