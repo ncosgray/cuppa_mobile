@@ -12,7 +12,7 @@
     "confirm_message_line2": "Zrušit a spustit nový časovač?",
     "yes_button": "Ano",
     "no_button": "Ne",
-    "confirm_message_line1": "Je zde aktivní časovač.",
+    "confirm_message_line1": "Jsou zde aktivní časovače.",
     "prefs_title": "{{app_name}} Preference",
     "prefs_show_extra": "Zobrazit délku vaření a teplotu na tlačítkách časovače",
     "error_name_missing": "* Prosím zadejte název čaje.",
