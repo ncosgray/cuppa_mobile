@@ -10,7 +10,7 @@
     "no_button": "Ei",
     "yes_button": "Kyllä",
     "confirm_message_line2": "Peruuttaa ja käynnistää uuden ajastimen?",
-    "confirm_message_line1": "On aktiivinen ajastin.",
+    "confirm_message_line1": "On aktiivisia ajastimia.",
     "confirm_title": "Varoitus!",
     "notification_text": "{{tea_name}} on nyt valmis!",
     "cancel_button": "Peruuta",

@@ -7,7 +7,7 @@
     "notification_title": "Brühzeit abgeschlossen …",
     "notification_text": "{{tea_name}} ist jetzt fertig!",
     "confirm_title": "Warnung!",
-    "confirm_message_line1": "Es gibt einen aktiven Timer.",
+    "confirm_message_line1": "Es gibt aktive Timer.",
     "confirm_message_line2": "Abbrechen und einen neuen Timer starten?",
     "yes_button": "Ja",
     "no_button": "Nein",

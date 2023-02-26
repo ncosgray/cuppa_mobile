@@ -10,7 +10,7 @@
     "no_button": "Nee",
     "yes_button": "Ja",
     "confirm_message_line2": "Weet je zeker dat je wilt doorgaan?",
-    "confirm_message_line1": "Er is nog een kookwekker actief.",
+    "confirm_message_line1": "Er zijn nog kookwekkers actief.",
     "confirm_title": "Waarschuwing!",
     "notification_text": "{{tea_name}} is getrokken!",
     "notification_title": "De thee is getrokken…",

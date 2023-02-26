@@ -1,0 +1,2 @@
+* Nueva apariencia y sensación "Material You". 
+* El esquema de color dinámico se adapta a la configuración de tu dispositivo.

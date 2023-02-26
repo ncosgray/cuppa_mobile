@@ -7,7 +7,7 @@
     "notification_title": "Demleme tamamlandı...",
     "notification_text": "{{tea_name}} hazır!",
     "confirm_title": "Uyarı!",
-    "confirm_message_line1": "Etkin bir zamanlayıcı var.",
+    "confirm_message_line1": "Etkin zamanlayıcılar var.",
     "confirm_message_line2": "İptal edilip yeni bir zamanlayıcı başlatılsın mı?",
     "yes_button": "Evet",
     "no_button": "Hayır",

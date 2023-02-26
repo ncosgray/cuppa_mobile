@@ -41,7 +41,7 @@
     "theme_black": "Preto",
     "theme_system_black": "Seguir o sistema (Preto)",
     "language_name": "Português",
-    "confirm_message_line1": "Há um temporizador ativo.",
+    "confirm_message_line1": "Há temporizadores ativos.",
     "confirm_message_line2": "Cancelar e iniciar um novo temporizador?",
     "yes_button": "Sim",
     "error_name_long": "* O nome do chá é muito longo.",

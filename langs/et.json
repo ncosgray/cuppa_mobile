@@ -7,7 +7,7 @@
     "notification_title": "Jook on nüüd tõmmanud...",
     "notification_text": "{{tea_name}} on nüüd valmis!",
     "confirm_title": "Hoiatus!",
-    "confirm_message_line1": "On olemas aktiivne taimer.",
+    "confirm_message_line1": "On olemas aktiivseid taimereid.",
     "confirm_message_line2": "Tühista ja pane uus taimer jooksma?",
     "yes_button": "Jah",
     "no_button": "Ei",

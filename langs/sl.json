@@ -9,7 +9,7 @@
     "no_button": "Ne",
     "yes_button": "Da",
     "confirm_message_line2": "Prekliči in začni nov časovnik?",
-    "confirm_message_line1": "Poteka aktiven časovnik.",
+    "confirm_message_line1": "Obstajajo aktivni časovniki.",
     "confirm_title": "Opozorilo!",
     "notification_text": "{{tea_name}} je sedaj pripravljen!",
     "notification_title": "Kuhanje končano...",

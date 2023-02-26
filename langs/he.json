@@ -17,7 +17,7 @@
     "error_name_missing": "* אנא הוסף שם לתה.",
     "cancel_button": "ביטול",
     "notification_text": "{{tea_name}} מוכן!",
-    "confirm_message_line1": "יש קוצב זמן פעיל.",
+    "confirm_message_line1": "יש קוצבי זמן פעילים.",
     "no_button": "לא",
     "prefs_title": "עדיפויות {{app_name}}",
     "error_name_long": "* שם התה ארוך מדי.",
