@@ -3,7 +3,7 @@
     "no_button": "Nej",
     "yes_button": "Ja",
     "confirm_message_line2": "Annuller og start en ny timer?",
-    "confirm_message_line1": "Der er en aktiv timer.",
+    "confirm_message_line1": "Der er aktive timere.",
     "confirm_title": "Advarsel!",
     "notification_text": "{{tea_name}} er nu færdig!",
     "notification_title": "Brygning komplet...",
