@@ -1,0 +1,3 @@
+* Dual timers: You can now start a second timer while your first tea brews.
+* More reliable timer notifications in some scenarios.
+* Added a language, and other translation updates - contribute via Weblate!
