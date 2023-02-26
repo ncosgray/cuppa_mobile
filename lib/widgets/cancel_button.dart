@@ -34,14 +34,14 @@ class CancelButton extends StatelessWidget {
     // Button with "X" icon
     return TextButton.icon(
       label: Text(
-        AppString.cancel_button.translate().toUpperCase(),
-        style: textStyleButtonSecondary.copyWith(
+        AppString.cancel_button.translate(),
+        style: TextStyle(
           color: active ? textColorWarn : Theme.of(context).disabledColor,
         ),
       ),
       icon: Icon(Icons.cancel,
           color: active ? textColorWarn : Theme.of(context).disabledColor,
-          size: 16.0),
+          size: 14.0),
       onPressed: active ? _handleTap : null,
     );
   }

@@ -43,12 +43,12 @@ const TextStyle textStyleFooterLink = TextStyle(
 );
 
 const TextStyle textStyleButton = TextStyle(
-  fontSize: 14.0,
+  fontSize: 15.0,
   fontWeight: FontWeight.bold,
 );
 
 const TextStyle textStyleButtonSecondary = TextStyle(
-  fontSize: 12.0,
+  fontSize: 13.0,
   fontWeight: FontWeight.bold,
 );
 
