@@ -10,7 +10,7 @@
     "no_button": "Nei",
     "yes_button": "Ja",
     "confirm_message_line2": "Avbryt og start nytt tidsur?",
-    "confirm_message_line1": "Aktivt tidsur.",
+    "confirm_message_line1": "Det er aktive tidtakere.",
     "confirm_title": "Advarsel!",
     "notification_text": "{{tea_name}} er nå klar!",
     "cancel_button": "Avbryt",
