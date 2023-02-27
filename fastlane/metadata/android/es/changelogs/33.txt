@@ -1,0 +1,3 @@
+* Temporizadores dobles: Ahora puede iniciar un segundo temporizador mientras se prepara el primer té.
+* Notificaciones de temporizador más fiables en algunos escenarios.
+* Añadido un idioma, y otras actualizaciones de traducción - ¡contribuye a través de Weblate!
