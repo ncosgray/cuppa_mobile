@@ -157,7 +157,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Countdown timer display adjusted for orientation
   Widget _countdownTimer(bool layoutPortrait) {
     return Container(
-      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         color: Colors.green,
         // Apply background colors to distinguish timers
