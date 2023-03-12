@@ -19,6 +19,7 @@
 // - PlatformAdaptiveTextFormDialog text entry dialog for context platform
 // - PlatformAdaptiveTimePickerDialog time entry dialog for context platform
 // - PlatformAdaptiveTempPickerDialog temp entry dialog for context platform
+// - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
 import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
@@ -898,5 +899,76 @@ class _PlatformAdaptiveTempPickerDialogState
           divisions: tempValueCount,
           onChanged: onChanged);
     }
+  }
+}
+
+// Display a selector list that is Material on Android and Cupertino on iOS
+Future<bool?> openPlatformAdaptiveSelectList(
+    {required BuildContext context,
+    required TargetPlatform platform,
+    required double width,
+    required double height,
+    required String titleText,
+    required String buttonTextCancel,
+    required List<dynamic> itemList,
+    required Widget Function(BuildContext, int) itemBuilder,
+    required Widget Function(BuildContext, int) separatorBuilder}) async {
+  if (platform == TargetPlatform.iOS) {
+    // iOS style modal list
+    return showCupertinoModalPopup<bool>(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return CupertinoActionSheet(
+              title: Text(titleText),
+              // Item options
+              actions: itemList
+                  .asMap()
+                  .entries
+                  .map((item) => CupertinoActionSheetAction(
+                        child: itemBuilder(context, item.key),
+                        onPressed: () {}, // Tap handled by itemBuilder
+                      ))
+                  .toList(),
+              // Cancel button
+              cancelButton: CupertinoActionSheetAction(
+                isDefaultAction: true,
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text(buttonTextCancel),
+              ));
+        });
+  } else {
+    // Scrolling dialog list
+    return showDialog<bool>(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return materialAlertDialog(
+              title: Text(titleText),
+              content: SizedBox(
+                  width: width,
+                  height: height,
+                  child: Scrollbar(
+                    // Item options
+                    child: ListView.separated(
+                      padding: const EdgeInsets.all(0.0),
+                      shrinkWrap: true,
+                      itemCount: itemList.length,
+                      itemBuilder: itemBuilder,
+                      separatorBuilder: separatorBuilder,
+                    ),
+                  )),
+              actions: [
+                // Cancel button
+                FilledButton.tonal(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Text(buttonTextCancel),
+                )
+              ]);
+        });
   }
 }
