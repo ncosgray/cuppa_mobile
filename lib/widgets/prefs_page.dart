@@ -166,8 +166,6 @@ class PrefsWidget extends StatelessWidget {
                       ? () => openPlatformAdaptiveSelectList(
                           context: context,
                           platform: appPlatform,
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          height: Presets.presetList.length * 46,
                           titleText: AppString.add_tea_button.translate(),
                           buttonTextCancel: AppString.cancel_button.translate(),
                           itemList: Presets.presetList,
@@ -182,55 +180,54 @@ class PrefsWidget extends StatelessWidget {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     Preset preset = Presets.presetList[index];
 
-    return GestureDetector(
-        child: SizedBox(
-            height: 60.0,
-            child: Row(children: [
-              // Preset tea icon
-              SizedBox(
-                  width: 48.0,
-                  height: double.infinity,
-                  child: Icon(
-                    preset.isCustom ? Icons.add_circle : preset.getIcon(),
-                    color: preset.getThemeColor(context),
-                    size: preset.isCustom ? 20.0 : 24.0,
-                  )),
-              // Localized preset tea name
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      preset.localizedName,
-                      style: textStyleSetting.copyWith(
-                          color: preset.getThemeColor(context)),
-                    ),
-                    // Preset tea brew time and temperature
-                    Container(
-                        child: preset.isCustom
-                            ? null
-                            : Row(children: [
-                                Text(
-                                  formatTimer(preset.brewTime),
-                                  style: textStyleSettingSeconday.copyWith(
-                                      color: preset.getThemeColor(context)),
-                                ),
-                                ConstrainedBox(
-                                    constraints: const BoxConstraints(
-                                        minWidth: 6.0, maxWidth: 30.0),
-                                    child: Container()),
-                                Text(
-                                  preset.tempDisplay(provider.useCelsius),
-                                  style: textStyleSettingSeconday.copyWith(
-                                      color: preset.getThemeColor(context)),
-                                ),
-                                ConstrainedBox(
-                                    constraints: const BoxConstraints(
-                                        maxWidth: double.infinity),
-                                    child: Container()),
-                              ]))
-                  ])
-            ])),
+    return PlatformAdaptiveSelectListItem(
+        platform: appPlatform,
+        itemHeight: 60.0,
+        item: Row(children: [
+          // Preset tea icon
+          SizedBox.square(
+              dimension: 60.0,
+              child: Icon(
+                preset.isCustom ? Icons.add_circle : preset.getIcon(),
+                color: preset.getThemeColor(context),
+                size: preset.isCustom ? 20.0 : 24.0,
+              )),
+          // Localized preset tea name
+          Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  preset.localizedName,
+                  style: textStyleSetting.copyWith(
+                      color: preset.getThemeColor(context)),
+                ),
+                // Preset tea brew time and temperature
+                Container(
+                    child: preset.isCustom
+                        ? null
+                        : Row(children: [
+                            Text(
+                              formatTimer(preset.brewTime),
+                              style: textStyleSettingSeconday.copyWith(
+                                  color: preset.getThemeColor(context)),
+                            ),
+                            ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                    minWidth: 6.0, maxWidth: 30.0),
+                                child: Container()),
+                            Text(
+                              preset.tempDisplay(provider.useCelsius),
+                              style: textStyleSettingSeconday.copyWith(
+                                  color: preset.getThemeColor(context)),
+                            ),
+                            ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                    maxWidth: double.infinity),
+                                child: Container()),
+                          ]))
+              ])
+        ]),
         onTap: () {
           // Add selected tea
           provider.addTea(preset.createTea(useCelsius: provider.useCelsius));
@@ -342,8 +339,6 @@ class PrefsWidget extends StatelessWidget {
           onTap: () => openPlatformAdaptiveSelectList(
               context: context,
               platform: appPlatform,
-              width: MediaQuery.of(context).size.width * 0.4,
-              height: AppTheme.values.length * 46,
               titleText: AppString.prefs_app_theme.translate(),
               buttonTextCancel: AppString.cancel_button.translate(),
               itemList: AppTheme.values,
@@ -359,23 +354,25 @@ class PrefsWidget extends StatelessWidget {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     AppTheme value = AppTheme.values.elementAt(index);
 
-    return GestureDetector(
-        child: SizedBox(
-            height: 48.0,
-            child: Row(children: [
-              Container(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: value == provider.appTheme
-                      ? getPlatformRadioOnIcon(appPlatform)
-                      : getPlatformRadioOffIcon(appPlatform)),
-              Expanded(
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        value.localizedName,
-                        style: textStyleTitle,
-                      ))),
-            ])),
+    return PlatformAdaptiveSelectListItem(
+        platform: appPlatform,
+        itemHeight: 48.0,
+        item: Row(children: [
+          // Selected theme indicator
+          Container(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: value == provider.appTheme
+                  ? getPlatformRadioOnIcon(appPlatform)
+                  : getPlatformRadioOffIcon(appPlatform)),
+          // Theme name
+          Expanded(
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    value.localizedName,
+                    style: textStyleTitle,
+                  ))),
+        ]),
         onTap: () {
           // Save appTheme to prefs
           provider.appTheme = value;
@@ -404,8 +401,6 @@ class PrefsWidget extends StatelessWidget {
           onTap: () => openPlatformAdaptiveSelectList(
               context: context,
               platform: appPlatform,
-              width: MediaQuery.of(context).size.width * 0.4,
-              height: languageOptions.length * 20,
               titleText: AppString.prefs_language.translate(),
               buttonTextCancel: AppString.cancel_button.translate(),
               itemList: languageOptions,
@@ -423,25 +418,27 @@ class PrefsWidget extends StatelessWidget {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     String value = languageOptions[index];
 
-    return GestureDetector(
-        child: SizedBox(
-            height: 48.0,
-            child: Row(children: [
-              Container(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: value == provider.appLanguage
-                      ? getPlatformRadioOnIcon(appPlatform)
-                      : getPlatformRadioOffIcon(appPlatform)),
-              Expanded(
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        value == ''
-                            ? AppString.theme_system.translate()
-                            : '${supportedLanguages[value]!} ($value)',
-                        style: textStyleTitle,
-                      ))),
-            ])),
+    return PlatformAdaptiveSelectListItem(
+        platform: appPlatform,
+        itemHeight: 48.0,
+        item: Row(children: [
+          // Selected language indicator
+          Container(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: value == provider.appLanguage
+                  ? getPlatformRadioOnIcon(appPlatform)
+                  : getPlatformRadioOffIcon(appPlatform)),
+          // Language name and code
+          Expanded(
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    value == ''
+                        ? AppString.theme_system.translate()
+                        : '${supportedLanguages[value]!} ($value)',
+                    style: textStyleTitle,
+                  ))),
+        ]),
         onTap: () {
           // Save appLanguage to prefs
           provider.appLanguage = value;

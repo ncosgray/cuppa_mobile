@@ -19,6 +19,7 @@
 // - PlatformAdaptiveTextFormDialog text entry dialog for context platform
 // - PlatformAdaptiveTimePickerDialog time entry dialog for context platform
 // - PlatformAdaptiveTempPickerDialog temp entry dialog for context platform
+// - PlatformAdaptiveSelectListItem selector item for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
 import 'package:cuppa_mobile/helpers.dart';
@@ -902,12 +903,45 @@ class _PlatformAdaptiveTempPickerDialogState
   }
 }
 
+// Selector list item that adds inkwell effect on Android
+class PlatformAdaptiveSelectListItem extends StatelessWidget {
+  const PlatformAdaptiveSelectListItem({
+    Key? key,
+    required this.platform,
+    required this.itemHeight,
+    required this.item,
+    required this.onTap,
+  }) : super(key: key);
+
+  final TargetPlatform platform;
+  final double itemHeight;
+  final Widget item;
+  final Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    if (platform == TargetPlatform.iOS) {
+      return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: item,
+      );
+    } else {
+      return InkWell(
+        onTap: onTap,
+        child: SizedBox(
+          height: itemHeight,
+          child: item,
+        ),
+      );
+    }
+  }
+}
+
 // Display a selector list that is Material on Android and Cupertino on iOS
 Future<bool?> openPlatformAdaptiveSelectList(
     {required BuildContext context,
     required TargetPlatform platform,
-    required double width,
-    required double height,
     required String titleText,
     required String buttonTextCancel,
     required List<dynamic> itemList,
@@ -948,8 +982,7 @@ Future<bool?> openPlatformAdaptiveSelectList(
           return materialAlertDialog(
               title: Text(titleText),
               content: SizedBox(
-                  width: width,
-                  height: height,
+                  width: MediaQuery.of(context).size.width * 0.4,
                   child: Scrollbar(
                     // Item options
                     child: ListView.separated(
