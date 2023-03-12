@@ -383,8 +383,6 @@ class PrefsWidget extends StatelessWidget {
   // Setting: app language selection
   Widget _appLanguageSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
-    final List<String> languageOptions =
-        [''] + supportedLanguages.keys.toList();
 
     return Align(
         alignment: Alignment.topLeft,
@@ -404,8 +402,7 @@ class PrefsWidget extends StatelessWidget {
               titleText: AppString.prefs_language.translate(),
               buttonTextCancel: AppString.cancel_button.translate(),
               itemList: languageOptions,
-              itemBuilder: (BuildContext context, int index) =>
-                  _appLanguageItem(context, index, languageOptions),
+              itemBuilder: _appLanguageItem,
               separatorBuilder: _separatorDummy),
           contentPadding: const EdgeInsets.all(6.0),
           dense: true,
@@ -413,8 +410,7 @@ class PrefsWidget extends StatelessWidget {
   }
 
   // App language option
-  Widget _appLanguageItem(
-      BuildContext context, int index, List<String> languageOptions) {
+  Widget _appLanguageItem(BuildContext context, int index) {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     String value = languageOptions[index];
 
