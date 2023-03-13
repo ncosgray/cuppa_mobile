@@ -194,7 +194,7 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
                     child: actionIcon!)
                 : null,
           ),
-          child: Card(elevation: 0.0, color: Colors.transparent, child: body));
+          child: Material(type: MaterialType.transparency, child: body));
     } else {
       return Scaffold(
           appBar: AppBar(
@@ -366,9 +366,8 @@ class _PlatformAdaptiveTextFormDialogState
     if (platform == TargetPlatform.iOS) {
       return CupertinoAlertDialog(
         // Text entry
-        content: Card(
-            color: Colors.transparent,
-            elevation: 0.0,
+        content: Material(
+            type: MaterialType.transparency,
             child: Form(
                 key: _formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,

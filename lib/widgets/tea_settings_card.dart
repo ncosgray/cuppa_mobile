@@ -325,10 +325,8 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
               content: SizedBox(
                 width: TeaColor.values.length * 24,
                 height: TeaColor.values.length * 24,
-                child: Card(
-                    margin: const EdgeInsets.all(0.0),
-                    color: Colors.transparent,
-                    elevation: 0,
+                child: Material(
+                    type: MaterialType.transparency,
                     child: Scrollbar(
                         thumbVisibility: true,
                         child: GridView.builder(
@@ -410,10 +408,8 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
               content: SizedBox(
                 width: TeaIcon.values.length * 12,
                 height: TeaIcon.values.length * 12,
-                child: Card(
-                    margin: const EdgeInsets.all(0.0),
-                    color: Colors.transparent,
-                    elevation: 0,
+                child: Material(
+                    type: MaterialType.transparency,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       // Tea icon buttons
