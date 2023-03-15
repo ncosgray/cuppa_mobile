@@ -930,7 +930,10 @@ class PlatformAdaptiveSelectListItem extends StatelessWidget {
         onTap: onTap,
         child: SizedBox(
           height: itemHeight,
-          child: item,
+          child: Container(
+            padding: const EdgeInsets.only(right: 6.0),
+            child: item,
+          ),
         ),
       );
     }

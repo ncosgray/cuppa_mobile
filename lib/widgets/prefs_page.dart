@@ -186,7 +186,7 @@ class PrefsWidget extends StatelessWidget {
         item: Row(children: [
           // Preset tea icon
           SizedBox.square(
-              dimension: 60.0,
+              dimension: 48.0,
               child: Icon(
                 preset.isCustom ? Icons.add_circle : preset.getIcon(),
                 color: preset.getThemeColor(context),
