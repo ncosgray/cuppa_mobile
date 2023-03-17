@@ -82,12 +82,14 @@ class PrefsWidget extends StatelessWidget {
               _teaSettingsList(),
               SliverToBoxAdapter(
                 child: Column(children: [
-                  Row(children: [
-                    // Add tea button
-                    Expanded(child: _addTeaButton()),
-                    // Remove all teas button
-                    _removeAllButton(context),
-                  ]),
+                  Container(
+                      padding: const EdgeInsets.only(bottom: 6.0),
+                      child: Row(children: [
+                        // Add tea button
+                        Expanded(child: _addTeaButton()),
+                        // Remove all teas button
+                        _removeAllButton(context),
+                      ])),
                   // Setting: show extra info on buttons
                   _showExtraSetting(context),
                   listDivider,
@@ -154,25 +156,34 @@ class PrefsWidget extends StatelessWidget {
   Widget _addTeaButton() {
     return Selector<AppProvider, int>(
         selector: (_, provider) => provider.teaCount,
-        builder: (context, count, child) => Card(
-                child: ListTile(
-                    title: TextButton.icon(
-              label: Text(AppString.add_tea_button.translate(),
-                  style: textStyleButton),
-              icon: const Icon(Icons.add_circle, size: 20.0),
-              onPressed:
-                  // Disable adding teas if there are maximum teas
-                  count < teasMaxCount
-                      ? () => openPlatformAdaptiveSelectList(
-                          context: context,
-                          platform: appPlatform,
-                          titleText: AppString.add_tea_button.translate(),
-                          buttonTextCancel: AppString.cancel_button.translate(),
-                          itemList: Presets.presetList,
-                          itemBuilder: _teaPresetItem,
-                          separatorBuilder: _separatorBuilder)
-                      : null,
-            ))));
+        builder: (context, count, child) => SizedBox(
+            height: 64.0,
+            child: Card(
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                    child: TextButton.icon(
+                  label: Text(AppString.add_tea_button.translate(),
+                      style: textStyleButton),
+                  icon: const Icon(Icons.add_circle, size: 20.0),
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                    const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero),
+                  )),
+                  onPressed:
+                      // Disable adding teas if there are maximum teas
+                      count < teasMaxCount
+                          ? () => openPlatformAdaptiveSelectList(
+                              context: context,
+                              platform: appPlatform,
+                              titleText: AppString.add_tea_button.translate(),
+                              buttonTextCancel:
+                                  AppString.cancel_button.translate(),
+                              itemList: Presets.presetList,
+                              itemBuilder: _teaPresetItem,
+                              separatorBuilder: _separatorBuilder)
+                          : null,
+                )))));
   }
 
   // Tea preset option
@@ -240,24 +251,23 @@ class PrefsWidget extends StatelessWidget {
     AppProvider provider = Provider.of<AppProvider>(context);
 
     return (provider.teaCount > 0 && provider.activeTeas.isEmpty)
-        ? IntrinsicWidth(
-            child: ConstrainedBox(
-                constraints: const BoxConstraints.tightForFinite(),
-                child: Card(
-                    child: ListTile(
-                        title: IconButton(
-                            icon: Icon(Icons.delete_sweep_outlined,
-                                color: textColorWarn),
-                            onPressed: () async {
-                              AppProvider provider = Provider.of<AppProvider>(
-                                  context,
-                                  listen: false);
-                              bool confirmed = await _confirmDelete(context);
-                              if (confirmed) {
-                                // Clear tea list
-                                provider.clearTeaList();
-                              }
-                            })))))
+        ? SizedBox(
+            width: 64.0,
+            height: 64.0,
+            child: Card(
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                    child:
+                        Icon(Icons.delete_sweep_outlined, color: textColorWarn),
+                    onTap: () async {
+                      AppProvider provider =
+                          Provider.of<AppProvider>(context, listen: false);
+                      bool confirmed = await _confirmDelete(context);
+                      if (confirmed) {
+                        // Clear tea list
+                        provider.clearTeaList();
+                      }
+                    })))
         : const SizedBox.shrink();
   }
 
@@ -297,7 +307,7 @@ class PrefsWidget extends StatelessWidget {
           onChanged: (bool newValue) {
             provider.showExtra = newValue;
           },
-          contentPadding: const EdgeInsets.fromLTRB(6.0, 12.0, 6.0, 6.0),
+          contentPadding: const EdgeInsets.all(6.0),
           dense: true,
         ));
   }

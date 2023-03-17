@@ -77,7 +77,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                   // Tea settings selection
                   Flexible(
                     child: Container(
-                        padding: const EdgeInsets.fromLTRB(8.0, 2.0, 0.0, 2.0),
+                        padding: const EdgeInsets.symmetric(vertical: 2.0),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -123,7 +123,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
   Widget _favoriteButton() {
     return IconButton(
         iconSize: 24.0,
-        padding: const EdgeInsets.fromLTRB(2.0, 0.0, 2.0, 0.0),
+        padding: const EdgeInsets.symmetric(horizontal: 2.0),
         constraints: const BoxConstraints(minWidth: 32.0, minHeight: 32.0),
         splashRadius: 32.0,
         icon: tea.isFavorite
@@ -150,28 +150,40 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
 
   // Tea name editor
   Widget _teaNameEditor() {
-    return TextButton.icon(
-        icon: Text(tea.name,
-            textAlign: TextAlign.left,
-            maxLines: 1,
-            style: textStyleSetting.copyWith(
-              color: tea.getThemeColor(context),
-            )),
-        label: Icon(
-          Icons.edit,
-          color: Theme.of(context).iconTheme.color,
-          size: 20.0,
-        ),
-        onPressed: () {
-          // Open tea name dialog
-          _openTeaNameDialog(context, tea.name).then((newValue) {
-            if (newValue != null) {
-              // Save name to prefs
-              Provider.of<AppProvider>(context, listen: false)
-                  .updateTea(tea, name: newValue);
-            }
-          });
-        });
+    return SizedBox(
+        height: double.infinity,
+        child: InkWell(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                    child: Text(tea.name,
+                        textAlign: TextAlign.left,
+                        maxLines: 1,
+                        style: textStyleSetting.copyWith(
+                          color: tea.getThemeColor(context),
+                        ))),
+                Container(
+                    padding: const EdgeInsets.only(right: 6.0),
+                    child: Icon(
+                      Icons.edit,
+                      color: Theme.of(context).iconTheme.color,
+                      size: 20.0,
+                    )),
+              ],
+            ),
+            onTap: () {
+              // Open tea name dialog
+              _openTeaNameDialog(context, tea.name).then((newValue) {
+                if (newValue != null) {
+                  // Save name to prefs
+                  Provider.of<AppProvider>(context, listen: false)
+                      .updateTea(tea, name: newValue);
+                }
+              });
+            }));
   }
 
   // Display a tea name entry dialog box
@@ -199,32 +211,34 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
 
   // Tea brew time selection
   Widget _teaBrewTimeSelector() {
-    return InkWell(
-        child: SizedBox(
-            height: double.infinity,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  formatTimer(tea.brewTime),
-                  style: textStyleSettingSeconday,
-                ),
-                dropdownArrow,
-              ],
-            )),
-        onTap: () {
-          // Open tea brew time dialog
-          _openTeaBrewTimeDialog(
-                  context, tea.brewTimeMinutes, tea.brewTimeSeconds)
-              .then((newValue) {
-            if (newValue != null) {
-              // Save brew time to prefs
-              Provider.of<AppProvider>(context, listen: false)
-                  .updateTea(tea, brewTime: newValue);
-            }
-          });
-        });
+    return SizedBox(
+        height: double.infinity,
+        child: InkWell(
+            child: Container(
+                padding: const EdgeInsets.only(left: 6.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      formatTimer(tea.brewTime),
+                      style: textStyleSettingSeconday,
+                    ),
+                    dropdownArrow,
+                  ],
+                )),
+            onTap: () {
+              // Open tea brew time dialog
+              _openTeaBrewTimeDialog(
+                      context, tea.brewTimeMinutes, tea.brewTimeSeconds)
+                  .then((newValue) {
+                if (newValue != null) {
+                  // Save brew time to prefs
+                  Provider.of<AppProvider>(context, listen: false)
+                      .updateTea(tea, brewTime: newValue);
+                }
+              });
+            }));
   }
 
   // Display a tea brew time entry dialog box
@@ -247,30 +261,32 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
 
   // Tea brew temp selection
   Widget _teaBrewTempSelector() {
-    return InkWell(
-        child: SizedBox(
-            height: double.infinity,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  formatTemp(tea.brewTemp),
-                  style: textStyleSettingSeconday,
-                ),
-                dropdownArrow,
-              ],
-            )),
-        onTap: () {
-          // Open tea brew temp dialog
-          _openTeaBrewTempDialog(context, tea.brewTemp).then((newValue) {
-            if (newValue != null) {
-              // Save brew temp to prefs
-              Provider.of<AppProvider>(context, listen: false)
-                  .updateTea(tea, brewTemp: newValue);
-            }
-          });
-        });
+    return SizedBox(
+        height: double.infinity,
+        child: InkWell(
+            child: Container(
+                padding: const EdgeInsets.only(left: 6.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      formatTemp(tea.brewTemp),
+                      style: textStyleSettingSeconday,
+                    ),
+                    dropdownArrow,
+                  ],
+                )),
+            onTap: () {
+              // Open tea brew temp dialog
+              _openTeaBrewTempDialog(context, tea.brewTemp).then((newValue) {
+                if (newValue != null) {
+                  // Save brew temp to prefs
+                  Provider.of<AppProvider>(context, listen: false)
+                      .updateTea(tea, brewTemp: newValue);
+                }
+              });
+            }));
   }
 
   // Display a tea brew temperature entry dialog box
@@ -292,25 +308,27 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
 
   // Tea color selection
   Widget _teaColorSelector() {
-    return InkWell(
-        child: SizedBox(
-            height: double.infinity,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 18.0,
-                  height: 18.0,
-                  color: tea.getThemeColor(context),
-                ),
-                dropdownArrow,
-              ],
-            )),
-        onTap: () {
-          // Open tea color dialog
-          _openColorDialog(tea, context);
-        });
+    return SizedBox(
+        height: double.infinity,
+        child: InkWell(
+            child: Container(
+                padding: const EdgeInsets.only(left: 6.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: 18.0,
+                      height: 18.0,
+                      color: tea.getThemeColor(context),
+                    ),
+                    dropdownArrow,
+                  ],
+                )),
+            onTap: () {
+              // Open tea color dialog
+              _openColorDialog(tea, context);
+            }));
   }
 
   // Display a tea color selection dialog box
@@ -374,26 +392,28 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
 
   // Tea icon selection
   Widget _teaIconSelector() {
-    return InkWell(
-        child: SizedBox(
-            height: double.infinity,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                    width: 18.0,
-                    child: Icon(
-                      tea.teaIcon,
-                      color: tea.getThemeColor(context),
-                    )),
-                dropdownArrow,
-              ],
-            )),
-        onTap: () {
-          // Open tea icon dialog
-          _openIconDialog(tea, context);
-        });
+    return SizedBox(
+        height: double.infinity,
+        child: InkWell(
+            child: Container(
+                padding: const EdgeInsets.only(left: 6.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                        width: 18.0,
+                        child: Icon(
+                          tea.teaIcon,
+                          color: tea.getThemeColor(context),
+                        )),
+                    dropdownArrow,
+                  ],
+                )),
+            onTap: () {
+              // Open tea icon dialog
+              _openIconDialog(tea, context);
+            }));
   }
 
   // Display a tea icon selection dialog box
