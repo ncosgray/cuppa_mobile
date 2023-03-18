@@ -14,7 +14,6 @@
 
 import 'package:flutter/material.dart';
 
-final Color textColorWarn = Colors.red.shade400;
 const Color textColorLink = Colors.blue;
 
 const TextStyle textStyleHeader = TextStyle(

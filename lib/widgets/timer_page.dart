@@ -312,9 +312,14 @@ class _TimerWidgetState extends State<TimerWidget> {
             children: [
               Text(
                 AppString.teas_title.translate(),
-                style: textStyleButton.copyWith(color: textColorWarn),
+                style: textStyleButton.copyWith(
+                    color: Theme.of(context).colorScheme.error),
               ),
-              Icon(Icons.arrow_circle_right, size: 28.0, color: textColorWarn),
+              Icon(
+                Icons.arrow_circle_right,
+                size: 28.0,
+                color: Theme.of(context).colorScheme.error,
+              ),
             ],
           ),
         ),

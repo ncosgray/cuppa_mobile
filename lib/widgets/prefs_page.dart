@@ -141,9 +141,10 @@ class PrefsWidget extends StatelessWidget {
                     provider.deleteTea(tea);
                   },
                   // Dismissible delete warning background
-                  background: dismissibleBackground(Alignment.centerLeft),
+                  background:
+                      dismissibleBackground(context, Alignment.centerLeft),
                   secondaryBackground:
-                      dismissibleBackground(Alignment.centerRight),
+                      dismissibleBackground(context, Alignment.centerRight),
                   child: TeaSettingsCard(
                     tea: tea,
                   ),
@@ -257,8 +258,8 @@ class PrefsWidget extends StatelessWidget {
             child: Card(
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
-                    child:
-                        Icon(Icons.delete_sweep_outlined, color: textColorWarn),
+                    child: Icon(Icons.delete_sweep_outlined,
+                        color: Theme.of(context).colorScheme.error),
                     onTap: () async {
                       AppProvider provider =
                           Provider.of<AppProvider>(context, listen: false);

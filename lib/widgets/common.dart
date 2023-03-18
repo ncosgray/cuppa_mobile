@@ -45,17 +45,20 @@ Widget aboutText() {
 }
 
 // Dismissible delete warning background
-Widget dismissibleBackground(Alignment alignment) {
+Widget dismissibleBackground(BuildContext context, Alignment alignment) {
   return Container(
       padding: const EdgeInsets.all(5.0),
       child: Container(
-          color: textColorWarn,
+          color: Theme.of(context).colorScheme.error,
           child: Padding(
               padding: const EdgeInsets.all(14.0),
               child: Align(
                   alignment: alignment,
-                  child: const Icon(Icons.delete_outline,
-                      color: Colors.white, size: 28.0)))));
+                  child: Icon(
+                    Icons.delete_outline,
+                    color: Theme.of(context).colorScheme.onError,
+                    size: 28.0,
+                  )))));
 }
 
 // Custom draggable feedback for reorderable list
