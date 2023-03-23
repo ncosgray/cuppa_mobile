@@ -1,0 +1,2 @@
+* Nový vzhled a styl "Material You".
+* Dynamická barevná paleta, která odpovídá nastavení vašeho zařízení.

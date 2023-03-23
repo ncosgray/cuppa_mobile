@@ -1,0 +1,3 @@
+* Dvojité časovače: Nyní můžete spustit druhý časovač, zatímco první čaj louhuje.
+* V některých scénářích jsou notifikace časovače spolehlivější.
+* Přidána nová jazyková mutace a další aktualizace překladů - přispějte pomocí Weblate!
