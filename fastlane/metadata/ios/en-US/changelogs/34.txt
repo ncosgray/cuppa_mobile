@@ -1,0 +1,4 @@
+* Easily identify each active tea timer by its color.
+* Allow longer tea names.
+* Improved the design of long select lists.
+* Language translation updates - contribute via Weblate!
