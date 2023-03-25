@@ -193,6 +193,15 @@ class _TimerWidgetState extends State<TimerWidget> {
                         ? _timerText(_timer1.timerString)
                         : const SizedBox.shrink(),
                   ),
+                  // Separator for timers with the same color
+                  Visibility(
+                      visible: _timerCount > 1 &&
+                          _timer1.tea?.color == _timer2.tea?.color,
+                      child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                          width: layoutPortrait ? 420.0 : 12.0,
+                          height: layoutPortrait ? 12.0 : 140.0,
+                          color: Colors.white)),
                   // Timer 2
                   AnimatedSize(
                     duration: const Duration(milliseconds: 200),
