@@ -36,7 +36,7 @@ const cupImageBag = 'images/Cuppa_hires_bag.png';
 const cupImageTea = 'images/Cuppa_hires_tea.png';
 
 // Limits
-const teaNameMaxLength = 18;
+const teaNameMaxLength = 20;
 const teaBrewTimeMaxMinutes = 20;
 const teasMaxCount = 15;
 const timersMaxCount = 2;

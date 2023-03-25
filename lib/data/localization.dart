@@ -50,6 +50,7 @@ final Map<String, String> supportedLanguages = {
   'tr': 'Türkçe',
   'uk': 'Українська',
 };
+final List<String> languageOptions = [''] + supportedLanguages.keys.toList();
 const String defaultLanguage = 'en';
 
 // Localizable app strings

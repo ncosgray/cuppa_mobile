@@ -19,6 +19,8 @@
 // - PlatformAdaptiveTextFormDialog text entry dialog for context platform
 // - PlatformAdaptiveTimePickerDialog time entry dialog for context platform
 // - PlatformAdaptiveTempPickerDialog temp entry dialog for context platform
+// - PlatformAdaptiveSelectListItem selector item for context platform
+// - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
 import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
@@ -192,7 +194,7 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
                     child: actionIcon!)
                 : null,
           ),
-          child: Card(elevation: 0.0, color: Colors.transparent, child: body));
+          child: Material(type: MaterialType.transparency, child: body));
     } else {
       return Scaffold(
           appBar: AppBar(
@@ -364,9 +366,8 @@ class _PlatformAdaptiveTextFormDialogState
     if (platform == TargetPlatform.iOS) {
       return CupertinoAlertDialog(
         // Text entry
-        content: Card(
-            color: Colors.transparent,
-            elevation: 0.0,
+        content: Material(
+            type: MaterialType.transparency,
             child: Form(
                 key: _formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -898,5 +899,111 @@ class _PlatformAdaptiveTempPickerDialogState
           divisions: tempValueCount,
           onChanged: onChanged);
     }
+  }
+}
+
+// Selector list item that adds inkwell effect on Android
+class PlatformAdaptiveSelectListItem extends StatelessWidget {
+  const PlatformAdaptiveSelectListItem({
+    Key? key,
+    required this.platform,
+    required this.itemHeight,
+    required this.item,
+    required this.onTap,
+  }) : super(key: key);
+
+  final TargetPlatform platform;
+  final double itemHeight;
+  final Widget item;
+  final Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    if (platform == TargetPlatform.iOS) {
+      return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: item,
+      );
+    } else {
+      return InkWell(
+        onTap: onTap,
+        child: SizedBox(
+          height: itemHeight,
+          child: Container(
+            padding: const EdgeInsets.only(right: 6.0),
+            child: item,
+          ),
+        ),
+      );
+    }
+  }
+}
+
+// Display a selector list that is Material on Android and Cupertino on iOS
+Future<bool?> openPlatformAdaptiveSelectList(
+    {required BuildContext context,
+    required TargetPlatform platform,
+    required String titleText,
+    required String buttonTextCancel,
+    required List<dynamic> itemList,
+    required Widget Function(BuildContext, int) itemBuilder,
+    required Widget Function(BuildContext, int) separatorBuilder}) async {
+  if (platform == TargetPlatform.iOS) {
+    // iOS style modal list
+    return showCupertinoModalPopup<bool>(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return CupertinoActionSheet(
+              title: Text(titleText),
+              // Item options
+              actions: itemList
+                  .asMap()
+                  .entries
+                  .map((item) => CupertinoActionSheetAction(
+                        child: itemBuilder(context, item.key),
+                        onPressed: () {}, // Tap handled by itemBuilder
+                      ))
+                  .toList(),
+              // Cancel button
+              cancelButton: CupertinoActionSheetAction(
+                isDefaultAction: true,
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text(buttonTextCancel),
+              ));
+        });
+  } else {
+    // Scrolling dialog list
+    return showDialog<bool>(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return materialAlertDialog(
+              title: Text(titleText),
+              content: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: Scrollbar(
+                    // Item options
+                    child: ListView.separated(
+                      padding: const EdgeInsets.all(0.0),
+                      shrinkWrap: true,
+                      itemCount: itemList.length,
+                      itemBuilder: itemBuilder,
+                      separatorBuilder: separatorBuilder,
+                    ),
+                  )),
+              actions: [
+                // Cancel button
+                FilledButton.tonal(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Text(buttonTextCancel),
+                )
+              ]);
+        });
   }
 }

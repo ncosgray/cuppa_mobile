@@ -14,6 +14,7 @@
 // - Build interface and interactivity
 // - Start, confirm, cancel timers
 
+import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -156,44 +157,70 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Countdown timer display adjusted for orientation
   Widget _countdownTimer(bool layoutPortrait) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 36.0),
-      clipBehavior: Clip.hardEdge,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.green,
-        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+        // Apply background colors to distinguish timers
+        gradient: _timerCount > 0
+            ? LinearGradient(
+                begin:
+                    layoutPortrait ? Alignment.topCenter : Alignment.centerLeft,
+                end: layoutPortrait
+                    ? Alignment.bottomCenter
+                    : Alignment.centerRight,
+                stops: List<double>.filled(_timerCount, 0.5),
+                colors: [
+                  for (Tea? tea in [_timer1.tea, _timer2.tea])
+                    if (tea != null) tea.getThemeColor(context)
+                ],
+              )
+            : null,
+        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
       ),
-      child: Flex(
-          // Determine layout by orientation
-          direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Timer 1
-            Visibility(
-              visible: _timer1.isActive || _timerCount == 0,
-              child: _timerText(_timer1.timerString),
-            ),
-            // Separator
-            Visibility(
-                visible: _timerCount > 1,
-                child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 12.0),
-                    width: layoutPortrait ? 420.0 : 12.0,
-                    height: layoutPortrait ? 12.0 : 140.0,
-                    color: Colors.white)),
-            // Timer 2
-            Visibility(
-              visible: _timer2.isActive,
-              child: _timerText(_timer2.timerString),
-            ),
-          ]),
+      child: _timerCount == 0
+          ?
+          // Idle timer
+          _timerText(formatTimer(0))
+          : Flex(
+              // Determine layout by orientation
+              direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                  // Timer 1
+                  AnimatedSize(
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeInOut,
+                    child: _timer1.isActive
+                        ? _timerText(_timer1.timerString)
+                        : const SizedBox.shrink(),
+                  ),
+                  // Separator for timers with the same color
+                  Visibility(
+                      visible: _timerCount > 1 &&
+                          _timer1.tea?.color == _timer2.tea?.color,
+                      child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                          width: layoutPortrait ? 420.0 : 12.0,
+                          height: layoutPortrait ? 12.0 : 140.0,
+                          color: Colors.white)),
+                  // Timer 2
+                  AnimatedSize(
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeInOut,
+                    child: _timer2.isActive
+                        ? _timerText(_timer2.timerString)
+                        : const SizedBox.shrink(),
+                  ),
+                ]),
     );
   }
 
   // Countdown timer text
   Widget _timerText(String text) {
     return SizedBox(
-        width: text.length * 100.0,
-        child: Center(
+        width: 480.0,
+        child: Container(
+            padding: const EdgeInsets.all(4.0),
+            alignment: Alignment.center,
             child: Text(text,
                 maxLines: 1,
                 softWrap: false,
@@ -294,9 +321,14 @@ class _TimerWidgetState extends State<TimerWidget> {
             children: [
               Text(
                 AppString.teas_title.translate(),
-                style: textStyleButton.copyWith(color: textColorWarn),
+                style: textStyleButton.copyWith(
+                    color: Theme.of(context).colorScheme.error),
               ),
-              Icon(Icons.arrow_circle_right, size: 28.0, color: textColorWarn),
+              Icon(
+                Icons.arrow_circle_right,
+                size: 28.0,
+                color: Theme.of(context).colorScheme.error,
+              ),
             ],
           ),
         ),
