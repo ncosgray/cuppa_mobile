@@ -1,0 +1,3 @@
+[NIEUW] Dubbele tijdklokken: vooraan kun je een tweede tijdklok starten terwijl de eerste nog loopt;
+[VERBETERD] Betrouwbaardere tijdklokmeldingen;
+[VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!

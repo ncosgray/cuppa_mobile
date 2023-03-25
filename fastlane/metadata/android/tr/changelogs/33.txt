@@ -1,0 +1,3 @@
+* Çift zamanlayıcı: Artık ilk çayınız demlenirken ikinci bir zamanlayıcı başlatabilirsiniz.
+* Bazı durumlarda daha güvenilir zamanlayıcı bildirimleri.
+* Bir dil eklendi ve diğer çeviri güncellemeleri - Weblate ile katkıda bulunun!
