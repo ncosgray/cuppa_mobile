@@ -24,6 +24,7 @@ import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -341,26 +342,24 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
               platform: appPlatform,
               title: Container(),
               content: SizedBox(
-                width: TeaColor.values.length * 24,
-                height: TeaColor.values.length * 24,
+                width: TeaColor.values.length * 16,
+                height: min(MediaQuery.of(context).size.height * 0.4,
+                    TeaColor.values.length * 24),
                 child: Material(
                     type: MaterialType.transparency,
                     child: Scrollbar(
-                        thumbVisibility: true,
-                        child: GridView.builder(
-                          padding:
-                              const EdgeInsets.only(left: 12.0, right: 12.0),
-                          shrinkWrap: true,
-                          itemCount: TeaColor.values.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent: 90.0,
-                                  childAspectRatio: 1,
-                                  crossAxisSpacing: 12.0,
-                                  mainAxisSpacing: 12.0),
-                          // Tea color button
-                          itemBuilder: _colorButton,
-                        ))),
+                        child: GridView.count(
+                      childAspectRatio: 1.1,
+                      crossAxisCount: TeaColor.values.length ~/ 4,
+                      mainAxisSpacing: 12.0,
+                      crossAxisSpacing: 12.0,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 6.0, horizontal: 12.0),
+                      shrinkWrap: true,
+                      // Tea color buttons
+                      children: List.generate(TeaColor.values.length,
+                          (index) => _colorButton(context, index)),
+                    ))),
               ),
               buttonTextFalse: AppString.cancel_button.translate());
         });
@@ -378,7 +377,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                 // Timer icon indicates current color
                 Icon(
                     tea.teaIcon,
-                    size: 32.0,
+                    size: 24.0,
                     color: Colors.white,
                   )
                 : Container()),
