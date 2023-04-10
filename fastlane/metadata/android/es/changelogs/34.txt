@@ -1,0 +1,3 @@
+* Identificar fácilmente cada temporizador de té activo por su color.
+* Permitir nombres de té más largos.
+* Actualizaciones de la traducción - ¡contribuye a través de Weblate!
