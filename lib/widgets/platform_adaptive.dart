@@ -148,6 +148,18 @@ Icon getPlatformRadioOffIcon(TargetPlatform platform) {
       : const Icon(Icons.radio_button_off);
 }
 
+Icon getPlatformRemoveIcon(TargetPlatform platform, Color color) {
+  return platform == TargetPlatform.iOS
+      ? Icon(CupertinoIcons.trash_fill, color: color)
+      : Icon(Icons.delete_outline, color: color);
+}
+
+Icon getPlatformRemoveAllIcon(TargetPlatform platform, Color color) {
+  return platform == TargetPlatform.iOS
+      ? Icon(CupertinoIcons.square_stack_3d_up_slash_fill, color: color)
+      : Icon(Icons.delete_sweep_outlined, color: color);
+}
+
 // Page scaffold with nav bar that is Material on Android and Cupertino on iOS
 class PlatformAdaptiveScaffold extends StatelessWidget {
   const PlatformAdaptiveScaffold({
