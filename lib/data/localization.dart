@@ -49,6 +49,7 @@ final Map<String, String> supportedLanguages = {
   'sl': 'Slovenščina',
   'tr': 'Türkçe',
   'uk': 'Українська',
+  'zh': '简体中文',
 };
 final List<String> languageOptions = [''] + supportedLanguages.keys.toList();
 const String defaultLanguage = 'en';
