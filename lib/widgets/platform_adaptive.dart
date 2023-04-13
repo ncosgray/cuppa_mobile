@@ -148,6 +148,18 @@ Icon getPlatformRadioOffIcon(TargetPlatform platform) {
       : const Icon(Icons.radio_button_off);
 }
 
+Icon getPlatformRemoveIcon(TargetPlatform platform, Color color) {
+  return platform == TargetPlatform.iOS
+      ? Icon(CupertinoIcons.trash_fill, color: color)
+      : Icon(Icons.delete_outline, color: color);
+}
+
+Icon getPlatformRemoveAllIcon(TargetPlatform platform, Color color) {
+  return platform == TargetPlatform.iOS
+      ? Icon(CupertinoIcons.square_stack_3d_up_slash_fill, color: color)
+      : Icon(Icons.delete_sweep_outlined, color: color);
+}
+
 // Page scaffold with nav bar that is Material on Android and Cupertino on iOS
 class PlatformAdaptiveScaffold extends StatelessWidget {
   const PlatformAdaptiveScaffold({
@@ -530,16 +542,27 @@ class _PlatformAdaptiveTimePickerDialogState
   final String buttonTextOK;
 
   // State variables
-  late int _newMinutes;
-  late int _newSeconds;
+  int _minutesIndex = 0;
+  int _secondsIndex = 0;
+  late FixedExtentScrollController _minutesController;
+  late FixedExtentScrollController _secondsController;
 
   // Initialize dialog state
   @override
   void initState() {
     super.initState();
 
-    _newMinutes = initialMinutes;
-    _newSeconds = initialSeconds;
+    // Set starting values
+    if (minuteOptions.contains(initialMinutes)) {
+      _minutesIndex = minuteOptions.indexOf(initialMinutes);
+    }
+    _minutesController =
+        FixedExtentScrollController(initialItem: _minutesIndex);
+    if (secondOptions.contains(initialSeconds)) {
+      _secondsIndex = secondOptions.indexOf(initialSeconds);
+    }
+    _secondsController =
+        FixedExtentScrollController(initialItem: _secondsIndex);
   }
 
   // Build dialog
@@ -563,7 +586,10 @@ class _PlatformAdaptiveTimePickerDialogState
               isDefaultAction: true,
               onPressed: () {
                 // Return selected time
-                Navigator.pop(context, (_newMinutes * 60 + _newSeconds));
+                Navigator.pop(
+                    context,
+                    minuteOptions[_minutesIndex] * 60 +
+                        secondOptions[_secondsIndex]);
               },
               child: Text(buttonTextOK)),
         ],
@@ -583,7 +609,10 @@ class _PlatformAdaptiveTimePickerDialogState
           FilledButton.tonal(
               onPressed: () {
                 // Return selected time
-                Navigator.pop(context, (_newMinutes * 60) + _newSeconds);
+                Navigator.pop(
+                    context,
+                    minuteOptions[_minutesIndex] * 60 +
+                        secondOptions[_secondsIndex]);
               },
               child: Text(buttonTextOK)),
         ],
@@ -593,88 +622,153 @@ class _PlatformAdaptiveTimePickerDialogState
 
   // Build a time picker
   Widget _timePicker() {
+    const Widget timePickerSpacer = SizedBox(width: 14.0);
+
     return SizedBox(
       height: 120.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // Increment down
+          _adaptiveIncrementButton(
+            icon: Icons.keyboard_arrow_down,
+            onPressed: () {
+              if (--_secondsIndex < 0) {
+                _minutesIndex--;
+                _secondsIndex = secondOptions.length - 1;
+              }
+              _updateTimePicker(doScroll: true);
+            },
+          ),
+          timePickerSpacer,
           // Minutes picker
           _timePickerScrollWheel(
-              initialValue: initialMinutes,
-              timeValues: minuteOptions,
-              onChanged: (newValue) {
-                _newMinutes = minuteOptions[newValue];
-
-                // Ensure we never have a 0:00 brew time
-                if (_newMinutes == 0 && _newSeconds == 0) {
-                  _newSeconds = 15;
-                }
-              }),
-          const SizedBox(width: 18.0),
+            controller: _minutesController,
+            initialValue: initialMinutes,
+            timeValues: minuteOptions,
+            onChanged: (newValue) {
+              _minutesIndex = newValue;
+              _updateTimePicker();
+            },
+          ),
+          timePickerSpacer,
           // Separator
           const Text(
             ':',
             style: textStyleSettingSeconday,
           ),
-          const SizedBox(width: 18.0),
+          timePickerSpacer,
           // Seconds picker
           _timePickerScrollWheel(
-              initialValue: initialSeconds,
-              timeValues: secondOptions,
-              onChanged: (newValue) {
-                _newSeconds = secondOptions[newValue];
-
-                // Ensure we never have a 0:00 brew time
-                if (_newSeconds == 0 && _newMinutes == 0) {
-                  _newSeconds = 15;
+            controller: _secondsController,
+            initialValue: initialSeconds,
+            timeValues: secondOptions,
+            onChanged: (newValue) {
+              _secondsIndex = newValue;
+              _updateTimePicker();
+            },
+            padTime: true,
+          ),
+          timePickerSpacer,
+          // Increment up
+          _adaptiveIncrementButton(
+            icon: Icons.keyboard_arrow_up,
+            onPressed: () {
+              if (!(_minutesIndex == minuteOptions.length - 1 &&
+                  _secondsIndex == secondOptions.length - 1)) {
+                if (++_secondsIndex >= secondOptions.length) {
+                  _minutesIndex++;
+                  _secondsIndex = 0;
                 }
-              },
-              padTime: true),
+                _updateTimePicker(doScroll: true);
+              }
+            },
+          ),
         ],
       ),
     );
   }
 
+  // Timer increment button with styling appropriate to platform
+  Widget _adaptiveIncrementButton(
+      {required IconData icon, required Function()? onPressed}) {
+    if (platform == TargetPlatform.iOS) {
+      return CupertinoButton(
+        padding: EdgeInsets.zero,
+        onPressed: onPressed,
+        child: Icon(icon),
+      );
+    } else {
+      return OutlinedButton(
+        style: const ButtonStyle(visualDensity: VisualDensity.compact),
+        onPressed: onPressed,
+        child: Icon(icon),
+      );
+    }
+  }
+
   // Build a time picker scroll wheel
   Widget _timePickerScrollWheel(
-      {required int initialValue,
+      {required FixedExtentScrollController controller,
+      required int initialValue,
       required Null Function(dynamic value) onChanged,
       required List<int> timeValues,
       bool padTime = false}) {
-    int initialItem = 0;
-    if (timeValues.contains(initialValue)) {
-      initialItem = timeValues.indexOf(initialValue);
+    return Row(children: [
+      SizedBox(
+        width: 36.0,
+        child: ListWheelScrollView(
+          controller: controller,
+          physics: const FixedExtentScrollPhysics(),
+          itemExtent: 28.0,
+          squeeze: 1.1,
+          diameterRatio: 1.1,
+          useMagnifier: true,
+          magnification: 1.1,
+          perspective: 0.01,
+          overAndUnderCenterOpacity: 0.2,
+          onSelectedItemChanged: onChanged,
+          // Time values menu
+          children: List<Widget>.generate(
+            timeValues.length,
+            (int index) {
+              return Center(
+                  child: Text(
+                // Format time with or without zero padding
+                padTime
+                    ? timeValues[index].toString().padLeft(2, '0')
+                    : timeValues[index].toString(),
+                style: textStyleSettingSeconday,
+              ));
+            },
+          ),
+        ),
+      )
+    ]);
+  }
+
+  // Update time picker scroll wheel position
+  void _updateTimePicker({bool doScroll = false}) {
+    // Ensure we never have a 0:00 brew time
+    if (minuteOptions[_minutesIndex] == 0 &&
+        secondOptions[_secondsIndex] == 0) {
+      _secondsIndex++;
+      doScroll = true;
     }
 
-    return SizedBox(
-      width: 36.0,
-      child: ListWheelScrollView(
-        controller: FixedExtentScrollController(initialItem: initialItem),
-        physics: const FixedExtentScrollPhysics(),
-        itemExtent: 28.0,
-        squeeze: 1.1,
-        diameterRatio: 1.1,
-        useMagnifier: true,
-        magnification: 1.1,
-        perspective: 0.01,
-        overAndUnderCenterOpacity: 0.2,
-        onSelectedItemChanged: onChanged,
-        // Time values menu
-        children: List<Widget>.generate(
-          timeValues.length,
-          (int index) {
-            return Center(
-                child: Text(
-              // Format time with or without zero padding
-              padTime
-                  ? timeValues[index].toString().padLeft(2, '0')
-                  : timeValues[index].toString(),
-              style: textStyleSettingSeconday,
-            ));
-          },
-        ),
-      ),
-    );
+    // Scroll wheels to new values
+    if (doScroll) {
+      _minutesController.animateToItem(
+        _minutesIndex,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.linear,
+      );
+      _secondsController.animateToItem(
+        _secondsIndex,
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.linear,
+      );
+    }
   }
 }
 

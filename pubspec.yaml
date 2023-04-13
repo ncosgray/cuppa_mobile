@@ -24,18 +24,18 @@ environment:
 dependencies:
   app_settings: ^4.2.0
   cupertino_icons: ^1.0.5
-  dynamic_color: ^1.6.2
+  dynamic_color: ^1.6.3
   flutter:
     sdk: flutter
   flutter_local_notifications: ^13.0.0
   flutter_localizations:
     sdk: flutter
   flutter_native_timezone: ^2.0.0
-  package_info_plus: ^3.0.3
+  package_info_plus: ^3.1.0
   provider: ^6.0.5
   quick_actions: ^1.0.2
   reorderables: ^0.6.0
-  shared_preferences: ^2.0.20
+  shared_preferences: ^2.1.0
   tuple: ^2.0.1
   url_launcher: ^6.1.10
   wakelock: ^0.6.2

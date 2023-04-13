@@ -258,8 +258,8 @@ class PrefsWidget extends StatelessWidget {
             child: Card(
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
-                    child: Icon(Icons.delete_sweep_outlined,
-                        color: Theme.of(context).colorScheme.error),
+                    child: getPlatformRemoveAllIcon(
+                        appPlatform, Theme.of(context).colorScheme.error),
                     onTap: () async {
                       AppProvider provider =
                           Provider.of<AppProvider>(context, listen: false);
