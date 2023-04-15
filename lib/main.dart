@@ -28,6 +28,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 // ignore: depend_on_referenced_packages
 import 'package:timezone/data/latest_all.dart' as tz;
 // ignore: depend_on_referenced_packages
@@ -87,10 +88,15 @@ class CuppaApp extends StatelessWidget {
                           MediaQuery.of(context).textScaleFactor > maxTextScale
                               ? maxTextScale
                               : MediaQuery.of(context).textScaleFactor;
-                      return MediaQuery(
-                        data: MediaQuery.of(context)
-                            .copyWith(textScaleFactor: appTextScale),
-                        child: child!,
+                      return ShowCaseWidget(
+                        autoPlay: false,
+                        builder: Builder(
+                          builder: (context) => MediaQuery(
+                            data: MediaQuery.of(context)
+                                .copyWith(textScaleFactor: appTextScale),
+                            child: child!,
+                          ),
+                        ),
                       );
                     },
                     title: appName,

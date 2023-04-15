@@ -105,6 +105,13 @@ enum AppString {
   theme_light('theme_light'),
   theme_system('theme_system'),
   theme_system_black('theme_system_black'),
+  tutorial('tutorial'),
+  tutorial_info('tutorial_info'),
+  tutorial_text1('tutorial_text1'),
+  tutorial_text2('tutorial_text2'),
+  tutorial_text3('tutorial_text3'),
+  tutorial_text4('tutorial_text4'),
+  tutorial_text5('tutorial_text5'),
   version_history('version_history'),
   yes_button('yes_button');
 
@@ -117,7 +124,9 @@ enum AppString {
     return AppLocalizations.translate(key)
         .replaceAll('{{tea_name}}', teaName)
         .replaceAll('{{app_name}}', appName)
-        .replaceAll('{{favorites_max}}', favoritesMaxCount.toString());
+        .replaceAll('{{favorites_max}}', favoritesMaxCount.toString())
+        .replaceAll('{{teas_max}}', teasMaxCount.toString())
+        .replaceAll('{{timers_max}}', timersMaxCount.toString());
   }
 }
 

@@ -157,6 +157,15 @@ abstract class Prefs {
       sharedPrefs.setString(prefAppLanguage, appLanguage);
     }
   }
+
+  // Get and set tutorial status
+  static bool get showTutorial {
+    return !(sharedPrefs.getBool(prefSkipTutorial) ?? false);
+  }
+
+  static void setSkipTutorial() {
+    sharedPrefs.setBool(prefSkipTutorial, true);
+  }
 }
 
 // App themes

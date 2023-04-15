@@ -123,6 +123,7 @@ const prefShowExtra = 'Cuppa_show_extra';
 const prefUseCelsius = 'Cuppa_use_celsius';
 const prefAppTheme = 'Cuppa_app_theme';
 const prefAppLanguage = 'Cuppa_app_language';
+const prefSkipTutorial = 'Cuppa_skip_tutorial';
 
 // More teas JSON keys
 const jsonKeyName = 'name';

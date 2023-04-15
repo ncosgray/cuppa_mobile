@@ -27,12 +27,14 @@ import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/prefs_page.dart';
 import 'package:cuppa_mobile/widgets/tea_button.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
+import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:showcaseview/showcaseview.dart';
 // ignore: depend_on_referenced_packages
 import 'package:timezone/timezone.dart' as tz;
 
@@ -65,6 +67,12 @@ class _TimerWidgetState extends State<TimerWidget> {
       // Add default presets if no custom teas have been set
       if (provider.teaCount == 0 && !Prefs.teaPrefsExist()) {
         provider.loadDefaults();
+
+        // Start a tutorial for new users
+        if (Prefs.showTutorial) {
+          ShowCaseWidget.of(context).startShowCase(tutorialSteps.keys.toList());
+          Prefs.setSkipTutorial();
+        }
       }
 
       // Manage timers
@@ -93,7 +101,11 @@ class _TimerWidgetState extends State<TimerWidget> {
         textScaleFactor: appTextScale,
         title: appName,
         // Button to navigate to Preferences page
-        actionIcon: getPlatformSettingsIcon(appPlatform),
+        actionIcon: tutorialTooltip(
+          context: context,
+          key: tutorialKey2,
+          child: getPlatformSettingsIcon(appPlatform),
+        ),
         actionRoute: const PrefsWidget(),
         body: SafeArea(
           child: Column(
@@ -109,18 +121,29 @@ class _TimerWidgetState extends State<TimerWidget> {
                       Expanded(
                         flex: 2,
                         child: Container(
-                            padding: layoutPortrait
-                                ? const EdgeInsets.fromLTRB(
-                                    48.0, 24.0, 48.0, 12.0)
-                                : const EdgeInsets.all(12.0),
-                            alignment: layoutPortrait
-                                ? Alignment.center
-                                : Alignment.centerRight,
-                            child: FittedBox(
-                              fit: BoxFit.fitHeight,
-                              alignment: Alignment.center,
-                              child: _countdownTimer(layoutPortrait),
-                            )),
+                          padding: layoutPortrait
+                              ? const EdgeInsets.fromLTRB(
+                                  48.0, 24.0, 48.0, 12.0)
+                              : const EdgeInsets.all(12.0),
+                          alignment: layoutPortrait
+                              ? Alignment.center
+                              : Alignment.centerRight,
+                          child: tutorialTooltip(
+                            context: context,
+                            key: tutorialKey1,
+                            showArrow: false,
+                            child: tutorialTooltip(
+                              context: context,
+                              key: tutorialKey5,
+                              showArrow: false,
+                              child: FittedBox(
+                                fit: BoxFit.fitHeight,
+                                alignment: Alignment.center,
+                                child: _countdownTimer(layoutPortrait),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       // Teacup
                       Expanded(
@@ -265,43 +288,53 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Horizontally scrollable list of available tea buttons
   Widget _teaButtonList() {
-    return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        clipBehavior: Clip.none,
-        controller: _scrollController,
-        child: Consumer<AppProvider>(builder: (context, provider, child) {
-          if (provider.teaCount > 0) {
-            // Tea buttons
-            return Row(
-                children: provider.teaList.map<Padding>((Tea tea) {
+    return tutorialTooltip(
+      context: context,
+      key: tutorialKey3,
+      child: tutorialTooltip(
+        context: context,
+        key: tutorialKey4,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          clipBehavior: Clip.none,
+          controller: _scrollController,
+          child: Consumer<AppProvider>(builder: (context, provider, child) {
+            if (provider.teaCount > 0) {
+              // Tea buttons
+              return Row(
+                  children: provider.teaList.map<Padding>((Tea tea) {
+                return Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: Column(children: [
+                      // Start brewing button
+                      TeaButton(
+                          key: GlobalObjectKey(tea.id),
+                          tea: tea,
+                          fade: !(_timerCount < timersMaxCount || tea.isActive),
+                          onPressed:
+                              _timerCount < timersMaxCount && !tea.isActive
+                                  ? (_) => _setTimer(tea)
+                                  : null),
+                      // Cancel brewing button
+                      Visibility(
+                        visible: tea.isActive,
+                        child: CancelButton(
+                            active: tea.isActive,
+                            onPressed: (_) => _cancelTimerForTea(tea)),
+                      )
+                    ]));
+              }).toList());
+            } else {
+              // Add button if tea list is empty
               return Padding(
                   padding: const EdgeInsets.only(right: 10.0),
-                  child: Column(children: [
-                    // Start brewing button
-                    TeaButton(
-                        key: GlobalObjectKey(tea.id),
-                        tea: tea,
-                        fade: !(_timerCount < timersMaxCount || tea.isActive),
-                        onPressed: _timerCount < timersMaxCount && !tea.isActive
-                            ? (_) => _setTimer(tea)
-                            : null),
-                    // Cancel brewing button
-                    Visibility(
-                      visible: tea.isActive,
-                      child: CancelButton(
-                          active: tea.isActive,
-                          onPressed: (_) => _cancelTimerForTea(tea)),
-                    )
-                  ]));
-            }).toList());
-          } else {
-            // Add button if tea list is empty
-            return Padding(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: _addButton());
-          }
-        }));
+                  child: _addButton());
+            }
+          }),
+        ),
+      ),
+    );
   }
 
   // Add button linking to Prefs page
