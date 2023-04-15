@@ -178,7 +178,7 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
   final double textScaleFactor;
   final String title;
   final Widget? actionRoute;
-  final Icon? actionIcon;
+  final Widget? actionIcon;
   final Widget body;
 
   @override
@@ -186,6 +186,7 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
     if (platform == TargetPlatform.iOS) {
       return CupertinoPageScaffold(
           navigationBar: CupertinoNavigationBar(
+            transitionBetweenRoutes: false,
             backgroundColor: Theme.of(context).primaryColor,
             leading: isPoppable
                 ? CupertinoNavigationBarBackButton(

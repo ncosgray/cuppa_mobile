@@ -59,3 +59,12 @@ const TextStyle textStyleSetting = TextStyle(
 const TextStyle textStyleSettingSeconday = TextStyle(
   fontSize: 18.0,
 );
+
+const TextStyle textStyleTutorial = TextStyle(
+  fontSize: 16.0,
+);
+
+const TextStyle textStyleTutorialTitle = TextStyle(
+  fontSize: 16.0,
+  fontWeight: FontWeight.bold,
+);
