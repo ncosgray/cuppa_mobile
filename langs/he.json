@@ -49,5 +49,12 @@
     "privacy_policy": "מדיניות הפרטיות",
     "confirm_delete": "למחוק את כל משקאות התה?",
     "theme_black": "שחור",
-    "theme_system_black": "כמו המערכת (שחור)"
+    "theme_system_black": "כמו המערכת (שחור)",
+    "tutorial": "מדריך",
+    "tutorial_info": "איך להשתמש ב־{{app_name}}",
+    "tutorial_text1": "ברוך בואך ל־{{app_name}}, יישומון פשוט לתזמון תה.",
+    "tutorial_text2": "ניתן להוסיף עד {{teas_max}} סוגי תה ולהתאים אותם לטעמך.",
+    "tutorial_text3": "יש לגעת בכפתור כדי להתחיל לתזמן את התה שלך בזמן הטבילה.",
+    "tutorial_text4": "יכולים להיות עד {{timers_max}} מתזמנים בו־זמנית.",
+    "tutorial_text5": "התה שלך נחלט לעילא, לרוויה!"
 }
