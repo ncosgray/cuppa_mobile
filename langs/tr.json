@@ -49,5 +49,12 @@
     "privacy_policy": "Gizlilik Politikası",
     "confirm_delete": "Tüm çayları silmek istediğinizden emin misiniz?",
     "theme_black": "Siyah",
-    "theme_system_black": "Sistemi takip et (Siyah)"
+    "theme_system_black": "Sistemi takip et (Siyah)",
+    "tutorial": "Öğretici",
+    "tutorial_info": "{{app_name}} nasıl kullanılır",
+    "tutorial_text1": "Basit bir çay zamanlayıcı uygulaması olan {{app_name}}'ya hoş geldiniz.",
+    "tutorial_text3": "Çayınız demlenirken zamanlamayı başlatmak için bir düğmeye dokunun.",
+    "tutorial_text5": "Mükemmel demlenen çayınızın tadını çıkarın!",
+    "tutorial_text4": "Aynı anda çalışan {{timers_max}} zamanlayıcıya sahip olabilirsiniz.",
+    "tutorial_text2": "{{teas_max}} kadar çay ekleyin ve beğeninize göre özelleştirin."
 }
