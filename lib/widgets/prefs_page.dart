@@ -160,6 +160,7 @@ class PrefsWidget extends StatelessWidget {
         builder: (context, count, child) => SizedBox(
             height: 64.0,
             child: Card(
+                shadowColor: Colors.transparent,
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
                     child: TextButton.icon(
@@ -256,6 +257,8 @@ class PrefsWidget extends StatelessWidget {
             width: 64.0,
             height: 64.0,
             child: Card(
+                shadowColor: Colors.transparent,
+                surfaceTintColor: Theme.of(context).colorScheme.error,
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
                     child: getPlatformRemoveAllIcon(
