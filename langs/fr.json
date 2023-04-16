@@ -49,5 +49,12 @@
     "privacy_policy": "Politique de confidentialité",
     "theme_black": "Noir",
     "theme_system_black": "Suivre le système (Noir)",
-    "confirm_delete": "Êtes-vous sûr de vouloir supprimer tous les thés ?"
+    "confirm_delete": "Êtes-vous sûr de vouloir supprimer tous les thés ?",
+    "tutorial": "Tutoriel",
+    "tutorial_info": "Comment utiliser {{app_name}}",
+    "tutorial_text1": "Bienvenue sur {{app_name}}, une application simple de compte à rebours de temps d'infusion.",
+    "tutorial_text2": "Ajoutez jusqu'à {{teas_max}} infusions et paramétrez-les comme vous voulez.",
+    "tutorial_text3": "Appuyez sur un bouton d'infusion pour débuter le compte à rebours jusqu'à infusion optimale.",
+    "tutorial_text4": "Vous pouvez avoir jusqu'à {{timers_max}} comptes à rebours en même temps.",
+    "tutorial_text5": "Profitez de votre boisson parfaitement infusée !"
 }
