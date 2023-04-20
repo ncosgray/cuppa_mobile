@@ -49,5 +49,12 @@
     "privacy_policy": "Datenschutz-Bestimmungen",
     "theme_black": "Schwarz",
     "confirm_delete": "Sind Sie sicher, dass Sie alle Tees löschen möchten?",
-    "theme_system_black": "System folgen (Schwarz)"
+    "theme_system_black": "System folgen (Schwarz)",
+    "tutorial": "Tutorial",
+    "tutorial_info": "Verwendung von {{app_name}}",
+    "tutorial_text2": "Füge bis zu {{teas_max}} Tees hinzu und passe sie an deinen Geschmack an.",
+    "tutorial_text1": "Willkommen zu {{app_name}}, einer simplen Tee-Timer App.",
+    "tutorial_text3": "Tipp auf eine der Tasten, um die Ziehzeit deines Tees zu bestimmen und den Timer zu starten.",
+    "tutorial_text4": "Du kannst {{timers_max}} Timer gleichzeitig laufen lassen.",
+    "tutorial_text5": "Genieß deine perfekt gebrühte Tasse Tee!"
 }
