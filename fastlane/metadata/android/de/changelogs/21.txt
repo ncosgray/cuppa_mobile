@@ -1,0 +1,4 @@
+* Lautere Notifikationstöne
+* Neue Option: wähle deine bevorzugte Sprache
+* Anpassungen an Nutzbarkeit und Interface
+* Aktualisierung der Übersetzung - unterstütze uns via Weblate!
