@@ -1,0 +1,5 @@
+* Timer Benachrichtungen beinhalten jetzt einen Zeitstempel.
+* Eine "Über" Seite wurde hinzugefügt.
+* Manche Einstellungen können jetzt angepasst werden während ein Timer aktiv ist.
+* Anpassungen an Nutzbarkeit und Interface.
+* Verfügbar in 7 neuen Sprachen - unterstütze uns via Weblate!

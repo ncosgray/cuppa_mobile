@@ -49,5 +49,12 @@
     "privacy_policy": "Política de privacidad",
     "confirm_delete": "¿Está seguro de que desea eliminar todos los tés?",
     "theme_black": "Negro",
-    "theme_system_black": "Tema del sistema (negro)"
+    "theme_system_black": "Tema del sistema (negro)",
+    "tutorial": "Tutorial",
+    "tutorial_info": "Cómo se usa {{app_name}}",
+    "tutorial_text1": "Bienvenido a {{app_name}}, una sencilla aplicación de temporizador para el té.",
+    "tutorial_text2": "Añade hasta {{teas_max}} tés y personalízalos a tu gusto.",
+    "tutorial_text3": "Toque un botón para comenzar a cronometrar mientras se hace el té.",
+    "tutorial_text4": "Puedes tener {{timers_max}} temporizadores funcionando a la vez.",
+    "tutorial_text5": "¡Disfruta de tu taza de té perfectamente preparada!"
 }

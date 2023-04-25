@@ -49,5 +49,12 @@
     "tea_name_assam": "阿萨姆红茶",
     "tea_name_mint": "薄荷茶",
     "tea_name_oolong": "乌龙茶",
-    "tea_name_puer": "普洱茶"
+    "tea_name_puer": "普洱茶",
+    "tutorial": "使用方法",
+    "tutorial_info": "如何使用 {{app_name}}",
+    "tutorial_text2": "添加多达 {{teas_max}} 种茶叶，并根据您的喜好进行定制。",
+    "tutorial_text3": "轻按一个按钮开始泡茶计时。",
+    "tutorial_text5": "请你尽情享受一杯完美冲泡的茶！",
+    "tutorial_text1": "欢迎使用 {{app_name}}，一个简单的泡茶计时器。",
+    "tutorial_text4": "最多可以同时运行 {{timers_max}} 个计时器。"
 }

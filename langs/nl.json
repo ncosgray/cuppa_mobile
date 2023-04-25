@@ -49,5 +49,12 @@
     "privacy_policy": "Privacybeleid",
     "confirm_delete": "Weet je zeker dat je alle theeën wilt verwijderen?",
     "theme_black": "Zwart",
-    "theme_system_black": "Systeemthema (zwart)"
+    "theme_system_black": "Systeemthema (zwart)",
+    "tutorial_text1": "Welkom in {{app_name}}, een eenvoudige theekookwekkerapp.",
+    "tutorial_text3": "Druk op een knop om een kookwekker te starten.",
+    "tutorial_text5": "Geniet van de best getrokken thee ooit!",
+    "tutorial_info": "Hoe gebruik ik {{app_name}}?",
+    "tutorial": "Rondleiding",
+    "tutorial_text2": "Voeg tot wel {{teas_max}} theeën toe en zet alle instellingen naar eigen hand.",
+    "tutorial_text4": "Je kunt maximaal {{timers_max}} kookwekkers tegelijkertijd gebruiken."
 }
