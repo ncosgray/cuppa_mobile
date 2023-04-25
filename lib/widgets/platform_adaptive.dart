@@ -724,8 +724,6 @@ class _PlatformAdaptiveTimePickerDialogState
           itemExtent: 28.0,
           squeeze: 1.1,
           diameterRatio: 1.1,
-          useMagnifier: true,
-          magnification: 1.1,
           perspective: 0.01,
           overAndUnderCenterOpacity: 0.2,
           onSelectedItemChanged: onChanged,
