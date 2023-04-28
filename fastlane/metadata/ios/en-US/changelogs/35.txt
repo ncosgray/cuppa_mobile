@@ -1,0 +1,4 @@
+* Add a tutorial for new Cuppa users.
+* Support longer brewing times.
+* Usability and interface tweaks.
+* New Chinese translation - contribute more languages via Weblate!
