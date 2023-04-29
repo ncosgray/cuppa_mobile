@@ -12,18 +12,21 @@
 
 // Cuppa helper functions
 
-const maxDegreesC = 100;
+const boilDegreesC = 100;
+const boilDegreesF = 212;
+const roomTempDegreesC = 20;
+const roomTempDegreesF = 68;
 const degreesC = '\u00b0C';
 const degreesF = '\u00b0F';
 
+// Infer C or F based on temp range
+bool isTempCelsius(i) {
+  return (i <= boilDegreesC && i != roomTempDegreesF);
+}
+
 // Format brew temperature as number with units
 String formatTemp(i) {
-  // Infer C or F based on temp range
-  if (i <= maxDegreesC) {
-    return i.toString() + degreesC;
-  } else {
-    return i.toString() + degreesF;
-  }
+  return i.toString() + (isTempCelsius(i) ? degreesC : degreesF);
 }
 
 // Format brew remaining time as m:ss

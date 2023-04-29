@@ -17,6 +17,7 @@ import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/tea.dart';
+import 'package:cuppa_mobile/helpers.dart';
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -228,6 +229,7 @@ final List<int> brewTimeSecondOptions = [0, 15, 30, 45];
 
 // Brewing temperature options
 final List<int> brewTempCOptions =
-    ([for (var i = 60; i <= 100; i += 5) i]); // C temps 60-100
-final List<int> brewTempFOptions =
-    ([for (var i = 130; i <= 200; i += 10) i] + [212]); // F temps 130-212
+    ([roomTempDegreesC] + [for (var i = 60; i <= boilDegreesC; i += 5) i]);
+final List<int> brewTempFOptions = ([roomTempDegreesF] +
+    [for (var i = 130; i <= 200; i += 10) i] +
+    [boilDegreesF]);

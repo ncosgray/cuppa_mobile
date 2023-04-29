@@ -837,7 +837,7 @@ class _PlatformAdaptiveTempPickerDialogState
     if (tempFOptions.contains(_newTemp)) {
       _newTempIndex = tempFOptions.indexOf(_newTemp);
     }
-    _unitsCelsius = initialTemp <= maxDegreesC ? true : false;
+    _unitsCelsius = isTempCelsius(initialTemp);
   }
 
   // Build dialog
