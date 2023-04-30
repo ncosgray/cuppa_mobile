@@ -91,6 +91,7 @@ enum AppString {
   tea_name_assam('tea_name_assam'),
   tea_name_black('tea_name_black'),
   tea_name_chamomile('tea_name_chamomile'),
+  tea_name_cold_brew('tea_name_cold_brew'),
   tea_name_darjeeling('tea_name_darjeeling'),
   tea_name_green('tea_name_green'),
   tea_name_herbal('tea_name_herbal'),

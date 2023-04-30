@@ -175,6 +175,14 @@ abstract class Presets {
         brewTempDegreesF: 200,
         color: TeaColor.brown,
         icon: TeaIcon.timer),
+    // Cold brew tea
+    Preset(
+        key: AppString.tea_name_cold_brew,
+        brewTime: 43200,
+        brewTempDegreesC: 20,
+        brewTempDegreesF: 68,
+        color: TeaColor.blue,
+        icon: TeaIcon.timer),
   ];
 
   // Get preset from key
