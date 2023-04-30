@@ -240,7 +240,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Countdown timer text
   Widget _timerText(String text) {
     return SizedBox(
-        width: text.length > 5 ? 560.0 : 480.0,
+        width: text.length * 104.0,
         child: Container(
             padding: const EdgeInsets.all(4.0),
             alignment: Alignment.center,

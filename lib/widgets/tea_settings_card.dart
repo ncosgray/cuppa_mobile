@@ -84,31 +84,31 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                             children: [
                               // Brew time
                               Flexible(
-                                  flex: 10,
+                                  flex: 11,
                                   child: Align(
                                       alignment: Alignment.centerLeft,
                                       child: _teaBrewTimeSelector())),
                               // Brew temperature
                               Flexible(
-                                  flex: 10,
+                                  flex: 9,
                                   child: Align(
                                       alignment: Alignment.center,
                                       child: _teaBrewTempSelector())),
                               // Settings separator
                               ConstrainedBox(
                                   constraints: const BoxConstraints(
-                                      minWidth: 16.0,
+                                      minWidth: 12.0,
                                       maxWidth: double.infinity),
                                   child: Container()),
                               // Tea color selection
                               Flexible(
-                                  flex: 7,
+                                  flex: 6,
                                   child: Align(
                                       alignment: Alignment.center,
                                       child: _teaColorSelector())),
                               // Icon selection
                               Flexible(
-                                  flex: 7,
+                                  flex: 6,
                                   child: Align(
                                       alignment: Alignment.centerRight,
                                       child: _teaIconSelector())),
