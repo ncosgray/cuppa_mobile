@@ -423,7 +423,7 @@ class _TimerWidgetState extends State<TimerWidget> {
           sound: notifySoundIOS),
     );
     await notify.zonedSchedule(notifyID, title, text, notifyTime, notifyDetails,
-        androidAllowWhileIdle: true,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
   }
