@@ -60,6 +60,10 @@ const TextStyle textStyleSettingSeconday = TextStyle(
   fontSize: 18.0,
 );
 
+const TextStyle textStyleSettingTertiary = TextStyle(
+  fontSize: 15.0,
+);
+
 const TextStyle textStyleTutorial = TextStyle(
   fontSize: 16.0,
 );

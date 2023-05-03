@@ -223,6 +223,8 @@ enum AppTheme {
 }
 
 // Brewing time options
+final List<int> brewTimeHourOptions =
+    List.generate(teaBrewTimeMaxHours, (i) => i);
 final List<int> brewTimeMinuteOptions =
     List.generate(teaBrewTimeMaxMinutes, (i) => i);
 final List<int> brewTimeSecondOptions = [0, 15, 30, 45];

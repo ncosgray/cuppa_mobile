@@ -494,6 +494,8 @@ class PlatformAdaptiveTimePickerDialog extends StatefulWidget {
   const PlatformAdaptiveTimePickerDialog({
     Key? key,
     required this.platform,
+    required this.initialHours,
+    required this.hourOptions,
     required this.initialMinutes,
     required this.minuteOptions,
     required this.initialSeconds,
@@ -503,6 +505,8 @@ class PlatformAdaptiveTimePickerDialog extends StatefulWidget {
   }) : super(key: key);
 
   final TargetPlatform platform;
+  final int initialHours;
+  final List<int> hourOptions;
   final int initialMinutes;
   final List<int> minuteOptions;
   final int initialSeconds;
@@ -514,6 +518,8 @@ class PlatformAdaptiveTimePickerDialog extends StatefulWidget {
   State<PlatformAdaptiveTimePickerDialog> createState() =>
       _PlatformAdaptiveTimePickerDialogState(
           platform: platform,
+          initialHours: initialHours,
+          hourOptions: hourOptions,
           initialMinutes: initialMinutes,
           minuteOptions: minuteOptions,
           initialSeconds: initialSeconds,
@@ -526,6 +532,8 @@ class _PlatformAdaptiveTimePickerDialogState
     extends State<PlatformAdaptiveTimePickerDialog> {
   _PlatformAdaptiveTimePickerDialogState({
     required this.platform,
+    required this.initialHours,
+    required this.hourOptions,
     required this.initialMinutes,
     required this.minuteOptions,
     required this.initialSeconds,
@@ -535,6 +543,8 @@ class _PlatformAdaptiveTimePickerDialogState
   });
 
   final TargetPlatform platform;
+  final int initialHours;
+  final List<int> hourOptions;
   final int initialMinutes;
   final List<int> minuteOptions;
   final int initialSeconds;
@@ -543,10 +553,13 @@ class _PlatformAdaptiveTimePickerDialogState
   final String buttonTextOK;
 
   // State variables
+  int _hoursIndex = 0;
   int _minutesIndex = 0;
   int _secondsIndex = 0;
+  late FixedExtentScrollController _hoursController;
   late FixedExtentScrollController _minutesController;
   late FixedExtentScrollController _secondsController;
+  late bool _hoursSelectionMode;
 
   // Initialize dialog state
   @override
@@ -554,6 +567,10 @@ class _PlatformAdaptiveTimePickerDialogState
     super.initState();
 
     // Set starting values
+    if (hourOptions.contains(initialHours)) {
+      _hoursIndex = hourOptions.indexOf(initialHours);
+    }
+    _hoursController = FixedExtentScrollController(initialItem: _hoursIndex);
     if (minuteOptions.contains(initialMinutes)) {
       _minutesIndex = minuteOptions.indexOf(initialMinutes);
     }
@@ -564,6 +581,7 @@ class _PlatformAdaptiveTimePickerDialogState
     }
     _secondsController =
         FixedExtentScrollController(initialItem: _secondsIndex);
+    _hoursSelectionMode = _hoursIndex > 0;
   }
 
   // Build dialog
@@ -589,7 +607,8 @@ class _PlatformAdaptiveTimePickerDialogState
                 // Return selected time
                 Navigator.pop(
                     context,
-                    minuteOptions[_minutesIndex] * 60 +
+                    hourOptions[_hoursIndex] * 3600 +
+                        minuteOptions[_minutesIndex] * 60 +
                         secondOptions[_secondsIndex]);
               },
               child: Text(buttonTextOK)),
@@ -612,7 +631,8 @@ class _PlatformAdaptiveTimePickerDialogState
                 // Return selected time
                 Navigator.pop(
                     context,
-                    minuteOptions[_minutesIndex] * 60 +
+                    hourOptions[_hoursIndex] * 3600 +
+                        minuteOptions[_minutesIndex] * 60 +
                         secondOptions[_secondsIndex]);
               },
               child: Text(buttonTextOK)),
@@ -634,55 +654,125 @@ class _PlatformAdaptiveTimePickerDialogState
           _adaptiveIncrementButton(
             icon: Icons.keyboard_arrow_down,
             onPressed: () {
-              if (--_secondsIndex < 0) {
+              if (_hoursSelectionMode) {
+                _minutesIndex--;
+              } else {
+                _secondsIndex--;
+              }
+              if (_secondsIndex < 0) {
                 _minutesIndex--;
                 _secondsIndex = secondOptions.length - 1;
+              }
+              if (_minutesIndex < 0) {
+                _hoursIndex--;
+                _minutesIndex = minuteOptions.length - 1;
+              }
+              if (_hoursIndex <= 0) {
+                _hoursIndex = 0;
+                if (_hoursSelectionMode) {
+                  // Change to minutes selection mode at 0 hours
+                  _hoursSelectionMode = false;
+                  _minutesIndex = minuteOptions.length - 1;
+                  _secondsIndex = secondOptions.length - 1;
+                }
               }
               _updateTimePicker(doScroll: true);
             },
           ),
           timePickerSpacer,
+          // Hours picker
+          Visibility(
+              visible: _hoursSelectionMode,
+              maintainState: true,
+              child: _timePickerScrollWheel(
+                controller: _hoursController,
+                initialValue: initialHours,
+                timeValues: hourOptions,
+                onChanged: (newValue) {
+                  if (newValue <= 0) {
+                    _hoursIndex = 0;
+                    if (_hoursSelectionMode) {
+                      // Change to minutes selection mode at 0 hours
+                      _hoursSelectionMode = false;
+                      _minutesIndex = minuteOptions.length - 1;
+                      _secondsIndex = secondOptions.length - 1;
+                    }
+                    _updateTimePicker(doScroll: true);
+                  } else {
+                    _hoursIndex = newValue;
+                    _updateTimePicker();
+                  }
+                },
+              )),
+          // Unit
+          Visibility(
+              visible: _hoursSelectionMode,
+              child: const Text('h', style: textStyleSettingTertiary)),
+          Visibility(visible: _hoursSelectionMode, child: timePickerSpacer),
           // Minutes picker
           _timePickerScrollWheel(
             controller: _minutesController,
             initialValue: initialMinutes,
-            timeValues: minuteOptions,
+            timeValues:
+                _hoursSelectionMode ? minuteOptions : minuteOptions + [60],
             onChanged: (newValue) {
-              _minutesIndex = newValue;
-              _updateTimePicker();
+              if (newValue >= minuteOptions.length) {
+                // Change to hours selection mode at 60 minutes
+                _hoursSelectionMode = true;
+                _hoursIndex++;
+                _minutesIndex = 0;
+                _updateTimePicker(doScroll: true);
+              } else {
+                _minutesIndex = newValue;
+                _updateTimePicker();
+              }
             },
           ),
-          timePickerSpacer,
-          // Separator
-          const Text(
-            ':',
-            style: textStyleSettingSeconday,
-          ),
-          timePickerSpacer,
+          Visibility(visible: !_hoursSelectionMode, child: timePickerSpacer),
+          // Unit
+          Text(_hoursSelectionMode ? 'm' : ':',
+              style: textStyleSettingTertiary),
+          Visibility(visible: !_hoursSelectionMode, child: timePickerSpacer),
           // Seconds picker
-          _timePickerScrollWheel(
-            controller: _secondsController,
-            initialValue: initialSeconds,
-            timeValues: secondOptions,
-            onChanged: (newValue) {
-              _secondsIndex = newValue;
-              _updateTimePicker();
-            },
-            padTime: true,
-          ),
+          Visibility(
+              visible: !_hoursSelectionMode,
+              maintainState: true,
+              child: _timePickerScrollWheel(
+                controller: _secondsController,
+                initialValue: initialSeconds,
+                timeValues: secondOptions,
+                onChanged: (newValue) {
+                  _secondsIndex = newValue;
+                  _updateTimePicker();
+                },
+                padTime: true,
+              )),
           timePickerSpacer,
           // Increment up
           _adaptiveIncrementButton(
             icon: Icons.keyboard_arrow_up,
             onPressed: () {
-              if (!(_minutesIndex == minuteOptions.length - 1 &&
-                  _secondsIndex == secondOptions.length - 1)) {
-                if (++_secondsIndex >= secondOptions.length) {
-                  _minutesIndex++;
-                  _secondsIndex = 0;
-                }
-                _updateTimePicker(doScroll: true);
+              if (_hoursSelectionMode) {
+                _minutesIndex++;
+              } else {
+                _secondsIndex++;
               }
+              if (_secondsIndex >= secondOptions.length) {
+                _minutesIndex++;
+                _secondsIndex = 0;
+              }
+              if (_minutesIndex >= minuteOptions.length) {
+                _minutesIndex = 0;
+                _hoursIndex++;
+                if (!_hoursSelectionMode) {
+                  // Change to hours selection mode at 60 minutes
+                  _hoursSelectionMode = true;
+                }
+              }
+              if (_hoursIndex >= hourOptions.length) {
+                _hoursIndex = hourOptions.length - 1;
+              }
+              _updateTimePicker(doScroll: true);
             },
           ),
         ],
@@ -748,26 +838,38 @@ class _PlatformAdaptiveTimePickerDialogState
 
   // Update time picker scroll wheel position
   void _updateTimePicker({bool doScroll = false}) {
-    // Ensure we never have a 0:00 brew time
-    if (minuteOptions[_minutesIndex] == 0 &&
+    // Ensure we never have a 0:00:00 brew time
+    if (hourOptions[_hoursIndex] == 0 &&
+        minuteOptions[_minutesIndex] == 0 &&
         secondOptions[_secondsIndex] == 0) {
-      _secondsIndex++;
+      if (hourOptions[_hoursIndex] > 0) {
+        _minutesIndex++;
+      } else {
+        _secondsIndex++;
+      }
       doScroll = true;
     }
 
     // Scroll wheels to new values
-    if (doScroll) {
-      _minutesController.animateToItem(
-        _minutesIndex,
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.linear,
-      );
-      _secondsController.animateToItem(
-        _secondsIndex,
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.linear,
-      );
-    }
+    setState(() {
+      if (doScroll) {
+        _hoursController.animateToItem(
+          _hoursIndex,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.linear,
+        );
+        _minutesController.animateToItem(
+          _minutesIndex,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.linear,
+        );
+        _secondsController.animateToItem(
+          _secondsIndex,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.linear,
+        );
+      }
+    });
   }
 }
 

@@ -230,8 +230,8 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                 )),
             onTap: () {
               // Open tea brew time dialog
-              _openTeaBrewTimeDialog(
-                      context, tea.brewTimeMinutes, tea.brewTimeSeconds)
+              _openTeaBrewTimeDialog(context, tea.brewTimeHours,
+                      tea.brewTimeMinutes, tea.brewTimeSeconds)
                   .then((newValue) {
                 if (newValue != null) {
                   // Save brew time to prefs
@@ -243,14 +243,16 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
   }
 
   // Display a tea brew time entry dialog box
-  Future<int?> _openTeaBrewTimeDialog(
-      BuildContext context, int currentMinutes, int currentSeconds) async {
+  Future<int?> _openTeaBrewTimeDialog(BuildContext context, int currentHours,
+      int currentMinutes, int currentSeconds) async {
     return showDialog<int>(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
           return PlatformAdaptiveTimePickerDialog(
               platform: appPlatform,
+              initialHours: currentHours,
+              hourOptions: brewTimeHourOptions,
               initialMinutes: currentMinutes,
               minuteOptions: brewTimeMinuteOptions,
               initialSeconds: currentSeconds,

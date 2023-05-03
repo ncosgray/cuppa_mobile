@@ -111,7 +111,11 @@ class Tea {
   }
 
   int get brewTimeMinutes {
-    return (this.brewTime / 60).floor();
+    return (this.brewTime / 60).floor() - (this.brewTimeHours * 60);
+  }
+
+  int get brewTimeHours {
+    return (this.brewTime / 3600).floor();
   }
 
   // Brew time setters
@@ -121,6 +125,10 @@ class Tea {
 
   set brewTimeMinutes(int newMins) {
     this.brewTime = (newMins * 60) + this.brewTimeSeconds;
+  }
+
+  set brewTimeHours(int newHrs) {
+    this.brewTime = (newHrs * 3600) + this.brewTimeMinutes;
   }
 
   // Quick action shortcut icons based on color and tea icon

@@ -45,6 +45,7 @@ class AppProvider extends ChangeNotifier {
   void updateTea(Tea tea,
       {String? name,
       int? brewTime,
+      int? brewTimeHours,
       int? brewTimeMinutes,
       int? brewTimeSeconds,
       int? brewTemp,
@@ -58,6 +59,9 @@ class AppProvider extends ChangeNotifier {
       }
       if (brewTime != null) {
         _teaList[teaIndex].brewTime = brewTime;
+      }
+      if (brewTimeHours != null) {
+        _teaList[teaIndex].brewTimeHours = brewTimeHours;
       }
       if (brewTimeMinutes != null) {
         _teaList[teaIndex].brewTimeMinutes = brewTimeMinutes;
