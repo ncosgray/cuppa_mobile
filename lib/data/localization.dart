@@ -113,6 +113,10 @@ enum AppString {
   tutorial_text3('tutorial_text3'),
   tutorial_text4('tutorial_text4'),
   tutorial_text5('tutorial_text5'),
+  unit_celsius('unit_celsius'),
+  unit_fahrenheit('unit_fahrenheit'),
+  unit_hours('unit_hours'),
+  unit_minutes('unit_minutes'),
   version_history('version_history'),
   yes_button('yes_button');
 

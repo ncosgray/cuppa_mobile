@@ -496,8 +496,10 @@ class PlatformAdaptiveTimePickerDialog extends StatefulWidget {
     required this.platform,
     required this.initialHours,
     required this.hourOptions,
+    required this.hourLabel,
     required this.initialMinutes,
     required this.minuteOptions,
+    required this.minuteLabel,
     required this.initialSeconds,
     required this.secondOptions,
     required this.buttonTextCancel,
@@ -507,8 +509,10 @@ class PlatformAdaptiveTimePickerDialog extends StatefulWidget {
   final TargetPlatform platform;
   final int initialHours;
   final List<int> hourOptions;
+  final String hourLabel;
   final int initialMinutes;
   final List<int> minuteOptions;
+  final String minuteLabel;
   final int initialSeconds;
   final List<int> secondOptions;
   final String buttonTextCancel;
@@ -520,8 +524,10 @@ class PlatformAdaptiveTimePickerDialog extends StatefulWidget {
           platform: platform,
           initialHours: initialHours,
           hourOptions: hourOptions,
+          hourLabel: hourLabel,
           initialMinutes: initialMinutes,
           minuteOptions: minuteOptions,
+          minuteLabel: minuteLabel,
           initialSeconds: initialSeconds,
           secondOptions: secondOptions,
           buttonTextCancel: buttonTextCancel,
@@ -534,8 +540,10 @@ class _PlatformAdaptiveTimePickerDialogState
     required this.platform,
     required this.initialHours,
     required this.hourOptions,
+    required this.hourLabel,
     required this.initialMinutes,
     required this.minuteOptions,
+    required this.minuteLabel,
     required this.initialSeconds,
     required this.secondOptions,
     required this.buttonTextCancel,
@@ -545,8 +553,10 @@ class _PlatformAdaptiveTimePickerDialogState
   final TargetPlatform platform;
   final int initialHours;
   final List<int> hourOptions;
+  final String hourLabel;
   final int initialMinutes;
   final List<int> minuteOptions;
+  final String minuteLabel;
   final int initialSeconds;
   final List<int> secondOptions;
   final String buttonTextCancel;
@@ -707,7 +717,11 @@ class _PlatformAdaptiveTimePickerDialogState
           // Unit
           Visibility(
               visible: _hoursSelectionMode,
-              child: const Text('h', style: textStyleSettingTertiary)),
+              child: Text(
+                hourLabel,
+                style: textStyleSettingTertiary,
+                textScaleFactor: 1.0,
+              )),
           Visibility(visible: _hoursSelectionMode, child: timePickerSpacer),
           // Minutes picker
           _timePickerScrollWheel(
@@ -730,8 +744,11 @@ class _PlatformAdaptiveTimePickerDialogState
           ),
           Visibility(visible: !_hoursSelectionMode, child: timePickerSpacer),
           // Unit
-          Text(_hoursSelectionMode ? 'm' : ':',
-              style: textStyleSettingTertiary),
+          Text(
+            _hoursSelectionMode ? minuteLabel : ':',
+            style: textStyleSettingTertiary,
+            textScaleFactor: 1.0,
+          ),
           Visibility(visible: !_hoursSelectionMode, child: timePickerSpacer),
           // Seconds picker
           Visibility(
@@ -1041,7 +1058,7 @@ class _PlatformAdaptiveTempPickerDialogState
               });
             }
           },
-          children: const <bool, Widget>{
+          children: <bool, Widget>{
             // Degrees C
             true: Text(degreesC),
             // Degrees F
@@ -1060,7 +1077,7 @@ class _PlatformAdaptiveTempPickerDialogState
               }
             });
           },
-          segments: const <ButtonSegment<bool>>[
+          segments: <ButtonSegment<bool>>[
             // Degrees C
             ButtonSegment<bool>(
               value: true,
