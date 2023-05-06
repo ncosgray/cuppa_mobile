@@ -180,61 +180,66 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Countdown timer display adjusted for orientation
   Widget _countdownTimer(bool layoutPortrait) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.green,
-        // Apply background colors to distinguish timers
-        gradient: _timerCount > 0
-            ? LinearGradient(
-                begin:
-                    layoutPortrait ? Alignment.topCenter : Alignment.centerLeft,
-                end: layoutPortrait
-                    ? Alignment.bottomCenter
-                    : Alignment.centerRight,
-                stops: List<double>.filled(_timerCount, 0.5),
-                colors: [
-                  for (Tea? tea in [_timer1.tea, _timer2.tea])
-                    if (tea != null) tea.getThemeColor(context)
-                ],
-              )
-            : null,
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-      ),
-      child: _timerCount == 0
-          ?
-          // Idle timer
-          _timerText(formatTimer(0))
-          : Flex(
-              // Determine layout by orientation
-              direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                  // Timer 1
-                  AnimatedSize(
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.easeInOut,
-                    child: _timer1.isActive
-                        ? _timerText(_timer1.timerString)
-                        : const SizedBox.shrink(),
-                  ),
-                  // Separator for timers with the same color
-                  Visibility(
-                      visible: _timerCount > 1 &&
-                          _timer1.tea?.color == _timer2.tea?.color,
-                      child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 12.0),
-                          width: layoutPortrait ? 420.0 : 12.0,
-                          height: layoutPortrait ? 12.0 : 140.0,
-                          color: Colors.white)),
-                  // Timer 2
-                  AnimatedSize(
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.easeInOut,
-                    child: _timer2.isActive
-                        ? _timerText(_timer2.timerString)
-                        : const SizedBox.shrink(),
-                  ),
-                ]),
-    );
+        decoration: BoxDecoration(
+          color: Colors.green,
+          // Apply background colors to distinguish timers
+          gradient: _timerCount > 0
+              ? LinearGradient(
+                  begin: layoutPortrait
+                      ? Alignment.topCenter
+                      : Alignment.centerLeft,
+                  end: layoutPortrait
+                      ? Alignment.bottomCenter
+                      : Alignment.centerRight,
+                  stops: List<double>.filled(_timerCount, 0.5),
+                  colors: [
+                    for (Tea? tea in [_timer1.tea, _timer2.tea])
+                      if (tea != null) tea.getThemeColor(context)
+                  ],
+                )
+              : null,
+          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+        ),
+        child: AnimatedSize(
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.linear,
+          child: _timerCount == 0
+              ?
+              // Idle timer
+              _timerText(formatTimer(0))
+              : Flex(
+                  // Determine layout by orientation
+                  direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                      // Timer 1
+                      AnimatedSize(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                        child: _timer1.isActive
+                            ? _timerText(_timer1.timerString)
+                            : const SizedBox.shrink(),
+                      ),
+                      // Separator for timers with the same color
+                      Visibility(
+                          visible: _timerCount > 1 &&
+                              _timer1.tea?.color == _timer2.tea?.color,
+                          child: Container(
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              width: layoutPortrait ? 420.0 : 12.0,
+                              height: layoutPortrait ? 12.0 : 140.0,
+                              color: Colors.white)),
+                      // Timer 2
+                      AnimatedSize(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                        child: _timer2.isActive
+                            ? _timerText(_timer2.timerString)
+                            : const SizedBox.shrink(),
+                      ),
+                    ]),
+        ));
   }
 
   // Countdown timer text
