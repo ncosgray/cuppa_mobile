@@ -1,0 +1,4 @@
+* Añadido un tutorial para los nuevos usuarios de Cuppa.
+* Soporte para los tiempos de preparación más largos.
+* Ajustes de usabilidad e interfaz.
+* Nueva traducción al Chino - ¡contribuye con más idiomas a través de Weblate!
