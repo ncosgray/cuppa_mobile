@@ -37,7 +37,6 @@ dependencies:
   reorderables: ^0.6.0
   shared_preferences: ^2.1.1
   showcaseview: ^2.0.3
-  tuple: ^2.0.1
   url_launcher: ^6.1.10
   wakelock: ^0.6.2
 

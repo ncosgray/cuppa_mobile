@@ -33,7 +33,6 @@ import 'package:showcaseview/showcaseview.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 // ignore: depend_on_referenced_packages
 import 'package:timezone/timezone.dart' as tz;
-import 'package:tuple/tuple.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,14 +69,16 @@ class CuppaApp extends StatelessWidget {
 
     return ChangeNotifierProvider(
         create: (_) => AppProvider(),
-        child: Selector<AppProvider, Tuple2<AppTheme, String>>(
-            selector: (_, provider) =>
-                Tuple2(provider.appTheme, provider.appLanguage),
+        child: Selector<AppProvider, ({AppTheme appTheme, String appLanguage})>(
+            selector: (_, provider) => (
+                  appTheme: provider.appTheme,
+                  appLanguage: provider.appLanguage
+                ),
             builder: (context, settings, child) {
               // Settings from provider
-              ThemeMode appThemeMode = settings.item1.themeMode;
-              bool appThemeBlack = settings.item1.blackTheme;
-              String appLanguage = settings.item2;
+              ThemeMode appThemeMode = settings.appTheme.themeMode;
+              bool appThemeBlack = settings.appTheme.blackTheme;
+              String appLanguage = settings.appLanguage;
 
               return DynamicColorBuilder(builder:
                   (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
