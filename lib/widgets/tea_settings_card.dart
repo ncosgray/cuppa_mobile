@@ -90,7 +90,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                                       child: _teaBrewTimeSelector())),
                               // Brew temperature
                               Flexible(
-                                  flex: 9,
+                                  flex: 8,
                                   child: Align(
                                       alignment: Alignment.center,
                                       child: _teaBrewTempSelector())),
@@ -276,7 +276,10 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      formatTemp(tea.brewTemp),
+                      formatTemp(tea.brewTemp,
+                          useCelsius:
+                              Provider.of<AppProvider>(context, listen: false)
+                                  .useCelsius),
                       style: textStyleSettingSeconday,
                     ),
                     dropdownArrow,

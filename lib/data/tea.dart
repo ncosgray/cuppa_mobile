@@ -91,8 +91,8 @@ class Tea {
     return this.name.toUpperCase();
   }
 
-  get tempDisplay {
-    return formatTemp(this.brewTemp);
+  String getTempDisplay({bool? useCelsius}) {
+    return formatTemp(this.brewTemp, useCelsius: useCelsius);
   }
 
   // Color getter
