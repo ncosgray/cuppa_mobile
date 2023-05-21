@@ -34,6 +34,7 @@
   "tea_name_assam": "Assam",
   "tea_name_black": "Qara Çay",
   "tea_name_chamomile": "Çobanyastığı",
+  "tea_name_cold_brew": "Soyuq Brew",
   "tea_name_darjeeling": "Darjeeling",
   "tea_name_green": "Yaşıl Çay",
   "tea_name_herbal": "Bitki Çayı",
@@ -55,6 +56,10 @@
   "tutorial_text3": "Çayınızı dik kimi vaxt təyin etməyə başlamaq üçün bir düyməyə basın.",
   "tutorial_text4": "{{timers_max}} timer bir anda qaça bilərsiniz.",
   "tutorial_text5": "Mükəmməl bir şəkildə bişirilmiş bir fincan çaydan zövq alın!",
+  "unit_celsius": "C",
+  "unit_fahrenheit": "F",
+  "unit_hours": "h",
+  "unit_minutes": "m",
   "version_history": "Versiya tarixçəsi",
   "yes_button": "Bəli"
 }

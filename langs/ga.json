@@ -34,6 +34,7 @@
   "tea_name_assam": "Assam",
   "tea_name_black": "Tae dubh",
   "tea_name_chamomile": "Camomile",
+  "tea_name_cold_brew": "Brew Fuar",
   "tea_name_darjeeling": "Darjeeling",
   "tea_name_green": "Tae glas",
   "tea_name_herbal": "Tae luibhe",
@@ -55,6 +56,10 @@
   "tutorial_text3": "Tapáil cnaipe chun tús a chur le do chuid tae a uainiú de réir mar a bhíonn sé géar.",
   "tutorial_text4": "Is féidir leat {{timers_max}} lasc ama a bheith ag rith ag an am céanna.",
   "tutorial_text5": "Bain sult as do cupán tae breá brewed!",
+  "unit_celsius": "C",
+  "unit_fahrenheit": "F",
+  "unit_hours": "h",
+  "unit_minutes": "m",
   "version_history": "Stair leagan",
   "yes_button": "Cealaigh"
 }

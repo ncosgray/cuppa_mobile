@@ -34,6 +34,7 @@
   "tea_name_assam": "Assam",
   "tea_name_black": "Must tee",
   "tea_name_chamomile": "Kummel",
+  "tea_name_cold_brew": "Külm Brew",
   "tea_name_darjeeling": "Darjeeling",
   "tea_name_green": "Roheline tee",
   "tea_name_herbal": "Taimetee",
@@ -55,6 +56,10 @@
   "tutorial_text3": "Puudutage nuppu, et alustada tee ajastamist, kui see järsuks muutub.",
   "tutorial_text4": "Teil võib korraga töötada {{timers_max}} taimerit.",
   "tutorial_text5": "Nautige oma täiuslikult pruulitud tassi teed!",
+  "unit_celsius": "C",
+  "unit_fahrenheit": "F",
+  "unit_hours": "h",
+  "unit_minutes": "m",
   "version_history": "Versiooniajalugu",
   "yes_button": "Jah"
 }

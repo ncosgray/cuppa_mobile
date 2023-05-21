@@ -34,6 +34,7 @@
   "tea_name_assam": "Assam",
   "tea_name_black": "Sort te",
   "tea_name_chamomile": "Kamille",
+  "tea_name_cold_brew": "Koldt bryg",
   "tea_name_darjeeling": "Darjeeling",
   "tea_name_green": "Grøn te",
   "tea_name_herbal": "Urte te",
@@ -55,6 +56,10 @@
   "tutorial_text3": "Tryk på en knap for at begynde at time din te, mens den stejler.",
   "tutorial_text4": "Du kan have {{timers_max}} timere kørende på én gang.",
   "tutorial_text5": "Nyd din perfekt bryggede kop te!",
+  "unit_celsius": "C",
+  "unit_fahrenheit": "F",
+  "unit_hours": "h",
+  "unit_minutes": "m",
   "version_history": "Versions historik",
   "yes_button": "Ja"
 }

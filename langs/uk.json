@@ -34,6 +34,7 @@
   "tea_name_assam": "Ассам",
   "tea_name_black": "Чорний Чай",
   "tea_name_chamomile": "Ромашковий",
+  "tea_name_cold_brew": "Холодне заварювання",
   "tea_name_darjeeling": "Дарджилінг",
   "tea_name_green": "Зелений Чай",
   "tea_name_herbal": "Фіточай",
@@ -55,6 +56,10 @@
   "tutorial_text3": "Натисніть кнопку, щоб почати хронометраж чаю під час заварювання.",
   "tutorial_text4": "Ви можете запустити відразу {{timers_max}} таймера.",
   "tutorial_text5": "Насолоджуйтесь ідеально завареною чашкою чаю!",
+  "unit_celsius": "C",
+  "unit_fahrenheit": "F",
+  "unit_hours": "h",
+  "unit_minutes": "m",
   "version_history": "Історія версій",
   "yes_button": "Так"
 }

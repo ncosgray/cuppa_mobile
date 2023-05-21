@@ -34,6 +34,7 @@
   "tea_name_assam": "Ассам",
   "tea_name_black": "Чёрный чай",
   "tea_name_chamomile": "Ромашковый",
+  "tea_name_cold_brew": "Холодное пиво",
   "tea_name_darjeeling": "Дарджилинг",
   "tea_name_green": "Зелёный чай",
   "tea_name_herbal": "Травяной чай",
@@ -55,6 +56,10 @@
   "tutorial_text3": "Нажмите кнопку, чтобы начать отсчет времени заваривания чая.",
   "tutorial_text4": "Вы можете запустить {{timers_max}} таймеров одновременно.",
   "tutorial_text5": "Наслаждайтесь великолепно заваренными кружечками чая!",
+  "unit_celsius": "C",
+  "unit_fahrenheit": "F",
+  "unit_hours": "h",
+  "unit_minutes": "m",
   "version_history": "История версий",
   "yes_button": "Да"
 }

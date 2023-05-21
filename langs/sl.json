@@ -34,6 +34,7 @@
   "tea_name_assam": "Assam",
   "tea_name_black": "Črni Čaj",
   "tea_name_chamomile": "Kamilica",
+  "tea_name_cold_brew": "Hladno pivo",
   "tea_name_darjeeling": "Darjeeling",
   "tea_name_green": "Zeleni Čaj",
   "tea_name_herbal": "Zeliščni čaj",
@@ -55,6 +56,10 @@
   "tutorial_text3": "Tapnite gumb, da začnete umerjati svoj čaj, ko se strmi.",
   "tutorial_text4": "Lahko imaš {{timers_max}} časovnika naenkrat.",
   "tutorial_text5": "Uživajte v popolni skodelici čaja!",
+  "unit_celsius": "C",
+  "unit_fahrenheit": "F",
+  "unit_hours": "h",
+  "unit_minutes": "m",
   "version_history": "Zgodovina različic",
   "yes_button": "Da"
 }

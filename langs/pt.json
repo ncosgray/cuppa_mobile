@@ -34,6 +34,7 @@
   "tea_name_assam": "Assam",
   "tea_name_black": "Chá preto",
   "tea_name_chamomile": "Camomila",
+  "tea_name_cold_brew": "Cerveja gelada",
   "tea_name_darjeeling": "Darjeeling",
   "tea_name_green": "Chá verde",
   "tea_name_herbal": "Chá de ervas",
@@ -55,6 +56,10 @@
   "tutorial_text3": "Toque em um botão para começar a cronometrar seu chá à medida que ele se enfunda.",
   "tutorial_text4": "Você pode ter {{timers_max}} temporizadores em execução de uma só vez.",
   "tutorial_text5": "Aproveite a sua xícara de chá perfeitamente preparada!",
+  "unit_celsius": "C",
+  "unit_fahrenheit": "F",
+  "unit_hours": "h",
+  "unit_minutes": "m",
   "version_history": "Histórico de versões",
   "yes_button": "Sim"
 }
