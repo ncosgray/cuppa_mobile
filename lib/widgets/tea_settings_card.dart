@@ -51,18 +51,20 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
   // Build a tea settings card
   @override
   Widget build(BuildContext context) {
-    bool isLargeDevice = MediaQuery.of(context).size.width >= largeDeviceSize;
+    // Get device dimensions
+    bool layoutPortrait =
+        MediaQuery.of(context).size.height > MediaQuery.of(context).size.width;
 
     return Card(
         child: ListTile(
-      horizontalTitleGap: isLargeDevice ? 24.0 : 4.0,
+      horizontalTitleGap: layoutPortrait ? 4.0 : 24.0,
       title: Opacity(
           opacity: tea.isActive ? 0.4 : 1.0,
           child: SizedBox(
-              height: isLargeDevice ? 64.0 : 88.0,
+              height: layoutPortrait ? 88.0 : 64.0,
               child: Flex(
                 // Determine layout by device size
-                direction: isLargeDevice ? Axis.horizontal : Axis.vertical,
+                direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
                 children: [
                   Flexible(
                     child: Container(
