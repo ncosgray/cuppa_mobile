@@ -422,10 +422,12 @@ class _TimerWidgetState extends State<TimerWidget> {
         audioAttributesUsage: AudioAttributesUsage.alarm,
       ),
       iOS: const DarwinNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-          sound: notifySoundIOS),
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+        sound: notifySoundIOS,
+        interruptionLevel: InterruptionLevel.timeSensitive,
+      ),
     );
     await notify.zonedSchedule(notifyID, title, text, notifyTime, notifyDetails,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
