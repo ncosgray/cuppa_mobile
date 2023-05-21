@@ -35,9 +35,15 @@ String get degreesF {
   return '$degreeSymbol${AppString.unit_fahrenheit.translate()}';
 }
 
-// Format brew temperature as number with units
-String formatTemp(i) {
-  String unit = isTempCelsius(i) ? degreesC : degreesF;
+// Format brew temperature as number with optional units
+String formatTemp(i, {bool? useCelsius}) {
+  String unit = useCelsius == null
+      ? degreeSymbol
+      : isTempCelsius(i) && !useCelsius
+          ? degreesC
+          : !isTempCelsius(i) && useCelsius
+              ? degreesF
+              : degreeSymbol;
   return '$i$unit';
 }
 

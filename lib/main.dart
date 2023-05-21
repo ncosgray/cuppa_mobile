@@ -23,7 +23,7 @@ import 'package:cuppa_mobile/widgets/timer_page.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +33,6 @@ import 'package:showcaseview/showcaseview.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 // ignore: depend_on_referenced_packages
 import 'package:timezone/timezone.dart' as tz;
-import 'package:tuple/tuple.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +41,7 @@ void main() async {
 
   // Get time zone
   tz.initializeTimeZones();
-  final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+  final String timeZoneName = await FlutterTimezone.getLocalTimezone();
   tz.setLocalLocation(tz.getLocation(timeZoneName));
 
   // Initialize notifications plugin
@@ -70,14 +69,16 @@ class CuppaApp extends StatelessWidget {
 
     return ChangeNotifierProvider(
         create: (_) => AppProvider(),
-        child: Selector<AppProvider, Tuple2<AppTheme, String>>(
-            selector: (_, provider) =>
-                Tuple2(provider.appTheme, provider.appLanguage),
+        child: Selector<AppProvider, ({AppTheme appTheme, String appLanguage})>(
+            selector: (_, provider) => (
+                  appTheme: provider.appTheme,
+                  appLanguage: provider.appLanguage
+                ),
             builder: (context, settings, child) {
               // Settings from provider
-              ThemeMode appThemeMode = settings.item1.themeMode;
-              bool appThemeBlack = settings.item1.blackTheme;
-              String appLanguage = settings.item2;
+              ThemeMode appThemeMode = settings.appTheme.themeMode;
+              bool appThemeBlack = settings.appTheme.blackTheme;
+              String appLanguage = settings.appLanguage;
 
               return DynamicColorBuilder(builder:
                   (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {

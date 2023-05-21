@@ -191,7 +191,13 @@ class _TimerWidgetState extends State<TimerWidget> {
                   end: layoutPortrait
                       ? Alignment.bottomCenter
                       : Alignment.centerRight,
-                  stops: List<double>.filled(_timerCount, 0.5),
+                  stops: List<double>.filled(
+                      _timerCount,
+                      !layoutPortrait && _timerCount > 1
+                          ? _timer1.timerString.length /
+                              (_timer1.timerString.length +
+                                  _timer2.timerString.length)
+                          : 0.5),
                   colors: [
                     for (Tea? tea in [_timer1.tea, _timer2.tea])
                       if (tea != null) tea.getThemeColor(context)
@@ -417,15 +423,18 @@ class _TimerWidgetState extends State<TimerWidget> {
         enableLights: true,
         color: Colors.green,
         enableVibration: true,
+        vibrationPattern: notifyVibratePattern,
         playSound: true,
         sound: const RawResourceAndroidNotificationSound(notifySound),
         audioAttributesUsage: AudioAttributesUsage.alarm,
       ),
       iOS: const DarwinNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-          sound: notifySoundIOS),
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+        sound: notifySoundIOS,
+        interruptionLevel: InterruptionLevel.timeSensitive,
+      ),
     );
     await notify.zonedSchedule(notifyID, title, text, notifyTime, notifyDetails,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,

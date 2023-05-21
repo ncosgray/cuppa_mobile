@@ -489,6 +489,26 @@ class _PlatformAdaptiveTextFormDialogState
   }
 }
 
+// Small button with styling appropriate to platform
+Widget adaptiveSmallButton(
+    {required TargetPlatform platform,
+    required IconData icon,
+    required Function()? onPressed}) {
+  if (platform == TargetPlatform.iOS) {
+    return CupertinoButton(
+      padding: EdgeInsets.zero,
+      onPressed: onPressed,
+      child: Icon(icon),
+    );
+  } else {
+    return OutlinedButton(
+      style: const ButtonStyle(visualDensity: VisualDensity.compact),
+      onPressed: onPressed,
+      child: Icon(icon),
+    );
+  }
+}
+
 // Display a tea brew time entry dialog box
 class PlatformAdaptiveTimePickerDialog extends StatefulWidget {
   const PlatformAdaptiveTimePickerDialog({
@@ -661,7 +681,8 @@ class _PlatformAdaptiveTimePickerDialogState
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Increment down
-          _adaptiveIncrementButton(
+          adaptiveSmallButton(
+            platform: platform,
             icon: Icons.keyboard_arrow_down,
             onPressed: () {
               if (_hoursSelectionMode) {
@@ -766,7 +787,8 @@ class _PlatformAdaptiveTimePickerDialogState
               )),
           timePickerSpacer,
           // Increment up
-          _adaptiveIncrementButton(
+          adaptiveSmallButton(
+            platform: platform,
             icon: Icons.keyboard_arrow_up,
             onPressed: () {
               if (_hoursSelectionMode) {
@@ -795,24 +817,6 @@ class _PlatformAdaptiveTimePickerDialogState
         ],
       ),
     );
-  }
-
-  // Timer increment button with styling appropriate to platform
-  Widget _adaptiveIncrementButton(
-      {required IconData icon, required Function()? onPressed}) {
-    if (platform == TargetPlatform.iOS) {
-      return CupertinoButton(
-        padding: EdgeInsets.zero,
-        onPressed: onPressed,
-        child: Icon(icon),
-      );
-    } else {
-      return OutlinedButton(
-        style: const ButtonStyle(visualDensity: VisualDensity.compact),
-        onPressed: onPressed,
-        child: Icon(icon),
-      );
-    }
   }
 
   // Build a time picker scroll wheel
@@ -1010,32 +1014,52 @@ class _PlatformAdaptiveTempPickerDialogState
 
   // Build a temperature picker
   Widget _tempPicker() {
+    const Widget tempPickerSpacer = SizedBox(height: 14.0);
+
     return SizedBox(
-      height: 145.0,
+      height: 175.0,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Unit selector
           _adaptiveUnitPicker(),
-          const SizedBox(height: 18.0),
-          // Display selected temperature
-          Text(
-            formatTemp(_newTemp),
-            style: textStyleSettingSeconday,
-          ),
-          Container(
-              padding: const EdgeInsets.only(left: 18.0, right: 18.0),
-              // Temperature picker
-              child: _adaptiveTempSlider(
-                  tempValueCount: tempCOptions.length - 1,
-                  onChanged: (newValue) {
-                    setState(() {
-                      _newTempIndex = newValue.toInt();
-                      _newTemp = _unitsCelsius
-                          ? tempCOptions[_newTempIndex]
-                          : tempFOptions[_newTempIndex];
-                    });
-                  })),
+          tempPickerSpacer,
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            // Increment down
+            adaptiveSmallButton(
+                platform: platform,
+                icon: Icons.keyboard_arrow_down,
+                onPressed: _newTempIndex > 0
+                    ? () {
+                        _newTempIndex--;
+                        _updateTempSlider();
+                      }
+                    : null),
+            // Display selected temperature
+            Text(
+              formatTemp(_newTemp),
+              style: textStyleSettingSeconday,
+            ),
+            // Increment up
+            adaptiveSmallButton(
+              platform: platform,
+              icon: Icons.keyboard_arrow_up,
+              onPressed: _newTempIndex < tempCOptions.length - 1
+                  ? () {
+                      _newTempIndex++;
+                      _updateTempSlider();
+                    }
+                  : null,
+            ),
+          ]),
+          tempPickerSpacer,
+          // Temperature picker
+          _adaptiveTempSlider(
+              tempValueCount: tempCOptions.length - 1,
+              onChanged: (newValue) {
+                _newTempIndex = newValue.toInt();
+                _updateTempSlider();
+              }),
         ],
       ),
     );
@@ -1111,6 +1135,15 @@ class _PlatformAdaptiveTempPickerDialogState
           divisions: tempValueCount,
           onChanged: onChanged);
     }
+  }
+
+  // Update temperature slider position
+  void _updateTempSlider() {
+    setState(() {
+      _newTemp = _unitsCelsius
+          ? tempCOptions[_newTempIndex]
+          : tempFOptions[_newTempIndex];
+    });
   }
 }
 

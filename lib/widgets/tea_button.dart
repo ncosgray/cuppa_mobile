@@ -107,7 +107,12 @@ class TeaButton extends StatelessWidget {
                                           padding: const EdgeInsets.fromLTRB(
                                               4.0, 2.0, 4.0, 0.0),
                                           child: Text(
-                                            tea.tempDisplay,
+                                            tea.getTempDisplay(
+                                                useCelsius:
+                                                    Provider.of<AppProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .useCelsius),
                                             style: textStyleButtonSecondary
                                                 .copyWith(
                                               color: tea.isActive

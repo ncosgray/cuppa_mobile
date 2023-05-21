@@ -38,77 +38,86 @@ class PrefsWidget extends StatelessWidget {
   // Build Prefs page
   @override
   Widget build(BuildContext context) {
+    // Get device dimensions
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery.of(context).size.height;
+    bool isLargeDevice =
+        (deviceWidth >= largeDeviceSize && deviceHeight >= largeDeviceSize);
+
     return PlatformAdaptiveScaffold(
-        platform: appPlatform,
-        isPoppable: true,
-        textScaleFactor: appTextScale,
-        title: AppString.prefs_title.translate(),
-        // Button to navigate to About page
-        actionIcon: getPlatformAboutIcon(appPlatform),
-        actionRoute: const AboutWidget(),
-        body: SafeArea(
-            child: Container(
+      platform: appPlatform,
+      isPoppable: true,
+      textScaleFactor: appTextScale,
+      title: AppString.prefs_title.translate(),
+      // Button to navigate to About page
+      actionIcon: getPlatformAboutIcon(appPlatform),
+      actionRoute: const AboutWidget(),
+      body: SafeArea(
+        child: Container(
           padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
-          child: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                elevation: 1,
-                pinned: true,
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-                shadowColor: Theme.of(context).shadowColor,
-                leadingWidth: 100.0,
-                leading: Container(
+          child: Row(children: [
+            Expanded(
+              child: CustomScrollView(slivers: [
+                // Teas section header
+                SliverAppBar(
+                  elevation: 1,
+                  pinned: true,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+                  shadowColor: Theme.of(context).shadowColor,
+                  leadingWidth: 100.0,
+                  leading: Container(
                     margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
-                    child:
-                        // Section: Teas
-                        Text(AppString.teas_title.translate(),
-                            style: textStyleHeader.copyWith(
-                              color:
-                                  Theme.of(context).textTheme.bodyLarge!.color!,
-                            ))),
+                    child: Text(AppString.teas_title.translate(),
+                        style: textStyleHeader.copyWith(
+                          color: Theme.of(context).textTheme.bodyLarge!.color!,
+                        )),
+                  ),
+                ),
+                // Tea settings info text
+                SliverToBoxAdapter(
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                        margin: const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 12.0),
+                        child: Text(AppString.prefs_header.translate(),
+                            style: textStyleSubtitle)),
+                  ),
+                ),
+                // Tea settings cards
+                _teaSettingsList(),
+                // Add Tea and Remove All buttons
+                SliverToBoxAdapter(
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 6.0),
+                    child: Row(children: [
+                      Expanded(child: _addTeaButton()),
+                      _removeAllButton(context),
+                    ]),
+                  ),
+                ),
+                // Other settings inline
+                SliverToBoxAdapter(
+                  child: Visibility(
+                    visible: !isLargeDevice,
+                    child: _otherSettingsList(context),
+                  ),
+                )
+              ]),
+            ),
+            // Other settings in second column
+            Visibility(
+              visible: isLargeDevice,
+              child: Expanded(
+                child: Container(
+                    margin: const EdgeInsets.only(left: 12.0, top: 18.0),
+                    child: _otherSettingsList(context)),
               ),
-              SliverToBoxAdapter(
-                  child:
-                      // Prefs header info text
-                      Align(
-                          alignment: Alignment.topLeft,
-                          child: Container(
-                              margin: const EdgeInsets.fromLTRB(
-                                  6.0, 0.0, 6.0, 12.0),
-                              child: Text(AppString.prefs_header.translate(),
-                                  style: textStyleSubtitle)))),
-              // Tea settings cards
-              _teaSettingsList(),
-              SliverToBoxAdapter(
-                child: Column(children: [
-                  Container(
-                      padding: const EdgeInsets.only(bottom: 6.0),
-                      child: Row(children: [
-                        // Add tea button
-                        Expanded(child: _addTeaButton()),
-                        // Remove all teas button
-                        _removeAllButton(context),
-                      ])),
-                  // Setting: show extra info on buttons
-                  _showExtraSetting(context),
-                  listDivider,
-                  // Setting: default to Celsius or Fahrenheit
-                  _useCelsiusSetting(context),
-                  listDivider,
-                  // Setting: app theme selection
-                  _appThemeSetting(context),
-                  listDivider,
-                  // Setting: app language selection
-                  _appLanguageSetting(context),
-                  listDivider,
-                  // Notification info
-                  _notificationLink(),
-                ]),
-              ),
-            ],
-          ),
-        )));
+            )
+          ]),
+        ),
+      ),
+    );
   }
 
   // Reoderable list of tea settings cards
@@ -295,6 +304,28 @@ class PrefsWidget extends StatelessWidget {
             buttonTextFalse: AppString.no_button.translate(),
           );
         });
+  }
+
+  // List of other settings
+  Widget _otherSettingsList(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.only(top: 6.0),
+        child: Column(children: [
+          // Setting: show extra info on buttons
+          _showExtraSetting(context),
+          listDivider,
+          // Setting: default to Celsius or Fahrenheit
+          _useCelsiusSetting(context),
+          listDivider,
+          // Setting: app theme selection
+          _appThemeSetting(context),
+          listDivider,
+          // Setting: app language selection
+          _appLanguageSetting(context),
+          listDivider,
+          // Notification info
+          _notificationLink(),
+        ]));
   }
 
   // Setting: show extra info on buttons

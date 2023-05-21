@@ -36,7 +36,7 @@ Widget aboutText() {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(AppString.about_app.translate(), style: textStyleFooter),
-            Row(children: const [
+            const Row(children: [
               Text(aboutCopyright, style: textStyleFooter),
               VerticalDivider(),
               Text(aboutURL, style: textStyleFooterLink)
