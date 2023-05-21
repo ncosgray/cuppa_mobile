@@ -1,0 +1,5 @@
+* [NIEUW] Rondleiding voor nieuwe gebruikers;
+* [NIEUW] Ondersteuning voor langere zettijden;
+* [NIEUW] Chinese vertaling;
+* [VERBETERD] Verbeterde vormgeving;
+* [VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!
