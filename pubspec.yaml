@@ -24,20 +24,20 @@ environment:
 dependencies:
   app_settings: ^4.2.0
   cupertino_icons: ^1.0.5
-  dynamic_color: ^1.6.3
+  dynamic_color: ^1.6.5
   flutter:
     sdk: flutter
-  flutter_local_notifications: ^14.0.0
+  flutter_local_notifications: ^14.1.0
   flutter_localizations:
     sdk: flutter
-  flutter_timezone: ^1.0.4
+  flutter_timezone: ^1.0.6
   package_info_plus: ^3.1.2
   provider: ^6.0.5
   quick_actions: ^1.0.3
   reorderables: ^0.6.0
   shared_preferences: ^2.1.1
   showcaseview: ^2.0.3
-  url_launcher: ^6.1.10
+  url_launcher: ^6.1.11
   wakelock: ^0.6.2
 
 dev_dependencies:
