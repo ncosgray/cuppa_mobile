@@ -191,7 +191,13 @@ class _TimerWidgetState extends State<TimerWidget> {
                   end: layoutPortrait
                       ? Alignment.bottomCenter
                       : Alignment.centerRight,
-                  stops: List<double>.filled(_timerCount, 0.5),
+                  stops: List<double>.filled(
+                      _timerCount,
+                      !layoutPortrait && _timerCount > 1
+                          ? _timer1.timerString.length /
+                              (_timer1.timerString.length +
+                                  _timer2.timerString.length)
+                          : 0.5),
                   colors: [
                     for (Tea? tea in [_timer1.tea, _timer2.tea])
                       if (tea != null) tea.getThemeColor(context)
