@@ -417,6 +417,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         enableLights: true,
         color: Colors.green,
         enableVibration: true,
+        vibrationPattern: notifyVibratePattern,
         playSound: true,
         sound: const RawResourceAndroidNotificationSound(notifySound),
         audioAttributesUsage: AudioAttributesUsage.alarm,
