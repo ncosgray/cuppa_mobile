@@ -38,11 +38,8 @@ class PrefsWidget extends StatelessWidget {
   // Build Prefs page
   @override
   Widget build(BuildContext context) {
-    // Get device dimensions
-    double deviceWidth = MediaQuery.of(context).size.width;
-    double deviceHeight = MediaQuery.of(context).size.height;
-    bool isLargeDevice =
-        (deviceWidth >= largeDeviceSize && deviceHeight >= largeDeviceSize);
+    // Determine layout based on device size
+    bool layoutColumns = getDeviceSize(context).isLargeDevice;
 
     return PlatformAdaptiveScaffold(
       platform: appPlatform,
@@ -99,7 +96,7 @@ class PrefsWidget extends StatelessWidget {
                 // Other settings inline
                 SliverToBoxAdapter(
                   child: Visibility(
-                    visible: !isLargeDevice,
+                    visible: !layoutColumns,
                     child: _otherSettingsList(context),
                   ),
                 )
@@ -107,7 +104,7 @@ class PrefsWidget extends StatelessWidget {
             ),
             // Other settings in second column
             Visibility(
-              visible: isLargeDevice,
+              visible: layoutColumns,
               child: Expanded(
                 child: Container(
                     margin: const EdgeInsets.only(left: 12.0, top: 18.0),

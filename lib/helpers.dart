@@ -12,7 +12,10 @@
 
 // Cuppa helper functions
 
+import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/localization.dart';
+
+import 'package:flutter/material.dart';
 
 const boilDegreesC = 100;
 const boilDegreesF = 212;
@@ -61,4 +64,19 @@ String formatTimer(s) {
   } else {
     return '$mins:${secs.toString().padLeft(2, '0')}';
   }
+}
+
+// Fetch details about the device size and orientation
+({double width, double height, bool isPortrait, bool isLargeDevice})
+    getDeviceSize(BuildContext context) {
+  double deviceWidth = MediaQuery.of(context).size.width;
+  double deviceHeight = MediaQuery.of(context).size.height;
+
+  return (
+    width: deviceWidth,
+    height: deviceHeight,
+    isPortrait: deviceHeight > deviceWidth,
+    isLargeDevice:
+        deviceWidth >= largeDeviceSize && deviceHeight >= largeDeviceSize,
+  );
 }

@@ -88,12 +88,9 @@ class _TimerWidgetState extends State<TimerWidget> {
     Future.delayed(
         Duration.zero, () => _scrollToTeaButton(_timer1.tea ?? _timer2.tea));
 
-    // Get device dimensions
-    double deviceWidth = MediaQuery.of(context).size.width;
-    double deviceHeight = MediaQuery.of(context).size.height;
-    bool isLargeDevice =
-        (deviceWidth >= largeDeviceSize && deviceHeight >= largeDeviceSize);
-    bool layoutPortrait = deviceHeight > deviceWidth || isLargeDevice;
+    // Determine layout based on device size
+    bool layoutPortrait = getDeviceSize(context).isPortrait ||
+        getDeviceSize(context).isLargeDevice;
 
     return PlatformAdaptiveScaffold(
         platform: appPlatform,
@@ -149,8 +146,8 @@ class _TimerWidgetState extends State<TimerWidget> {
                       Expanded(
                         flex: layoutPortrait ? 3 : 2,
                         child: Container(
-                          constraints:
-                              BoxConstraints(maxWidth: deviceHeight * 0.6),
+                          constraints: BoxConstraints(
+                              maxWidth: getDeviceSize(context).height * 0.6),
                           padding: layoutPortrait
                               ? const EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 12.0)
                               : const EdgeInsets.fromLTRB(
