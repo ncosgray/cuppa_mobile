@@ -432,9 +432,11 @@ class PrefsWidget extends StatelessWidget {
           title:
               Text(AppString.prefs_language.translate(), style: textStyleTitle),
           trailing: Text(
-              provider.appLanguage == ''
-                  ? AppString.theme_system.translate()
-                  : '${supportedLanguages[provider.appLanguage]!} (${provider.appLanguage})',
+              provider.appLanguage != '' &&
+                      supportedLocales
+                          .containsKey(parseLocaleString(provider.appLanguage))
+                  ? '${supportedLocales[parseLocaleString(provider.appLanguage)]!} (${provider.appLanguage})'
+                  : AppString.theme_system.translate(),
               style: textStyleTitle.copyWith(
                   color: Theme.of(context).textTheme.bodySmall!.color!)),
           // Open app language dialog
@@ -471,9 +473,11 @@ class PrefsWidget extends StatelessWidget {
               child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    value == ''
-                        ? AppString.theme_system.translate()
-                        : '${supportedLanguages[value]!} ($value)',
+                    value != '' &&
+                            supportedLocales
+                                .containsKey(parseLocaleString(value))
+                        ? '${supportedLocales[parseLocaleString(value)]!} ($value)'
+                        : AppString.theme_system.translate(),
                     style: textStyleTitle,
                   ))),
         ]),

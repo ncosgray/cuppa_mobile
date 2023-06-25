@@ -24,34 +24,37 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// Supported language codes and names
-final Map<String, String> supportedLanguages = {
-  'en': 'English',
-  'az': 'Azərbaycanca',
-  'br': 'Brezhoneg',
-  'cs': 'Čeština',
-  'da': 'Dansk',
-  'de': 'Deutsch',
-  'eo': 'Esperanto',
-  'es': 'Español',
-  'et': 'Eesti',
-  'eu': 'Euskara',
-  'fi': 'Suomi',
-  'fr': 'Français',
-  'ga': 'Gaeilge',
-  'he': 'עברית',
-  'ht': 'Ayisyen',
-  'it': 'Italiano',
-  'nb': 'Norsk Bokmål',
-  'nl': 'Nederlands',
-  'pt': 'Português',
-  'ru': 'Русский',
-  'sl': 'Slovenščina',
-  'tr': 'Türkçe',
-  'uk': 'Українська',
-  'zh': '简体中文',
+// Supported locales and language names
+final Map<Locale, String> supportedLocales = {
+  const Locale.fromSubtags(languageCode: 'en'): 'English',
+  const Locale.fromSubtags(languageCode: 'az'): 'Azərbaycanca',
+  const Locale.fromSubtags(languageCode: 'br'): 'Brezhoneg',
+  const Locale.fromSubtags(languageCode: 'cs'): 'Čeština',
+  const Locale.fromSubtags(languageCode: 'da'): 'Dansk',
+  const Locale.fromSubtags(languageCode: 'de'): 'Deutsch',
+  const Locale.fromSubtags(languageCode: 'eo'): 'Esperanto',
+  const Locale.fromSubtags(languageCode: 'es'): 'Español',
+  const Locale.fromSubtags(languageCode: 'et'): 'Eesti',
+  const Locale.fromSubtags(languageCode: 'eu'): 'Euskara',
+  const Locale.fromSubtags(languageCode: 'fi'): 'Suomi',
+  const Locale.fromSubtags(languageCode: 'fr'): 'Français',
+  const Locale.fromSubtags(languageCode: 'ga'): 'Gaeilge',
+  const Locale.fromSubtags(languageCode: 'he'): 'עברית',
+  const Locale.fromSubtags(languageCode: 'ht'): 'Ayisyen',
+  const Locale.fromSubtags(languageCode: 'it'): 'Italiano',
+  const Locale.fromSubtags(languageCode: 'nb'): 'Norsk Bokmål',
+  const Locale.fromSubtags(languageCode: 'nl'): 'Nederlands',
+  const Locale.fromSubtags(languageCode: 'pt'): 'Português',
+  const Locale.fromSubtags(languageCode: 'ru'): 'Русский',
+  const Locale.fromSubtags(languageCode: 'sl'): 'Slovenščina',
+  const Locale.fromSubtags(languageCode: 'tr'): 'Türkçe',
+  const Locale.fromSubtags(languageCode: 'uk'): 'Українська',
+  const Locale.fromSubtags(languageCode: 'zh'): '简体中文',
 };
-final List<String> languageOptions = [''] + supportedLanguages.keys.toList();
+final List<String> supportedLanguageCodes = supportedLocales.keys
+    .map<String>((Locale locale) => localeString(locale))
+    .toList();
+final List<String> languageOptions = [''] + supportedLanguageCodes;
 const String defaultLanguage = 'en';
 
 // Localizable app strings
@@ -136,9 +139,25 @@ enum AppString {
 }
 
 // Languages not supported by GlobalMaterialLocalizations
-final List<String> fallbackLanguages = supportedLanguages.keys
+final List<String> fallbackLanguages = supportedLanguageCodes
     .where((item) => !kMaterialSupportedLanguages.contains(item))
     .toList();
+
+// Given a locale, return its flat string name in the expected format
+String localeString(Locale locale) {
+  String name = locale.languageCode;
+  if (locale.scriptCode != null) name += '_${locale.scriptCode!}';
+  return name;
+}
+
+// Given a flat string, parse into a locale
+Locale parseLocaleString(String name) {
+  List<String> nameParts = name.split('_');
+  Locale locale = Locale.fromSubtags(
+      languageCode: nameParts[0],
+      scriptCode: nameParts.length > 1 ? nameParts[1] : null);
+  return locale;
+}
 
 class AppLocalizations {
   AppLocalizations(this.locale);
@@ -154,7 +173,7 @@ class AppLocalizations {
   Future<bool> load() async {
     // Populate strings map from JSON file in langs folder
     String jsonString =
-        await rootBundle.loadString('langs/${locale.languageCode}.json');
+        await rootBundle.loadString('langs/${localeString(locale)}.json');
     Map<String, dynamic> jsonMap = json.decode(jsonString);
 
     _localizedStrings = jsonMap.map((key, value) {
@@ -187,7 +206,9 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   // Determine if a language is supported
   @override
   bool isSupported(Locale locale) =>
-      supportedLanguages.keys.contains(locale.languageCode);
+      supportedLocales.containsKey(Locale.fromSubtags(
+          languageCode: locale.languageCode, scriptCode: locale.scriptCode)) ||
+      supportedLanguageCodes.contains(locale.languageCode);
 
   // Load localizations
   @override
