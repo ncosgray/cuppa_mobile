@@ -51,9 +51,9 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
   // Build a tea settings card
   @override
   Widget build(BuildContext context) {
-    // Get device dimensions
-    bool layoutPortrait =
-        MediaQuery.of(context).size.height > MediaQuery.of(context).size.width;
+    // Determine layout based on device size
+    bool layoutPortrait = getDeviceSize(context).isPortrait ||
+        getDeviceSize(context).isLargeDevice;
 
     return Card(
         child: ListTile(
@@ -337,12 +337,12 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                 )),
             onTap: () {
               // Open tea color dialog
-              _openColorDialog(tea, context);
+              _openColorDialog(context, tea);
             }));
   }
 
   // Display a tea color selection dialog box
-  Future<bool?> _openColorDialog(Tea tea, BuildContext context) async {
+  Future<bool?> _openColorDialog(BuildContext context, Tea tea) async {
     return showDialog<bool>(
         context: context,
         barrierDismissible: true,
@@ -352,7 +352,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
               title: Container(),
               content: SizedBox(
                 width: TeaColor.values.length * 16,
-                height: min(MediaQuery.of(context).size.height * 0.4,
+                height: min(getDeviceSize(context).height * 0.4,
                     TeaColor.values.length * 24),
                 child: Material(
                     type: MaterialType.transparency,
@@ -420,12 +420,12 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                 )),
             onTap: () {
               // Open tea icon dialog
-              _openIconDialog(tea, context);
+              _openIconDialog(context, tea);
             }));
   }
 
   // Display a tea icon selection dialog box
-  Future<bool?> _openIconDialog(Tea tea, BuildContext context) async {
+  Future<bool?> _openIconDialog(BuildContext context, Tea tea) async {
     return showDialog<bool>(
         context: context,
         barrierDismissible: true,

@@ -111,11 +111,10 @@ class CuppaApp extends StatelessWidget {
                     // Initial route
                     home: const TimerWidget(),
                     // Localization
-                    locale: appLanguage != '' ? Locale(appLanguage, '') : null,
-                    supportedLocales:
-                        supportedLanguages.keys.map<Locale>((String value) {
-                      return Locale(value, '');
-                    }).toList(),
+                    locale: appLanguage != followSystemLanguage
+                        ? parseLocaleString(appLanguage)
+                        : null,
+                    supportedLocales: supportedLocales.keys,
                     localizationsDelegates: const [
                       AppLocalizationsDelegate(),
                       GlobalMaterialLocalizations.delegate,
@@ -131,15 +130,25 @@ class CuppaApp extends StatelessWidget {
                           isLocaleMetric = false;
                         }
 
-                        // Set language or default to English
-                        for (var supportedLocale in supportedLocales) {
+                        // Set locale if supported
+                        for (Locale supportedLocale in supportedLocales) {
+                          if (supportedLocale.languageCode ==
+                                  locale.languageCode &&
+                              supportedLocale.scriptCode == locale.scriptCode) {
+                            return supportedLocale;
+                          }
+                        }
+                        for (Locale supportedLocale in supportedLocales) {
                           if (supportedLocale.languageCode ==
                               locale.languageCode) {
                             return supportedLocale;
                           }
                         }
                       }
-                      return const Locale(defaultLanguage, '');
+
+                      // Default if locale not supported
+                      return const Locale.fromSubtags(
+                          languageCode: defaultLanguage);
                     });
               });
             }));

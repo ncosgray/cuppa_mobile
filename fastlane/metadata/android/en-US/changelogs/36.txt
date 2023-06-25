@@ -1,0 +1,5 @@
+* Full support for cold-brewed teas (12+ hours steeping).
+* Redesigned Preferences page for tablets and foldables.
+* More insistent timer notifications.
+* Usability and interface tweaks.
+* Language translation updates - contribute via Weblate!

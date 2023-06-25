@@ -136,3 +136,7 @@ const jsonKeyIsFavorite = 'isFavorite';
 const jsonKeyIsActive = 'isActive';
 const jsonKeyTimerEndTime = 'timerEndTime';
 const jsonKeyTimerNotifyID = 'timerNotifyID';
+
+// Localization
+const defaultLanguage = 'en';
+const followSystemLanguage = '';

@@ -38,11 +38,8 @@ class PrefsWidget extends StatelessWidget {
   // Build Prefs page
   @override
   Widget build(BuildContext context) {
-    // Get device dimensions
-    double deviceWidth = MediaQuery.of(context).size.width;
-    double deviceHeight = MediaQuery.of(context).size.height;
-    bool isLargeDevice =
-        (deviceWidth >= largeDeviceSize && deviceHeight >= largeDeviceSize);
+    // Determine layout based on device size
+    bool layoutColumns = getDeviceSize(context).isLargeDevice;
 
     return PlatformAdaptiveScaffold(
       platform: appPlatform,
@@ -59,21 +56,7 @@ class PrefsWidget extends StatelessWidget {
             Expanded(
               child: CustomScrollView(slivers: [
                 // Teas section header
-                SliverAppBar(
-                  elevation: 1,
-                  pinned: true,
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-                  shadowColor: Theme.of(context).shadowColor,
-                  leadingWidth: 100.0,
-                  leading: Container(
-                    margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
-                    child: Text(AppString.teas_title.translate(),
-                        style: textStyleHeader.copyWith(
-                          color: Theme.of(context).textTheme.bodyLarge!.color!,
-                        )),
-                  ),
-                ),
+                _prefsHeader(context, AppString.teas_title.translate()),
                 // Tea settings info text
                 SliverToBoxAdapter(
                   child: Align(
@@ -99,23 +82,44 @@ class PrefsWidget extends StatelessWidget {
                 // Other settings inline
                 SliverToBoxAdapter(
                   child: Visibility(
-                    visible: !isLargeDevice,
+                    visible: !layoutColumns,
                     child: _otherSettingsList(context),
                   ),
                 )
               ]),
             ),
-            // Other settings in second column
+            // Other settings in second column with header
+            Visibility(visible: layoutColumns, child: Container(width: 6.0)),
             Visibility(
-              visible: isLargeDevice,
+              visible: layoutColumns,
               child: Expanded(
-                child: Container(
-                    margin: const EdgeInsets.only(left: 12.0, top: 18.0),
-                    child: _otherSettingsList(context)),
+                child: CustomScrollView(slivers: [
+                  _prefsHeader(context, AppString.settings_title.translate()),
+                  SliverToBoxAdapter(child: _otherSettingsList(context))
+                ]),
               ),
             )
           ]),
         ),
+      ),
+    );
+  }
+
+  // Prefs page column header
+  Widget _prefsHeader(BuildContext context, String title) {
+    return SliverAppBar(
+      elevation: 1,
+      pinned: true,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+      shadowColor: Theme.of(context).shadowColor,
+      leadingWidth: 100.0,
+      leading: Container(
+        margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
+        child: Text(title,
+            style: textStyleHeader.copyWith(
+              color: Theme.of(context).textTheme.bodyLarge!.color!,
+            )),
       ),
     );
   }
@@ -435,9 +439,11 @@ class PrefsWidget extends StatelessWidget {
           title:
               Text(AppString.prefs_language.translate(), style: textStyleTitle),
           trailing: Text(
-              provider.appLanguage == ''
-                  ? AppString.theme_system.translate()
-                  : '${supportedLanguages[provider.appLanguage]!} (${provider.appLanguage})',
+              provider.appLanguage != followSystemLanguage &&
+                      supportedLocales
+                          .containsKey(parseLocaleString(provider.appLanguage))
+                  ? '${supportedLocales[parseLocaleString(provider.appLanguage)]!} (${provider.appLanguage})'
+                  : AppString.theme_system.translate(),
               style: textStyleTitle.copyWith(
                   color: Theme.of(context).textTheme.bodySmall!.color!)),
           // Open app language dialog
@@ -474,9 +480,11 @@ class PrefsWidget extends StatelessWidget {
               child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    value == ''
-                        ? AppString.theme_system.translate()
-                        : '${supportedLanguages[value]!} ($value)',
+                    value != followSystemLanguage &&
+                            supportedLocales
+                                .containsKey(parseLocaleString(value))
+                        ? '${supportedLocales[parseLocaleString(value)]!} ($value)'
+                        : AppString.theme_system.translate(),
                     style: textStyleTitle,
                   ))),
         ]),
