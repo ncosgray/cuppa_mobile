@@ -337,12 +337,12 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                 )),
             onTap: () {
               // Open tea color dialog
-              _openColorDialog(tea, context);
+              _openColorDialog(context, tea);
             }));
   }
 
   // Display a tea color selection dialog box
-  Future<bool?> _openColorDialog(Tea tea, BuildContext context) async {
+  Future<bool?> _openColorDialog(BuildContext context, Tea tea) async {
     return showDialog<bool>(
         context: context,
         barrierDismissible: true,
@@ -420,12 +420,12 @@ class _TeaSettingsCardState extends State<TeaSettingsCard> {
                 )),
             onTap: () {
               // Open tea icon dialog
-              _openIconDialog(tea, context);
+              _openIconDialog(context, tea);
             }));
   }
 
   // Display a tea icon selection dialog box
-  Future<bool?> _openIconDialog(Tea tea, BuildContext context) async {
+  Future<bool?> _openIconDialog(BuildContext context, Tea tea) async {
     return showDialog<bool>(
         context: context,
         barrierDismissible: true,
