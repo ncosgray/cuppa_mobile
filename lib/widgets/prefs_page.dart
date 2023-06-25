@@ -56,21 +56,7 @@ class PrefsWidget extends StatelessWidget {
             Expanded(
               child: CustomScrollView(slivers: [
                 // Teas section header
-                SliverAppBar(
-                  elevation: 1,
-                  pinned: true,
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-                  shadowColor: Theme.of(context).shadowColor,
-                  leadingWidth: 100.0,
-                  leading: Container(
-                    margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
-                    child: Text(AppString.teas_title.translate(),
-                        style: textStyleHeader.copyWith(
-                          color: Theme.of(context).textTheme.bodyLarge!.color!,
-                        )),
-                  ),
-                ),
+                _prefsHeader(context, AppString.teas_title.translate()),
                 // Tea settings info text
                 SliverToBoxAdapter(
                   child: Align(
@@ -102,17 +88,38 @@ class PrefsWidget extends StatelessWidget {
                 )
               ]),
             ),
-            // Other settings in second column
+            // Other settings in second column with header
+            Visibility(visible: layoutColumns, child: Container(width: 6.0)),
             Visibility(
               visible: layoutColumns,
               child: Expanded(
-                child: Container(
-                    margin: const EdgeInsets.only(left: 12.0, top: 18.0),
-                    child: _otherSettingsList(context)),
+                child: CustomScrollView(slivers: [
+                  _prefsHeader(context, AppString.settings_title.translate()),
+                  SliverToBoxAdapter(child: _otherSettingsList(context))
+                ]),
               ),
             )
           ]),
         ),
+      ),
+    );
+  }
+
+  // Prefs page column header
+  Widget _prefsHeader(BuildContext context, String title) {
+    return SliverAppBar(
+      elevation: 1,
+      pinned: true,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+      shadowColor: Theme.of(context).shadowColor,
+      leadingWidth: 100.0,
+      leading: Container(
+        margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
+        child: Text(title,
+            style: textStyleHeader.copyWith(
+              color: Theme.of(context).textTheme.bodyLarge!.color!,
+            )),
       ),
     );
   }
