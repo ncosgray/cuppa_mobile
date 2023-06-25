@@ -111,7 +111,7 @@ class CuppaApp extends StatelessWidget {
                     // Initial route
                     home: const TimerWidget(),
                     // Localization
-                    locale: appLanguage != ''
+                    locale: appLanguage != followSystemLanguage
                         ? parseLocaleString(appLanguage)
                         : null,
                     supportedLocales: supportedLocales.keys,

@@ -55,8 +55,6 @@ final Map<Locale, String> supportedLocales = {
 final List<String> supportedLanguageCodes = supportedLocales.keys
     .map<String>((Locale locale) => localeString(locale))
     .toList();
-final List<String> languageOptions = [''] + supportedLanguageCodes;
-const String defaultLanguage = 'en';
 
 // Localizable app strings
 enum AppString {

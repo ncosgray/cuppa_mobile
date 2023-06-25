@@ -235,3 +235,7 @@ final List<int> brewTempCOptions =
 final List<int> brewTempFOptions = ([roomTempDegreesF] +
     [for (var i = 130; i <= 200; i += 10) i] +
     [boilDegreesF]);
+
+// App language options
+final List<String> languageOptions =
+    [followSystemLanguage] + supportedLanguageCodes;

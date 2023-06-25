@@ -439,7 +439,7 @@ class PrefsWidget extends StatelessWidget {
           title:
               Text(AppString.prefs_language.translate(), style: textStyleTitle),
           trailing: Text(
-              provider.appLanguage != '' &&
+              provider.appLanguage != followSystemLanguage &&
                       supportedLocales
                           .containsKey(parseLocaleString(provider.appLanguage))
                   ? '${supportedLocales[parseLocaleString(provider.appLanguage)]!} (${provider.appLanguage})'
@@ -480,7 +480,7 @@ class PrefsWidget extends StatelessWidget {
               child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    value != '' &&
+                    value != followSystemLanguage &&
                             supportedLocales
                                 .containsKey(parseLocaleString(value))
                         ? '${supportedLocales[parseLocaleString(value)]!} ($value)'

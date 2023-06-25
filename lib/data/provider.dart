@@ -205,7 +205,7 @@ class AppProvider extends ChangeNotifier {
   }
 
   // Setting: app language
-  String _appLanguage = '';
+  String _appLanguage = followSystemLanguage;
   String get appLanguage => _appLanguage;
   set appLanguage(String newValue) {
     _appLanguage = newValue;
