@@ -50,6 +50,7 @@ final Map<Locale, String> supportedLocales = {
   const Locale.fromSubtags(languageCode: 'tr'): 'Türkçe',
   const Locale.fromSubtags(languageCode: 'uk'): 'Українська',
   const Locale.fromSubtags(languageCode: 'zh'): '简体中文',
+  const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'): '繁體中文',
 };
 final List<String> supportedLanguageCodes = supportedLocales.keys
     .map<String>((Locale locale) => localeString(locale))
