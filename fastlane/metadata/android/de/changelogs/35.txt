@@ -1,0 +1,4 @@
+Füge ein Tutorial für neue Cuppa-Benutzer hinzu.
+Unterstütze längere Brühzeiten.
+Verbesserungen in Benutzerfreundlichkeit und Oberfläche.
+Neue chinesische Übersetzung - trage weitere Sprachen über Weblate bei!

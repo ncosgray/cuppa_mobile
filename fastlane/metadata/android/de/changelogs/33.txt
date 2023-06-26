@@ -1,0 +1,3 @@
+- Doppelte Timer: Sie können jetzt einen zweiten Timer starten, während Ihr erster Tee zieht.
+- Zuverlässigere Timer-Benachrichtigungen in bestimmten Szenarien.
+- Hinzufügen einer Sprache und andere Aktualisierungen der Übersetzungen - tragen Sie über Weblate bei!

@@ -1,0 +1,2 @@
+- Unterstützung für die Benachrichtigungsberechtigung unter Android 13.
+- Aktualisierungen der Sprachübersetzung - tragen Sie über Weblate bei!

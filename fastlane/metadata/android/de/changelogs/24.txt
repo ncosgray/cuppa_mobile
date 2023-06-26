@@ -1,0 +1,5 @@
+- Tee-Sorten-Voreinstellungen erleichtern das Hinzufügen neuer Tees noch mehr!
+- Verwenden Sie Alarmbenachrichtigungen, um Ihre Aufmerksamkeit zu erregen.
+  (Hinweis: Um auf Alarmbenachrichtigungen umzustellen, müssen Sie möglicherweise die App neu installieren.)
+- Verbesserungen bei Benutzerfreundlichkeit und Oberfläche.
+- Aktualisierungen der Sprachübersetzung - tragen Sie über Weblate bei!

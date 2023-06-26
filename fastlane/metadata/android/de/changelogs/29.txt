@@ -1,0 +1,2 @@
+- Behebung von Abstürzen auf faltbaren Geräten
+- Verbessertes monochromes Symbol.

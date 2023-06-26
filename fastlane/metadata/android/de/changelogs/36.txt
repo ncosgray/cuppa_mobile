@@ -1,0 +1,5 @@
+Volle Unterstützung für kaltgebrühte Tees (Einwirkzeit von 12+ Stunden).
+Neugestaltete Einstellungen-Seite für Tablets und faltbare Geräte.
+Verbesserte Benachrichtigungen für den Timer.
+Verbesserungen in Benutzerfreundlichkeit und Oberfläche.
+Aktualisierungen bei den Sprachübersetzungen – tragen Sie über Weblate bei!

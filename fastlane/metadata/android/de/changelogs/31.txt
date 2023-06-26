@@ -1,0 +1,5 @@
+- Das reine schwarze Dark-Theme ist jetzt optional.
+- Hinzufügen einer Schaltfläche zum Entfernen aller Tees.
+- Behebung eines Fehlers, der dazu führte, dass Verknüpfungen unerwartet gestartet wurden.
+- Verbesserungen bei Benutzerfreundlichkeit und Oberfläche.
+- Aktualisierungen der Sprachübersetzung - tragen Sie über Weblate bei!

@@ -1,0 +1,6 @@
+- Neue Teeoption: Wählen Sie aus drei verschiedenen Symbolen.
+- Einfachere Auswahl von Brühzeit und Temperatur.
+- Erlauben Sie die Verwendung von nur einer Tee-Schaltfläche.
+- Hinzufügen eines Links zu den Gerätebenachrichtigungseinstellungen.
+- Verbesserungen bei Benutzerfreundlichkeit und Oberfläche.
+- Aktualisierungen der Sprachübersetzung - tragen Sie über Weblate bei!
