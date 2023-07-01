@@ -442,7 +442,7 @@ class PrefsWidget extends StatelessWidget {
               provider.appLanguage != followSystemLanguage &&
                       supportedLocales
                           .containsKey(parseLocaleString(provider.appLanguage))
-                  ? '${supportedLocales[parseLocaleString(provider.appLanguage)]!} (${provider.appLanguage})'
+                  ? supportedLocales[parseLocaleString(provider.appLanguage)]!
                   : AppString.theme_system.translate(),
               style: textStyleTitle.copyWith(
                   color: Theme.of(context).textTheme.bodySmall!.color!)),
@@ -483,7 +483,7 @@ class PrefsWidget extends StatelessWidget {
                     value != followSystemLanguage &&
                             supportedLocales
                                 .containsKey(parseLocaleString(value))
-                        ? '${supportedLocales[parseLocaleString(value)]!} ($value)'
+                        ? supportedLocales[parseLocaleString(value)]!
                         : AppString.theme_system.translate(),
                     style: textStyleTitle,
                   ))),
