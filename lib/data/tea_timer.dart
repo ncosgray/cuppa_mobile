@@ -17,7 +17,7 @@ import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'dart:async';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class TeaTimer {
   // Fields
@@ -46,7 +46,7 @@ class TeaTimer {
   void decrement() {
     if (tea != null) {
       timerSeconds = tea!.brewTimeRemaining;
-      Wakelock.enable();
+      WakelockPlus.enable();
     }
   }
 
@@ -64,7 +64,7 @@ class TeaTimer {
     if (ticker != null) {
       ticker!.cancel();
     }
-    Wakelock.disable();
+    WakelockPlus.disable();
   }
 
   // Calculate percent complete

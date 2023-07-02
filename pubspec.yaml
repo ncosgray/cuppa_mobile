@@ -38,10 +38,7 @@ dependencies:
   shared_preferences: ^2.2.0
   showcaseview: ^2.0.3
   url_launcher: ^6.1.11
-  wakelock: ^0.6.2
-
-dependency_overrides:
-  win32: 3.1.4
+  wakelock_plus: ^1.0.0
 
 dev_dependencies:
   flutter_test:
