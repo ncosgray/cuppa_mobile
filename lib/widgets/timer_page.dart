@@ -429,6 +429,8 @@ class _TimerWidgetState extends State<TimerWidget> {
         presentAlert: true,
         presentBadge: true,
         presentSound: true,
+        presentBanner: true,
+        presentList: true,
         sound: notifySoundIOS,
         interruptionLevel: InterruptionLevel.timeSensitive,
       ),
