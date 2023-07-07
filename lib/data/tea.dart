@@ -22,7 +22,7 @@ import 'package:flutter/material.dart';
 // Tea definition
 class Tea {
   // ID
-  late UniqueKey id;
+  late int id;
 
   // Fields
   late String name;
@@ -37,7 +37,8 @@ class Tea {
 
   // Constructor
   Tea(
-      {required String name,
+      {int? id,
+      required String name,
       required int brewTime,
       required int brewTemp,
       TeaColor? color,
@@ -48,7 +49,8 @@ class Tea {
       required bool isActive,
       int timerEndTime = 0,
       int? timerNotifyID}) {
-    this.id = UniqueKey();
+    // Assign next tea ID if not given
+    this.id = id ?? nextTeaID++;
     this.name = name;
     this.brewTime = brewTime;
     this.brewTemp = brewTemp;
@@ -283,7 +285,8 @@ class Tea {
   // Factories
   factory Tea.fromJson(Map<String, dynamic> json) {
     return Tea(
-      name: json[jsonKeyName] ?? '',
+      id: json[jsonKeyID],
+      name: json[jsonKeyName] ?? unknownString,
       brewTime: json[jsonKeyBrewTime] ?? 0,
       brewTemp: json[jsonKeyBrewTemp] ?? 0,
       colorValue: json[jsonKeyColor] ?? 0,
@@ -297,6 +300,7 @@ class Tea {
 
   Map<String, dynamic> toJson() {
     return {
+      jsonKeyID: this.id,
       jsonKeyName: this.name,
       jsonKeyBrewTime: this.brewTime,
       jsonKeyBrewTemp: this.brewTemp,

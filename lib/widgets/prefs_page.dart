@@ -141,14 +141,14 @@ class PrefsWidget extends StatelessWidget {
                     // Disable editing actively brewing tea
                     ignoring: tea.isActive,
                     child: Container(
-                        key: Key(tea.id.toString()),
+                        key: Key('${tea.name}${tea.id}'),
                         child: TeaSettingsCard(
                           tea: tea,
                         )));
               } else {
                 // Deleteable
                 return Dismissible(
-                  key: Key(tea.id.toString()),
+                  key: Key('${tea.name}${tea.id}'),
                   onDismissed: (direction) {
                     // Delete this from the tea list
                     provider.deleteTea(tea);

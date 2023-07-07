@@ -35,6 +35,9 @@ abstract class Prefs {
     List<Tea> teaList = [];
     bool migrated = false;
 
+    // Initialize next tea ID
+    nextTeaID = sharedPrefs.getInt(prefNextTeaID) ?? 0;
+
     // Migrate legacy Tea 1
     if (sharedPrefs.containsKey(prefTea1Name) &&
         sharedPrefs.containsKey(prefTea1BrewTime)) {
@@ -115,6 +118,7 @@ abstract class Prefs {
     List<String> teaListEncoded =
         teaList.map((tea) => jsonEncode(tea.toJson())).toList();
     sharedPrefs.setStringList(prefTeaList, teaListEncoded);
+    sharedPrefs.setInt(prefNextTeaID, nextTeaID);
   }
 
   // Get settings from shared prefs
