@@ -1,0 +1,6 @@
+* Marque seus chás favoritos para adicioná-los como atalhos de ícones de aplicativos.
+* Padrão para temperaturas Celsius para aqueles que não estão nos EUA.
+* Nova opção: escolha seu tema (claro ou escuro).
+* Mais opções de cores de botões de chá.
+* Usabilidade e ajustes de interface.
+* Atualizações de tradução de idiomas - contribua via Weblate!

@@ -1,0 +1,4 @@
+* Adicione um tutorial para novos usuários do Cuppa.
+* Suporta tempos de fermentação mais longos.
+* Usabilidade e ajustes de interface.
+* Nova tradução chinesa - contribua com mais idiomas via Weblate!

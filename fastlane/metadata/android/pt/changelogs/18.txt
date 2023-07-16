@@ -1,0 +1,4 @@
+* Adicione mais de 3 chás personalizados em Cuppa Preferences.
+* Mude a ordem dos seus botões de chá.
+* Qualidade gráfica melhorada.
+* Atualizações de tradução de idiomas - contribua via Weblate!

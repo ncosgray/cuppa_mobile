@@ -1,0 +1,4 @@
+* Som de notificação mais alto.
+* Nova opção: escolha o idioma de sua preferência.
+* Usabilidade e ajustes de interface.
+* Atualizações de tradução de idiomas - contribua via Weblate!
