@@ -57,6 +57,7 @@ const notifySoundIOS = 'sound/spoon.aiff';
 // Quick actions
 const favoritesMaxCount = 4; // iOS limitation
 const shortcutPrefix = 'shortcutTea';
+const shortcutPrefixID = 'shortcutID';
 const shortcutIconIOS = 'QuickAction';
 const shortcutIconIOSCup = 'QuickActionCup';
 const shortcutIconIOSFlower = 'QuickActionFlower';
@@ -120,6 +121,7 @@ const prefTea3IsActive = 'Cuppa_tea3_is_active';
 const prefTeaList = 'Cuppa_tea_list';
 
 // Shared prefs keys for other settings
+const prefNextTeaID = 'Cuppa_next_tea_id';
 const prefShowExtra = 'Cuppa_show_extra';
 const prefUseCelsius = 'Cuppa_use_celsius';
 const prefAppTheme = 'Cuppa_app_theme';
@@ -127,6 +129,7 @@ const prefAppLanguage = 'Cuppa_app_language';
 const prefSkipTutorial = 'Cuppa_skip_tutorial';
 
 // More teas JSON keys
+const jsonKeyID = 'id';
 const jsonKeyName = 'name';
 const jsonKeyBrewTime = 'brewTime';
 const jsonKeyBrewTemp = 'brewTemp';

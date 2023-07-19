@@ -141,14 +141,14 @@ class PrefsWidget extends StatelessWidget {
                     // Disable editing actively brewing tea
                     ignoring: tea.isActive,
                     child: Container(
-                        key: Key(tea.id.toString()),
+                        key: Key('${tea.name}${tea.id}'),
                         child: TeaSettingsCard(
                           tea: tea,
                         )));
               } else {
                 // Deleteable
                 return Dismissible(
-                  key: Key(tea.id.toString()),
+                  key: Key('${tea.name}${tea.id}'),
                   onDismissed: (direction) {
                     // Delete this from the tea list
                     provider.deleteTea(tea);
@@ -442,7 +442,7 @@ class PrefsWidget extends StatelessWidget {
               provider.appLanguage != followSystemLanguage &&
                       supportedLocales
                           .containsKey(parseLocaleString(provider.appLanguage))
-                  ? '${supportedLocales[parseLocaleString(provider.appLanguage)]!} (${provider.appLanguage})'
+                  ? supportedLocales[parseLocaleString(provider.appLanguage)]!
                   : AppString.theme_system.translate(),
               style: textStyleTitle.copyWith(
                   color: Theme.of(context).textTheme.bodySmall!.color!)),
@@ -483,7 +483,7 @@ class PrefsWidget extends StatelessWidget {
                     value != followSystemLanguage &&
                             supportedLocales
                                 .containsKey(parseLocaleString(value))
-                        ? '${supportedLocales[parseLocaleString(value)]!} ($value)'
+                        ? supportedLocales[parseLocaleString(value)]!
                         : AppString.theme_system.translate(),
                     style: textStyleTitle,
                   ))),
@@ -520,7 +520,8 @@ class PrefsWidget extends StatelessWidget {
       title: Text(AppString.prefs_notifications.translate(),
           style: textStyleSubtitle),
       trailing: const SizedBox(height: double.infinity, child: launchIcon),
-      onTap: () => AppSettings.openNotificationSettings(),
+      onTap: () =>
+          AppSettings.openAppSettings(type: AppSettingsType.notification),
       contentPadding: const EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 18.0),
       dense: true,
     ));

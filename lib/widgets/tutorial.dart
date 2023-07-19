@@ -54,7 +54,7 @@ Widget tutorialTooltip(
         tooltipBackgroundColor: Theme.of(context).colorScheme.primaryContainer,
         showArrow: showArrow,
         overlayOpacity: 0.0,
-        blurValue: showArrow ? 2.0 : 0.0,
+        blurValue: showArrow ? 2.5 : 0.0,
         disableMovingAnimation: true,
         disableScaleAnimation: false,
         scaleAnimationDuration: const Duration(milliseconds: 200),

@@ -23,6 +23,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // Shared preferences
 late SharedPreferences sharedPrefs;
+int nextTeaID = 0;
 
 // Device info
 late TargetPlatform appPlatform;

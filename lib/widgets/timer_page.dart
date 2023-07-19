@@ -429,6 +429,8 @@ class _TimerWidgetState extends State<TimerWidget> {
         presentAlert: true,
         presentBadge: true,
         presentSound: true,
+        presentBanner: true,
+        presentList: true,
         sound: notifySoundIOS,
         interruptionLevel: InterruptionLevel.timeSensitive,
       ),
@@ -559,9 +561,14 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Start a timer from shortcut selection
   void _checkShortcutTimer() {
     quickActions.initialize((String shortcutType) async {
+      AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+      int? teaID = int.tryParse(shortcutType.replaceAll(shortcutPrefixID, ''));
       int? teaIndex = int.tryParse(shortcutType.replaceAll(shortcutPrefix, ''));
+      if (teaID != null) {
+        // Prefer lookup by tea ID
+        teaIndex = provider.teaList.indexWhere((tea) => tea.id == teaID);
+      }
       if (teaIndex != null) {
-        AppProvider provider = Provider.of<AppProvider>(context, listen: false);
         if (teaIndex >= 0 && teaIndex < provider.teaCount) {
           Tea tea = provider.teaList[teaIndex];
           if (!tea.isActive) {

@@ -118,7 +118,7 @@ class AppProvider extends ChangeNotifier {
     quickActions.setShortcutItems(favoritesList.map<ShortcutItem>((tea) {
       // Create a shortcut item for this favorite tea
       return ShortcutItem(
-        type: shortcutPrefix + _teaList.indexOf(tea).toString(),
+        type: shortcutPrefixID + tea.id.toString(),
         localizedTitle: tea.name,
         icon: tea.shortcutIcon,
       );
