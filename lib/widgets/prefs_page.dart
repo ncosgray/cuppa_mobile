@@ -520,7 +520,8 @@ class PrefsWidget extends StatelessWidget {
       title: Text(AppString.prefs_notifications.translate(),
           style: textStyleSubtitle),
       trailing: const SizedBox(height: double.infinity, child: launchIcon),
-      onTap: () => AppSettings.openNotificationSettings(),
+      onTap: () =>
+          AppSettings.openAppSettings(type: AppSettingsType.notification),
       contentPadding: const EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 18.0),
       dense: true,
     ));
