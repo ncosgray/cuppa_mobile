@@ -1,0 +1,7 @@
+Cuppa para dispositivos móveis está finalmente aqui! Cansado de deixar o chá muito tempo para ficar amargo e frio, ou de tomá-lo cedo demais e não aproveitar todo o seu potencial? Então este utilitário é para você!
+
+Para tornar o aplicativo tão rápido e fácil que você realmente o usará, nós o construímos com a simplicidade em mente. Basta abrir o aplicativo e tocar no botão do tipo de chá que você está preparando. É isso. Não há necessidade de navegar por menus complicados para encontrar um chá específico ou mexer nas configurações ... a menos que você queira personalizar os tempos de preparação ou adicionar seus próprios chás favoritos.
+
+Depois de tocar, o Cuppa começará a cronometrar a infusão e você verá um saquinho de chá aparecer na xícara e escurecer gradualmente à medida que o chá fica em infusão. Um cronômetro de contagem regressiva mostra o tempo íngreme restante. Você pode preparar até dois chás separados ao mesmo tempo, cada um com seu próprio cronômetro de contagem regressiva. Quando o chá terminar, o Cuppa avisará você com uma notificação - dependendo das configurações do seu dispositivo, isso pode ser acompanhado por um som e/ou vibração.
+
+Esperamos que você ache o Cuppa para seu dispositivo móvel útil!

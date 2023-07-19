@@ -1,0 +1,6 @@
+* Nova opção de chá: Escolha entre três ícones diferentes.
+* Seleção mais fácil de tempo e temperatura de infusão.
+* Permita ter apenas um botão de chá.
+* Adicionado um link para as configurações de notificação do dispositivo.
+* Usabilidade e ajustes de interface.
+* Atualizações de tradução de idiomas - contribua via Weblate!

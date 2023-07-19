@@ -1,0 +1,4 @@
+* Novo modo paisagem para telefones.
+* Melhor dimensionamento com configurações de acessibilidade do dispositivo.
+* Usabilidade e ajustes de interface.
+* Atualizações de tradução de idiomas - contribua via Weblate!

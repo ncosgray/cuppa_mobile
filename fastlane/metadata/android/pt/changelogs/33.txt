@@ -1,0 +1,3 @@
+* Temporizadores duplos: agora você pode iniciar um segundo temporizador enquanto seu primeiro chá é preparado.
+* Notificações de timer mais confiáveis em alguns cenários.
+* Adicionado um idioma e outras atualizações de tradução - contribua via Weblate!

@@ -1,0 +1,4 @@
+* Novo tema escuro preto puro.
+* Corrigido um bug que fazia com que os atalhos iniciassem inesperadamente.
+* Usabilidade e ajustes de interface.
+* Atualizações de tradução de idiomas - contribua via Weblate!

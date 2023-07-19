@@ -1,0 +1,5 @@
+* As notificações do timer agora incluem um carimbo de data/hora.
+* Adicionada uma página "Sobre".
+* Algumas configurações agora podem ser alteradas enquanto um timer está ativo.
+* Usabilidade e ajustes de interface.
+* Disponível em 7 novos idiomas - contribua mais via Weblate!

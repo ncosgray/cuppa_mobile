@@ -1,0 +1,2 @@
+* Nova aparência de "Material You".
+* O esquema de cores dinâmico corresponde às configurações do seu dispositivo.

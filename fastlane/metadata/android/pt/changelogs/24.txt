@@ -1,0 +1,5 @@
+* As predefinições de tipo de chá tornam a adição de novos chás ainda mais fácil!
+* Use notificações de alerta para chamar sua atenção.
+   (Observação: para mudar para alertas, pode ser necessário reinstalar.)
+* Usabilidade e ajustes de interface.
+* Atualizações de tradução de idiomas - contribua via Weblate!

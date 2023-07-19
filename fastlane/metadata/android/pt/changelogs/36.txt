@@ -1,0 +1,5 @@
+* Suporte completo para chás frios (mais de 12 horas de maceração).
+* Página de preferências redesenhada para tablets e dobráveis.
+* Notificações de timer mais insistentes.
+* Usabilidade e ajustes de interface.
+* Atualizações de tradução de idiomas - contribua via Weblate!

@@ -1,0 +1,5 @@
+* [NIEUW] Ondersteuning voor koude theeën (meer dan 12 uur trekken);
+* [NIEUW] Instellingenpagina aangepast voor tablets en vouwbare telefoons;
+* [VERBETERD] Betere aftelklokken;
+* [VERBETERD] Vormgeving;
+* [VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!

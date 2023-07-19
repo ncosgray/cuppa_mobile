@@ -1,0 +1,5 @@
+* Tema preto escuro puro agora é opcional.
+*escreveu um botão para remover todos os chás.
+* Corrigido um bug que fazia com que os atalhos iniciassem inesperadamente.
+* Usabilidade e ajustes de interface.
+* Atualizações de tradução de idiomas - contribuições via Weblate!

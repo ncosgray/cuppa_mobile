@@ -1,0 +1,5 @@
+* Compatibilidad total con tés preparados en frío (más de 12 horas de infusión).
+* Página de preferencias rediseñada para tabletas y dispositivos plegables.
+* Notificaciones de temporizador más insistentes.
+* Ajustes de usabilidad e interfaz.
+* Actualizaciones de la traducción de los idiomas: ¡contribuye a través de Weblate!

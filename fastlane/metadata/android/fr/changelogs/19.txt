@@ -1,0 +1,6 @@
+* Étoile vos thés préférés pour les ajouter en tant que raccourcis d'icônes d'application.
+* Températures Celsius par défaut pour ceux qui ne sont pas aux États-Unis.
+* Nouvelle option : choisissez votre thème (clair ou foncé).
+* Plus d'options de couleur de bouton de thé.
+* Améliorations de l'utilisabilité et de l'interface.
+* Mises à jour de la traduction des langues - contribuez via Weblate !
