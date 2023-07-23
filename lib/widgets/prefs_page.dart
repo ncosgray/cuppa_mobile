@@ -150,6 +150,23 @@ class PrefsWidget extends StatelessWidget {
                 return Dismissible(
                   key: Key('${tea.name}${tea.id}'),
                   onDismissed: (direction) {
+                    // Provide an undo option
+                    int? teaIndex = provider.teaList
+                        .indexWhere((item) => item.id == tea.id);
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                          AppString.undo_message.translate(teaName: tea.name)),
+                      action: SnackBarAction(
+                        label: AppString.undo_button.translate(),
+                        onPressed: () {
+                          provider.addTea(
+                            tea,
+                            atIndex: teaIndex,
+                          );
+                        },
+                      ),
+                    ));
+
                     // Delete this from the tea list
                     provider.deleteTea(tea);
                   },

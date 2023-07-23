@@ -117,6 +117,8 @@ enum AppString {
   tutorial_text3('tutorial_text3'),
   tutorial_text4('tutorial_text4'),
   tutorial_text5('tutorial_text5'),
+  undo_button('undo_button'),
+  undo_message('undo_message'),
   unit_celsius('unit_celsius'),
   unit_fahrenheit('unit_fahrenheit'),
   unit_hours('unit_hours'),

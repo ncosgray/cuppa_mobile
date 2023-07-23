@@ -207,7 +207,7 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
                     child: actionIcon!)
                 : null,
           ),
-          child: Material(type: MaterialType.transparency, child: body));
+          child: Scaffold(body: body));
     } else {
       return Scaffold(
           appBar: AppBar(
