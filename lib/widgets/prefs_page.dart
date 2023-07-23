@@ -41,14 +41,16 @@ class PrefsWidget extends StatelessWidget {
     // Determine layout based on device size
     bool layoutColumns = getDeviceSize(context).isLargeDevice;
 
-    return PlatformAdaptiveScaffold(
-      platform: appPlatform,
-      isPoppable: true,
-      textScaleFactor: appTextScale,
-      title: AppString.prefs_title.translate(),
-      // Button to navigate to About page
-      actionIcon: getPlatformAboutIcon(appPlatform),
-      actionRoute: const AboutWidget(),
+    return Scaffold(
+      appBar: PlatformAdaptiveNavBar(
+        platform: appPlatform,
+        isPoppable: true,
+        textScaleFactor: appTextScale,
+        title: AppString.prefs_title.translate(),
+        // Button to navigate to About page
+        actionIcon: getPlatformAboutIcon(appPlatform),
+        actionRoute: const AboutWidget(),
+      ),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),

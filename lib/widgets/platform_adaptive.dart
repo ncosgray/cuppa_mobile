@@ -13,7 +13,7 @@
 // Cuppa platform adaptive elements
 // - Light and dark themes for Android and iOS
 // - Icons for Android and iOS
-// - PlatformAdaptiveScaffold creates a page scaffold for context platform
+// - PlatformAdaptiveNavBar creates page navigation for context platform
 // - PlatformAdaptiveScrollBehavior sets scroll behavior for context platform
 // - PlatformAdaptiveDialog chooses showDialog type by context platform
 // - PlatformAdaptiveTextFormDialog text entry dialog for context platform
@@ -160,9 +160,10 @@ Icon getPlatformRemoveAllIcon(TargetPlatform platform, Color color) {
       : Icon(Icons.delete_sweep_outlined, color: color);
 }
 
-// Page scaffold with nav bar that is Material on Android and Cupertino on iOS
-class PlatformAdaptiveScaffold extends StatelessWidget {
-  const PlatformAdaptiveScaffold({
+// Navigation bar that is Material on Android and Cupertino on iOS
+class PlatformAdaptiveNavBar extends StatelessWidget
+    implements PreferredSizeWidget {
+  const PlatformAdaptiveNavBar({
     Key? key,
     required this.platform,
     required this.isPoppable,
@@ -170,7 +171,6 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
     required this.title,
     this.actionRoute,
     this.actionIcon,
-    required this.body,
   }) : super(key: key);
 
   final TargetPlatform platform;
@@ -179,52 +179,50 @@ class PlatformAdaptiveScaffold extends StatelessWidget {
   final String title;
   final Widget? actionRoute;
   final Widget? actionIcon;
-  final Widget body;
+
+  @override
+  Size get preferredSize => const Size.fromHeight(56.0); // Android default
 
   @override
   Widget build(BuildContext context) {
     if (platform == TargetPlatform.iOS) {
-      return CupertinoPageScaffold(
-          navigationBar: CupertinoNavigationBar(
-            transitionBetweenRoutes: false,
-            backgroundColor: Theme.of(context).primaryColor,
-            leading: isPoppable
-                ? CupertinoNavigationBarBackButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                  )
-                : null,
-            middle: Text(title,
-                textScaleFactor: textScaleFactor,
-                style: TextStyle(
-                    color: Theme.of(context).textTheme.titleLarge!.color)),
-            trailing: actionIcon != null && actionRoute != null
-                ? CupertinoButton(
-                    padding: EdgeInsets.zero,
+      return CupertinoNavigationBar(
+        transitionBetweenRoutes: false,
+        backgroundColor: Theme.of(context).primaryColor,
+        leading: isPoppable
+            ? CupertinoNavigationBarBackButton(
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            : null,
+        middle: Text(title,
+            textScaleFactor: textScaleFactor,
+            style: TextStyle(
+                color: Theme.of(context).textTheme.titleLarge!.color)),
+        trailing: actionIcon != null && actionRoute != null
+            ? CupertinoButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => actionRoute!));
+                },
+                child: actionIcon!)
+            : null,
+      );
+    } else {
+      return AppBar(
+          elevation: 4,
+          title: Text(title),
+          actions: actionIcon != null && actionRoute != null
+              ? <Widget>[
+                  IconButton(
+                    icon: actionIcon!,
                     onPressed: () {
                       Navigator.of(context).push(
                           MaterialPageRoute(builder: (_) => actionRoute!));
                     },
-                    child: actionIcon!)
-                : null,
-          ),
-          child: Scaffold(body: body));
-    } else {
-      return Scaffold(
-          appBar: AppBar(
-              elevation: 4,
-              title: Text(title),
-              actions: actionIcon != null && actionRoute != null
-                  ? <Widget>[
-                      IconButton(
-                        icon: actionIcon!,
-                        onPressed: () {
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (_) => actionRoute!));
-                        },
-                      ),
-                    ]
-                  : null),
-          body: body);
+                  ),
+                ]
+              : null);
     }
   }
 }
