@@ -57,6 +57,8 @@
   "tutorial_text3": "Tap a button to start timing your tea as it steeps.",
   "tutorial_text4": "You can have {{timers_max}} timers running at once.",
   "tutorial_text5": "Enjoy your perfectly brewed cup of tea!",
+  "undo_button": "Undo",
+  "undo_message": "Deleted {{tea_name}}.",
   "unit_celsius": "C",
   "unit_fahrenheit": "F",
   "unit_hours": "h",

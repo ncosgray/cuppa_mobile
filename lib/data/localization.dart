@@ -49,6 +49,7 @@ final Map<Locale, String> supportedLocales = {
   const Locale.fromSubtags(languageCode: 'ru'): 'Русский',
   const Locale.fromSubtags(languageCode: 'uk'): 'Українська',
   const Locale.fromSubtags(languageCode: 'he'): 'עברית',
+  const Locale.fromSubtags(languageCode: 'ur'): 'اردو',
   const Locale.fromSubtags(languageCode: 'zh'): '简体中文',
   const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'): '繁體中文',
 };
@@ -116,6 +117,8 @@ enum AppString {
   tutorial_text3('tutorial_text3'),
   tutorial_text4('tutorial_text4'),
   tutorial_text5('tutorial_text5'),
+  undo_button('undo_button'),
+  undo_message('undo_message'),
   unit_celsius('unit_celsius'),
   unit_fahrenheit('unit_fahrenheit'),
   unit_hours('unit_hours'),

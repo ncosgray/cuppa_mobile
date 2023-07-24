@@ -41,14 +41,16 @@ class PrefsWidget extends StatelessWidget {
     // Determine layout based on device size
     bool layoutColumns = getDeviceSize(context).isLargeDevice;
 
-    return PlatformAdaptiveScaffold(
-      platform: appPlatform,
-      isPoppable: true,
-      textScaleFactor: appTextScale,
-      title: AppString.prefs_title.translate(),
-      // Button to navigate to About page
-      actionIcon: getPlatformAboutIcon(appPlatform),
-      actionRoute: const AboutWidget(),
+    return Scaffold(
+      appBar: PlatformAdaptiveNavBar(
+        platform: appPlatform,
+        isPoppable: true,
+        textScaleFactor: appTextScale,
+        title: AppString.prefs_title.translate(),
+        // Button to navigate to About page
+        actionIcon: getPlatformAboutIcon(appPlatform),
+        actionRoute: const AboutWidget(),
+      ),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
@@ -150,6 +152,23 @@ class PrefsWidget extends StatelessWidget {
                 return Dismissible(
                   key: Key('${tea.name}${tea.id}'),
                   onDismissed: (direction) {
+                    // Provide an undo option
+                    int? teaIndex = provider.teaList
+                        .indexWhere((item) => item.id == tea.id);
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                          AppString.undo_message.translate(teaName: tea.name)),
+                      action: SnackBarAction(
+                        label: AppString.undo_button.translate(),
+                        onPressed: () {
+                          provider.addTea(
+                            tea,
+                            atIndex: teaIndex,
+                          );
+                        },
+                      ),
+                    ));
+
                     // Delete this from the tea list
                     provider.deleteTea(tea);
                   },

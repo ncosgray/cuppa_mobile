@@ -33,11 +33,13 @@ class AboutWidget extends StatelessWidget {
   // Build About page
   @override
   Widget build(BuildContext context) {
-    return PlatformAdaptiveScaffold(
-        platform: appPlatform,
-        isPoppable: true,
-        textScaleFactor: appTextScale,
-        title: AppString.about_title.translate(),
+    return Scaffold(
+        appBar: PlatformAdaptiveNavBar(
+          platform: appPlatform,
+          isPoppable: true,
+          textScaleFactor: appTextScale,
+          title: AppString.about_title.translate(),
+        ),
         body: SafeArea(
             child: Container(
                 padding: const EdgeInsets.fromLTRB(12.0, 4.0, 12.0, 0.0),

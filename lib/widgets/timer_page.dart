@@ -92,18 +92,20 @@ class _TimerWidgetState extends State<TimerWidget> {
     bool layoutPortrait = getDeviceSize(context).isPortrait ||
         getDeviceSize(context).isLargeDevice;
 
-    return PlatformAdaptiveScaffold(
-        platform: appPlatform,
-        isPoppable: false,
-        textScaleFactor: appTextScale,
-        title: appName,
-        // Button to navigate to Preferences page
-        actionIcon: tutorialTooltip(
-          context: context,
-          key: tutorialKey2,
-          child: getPlatformSettingsIcon(appPlatform),
+    return Scaffold(
+        appBar: PlatformAdaptiveNavBar(
+          platform: appPlatform,
+          isPoppable: false,
+          textScaleFactor: appTextScale,
+          title: appName,
+          // Button to navigate to Preferences page
+          actionIcon: tutorialTooltip(
+            context: context,
+            key: tutorialKey2,
+            child: getPlatformSettingsIcon(appPlatform),
+          ),
+          actionRoute: const PrefsWidget(),
         ),
-        actionRoute: const PrefsWidget(),
         body: SafeArea(
           child: Column(
             children: [
