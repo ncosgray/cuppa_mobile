@@ -156,6 +156,7 @@ class PrefsWidget extends StatelessWidget {
                     int? teaIndex = provider.teaList
                         .indexWhere((item) => item.id == tea.id);
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      duration: const Duration(milliseconds: 1500),
                       content: Text(
                           AppString.undo_message.translate(teaName: tea.name)),
                       action: SnackBarAction(
