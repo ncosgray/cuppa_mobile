@@ -30,6 +30,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reorderables/reorderables.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
 // Cuppa Preferences page
 class PrefsWidget extends StatelessWidget {
@@ -70,7 +71,10 @@ class PrefsWidget extends StatelessWidget {
                   ),
                 ),
                 // Tea settings cards
-                _teaSettingsList(),
+                SliverAnimatedPaintExtent(
+                  duration: const Duration(milliseconds: 200),
+                  child: _teaSettingsList(),
+                ),
                 // Add Tea and Remove All buttons
                 SliverToBoxAdapter(
                   child: Container(
@@ -178,6 +182,7 @@ class PrefsWidget extends StatelessWidget {
                       dismissibleBackground(context, Alignment.centerLeft),
                   secondaryBackground:
                       dismissibleBackground(context, Alignment.centerRight),
+                  resizeDuration: const Duration(milliseconds: 200),
                   child: TeaSettingsCard(
                     tea: tea,
                   ),

@@ -41,16 +41,56 @@ class TeaSettingsCard extends StatefulWidget {
   _TeaSettingsCardState createState() => _TeaSettingsCardState(tea: tea);
 }
 
-class _TeaSettingsCardState extends State<TeaSettingsCard> {
+class _TeaSettingsCardState extends State<TeaSettingsCard>
+    with SingleTickerProviderStateMixin {
   _TeaSettingsCardState({
     required this.tea,
   });
 
   final Tea tea;
 
-  // Build a tea settings card
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  initState() {
+    super.initState();
+
+    // Settings card fade-in
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+    _animation = Tween(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(_animationController);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Animate adding a new tea or skip animation for existing teas
+    if (tea.animate) {
+      tea.animate = false;
+      _animationController.forward();
+      return FadeTransition(
+        opacity: _animation,
+        child: _settingsCard(context),
+      );
+    } else {
+      return _settingsCard(context);
+    }
+  }
+
+  // Build a tea settings card
+  Widget _settingsCard(BuildContext context) {
     // Determine layout based on device size
     bool layoutPortrait = getDeviceSize(context).isPortrait ||
         getDeviceSize(context).isLargeDevice;

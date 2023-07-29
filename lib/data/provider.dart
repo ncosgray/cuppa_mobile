@@ -37,6 +37,7 @@ class AppProvider extends ChangeNotifier {
 
   // Add a new tea, optionally at a specific tea list position
   void addTea(Tea newTea, {int? atIndex}) {
+    newTea.animate = true;
     if (atIndex == null || atIndex < 0 || atIndex > teaCount) {
       atIndex = teaCount;
     }
