@@ -56,13 +56,13 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   initState() {
     super.initState();
 
-    // Settings card fade-in
+    // Settings card pop-in
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 100),
       vsync: this,
     );
     _animation = Tween(
-      begin: 0.0,
+      begin: 0.5,
       end: 1.0,
     ).animate(_animationController);
   }
@@ -80,8 +80,8 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
     if (tea.animate) {
       tea.animate = false;
       _animationController.forward();
-      return FadeTransition(
-        opacity: _animation,
+      return ScaleTransition(
+        scale: _animation,
         child: _settingsCard(context),
       );
     } else {
