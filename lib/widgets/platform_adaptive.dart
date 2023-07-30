@@ -23,6 +23,7 @@
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
 import 'package:cuppa_mobile/helpers.dart';
+import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
@@ -874,17 +875,17 @@ class _PlatformAdaptiveTimePickerDialogState
       if (doScroll) {
         _hoursController.animateToItem(
           _hoursIndex,
-          duration: const Duration(milliseconds: 100),
+          duration: shortAnimationDuration,
           curve: Curves.linear,
         );
         _minutesController.animateToItem(
           _minutesIndex,
-          duration: const Duration(milliseconds: 100),
+          duration: shortAnimationDuration,
           curve: Curves.linear,
         );
         _secondsController.animateToItem(
           _secondsIndex,
-          duration: const Duration(milliseconds: 100),
+          duration: shortAnimationDuration,
           curve: Curves.linear,
         );
       }

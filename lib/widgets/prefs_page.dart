@@ -72,7 +72,7 @@ class PrefsWidget extends StatelessWidget {
                 ),
                 // Tea settings cards
                 SliverAnimatedPaintExtent(
-                  duration: const Duration(milliseconds: 200),
+                  duration: longAnimationDuration,
                   child: _teaSettingsList(),
                 ),
                 // Add Tea and Remove All buttons
@@ -182,7 +182,7 @@ class PrefsWidget extends StatelessWidget {
                       dismissibleBackground(context, Alignment.centerLeft),
                   secondaryBackground:
                       dismissibleBackground(context, Alignment.centerRight),
-                  resizeDuration: const Duration(milliseconds: 200),
+                  resizeDuration: longAnimationDuration,
                   child: TeaSettingsCard(
                     tea: tea,
                   ),

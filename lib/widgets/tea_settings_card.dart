@@ -58,7 +58,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
 
     // Settings card pop-in
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 100),
+      duration: shortAnimationDuration,
       vsync: this,
     );
     _animation = Tween(

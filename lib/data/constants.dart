@@ -143,3 +143,7 @@ const jsonKeyTimerNotifyID = 'timerNotifyID';
 // Localization
 const defaultLanguage = 'en';
 const followSystemLanguage = '';
+
+// Animation durations
+const shortAnimationDuration = Duration(milliseconds: 100);
+const longAnimationDuration = Duration(milliseconds: 200);

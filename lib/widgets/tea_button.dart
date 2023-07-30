@@ -13,6 +13,7 @@
 // Cuppa tea timer button
 
 import 'package:cuppa_mobile/helpers.dart';
+import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
@@ -54,7 +55,7 @@ class TeaButton extends StatelessWidget {
                 onTap: _handleTap,
                 child: AnimatedOpacity(
                   opacity: fade ? 0.4 : 1.0,
-                  duration: const Duration(milliseconds: 200),
+                  duration: longAnimationDuration,
                   child: Container(
                     constraints: const BoxConstraints(
                         maxHeight: 116.0,

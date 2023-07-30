@@ -206,7 +206,7 @@ class _TimerWidgetState extends State<TimerWidget> {
           borderRadius: const BorderRadius.all(Radius.circular(12.0)),
         ),
         child: AnimatedSize(
-          duration: const Duration(milliseconds: 100),
+          duration: shortAnimationDuration,
           curve: Curves.linear,
           child: _timerCount == 0
               ?
@@ -219,7 +219,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                   children: [
                       // Timer 1
                       AnimatedSize(
-                        duration: const Duration(milliseconds: 200),
+                        duration: longAnimationDuration,
                         curve: Curves.easeInOut,
                         child: _timer1.isActive
                             ? _timerText(_timer1.timerString)
@@ -237,7 +237,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                               color: Colors.white)),
                       // Timer 2
                       AnimatedSize(
-                        duration: const Duration(milliseconds: 200),
+                        duration: longAnimationDuration,
                         curve: Curves.easeInOut,
                         child: _timer2.isActive
                             ? _timerText(_timer2.timerString)
