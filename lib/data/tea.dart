@@ -34,6 +34,7 @@ class Tea {
   late bool isActive;
   late int timerEndTime;
   int? timerNotifyID;
+  late bool animate;
 
   // Constructor
   Tea(
@@ -48,7 +49,8 @@ class Tea {
       required bool isFavorite,
       required bool isActive,
       int timerEndTime = 0,
-      int? timerNotifyID}) {
+      int? timerNotifyID,
+      bool animate = false}) {
     // Assign next tea ID if not given
     this.id = id ?? nextTeaID++;
     this.name = name;
@@ -62,6 +64,7 @@ class Tea {
     this.isActive = isActive;
     this.timerEndTime = timerEndTime;
     this.timerNotifyID = timerNotifyID;
+    this.animate = animate;
   }
 
   // Activate brew timer

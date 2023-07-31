@@ -23,6 +23,7 @@
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
 import 'package:cuppa_mobile/helpers.dart';
+import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
@@ -201,10 +202,8 @@ class PlatformAdaptiveNavBar extends StatelessWidget
         trailing: actionIcon != null && actionRoute != null
             ? CupertinoButton(
                 padding: EdgeInsets.zero,
-                onPressed: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => actionRoute!));
-                },
+                onPressed: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => actionRoute!)),
                 child: actionIcon!)
             : null,
       );
@@ -216,10 +215,8 @@ class PlatformAdaptiveNavBar extends StatelessWidget
               ? <Widget>[
                   IconButton(
                     icon: actionIcon!,
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => actionRoute!));
-                    },
+                    onPressed: () => Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => actionRoute!)),
                   ),
                 ]
               : null);
@@ -262,17 +259,13 @@ class PlatformAdaptiveDialog extends StatelessWidget {
       List<Widget> actionList = [
         CupertinoDialogAction(
           child: Text(buttonTextFalse),
-          onPressed: () {
-            Navigator.of(context).pop(false);
-          },
+          onPressed: () => Navigator.of(context).pop(false),
         ),
       ];
       if (buttonTextTrue != null) {
         actionList.add(CupertinoDialogAction(
           child: Text(buttonTextTrue!),
-          onPressed: () {
-            Navigator.of(context).pop(true);
-          },
+          onPressed: () => Navigator.of(context).pop(true),
         ));
       }
 
@@ -286,17 +279,13 @@ class PlatformAdaptiveDialog extends StatelessWidget {
       // Define Material action button(s)
       List<Widget> actionList = [
         FilledButton.tonal(
-          onPressed: () {
-            Navigator.of(context).pop(false);
-          },
+          onPressed: () => Navigator.of(context).pop(false),
           child: Text(buttonTextFalse),
         )
       ];
       if (buttonTextTrue != null) {
         actionList.add(FilledButton.tonal(
-          onPressed: () {
-            Navigator.of(context).pop(true);
-          },
+          onPressed: () => Navigator.of(context).pop(true),
           child: Text(buttonTextTrue!),
         ));
       }
@@ -389,21 +378,14 @@ class _PlatformAdaptiveTextFormDialogState
           // Cancel and close dialog
           CupertinoDialogAction(
             child: Text(buttonTextCancel),
-            onPressed: () {
-              // Don't return anything
-              Navigator.of(context).pop();
-            },
+            onPressed: () => Navigator.of(context).pop(),
           ),
           // Save and close dialog, if valid
           CupertinoDialogAction(
             isDefaultAction: true,
             textStyle: _isValid ? null : const TextStyle(color: Colors.grey),
-            onPressed: _isValid
-                ? () {
-                    // Return new text value
-                    Navigator.of(context).pop(_newValue);
-                  }
-                : null,
+            onPressed:
+                _isValid ? () => Navigator.of(context).pop(_newValue) : null,
             child: Text(buttonTextOK),
           ),
         ],
@@ -419,20 +401,13 @@ class _PlatformAdaptiveTextFormDialogState
         actions: <Widget>[
           // Cancel and close dialog
           FilledButton.tonal(
-            onPressed: () {
-              // Don't return anything
-              Navigator.of(context).pop();
-            },
+            onPressed: () => Navigator.of(context).pop(),
             child: Text(buttonTextCancel),
           ),
           // Save and close dialog, if valid
           FilledButton.tonal(
-            onPressed: _isValid
-                ? () {
-                    // Return new text value
-                    Navigator.of(context).pop(_newValue);
-                  }
-                : null,
+            onPressed:
+                _isValid ? () => Navigator.of(context).pop(_newValue) : null,
             child: Text(buttonTextOK),
           ),
         ],
@@ -459,12 +434,10 @@ class _PlatformAdaptiveTextFormDialogState
             ? IconButton(
                 iconSize: 14.0,
                 icon: const Icon(Icons.cancel_outlined, color: Colors.grey),
-                onPressed: () {
-                  setState(() {
-                    _isValid = false;
-                    _controller.clear();
-                  });
-                },
+                onPressed: () => setState(() {
+                  _isValid = false;
+                  _controller.clear();
+                }),
               )
             : null,
       ),
@@ -623,22 +596,16 @@ class _PlatformAdaptiveTimePickerDialogState
           // Cancel and close dialog
           CupertinoDialogAction(
             child: Text(buttonTextCancel),
-            onPressed: () {
-              // Cancel and close dialog
-              Navigator.pop(context, null);
-            },
+            onPressed: () => Navigator.pop(context, null),
           ),
           // Save and close dialog
           CupertinoDialogAction(
               isDefaultAction: true,
-              onPressed: () {
-                // Return selected time
-                Navigator.pop(
-                    context,
-                    hourOptions[_hoursIndex] * 3600 +
-                        minuteOptions[_minutesIndex] * 60 +
-                        secondOptions[_secondsIndex]);
-              },
+              onPressed: () => Navigator.pop(
+                  context,
+                  hourOptions[_hoursIndex] * 3600 +
+                      minuteOptions[_minutesIndex] * 60 +
+                      secondOptions[_secondsIndex]),
               child: Text(buttonTextOK)),
         ],
       );
@@ -649,20 +616,15 @@ class _PlatformAdaptiveTimePickerDialogState
         actions: <Widget>[
           // Cancel and close dialog
           FilledButton.tonal(
-              onPressed: () {
-                Navigator.pop(context, null);
-              },
+              onPressed: () => Navigator.pop(context, null),
               child: Text(buttonTextCancel)),
           // Save and close dialog
           FilledButton.tonal(
-              onPressed: () {
-                // Return selected time
-                Navigator.pop(
-                    context,
-                    hourOptions[_hoursIndex] * 3600 +
-                        minuteOptions[_minutesIndex] * 60 +
-                        secondOptions[_secondsIndex]);
-              },
+              onPressed: () => Navigator.pop(
+                  context,
+                  hourOptions[_hoursIndex] * 3600 +
+                      minuteOptions[_minutesIndex] * 60 +
+                      secondOptions[_secondsIndex]),
               child: Text(buttonTextOK)),
         ],
       );
@@ -874,17 +836,17 @@ class _PlatformAdaptiveTimePickerDialogState
       if (doScroll) {
         _hoursController.animateToItem(
           _hoursIndex,
-          duration: const Duration(milliseconds: 100),
+          duration: shortAnimationDuration,
           curve: Curves.linear,
         );
         _minutesController.animateToItem(
           _minutesIndex,
-          duration: const Duration(milliseconds: 100),
+          duration: shortAnimationDuration,
           curve: Curves.linear,
         );
         _secondsController.animateToItem(
           _secondsIndex,
-          duration: const Duration(milliseconds: 100),
+          duration: shortAnimationDuration,
           curve: Curves.linear,
         );
       }
@@ -972,18 +934,12 @@ class _PlatformAdaptiveTempPickerDialogState
           // Cancel and close dialog
           CupertinoDialogAction(
             child: Text(buttonTextCancel),
-            onPressed: () {
-              // Cancel and close dialog
-              Navigator.pop(context, null);
-            },
+            onPressed: () => Navigator.pop(context, null),
           ),
           // Save and close dialog
           CupertinoDialogAction(
               isDefaultAction: true,
-              onPressed: () {
-                // Return selected time
-                Navigator.pop(context, _newTemp);
-              },
+              onPressed: () => Navigator.pop(context, _newTemp),
               child: Text(buttonTextOK)),
         ],
       );
@@ -994,16 +950,11 @@ class _PlatformAdaptiveTempPickerDialogState
         actions: <Widget>[
           // Cancel and close dialog
           FilledButton.tonal(
-              onPressed: () {
-                Navigator.pop(context, null);
-              },
+              onPressed: () => Navigator.pop(context, null),
               child: Text(buttonTextCancel)),
           // Save and close dialog
           FilledButton.tonal(
-              onPressed: () {
-                // Return selected time
-                Navigator.pop(context, _newTemp);
-              },
+              onPressed: () => Navigator.pop(context, _newTemp),
               child: Text(buttonTextOK)),
         ],
       );
@@ -1212,9 +1163,7 @@ Future<bool?> openPlatformAdaptiveSelectList(
               // Cancel button
               cancelButton: CupertinoActionSheetAction(
                 isDefaultAction: true,
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
+                onPressed: () => Navigator.of(context).pop(false),
                 child: Text(buttonTextCancel),
               ));
         });
@@ -1241,9 +1190,7 @@ Future<bool?> openPlatformAdaptiveSelectList(
               actions: [
                 // Cancel button
                 FilledButton.tonal(
-                  onPressed: () {
-                    Navigator.of(context).pop(false);
-                  },
+                  onPressed: () => Navigator.of(context).pop(false),
                   child: Text(buttonTextCancel),
                 )
               ]);

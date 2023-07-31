@@ -37,6 +37,7 @@ dependencies:
   reorderables: ^0.6.0
   shared_preferences: ^2.2.0
   showcaseview: ^2.0.3
+  sliver_tools: ^0.2.12
   url_launcher: ^6.1.12
   wakelock_plus: ^1.1.1
 

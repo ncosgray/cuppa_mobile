@@ -12,6 +12,7 @@
 
 // Cuppa tutorial
 
+import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
@@ -57,7 +58,7 @@ Widget tutorialTooltip(
         blurValue: showArrow ? 2.5 : 0.0,
         disableMovingAnimation: true,
         disableScaleAnimation: false,
-        scaleAnimationDuration: const Duration(milliseconds: 200),
+        scaleAnimationDuration: longAnimationDuration,
         scaleAnimationAlignment: Alignment.center,
         onToolTipClick: () => ShowCaseWidget.of(context).next(),
         child: child);

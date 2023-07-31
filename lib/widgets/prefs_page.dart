@@ -30,6 +30,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reorderables/reorderables.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
 // Cuppa Preferences page
 class PrefsWidget extends StatelessWidget {
@@ -70,7 +71,10 @@ class PrefsWidget extends StatelessWidget {
                   ),
                 ),
                 // Tea settings cards
-                _teaSettingsList(),
+                SliverAnimatedPaintExtent(
+                  duration: longAnimationDuration,
+                  child: _teaSettingsList(),
+                ),
                 // Add Tea and Remove All buttons
                 SliverToBoxAdapter(
                   child: Container(
@@ -156,16 +160,14 @@ class PrefsWidget extends StatelessWidget {
                     int? teaIndex = provider.teaList
                         .indexWhere((item) => item.id == tea.id);
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      duration: const Duration(milliseconds: 1500),
                       content: Text(
                           AppString.undo_message.translate(teaName: tea.name)),
                       action: SnackBarAction(
                         label: AppString.undo_button.translate(),
-                        onPressed: () {
-                          provider.addTea(
-                            tea,
-                            atIndex: teaIndex,
-                          );
-                        },
+                        // Re-add deleted tea in its former position
+                        onPressed: () =>
+                            provider.addTea(tea, atIndex: teaIndex),
                       ),
                     ));
 
@@ -177,6 +179,7 @@ class PrefsWidget extends StatelessWidget {
                       dismissibleBackground(context, Alignment.centerLeft),
                   secondaryBackground:
                       dismissibleBackground(context, Alignment.centerRight),
+                  resizeDuration: longAnimationDuration,
                   child: TeaSettingsCard(
                     tea: tea,
                   ),
@@ -204,19 +207,17 @@ class PrefsWidget extends StatelessWidget {
                     const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero),
                   )),
-                  onPressed:
-                      // Disable adding teas if there are maximum teas
-                      count < teasMaxCount
-                          ? () => openPlatformAdaptiveSelectList(
-                              context: context,
-                              platform: appPlatform,
-                              titleText: AppString.add_tea_button.translate(),
-                              buttonTextCancel:
-                                  AppString.cancel_button.translate(),
-                              itemList: Presets.presetList,
-                              itemBuilder: _teaPresetItem,
-                              separatorBuilder: _separatorBuilder)
-                          : null,
+                  // Disable adding teas if there are maximum teas
+                  onPressed: count < teasMaxCount
+                      ? () => openPlatformAdaptiveSelectList(
+                          context: context,
+                          platform: appPlatform,
+                          titleText: AppString.add_tea_button.translate(),
+                          buttonTextCancel: AppString.cancel_button.translate(),
+                          itemList: Presets.presetList,
+                          itemBuilder: _teaPresetItem,
+                          separatorBuilder: _separatorBuilder)
+                      : null,
                 )))));
   }
 
@@ -273,8 +274,8 @@ class PrefsWidget extends StatelessWidget {
                           ]))
               ])
         ]),
+        // Add selected tea
         onTap: () {
-          // Add selected tea
           provider.addTea(preset.createTea(useCelsius: provider.useCelsius));
           Navigator.of(context).pop(true);
         });
@@ -441,8 +442,8 @@ class PrefsWidget extends StatelessWidget {
                     style: textStyleTitle,
                   ))),
         ]),
+        // Save appTheme to prefs
         onTap: () {
-          // Save appTheme to prefs
           provider.appTheme = value;
           Navigator.of(context).pop(true);
         });
@@ -507,8 +508,8 @@ class PrefsWidget extends StatelessWidget {
                     style: textStyleTitle,
                   ))),
         ]),
+        // Save appLanguage to prefs
         onTap: () {
-          // Save appLanguage to prefs
           provider.appLanguage = value;
           Navigator.of(context).pop(true);
         });
