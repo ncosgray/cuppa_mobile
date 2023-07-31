@@ -183,11 +183,8 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                         .favoritesList
                         .length <
                     favoritesMaxCount
-            ? () {
-                // Toggle favorite status
-                Provider.of<AppProvider>(context, listen: false)
-                    .updateTea(tea, isFavorite: !tea.isFavorite);
-              }
+            ? () => Provider.of<AppProvider>(context, listen: false)
+                .updateTea(tea, isFavorite: !tea.isFavorite)
             : null);
   }
 
@@ -217,16 +214,14 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                     )),
               ],
             ),
-            onTap: () {
-              // Open tea name dialog
-              _openTeaNameDialog(context, tea.name).then((newValue) {
-                if (newValue != null) {
-                  // Save name to prefs
-                  Provider.of<AppProvider>(context, listen: false)
-                      .updateTea(tea, name: newValue);
-                }
-              });
-            }));
+            // Open tea name dialog
+            onTap: () => _openTeaNameDialog(context, tea.name).then((newValue) {
+                  if (newValue != null) {
+                    // Save name to prefs
+                    Provider.of<AppProvider>(context, listen: false)
+                        .updateTea(tea, name: newValue);
+                  }
+                })));
   }
 
   // Display a tea name entry dialog box
@@ -270,18 +265,16 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                     dropdownArrow,
                   ],
                 )),
-            onTap: () {
-              // Open tea brew time dialog
-              _openTeaBrewTimeDialog(context, tea.brewTimeHours,
-                      tea.brewTimeMinutes, tea.brewTimeSeconds)
-                  .then((newValue) {
-                if (newValue != null) {
-                  // Save brew time to prefs
-                  Provider.of<AppProvider>(context, listen: false)
-                      .updateTea(tea, brewTime: newValue);
-                }
-              });
-            }));
+            // Open tea brew time dialog
+            onTap: () => _openTeaBrewTimeDialog(context, tea.brewTimeHours,
+                        tea.brewTimeMinutes, tea.brewTimeSeconds)
+                    .then((newValue) {
+                  if (newValue != null) {
+                    // Save brew time to prefs
+                    Provider.of<AppProvider>(context, listen: false)
+                        .updateTea(tea, brewTime: newValue);
+                  }
+                })));
   }
 
   // Display a tea brew time entry dialog box
@@ -327,16 +320,15 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                     dropdownArrow,
                   ],
                 )),
-            onTap: () {
-              // Open tea brew temp dialog
-              _openTeaBrewTempDialog(context, tea.brewTemp).then((newValue) {
-                if (newValue != null) {
-                  // Save brew temp to prefs
-                  Provider.of<AppProvider>(context, listen: false)
-                      .updateTea(tea, brewTemp: newValue);
-                }
-              });
-            }));
+            // Open tea brew temp dialog
+            onTap: () =>
+                _openTeaBrewTempDialog(context, tea.brewTemp).then((newValue) {
+                  if (newValue != null) {
+                    // Save brew temp to prefs
+                    Provider.of<AppProvider>(context, listen: false)
+                        .updateTea(tea, brewTemp: newValue);
+                  }
+                })));
   }
 
   // Display a tea brew temperature entry dialog box
@@ -375,10 +367,8 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                     dropdownArrow,
                   ],
                 )),
-            onTap: () {
-              // Open tea color dialog
-              _openColorDialog(context, tea);
-            }));
+            // Open tea color dialog
+            onTap: () => _openColorDialog(context, tea)));
   }
 
   // Display a tea color selection dialog box
@@ -430,8 +420,8 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                     color: Colors.white,
                   )
                 : Container()),
+        // Set selected color
         onTap: () {
-          // Set selected color
           Provider.of<AppProvider>(context, listen: false)
               .updateTea(tea, color: value);
           Navigator.of(context).pop(true);
@@ -458,10 +448,8 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                     dropdownArrow,
                   ],
                 )),
-            onTap: () {
-              // Open tea icon dialog
-              _openIconDialog(context, tea);
-            }));
+            // Open tea icon dialog
+            onTap: () => _openIconDialog(context, tea)));
   }
 
   // Display a tea icon selection dialog box
@@ -498,8 +486,8 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           size: 36.0,
           color: value == tea.icon ? tea.getThemeColor(context) : null,
         ),
+        // Set selected icon
         onTap: () {
-          // Set selected icon
           Provider.of<AppProvider>(context, listen: false)
               .updateTea(tea, icon: value);
           Navigator.of(context).pop(true);

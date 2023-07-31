@@ -351,10 +351,8 @@ class _TimerWidgetState extends State<TimerWidget> {
   Widget _addButton() {
     return Card(
       child: InkWell(
-        onTap: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => const PrefsWidget()));
-        },
+        onTap: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => const PrefsWidget())),
         child: Container(
           constraints: const BoxConstraints(
               maxHeight: 116.0, minWidth: 88.0, maxWidth: double.infinity),

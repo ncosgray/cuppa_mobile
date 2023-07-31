@@ -165,12 +165,9 @@ class PrefsWidget extends StatelessWidget {
                           AppString.undo_message.translate(teaName: tea.name)),
                       action: SnackBarAction(
                         label: AppString.undo_button.translate(),
-                        onPressed: () {
-                          provider.addTea(
-                            tea,
-                            atIndex: teaIndex,
-                          );
-                        },
+                        // Re-add deleted tea in its former position
+                        onPressed: () =>
+                            provider.addTea(tea, atIndex: teaIndex),
                       ),
                     ));
 
@@ -210,19 +207,17 @@ class PrefsWidget extends StatelessWidget {
                     const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero),
                   )),
-                  onPressed:
-                      // Disable adding teas if there are maximum teas
-                      count < teasMaxCount
-                          ? () => openPlatformAdaptiveSelectList(
-                              context: context,
-                              platform: appPlatform,
-                              titleText: AppString.add_tea_button.translate(),
-                              buttonTextCancel:
-                                  AppString.cancel_button.translate(),
-                              itemList: Presets.presetList,
-                              itemBuilder: _teaPresetItem,
-                              separatorBuilder: _separatorBuilder)
-                          : null,
+                  // Disable adding teas if there are maximum teas
+                  onPressed: count < teasMaxCount
+                      ? () => openPlatformAdaptiveSelectList(
+                          context: context,
+                          platform: appPlatform,
+                          titleText: AppString.add_tea_button.translate(),
+                          buttonTextCancel: AppString.cancel_button.translate(),
+                          itemList: Presets.presetList,
+                          itemBuilder: _teaPresetItem,
+                          separatorBuilder: _separatorBuilder)
+                      : null,
                 )))));
   }
 
@@ -279,8 +274,8 @@ class PrefsWidget extends StatelessWidget {
                           ]))
               ])
         ]),
+        // Add selected tea
         onTap: () {
-          // Add selected tea
           provider.addTea(preset.createTea(useCelsius: provider.useCelsius));
           Navigator.of(context).pop(true);
         });
@@ -447,8 +442,8 @@ class PrefsWidget extends StatelessWidget {
                     style: textStyleTitle,
                   ))),
         ]),
+        // Save appTheme to prefs
         onTap: () {
-          // Save appTheme to prefs
           provider.appTheme = value;
           Navigator.of(context).pop(true);
         });
@@ -513,8 +508,8 @@ class PrefsWidget extends StatelessWidget {
                     style: textStyleTitle,
                   ))),
         ]),
+        // Save appLanguage to prefs
         onTap: () {
-          // Save appLanguage to prefs
           provider.appLanguage = value;
           Navigator.of(context).pop(true);
         });
