@@ -1,0 +1,4 @@
+* Added an Undo button when deleting teas.
+* Fixed a bug with shortcuts after the tea list was reordered.
+* Usability and interface tweaks, including new animations.
+* Urdu and Traditional Chinese translations - contribute more languages via Weblate!

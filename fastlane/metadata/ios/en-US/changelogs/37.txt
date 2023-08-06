@@ -1,0 +1,3 @@
+* Added an Undo button when deleting teas.
+* Usability and interface tweaks, including new animations.
+* Urdu and Traditional Chinese translations - contribute more languages via Weblate!
