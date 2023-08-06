@@ -60,7 +60,7 @@
     "unit_celsius": "C",
     "unit_fahrenheit": "F",
     "unit_hours": "h",
-    "unit_minutes": "m",
+    "unit_minutes": "min",
     "version_history": "Versionsgeschichte",
     "yes_button": "Ja",
     "undo_message": "Gelöscht {{tea_name}}.",
