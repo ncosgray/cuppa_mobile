@@ -57,6 +57,8 @@
   "tutorial_text3": "Нажмите кнопку, чтобы начать отсчет времени заваривания чая.",
   "tutorial_text4": "Вы можете запустить {{timers_max}} таймеров одновременно.",
   "tutorial_text5": "Наслаждайтесь великолепно заваренными кружечками чая!",
+  "undo_button": "Отменить",
+  "undo_message": "Удалено {{tea_name}}.",
   "unit_celsius": "C",
   "unit_fahrenheit": "F",
   "unit_hours": "h",

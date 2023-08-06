@@ -57,6 +57,8 @@
   "tutorial_text3": "Napauta painiketta aloittaaksesi teen ajoittamisen sen kiehuessa.",
   "tutorial_text4": "Sinulla voi olla {{timers_max}} ajastinta käynnissä kerralla.",
   "tutorial_text5": "Nauti täydellisesti haudutetusta kupista teetä!",
+  "undo_button": "kumoa",
+  "undo_message": "Poistettu {{tea_name}}.",
   "unit_celsius": "C",
   "unit_fahrenheit": "F",
   "unit_hours": "t",

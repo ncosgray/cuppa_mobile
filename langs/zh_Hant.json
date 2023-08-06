@@ -57,6 +57,8 @@
   "tutorial_text3": "點擊一個按鈕，開始在茶浸泡時計時。",
   "tutorial_text4": "您可以讓 {{timers_max}} 個計時器一次執行。",
   "tutorial_text5": "享受您完美沖泡的一杯茶！",
+  "undo_button": "撤消",
+  "undo_message": "已刪除 {{tea_name}}。",
   "unit_celsius": "C",
   "unit_fahrenheit": "F",
   "unit_hours": "h",

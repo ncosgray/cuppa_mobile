@@ -57,6 +57,8 @@
   "tutorial_text3": "Tapáil cnaipe chun tús a chur le do chuid tae a uainiú de réir mar a bhíonn sé géar.",
   "tutorial_text4": "Is féidir leat {{timers_max}} lasc ama a bheith ag rith ag an am céanna.",
   "tutorial_text5": "Bain sult as do cupán tae breá brewed!",
+  "undo_button": "Cealaigh",
+  "undo_message": "Scriosta {{tea_name}}.",
   "unit_celsius": "C",
   "unit_fahrenheit": "F",
   "unit_hours": "h",

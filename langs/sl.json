@@ -57,6 +57,8 @@
   "tutorial_text3": "Tapnite gumb, da začnete umerjati svoj čaj, ko se strmi.",
   "tutorial_text4": "Lahko imaš {{timers_max}} časovnika naenkrat.",
   "tutorial_text5": "Uživajte v popolni skodelici čaja!",
+  "undo_button": "Razveljavi",
+  "undo_message": "Izbrisano {{tea_name}}.",
   "unit_celsius": "C",
   "unit_fahrenheit": "F",
   "unit_hours": "h",

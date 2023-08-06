@@ -57,6 +57,8 @@
   "tutorial_text3": "Çayınızı dik kimi vaxt təyin etməyə başlamaq üçün bir düyməyə basın.",
   "tutorial_text4": "{{timers_max}} timer bir anda qaça bilərsiniz.",
   "tutorial_text5": "Mükəmməl bir şəkildə bişirilmiş bir fincan çaydan zövq alın!",
+  "undo_button": "geri",
+  "undo_message": "Silinmiş {{tea_name}}.",
   "unit_celsius": "C",
   "unit_fahrenheit": "F",
   "unit_hours": "h",

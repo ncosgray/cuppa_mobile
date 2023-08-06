@@ -57,6 +57,8 @@
   "tutorial_text3": "Toque em um botão para começar a cronometrar seu chá à medida que ele se enfunda.",
   "tutorial_text4": "Você pode ter {{timers_max}} temporizadores em execução de uma só vez.",
   "tutorial_text5": "Aproveite a sua xícara de chá perfeitamente preparada!",
+  "undo_button": "Desfazer",
+  "undo_message": "Excluído {{tea_name}}.",
   "unit_celsius": "C",
   "unit_fahrenheit": "F",
   "unit_hours": "h",

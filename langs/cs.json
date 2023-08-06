@@ -57,6 +57,8 @@
   "tutorial_text3": "Klepnutím na tlačítko zahájíte časování čaje, jak se louhuje.",
   "tutorial_text4": "Můžete mít spuštěné {{timers_max}} časovače najednou.",
   "tutorial_text5": "Vychutnejte si dokonale uvařený šálek čaje!",
+  "undo_button": "Zrušit",
+  "undo_message": "Smazáno {{tea_name}}.",
   "unit_celsius": "C",
   "unit_fahrenheit": "F",
   "unit_hours": "h",

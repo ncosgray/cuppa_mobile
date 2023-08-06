@@ -57,6 +57,8 @@
   "tutorial_text3": "Натисніть кнопку, щоб почати хронометраж чаю під час заварювання.",
   "tutorial_text4": "Ви можете запустити відразу {{timers_max}} таймера.",
   "tutorial_text5": "Насолоджуйтесь ідеально завареною чашкою чаю!",
+  "undo_button": "Скасувати",
+  "undo_message": "Видалено {{tea_name}}.",
   "unit_celsius": "C",
   "unit_fahrenheit": "F",
   "unit_hours": "h",

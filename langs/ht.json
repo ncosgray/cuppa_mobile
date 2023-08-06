@@ -57,6 +57,8 @@
   "tutorial_text3": "Tape yon bouton yo kòmanse distribye te ou jan li etap.",
   "tutorial_text4": "Ou ka gen {{timers_max}} fwa kouri nan yon fwa.",
   "tutorial_text5": "Jwi tas parfe ou kwaze nan te!",
+  "undo_button": "Defèt",
+  "undo_message": "Efase {{tea_name}}.",
   "unit_celsius": "C",
   "unit_fahrenheit": "F",
   "unit_hours": "h",

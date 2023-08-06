@@ -57,6 +57,8 @@
   "tutorial_text3": "Tryk på en knap for at begynde at time din te, mens den stejler.",
   "tutorial_text4": "Du kan have {{timers_max}} timere kørende på én gang.",
   "tutorial_text5": "Nyd din perfekt bryggede kop te!",
+  "undo_button": "Fortryd",
+  "undo_message": "Slettet {{tea_name}}.",
   "unit_celsius": "C",
   "unit_fahrenheit": "F",
   "unit_hours": "h",
