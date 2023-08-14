@@ -1,0 +1,4 @@
+* Son de notification plus fort.
+* Nouvelle option : choisissez votre langue préférée.
+* Améliorations de l'interface et de son utilisabilité.
+* Mise à jour des traductions – contribuez avec Weblate !
