@@ -13,7 +13,6 @@
 // Cuppa utility widgets
 
 import 'package:cuppa_mobile/data/constants.dart';
-import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
@@ -57,7 +56,7 @@ Widget dismissibleBackground(BuildContext context, Alignment alignment) {
               child: Align(
                 alignment: alignment,
                 child: getPlatformRemoveIcon(
-                    appPlatform, Theme.of(context).colorScheme.onError),
+                    Theme.of(context).colorScheme.onError),
               ))));
 }
 

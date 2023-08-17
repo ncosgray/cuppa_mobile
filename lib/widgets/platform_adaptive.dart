@@ -24,6 +24,7 @@
 
 import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
@@ -102,9 +103,9 @@ final ThemeData kBlackTheme = ThemeData(
 );
 
 // Get theme appropriate to platform
-ThemeData getPlatformAdaptiveTheme(TargetPlatform platform,
-    {ColorScheme? dynamicColors}) {
-  ThemeData theme = platform == TargetPlatform.iOS ? kIOSTheme : kDefaultTheme;
+ThemeData getPlatformAdaptiveTheme({ColorScheme? dynamicColors}) {
+  ThemeData theme =
+      appPlatform == TargetPlatform.iOS ? kIOSTheme : kDefaultTheme;
   if (dynamicColors != null) {
     // Use dynamic colors if provided
     theme = theme.copyWith(colorScheme: dynamicColors.harmonized());
@@ -112,9 +113,9 @@ ThemeData getPlatformAdaptiveTheme(TargetPlatform platform,
   return theme;
 }
 
-ThemeData getPlatformAdaptiveDarkTheme(TargetPlatform platform,
+ThemeData getPlatformAdaptiveDarkTheme(
     {ColorScheme? dynamicColors, bool blackTheme = true}) {
-  ThemeData theme = platform == TargetPlatform.iOS
+  ThemeData theme = appPlatform == TargetPlatform.iOS
       ? (blackTheme ? kIOSBlackTheme : kIOSDarkTheme)
       : (blackTheme ? kBlackTheme : kDarkTheme);
   if (dynamicColors != null) {
@@ -125,38 +126,38 @@ ThemeData getPlatformAdaptiveDarkTheme(TargetPlatform platform,
 }
 
 // Platform specific icons
-Icon getPlatformSettingsIcon(TargetPlatform platform) {
-  return platform == TargetPlatform.iOS
+Icon getPlatformSettingsIcon() {
+  return appPlatform == TargetPlatform.iOS
       ? const Icon(CupertinoIcons.settings_solid)
       : const Icon(Icons.settings);
 }
 
-Icon getPlatformAboutIcon(TargetPlatform platform) {
-  return platform == TargetPlatform.iOS
+Icon getPlatformAboutIcon() {
+  return appPlatform == TargetPlatform.iOS
       ? const Icon(CupertinoIcons.question)
       : const Icon(Icons.help);
 }
 
-Icon getPlatformRadioOnIcon(TargetPlatform platform) {
-  return platform == TargetPlatform.iOS
+Icon getPlatformRadioOnIcon() {
+  return appPlatform == TargetPlatform.iOS
       ? const Icon(CupertinoIcons.check_mark)
       : const Icon(Icons.radio_button_on);
 }
 
-Icon getPlatformRadioOffIcon(TargetPlatform platform) {
-  return platform == TargetPlatform.iOS
+Icon getPlatformRadioOffIcon() {
+  return appPlatform == TargetPlatform.iOS
       ? const Icon(null)
       : const Icon(Icons.radio_button_off);
 }
 
-Icon getPlatformRemoveIcon(TargetPlatform platform, Color color) {
-  return platform == TargetPlatform.iOS
+Icon getPlatformRemoveIcon(Color color) {
+  return appPlatform == TargetPlatform.iOS
       ? Icon(CupertinoIcons.trash_fill, color: color)
       : Icon(Icons.delete_outline, color: color);
 }
 
-Icon getPlatformRemoveAllIcon(TargetPlatform platform, Color color) {
-  return platform == TargetPlatform.iOS
+Icon getPlatformRemoveAllIcon(Color color) {
+  return appPlatform == TargetPlatform.iOS
       ? Icon(CupertinoIcons.square_stack_3d_up_slash_fill, color: color)
       : Icon(Icons.delete_sweep_outlined, color: color);
 }
@@ -166,7 +167,6 @@ class PlatformAdaptiveNavBar extends StatelessWidget
     implements PreferredSizeWidget {
   const PlatformAdaptiveNavBar({
     Key? key,
-    required this.platform,
     required this.isPoppable,
     this.textScaleFactor = 1.0,
     required this.title,
@@ -174,7 +174,6 @@ class PlatformAdaptiveNavBar extends StatelessWidget
     this.actionIcon,
   }) : super(key: key);
 
-  final TargetPlatform platform;
   final bool isPoppable;
   final double textScaleFactor;
   final String title;
@@ -186,7 +185,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    if (platform == TargetPlatform.iOS) {
+    if (appPlatform == TargetPlatform.iOS) {
       return CupertinoNavigationBar(
         transitionBetweenRoutes: false,
         backgroundColor: Theme.of(context).primaryColor,
@@ -239,14 +238,12 @@ AlertDialog materialAlertDialog({title, content, actions}) {
 class PlatformAdaptiveDialog extends StatelessWidget {
   const PlatformAdaptiveDialog({
     Key? key,
-    required this.platform,
     required this.title,
     required this.content,
     required this.buttonTextFalse,
     this.buttonTextTrue,
   }) : super(key: key);
 
-  final TargetPlatform platform;
   final Widget title;
   final Widget content;
   final String buttonTextFalse;
@@ -254,7 +251,7 @@ class PlatformAdaptiveDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (platform == TargetPlatform.iOS) {
+    if (appPlatform == TargetPlatform.iOS) {
       // Define Cupertino action button(s)
       List<Widget> actionList = [
         CupertinoDialogAction(
@@ -304,14 +301,12 @@ class PlatformAdaptiveDialog extends StatelessWidget {
 class PlatformAdaptiveTextFormDialog extends StatefulWidget {
   const PlatformAdaptiveTextFormDialog({
     Key? key,
-    required this.platform,
     required this.initialValue,
     required this.validator,
     required this.buttonTextCancel,
     required this.buttonTextOK,
   }) : super(key: key);
 
-  final TargetPlatform platform;
   final String initialValue;
   final String? Function(String?) validator;
   final String buttonTextCancel;
@@ -320,7 +315,6 @@ class PlatformAdaptiveTextFormDialog extends StatefulWidget {
   @override
   _PlatformAdaptiveTextFormDialogState createState() =>
       _PlatformAdaptiveTextFormDialogState(
-          platform: platform,
           initialValue: initialValue,
           validator: validator,
           buttonTextCancel: buttonTextCancel,
@@ -330,14 +324,12 @@ class PlatformAdaptiveTextFormDialog extends StatefulWidget {
 class _PlatformAdaptiveTextFormDialogState
     extends State<PlatformAdaptiveTextFormDialog> {
   _PlatformAdaptiveTextFormDialogState({
-    required this.platform,
     required this.initialValue,
     required this.validator,
     required this.buttonTextCancel,
     required this.buttonTextOK,
   });
 
-  final TargetPlatform platform;
   final String initialValue;
   final String? Function(String?) validator;
   final String buttonTextCancel;
@@ -363,7 +355,7 @@ class _PlatformAdaptiveTextFormDialogState
   // Build dialog
   @override
   Widget build(BuildContext context) {
-    if (platform == TargetPlatform.iOS) {
+    if (appPlatform == TargetPlatform.iOS) {
       return CupertinoAlertDialog(
         // Text entry
         content: Material(
@@ -462,10 +454,8 @@ class _PlatformAdaptiveTextFormDialogState
 
 // Small button with styling appropriate to platform
 Widget adaptiveSmallButton(
-    {required TargetPlatform platform,
-    required IconData icon,
-    required Function()? onPressed}) {
-  if (platform == TargetPlatform.iOS) {
+    {required IconData icon, required Function()? onPressed}) {
+  if (appPlatform == TargetPlatform.iOS) {
     return CupertinoButton(
       padding: EdgeInsets.zero,
       onPressed: onPressed,
@@ -484,7 +474,6 @@ Widget adaptiveSmallButton(
 class PlatformAdaptiveTimePickerDialog extends StatefulWidget {
   const PlatformAdaptiveTimePickerDialog({
     Key? key,
-    required this.platform,
     required this.initialHours,
     required this.hourOptions,
     required this.hourLabel,
@@ -497,7 +486,6 @@ class PlatformAdaptiveTimePickerDialog extends StatefulWidget {
     required this.buttonTextOK,
   }) : super(key: key);
 
-  final TargetPlatform platform;
   final int initialHours;
   final List<int> hourOptions;
   final String hourLabel;
@@ -512,7 +500,6 @@ class PlatformAdaptiveTimePickerDialog extends StatefulWidget {
   @override
   State<PlatformAdaptiveTimePickerDialog> createState() =>
       _PlatformAdaptiveTimePickerDialogState(
-          platform: platform,
           initialHours: initialHours,
           hourOptions: hourOptions,
           hourLabel: hourLabel,
@@ -528,7 +515,6 @@ class PlatformAdaptiveTimePickerDialog extends StatefulWidget {
 class _PlatformAdaptiveTimePickerDialogState
     extends State<PlatformAdaptiveTimePickerDialog> {
   _PlatformAdaptiveTimePickerDialogState({
-    required this.platform,
     required this.initialHours,
     required this.hourOptions,
     required this.hourLabel,
@@ -541,7 +527,6 @@ class _PlatformAdaptiveTimePickerDialogState
     required this.buttonTextOK,
   });
 
-  final TargetPlatform platform;
   final int initialHours;
   final List<int> hourOptions;
   final String hourLabel;
@@ -588,7 +573,7 @@ class _PlatformAdaptiveTimePickerDialogState
   // Build dialog
   @override
   Widget build(BuildContext context) {
-    if (platform == TargetPlatform.iOS) {
+    if (appPlatform == TargetPlatform.iOS) {
       return CupertinoAlertDialog(
         // Time entry
         content: _timePicker(),
@@ -642,7 +627,6 @@ class _PlatformAdaptiveTimePickerDialogState
         children: [
           // Increment down
           adaptiveSmallButton(
-            platform: platform,
             icon: Icons.keyboard_arrow_down,
             onPressed: () {
               if (_hoursSelectionMode) {
@@ -748,7 +732,6 @@ class _PlatformAdaptiveTimePickerDialogState
           timePickerSpacer,
           // Increment up
           adaptiveSmallButton(
-            platform: platform,
             icon: Icons.keyboard_arrow_up,
             onPressed: () {
               if (_hoursSelectionMode) {
@@ -858,7 +841,6 @@ class _PlatformAdaptiveTimePickerDialogState
 class PlatformAdaptiveTempPickerDialog extends StatefulWidget {
   const PlatformAdaptiveTempPickerDialog({
     Key? key,
-    required this.platform,
     required this.initialTemp,
     required this.tempFOptions,
     required this.tempCOptions,
@@ -866,7 +848,6 @@ class PlatformAdaptiveTempPickerDialog extends StatefulWidget {
     required this.buttonTextOK,
   }) : super(key: key);
 
-  final TargetPlatform platform;
   final int initialTemp;
   final List<int> tempFOptions;
   final List<int> tempCOptions;
@@ -876,7 +857,6 @@ class PlatformAdaptiveTempPickerDialog extends StatefulWidget {
   @override
   State<PlatformAdaptiveTempPickerDialog> createState() =>
       _PlatformAdaptiveTempPickerDialogState(
-          platform: platform,
           initialTemp: initialTemp,
           tempFOptions: tempFOptions,
           tempCOptions: tempCOptions,
@@ -887,7 +867,6 @@ class PlatformAdaptiveTempPickerDialog extends StatefulWidget {
 class _PlatformAdaptiveTempPickerDialogState
     extends State<PlatformAdaptiveTempPickerDialog> {
   _PlatformAdaptiveTempPickerDialogState({
-    required this.platform,
     required this.initialTemp,
     required this.tempFOptions,
     required this.tempCOptions,
@@ -895,7 +874,6 @@ class _PlatformAdaptiveTempPickerDialogState
     required this.buttonTextOK,
   });
 
-  final TargetPlatform platform;
   final int initialTemp;
   final List<int> tempFOptions;
   final List<int> tempCOptions;
@@ -926,7 +904,7 @@ class _PlatformAdaptiveTempPickerDialogState
   // Build dialog
   @override
   Widget build(BuildContext context) {
-    if (platform == TargetPlatform.iOS) {
+    if (appPlatform == TargetPlatform.iOS) {
       return CupertinoAlertDialog(
         // Temperature entry
         content: _tempPicker(),
@@ -976,7 +954,6 @@ class _PlatformAdaptiveTempPickerDialogState
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             // Increment down
             adaptiveSmallButton(
-                platform: platform,
                 icon: Icons.keyboard_arrow_down,
                 onPressed: _newTempIndex > 0
                     ? () {
@@ -991,7 +968,6 @@ class _PlatformAdaptiveTempPickerDialogState
             ),
             // Increment up
             adaptiveSmallButton(
-              platform: platform,
               icon: Icons.keyboard_arrow_up,
               onPressed: _newTempIndex < tempCOptions.length - 1
                   ? () {
@@ -1016,7 +992,7 @@ class _PlatformAdaptiveTempPickerDialogState
 
   // Build an adaptive temperature unit picker (sliding control or segments)
   Widget _adaptiveUnitPicker() {
-    if (platform == TargetPlatform.iOS) {
+    if (appPlatform == TargetPlatform.iOS) {
       return CupertinoSlidingSegmentedControl<bool>(
           groupValue: _unitsCelsius,
           onValueChanged: (bool? selected) {
@@ -1069,7 +1045,7 @@ class _PlatformAdaptiveTempPickerDialogState
   Widget _adaptiveTempSlider(
       {required int tempValueCount,
       required Null Function(dynamic value) onChanged}) {
-    if (platform == TargetPlatform.iOS) {
+    if (appPlatform == TargetPlatform.iOS) {
       return CupertinoSlider(
           value: _newTempIndex.toDouble(),
           min: 0.0,
@@ -1100,20 +1076,18 @@ class _PlatformAdaptiveTempPickerDialogState
 class PlatformAdaptiveSelectListItem extends StatelessWidget {
   const PlatformAdaptiveSelectListItem({
     Key? key,
-    required this.platform,
     required this.itemHeight,
     required this.item,
     required this.onTap,
   }) : super(key: key);
 
-  final TargetPlatform platform;
   final double itemHeight;
   final Widget item;
   final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
-    if (platform == TargetPlatform.iOS) {
+    if (appPlatform == TargetPlatform.iOS) {
       return GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
@@ -1137,13 +1111,12 @@ class PlatformAdaptiveSelectListItem extends StatelessWidget {
 // Display a selector list that is Material on Android and Cupertino on iOS
 Future<bool?> openPlatformAdaptiveSelectList(
     {required BuildContext context,
-    required TargetPlatform platform,
     required String titleText,
     required String buttonTextCancel,
     required List<dynamic> itemList,
     required Widget Function(BuildContext, int) itemBuilder,
     required Widget Function(BuildContext, int) separatorBuilder}) async {
-  if (platform == TargetPlatform.iOS) {
+  if (appPlatform == TargetPlatform.iOS) {
     // iOS style modal list
     return showCupertinoModalPopup<bool>(
         context: context,

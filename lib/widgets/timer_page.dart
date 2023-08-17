@@ -94,7 +94,6 @@ class _TimerWidgetState extends State<TimerWidget> {
 
     return Scaffold(
         appBar: PlatformAdaptiveNavBar(
-          platform: appPlatform,
           isPoppable: false,
           textScaleFactor: appTextScale,
           title: appName,
@@ -102,7 +101,7 @@ class _TimerWidgetState extends State<TimerWidget> {
           actionIcon: tutorialTooltip(
             context: context,
             key: tutorialKey2,
-            child: getPlatformSettingsIcon(appPlatform),
+            child: getPlatformSettingsIcon(),
           ),
           actionRoute: const PrefsWidget(),
         ),
@@ -449,7 +448,6 @@ class _TimerWidgetState extends State<TimerWidget> {
           barrierDismissible: false,
           builder: (BuildContext context) {
             return PlatformAdaptiveDialog(
-              platform: appPlatform,
               title: Text(AppString.confirm_title.translate()),
               content: SingleChildScrollView(
                 child: ListBody(

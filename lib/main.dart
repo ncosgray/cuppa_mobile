@@ -103,10 +103,13 @@ class CuppaApp extends StatelessWidget {
                     title: appName,
                     debugShowCheckedModeBanner: false,
                     // Configure app theme including dynamic colors if supported
-                    theme: getPlatformAdaptiveTheme(appPlatform,
-                        dynamicColors: lightDynamic),
-                    darkTheme: getPlatformAdaptiveDarkTheme(appPlatform,
-                        dynamicColors: darkDynamic, blackTheme: appThemeBlack),
+                    theme: getPlatformAdaptiveTheme(
+                      dynamicColors: lightDynamic,
+                    ),
+                    darkTheme: getPlatformAdaptiveDarkTheme(
+                      dynamicColors: darkDynamic,
+                      blackTheme: appThemeBlack,
+                    ),
                     themeMode: appThemeMode,
                     // Initial route
                     home: const TimerWidget(),

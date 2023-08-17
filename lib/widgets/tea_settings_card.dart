@@ -15,7 +15,6 @@
 
 import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
-import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
@@ -232,7 +231,6 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         barrierDismissible: true,
         builder: (BuildContext context) {
           return PlatformAdaptiveTextFormDialog(
-              platform: appPlatform,
               initialValue: currentTeaName,
               validator: (String? newValue) {
                 if (newValue == null || newValue.isEmpty) {
@@ -285,7 +283,6 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         barrierDismissible: true,
         builder: (BuildContext context) {
           return PlatformAdaptiveTimePickerDialog(
-              platform: appPlatform,
               initialHours: currentHours,
               hourOptions: brewTimeHourOptions,
               hourLabel: AppString.unit_hours.translate(),
@@ -339,7 +336,6 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         barrierDismissible: true,
         builder: (BuildContext context) {
           return PlatformAdaptiveTempPickerDialog(
-              platform: appPlatform,
               initialTemp: currentTemp,
               tempFOptions: brewTempFOptions,
               tempCOptions: brewTempCOptions,
@@ -378,7 +374,6 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         barrierDismissible: true,
         builder: (BuildContext context) {
           return PlatformAdaptiveDialog(
-              platform: appPlatform,
               title: Container(),
               content: SizedBox(
                 width: TeaColor.values.length * 16,
@@ -459,7 +454,6 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         barrierDismissible: true,
         builder: (BuildContext context) {
           return PlatformAdaptiveDialog(
-              platform: appPlatform,
               title: Container(),
               content: SizedBox(
                 width: TeaIcon.values.length * 12,

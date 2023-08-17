@@ -44,12 +44,11 @@ class PrefsWidget extends StatelessWidget {
 
     return Scaffold(
       appBar: PlatformAdaptiveNavBar(
-        platform: appPlatform,
         isPoppable: true,
         textScaleFactor: appTextScale,
         title: AppString.prefs_title.translate(),
         // Button to navigate to About page
-        actionIcon: getPlatformAboutIcon(appPlatform),
+        actionIcon: getPlatformAboutIcon(),
         actionRoute: const AboutWidget(),
       ),
       body: SafeArea(
@@ -211,7 +210,6 @@ class PrefsWidget extends StatelessWidget {
                   onPressed: count < teasMaxCount
                       ? () => openPlatformAdaptiveSelectList(
                           context: context,
-                          platform: appPlatform,
                           titleText: AppString.add_tea_button.translate(),
                           buttonTextCancel: AppString.cancel_button.translate(),
                           itemList: Presets.presetList,
@@ -227,7 +225,6 @@ class PrefsWidget extends StatelessWidget {
     Preset preset = Presets.presetList[index];
 
     return PlatformAdaptiveSelectListItem(
-        platform: appPlatform,
         itemHeight: 60.0,
         item: Row(children: [
           // Preset tea icon
@@ -295,7 +292,7 @@ class PrefsWidget extends StatelessWidget {
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
                     child: getPlatformRemoveAllIcon(
-                        appPlatform, Theme.of(context).colorScheme.error),
+                        Theme.of(context).colorScheme.error),
                     onTap: () async {
                       AppProvider provider =
                           Provider.of<AppProvider>(context, listen: false);
@@ -315,7 +312,6 @@ class PrefsWidget extends StatelessWidget {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return PlatformAdaptiveDialog(
-            platform: appPlatform,
             title: Text(AppString.confirm_title.translate()),
             content: SingleChildScrollView(
               child: ListBody(
@@ -407,7 +403,6 @@ class PrefsWidget extends StatelessWidget {
           // Open app theme dialog
           onTap: () => openPlatformAdaptiveSelectList(
               context: context,
-              platform: appPlatform,
               titleText: AppString.prefs_app_theme.translate(),
               buttonTextCancel: AppString.cancel_button.translate(),
               itemList: AppTheme.values,
@@ -424,15 +419,14 @@ class PrefsWidget extends StatelessWidget {
     AppTheme value = AppTheme.values.elementAt(index);
 
     return PlatformAdaptiveSelectListItem(
-        platform: appPlatform,
         itemHeight: 48.0,
         item: Row(children: [
           // Selected theme indicator
           Container(
               padding: const EdgeInsets.only(right: 12.0),
               child: value == provider.appTheme
-                  ? getPlatformRadioOnIcon(appPlatform)
-                  : getPlatformRadioOffIcon(appPlatform)),
+                  ? getPlatformRadioOnIcon()
+                  : getPlatformRadioOffIcon()),
           // Theme name
           Expanded(
               child: Align(
@@ -469,7 +463,6 @@ class PrefsWidget extends StatelessWidget {
           // Open app language dialog
           onTap: () => openPlatformAdaptiveSelectList(
               context: context,
-              platform: appPlatform,
               titleText: AppString.prefs_language.translate(),
               buttonTextCancel: AppString.cancel_button.translate(),
               itemList: languageOptions,
@@ -486,15 +479,14 @@ class PrefsWidget extends StatelessWidget {
     String value = languageOptions[index];
 
     return PlatformAdaptiveSelectListItem(
-        platform: appPlatform,
         itemHeight: 48.0,
         item: Row(children: [
           // Selected language indicator
           Container(
               padding: const EdgeInsets.only(right: 12.0),
               child: value == provider.appLanguage
-                  ? getPlatformRadioOnIcon(appPlatform)
-                  : getPlatformRadioOffIcon(appPlatform)),
+                  ? getPlatformRadioOnIcon()
+                  : getPlatformRadioOffIcon()),
           // Language name and code
           Expanded(
               child: Align(

@@ -35,7 +35,6 @@ class AboutWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PlatformAdaptiveNavBar(
-          platform: appPlatform,
           isPoppable: true,
           textScaleFactor: appTextScale,
           title: AppString.about_title.translate(),
