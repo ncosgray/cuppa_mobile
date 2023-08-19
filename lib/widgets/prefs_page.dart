@@ -307,22 +307,30 @@ class PrefsWidget extends StatelessWidget {
 
   // Delete confirmation dialog
   Future _confirmDelete(BuildContext context) {
-    return showDialog(
+    return showAdaptiveDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return PlatformAdaptiveDialog(
-            title: Text(AppString.confirm_title.translate()),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(AppString.confirm_delete.translate()),
-                ],
+          return AlertDialog.adaptive(
+              title: Text(AppString.confirm_title.translate()),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text(AppString.confirm_delete.translate()),
+                  ],
+                ),
               ),
-            ),
-            buttonTextTrue: AppString.yes_button.translate(),
-            buttonTextFalse: AppString.no_button.translate(),
-          );
+              actions: [
+                adaptiveDialogAction(
+                  isDefaultAction: true,
+                  text: AppString.no_button.translate(),
+                  onPressed: () => Navigator.of(context).pop(false),
+                ),
+                adaptiveDialogAction(
+                  text: AppString.yes_button.translate(),
+                  onPressed: () => Navigator.of(context).pop(true),
+                )
+              ]);
         });
   }
 

@@ -13,17 +13,13 @@
 // Cuppa platform adaptive elements
 // - Light and dark themes for Android and iOS
 // - Icons for Android and iOS
+// - Buttons for Android and iOS
 // - PlatformAdaptiveNavBar creates page navigation for context platform
-// - PlatformAdaptiveScrollBehavior sets scroll behavior for context platform
-// - PlatformAdaptiveDialog chooses showDialog type by context platform
-// - PlatformAdaptiveTextFormDialog text entry dialog for context platform
-// - PlatformAdaptiveTimePickerDialog time entry dialog for context platform
 // - PlatformAdaptiveTempPickerDialog temp entry dialog for context platform
 // - PlatformAdaptiveSelectListItem selector item for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
 import 'package:cuppa_mobile/helpers.dart';
-import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
@@ -162,6 +158,43 @@ Icon getPlatformRemoveAllIcon(Color color) {
       : Icon(Icons.delete_sweep_outlined, color: color);
 }
 
+// Dialog action button appropriate to platform
+Widget adaptiveDialogAction(
+    {bool isDefaultAction = false,
+    required String text,
+    required Function()? onPressed}) {
+  if (appPlatform == TargetPlatform.iOS) {
+    return CupertinoDialogAction(
+      isDefaultAction: isDefaultAction,
+      onPressed: onPressed,
+      child: Text(text),
+    );
+  } else {
+    return FilledButton.tonal(
+      onPressed: onPressed,
+      child: Text(text),
+    );
+  }
+}
+
+// Small button with styling appropriate to platform
+Widget adaptiveSmallButton(
+    {required IconData icon, required Function()? onPressed}) {
+  if (appPlatform == TargetPlatform.iOS) {
+    return CupertinoButton(
+      padding: EdgeInsets.zero,
+      onPressed: onPressed,
+      child: Icon(icon),
+    );
+  } else {
+    return OutlinedButton(
+      style: const ButtonStyle(visualDensity: VisualDensity.compact),
+      onPressed: onPressed,
+      child: Icon(icon),
+    );
+  }
+}
+
 // Navigation bar that is Material on Android and Cupertino on iOS
 class PlatformAdaptiveNavBar extends StatelessWidget
     implements PreferredSizeWidget {
@@ -220,620 +253,6 @@ class PlatformAdaptiveNavBar extends StatelessWidget
                 ]
               : null);
     }
-  }
-}
-
-// Material alert dialog with padding
-AlertDialog materialAlertDialog({title, content, actions}) {
-  return AlertDialog(
-    contentPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 12.0),
-    actionsPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 18.0),
-    title: title,
-    content: content,
-    actions: actions,
-  );
-}
-
-// Alert dialog that is Material on Android and Cupertino on iOS
-class PlatformAdaptiveDialog extends StatelessWidget {
-  const PlatformAdaptiveDialog({
-    Key? key,
-    required this.title,
-    required this.content,
-    required this.buttonTextFalse,
-    this.buttonTextTrue,
-  }) : super(key: key);
-
-  final Widget title;
-  final Widget content;
-  final String buttonTextFalse;
-  final String? buttonTextTrue;
-
-  @override
-  Widget build(BuildContext context) {
-    if (appPlatform == TargetPlatform.iOS) {
-      // Define Cupertino action button(s)
-      List<Widget> actionList = [
-        CupertinoDialogAction(
-          child: Text(buttonTextFalse),
-          onPressed: () => Navigator.of(context).pop(false),
-        ),
-      ];
-      if (buttonTextTrue != null) {
-        actionList.add(CupertinoDialogAction(
-          child: Text(buttonTextTrue!),
-          onPressed: () => Navigator.of(context).pop(true),
-        ));
-      }
-
-      // Build the Cupertino dialog
-      return CupertinoAlertDialog(
-        title: title,
-        content: content,
-        actions: actionList,
-      );
-    } else {
-      // Define Material action button(s)
-      List<Widget> actionList = [
-        FilledButton.tonal(
-          onPressed: () => Navigator.of(context).pop(false),
-          child: Text(buttonTextFalse),
-        )
-      ];
-      if (buttonTextTrue != null) {
-        actionList.add(FilledButton.tonal(
-          onPressed: () => Navigator.of(context).pop(true),
-          child: Text(buttonTextTrue!),
-        ));
-      }
-
-      // Build the Material dialog
-      return materialAlertDialog(
-        title: title,
-        content: content,
-        actions: actionList,
-      );
-    }
-  }
-}
-
-// Text entry dialog that is Material on Android and Cupertino on iOS
-class PlatformAdaptiveTextFormDialog extends StatefulWidget {
-  const PlatformAdaptiveTextFormDialog({
-    Key? key,
-    required this.initialValue,
-    required this.validator,
-    required this.buttonTextCancel,
-    required this.buttonTextOK,
-  }) : super(key: key);
-
-  final String initialValue;
-  final String? Function(String?) validator;
-  final String buttonTextCancel;
-  final String buttonTextOK;
-
-  @override
-  _PlatformAdaptiveTextFormDialogState createState() =>
-      _PlatformAdaptiveTextFormDialogState(
-          initialValue: initialValue,
-          validator: validator,
-          buttonTextCancel: buttonTextCancel,
-          buttonTextOK: buttonTextOK);
-}
-
-class _PlatformAdaptiveTextFormDialogState
-    extends State<PlatformAdaptiveTextFormDialog> {
-  _PlatformAdaptiveTextFormDialogState({
-    required this.initialValue,
-    required this.validator,
-    required this.buttonTextCancel,
-    required this.buttonTextOK,
-  });
-
-  final String initialValue;
-  final String? Function(String?) validator;
-  final String buttonTextCancel;
-  final String buttonTextOK;
-
-  // State variables
-  late GlobalKey<FormState> _formKey;
-  late String _newValue;
-  late bool _isValid;
-  late TextEditingController _controller;
-
-  // Initialize dialog state
-  @override
-  void initState() {
-    super.initState();
-
-    _formKey = GlobalKey();
-    _newValue = initialValue;
-    _isValid = true;
-    _controller = TextEditingController(text: _newValue);
-  }
-
-  // Build dialog
-  @override
-  Widget build(BuildContext context) {
-    if (appPlatform == TargetPlatform.iOS) {
-      return CupertinoAlertDialog(
-        // Text entry
-        content: Material(
-            type: MaterialType.transparency,
-            child: Form(
-                key: _formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                child: Container(
-                    padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                    child: _textField()))),
-        actions: <Widget>[
-          // Cancel and close dialog
-          CupertinoDialogAction(
-            child: Text(buttonTextCancel),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          // Save and close dialog, if valid
-          CupertinoDialogAction(
-            isDefaultAction: true,
-            textStyle: _isValid ? null : const TextStyle(color: Colors.grey),
-            onPressed:
-                _isValid ? () => Navigator.of(context).pop(_newValue) : null,
-            child: Text(buttonTextOK),
-          ),
-        ],
-      );
-    } else {
-      return materialAlertDialog(
-        // Text entry
-        content: SingleChildScrollView(
-            child: Form(
-                key: _formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                child: _textField())),
-        actions: <Widget>[
-          // Cancel and close dialog
-          FilledButton.tonal(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(buttonTextCancel),
-          ),
-          // Save and close dialog, if valid
-          FilledButton.tonal(
-            onPressed:
-                _isValid ? () => Navigator.of(context).pop(_newValue) : null,
-            child: Text(buttonTextOK),
-          ),
-        ],
-      );
-    }
-  }
-
-  // Build a text field for PlatformAdaptiveStringFormDialog
-  Widget _textField() {
-    // Text form field with clear button and validation
-    return TextFormField(
-      controller: _controller,
-      autofocus: true,
-      autocorrect: false,
-      enableSuggestions: false,
-      enableInteractiveSelection: true,
-      textCapitalization: TextCapitalization.words,
-      maxLines: 1,
-      textAlignVertical: TextAlignVertical.center,
-      decoration: InputDecoration(
-        counter: const Offstage(),
-        suffixIcon: _controller.text.isNotEmpty
-            // Clear field button
-            ? IconButton(
-                iconSize: 14.0,
-                icon: const Icon(Icons.cancel_outlined, color: Colors.grey),
-                onPressed: () => setState(() {
-                  _isValid = false;
-                  _controller.clear();
-                }),
-              )
-            : null,
-      ),
-      style: textStyleSetting,
-      // Checks for valid values
-      validator: validator,
-      onChanged: (String newValue) {
-        // Validate text and set new value
-        setState(() {
-          _isValid = false;
-          if (_formKey.currentState != null) {
-            if (_formKey.currentState!.validate()) {
-              _isValid = true;
-              _newValue = newValue;
-            }
-          }
-        });
-      },
-    );
-  }
-}
-
-// Small button with styling appropriate to platform
-Widget adaptiveSmallButton(
-    {required IconData icon, required Function()? onPressed}) {
-  if (appPlatform == TargetPlatform.iOS) {
-    return CupertinoButton(
-      padding: EdgeInsets.zero,
-      onPressed: onPressed,
-      child: Icon(icon),
-    );
-  } else {
-    return OutlinedButton(
-      style: const ButtonStyle(visualDensity: VisualDensity.compact),
-      onPressed: onPressed,
-      child: Icon(icon),
-    );
-  }
-}
-
-// Display a tea brew time entry dialog box
-class PlatformAdaptiveTimePickerDialog extends StatefulWidget {
-  const PlatformAdaptiveTimePickerDialog({
-    Key? key,
-    required this.initialHours,
-    required this.hourOptions,
-    required this.hourLabel,
-    required this.initialMinutes,
-    required this.minuteOptions,
-    required this.minuteLabel,
-    required this.initialSeconds,
-    required this.secondOptions,
-    required this.buttonTextCancel,
-    required this.buttonTextOK,
-  }) : super(key: key);
-
-  final int initialHours;
-  final List<int> hourOptions;
-  final String hourLabel;
-  final int initialMinutes;
-  final List<int> minuteOptions;
-  final String minuteLabel;
-  final int initialSeconds;
-  final List<int> secondOptions;
-  final String buttonTextCancel;
-  final String buttonTextOK;
-
-  @override
-  State<PlatformAdaptiveTimePickerDialog> createState() =>
-      _PlatformAdaptiveTimePickerDialogState(
-          initialHours: initialHours,
-          hourOptions: hourOptions,
-          hourLabel: hourLabel,
-          initialMinutes: initialMinutes,
-          minuteOptions: minuteOptions,
-          minuteLabel: minuteLabel,
-          initialSeconds: initialSeconds,
-          secondOptions: secondOptions,
-          buttonTextCancel: buttonTextCancel,
-          buttonTextOK: buttonTextOK);
-}
-
-class _PlatformAdaptiveTimePickerDialogState
-    extends State<PlatformAdaptiveTimePickerDialog> {
-  _PlatformAdaptiveTimePickerDialogState({
-    required this.initialHours,
-    required this.hourOptions,
-    required this.hourLabel,
-    required this.initialMinutes,
-    required this.minuteOptions,
-    required this.minuteLabel,
-    required this.initialSeconds,
-    required this.secondOptions,
-    required this.buttonTextCancel,
-    required this.buttonTextOK,
-  });
-
-  final int initialHours;
-  final List<int> hourOptions;
-  final String hourLabel;
-  final int initialMinutes;
-  final List<int> minuteOptions;
-  final String minuteLabel;
-  final int initialSeconds;
-  final List<int> secondOptions;
-  final String buttonTextCancel;
-  final String buttonTextOK;
-
-  // State variables
-  int _hoursIndex = 0;
-  int _minutesIndex = 0;
-  int _secondsIndex = 0;
-  late FixedExtentScrollController _hoursController;
-  late FixedExtentScrollController _minutesController;
-  late FixedExtentScrollController _secondsController;
-  late bool _hoursSelectionMode;
-
-  // Initialize dialog state
-  @override
-  void initState() {
-    super.initState();
-
-    // Set starting values
-    if (hourOptions.contains(initialHours)) {
-      _hoursIndex = hourOptions.indexOf(initialHours);
-    }
-    _hoursController = FixedExtentScrollController(initialItem: _hoursIndex);
-    if (minuteOptions.contains(initialMinutes)) {
-      _minutesIndex = minuteOptions.indexOf(initialMinutes);
-    }
-    _minutesController =
-        FixedExtentScrollController(initialItem: _minutesIndex);
-    if (secondOptions.contains(initialSeconds)) {
-      _secondsIndex = secondOptions.indexOf(initialSeconds);
-    }
-    _secondsController =
-        FixedExtentScrollController(initialItem: _secondsIndex);
-    _hoursSelectionMode = _hoursIndex > 0;
-  }
-
-  // Build dialog
-  @override
-  Widget build(BuildContext context) {
-    if (appPlatform == TargetPlatform.iOS) {
-      return CupertinoAlertDialog(
-        // Time entry
-        content: _timePicker(),
-        actions: <Widget>[
-          // Cancel and close dialog
-          CupertinoDialogAction(
-            child: Text(buttonTextCancel),
-            onPressed: () => Navigator.pop(context, null),
-          ),
-          // Save and close dialog
-          CupertinoDialogAction(
-              isDefaultAction: true,
-              onPressed: () => Navigator.pop(
-                  context,
-                  hourOptions[_hoursIndex] * 3600 +
-                      minuteOptions[_minutesIndex] * 60 +
-                      secondOptions[_secondsIndex]),
-              child: Text(buttonTextOK)),
-        ],
-      );
-    } else {
-      return materialAlertDialog(
-        // Time entry
-        content: _timePicker(),
-        actions: <Widget>[
-          // Cancel and close dialog
-          FilledButton.tonal(
-              onPressed: () => Navigator.pop(context, null),
-              child: Text(buttonTextCancel)),
-          // Save and close dialog
-          FilledButton.tonal(
-              onPressed: () => Navigator.pop(
-                  context,
-                  hourOptions[_hoursIndex] * 3600 +
-                      minuteOptions[_minutesIndex] * 60 +
-                      secondOptions[_secondsIndex]),
-              child: Text(buttonTextOK)),
-        ],
-      );
-    }
-  }
-
-  // Build a time picker
-  Widget _timePicker() {
-    const Widget timePickerSpacer = SizedBox(width: 14.0);
-
-    return SizedBox(
-      height: 120.0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Increment down
-          adaptiveSmallButton(
-            icon: Icons.keyboard_arrow_down,
-            onPressed: () {
-              if (_hoursSelectionMode) {
-                _minutesIndex--;
-              } else {
-                _secondsIndex--;
-              }
-              if (_secondsIndex < 0) {
-                _minutesIndex--;
-                _secondsIndex = secondOptions.length - 1;
-              }
-              if (_minutesIndex < 0) {
-                _hoursIndex--;
-                _minutesIndex = minuteOptions.length - 1;
-              }
-              if (_hoursIndex <= 0) {
-                _hoursIndex = 0;
-                if (_hoursSelectionMode) {
-                  // Change to minutes selection mode at 0 hours
-                  _hoursSelectionMode = false;
-                  _minutesIndex = minuteOptions.length - 1;
-                  _secondsIndex = secondOptions.length - 1;
-                }
-              }
-              _updateTimePicker(doScroll: true);
-            },
-          ),
-          timePickerSpacer,
-          // Hours picker
-          Visibility(
-              visible: _hoursSelectionMode,
-              maintainState: true,
-              child: _timePickerScrollWheel(
-                controller: _hoursController,
-                initialValue: initialHours,
-                timeValues: hourOptions,
-                onChanged: (newValue) {
-                  if (newValue <= 0) {
-                    _hoursIndex = 0;
-                    if (_hoursSelectionMode) {
-                      // Change to minutes selection mode at 0 hours
-                      _hoursSelectionMode = false;
-                      _minutesIndex = minuteOptions.length - 1;
-                      _secondsIndex = secondOptions.length - 1;
-                    }
-                    _updateTimePicker(doScroll: true);
-                  } else {
-                    _hoursIndex = newValue;
-                    _updateTimePicker();
-                  }
-                },
-              )),
-          // Unit
-          Visibility(
-              visible: _hoursSelectionMode,
-              child: Text(
-                hourLabel,
-                style: textStyleSettingTertiary,
-                textScaleFactor: 1.0,
-              )),
-          Visibility(visible: _hoursSelectionMode, child: timePickerSpacer),
-          // Minutes picker
-          _timePickerScrollWheel(
-            controller: _minutesController,
-            initialValue: initialMinutes,
-            timeValues:
-                _hoursSelectionMode ? minuteOptions : minuteOptions + [60],
-            onChanged: (newValue) {
-              if (newValue >= minuteOptions.length) {
-                // Change to hours selection mode at 60 minutes
-                _hoursSelectionMode = true;
-                _hoursIndex++;
-                _minutesIndex = 0;
-                _updateTimePicker(doScroll: true);
-              } else {
-                _minutesIndex = newValue;
-                _updateTimePicker();
-              }
-            },
-          ),
-          Visibility(visible: !_hoursSelectionMode, child: timePickerSpacer),
-          // Unit
-          Text(
-            _hoursSelectionMode ? minuteLabel : ':',
-            style: textStyleSettingTertiary,
-            textScaleFactor: 1.0,
-          ),
-          Visibility(visible: !_hoursSelectionMode, child: timePickerSpacer),
-          // Seconds picker
-          Visibility(
-              visible: !_hoursSelectionMode,
-              maintainState: true,
-              child: _timePickerScrollWheel(
-                controller: _secondsController,
-                initialValue: initialSeconds,
-                timeValues: secondOptions,
-                onChanged: (newValue) {
-                  _secondsIndex = newValue;
-                  _updateTimePicker();
-                },
-                padTime: true,
-              )),
-          timePickerSpacer,
-          // Increment up
-          adaptiveSmallButton(
-            icon: Icons.keyboard_arrow_up,
-            onPressed: () {
-              if (_hoursSelectionMode) {
-                _minutesIndex++;
-              } else {
-                _secondsIndex++;
-              }
-              if (_secondsIndex >= secondOptions.length) {
-                _minutesIndex++;
-                _secondsIndex = 0;
-              }
-              if (_minutesIndex >= minuteOptions.length) {
-                _minutesIndex = 0;
-                _hoursIndex++;
-                if (!_hoursSelectionMode) {
-                  // Change to hours selection mode at 60 minutes
-                  _hoursSelectionMode = true;
-                }
-              }
-              if (_hoursIndex >= hourOptions.length) {
-                _hoursIndex = hourOptions.length - 1;
-              }
-              _updateTimePicker(doScroll: true);
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Build a time picker scroll wheel
-  Widget _timePickerScrollWheel(
-      {required FixedExtentScrollController controller,
-      required int initialValue,
-      required Null Function(dynamic value) onChanged,
-      required List<int> timeValues,
-      bool padTime = false}) {
-    return Row(children: [
-      SizedBox(
-        width: 36.0,
-        child: ListWheelScrollView(
-          controller: controller,
-          physics: const FixedExtentScrollPhysics(),
-          itemExtent: 28.0,
-          squeeze: 1.1,
-          diameterRatio: 1.1,
-          perspective: 0.01,
-          overAndUnderCenterOpacity: 0.2,
-          onSelectedItemChanged: onChanged,
-          // Time values menu
-          children: List<Widget>.generate(
-            timeValues.length,
-            (int index) {
-              return Center(
-                  child: Text(
-                // Format time with or without zero padding
-                padTime
-                    ? timeValues[index].toString().padLeft(2, '0')
-                    : timeValues[index].toString(),
-                style: textStyleSettingSeconday,
-              ));
-            },
-          ),
-        ),
-      )
-    ]);
-  }
-
-  // Update time picker scroll wheel position
-  void _updateTimePicker({bool doScroll = false}) {
-    // Ensure we never have a 0:00:00 brew time
-    if (hourOptions[_hoursIndex] == 0 &&
-        minuteOptions[_minutesIndex] == 0 &&
-        secondOptions[_secondsIndex] == 0) {
-      if (hourOptions[_hoursIndex] > 0) {
-        _minutesIndex++;
-      } else {
-        _secondsIndex++;
-      }
-      doScroll = true;
-    }
-
-    // Scroll wheels to new values
-    setState(() {
-      if (doScroll) {
-        _hoursController.animateToItem(
-          _hoursIndex,
-          duration: shortAnimationDuration,
-          curve: Curves.linear,
-        );
-        _minutesController.animateToItem(
-          _minutesIndex,
-          duration: shortAnimationDuration,
-          curve: Curves.linear,
-        );
-        _secondsController.animateToItem(
-          _secondsIndex,
-          duration: shortAnimationDuration,
-          curve: Curves.linear,
-        );
-      }
-    });
   }
 }
 
@@ -904,39 +323,23 @@ class _PlatformAdaptiveTempPickerDialogState
   // Build dialog
   @override
   Widget build(BuildContext context) {
-    if (appPlatform == TargetPlatform.iOS) {
-      return CupertinoAlertDialog(
-        // Temperature entry
-        content: _tempPicker(),
-        actions: <Widget>[
-          // Cancel and close dialog
-          CupertinoDialogAction(
-            child: Text(buttonTextCancel),
-            onPressed: () => Navigator.pop(context, null),
-          ),
-          // Save and close dialog
-          CupertinoDialogAction(
-              isDefaultAction: true,
-              onPressed: () => Navigator.pop(context, _newTemp),
-              child: Text(buttonTextOK)),
-        ],
-      );
-    } else {
-      return materialAlertDialog(
-        // Temperature entry
-        content: _tempPicker(),
-        actions: <Widget>[
-          // Cancel and close dialog
-          FilledButton.tonal(
-              onPressed: () => Navigator.pop(context, null),
-              child: Text(buttonTextCancel)),
-          // Save and close dialog
-          FilledButton.tonal(
-              onPressed: () => Navigator.pop(context, _newTemp),
-              child: Text(buttonTextOK)),
-        ],
-      );
-    }
+    return AlertDialog.adaptive(
+      // Temperature entry
+      content: _tempPicker(),
+      actions: <Widget>[
+        // Cancel and close dialog
+        adaptiveDialogAction(
+          text: buttonTextCancel,
+          onPressed: () => Navigator.pop(context, null),
+        ),
+        // Save and close dialog
+        adaptiveDialogAction(
+          text: buttonTextOK,
+          isDefaultAction: true,
+          onPressed: () => Navigator.pop(context, _newTemp),
+        ),
+      ],
+    );
   }
 
   // Build a temperature picker
@@ -1142,11 +545,11 @@ Future<bool?> openPlatformAdaptiveSelectList(
         });
   } else {
     // Scrolling dialog list
-    return showDialog<bool>(
+    return showAdaptiveDialog<bool>(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return materialAlertDialog(
+          return AlertDialog.adaptive(
               title: Text(titleText),
               content: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
@@ -1162,9 +565,9 @@ Future<bool?> openPlatformAdaptiveSelectList(
                   )),
               actions: [
                 // Cancel button
-                FilledButton.tonal(
+                adaptiveDialogAction(
+                  text: buttonTextCancel,
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: Text(buttonTextCancel),
                 )
               ]);
         });

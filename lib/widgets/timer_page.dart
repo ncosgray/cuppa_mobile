@@ -443,23 +443,31 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Confirmation dialog
   Future _confirmTimer() {
     if (_timerCount == timersMaxCount) {
-      return showDialog(
+      return showAdaptiveDialog(
           context: context,
           barrierDismissible: false,
           builder: (BuildContext context) {
-            return PlatformAdaptiveDialog(
-              title: Text(AppString.confirm_title.translate()),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    Text(AppString.confirm_message_line1.translate()),
-                    Text(AppString.confirm_message_line2.translate()),
-                  ],
+            return AlertDialog.adaptive(
+                title: Text(AppString.confirm_title.translate()),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      Text(AppString.confirm_message_line1.translate()),
+                      Text(AppString.confirm_message_line2.translate()),
+                    ],
+                  ),
                 ),
-              ),
-              buttonTextTrue: AppString.yes_button.translate(),
-              buttonTextFalse: AppString.no_button.translate(),
-            );
+                actions: [
+                  adaptiveDialogAction(
+                    isDefaultAction: true,
+                    text: AppString.no_button.translate(),
+                    onPressed: () => Navigator.of(context).pop(false),
+                  ),
+                  adaptiveDialogAction(
+                    text: AppString.yes_button.translate(),
+                    onPressed: () => Navigator.of(context).pop(true),
+                  )
+                ]);
           });
     } else {
       return Future.value(true);
