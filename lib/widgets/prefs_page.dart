@@ -118,7 +118,7 @@ class PrefsWidget extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
       shadowColor: Theme.of(context).shadowColor,
-      leadingWidth: 100.0,
+      leadingWidth: 200.0,
       leading: Container(
         margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
         child: Text(title,
