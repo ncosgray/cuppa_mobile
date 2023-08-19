@@ -348,47 +348,54 @@ class _PlatformAdaptiveTempPickerDialogState
 
     return SizedBox(
       height: 175.0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Unit selector
-          _adaptiveUnitPicker(),
-          tempPickerSpacer,
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            // Increment down
-            adaptiveSmallButton(
-                icon: Icons.keyboard_arrow_down,
-                onPressed: _newTempIndex > 0
+      child: Material(
+        type: MaterialType.transparency,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Unit selector
+            _adaptiveUnitPicker(),
+            tempPickerSpacer,
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              // Increment down
+              adaptiveSmallButton(
+                  icon: Icons.keyboard_arrow_down,
+                  onPressed: _newTempIndex > 0
+                      ? () {
+                          _newTempIndex--;
+                          _updateTempSlider();
+                        }
+                      : null),
+              // Display selected temperature
+              Text(
+                formatTemp(_newTemp),
+                style: textStyleSettingSeconday,
+              ),
+              // Increment up
+              adaptiveSmallButton(
+                icon: Icons.keyboard_arrow_up,
+                onPressed: _newTempIndex < tempCOptions.length - 1
                     ? () {
-                        _newTempIndex--;
+                        _newTempIndex++;
                         _updateTempSlider();
                       }
-                    : null),
-            // Display selected temperature
-            Text(
-              formatTemp(_newTemp),
-              style: textStyleSettingSeconday,
-            ),
-            // Increment up
-            adaptiveSmallButton(
-              icon: Icons.keyboard_arrow_up,
-              onPressed: _newTempIndex < tempCOptions.length - 1
-                  ? () {
-                      _newTempIndex++;
-                      _updateTempSlider();
-                    }
-                  : null,
-            ),
-          ]),
-          tempPickerSpacer,
-          // Temperature picker
-          _adaptiveTempSlider(
-              tempValueCount: tempCOptions.length - 1,
+                    : null,
+              ),
+            ]),
+            tempPickerSpacer,
+            // Temperature picker
+            Slider.adaptive(
+              value: _newTempIndex.toDouble(),
+              min: 0.0,
+              max: (tempCOptions.length - 1).toDouble(),
+              divisions: tempCOptions.length - 1,
               onChanged: (newValue) {
                 _newTempIndex = newValue.toInt();
                 _updateTempSlider();
-              }),
-        ],
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -441,27 +448,6 @@ class _PlatformAdaptiveTempPickerDialogState
               label: Text(degreesF),
             ),
           ]);
-    }
-  }
-
-  // Build an adaptive temperature slider
-  Widget _adaptiveTempSlider(
-      {required int tempValueCount,
-      required Null Function(dynamic value) onChanged}) {
-    if (appPlatform == TargetPlatform.iOS) {
-      return CupertinoSlider(
-          value: _newTempIndex.toDouble(),
-          min: 0.0,
-          max: tempValueCount.toDouble(),
-          divisions: tempValueCount,
-          onChanged: onChanged);
-    } else {
-      return Slider(
-          value: _newTempIndex.toDouble(),
-          min: 0.0,
-          max: tempValueCount.toDouble(),
-          divisions: tempValueCount,
-          onChanged: onChanged);
     }
   }
 
