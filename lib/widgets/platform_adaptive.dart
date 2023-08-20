@@ -134,18 +134,6 @@ Icon getPlatformAboutIcon() {
       : const Icon(Icons.help);
 }
 
-Icon getPlatformRadioOnIcon() {
-  return appPlatform == TargetPlatform.iOS
-      ? const Icon(CupertinoIcons.check_mark)
-      : const Icon(Icons.radio_button_on);
-}
-
-Icon getPlatformRadioOffIcon() {
-  return appPlatform == TargetPlatform.iOS
-      ? const Icon(null)
-      : const Icon(Icons.radio_button_off);
-}
-
 Icon getPlatformRemoveIcon(Color color) {
   return appPlatform == TargetPlatform.iOS
       ? Icon(CupertinoIcons.trash_fill, color: color)
@@ -511,7 +499,9 @@ Future<bool?> openPlatformAdaptiveSelectList(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return CupertinoActionSheet(
+          return Material(
+            type: MaterialType.transparency,
+            child: CupertinoActionSheet(
               title: Text(titleText),
               // Item options
               actions: itemList
@@ -527,7 +517,9 @@ Future<bool?> openPlatformAdaptiveSelectList(
                 isDefaultAction: true,
                 onPressed: () => Navigator.of(context).pop(false),
                 child: Text(buttonTextCancel),
-              ));
+              ),
+            ),
+          );
         });
   } else {
     // Scrolling dialog list

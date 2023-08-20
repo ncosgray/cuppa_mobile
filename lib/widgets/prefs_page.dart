@@ -426,26 +426,19 @@ class PrefsWidget extends StatelessWidget {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     AppTheme value = AppTheme.values.elementAt(index);
 
-    return PlatformAdaptiveSelectListItem(
-        itemHeight: 48.0,
-        item: Row(children: [
-          // Selected theme indicator
-          Container(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: value == provider.appTheme
-                  ? getPlatformRadioOnIcon()
-                  : getPlatformRadioOffIcon()),
-          // Theme name
-          Expanded(
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    value.localizedName,
-                    style: textStyleTitle,
-                  ))),
-        ]),
+    return RadioListTile.adaptive(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 6.0),
+        dense: true,
+        useCupertinoCheckmarkStyle: true,
+        value: value,
+        groupValue: provider.appTheme,
+        // Theme name
+        title: Text(
+          value.localizedName,
+          style: textStyleTitle,
+        ),
         // Save appTheme to prefs
-        onTap: () {
+        onChanged: (_) {
           provider.appTheme = value;
           Navigator.of(context).pop(true);
         });
@@ -486,30 +479,22 @@ class PrefsWidget extends StatelessWidget {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     String value = languageOptions[index];
 
-    return PlatformAdaptiveSelectListItem(
-        itemHeight: 48.0,
-        item: Row(children: [
-          // Selected language indicator
-          Container(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: value == provider.appLanguage
-                  ? getPlatformRadioOnIcon()
-                  : getPlatformRadioOffIcon()),
-          // Language name and code
-          Expanded(
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    value != followSystemLanguage &&
-                            supportedLocales
-                                .containsKey(parseLocaleString(value))
-                        ? supportedLocales[parseLocaleString(value)]!
-                        : AppString.theme_system.translate(),
-                    style: textStyleTitle,
-                  ))),
-        ]),
+    return RadioListTile.adaptive(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 6.0),
+        dense: true,
+        useCupertinoCheckmarkStyle: true,
+        value: value,
+        groupValue: provider.appLanguage,
+        // Language name
+        title: Text(
+          value != followSystemLanguage &&
+                  supportedLocales.containsKey(parseLocaleString(value))
+              ? supportedLocales[parseLocaleString(value)]!
+              : AppString.theme_system.translate(),
+          style: textStyleTitle,
+        ),
         // Save appLanguage to prefs
-        onTap: () {
+        onChanged: (_) {
           provider.appLanguage = value;
           Navigator.of(context).pop(true);
         });
