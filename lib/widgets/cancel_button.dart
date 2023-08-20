@@ -38,8 +38,11 @@ class CancelButton extends StatelessWidget {
           color: Theme.of(context).colorScheme.error,
         ),
       ),
-      icon: Icon(Icons.cancel,
-          color: Theme.of(context).colorScheme.error, size: 14.0),
+      icon: Icon(
+        Icons.cancel,
+        color: Theme.of(context).colorScheme.error,
+        size: 14.0,
+      ),
       onPressed: active ? _handleTap : null,
     );
   }

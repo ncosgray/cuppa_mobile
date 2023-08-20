@@ -34,34 +34,37 @@ Map<GlobalKey, List<AppString>> tutorialSteps = {
 };
 
 // Define a tutorial tooltip
-Widget tutorialTooltip(
-    {required BuildContext context,
-    required GlobalKey key,
-    bool showArrow = true,
-    required Widget child}) {
+Widget tutorialTooltip({
+  required BuildContext context,
+  required GlobalKey key,
+  bool showArrow = true,
+  required Widget child,
+}) {
   if (tutorialSteps.containsKey(key)) {
     return Showcase(
-        key: key,
-        title: tutorialSteps[key]!.length == 2
-            ? tutorialSteps[key]![1].translate()
-            : null,
-        titleTextStyle: textStyleTutorialTitle.copyWith(
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
-        ),
-        description: tutorialSteps[key]![0].translate(),
-        descTextStyle: textStyleTutorial.copyWith(
-            color: Theme.of(context).colorScheme.onPrimaryContainer),
-        tooltipPadding: const EdgeInsets.all(12.0),
-        tooltipBackgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        showArrow: showArrow,
-        overlayOpacity: 0.0,
-        blurValue: showArrow ? 2.5 : 0.0,
-        disableMovingAnimation: true,
-        disableScaleAnimation: false,
-        scaleAnimationDuration: longAnimationDuration,
-        scaleAnimationAlignment: Alignment.center,
-        onToolTipClick: () => ShowCaseWidget.of(context).next(),
-        child: child);
+      key: key,
+      title: tutorialSteps[key]!.length == 2
+          ? tutorialSteps[key]![1].translate()
+          : null,
+      titleTextStyle: textStyleTutorialTitle.copyWith(
+        color: Theme.of(context).colorScheme.onPrimaryContainer,
+      ),
+      description: tutorialSteps[key]![0].translate(),
+      descTextStyle: textStyleTutorial.copyWith(
+        color: Theme.of(context).colorScheme.onPrimaryContainer,
+      ),
+      tooltipPadding: const EdgeInsets.all(12.0),
+      tooltipBackgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      showArrow: showArrow,
+      overlayOpacity: 0.0,
+      blurValue: showArrow ? 2.5 : 0.0,
+      disableMovingAnimation: true,
+      disableScaleAnimation: false,
+      scaleAnimationDuration: longAnimationDuration,
+      scaleAnimationAlignment: Alignment.center,
+      onToolTipClick: () => ShowCaseWidget.of(context).next(),
+      child: child,
+    );
   } else {
     return Container(child: child);
   }

@@ -30,39 +30,50 @@ const Widget listDivider = Divider(
 // About text linking to app website
 Widget aboutText() {
   return InkWell(
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(AppString.about_app.translate(), style: textStyleFooter),
+        const Row(
           children: [
-            Text(AppString.about_app.translate(), style: textStyleFooter),
-            const Row(children: [
-              Text(aboutCopyright, style: textStyleFooter),
-              VerticalDivider(),
-              Text(aboutURL, style: textStyleFooterLink)
-            ])
-          ]),
-      onTap: () =>
-          launchUrl(Uri.parse(aboutURL), mode: LaunchMode.externalApplication));
+            Text(aboutCopyright, style: textStyleFooter),
+            VerticalDivider(),
+            Text(aboutURL, style: textStyleFooterLink),
+          ],
+        ),
+      ],
+    ),
+    onTap: () =>
+        launchUrl(Uri.parse(aboutURL), mode: LaunchMode.externalApplication),
+  );
 }
 
 // Dismissible delete warning background
 Widget dismissibleBackground(BuildContext context, Alignment alignment) {
   return Container(
-      padding: const EdgeInsets.all(5.0),
-      child: Container(
-          color: Theme.of(context).colorScheme.error,
-          child: Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: Align(
-                alignment: alignment,
-                child: getPlatformRemoveIcon(
-                    Theme.of(context).colorScheme.onError),
-              ))));
+    padding: const EdgeInsets.all(5.0),
+    child: Container(
+      color: Theme.of(context).colorScheme.error,
+      child: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: Align(
+          alignment: alignment,
+          child: getPlatformRemoveIcon(
+            Theme.of(context).colorScheme.onError,
+          ),
+        ),
+      ),
+    ),
+  );
 }
 
 // Custom draggable feedback for reorderable list
 Widget draggableFeedback(
-    BuildContext context, BoxConstraints constraints, Widget child) {
+  BuildContext context,
+  BoxConstraints constraints,
+  Widget child,
+) {
   return Transform(
     transform: Matrix4.rotationZ(0),
     alignment: FractionalOffset.topLeft,
@@ -70,7 +81,10 @@ Widget draggableFeedback(
       decoration: const BoxDecoration(
         boxShadow: <BoxShadow>[
           BoxShadow(
-              color: Colors.grey, blurRadius: 7.0, offset: Offset(0.0, 0.75))
+            color: Colors.grey,
+            blurRadius: 7.0,
+            offset: Offset(0.0, 0.75),
+          ),
         ],
       ),
       child: ConstrainedBox(constraints: constraints, child: child),

@@ -45,15 +45,17 @@ void main() async {
   tz.setLocalLocation(tz.getLocation(timeZoneName));
 
   // Initialize notifications plugin
-  await notify.initialize(const InitializationSettings(
-    android: AndroidInitializationSettings(notifyIcon),
-    iOS: DarwinInitializationSettings(
-      // Wait to request permissions when user starts a timer
-      requestSoundPermission: false,
-      requestBadgePermission: false,
-      requestAlertPermission: false,
+  await notify.initialize(
+    const InitializationSettings(
+      android: AndroidInitializationSettings(notifyIcon),
+      iOS: DarwinInitializationSettings(
+        // Wait to request permissions when user starts a timer
+        requestSoundPermission: false,
+        requestBadgePermission: false,
+        requestAlertPermission: false,
+      ),
     ),
-  ));
+  );
 
   runApp(const CuppaApp());
 }
@@ -68,92 +70,96 @@ class CuppaApp extends StatelessWidget {
     appPlatform = Theme.of(context).platform;
 
     return ChangeNotifierProvider(
-        create: (_) => AppProvider(),
-        child: Selector<AppProvider, ({AppTheme appTheme, String appLanguage})>(
-            selector: (_, provider) => (
-                  appTheme: provider.appTheme,
-                  appLanguage: provider.appLanguage
-                ),
-            builder: (context, settings, child) {
-              // Settings from provider
-              ThemeMode appThemeMode = settings.appTheme.themeMode;
-              bool appThemeBlack = settings.appTheme.blackTheme;
-              String appLanguage = settings.appLanguage;
+      create: (_) => AppProvider(),
+      child: Selector<AppProvider, ({AppTheme appTheme, String appLanguage})>(
+        selector: (_, provider) => (
+          appTheme: provider.appTheme,
+          appLanguage: provider.appLanguage,
+        ),
+        builder: (context, settings, child) {
+          // Settings from provider
+          ThemeMode appThemeMode = settings.appTheme.themeMode;
+          bool appThemeBlack = settings.appTheme.blackTheme;
+          String appLanguage = settings.appLanguage;
 
-              return DynamicColorBuilder(builder:
-                  (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-                return MaterialApp(
-                    builder: (context, child) {
-                      // Set scale factor, up to a limit
-                      appTextScale =
-                          MediaQuery.of(context).textScaleFactor > maxTextScale
-                              ? maxTextScale
-                              : MediaQuery.of(context).textScaleFactor;
-                      return ShowCaseWidget(
-                        autoPlay: false,
-                        builder: Builder(
-                          builder: (context) => MediaQuery(
-                            data: MediaQuery.of(context)
-                                .copyWith(textScaleFactor: appTextScale),
-                            child: child!,
-                          ),
+          return DynamicColorBuilder(
+            builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+              return MaterialApp(
+                builder: (context, child) {
+                  // Set scale factor, up to a limit
+                  appTextScale =
+                      MediaQuery.of(context).textScaleFactor > maxTextScale
+                          ? maxTextScale
+                          : MediaQuery.of(context).textScaleFactor;
+                  return ShowCaseWidget(
+                    autoPlay: false,
+                    builder: Builder(
+                      builder: (context) => MediaQuery(
+                        data: MediaQuery.of(context).copyWith(
+                          textScaleFactor: appTextScale,
                         ),
-                      );
-                    },
-                    title: appName,
-                    debugShowCheckedModeBanner: false,
-                    // Configure app theme including dynamic colors if supported
-                    theme: getPlatformAdaptiveTheme(
-                      dynamicColors: lightDynamic,
+                        child: child!,
+                      ),
                     ),
-                    darkTheme: getPlatformAdaptiveDarkTheme(
-                      dynamicColors: darkDynamic,
-                      blackTheme: appThemeBlack,
-                    ),
-                    themeMode: appThemeMode,
-                    // Initial route
-                    home: const TimerWidget(),
-                    // Localization
-                    locale: appLanguage != followSystemLanguage
-                        ? parseLocaleString(appLanguage)
-                        : null,
-                    supportedLocales: supportedLocales.keys,
-                    localizationsDelegates: const [
-                      AppLocalizationsDelegate(),
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalCupertinoLocalizations.delegate,
-                      GlobalWidgetsLocalizations.delegate,
-                      FallbackMaterialLocalizationsDelegate(),
-                      FallbackCupertinoLocalizationsDelegate(),
-                    ],
-                    localeResolutionCallback: (locale, supportedLocales) {
-                      if (locale != null) {
-                        // Set metric locale based on country code
-                        if (locale.countryCode == 'US') {
-                          isLocaleMetric = false;
-                        }
+                  );
+                },
+                title: appName,
+                debugShowCheckedModeBanner: false,
+                // Configure app theme including dynamic colors if supported
+                theme: getPlatformAdaptiveTheme(
+                  dynamicColors: lightDynamic,
+                ),
+                darkTheme: getPlatformAdaptiveDarkTheme(
+                  dynamicColors: darkDynamic,
+                  blackTheme: appThemeBlack,
+                ),
+                themeMode: appThemeMode,
+                // Initial route
+                home: const TimerWidget(),
+                // Localization
+                locale: appLanguage != followSystemLanguage
+                    ? parseLocaleString(appLanguage)
+                    : null,
+                supportedLocales: supportedLocales.keys,
+                localizationsDelegates: const [
+                  AppLocalizationsDelegate(),
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  FallbackMaterialLocalizationsDelegate(),
+                  FallbackCupertinoLocalizationsDelegate(),
+                ],
+                localeResolutionCallback: (locale, supportedLocales) {
+                  if (locale != null) {
+                    // Set metric locale based on country code
+                    if (locale.countryCode == 'US') {
+                      isLocaleMetric = false;
+                    }
 
-                        // Set locale if supported
-                        for (Locale supportedLocale in supportedLocales) {
-                          if (supportedLocale.languageCode ==
-                                  locale.languageCode &&
-                              supportedLocale.scriptCode == locale.scriptCode) {
-                            return supportedLocale;
-                          }
-                        }
-                        for (Locale supportedLocale in supportedLocales) {
-                          if (supportedLocale.languageCode ==
-                              locale.languageCode) {
-                            return supportedLocale;
-                          }
-                        }
+                    // Set locale if supported
+                    for (Locale supportedLocale in supportedLocales) {
+                      if (supportedLocale.languageCode == locale.languageCode &&
+                          supportedLocale.scriptCode == locale.scriptCode) {
+                        return supportedLocale;
                       }
+                    }
+                    for (Locale supportedLocale in supportedLocales) {
+                      if (supportedLocale.languageCode == locale.languageCode) {
+                        return supportedLocale;
+                      }
+                    }
+                  }
 
-                      // Default if locale not supported
-                      return const Locale.fromSubtags(
-                          languageCode: defaultLanguage);
-                    });
-              });
-            }));
+                  // Default if locale not supported
+                  return const Locale.fromSubtags(
+                    languageCode: defaultLanguage,
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 }

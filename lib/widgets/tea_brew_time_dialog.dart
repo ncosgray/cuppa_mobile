@@ -47,16 +47,17 @@ class TeaBrewTimeDialog extends StatefulWidget {
 
   @override
   State<TeaBrewTimeDialog> createState() => _TeaBrewTimeDialogState(
-      initialHours: initialHours,
-      hourOptions: hourOptions,
-      hourLabel: hourLabel,
-      initialMinutes: initialMinutes,
-      minuteOptions: minuteOptions,
-      minuteLabel: minuteLabel,
-      initialSeconds: initialSeconds,
-      secondOptions: secondOptions,
-      buttonTextCancel: buttonTextCancel,
-      buttonTextOK: buttonTextOK);
+        initialHours: initialHours,
+        hourOptions: hourOptions,
+        hourLabel: hourLabel,
+        initialMinutes: initialMinutes,
+        minuteOptions: minuteOptions,
+        minuteLabel: minuteLabel,
+        initialSeconds: initialSeconds,
+        secondOptions: secondOptions,
+        buttonTextCancel: buttonTextCancel,
+        buttonTextOK: buttonTextOK,
+      );
 }
 
 class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
@@ -133,10 +134,11 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
           isDefaultAction: true,
           text: buttonTextOK,
           onPressed: () => Navigator.pop(
-              context,
-              hourOptions[_hoursIndex] * 3600 +
-                  minuteOptions[_minutesIndex] * 60 +
-                  secondOptions[_secondsIndex]),
+            context,
+            hourOptions[_hoursIndex] * 3600 +
+                minuteOptions[_minutesIndex] * 60 +
+                secondOptions[_secondsIndex],
+          ),
         ),
       ],
     );
@@ -183,36 +185,38 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
           timePickerSpacer,
           // Hours picker
           Visibility(
-              visible: _hoursSelectionMode,
-              maintainState: true,
-              child: _timePickerScrollWheel(
-                controller: _hoursController,
-                initialValue: initialHours,
-                timeValues: hourOptions,
-                onChanged: (newValue) {
-                  if (newValue <= 0) {
-                    _hoursIndex = 0;
-                    if (_hoursSelectionMode) {
-                      // Change to minutes selection mode at 0 hours
-                      _hoursSelectionMode = false;
-                      _minutesIndex = minuteOptions.length - 1;
-                      _secondsIndex = secondOptions.length - 1;
-                    }
-                    _updateTimePicker(doScroll: true);
-                  } else {
-                    _hoursIndex = newValue;
-                    _updateTimePicker();
+            visible: _hoursSelectionMode,
+            maintainState: true,
+            child: _timePickerScrollWheel(
+              controller: _hoursController,
+              initialValue: initialHours,
+              timeValues: hourOptions,
+              onChanged: (newValue) {
+                if (newValue <= 0) {
+                  _hoursIndex = 0;
+                  if (_hoursSelectionMode) {
+                    // Change to minutes selection mode at 0 hours
+                    _hoursSelectionMode = false;
+                    _minutesIndex = minuteOptions.length - 1;
+                    _secondsIndex = secondOptions.length - 1;
                   }
-                },
-              )),
+                  _updateTimePicker(doScroll: true);
+                } else {
+                  _hoursIndex = newValue;
+                  _updateTimePicker();
+                }
+              },
+            ),
+          ),
           // Unit
           Visibility(
-              visible: _hoursSelectionMode,
-              child: Text(
-                hourLabel,
-                style: textStyleSettingTertiary,
-                textScaleFactor: 1.0,
-              )),
+            visible: _hoursSelectionMode,
+            child: Text(
+              hourLabel,
+              style: textStyleSettingTertiary,
+              textScaleFactor: 1.0,
+            ),
+          ),
           Visibility(visible: _hoursSelectionMode, child: timePickerSpacer),
           // Minutes picker
           _timePickerScrollWheel(
@@ -243,18 +247,19 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
           Visibility(visible: !_hoursSelectionMode, child: timePickerSpacer),
           // Seconds picker
           Visibility(
-              visible: !_hoursSelectionMode,
-              maintainState: true,
-              child: _timePickerScrollWheel(
-                controller: _secondsController,
-                initialValue: initialSeconds,
-                timeValues: secondOptions,
-                onChanged: (newValue) {
-                  _secondsIndex = newValue;
-                  _updateTimePicker();
-                },
-                padTime: true,
-              )),
+            visible: !_hoursSelectionMode,
+            maintainState: true,
+            child: _timePickerScrollWheel(
+              controller: _secondsController,
+              initialValue: initialSeconds,
+              timeValues: secondOptions,
+              onChanged: (newValue) {
+                _secondsIndex = newValue;
+                _updateTimePicker();
+              },
+              padTime: true,
+            ),
+          ),
           timePickerSpacer,
           // Increment up
           adaptiveSmallButton(
@@ -289,41 +294,45 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
   }
 
   // Build a time picker scroll wheel
-  Widget _timePickerScrollWheel(
-      {required FixedExtentScrollController controller,
-      required int initialValue,
-      required Null Function(dynamic value) onChanged,
-      required List<int> timeValues,
-      bool padTime = false}) {
-    return Row(children: [
-      SizedBox(
-        width: 36.0,
-        child: ListWheelScrollView(
-          controller: controller,
-          physics: const FixedExtentScrollPhysics(),
-          itemExtent: 28.0,
-          squeeze: 1.1,
-          diameterRatio: 1.1,
-          perspective: 0.01,
-          overAndUnderCenterOpacity: 0.2,
-          onSelectedItemChanged: onChanged,
-          // Time values menu
-          children: List<Widget>.generate(
-            timeValues.length,
-            (int index) {
-              return Center(
+  Widget _timePickerScrollWheel({
+    required FixedExtentScrollController controller,
+    required int initialValue,
+    required Null Function(dynamic value) onChanged,
+    required List<int> timeValues,
+    bool padTime = false,
+  }) {
+    return Row(
+      children: [
+        SizedBox(
+          width: 36.0,
+          child: ListWheelScrollView(
+            controller: controller,
+            physics: const FixedExtentScrollPhysics(),
+            itemExtent: 28.0,
+            squeeze: 1.1,
+            diameterRatio: 1.1,
+            perspective: 0.01,
+            overAndUnderCenterOpacity: 0.2,
+            onSelectedItemChanged: onChanged,
+            // Time values menu
+            children: List<Widget>.generate(
+              timeValues.length,
+              (int index) {
+                return Center(
                   child: Text(
-                // Format time with or without zero padding
-                padTime
-                    ? timeValues[index].toString().padLeft(2, '0')
-                    : timeValues[index].toString(),
-                style: textStyleSettingSeconday,
-              ));
-            },
+                    // Format time with or without zero padding
+                    padTime
+                        ? timeValues[index].toString().padLeft(2, '0')
+                        : timeValues[index].toString(),
+                    style: textStyleSettingSeconday,
+                  ),
+                );
+              },
+            ),
           ),
         ),
-      )
-    ]);
+      ],
+    );
   }
 
   // Update time picker scroll wheel position

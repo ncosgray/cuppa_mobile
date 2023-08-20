@@ -47,9 +47,11 @@ final FlutterLocalNotificationsPlugin notify =
 const List<int> notifyVibrateDelay = [0];
 const List<int> notifyVibrateSubpattern = [400, 200, 400];
 const List<int> notifyVibratePause = [1000];
-final Int64List notifyVibratePattern = Int64List.fromList(notifyVibrateDelay +
-    notifyVibrateSubpattern +
-    notifyVibratePause +
-    notifyVibrateSubpattern +
-    notifyVibratePause +
-    notifyVibrateSubpattern);
+final Int64List notifyVibratePattern = Int64List.fromList(
+  notifyVibrateDelay +
+      notifyVibrateSubpattern +
+      notifyVibratePause +
+      notifyVibrateSubpattern +
+      notifyVibratePause +
+      notifyVibrateSubpattern,
+);

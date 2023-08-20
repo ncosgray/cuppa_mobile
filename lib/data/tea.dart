@@ -37,20 +37,21 @@ class Tea {
   late bool animate;
 
   // Constructor
-  Tea(
-      {int? id,
-      required String name,
-      required int brewTime,
-      required int brewTemp,
-      TeaColor? color,
-      int colorValue = 0,
-      TeaIcon? icon,
-      int iconValue = 0,
-      required bool isFavorite,
-      required bool isActive,
-      int timerEndTime = 0,
-      int? timerNotifyID,
-      bool animate = false}) {
+  Tea({
+    int? id,
+    required String name,
+    required int brewTime,
+    required int brewTemp,
+    TeaColor? color,
+    int colorValue = 0,
+    TeaIcon? icon,
+    int iconValue = 0,
+    required bool isFavorite,
+    required bool isActive,
+    int timerEndTime = 0,
+    int? timerNotifyID,
+    bool animate = false,
+  }) {
     // Assign next tea ID if not given
     this.id = id ?? nextTeaID++;
     this.name = name;

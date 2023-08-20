@@ -157,8 +157,9 @@ String localeString(Locale locale) {
 Locale parseLocaleString(String name) {
   List<String> nameParts = name.split('_');
   Locale locale = Locale.fromSubtags(
-      languageCode: nameParts[0],
-      scriptCode: nameParts.length > 1 ? nameParts[1] : null);
+    languageCode: nameParts[0],
+    scriptCode: nameParts.length > 1 ? nameParts[1] : null,
+  );
   return locale;
 }
 
@@ -209,8 +210,12 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   // Determine if a language is supported
   @override
   bool isSupported(Locale locale) =>
-      supportedLocales.containsKey(Locale.fromSubtags(
-          languageCode: locale.languageCode, scriptCode: locale.scriptCode)) ||
+      supportedLocales.containsKey(
+        Locale.fromSubtags(
+          languageCode: locale.languageCode,
+          scriptCode: locale.scriptCode,
+        ),
+      ) ||
       supportedLanguageCodes.contains(locale.languageCode);
 
   // Load localizations

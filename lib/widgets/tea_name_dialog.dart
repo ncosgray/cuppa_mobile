@@ -34,10 +34,11 @@ class TeaNameDialog extends StatefulWidget {
 
   @override
   _TeaNameDialogState createState() => _TeaNameDialogState(
-      initialValue: initialValue,
-      validator: validator,
-      buttonTextCancel: buttonTextCancel,
-      buttonTextOK: buttonTextOK);
+        initialValue: initialValue,
+        validator: validator,
+        buttonTextCancel: buttonTextCancel,
+        buttonTextOK: buttonTextOK,
+      );
 }
 
 class _TeaNameDialogState extends State<TeaNameDialog> {
@@ -76,16 +77,18 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
     return AlertDialog.adaptive(
       // Text entry
       content: SingleChildScrollView(
-          child: Material(
-              type: MaterialType.transparency,
-              child: Form(
-                key: _formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                  child: _textField(),
-                ),
-              ))),
+        child: Material(
+          type: MaterialType.transparency,
+          child: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+              child: _textField(),
+            ),
+          ),
+        ),
+      ),
       actions: <Widget>[
         // Cancel and close dialog
         adaptiveDialogAction(
