@@ -258,65 +258,59 @@ class PrefsWidget extends StatelessWidget {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     Preset preset = Presets.presetList[index];
 
-    return PlatformAdaptiveSelectListItem(
-      itemHeight: 60.0,
-      item: Row(
+    return PlatformAdaptiveListTile(
+      // Preset tea icon
+      itemIcon: SizedBox.square(
+        dimension: 48.0,
+        child: Icon(
+          preset.isCustom ? Icons.add_circle : preset.getIcon(),
+          color: preset.getThemeColor(context),
+          size: preset.isCustom ? 20.0 : 24.0,
+        ),
+      ),
+      // Preset tea brew time and temperature
+      item: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Preset tea icon
-          SizedBox.square(
-            dimension: 48.0,
-            child: Icon(
-              preset.isCustom ? Icons.add_circle : preset.getIcon(),
+          Text(
+            preset.localizedName,
+            style: textStyleSetting.copyWith(
               color: preset.getThemeColor(context),
-              size: preset.isCustom ? 20.0 : 24.0,
             ),
           ),
-          // Localized preset tea name
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                preset.localizedName,
-                style: textStyleSetting.copyWith(
-                  color: preset.getThemeColor(context),
-                ),
-              ),
-              // Preset tea brew time and temperature
-              Container(
-                child: preset.isCustom
-                    ? null
-                    : Row(
-                        children: [
-                          Text(
-                            formatTimer(preset.brewTime),
-                            style: textStyleSettingSeconday.copyWith(
-                              color: preset.getThemeColor(context),
-                            ),
-                          ),
-                          ConstrainedBox(
-                            constraints: const BoxConstraints(
-                              minWidth: 6.0,
-                              maxWidth: 30.0,
-                            ),
-                            child: Container(),
-                          ),
-                          Text(
-                            preset.tempDisplay(provider.useCelsius),
-                            style: textStyleSettingSeconday.copyWith(
-                              color: preset.getThemeColor(context),
-                            ),
-                          ),
-                          ConstrainedBox(
-                            constraints: const BoxConstraints(
-                              maxWidth: double.infinity,
-                            ),
-                            child: Container(),
-                          ),
-                        ],
+          Container(
+            child: preset.isCustom
+                ? null
+                : Row(
+                    children: [
+                      Text(
+                        formatTimer(preset.brewTime),
+                        style: textStyleSettingSeconday.copyWith(
+                          color: preset.getThemeColor(context),
+                        ),
                       ),
-              ),
-            ],
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          minWidth: 6.0,
+                          maxWidth: 30.0,
+                        ),
+                        child: Container(),
+                      ),
+                      Text(
+                        preset.tempDisplay(provider.useCelsius),
+                        style: textStyleSettingSeconday.copyWith(
+                          color: preset.getThemeColor(context),
+                        ),
+                      ),
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          maxWidth: double.infinity,
+                        ),
+                        child: Container(),
+                      ),
+                    ],
+                  ),
           ),
         ],
       ),

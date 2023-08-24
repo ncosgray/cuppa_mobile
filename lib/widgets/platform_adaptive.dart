@@ -16,7 +16,7 @@
 // - Buttons for Android and iOS
 // - PlatformAdaptiveNavBar creates page navigation for context platform
 // - PlatformAdaptiveTempPickerDialog temp entry dialog for context platform
-// - PlatformAdaptiveSelectListItem selector item for context platform
+// - PlatformAdaptiveListTile list tile for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
 import 'package:cuppa_mobile/helpers.dart';
@@ -466,37 +466,34 @@ class _PlatformAdaptiveTempPickerDialogState
   }
 }
 
-// Selector list item that adds inkwell effect on Android
-class PlatformAdaptiveSelectListItem extends StatelessWidget {
-  const PlatformAdaptiveSelectListItem({
+// List tile with styling appropriate to platform
+class PlatformAdaptiveListTile extends StatelessWidget {
+  const PlatformAdaptiveListTile({
     Key? key,
-    required this.itemHeight,
+    required this.itemIcon,
     required this.item,
     required this.onTap,
   }) : super(key: key);
 
-  final double itemHeight;
+  final Widget itemIcon;
   final Widget item;
   final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     if (appPlatform == TargetPlatform.iOS) {
-      return GestureDetector(
-        behavior: HitTestBehavior.opaque,
+      return CupertinoListTile(
+        backgroundColorActivated: Colors.transparent,
+        leading: itemIcon,
+        title: item,
         onTap: onTap,
-        child: item,
       );
     } else {
-      return InkWell(
+      return ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: itemIcon,
+        title: item,
         onTap: onTap,
-        child: SizedBox(
-          height: itemHeight,
-          child: Container(
-            padding: const EdgeInsets.only(right: 6.0),
-            child: item,
-          ),
-        ),
       );
     }
   }
@@ -555,7 +552,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
             child: Scrollbar(
               // Item options
               child: ListView.separated(
-                padding: const EdgeInsets.all(0.0),
+                padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 itemCount: itemList.length,
                 itemBuilder: itemBuilder,
