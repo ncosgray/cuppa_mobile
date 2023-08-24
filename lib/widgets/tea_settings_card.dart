@@ -21,6 +21,7 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/tea_brew_temp_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_brew_time_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_name_dialog.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
@@ -384,7 +385,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return PlatformAdaptiveTempPickerDialog(
+        return TeaBrewTempDialog(
           initialTemp: currentTemp,
           tempFOptions: brewTempFOptions,
           tempCOptions: brewTempCOptions,

@@ -13,15 +13,12 @@
 // Cuppa platform adaptive elements
 // - Light and dark themes for Android and iOS
 // - Icons for Android and iOS
-// - Buttons for Android and iOS
+// - Buttons and controls for Android and iOS
 // - PlatformAdaptiveNavBar creates page navigation for context platform
-// - PlatformAdaptiveTempPickerDialog temp entry dialog for context platform
 // - PlatformAdaptiveListTile list tile for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
-import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/globals.dart';
-import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
@@ -188,6 +185,45 @@ Widget adaptiveSmallButton({
   }
 }
 
+// Segmented control with styling appropriate to platform
+Widget adaptiveSegmentedControl({
+  required String buttonTextTrue,
+  required String buttonTextFalse,
+  required bool groupValue,
+  required Function(bool?) onValueChanged,
+}) {
+  if (appPlatform == TargetPlatform.iOS) {
+    return CupertinoSlidingSegmentedControl<bool>(
+      groupValue: groupValue,
+      onValueChanged: onValueChanged,
+      children: <bool, Widget>{
+        true: Text(buttonTextTrue),
+        false: Text(buttonTextFalse),
+      },
+    );
+  } else {
+    // Refactor onChanged function to use a set of values
+    onValueSetChanged(Set<bool>? selected) {
+      return onValueChanged(selected?.first);
+    }
+
+    return SegmentedButton<bool>(
+      selected: <bool>{groupValue},
+      onSelectionChanged: onValueSetChanged,
+      segments: <ButtonSegment<bool>>[
+        ButtonSegment<bool>(
+          value: true,
+          label: Text(buttonTextTrue),
+        ),
+        ButtonSegment<bool>(
+          value: false,
+          label: Text(buttonTextFalse),
+        ),
+      ],
+    );
+  }
+}
+
 // Navigation bar that is Material on Android and Cupertino on iOS
 class PlatformAdaptiveNavBar extends StatelessWidget
     implements PreferredSizeWidget {
@@ -251,218 +287,6 @@ class PlatformAdaptiveNavBar extends StatelessWidget
             : null,
       );
     }
-  }
-}
-
-// Display a tea brew temperature entry dialog box
-class PlatformAdaptiveTempPickerDialog extends StatefulWidget {
-  const PlatformAdaptiveTempPickerDialog({
-    Key? key,
-    required this.initialTemp,
-    required this.tempFOptions,
-    required this.tempCOptions,
-    required this.buttonTextCancel,
-    required this.buttonTextOK,
-  }) : super(key: key);
-
-  final int initialTemp;
-  final List<int> tempFOptions;
-  final List<int> tempCOptions;
-  final String buttonTextCancel;
-  final String buttonTextOK;
-
-  @override
-  State<PlatformAdaptiveTempPickerDialog> createState() =>
-      _PlatformAdaptiveTempPickerDialogState(
-        initialTemp: initialTemp,
-        tempFOptions: tempFOptions,
-        tempCOptions: tempCOptions,
-        buttonTextCancel: buttonTextCancel,
-        buttonTextOK: buttonTextOK,
-      );
-}
-
-class _PlatformAdaptiveTempPickerDialogState
-    extends State<PlatformAdaptiveTempPickerDialog> {
-  _PlatformAdaptiveTempPickerDialogState({
-    required this.initialTemp,
-    required this.tempFOptions,
-    required this.tempCOptions,
-    required this.buttonTextCancel,
-    required this.buttonTextOK,
-  });
-
-  final int initialTemp;
-  final List<int> tempFOptions;
-  final List<int> tempCOptions;
-  final String buttonTextCancel;
-  final String buttonTextOK;
-
-  // State variables
-  late int _newTemp;
-  int _newTempIndex = 0;
-  late bool _unitsCelsius;
-
-  // Initialize dialog state
-  @override
-  void initState() {
-    super.initState();
-
-    // Set starting values
-    _newTemp = initialTemp;
-    if (tempCOptions.contains(_newTemp)) {
-      _newTempIndex = tempCOptions.indexOf(_newTemp);
-    }
-    if (tempFOptions.contains(_newTemp)) {
-      _newTempIndex = tempFOptions.indexOf(_newTemp);
-    }
-    _unitsCelsius = isTempCelsius(initialTemp);
-  }
-
-  // Build dialog
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog.adaptive(
-      // Temperature entry
-      content: _tempPicker(),
-      actions: <Widget>[
-        // Cancel and close dialog
-        adaptiveDialogAction(
-          text: buttonTextCancel,
-          onPressed: () => Navigator.pop(context, null),
-        ),
-        // Save and close dialog
-        adaptiveDialogAction(
-          text: buttonTextOK,
-          isDefaultAction: true,
-          onPressed: () => Navigator.pop(context, _newTemp),
-        ),
-      ],
-    );
-  }
-
-  // Build a temperature picker
-  Widget _tempPicker() {
-    const Widget tempPickerSpacer = SizedBox(height: 14.0);
-
-    return SizedBox(
-      height: 175.0,
-      child: Material(
-        type: MaterialType.transparency,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Unit selector
-            _adaptiveUnitPicker(),
-            tempPickerSpacer,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Increment down
-                adaptiveSmallButton(
-                  icon: Icons.keyboard_arrow_down,
-                  onPressed: _newTempIndex > 0
-                      ? () {
-                          _newTempIndex--;
-                          _updateTempSlider();
-                        }
-                      : null,
-                ),
-                // Display selected temperature
-                Text(
-                  formatTemp(_newTemp),
-                  style: textStyleSettingSeconday,
-                ),
-                // Increment up
-                adaptiveSmallButton(
-                  icon: Icons.keyboard_arrow_up,
-                  onPressed: _newTempIndex < tempCOptions.length - 1
-                      ? () {
-                          _newTempIndex++;
-                          _updateTempSlider();
-                        }
-                      : null,
-                ),
-              ],
-            ),
-            tempPickerSpacer,
-            // Temperature picker
-            Slider.adaptive(
-              value: _newTempIndex.toDouble(),
-              min: 0.0,
-              max: (tempCOptions.length - 1).toDouble(),
-              divisions: tempCOptions.length - 1,
-              onChanged: (newValue) {
-                _newTempIndex = newValue.toInt();
-                _updateTempSlider();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Build an adaptive temperature unit picker (sliding control or segments)
-  Widget _adaptiveUnitPicker() {
-    if (appPlatform == TargetPlatform.iOS) {
-      return CupertinoSlidingSegmentedControl<bool>(
-        groupValue: _unitsCelsius,
-        onValueChanged: (bool? selected) {
-          if (selected != null) {
-            setState(() {
-              _unitsCelsius = selected;
-              if (_unitsCelsius) {
-                _newTemp = tempCOptions[_newTempIndex];
-              } else {
-                _newTemp = tempFOptions[_newTempIndex];
-              }
-            });
-          }
-        },
-        children: <bool, Widget>{
-          // Degrees C
-          true: Text(degreesC),
-          // Degrees F
-          false: Text(degreesF),
-        },
-      );
-    } else {
-      return SegmentedButton<bool>(
-        selected: <bool>{_unitsCelsius},
-        onSelectionChanged: (Set<bool> selected) {
-          setState(() {
-            _unitsCelsius = selected.first;
-            if (_unitsCelsius) {
-              _newTemp = tempCOptions[_newTempIndex];
-            } else {
-              _newTemp = tempFOptions[_newTempIndex];
-            }
-          });
-        },
-        segments: <ButtonSegment<bool>>[
-          // Degrees C
-          ButtonSegment<bool>(
-            value: true,
-            label: Text(degreesC),
-          ),
-          // Degrees F
-          ButtonSegment<bool>(
-            value: false,
-            label: Text(degreesF),
-          ),
-        ],
-      );
-    }
-  }
-
-  // Update temperature slider position
-  void _updateTempSlider() {
-    setState(() {
-      _newTemp = _unitsCelsius
-          ? tempCOptions[_newTempIndex]
-          : tempFOptions[_newTempIndex];
-    });
   }
 }
 
