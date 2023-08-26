@@ -74,35 +74,37 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
   // Build dialog
   @override
   Widget build(BuildContext context) {
-    return AlertDialog.adaptive(
-      // Text entry
-      content: SingleChildScrollView(
-        child: Material(
-          type: MaterialType.transparency,
-          child: Form(
-            key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-              child: _textField(),
+    return Center(
+      child: SingleChildScrollView(
+        child: AlertDialog.adaptive(
+          // Text entry
+          content: Material(
+            type: MaterialType.transparency,
+            child: Form(
+              key: _formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                child: _textField(),
+              ),
             ),
           ),
+          actions: <Widget>[
+            // Cancel and close dialog
+            adaptiveDialogAction(
+              text: buttonTextCancel,
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            // Save and close dialog, if valid
+            adaptiveDialogAction(
+              isDefaultAction: true,
+              onPressed:
+                  _isValid ? () => Navigator.of(context).pop(_newValue) : null,
+              text: buttonTextOK,
+            ),
+          ],
         ),
       ),
-      actions: <Widget>[
-        // Cancel and close dialog
-        adaptiveDialogAction(
-          text: buttonTextCancel,
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        // Save and close dialog, if valid
-        adaptiveDialogAction(
-          isDefaultAction: true,
-          onPressed:
-              _isValid ? () => Navigator.of(context).pop(_newValue) : null,
-          text: buttonTextOK,
-        ),
-      ],
     );
   }
 
