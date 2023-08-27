@@ -379,7 +379,7 @@ enum TeaColor {
       case 11:
         return Colors.deepPurple.shade300;
       default:
-        return Colors.grey.shade500;
+        return Colors.grey.shade600;
     }
   }
 }
