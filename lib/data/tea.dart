@@ -337,16 +337,16 @@ class Tea {
 // Tea colors
 enum TeaColor {
   black(0),
-  red(1),
-  orange(2),
-  green(3),
-  blue(4),
-  purple(5),
   brown(6),
+  red(1),
   pink(7),
+  orange(2),
   amber(8),
+  green(3),
   teal(9),
+  blue(4),
   cyan(10),
+  purple(5),
   lavender(11);
 
   final int value;
