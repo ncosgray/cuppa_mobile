@@ -105,8 +105,8 @@ class Tea {
   }
 
   // Color getter
-  Color getThemeColor(context) {
-    return this.colorShade ?? this.color.getThemeColor(context);
+  Color getColor() {
+    return this.colorShade ?? this.color.getColor();
   }
 
   // Icon getter
@@ -353,8 +353,8 @@ enum TeaColor {
 
   const TeaColor(this.value);
 
-  // Themed color map
-  Color getThemeColor(context) {
+  // Material color map
+  Color getColor() {
     switch (value) {
       case 1:
         return Colors.red.shade600;

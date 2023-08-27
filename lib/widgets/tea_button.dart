@@ -47,7 +47,7 @@ class TeaButton extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Container(
         decoration: BoxDecoration(
-          color: tea.isActive ? tea.getThemeColor(context) : null,
+          color: tea.isActive ? tea.getColor() : null,
         ),
         child: IgnorePointer(
           ignoring: onPressed == null,
@@ -69,17 +69,13 @@ class TeaButton extends StatelessWidget {
                   children: [
                     Icon(
                       tea.teaIcon,
-                      color: tea.isActive
-                          ? Colors.white
-                          : tea.getThemeColor(context),
+                      color: tea.isActive ? Colors.white : tea.getColor(),
                       size: 64.0,
                     ),
                     Text(
                       tea.buttonName,
                       style: textStyleButton.copyWith(
-                        color: tea.isActive
-                            ? Colors.white
-                            : tea.getThemeColor(context),
+                        color: tea.isActive ? Colors.white : tea.getColor(),
                       ),
                     ),
                     // Optional extra info: brew time and temp display
@@ -103,7 +99,7 @@ class TeaButton extends StatelessWidget {
                                 style: textStyleButtonSecondary.copyWith(
                                   color: tea.isActive
                                       ? Colors.white
-                                      : tea.getThemeColor(context),
+                                      : tea.getColor(),
                                 ),
                               ),
                             ),
@@ -125,7 +121,7 @@ class TeaButton extends StatelessWidget {
                                 style: textStyleButtonSecondary.copyWith(
                                   color: tea.isActive
                                       ? Colors.white
-                                      : tea.getThemeColor(context),
+                                      : tea.getColor(),
                                 ),
                               ),
                             ),

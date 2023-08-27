@@ -47,8 +47,8 @@ class Preset {
   }
 
   // Color getter
-  Color getThemeColor(context) {
-    return this.color.getThemeColor(context);
+  Color getColor() {
+    return this.color.getColor();
   }
 
   // Icon getter

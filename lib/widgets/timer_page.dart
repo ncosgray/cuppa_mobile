@@ -211,7 +211,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                 ),
                 colors: [
                   for (Tea? tea in [_timer1.tea, _timer2.tea])
-                    if (tea != null) tea.getThemeColor(context),
+                    if (tea != null) tea.getColor(),
                 ],
               )
             : null,

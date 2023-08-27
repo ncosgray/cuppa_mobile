@@ -264,7 +264,7 @@ class PrefsWidget extends StatelessWidget {
         dimension: 48.0,
         child: Icon(
           preset.isCustom ? Icons.add_circle : preset.getIcon(),
-          color: preset.getThemeColor(context),
+          color: preset.getColor(),
           size: preset.isCustom ? 20.0 : 24.0,
         ),
       ),
@@ -276,7 +276,7 @@ class PrefsWidget extends StatelessWidget {
           Text(
             preset.localizedName,
             style: textStyleSetting.copyWith(
-              color: preset.getThemeColor(context),
+              color: preset.getColor(),
             ),
           ),
           Container(
@@ -287,7 +287,7 @@ class PrefsWidget extends StatelessWidget {
                       Text(
                         formatTimer(preset.brewTime),
                         style: textStyleSettingSeconday.copyWith(
-                          color: preset.getThemeColor(context),
+                          color: preset.getColor(),
                         ),
                       ),
                       ConstrainedBox(
@@ -300,7 +300,7 @@ class PrefsWidget extends StatelessWidget {
                       Text(
                         preset.tempDisplay(provider.useCelsius),
                         style: textStyleSettingSeconday.copyWith(
-                          color: preset.getThemeColor(context),
+                          color: preset.getColor(),
                         ),
                       ),
                       ConstrainedBox(

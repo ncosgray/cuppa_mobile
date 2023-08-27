@@ -226,7 +226,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                 textAlign: TextAlign.left,
                 maxLines: 1,
                 style: textStyleSetting.copyWith(
-                  color: tea.getThemeColor(context),
+                  color: tea.getColor(),
                 ),
               ),
             ),
@@ -411,7 +411,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
               Container(
                 width: 18.0,
                 height: 18.0,
-                color: tea.getThemeColor(context),
+                color: tea.getColor(),
               ),
               dropdownArrow,
             ],
@@ -442,7 +442,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
             ),
             child: SingleChildScrollView(
               child: ColorPicker(
-                color: tea.getThemeColor(context),
+                color: tea.getColor(),
                 pickersEnabled: const <ColorPickerType, bool>{
                   ColorPickerType.both: false,
                   ColorPickerType.primary: false,
@@ -454,7 +454,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                 customColorSwatchesAndNames: <ColorSwatch<Object>, String>{
                   for (TeaColor color in TeaColor.values)
                     ColorTools.createPrimarySwatch(
-                      color.getThemeColor(context),
+                      color.getColor(),
                     ): color.name,
                 },
                 enableShadesSelection: true,
@@ -463,7 +463,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                   setState(() {
                     // Set primary TeaColor
                     newTeaColor = TeaColor.values.firstWhere(
-                      (color) => color.getThemeColor(context) == newColor,
+                      (color) => color.getColor() == newColor,
                       orElse: () => newTeaColor,
                     );
 
@@ -512,7 +512,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                 width: 18.0,
                 child: Icon(
                   tea.teaIcon,
-                  color: tea.getThemeColor(context),
+                  color: tea.getColor(),
                 ),
               ),
               dropdownArrow,
@@ -566,7 +566,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
       child: Icon(
         value.getIcon(),
         size: 36.0,
-        color: value == tea.icon ? tea.getThemeColor(context) : null,
+        color: value == tea.icon ? tea.getColor() : null,
       ),
       // Set selected icon
       onTap: () {
