@@ -55,6 +55,7 @@ class AppProvider extends ChangeNotifier {
     int? brewTimeSeconds,
     int? brewTemp,
     TeaColor? color,
+    Color? colorShade,
     TeaIcon? icon,
     bool? isFavorite,
   }) {
@@ -80,6 +81,9 @@ class AppProvider extends ChangeNotifier {
       }
       if (color != null) {
         _teaList[teaIndex].color = color;
+      }
+      if (colorShade != null) {
+        _teaList[teaIndex].colorShade = colorShade;
       }
       if (icon != null) {
         _teaList[teaIndex].icon = icon;

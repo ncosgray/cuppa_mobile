@@ -29,6 +29,7 @@ class Tea {
   late int brewTime;
   late int brewTemp;
   late TeaColor color;
+  Color? colorShade;
   late TeaIcon icon;
   late bool isFavorite;
   late bool isActive;
@@ -44,6 +45,7 @@ class Tea {
     required int brewTemp,
     TeaColor? color,
     int colorValue = 0,
+    Color? colorShade,
     TeaIcon? icon,
     int iconValue = 0,
     required bool isFavorite,
@@ -59,6 +61,7 @@ class Tea {
     this.brewTemp = brewTemp;
     // Prefer TeaColor or lookup from value if color not given
     this.color = color ?? TeaColor.values[colorValue];
+    this.colorShade = colorShade;
     // Prefer TeaIcon or lookup from value if icon not given
     this.icon = icon ?? TeaIcon.values[iconValue];
     this.isFavorite = isFavorite;
@@ -103,7 +106,7 @@ class Tea {
 
   // Color getter
   Color getThemeColor(context) {
-    return this.color.getThemeColor(context);
+    return this.colorShade ?? this.color.getThemeColor(context);
   }
 
   // Icon getter
@@ -294,6 +297,16 @@ class Tea {
       brewTime: json[jsonKeyBrewTime] ?? 0,
       brewTemp: json[jsonKeyBrewTemp] ?? 0,
       colorValue: json[jsonKeyColor] ?? 0,
+      colorShade: json[jsonKeyColorShadeRed] != null &&
+              json[jsonKeyColorShadeGreen] != null &&
+              json[jsonKeyColorShadeBlue] != null
+          ? Color.fromRGBO(
+              json[jsonKeyColorShadeRed],
+              json[jsonKeyColorShadeGreen],
+              json[jsonKeyColorShadeBlue],
+              1.0,
+            )
+          : null,
       iconValue: json[jsonKeyIcon] ?? 0,
       isFavorite: json[jsonKeyIsFavorite] ?? false,
       isActive: json[jsonKeyIsActive] ?? false,
@@ -309,6 +322,9 @@ class Tea {
       jsonKeyBrewTime: this.brewTime,
       jsonKeyBrewTemp: this.brewTemp,
       jsonKeyColor: this.color.value,
+      jsonKeyColorShadeRed: this.colorShade?.red,
+      jsonKeyColorShadeGreen: this.colorShade?.green,
+      jsonKeyColorShadeBlue: this.colorShade?.blue,
       jsonKeyIcon: this.icon.value,
       jsonKeyIsFavorite: this.isFavorite,
       jsonKeyIsActive: this.isActive,
@@ -343,30 +359,27 @@ enum TeaColor {
       case 1:
         return Colors.red.shade600;
       case 2:
-        return Colors.orange;
+        return Colors.orange.shade500;
       case 3:
-        return Colors.green;
+        return Colors.green.shade500;
       case 4:
-        return Colors.blue;
+        return Colors.blue.shade500;
       case 5:
         return Colors.purple.shade400;
       case 6:
         return Colors.brown.shade400;
       case 7:
-        return Colors.pink.shade200;
+        return Colors.pink.shade300;
       case 8:
-        return Colors.amber;
+        return Colors.amber.shade500;
       case 9:
-        return Colors.teal;
+        return Colors.teal.shade500;
       case 10:
         return Colors.cyan.shade400;
       case 11:
-        return Colors.deepPurple.shade200;
+        return Colors.deepPurple.shade300;
       default:
-        // "Black" substitutes appropriate color for current theme
-        return Theme.of(context).brightness == Brightness.dark
-            ? Colors.grey
-            : Colors.black54;
+        return Colors.grey.shade500;
     }
   }
 }

@@ -27,6 +27,7 @@ import 'package:cuppa_mobile/widgets/tea_name_dialog.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'dart:math';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -428,33 +429,48 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
+        TeaColor newTeaColor = tea.color;
+        Color? newColorShade = tea.colorShade;
+
         return AlertDialog.adaptive(
           title: Container(),
           content: SizedBox(
-            width: TeaColor.values.length * 16,
+            width: TeaColor.values.length * 26,
             height: min(
-              getDeviceSize(context).height * 0.4,
-              TeaColor.values.length * 24,
+              getDeviceSize(context).height * 0.5,
+              TeaColor.values.length * 26,
             ),
-            child: Material(
-              type: MaterialType.transparency,
-              child: Scrollbar(
-                child: GridView.count(
-                  childAspectRatio: 1.1,
-                  crossAxisCount: TeaColor.values.length ~/ 4,
-                  mainAxisSpacing: 12.0,
-                  crossAxisSpacing: 12.0,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 6.0,
-                    horizontal: 12.0,
-                  ),
-                  shrinkWrap: true,
-                  // Tea color buttons
-                  children: List.generate(
-                    TeaColor.values.length,
-                    (index) => _colorButton(context, index),
-                  ),
-                ),
+            child: SingleChildScrollView(
+              child: ColorPicker(
+                color: tea.getThemeColor(context),
+                pickersEnabled: const <ColorPickerType, bool>{
+                  ColorPickerType.both: false,
+                  ColorPickerType.primary: false,
+                  ColorPickerType.accent: false,
+                  ColorPickerType.bw: false,
+                  ColorPickerType.custom: true,
+                  ColorPickerType.wheel: false,
+                },
+                customColorSwatchesAndNames: <ColorSwatch<Object>, String>{
+                  for (TeaColor color in TeaColor.values)
+                    ColorTools.createPrimarySwatch(
+                      color.getThemeColor(context),
+                    ): color.name,
+                },
+                enableShadesSelection: true,
+                subheading: listDivider,
+                onColorChanged: (Color newColor) {
+                  setState(() {
+                    // Set primary TeaColor
+                    newTeaColor = TeaColor.values.firstWhere(
+                      (color) => color.getThemeColor(context) == newColor,
+                      orElse: () => newTeaColor,
+                    );
+
+                    // Set color shade
+                    newColorShade = newColor;
+                  });
+                },
               ),
             ),
           ),
@@ -463,34 +479,20 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
               text: AppString.cancel_button.translate(),
               onPressed: () => Navigator.of(context).pop(false),
             ),
+            adaptiveDialogAction(
+              isDefaultAction: true,
+              text: AppString.ok_button.translate(),
+              onPressed: () {
+                Provider.of<AppProvider>(context, listen: false).updateTea(
+                  tea,
+                  color: newTeaColor,
+                  colorShade: newColorShade,
+                );
+                Navigator.of(context).pop(true);
+              },
+            ),
           ],
         );
-      },
-    );
-  }
-
-  // Tea color button
-  Widget _colorButton(BuildContext context, int index) {
-    TeaColor value = TeaColor.values[index];
-    return InkWell(
-      child: Container(
-        constraints: const BoxConstraints.expand(),
-        color: value.getThemeColor(context),
-        child: value == tea.color
-            ?
-            // Timer icon indicates current color
-            Icon(
-                tea.teaIcon,
-                size: 24.0,
-                color: Colors.white,
-              )
-            : Container(),
-      ),
-      // Set selected color
-      onTap: () {
-        Provider.of<AppProvider>(context, listen: false)
-            .updateTea(tea, color: value);
-        Navigator.of(context).pop(true);
       },
     );
   }
