@@ -60,10 +60,18 @@ class Tea {
     this.brewTime = brewTime;
     this.brewTemp = brewTemp;
     // Prefer TeaColor or lookup from value if color not given
-    this.color = color ?? TeaColor.values[colorValue];
+    this.color = color ??
+        TeaColor.values.firstWhere(
+          (color) => color.value == colorValue,
+          orElse: () => TeaColor.values[0],
+        );
     this.colorShade = colorShade;
     // Prefer TeaIcon or lookup from value if icon not given
-    this.icon = icon ?? TeaIcon.values[iconValue];
+    this.icon = icon ??
+        TeaIcon.values.firstWhere(
+          (icon) => icon.value == iconValue,
+          orElse: () => TeaIcon.values[0],
+        );
     this.isFavorite = isFavorite;
     this.isActive = isActive;
     this.timerEndTime = timerEndTime;
