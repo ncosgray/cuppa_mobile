@@ -240,7 +240,8 @@ class _TimerWidgetState extends State<TimerWidget> {
                   // Separator for timers with the same color
                   Visibility(
                     visible: _timerCount > 1 &&
-                        _timer1.tea?.color == _timer2.tea?.color,
+                        _timer1.tea?.color == _timer2.tea?.color &&
+                        _timer1.tea?.colorShade == _timer2.tea?.colorShade,
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 12.0),
                       width: layoutPortrait ? 420.0 : 12.0,
