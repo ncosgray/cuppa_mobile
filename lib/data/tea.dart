@@ -344,8 +344,6 @@ class Tea {
 
 // Tea colors
 enum TeaColor {
-  black(0),
-  brown(6),
   red(1),
   pink(7),
   orange(2),
@@ -355,7 +353,9 @@ enum TeaColor {
   blue(4),
   cyan(10),
   purple(5),
-  lavender(11);
+  lavender(11),
+  black(0),
+  brown(6);
 
   final int value;
 
@@ -371,21 +371,21 @@ enum TeaColor {
       case 3:
         return Colors.green.shade500;
       case 4:
-        return Colors.blue.shade500;
+        return Colors.blue.shade600;
       case 5:
         return Colors.purple.shade400;
       case 6:
         return Colors.brown.shade400;
       case 7:
-        return Colors.pink.shade300;
+        return Colors.pink.shade400;
       case 8:
         return Colors.amber.shade500;
       case 9:
         return Colors.teal.shade500;
       case 10:
-        return Colors.cyan.shade400;
+        return Colors.cyan.shade500;
       case 11:
-        return Colors.deepPurple.shade300;
+        return Colors.deepPurple.shade400;
       default:
         return Colors.grey.shade600;
     }
