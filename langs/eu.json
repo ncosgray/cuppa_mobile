@@ -49,5 +49,18 @@
     "theme_system": "Jarraitu sistema",
     "theme_system_black": "Jarraitu sistema (Beltza)",
     "version_history": "Bertsioen historia",
-    "yes_button": "Bai"
+    "yes_button": "Bai",
+    "settings_title": "Ezarpenak",
+    "tutorial_info": "Nola erabili {{app_name}}",
+    "tutorial_text1": "Ongi etorri {{app_name}}ra, tea tenporizadore aplikazio sinple bat.",
+    "unit_hours": "h",
+    "unit_celsius": "C",
+    "unit_fahrenheit": "F",
+    "unit_minutes": "m",
+    "undo_button": "Desegin",
+    "undo_message": "{{tea_name}} ezabatu da.",
+    "tutorial_text4": "{{timers_max}} tenporizadore jar ditzakezu aldi berean.",
+    "tutorial_text2": "Gehitu {{teas_max}} te eta pertsonalizatu zure gustura.",
+    "tutorial_text5": "Gozatu ezin hobeto prestatutako tea!",
+    "tea_name_cold_brew": "Garagardo hotza"
 }
