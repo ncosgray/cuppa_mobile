@@ -23,11 +23,10 @@ import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/tea_brew_temp_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_brew_time_dialog.dart';
+import 'package:cuppa_mobile/widgets/tea_color_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_name_dialog.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
-import 'dart:math';
-import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -418,80 +417,36 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           ),
         ),
         // Open tea color dialog
-        onTap: () => _openColorDialog(context, tea),
+        onTap: () => _openColorDialog(context, tea.color, tea.colorShade)
+            .then((newValues) {
+          if (newValues != null) {
+            // Save color data to prefs
+            Provider.of<AppProvider>(context, listen: false).updateTea(
+              tea,
+              color: newValues.teaColor,
+              colorShade: newValues.colorShade,
+            );
+          }
+        }),
       ),
     );
   }
 
   // Display a tea color selection dialog box
-  Future<bool?> _openColorDialog(BuildContext context, Tea tea) async {
-    return showAdaptiveDialog<bool>(
+  Future<({TeaColor teaColor, Color? colorShade})?> _openColorDialog(
+    BuildContext context,
+    TeaColor currentTeaColor,
+    Color? currentColorShade,
+  ) async {
+    return showAdaptiveDialog<({TeaColor teaColor, Color? colorShade})>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        TeaColor newTeaColor = tea.color;
-        Color? newColorShade = tea.colorShade;
-
-        return AlertDialog.adaptive(
-          title: Container(),
-          content: SizedBox(
-            width: TeaColor.values.length * 26,
-            height: min(
-              getDeviceSize(context).height * 0.5,
-              TeaColor.values.length * 26,
-            ),
-            child: SingleChildScrollView(
-              child: ColorPicker(
-                color: tea.getColor(),
-                pickersEnabled: const <ColorPickerType, bool>{
-                  ColorPickerType.both: false,
-                  ColorPickerType.primary: false,
-                  ColorPickerType.accent: false,
-                  ColorPickerType.bw: false,
-                  ColorPickerType.custom: true,
-                  ColorPickerType.wheel: false,
-                },
-                customColorSwatchesAndNames: <ColorSwatch<Object>, String>{
-                  for (TeaColor color in TeaColor.values)
-                    ColorTools.createPrimarySwatch(
-                      color.getColor(),
-                    ): color.name,
-                },
-                enableShadesSelection: true,
-                subheading: listDivider,
-                onColorChanged: (Color newColor) {
-                  setState(() {
-                    // Set primary TeaColor
-                    newTeaColor = TeaColor.values.firstWhere(
-                      (color) => color.getColor() == newColor,
-                      orElse: () => newTeaColor,
-                    );
-
-                    // Set color shade
-                    newColorShade = newColor;
-                  });
-                },
-              ),
-            ),
-          ),
-          actions: [
-            adaptiveDialogAction(
-              text: AppString.cancel_button.translate(),
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-            adaptiveDialogAction(
-              isDefaultAction: true,
-              text: AppString.ok_button.translate(),
-              onPressed: () {
-                Provider.of<AppProvider>(context, listen: false).updateTea(
-                  tea,
-                  color: newTeaColor,
-                  colorShade: newColorShade,
-                );
-                Navigator.of(context).pop(true);
-              },
-            ),
-          ],
+        return TeaColorDialog(
+          initialTeaColor: currentTeaColor,
+          initialColorShade: currentColorShade,
+          buttonTextCancel: AppString.cancel_button.translate(),
+          buttonTextOK: AppString.ok_button.translate(),
         );
       },
     );
