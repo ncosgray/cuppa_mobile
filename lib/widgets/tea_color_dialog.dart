@@ -74,7 +74,7 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
 
     // Set starting values
     _newTeaColor = initialTeaColor;
-    _newColorShade = initialColorShade;
+    _newColorShade = initialColorShade ?? initialTeaColor.getColor();
   }
 
   // Build dialog
