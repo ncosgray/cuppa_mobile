@@ -178,9 +178,37 @@ Widget adaptiveSmallButton({
     );
   } else {
     return OutlinedButton(
-      style: const ButtonStyle(visualDensity: VisualDensity.compact),
+      style: OutlinedButton.styleFrom(visualDensity: VisualDensity.compact),
       onPressed: onPressed,
       child: Icon(icon),
+    );
+  }
+}
+
+// Large button with styling appropriate to platform
+Widget adaptiveLargeButton({
+  required IconData icon,
+  required Function()? onPressed,
+}) {
+  if (appPlatform == TargetPlatform.iOS) {
+    return CupertinoButton(
+      minSize: 72.0,
+      padding: EdgeInsets.zero,
+      onPressed: onPressed,
+      child: Icon(icon, size: 36.0),
+    );
+  } else {
+    return OutlinedButton(
+      style: OutlinedButton.styleFrom(
+        visualDensity: VisualDensity.comfortable,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        minimumSize: const Size(60.0, 60.0),
+        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+      ),
+      onPressed: onPressed,
+      child: Icon(icon, size: 36.0),
     );
   }
 }

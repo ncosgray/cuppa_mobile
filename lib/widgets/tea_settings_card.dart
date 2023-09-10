@@ -490,8 +490,8 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         return AlertDialog.adaptive(
           title: Container(),
           content: SizedBox(
-            width: TeaIcon.values.length * 12,
-            height: TeaIcon.values.length * 12,
+            width: TeaIcon.values.length * 24,
+            height: TeaIcon.values.length * 24,
             child: Material(
               type: MaterialType.transparency,
               child: Row(
@@ -518,14 +518,10 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   // Tea icon button
   Widget _iconButton(int index) {
     TeaIcon value = TeaIcon.values[index];
-    return InkWell(
-      child: Icon(
-        value.getIcon(),
-        size: 36.0,
-        color: value == tea.icon ? tea.getColor() : null,
-      ),
+    return adaptiveLargeButton(
+      icon: value.getIcon(),
       // Set selected icon
-      onTap: () {
+      onPressed: () {
         Provider.of<AppProvider>(context, listen: false)
             .updateTea(tea, icon: value);
         Navigator.of(context).pop(true);
