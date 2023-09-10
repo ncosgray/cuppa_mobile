@@ -410,7 +410,10 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
               Container(
                 width: 18.0,
                 height: 18.0,
-                color: tea.getColor(),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4.0),
+                  color: tea.getColor(),
+                ),
               ),
               dropdownArrow,
             ],
