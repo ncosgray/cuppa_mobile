@@ -27,12 +27,14 @@ class TeaColorDialog extends StatefulWidget {
     Key? key,
     required this.initialTeaColor,
     required this.initialColorShade,
+    required this.previewIcon,
     required this.buttonTextCancel,
     required this.buttonTextOK,
   }) : super(key: key);
 
   final TeaColor initialTeaColor;
   final Color? initialColorShade;
+  final IconData previewIcon;
   final String buttonTextCancel;
   final String buttonTextOK;
 
@@ -40,6 +42,7 @@ class TeaColorDialog extends StatefulWidget {
   _TeaColorDialogState createState() => _TeaColorDialogState(
         initialTeaColor: initialTeaColor,
         initialColorShade: initialColorShade,
+        previewIcon: previewIcon,
         buttonTextCancel: buttonTextCancel,
         buttonTextOK: buttonTextOK,
       );
@@ -49,12 +52,14 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
   _TeaColorDialogState({
     required this.initialTeaColor,
     required this.initialColorShade,
+    required this.previewIcon,
     required this.buttonTextCancel,
     required this.buttonTextOK,
   });
 
   final TeaColor initialTeaColor;
   final Color? initialColorShade;
+  final IconData previewIcon;
   final String buttonTextCancel;
   final String buttonTextOK;
 
@@ -67,6 +72,7 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
   void initState() {
     super.initState();
 
+    // Set starting values
     _newTeaColor = initialTeaColor;
     _newColorShade = initialColorShade;
   }
@@ -80,39 +86,65 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
         width: TeaColor.values.length * 26,
         height: min(
           getDeviceSize(context).height * 0.5,
-          TeaColor.values.length * 26,
+          TeaColor.values.length * 32,
         ),
         child: SingleChildScrollView(
-          child: ColorPicker(
-            color: _newColorShade ?? _newTeaColor.getColor(),
-            pickersEnabled: const <ColorPickerType, bool>{
-              ColorPickerType.both: false,
-              ColorPickerType.primary: false,
-              ColorPickerType.accent: false,
-              ColorPickerType.bw: false,
-              ColorPickerType.custom: true,
-              ColorPickerType.wheel: false,
-            },
-            customColorSwatchesAndNames: <ColorSwatch<Object>, String>{
-              for (TeaColor color in TeaColor.values)
-                ColorTools.createPrimarySwatch(
-                  color.getColor(),
-                ): color.name,
-            },
-            enableShadesSelection: true,
-            subheading: listDivider,
-            onColorChanged: (Color newColor) {
-              setState(() {
-                // Set primary TeaColor
-                _newTeaColor = TeaColor.values.firstWhere(
-                  (color) => color.getColor() == newColor,
-                  orElse: () => _newTeaColor,
-                );
+          child: Column(
+            children: [
+              // Mini tea button previews
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  miniTeaButton(
+                    icon: previewIcon,
+                    color: _newColorShade,
+                  ),
+                  miniTeaButton(
+                    icon: previewIcon,
+                    color: _newColorShade,
+                    isActive: true,
+                  ),
+                  miniTeaButton(
+                    icon: previewIcon,
+                    color: _newColorShade,
+                    darkTheme: true,
+                  ),
+                ],
+              ),
+              // Tea color picker
+              ColorPicker(
+                color: _newColorShade ?? _newTeaColor.getColor(),
+                pickersEnabled: const <ColorPickerType, bool>{
+                  ColorPickerType.both: false,
+                  ColorPickerType.primary: false,
+                  ColorPickerType.accent: false,
+                  ColorPickerType.bw: false,
+                  ColorPickerType.custom: true,
+                  ColorPickerType.wheel: false,
+                },
+                customColorSwatchesAndNames: <ColorSwatch<Object>, String>{
+                  for (TeaColor color in TeaColor.values)
+                    ColorTools.createPrimarySwatch(
+                      color.getColor(),
+                    ): color.name,
+                },
+                enableShadesSelection: true,
+                heading: listDivider,
+                subheading: listDivider,
+                onColorChanged: (Color newColor) {
+                  setState(() {
+                    // Set primary TeaColor
+                    _newTeaColor = TeaColor.values.firstWhere(
+                      (color) => color.getColor() == newColor,
+                      orElse: () => _newTeaColor,
+                    );
 
-                // Set color shade
-                _newColorShade = newColor;
-              });
-            },
+                    // Set color shade
+                    _newColorShade = newColor;
+                  });
+                },
+              ),
+            ],
           ),
         ),
       ),

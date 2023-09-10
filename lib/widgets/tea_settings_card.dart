@@ -445,6 +445,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         return TeaColorDialog(
           initialTeaColor: currentTeaColor,
           initialColorShade: currentColorShade,
+          previewIcon: tea.teaIcon,
           buttonTextCancel: AppString.cancel_button.translate(),
           buttonTextOK: AppString.ok_button.translate(),
         );

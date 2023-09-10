@@ -92,6 +92,33 @@ Widget draggableFeedback(
   );
 }
 
+// Preview of a tea button with color and theme
+Widget miniTeaButton({
+  required Color? color,
+  required IconData icon,
+  bool isActive = false,
+  bool darkTheme = false,
+}) {
+  return Theme(
+    data: darkTheme ? ThemeData.dark() : ThemeData.light(),
+    child: Card(
+      elevation: 1.0,
+      clipBehavior: Clip.antiAlias,
+      child: Container(
+        decoration: BoxDecoration(color: isActive ? color : null),
+        child: Container(
+          margin: const EdgeInsets.all(8.0),
+          child: Icon(
+            icon,
+            color: isActive ? Colors.white : color,
+            size: 28.0,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
 // Icons
 const Widget dropdownArrow = Icon(
   Icons.arrow_drop_down,
