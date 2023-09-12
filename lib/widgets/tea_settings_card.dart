@@ -495,15 +495,12 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           content: SizedBox(
             width: TeaIcon.values.length * 24,
             height: TeaIcon.values.length * 24,
-            child: Material(
-              type: MaterialType.transparency,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                // Tea icon buttons
-                children: List.generate(
-                  TeaIcon.values.length,
-                  (index) => _iconButton(index),
-                ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              // Tea icon buttons
+              children: List.generate(
+                TeaIcon.values.length,
+                (index) => _iconButton(index),
               ),
             ),
           ),
