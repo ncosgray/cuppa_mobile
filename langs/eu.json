@@ -61,6 +61,8 @@
     "undo_message": "{{tea_name}} ezabatu da.",
     "tutorial_text4": "{{timers_max}} tenporizadore jar ditzakezu aldi berean.",
     "tutorial_text2": "Gehitu {{teas_max}} te eta pertsonalizatu zure gustura.",
-    "tutorial_text5": "Gozatu ezin hobeto prestatutako tea!",
-    "tea_name_cold_brew": "Garagardo hotza"
+    "tutorial_text5": "Gozatu zure ondo prestatutako te katiluaz!",
+    "tea_name_cold_brew": "Garagardo hotza",
+    "tutorial": "Tutoriala",
+    "tutorial_text3": "Jo botoi bat tea egiten den bitartean kronometratzen hasteko."
 }
