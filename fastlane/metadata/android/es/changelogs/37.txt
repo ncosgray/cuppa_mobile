@@ -1,0 +1,4 @@
+* Añadido un botón Deshacer al borrar los tés.
+* Corregido un error con los accesos directos después de reordenar la lista de los tés.
+* Ajustes en el uso e interfaz, incluyendo nuevas animaciones.
+* Traducciones al Urdu y al Chino Tradicional. ¡Aporta más idiomas a través de Weblate!

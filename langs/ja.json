@@ -1,0 +1,14 @@
+{
+    "confirm_title": "注意",
+    "prefs_app_theme": "カラーテーマを選択",
+    "prefs_language": "言語を選択",
+    "prefs_show_extra": "タイマーボタンに時間と温度を表示",
+    "theme_system": "システムに従う",
+    "theme_black": "黒(有機ELに良い)",
+    "theme_system_black": "システムに従う(黒)",
+    "theme_light": "ライト",
+    "theme_dark": "ダーク",
+    "add_tea_button": "お茶(タイマー)を追加",
+    "confirm_delete": "全てのTeaを削除します。よろしいですか?",
+    "about_app": ""
+}

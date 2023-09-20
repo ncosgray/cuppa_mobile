@@ -61,5 +61,8 @@
     "unit_minutes": "m",
     "unit_fahrenheit": "F",
     "unit_celsius": "C",
-    "tea_name_cold_brew": "Kaldbrygget"
+    "tea_name_cold_brew": "Kaldbrygget",
+    "settings_title": "Innstillinger",
+    "undo_button": "Angre",
+    "undo_message": "{{tea_name}} slettet."
 }
