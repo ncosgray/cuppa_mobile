@@ -46,16 +46,19 @@ class AppProvider extends ChangeNotifier {
   }
 
   // Update one or more settings for a tea
-  void updateTea(Tea tea,
-      {String? name,
-      int? brewTime,
-      int? brewTimeHours,
-      int? brewTimeMinutes,
-      int? brewTimeSeconds,
-      int? brewTemp,
-      TeaColor? color,
-      TeaIcon? icon,
-      bool? isFavorite}) {
+  void updateTea(
+    Tea tea, {
+    String? name,
+    int? brewTime,
+    int? brewTimeHours,
+    int? brewTimeMinutes,
+    int? brewTimeSeconds,
+    int? brewTemp,
+    TeaColor? color,
+    Color? colorShade,
+    TeaIcon? icon,
+    bool? isFavorite,
+  }) {
     int teaIndex = _teaList.indexOf(tea);
     if (teaIndex >= 0) {
       if (name != null) {
@@ -78,6 +81,9 @@ class AppProvider extends ChangeNotifier {
       }
       if (color != null) {
         _teaList[teaIndex].color = color;
+      }
+      if (colorShade != null) {
+        _teaList[teaIndex].colorShade = colorShade;
       }
       if (icon != null) {
         _teaList[teaIndex].icon = icon;
@@ -119,24 +125,32 @@ class AppProvider extends ChangeNotifier {
 
   // Add quick action shortcuts
   void setQuickActions() {
-    quickActions.setShortcutItems(favoritesList.map<ShortcutItem>((tea) {
-      // Create a shortcut item for this favorite tea
-      return ShortcutItem(
-        type: shortcutPrefixID + tea.id.toString(),
-        localizedTitle: tea.name,
-        icon: tea.shortcutIcon,
-      );
-    }).toList());
+    quickActions.setShortcutItems(
+      favoritesList.map<ShortcutItem>((tea) {
+        // Create a shortcut item for this favorite tea
+        return ShortcutItem(
+          type: shortcutPrefixID + tea.id.toString(),
+          localizedTitle: tea.name,
+          icon: tea.shortcutIcon,
+        );
+      }).toList(),
+    );
   }
 
   // Load teas from default presets
   void loadDefaults() {
-    _teaList.add(Presets.getPreset(AppString.tea_name_black)
-        .createTea(useCelsius: _useCelsius, isFavorite: true));
-    _teaList.add(Presets.getPreset(AppString.tea_name_green)
-        .createTea(useCelsius: _useCelsius, isFavorite: true));
-    _teaList.add(Presets.getPreset(AppString.tea_name_herbal)
-        .createTea(useCelsius: _useCelsius, isFavorite: true));
+    _teaList.add(
+      Presets.getPreset(AppString.tea_name_black)
+          .createTea(useCelsius: _useCelsius, isFavorite: true),
+    );
+    _teaList.add(
+      Presets.getPreset(AppString.tea_name_green)
+          .createTea(useCelsius: _useCelsius, isFavorite: true),
+    );
+    _teaList.add(
+      Presets.getPreset(AppString.tea_name_herbal)
+          .createTea(useCelsius: _useCelsius, isFavorite: true),
+    );
 
     // Manage quick actions
     setQuickActions();

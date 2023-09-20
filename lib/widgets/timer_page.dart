@@ -86,214 +86,253 @@ class _TimerWidgetState extends State<TimerWidget> {
   Widget build(BuildContext context) {
     // Process tea list scroll request after build
     Future.delayed(
-        Duration.zero, () => _scrollToTeaButton(_timer1.tea ?? _timer2.tea));
+      Duration.zero,
+      () => _scrollToTeaButton(_timer1.tea ?? _timer2.tea),
+    );
 
     // Determine layout based on device size
     bool layoutPortrait = getDeviceSize(context).isPortrait ||
         getDeviceSize(context).isLargeDevice;
 
     return Scaffold(
-        appBar: PlatformAdaptiveNavBar(
-          platform: appPlatform,
-          isPoppable: false,
-          textScaleFactor: appTextScale,
-          title: appName,
-          // Button to navigate to Preferences page
-          actionIcon: tutorialTooltip(
-            context: context,
-            key: tutorialKey2,
-            child: getPlatformSettingsIcon(appPlatform),
-          ),
-          actionRoute: const PrefsWidget(),
+      appBar: PlatformAdaptiveNavBar(
+        isPoppable: false,
+        textScaleFactor: appTextScale,
+        title: appName,
+        // Button to navigate to Preferences page
+        actionIcon: tutorialTooltip(
+          context: context,
+          key: tutorialKey2,
+          child: getPlatformSettingsIcon(),
         ),
-        body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                flex: layoutPortrait ? 8 : 2,
-                child: Flex(
-                    // Determine layout by device size
-                    direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Countdown timers
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          padding: layoutPortrait
-                              ? const EdgeInsets.fromLTRB(
-                                  48.0, 24.0, 48.0, 12.0)
-                              : const EdgeInsets.all(12.0),
-                          alignment: layoutPortrait
-                              ? Alignment.center
-                              : Alignment.centerRight,
-                          child: tutorialTooltip(
-                            context: context,
-                            key: tutorialKey1,
-                            showArrow: false,
-                            child: tutorialTooltip(
-                              context: context,
-                              key: tutorialKey5,
-                              showArrow: false,
-                              child: FittedBox(
-                                fit: BoxFit.fitHeight,
-                                alignment: Alignment.center,
-                                child: _countdownTimer(layoutPortrait),
-                              ),
-                            ),
+        actionRoute: const PrefsWidget(),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              flex: layoutPortrait ? 8 : 2,
+              child: Flex(
+                // Determine layout by device size
+                direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Countdown timers
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      padding: layoutPortrait
+                          ? const EdgeInsets.fromLTRB(
+                              48.0,
+                              24.0,
+                              48.0,
+                              12.0,
+                            )
+                          : const EdgeInsets.all(12.0),
+                      alignment: layoutPortrait
+                          ? Alignment.center
+                          : Alignment.centerRight,
+                      child: tutorialTooltip(
+                        context: context,
+                        key: tutorialKey1,
+                        showArrow: false,
+                        child: tutorialTooltip(
+                          context: context,
+                          key: tutorialKey5,
+                          showArrow: false,
+                          child: FittedBox(
+                            fit: BoxFit.fitHeight,
+                            alignment: Alignment.center,
+                            child: _countdownTimer(layoutPortrait),
                           ),
                         ),
                       ),
-                      // Teacup
-                      Expanded(
-                        flex: layoutPortrait ? 3 : 2,
-                        child: Container(
-                          constraints: BoxConstraints(
-                              maxWidth: getDeviceSize(context).height * 0.6),
-                          padding: layoutPortrait
-                              ? const EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 12.0)
-                              : const EdgeInsets.fromLTRB(
-                                  48.0, 12.0, 12.0, 12.0),
-                          alignment: layoutPortrait
-                              ? Alignment.center
-                              : Alignment.centerLeft,
-                          child: _teacup(),
-                        ),
+                    ),
+                  ),
+                  // Teacup
+                  Expanded(
+                    flex: layoutPortrait ? 3 : 2,
+                    child: Container(
+                      constraints: BoxConstraints(
+                        maxWidth: getDeviceSize(context).height * 0.6,
                       ),
-                    ]),
+                      padding: layoutPortrait
+                          ? const EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 12.0)
+                          : const EdgeInsets.fromLTRB(
+                              48.0,
+                              12.0,
+                              12.0,
+                              12.0,
+                            ),
+                      alignment: layoutPortrait
+                          ? Alignment.center
+                          : Alignment.centerLeft,
+                      child: _teacup(),
+                    ),
+                  ),
+                ],
               ),
-              // Tea brew start buttons
-              SizedBox(
-                height: 190.0,
-                child: Container(
-                  margin: const EdgeInsets.only(left: 10.0),
-                  alignment: Alignment.center,
-                  child: _teaButtonList(),
-                ),
+            ),
+            // Tea brew start buttons
+            SizedBox(
+              height: 190.0,
+              child: Container(
+                margin: const EdgeInsets.only(left: 10.0),
+                alignment: Alignment.center,
+                child: _teaButtonList(),
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   // Countdown timer display adjusted for orientation
   Widget _countdownTimer(bool layoutPortrait) {
     return Container(
-        decoration: BoxDecoration(
-          color: Colors.green,
-          // Apply background colors to distinguish timers
-          gradient: _timerCount > 0
-              ? LinearGradient(
-                  begin: layoutPortrait
-                      ? Alignment.topCenter
-                      : Alignment.centerLeft,
-                  end: layoutPortrait
-                      ? Alignment.bottomCenter
-                      : Alignment.centerRight,
-                  stops: List<double>.filled(
-                      _timerCount,
-                      !layoutPortrait && _timerCount > 1
-                          ? _timer1.timerString.length /
-                              (_timer1.timerString.length +
-                                  _timer2.timerString.length)
-                          : 0.5),
-                  colors: [
-                    for (Tea? tea in [_timer1.tea, _timer2.tea])
-                      if (tea != null) tea.getThemeColor(context)
-                  ],
-                )
-              : null,
-          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        ),
-        child: AnimatedSize(
-          duration: shortAnimationDuration,
-          curve: Curves.linear,
-          child: _timerCount == 0
-              ?
-              // Idle timer
-              _timerText(formatTimer(0))
-              : Flex(
-                  // Determine layout by orientation
-                  direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                      // Timer 1
-                      AnimatedSize(
-                        duration: longAnimationDuration,
-                        curve: Curves.easeInOut,
-                        child: _timer1.isActive
-                            ? _timerText(_timer1.timerString)
-                            : const SizedBox.shrink(),
-                      ),
-                      // Separator for timers with the same color
-                      Visibility(
-                          visible: _timerCount > 1 &&
-                              _timer1.tea?.color == _timer2.tea?.color,
-                          child: Container(
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 12.0),
-                              width: layoutPortrait ? 420.0 : 12.0,
-                              height: layoutPortrait ? 12.0 : 140.0,
-                              color: Colors.white)),
-                      // Timer 2
-                      AnimatedSize(
-                        duration: longAnimationDuration,
-                        curve: Curves.easeInOut,
-                        child: _timer2.isActive
-                            ? _timerText(_timer2.timerString)
-                            : const SizedBox.shrink(),
-                      ),
-                    ]),
-        ));
+      decoration: BoxDecoration(
+        color: Colors.green,
+        // Apply background colors to distinguish timers
+        gradient: _timerCount > 0
+            ? LinearGradient(
+                begin:
+                    layoutPortrait ? Alignment.topCenter : Alignment.centerLeft,
+                end: layoutPortrait
+                    ? Alignment.bottomCenter
+                    : Alignment.centerRight,
+                stops: List<double>.filled(
+                  _timerCount,
+                  !layoutPortrait && _timerCount > 1
+                      ? _timer1.timerString.length /
+                          (_timer1.timerString.length +
+                              _timer2.timerString.length)
+                      : 0.5,
+                ),
+                colors: [
+                  for (Tea? tea in [_timer1.tea, _timer2.tea])
+                    if (tea != null) tea.getColor(),
+                ],
+              )
+            : null,
+        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+      ),
+      child: AnimatedSize(
+        duration: shortAnimationDuration,
+        curve: Curves.linear,
+        child: _timerCount == 0
+            ?
+            // Idle timer
+            _timerText(formatTimer(0))
+            : Flex(
+                // Determine layout by orientation
+                direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Timer 1
+                  AnimatedSize(
+                    duration: longAnimationDuration,
+                    curve: Curves.easeInOut,
+                    child: _timer1.isActive
+                        ? _timerText(_timer1.timerString)
+                        : const SizedBox.shrink(),
+                  ),
+                  // Separator for timers with the same color
+                  Visibility(
+                    visible: _timerCount > 1 &&
+                        _timer1.tea?.color == _timer2.tea?.color &&
+                        _timer1.tea?.colorShade == _timer2.tea?.colorShade,
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                      width: layoutPortrait ? 420.0 : 12.0,
+                      height: layoutPortrait ? 12.0 : 140.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  // Timer 2
+                  AnimatedSize(
+                    duration: longAnimationDuration,
+                    curve: Curves.easeInOut,
+                    child: _timer2.isActive
+                        ? _timerText(_timer2.timerString)
+                        : const SizedBox.shrink(),
+                  ),
+                ],
+              ),
+      ),
+    );
   }
 
   // Countdown timer text
   Widget _timerText(String text) {
     return SizedBox(
-        width: text.length * 104.0,
-        child: Container(
-            padding: const EdgeInsets.all(4.0),
-            alignment: Alignment.center,
-            child: Text(text,
-                maxLines: 1,
-                softWrap: false,
-                overflow: TextOverflow.clip,
-                textScaleFactor: 1.0,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 150.0,
-                  color: Colors.white,
-                ))));
+      width: text.length * 104.0,
+      child: Container(
+        padding: const EdgeInsets.all(4.0),
+        alignment: Alignment.center,
+        child: Text(
+          text,
+          maxLines: 1,
+          softWrap: false,
+          overflow: TextOverflow.clip,
+          textScaleFactor: 1.0,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 150.0,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
   }
 
   // Teacup graphic
   Widget _teacup() {
-    return Stack(children: [
-      // Border color adjusted for theme darkness
-      Selector<AppProvider, bool>(
+    return Stack(
+      children: [
+        // Border color adjusted for theme darkness
+        Selector<AppProvider, bool>(
           selector: (_, provider) => provider.appTheme.blackTheme,
           builder: (context, blackTheme, child) => ColorFiltered(
-              colorFilter: ColorFilter.mode(
-                blackTheme ? const Color(0xff323232) : Colors.black,
-                BlendMode.srcIn,
-              ),
-              child: Image.asset(cupImageBorder,
-                  fit: BoxFit.fitWidth, gaplessPlayback: true))),
-      // Teacup image
-      Image.asset(cupImageDefault, fit: BoxFit.fitWidth, gaplessPlayback: true),
-      // While timing, gradually darken the tea in the cup
-      Opacity(
+            colorFilter: ColorFilter.mode(
+              blackTheme ? const Color(0xff323232) : Colors.black,
+              BlendMode.srcIn,
+            ),
+            child: Image.asset(
+              cupImageBorder,
+              fit: BoxFit.fitWidth,
+              gaplessPlayback: true,
+            ),
+          ),
+        ),
+        // Teacup image
+        Image.asset(
+          cupImageDefault,
+          fit: BoxFit.fitWidth,
+          gaplessPlayback: true,
+        ),
+        // While timing, gradually darken the tea in the cup
+        Opacity(
           opacity: _timerCount == 0
               ? 0.0
               : min(_timer1.timerPercent, _timer2.timerPercent),
-          child: Image.asset(cupImageTea,
-              fit: BoxFit.fitWidth, gaplessPlayback: true)),
-      // While timing, put a teabag in the cup
-      Visibility(
+          child: Image.asset(
+            cupImageTea,
+            fit: BoxFit.fitWidth,
+            gaplessPlayback: true,
+          ),
+        ),
+        // While timing, put a teabag in the cup
+        Visibility(
           visible: _timerCount > 0,
-          child: Image.asset(cupImageBag,
-              fit: BoxFit.fitWidth, gaplessPlayback: true)),
-    ]);
+          child: Image.asset(
+            cupImageBag,
+            fit: BoxFit.fitWidth,
+            gaplessPlayback: true,
+          ),
+        ),
+      ],
+    );
   }
 
   // Horizontally scrollable list of available tea buttons
@@ -309,39 +348,49 @@ class _TimerWidgetState extends State<TimerWidget> {
           physics: const BouncingScrollPhysics(),
           clipBehavior: Clip.none,
           controller: _scrollController,
-          child: Consumer<AppProvider>(builder: (context, provider, child) {
-            if (provider.teaCount > 0) {
-              // Tea buttons
-              return Row(
+          child: Consumer<AppProvider>(
+            builder: (context, provider, child) {
+              if (provider.teaCount > 0) {
+                // Tea buttons
+                return Row(
                   children: provider.teaList.map<Padding>((Tea tea) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: Column(
+                        children: [
+                          // Start brewing button
+                          TeaButton(
+                            key: GlobalObjectKey(tea.id),
+                            tea: tea,
+                            fade:
+                                !(_timerCount < timersMaxCount || tea.isActive),
+                            onPressed:
+                                _timerCount < timersMaxCount && !tea.isActive
+                                    ? (_) => _setTimer(tea)
+                                    : null,
+                          ),
+                          // Cancel brewing button
+                          Visibility(
+                            visible: tea.isActive,
+                            child: CancelButton(
+                              active: tea.isActive,
+                              onPressed: (_) => _cancelTimerForTea(tea),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                );
+              } else {
+                // Add button if tea list is empty
                 return Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
-                    child: Column(children: [
-                      // Start brewing button
-                      TeaButton(
-                          key: GlobalObjectKey(tea.id),
-                          tea: tea,
-                          fade: !(_timerCount < timersMaxCount || tea.isActive),
-                          onPressed:
-                              _timerCount < timersMaxCount && !tea.isActive
-                                  ? (_) => _setTimer(tea)
-                                  : null),
-                      // Cancel brewing button
-                      Visibility(
-                        visible: tea.isActive,
-                        child: CancelButton(
-                            active: tea.isActive,
-                            onPressed: (_) => _cancelTimerForTea(tea)),
-                      )
-                    ]));
-              }).toList());
-            } else {
-              // Add button if tea list is empty
-              return Padding(
                   padding: const EdgeInsets.only(right: 10.0),
-                  child: _addButton());
-            }
-          }),
+                  child: _addButton(),
+                );
+              }
+            },
+          ),
         ),
       ),
     );
@@ -355,7 +404,10 @@ class _TimerWidgetState extends State<TimerWidget> {
             .push(MaterialPageRoute(builder: (_) => const PrefsWidget())),
         child: Container(
           constraints: const BoxConstraints(
-              maxHeight: 116.0, minWidth: 88.0, maxWidth: double.infinity),
+            maxHeight: 116.0,
+            minWidth: 88.0,
+            maxWidth: double.infinity,
+          ),
           margin: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -363,7 +415,8 @@ class _TimerWidgetState extends State<TimerWidget> {
               Text(
                 AppString.teas_title.translate(),
                 style: textStyleButton.copyWith(
-                    color: Theme.of(context).colorScheme.error),
+                  color: Theme.of(context).colorScheme.error,
+                ),
               ),
               Icon(
                 Icons.arrow_circle_right,
@@ -386,7 +439,11 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Set up the brewing complete notification
   Future<void> _sendNotification(
-      int secs, String title, String text, int notifyID) async {
+    int secs,
+    String title,
+    String text,
+    int notifyID,
+  ) async {
     tz.TZDateTime notifyTime =
         tz.TZDateTime.now(tz.local).add(Duration(seconds: secs));
 
@@ -435,34 +492,49 @@ class _TimerWidgetState extends State<TimerWidget> {
         interruptionLevel: InterruptionLevel.timeSensitive,
       ),
     );
-    await notify.zonedSchedule(notifyID, title, text, notifyTime, notifyDetails,
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
+    await notify.zonedSchedule(
+      notifyID,
+      title,
+      text,
+      notifyTime,
+      notifyDetails,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+    );
   }
 
   // Confirmation dialog
   Future _confirmTimer() {
     if (_timerCount == timersMaxCount) {
-      return showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return PlatformAdaptiveDialog(
-              platform: appPlatform,
-              title: Text(AppString.confirm_title.translate()),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    Text(AppString.confirm_message_line1.translate()),
-                    Text(AppString.confirm_message_line2.translate()),
-                  ],
-                ),
+      return showAdaptiveDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog.adaptive(
+            title: Text(AppString.confirm_title.translate()),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(AppString.confirm_message_line1.translate()),
+                  Text(AppString.confirm_message_line2.translate()),
+                ],
               ),
-              buttonTextTrue: AppString.yes_button.translate(),
-              buttonTextFalse: AppString.no_button.translate(),
-            );
-          });
+            ),
+            actions: [
+              adaptiveDialogAction(
+                isDefaultAction: true,
+                text: AppString.no_button.translate(),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              adaptiveDialogAction(
+                text: AppString.yes_button.translate(),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          );
+        },
+      );
     } else {
       return Future.value(true);
     }
@@ -504,10 +576,11 @@ class _TimerWidgetState extends State<TimerWidget> {
         Provider.of<AppProvider>(context, listen: false)
             .activateTea(tea, timer.notifyID);
         _sendNotification(
-            tea.brewTime,
-            AppString.notification_title.translate(),
-            AppString.notification_text.translate(teaName: tea.name),
-            timer.notifyID);
+          tea.brewTime,
+          AppString.notification_title.translate(),
+          AppString.notification_text.translate(teaName: tea.name),
+          timer.notifyID,
+        );
       } else if (tea.timerNotifyID != null) {
         // Resume with same timer ID
         timer = tea.timerNotifyID == _timer1.notifyID ? _timer1 : _timer2;

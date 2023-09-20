@@ -29,6 +29,7 @@ class Tea {
   late int brewTime;
   late int brewTemp;
   late TeaColor color;
+  Color? colorShade;
   late TeaIcon icon;
   late bool isFavorite;
   late bool isActive;
@@ -37,29 +38,40 @@ class Tea {
   late bool animate;
 
   // Constructor
-  Tea(
-      {int? id,
-      required String name,
-      required int brewTime,
-      required int brewTemp,
-      TeaColor? color,
-      int colorValue = 0,
-      TeaIcon? icon,
-      int iconValue = 0,
-      required bool isFavorite,
-      required bool isActive,
-      int timerEndTime = 0,
-      int? timerNotifyID,
-      bool animate = false}) {
+  Tea({
+    int? id,
+    required String name,
+    required int brewTime,
+    required int brewTemp,
+    TeaColor? color,
+    int colorValue = 0,
+    Color? colorShade,
+    TeaIcon? icon,
+    int iconValue = 0,
+    required bool isFavorite,
+    required bool isActive,
+    int timerEndTime = 0,
+    int? timerNotifyID,
+    bool animate = false,
+  }) {
     // Assign next tea ID if not given
     this.id = id ?? nextTeaID++;
     this.name = name;
     this.brewTime = brewTime;
     this.brewTemp = brewTemp;
     // Prefer TeaColor or lookup from value if color not given
-    this.color = color ?? TeaColor.values[colorValue];
+    this.color = color ??
+        TeaColor.values.firstWhere(
+          (color) => color.value == colorValue,
+          orElse: () => TeaColor.values[0],
+        );
+    this.colorShade = colorShade;
     // Prefer TeaIcon or lookup from value if icon not given
-    this.icon = icon ?? TeaIcon.values[iconValue];
+    this.icon = icon ??
+        TeaIcon.values.firstWhere(
+          (icon) => icon.value == iconValue,
+          orElse: () => TeaIcon.values[0],
+        );
     this.isFavorite = isFavorite;
     this.isActive = isActive;
     this.timerEndTime = timerEndTime;
@@ -101,8 +113,8 @@ class Tea {
   }
 
   // Color getter
-  Color getThemeColor(context) {
-    return this.color.getThemeColor(context);
+  Color getColor() {
+    return this.colorShade ?? this.color.getColor();
   }
 
   // Icon getter
@@ -293,6 +305,16 @@ class Tea {
       brewTime: json[jsonKeyBrewTime] ?? 0,
       brewTemp: json[jsonKeyBrewTemp] ?? 0,
       colorValue: json[jsonKeyColor] ?? 0,
+      colorShade: json[jsonKeyColorShadeRed] != null &&
+              json[jsonKeyColorShadeGreen] != null &&
+              json[jsonKeyColorShadeBlue] != null
+          ? Color.fromRGBO(
+              json[jsonKeyColorShadeRed],
+              json[jsonKeyColorShadeGreen],
+              json[jsonKeyColorShadeBlue],
+              1.0,
+            )
+          : null,
       iconValue: json[jsonKeyIcon] ?? 0,
       isFavorite: json[jsonKeyIsFavorite] ?? false,
       isActive: json[jsonKeyIsActive] ?? false,
@@ -308,6 +330,9 @@ class Tea {
       jsonKeyBrewTime: this.brewTime,
       jsonKeyBrewTemp: this.brewTemp,
       jsonKeyColor: this.color.value,
+      jsonKeyColorShadeRed: this.colorShade?.red,
+      jsonKeyColorShadeGreen: this.colorShade?.green,
+      jsonKeyColorShadeBlue: this.colorShade?.blue,
       jsonKeyIcon: this.icon.value,
       jsonKeyIsFavorite: this.isFavorite,
       jsonKeyIsActive: this.isActive,
@@ -319,53 +344,50 @@ class Tea {
 
 // Tea colors
 enum TeaColor {
-  black(0),
   red(1),
-  orange(2),
-  green(3),
-  blue(4),
-  purple(5),
-  brown(6),
   pink(7),
+  orange(2),
   amber(8),
+  green(3),
   teal(9),
+  blue(4),
   cyan(10),
-  lavender(11);
+  purple(5),
+  lavender(11),
+  black(0),
+  brown(6);
 
   final int value;
 
   const TeaColor(this.value);
 
-  // Themed color map
-  Color getThemeColor(context) {
+  // Material color map
+  Color getColor() {
     switch (value) {
       case 1:
         return Colors.red.shade600;
       case 2:
-        return Colors.orange;
+        return Colors.orange.shade500;
       case 3:
-        return Colors.green;
+        return Colors.green.shade500;
       case 4:
-        return Colors.blue;
+        return Colors.blue.shade600;
       case 5:
         return Colors.purple.shade400;
       case 6:
         return Colors.brown.shade400;
       case 7:
-        return Colors.pink.shade200;
+        return Colors.pink.shade400;
       case 8:
-        return Colors.amber;
+        return Colors.amber.shade500;
       case 9:
-        return Colors.teal;
+        return Colors.teal.shade500;
       case 10:
-        return Colors.cyan.shade400;
+        return Colors.cyan.shade500;
       case 11:
-        return Colors.deepPurple.shade200;
+        return Colors.deepPurple.shade400;
       default:
-        // "Black" substitutes appropriate color for current theme
-        return Theme.of(context).brightness == Brightness.dark
-            ? Colors.grey
-            : Colors.black54;
+        return Colors.grey.shade600;
     }
   }
 }
