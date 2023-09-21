@@ -134,3 +134,9 @@ const Widget dragHandle = Icon(
   Icons.drag_handle,
   size: 20.0,
 );
+
+const Widget clearIcon = Icon(
+  Icons.cancel_outlined,
+  size: 14.0,
+  color: Colors.grey,
+);

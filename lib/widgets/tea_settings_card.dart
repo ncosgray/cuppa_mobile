@@ -263,6 +263,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         return TeaNameDialog(
           initialValue: currentTeaName,
           validator: (String? newValue) {
+            // Checks for valid tea names
             if (newValue == null || newValue.isEmpty) {
               return AppString.error_name_missing.translate();
             } else if (newValue.characters.length > teaNameMaxLength) {
