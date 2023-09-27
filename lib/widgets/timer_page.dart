@@ -461,7 +461,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       await notify
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()
-          ?.requestPermission();
+          ?.requestNotificationsPermission();
     }
 
     // Configure and schedule the alarm
