@@ -19,10 +19,10 @@ version: 2.1.0+37
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
-  flutter: ^3.13.4
+  flutter: ^3.13.5
 
 dependencies:
-  app_settings: ^5.0.0
+  app_settings: ^5.1.1
   cupertino_icons: ^1.0.6
   dynamic_color: ^1.6.7
   flex_color_picker: ^3.3.0
