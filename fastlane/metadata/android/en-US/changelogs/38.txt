@@ -1,0 +1,5 @@
+* Newly redesigned color picker offers dozens more tea color options!
+* Fixed a bug that caused the tea name dialog to be invisible in some situations.
+* Compatible with new Android 14 permissions.
+* Various usability and interface tweaks.
+* Added Japanese translation, and other translation updates - contribute via Weblate!
