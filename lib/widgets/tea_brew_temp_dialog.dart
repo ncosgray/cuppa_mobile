@@ -86,7 +86,9 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
   Widget build(BuildContext context) {
     return AlertDialog.adaptive(
       // Temperature entry
-      content: _tempPicker(),
+      content: SingleChildScrollView(
+        child: _tempPicker(),
+      ),
       actions: <Widget>[
         // Cancel and close dialog
         adaptiveDialogAction(
@@ -107,78 +109,76 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
   Widget _tempPicker() {
     const Widget tempPickerSpacer = SizedBox(height: 14.0);
 
-    return SizedBox(
-      height: 175.0,
-      child: Material(
-        type: MaterialType.transparency,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Unit selector
-            adaptiveSegmentedControl(
-              // Degrees C
-              buttonTextTrue: degreesC,
-              // Degrees F
-              buttonTextFalse: degreesF,
-              groupValue: _unitsCelsius,
-              onValueChanged: (bool? selected) {
-                if (selected != null) {
-                  setState(() {
-                    _unitsCelsius = selected;
-                    if (_unitsCelsius) {
-                      _newTemp = tempCOptions[_newTempIndex];
-                    } else {
-                      _newTemp = tempFOptions[_newTempIndex];
-                    }
-                  });
-                }
-              },
-            ),
-            tempPickerSpacer,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Increment down
-                adaptiveSmallButton(
-                  icon: Icons.keyboard_arrow_down,
-                  onPressed: _newTempIndex > 0
-                      ? () {
-                          _newTempIndex--;
-                          _updateTempSlider();
-                        }
-                      : null,
-                ),
-                // Display selected temperature
-                Text(
-                  formatTemp(_newTemp),
-                  style: textStyleSettingSeconday,
-                ),
-                // Increment up
-                adaptiveSmallButton(
-                  icon: Icons.keyboard_arrow_up,
-                  onPressed: _newTempIndex < tempCOptions.length - 1
-                      ? () {
-                          _newTempIndex++;
-                          _updateTempSlider();
-                        }
-                      : null,
-                ),
-              ],
-            ),
-            tempPickerSpacer,
-            // Temperature picker
-            Slider.adaptive(
-              value: _newTempIndex.toDouble(),
-              min: 0.0,
-              max: (tempCOptions.length - 1).toDouble(),
-              divisions: tempCOptions.length - 1,
-              onChanged: (newValue) {
-                _newTempIndex = newValue.toInt();
-                _updateTempSlider();
-              },
-            ),
-          ],
-        ),
+    return Material(
+      type: MaterialType.transparency,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Unit selector
+          adaptiveSegmentedControl(
+            // Degrees C
+            buttonTextTrue: degreesC,
+            // Degrees F
+            buttonTextFalse: degreesF,
+            groupValue: _unitsCelsius,
+            onValueChanged: (bool? selected) {
+              if (selected != null) {
+                setState(() {
+                  _unitsCelsius = selected;
+                  if (_unitsCelsius) {
+                    _newTemp = tempCOptions[_newTempIndex];
+                  } else {
+                    _newTemp = tempFOptions[_newTempIndex];
+                  }
+                });
+              }
+            },
+          ),
+          tempPickerSpacer,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Increment down
+              adaptiveSmallButton(
+                icon: Icons.keyboard_arrow_down,
+                onPressed: _newTempIndex > 0
+                    ? () {
+                        _newTempIndex--;
+                        _updateTempSlider();
+                      }
+                    : null,
+              ),
+              // Display selected temperature
+              Text(
+                formatTemp(_newTemp),
+                style: textStyleSettingSeconday,
+              ),
+              // Increment up
+              adaptiveSmallButton(
+                icon: Icons.keyboard_arrow_up,
+                onPressed: _newTempIndex < tempCOptions.length - 1
+                    ? () {
+                        _newTempIndex++;
+                        _updateTempSlider();
+                      }
+                    : null,
+              ),
+            ],
+          ),
+          tempPickerSpacer,
+          // Temperature picker
+          Slider.adaptive(
+            value: _newTempIndex.toDouble(),
+            min: 0.0,
+            max: (tempCOptions.length - 1).toDouble(),
+            divisions: tempCOptions.length - 1,
+            onChanged: (newValue) {
+              _newTempIndex = newValue.toInt();
+              _updateTempSlider();
+            },
+          ),
+        ],
       ),
     );
   }

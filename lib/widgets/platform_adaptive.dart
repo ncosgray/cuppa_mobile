@@ -482,7 +482,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
         return AlertDialog.adaptive(
           title: Text(titleText),
           content: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.4,
+            width: double.maxFinite,
             child: Scrollbar(
               // Item options
               child: ListView.separated(

@@ -271,6 +271,7 @@ class PrefsWidget extends StatelessWidget {
       // Preset tea brew time and temperature
       item: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(

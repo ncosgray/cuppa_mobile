@@ -493,16 +493,20 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
       builder: (BuildContext context) {
         return AlertDialog.adaptive(
           title: Container(),
-          content: SizedBox(
-            width: TeaIcon.values.length * 24,
-            height: TeaIcon.values.length * 24,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              // Tea icon buttons
-              children: List.generate(
-                TeaIcon.values.length,
-                (index) => _iconButton(index),
-              ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // Tea icon buttons
+                  children: List.generate(
+                    TeaIcon.values.length,
+                    (index) => _iconButton(index),
+                  ),
+                ),
+              ],
             ),
           ),
           actions: [
