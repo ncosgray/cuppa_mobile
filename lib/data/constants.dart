@@ -127,6 +127,7 @@ const prefUseCelsius = 'Cuppa_use_celsius';
 const prefAppTheme = 'Cuppa_app_theme';
 const prefAppLanguage = 'Cuppa_app_language';
 const prefSkipTutorial = 'Cuppa_skip_tutorial';
+const prefShowIncrementsAlways = 'Cuppa_show_increments_always';
 
 // More teas JSON keys
 const jsonKeyID = 'id';

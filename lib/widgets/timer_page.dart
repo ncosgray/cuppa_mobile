@@ -280,48 +280,52 @@ class _TimerWidgetState extends State<TimerWidget> {
         ? 60 * incrementSeconds // minute increments for longer timer
         : incrementSeconds;
 
-    return Row(
-      children: [
-        const SizedBox(width: 14.0),
-        IgnorePointer(
-          ignoring: timer == null,
-          child: GestureDetector(
-            // Toggle display of timer increment buttons
-            onTap: () => setState(() {
-              _showTimerIncrements = !_showTimerIncrements;
-            }),
-            // Timer time remaining
-            child: SizedBox(
-              width: text.length * 90.0,
-              child: Container(
-                padding: const EdgeInsets.all(4.0),
-                alignment: Alignment.center,
-                child: Text(
-                  text,
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.clip,
-                  textScaleFactor: 1.0,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 150.0,
-                    color: Colors.white,
+    return Selector<AppProvider, bool>(
+      selector: (_, provider) => provider.showIncrementsAlways,
+      builder: (context, showIncrementsAlways, child) => Row(
+        children: [
+          const SizedBox(width: 14.0),
+          IgnorePointer(
+            ignoring: timer == null || showIncrementsAlways,
+            child: GestureDetector(
+              // Toggle display of timer increment buttons
+              onTap: () => setState(() {
+                _showTimerIncrements = !_showTimerIncrements;
+                _hideTimerIncrementsDelay = hideTimerIncrementsDelay;
+              }),
+              // Timer time remaining
+              child: SizedBox(
+                width: text.length * 90.0,
+                child: Container(
+                  padding: const EdgeInsets.all(4.0),
+                  alignment: Alignment.center,
+                  child: Text(
+                    text,
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.clip,
+                    textScaleFactor: 1.0,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 150.0,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-        // Increment +/- buttons
-        timer != null && _showTimerIncrements
-            ? Column(
-                children: [
-                  _incrementButton(timer, secs),
-                  _incrementButton(timer, -secs),
-                ],
-              )
-            : const SizedBox(width: 14.0),
-      ],
+          // Increment +/- buttons
+          timer != null && (_showTimerIncrements || showIncrementsAlways)
+              ? Column(
+                  children: [
+                    _incrementButton(timer, secs),
+                    _incrementButton(timer, -secs),
+                  ],
+                )
+              : const SizedBox(width: 14.0),
+        ],
+      ),
     );
   }
 

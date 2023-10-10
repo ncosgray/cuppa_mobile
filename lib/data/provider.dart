@@ -223,6 +223,15 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Setting: always show timer increment buttons
+  bool _showIncrementsAlways = false;
+  bool get showIncrementsAlways => _showIncrementsAlways;
+  set showIncrementsAlways(bool newValue) {
+    _showIncrementsAlways = newValue;
+    Prefs.saveSettings(showIncrementsAlways: _showIncrementsAlways);
+    notifyListeners();
+  }
+
   // Setting: use Celsius temperature for new teas
   bool _useCelsius = true;
   bool get useCelsius => _useCelsius;
@@ -259,6 +268,8 @@ class AppProvider extends ChangeNotifier {
   AppProvider() {
     // Fetch app settings such as theme and language
     _showExtra = Prefs.loadShowExtra() ?? _showExtra;
+    _showIncrementsAlways =
+        Prefs.loadShowIncrementsAlways() ?? _showIncrementsAlways;
     _appTheme = Prefs.loadAppTheme() ?? _appTheme;
     _appLanguage = Prefs.loadAppLanguage() ?? _appLanguage;
 

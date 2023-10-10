@@ -87,6 +87,7 @@ enum AppString {
   prefs_language('prefs_language'),
   prefs_notifications('prefs_notifications'),
   prefs_show_extra('prefs_show_extra'),
+  prefs_show_increments_always('prefs_show_increments_always'),
   prefs_title('prefs_title'),
   prefs_use_celsius('prefs_use_celsius'),
   privacy_policy('privacy_policy'),

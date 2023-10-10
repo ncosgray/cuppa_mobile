@@ -394,6 +394,9 @@ class PrefsWidget extends StatelessWidget {
           // Setting: show extra info on buttons
           _showExtraSetting(context),
           listDivider,
+          // Setting: always show timer increment buttons
+          _showIncrementsAlwaysSetting(context),
+          listDivider,
           // Setting: default to Celsius or Fahrenheit
           _useCelsiusSetting(context),
           listDivider,
@@ -425,6 +428,28 @@ class PrefsWidget extends StatelessWidget {
         // Save showExtra setting to prefs
         onChanged: (bool newValue) {
           provider.showExtra = newValue;
+        },
+        contentPadding: const EdgeInsets.all(6.0),
+        dense: true,
+      ),
+    );
+  }
+
+  // Setting: always show timer increment buttons
+  Widget _showIncrementsAlwaysSetting(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
+    return Align(
+      alignment: Alignment.topLeft,
+      child: SwitchListTile.adaptive(
+        title: Text(
+          AppString.prefs_show_increments_always.translate(),
+          style: textStyleTitle,
+        ),
+        value: provider.showIncrementsAlways,
+        // Save showIncrementsAlways setting to prefs
+        onChanged: (bool newValue) {
+          provider.showIncrementsAlways = newValue;
         },
         contentPadding: const EdgeInsets.all(6.0),
         dense: true,
