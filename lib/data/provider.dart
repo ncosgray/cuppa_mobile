@@ -186,10 +186,12 @@ class AppProvider extends ChangeNotifier {
     int teaIndex = _teaList.indexOf(tea);
     if (teaIndex >= 0) {
       Tea tea = _teaList[teaIndex];
+      int ms = secs * 1000;
+      int now = DateTime.now().millisecondsSinceEpoch;
       if (tea.isActive &&
-          tea.timerEndTime + (secs * 1000) >
-              DateTime.now().millisecondsSinceEpoch) {
-        tea.adjustBrewTimeRemaining(secs);
+          tea.timerEndTime + ms > now &&
+          tea.timerEndTime + ms < now + (teaBrewTimeMaxHours * 3600 * 1000)) {
+        tea.adjustBrewTimeRemaining(ms);
         Prefs.saveTeas(_teaList);
         notifyListeners();
         return true;

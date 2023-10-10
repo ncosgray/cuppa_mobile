@@ -96,8 +96,8 @@ class Tea {
   }
 
   // Adjust brew time remaining
-  void adjustBrewTimeRemaining(int secs) {
-    this.timerEndTime += (secs * 1000);
+  void adjustBrewTimeRemaining(int ms) {
+    this.timerEndTime += ms;
   }
 
   // Get brew time remaining
