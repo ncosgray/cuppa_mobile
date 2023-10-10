@@ -63,6 +63,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "h",
   "unit_minutes": "m",
+  "unit_seconds": "s",
   "version_history": "Version history",
   "yes_button": "Yes"
 }

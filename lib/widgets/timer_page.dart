@@ -50,6 +50,8 @@ class _TimerWidgetState extends State<TimerWidget> {
   // State variables
   final TeaTimer _timer1 = TeaTimer(notifyID: notifyID1);
   final TeaTimer _timer2 = TeaTimer(notifyID: notifyID2);
+  bool _showTimerIncrements = false;
+  int _hideTimerIncrementsDelay = 0;
   final ScrollController _scrollController = ScrollController();
   bool _doScroll = false;
 
@@ -89,6 +91,14 @@ class _TimerWidgetState extends State<TimerWidget> {
       Duration.zero,
       () => _scrollToTeaButton(_timer1.tea ?? _timer2.tea),
     );
+
+    // Delay before hiding increments buttons
+    if (_hideTimerIncrementsDelay > 0) {
+      _hideTimerIncrementsDelay--;
+      if (_hideTimerIncrementsDelay <= 0) {
+        setState(() => _showTimerIncrements = false);
+      }
+    }
 
     // Determine layout based on device size
     bool layoutPortrait = getDeviceSize(context).isPortrait ||
@@ -223,7 +233,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         child: _timerCount == 0
             ?
             // Idle timer
-            _timerText(formatTimer(0))
+            _timerText()
             : Flex(
                 // Determine layout by orientation
                 direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
@@ -234,7 +244,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                     duration: longAnimationDuration,
                     curve: Curves.easeInOut,
                     child: _timer1.isActive
-                        ? _timerText(_timer1.timerString)
+                        ? _timerText(_timer1)
                         : const SizedBox.shrink(),
                   ),
                   // Separator for timers with the same color
@@ -254,7 +264,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                     duration: longAnimationDuration,
                     curve: Curves.easeInOut,
                     child: _timer2.isActive
-                        ? _timerText(_timer2.timerString)
+                        ? _timerText(_timer2)
                         : const SizedBox.shrink(),
                   ),
                 ],
@@ -263,24 +273,98 @@ class _TimerWidgetState extends State<TimerWidget> {
     );
   }
 
-  // Countdown timer text
-  Widget _timerText(String text) {
-    return SizedBox(
-      width: text.length * 104.0,
-      child: Container(
-        padding: const EdgeInsets.all(4.0),
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          maxLines: 1,
-          softWrap: false,
-          overflow: TextOverflow.clip,
-          textScaleFactor: 1.0,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 150.0,
-            color: Colors.white,
+  // Countdown timer text with optional timer adjustment buttons
+  Widget _timerText([TeaTimer? timer]) {
+    String text = timer?.timerString ?? formatTimer(0);
+    int secs = (timer?.timerSeconds ?? 0) > 3600 ? 600 : 10; // 10min or 10sec
+
+    return Row(
+      children: [
+        const SizedBox(width: 14.0),
+        IgnorePointer(
+          ignoring: timer == null,
+          child: GestureDetector(
+            // Toggle display of timer increment buttons
+            onTap: () => setState(() {
+              _showTimerIncrements = !_showTimerIncrements;
+            }),
+            // Timer time remaining
+            child: SizedBox(
+              width: text.length * 90.0,
+              child: Container(
+                padding: const EdgeInsets.all(4.0),
+                alignment: Alignment.center,
+                child: Text(
+                  text,
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.clip,
+                  textScaleFactor: 1.0,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 150.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
           ),
+        ),
+        // Increment +10 or -10
+        timer != null && _showTimerIncrements
+            ? Column(
+                children: [
+                  _incrementButton(timer, secs),
+                  _incrementButton(timer, -secs),
+                ],
+              )
+            : const SizedBox(width: 14.0),
+      ],
+    );
+  }
+
+  // Increment timer button
+  Widget _incrementButton(TeaTimer timer, int secs) {
+    int buttonValue = secs.abs() > 60 ? secs.abs() ~/ 60 : secs.abs();
+    String buttonValueUnit = secs.abs() > 60
+        ? AppString.unit_minutes.translate()
+        : AppString.unit_seconds.translate();
+
+    return Container(
+      margin: const EdgeInsets.all(4.0),
+      child: TextButton(
+        // Increment this timer
+        onPressed: () {
+          if (timer.tea != null) {
+            if (Provider.of<AppProvider>(context, listen: false)
+                .incrementTimer(timer.tea!, secs)) {
+              // If adjustment was successful, update the notification
+              _sendNotification(
+                timer.tea!.brewTimeRemaining,
+                AppString.notification_title.translate(),
+                AppString.notification_text.translate(teaName: timer.tea!.name),
+                timer.notifyID,
+              );
+            }
+          }
+          _hideTimerIncrementsDelay = 5; // ticks
+        },
+        // Button with +/- icon and increment amount
+        child: Column(
+          children: [
+            Icon(
+              secs > 0 ? Icons.add_circle_outline : Icons.remove_circle_outline,
+              color: Colors.white,
+              size: 28.0,
+            ),
+            Text(
+              '$buttonValue$buttonValueUnit',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+              ),
+            ),
+          ],
         ),
       ),
     );

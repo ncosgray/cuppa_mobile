@@ -124,6 +124,7 @@ enum AppString {
   unit_fahrenheit('unit_fahrenheit'),
   unit_hours('unit_hours'),
   unit_minutes('unit_minutes'),
+  unit_seconds('unit_seconds'),
   version_history('version_history'),
   yes_button('yes_button');
 

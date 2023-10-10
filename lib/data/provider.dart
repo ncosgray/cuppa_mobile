@@ -181,6 +181,23 @@ class AppProvider extends ChangeNotifier {
     }
   }
 
+  // Adjust a tea's brewing time
+  bool incrementTimer(Tea tea, int secs) {
+    int teaIndex = _teaList.indexOf(tea);
+    if (teaIndex >= 0) {
+      Tea tea = _teaList[teaIndex];
+      if (tea.isActive &&
+          tea.timerEndTime + (secs * 1000) >
+              DateTime.now().millisecondsSinceEpoch) {
+        tea.adjustBrewTimeRemaining(secs);
+        Prefs.saveTeas(_teaList);
+        notifyListeners();
+        return true;
+      }
+    }
+    return false;
+  }
+
   // Clear active tea
   void clearActiveTea() {
     _teaList.where((tea) => tea.isActive == true).forEach((tea) {
