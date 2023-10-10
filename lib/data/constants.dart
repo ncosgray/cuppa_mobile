@@ -150,3 +150,7 @@ const followSystemLanguage = '';
 // Animation durations
 const shortAnimationDuration = Duration(milliseconds: 100);
 const longAnimationDuration = Duration(milliseconds: 200);
+
+// Timer increments
+const incrementSeconds = 10;
+const hideTimerIncrementsDelay = 5;

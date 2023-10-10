@@ -276,7 +276,9 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Countdown timer text with optional timer adjustment buttons
   Widget _timerText([TeaTimer? timer]) {
     String text = timer?.timerString ?? formatTimer(0);
-    int secs = (timer?.timerSeconds ?? 0) > 3600 ? 600 : 10; // 10min or 10sec
+    int secs = (timer?.timerSeconds ?? 0) > 3600
+        ? 60 * incrementSeconds // minute increments for longer timer
+        : incrementSeconds;
 
     return Row(
       children: [
@@ -310,7 +312,7 @@ class _TimerWidgetState extends State<TimerWidget> {
             ),
           ),
         ),
-        // Increment +10 or -10
+        // Increment +/- buttons
         timer != null && _showTimerIncrements
             ? Column(
                 children: [
@@ -347,7 +349,7 @@ class _TimerWidgetState extends State<TimerWidget> {
               );
             }
           }
-          _hideTimerIncrementsDelay = 5; // ticks
+          _hideTimerIncrementsDelay = hideTimerIncrementsDelay;
         },
         // Button with +/- icon and increment amount
         child: Column(
