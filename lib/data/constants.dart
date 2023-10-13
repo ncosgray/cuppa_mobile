@@ -123,11 +123,11 @@ const prefTeaList = 'Cuppa_tea_list';
 // Shared prefs keys for other settings
 const prefNextTeaID = 'Cuppa_next_tea_id';
 const prefShowExtra = 'Cuppa_show_extra';
+const prefHideIncrements = 'Cuppa_hide_increments';
 const prefUseCelsius = 'Cuppa_use_celsius';
 const prefAppTheme = 'Cuppa_app_theme';
 const prefAppLanguage = 'Cuppa_app_language';
 const prefSkipTutorial = 'Cuppa_skip_tutorial';
-const prefShowIncrementsAlways = 'Cuppa_show_increments_always';
 
 // More teas JSON keys
 const jsonKeyID = 'id';

@@ -135,8 +135,8 @@ abstract class Prefs {
     return sharedPrefs.getBool(prefShowExtra);
   }
 
-  static bool? loadShowIncrementsAlways() {
-    return sharedPrefs.getBool(prefShowIncrementsAlways);
+  static bool? loadHideIncrements() {
+    return sharedPrefs.getBool(prefHideIncrements);
   }
 
   static bool? loadUseCelsius() {
@@ -159,7 +159,7 @@ abstract class Prefs {
   // Store setting(s) in shared prefs
   static void saveSettings({
     bool? showExtra,
-    bool? showIncrementsAlways,
+    bool? hideIncrements,
     bool? useCelsius,
     AppTheme? appTheme,
     String? appLanguage,
@@ -167,8 +167,8 @@ abstract class Prefs {
     if (showExtra != null) {
       sharedPrefs.setBool(prefShowExtra, showExtra);
     }
-    if (showIncrementsAlways != null) {
-      sharedPrefs.setBool(prefShowIncrementsAlways, showIncrementsAlways);
+    if (hideIncrements != null) {
+      sharedPrefs.setBool(prefHideIncrements, hideIncrements);
     }
     if (useCelsius != null) {
       sharedPrefs.setBool(prefUseCelsius, useCelsius);

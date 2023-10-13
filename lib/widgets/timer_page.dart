@@ -281,12 +281,12 @@ class _TimerWidgetState extends State<TimerWidget> {
         : incrementSeconds;
 
     return Selector<AppProvider, bool>(
-      selector: (_, provider) => provider.showIncrementsAlways,
-      builder: (context, showIncrementsAlways, child) => Row(
+      selector: (_, provider) => provider.hideIncrements,
+      builder: (context, hideIncrements, child) => Row(
         children: [
           const SizedBox(width: 14.0),
           IgnorePointer(
-            ignoring: timer == null || showIncrementsAlways,
+            ignoring: timer == null || !hideIncrements,
             child: GestureDetector(
               // Toggle display of timer increment buttons
               onTap: () => setState(() {
@@ -316,7 +316,7 @@ class _TimerWidgetState extends State<TimerWidget> {
             ),
           ),
           // Increment +/- buttons
-          timer != null && (_showTimerIncrements || showIncrementsAlways)
+          timer != null && (_showTimerIncrements || !hideIncrements)
               ? Column(
                   children: [
                     _incrementButton(timer, secs),

@@ -223,12 +223,12 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Setting: always show timer increment buttons
-  bool _showIncrementsAlways = false;
-  bool get showIncrementsAlways => _showIncrementsAlways;
-  set showIncrementsAlways(bool newValue) {
-    _showIncrementsAlways = newValue;
-    Prefs.saveSettings(showIncrementsAlways: _showIncrementsAlways);
+  // Setting: hide timer increment buttons
+  bool _hideIncrements = true;
+  bool get hideIncrements => _hideIncrements;
+  set hideIncrements(bool newValue) {
+    _hideIncrements = newValue;
+    Prefs.saveSettings(hideIncrements: _hideIncrements);
     notifyListeners();
   }
 
@@ -268,8 +268,7 @@ class AppProvider extends ChangeNotifier {
   AppProvider() {
     // Fetch app settings such as theme and language
     _showExtra = Prefs.loadShowExtra() ?? _showExtra;
-    _showIncrementsAlways =
-        Prefs.loadShowIncrementsAlways() ?? _showIncrementsAlways;
+    _hideIncrements = Prefs.loadHideIncrements() ?? _hideIncrements;
     _appTheme = Prefs.loadAppTheme() ?? _appTheme;
     _appLanguage = Prefs.loadAppLanguage() ?? _appLanguage;
 
