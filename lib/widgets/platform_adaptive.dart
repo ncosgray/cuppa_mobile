@@ -14,11 +14,13 @@
 // - Light and dark themes for Android and iOS
 // - Icons for Android and iOS
 // - Buttons and controls for Android and iOS
+// - Text form field for Android and iOS
 // - PlatformAdaptiveNavBar creates page navigation for context platform
 // - PlatformAdaptiveListTile list tile for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
 import 'package:cuppa_mobile/data/globals.dart';
+import 'package:cuppa_mobile/widgets/common.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
@@ -213,6 +215,86 @@ Widget adaptiveLargeButton({
   }
 }
 
+// Build a platform adaptive text form field with clear button and validation
+Widget adaptiveTextFormField({
+  required Color textColor,
+  required Color? cursorColor,
+  required TextEditingController controller,
+  required String? Function(String?)? validator,
+  required Function()? onCleared,
+  required Function(String)? onChanged,
+}) {
+  if (appPlatform == TargetPlatform.iOS) {
+    return CupertinoFormSection.insetGrouped(
+      margin: EdgeInsets.zero,
+      backgroundColor: Colors.transparent,
+      children: [
+        Row(
+          children: [
+            SizedBox(
+              width: 186.0,
+              child: CupertinoTextFormFieldRow(
+                controller: controller,
+                autofocus: true,
+                autocorrect: false,
+                enableSuggestions: false,
+                enableInteractiveSelection: true,
+                textCapitalization: TextCapitalization.words,
+                maxLines: 1,
+                textAlignVertical: TextAlignVertical.center,
+                padding: const EdgeInsets.all(8.0),
+                style: TextStyle(color: textColor),
+                cursorColor: cursorColor,
+                validator: validator,
+                onChanged: onChanged,
+              ),
+            ),
+            Visibility(
+              visible: controller.text.isNotEmpty,
+              // Clear field button
+              child: CupertinoButton(
+                padding: EdgeInsets.zero,
+                onPressed: onCleared,
+                child: clearIcon,
+              ),
+              //),
+            ),
+          ],
+        ),
+      ],
+    );
+  } else {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+        controller: controller,
+        autofocus: true,
+        autocorrect: false,
+        enableSuggestions: false,
+        enableInteractiveSelection: true,
+        textCapitalization: TextCapitalization.words,
+        maxLines: 1,
+        textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          counter: const Offstage(),
+          suffixIcon: controller.text.isNotEmpty
+              // Clear field button
+              ? IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: onCleared,
+                  icon: clearIcon,
+                )
+              : null,
+        ),
+        style: TextStyle(color: textColor),
+        cursorColor: cursorColor,
+        validator: validator,
+        onChanged: onChanged,
+      ),
+    );
+  }
+}
+
 // Segmented control with styling appropriate to platform
 Widget adaptiveSegmentedControl({
   required String buttonTextTrue,
@@ -400,7 +482,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
         return AlertDialog.adaptive(
           title: Text(titleText),
           content: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.4,
+            width: double.maxFinite,
             child: Scrollbar(
               // Item options
               child: ListView.separated(

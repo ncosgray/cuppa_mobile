@@ -271,6 +271,7 @@ class PrefsWidget extends StatelessWidget {
       // Preset tea brew time and temperature
       item: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -393,6 +394,9 @@ class PrefsWidget extends StatelessWidget {
           // Setting: show extra info on buttons
           _showExtraSetting(context),
           listDivider,
+          // Setting: hide timer increment buttons
+          _hideIncrementsSetting(context),
+          listDivider,
           // Setting: default to Celsius or Fahrenheit
           _useCelsiusSetting(context),
           listDivider,
@@ -424,6 +428,31 @@ class PrefsWidget extends StatelessWidget {
         // Save showExtra setting to prefs
         onChanged: (bool newValue) {
           provider.showExtra = newValue;
+        },
+        contentPadding: const EdgeInsets.all(6.0),
+        dense: true,
+      ),
+    );
+  }
+
+  // Setting: hide timer increment buttons
+  Widget _hideIncrementsSetting(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
+    return Align(
+      alignment: Alignment.topLeft,
+      child: SwitchListTile.adaptive(
+        title: Text(
+          AppString.prefs_hide_increments.translate(),
+          style: textStyleTitle,
+        ),
+        subtitle: provider.hideIncrements
+            ? Text(AppString.prefs_hide_increments_info.translate())
+            : null,
+        value: provider.hideIncrements,
+        // Save hideIncrements setting to prefs
+        onChanged: (bool newValue) {
+          provider.hideIncrements = newValue;
         },
         contentPadding: const EdgeInsets.all(6.0),
         dense: true,

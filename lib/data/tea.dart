@@ -95,6 +95,11 @@ class Tea {
     this.timerNotifyID = null;
   }
 
+  // Adjust brew time remaining
+  void adjustBrewTimeRemaining(int ms) {
+    this.timerEndTime += ms;
+  }
+
   // Get brew time remaining
   int get brewTimeRemaining {
     int secs = DateTime.fromMillisecondsSinceEpoch(timerEndTime)

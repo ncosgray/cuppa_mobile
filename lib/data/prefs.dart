@@ -135,6 +135,10 @@ abstract class Prefs {
     return sharedPrefs.getBool(prefShowExtra);
   }
 
+  static bool? loadHideIncrements() {
+    return sharedPrefs.getBool(prefHideIncrements);
+  }
+
   static bool? loadUseCelsius() {
     return sharedPrefs.getBool(prefUseCelsius);
   }
@@ -155,12 +159,16 @@ abstract class Prefs {
   // Store setting(s) in shared prefs
   static void saveSettings({
     bool? showExtra,
+    bool? hideIncrements,
     bool? useCelsius,
     AppTheme? appTheme,
     String? appLanguage,
   }) {
     if (showExtra != null) {
       sharedPrefs.setBool(prefShowExtra, showExtra);
+    }
+    if (hideIncrements != null) {
+      sharedPrefs.setBool(prefHideIncrements, hideIncrements);
     }
     if (useCelsius != null) {
       sharedPrefs.setBool(prefUseCelsius, useCelsius);
@@ -245,9 +253,9 @@ final List<int> brewTimeSecondOptions = [0, 15, 30, 45];
 
 // Brewing temperature options
 final List<int> brewTempCOptions =
-    ([roomTempDegreesC] + [for (var i = 60; i <= boilDegreesC; i += 5) i]);
+    ([roomTempDegreesC] + [for (var i = 50; i <= boilDegreesC; i += 5) i]);
 final List<int> brewTempFOptions = ([roomTempDegreesF] +
-    [for (var i = 130; i <= 200; i += 10) i] +
+    [for (var i = 110; i <= 200; i += 10) i] +
     [boilDegreesF]);
 
 // App language options

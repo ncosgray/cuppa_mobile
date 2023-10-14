@@ -84,6 +84,8 @@ enum AppString {
   ok_button('ok_button'),
   prefs_app_theme('prefs_app_theme'),
   prefs_header('prefs_header'),
+  prefs_hide_increments('prefs_hide_increments'),
+  prefs_hide_increments_info('prefs_hide_increments_info'),
   prefs_language('prefs_language'),
   prefs_notifications('prefs_notifications'),
   prefs_show_extra('prefs_show_extra'),
@@ -124,6 +126,7 @@ enum AppString {
   unit_fahrenheit('unit_fahrenheit'),
   unit_hours('unit_hours'),
   unit_minutes('unit_minutes'),
+  unit_seconds('unit_seconds'),
   version_history('version_history'),
   yes_button('yes_button');
 

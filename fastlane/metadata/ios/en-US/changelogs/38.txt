@@ -1,0 +1,3 @@
+* Newly redesigned color picker offers dozens more tea color options!
+* Various usability and interface tweaks.
+* Added Japanese translation, and other translation updates - contribute via Weblate!

@@ -23,6 +23,8 @@
   "ok_button": "OK",
   "prefs_app_theme": "Choose app color theme",
   "prefs_header": "Set tea names, brew times, temperatures, and button styles. You can also sort (long press), or swipe to delete teas. Star up to {{favorites_max}} favorite teas to add them as app icon shortcuts.",
+  "prefs_hide_increments": "Hide timer adjustment buttons",
+  "prefs_hide_increments_info": "Tap an active countdown timer to adjust it",
   "prefs_language": "Choose app language",
   "prefs_notifications": "Open your device's system settings to configure notifications for {{app_name}}.",
   "prefs_show_extra": "Show brew time and temperature on timer buttons",
@@ -54,7 +56,7 @@
   "tutorial_info": "How to use {{app_name}}",
   "tutorial_text1": "Welcome to {{app_name}}, a simple tea timer app.",
   "tutorial_text2": "Add up to {{teas_max}} teas and customize them to your liking.",
-  "tutorial_text3": "Tap a button to start timing your tea as it steeps.",
+  "tutorial_text3": "Tap a button to start timing your tea as it steeps. Or, long-press the {{app_name}} icon on your home screen to time a favorite tea.",
   "tutorial_text4": "You can have {{timers_max}} timers running at once.",
   "tutorial_text5": "Enjoy your perfectly brewed cup of tea!",
   "undo_button": "Undo",
@@ -63,6 +65,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "h",
   "unit_minutes": "m",
+  "unit_seconds": "s",
   "version_history": "Version history",
   "yes_button": "Yes"
 }

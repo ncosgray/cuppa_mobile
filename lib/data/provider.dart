@@ -181,6 +181,25 @@ class AppProvider extends ChangeNotifier {
     }
   }
 
+  // Adjust a tea's brewing time
+  bool incrementTimer(Tea tea, int secs) {
+    int teaIndex = _teaList.indexOf(tea);
+    if (teaIndex >= 0) {
+      Tea tea = _teaList[teaIndex];
+      int ms = secs * 1000;
+      int now = DateTime.now().millisecondsSinceEpoch;
+      if (tea.isActive &&
+          tea.timerEndTime + ms > now &&
+          tea.timerEndTime + ms < now + (teaBrewTimeMaxHours * 3600 * 1000)) {
+        tea.adjustBrewTimeRemaining(ms);
+        Prefs.saveTeas(_teaList);
+        notifyListeners();
+        return true;
+      }
+    }
+    return false;
+  }
+
   // Clear active tea
   void clearActiveTea() {
     _teaList.where((tea) => tea.isActive == true).forEach((tea) {
@@ -201,6 +220,15 @@ class AppProvider extends ChangeNotifier {
   set showExtra(bool newValue) {
     _showExtra = newValue;
     Prefs.saveSettings(showExtra: _showExtra);
+    notifyListeners();
+  }
+
+  // Setting: hide timer increment buttons
+  bool _hideIncrements = true;
+  bool get hideIncrements => _hideIncrements;
+  set hideIncrements(bool newValue) {
+    _hideIncrements = newValue;
+    Prefs.saveSettings(hideIncrements: _hideIncrements);
     notifyListeners();
   }
 
@@ -240,6 +268,7 @@ class AppProvider extends ChangeNotifier {
   AppProvider() {
     // Fetch app settings such as theme and language
     _showExtra = Prefs.loadShowExtra() ?? _showExtra;
+    _hideIncrements = Prefs.loadHideIncrements() ?? _hideIncrements;
     _appTheme = Prefs.loadAppTheme() ?? _appTheme;
     _appLanguage = Prefs.loadAppLanguage() ?? _appLanguage;
 

@@ -13,7 +13,6 @@
 // Cuppa tea name entry dialog
 
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
-import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/material.dart';
 
@@ -83,9 +82,28 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
             child: Form(
               key: _formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                child: _textField(),
+              child: adaptiveTextFormField(
+                textColor: Theme.of(context).textTheme.bodyLarge!.color!,
+                cursorColor: _isValid ? null : Colors.red,
+                controller: _controller,
+                validator: validator,
+                onChanged: (String newValue) {
+                  // Validate text and set new value
+                  setState(() {
+                    _isValid = false;
+                    if (_formKey.currentState != null) {
+                      if (_formKey.currentState!.validate()) {
+                        _isValid = true;
+                        _newValue = newValue;
+                      }
+                    }
+                  });
+                },
+                onCleared: () => setState(() {
+                  // Invalidate an empty value
+                  _isValid = false;
+                  _controller.clear();
+                }),
               ),
             ),
           ),
@@ -105,50 +123,6 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
           ],
         ),
       ),
-    );
-  }
-
-  // Build a text field for TextFormDialog
-  Widget _textField() {
-    // Text form field with clear button and validation
-    return TextFormField(
-      controller: _controller,
-      autofocus: true,
-      autocorrect: false,
-      enableSuggestions: false,
-      enableInteractiveSelection: true,
-      textCapitalization: TextCapitalization.words,
-      maxLines: 1,
-      textAlignVertical: TextAlignVertical.center,
-      decoration: InputDecoration(
-        counter: const Offstage(),
-        suffixIcon: _controller.text.isNotEmpty
-            // Clear field button
-            ? IconButton(
-                iconSize: 14.0,
-                icon: const Icon(Icons.cancel_outlined, color: Colors.grey),
-                onPressed: () => setState(() {
-                  _isValid = false;
-                  _controller.clear();
-                }),
-              )
-            : null,
-      ),
-      style: textStyleSetting,
-      // Checks for valid values
-      validator: validator,
-      onChanged: (String newValue) {
-        // Validate text and set new value
-        setState(() {
-          _isValid = false;
-          if (_formKey.currentState != null) {
-            if (_formKey.currentState!.validate()) {
-              _isValid = true;
-              _newValue = newValue;
-            }
-          }
-        });
-      },
     );
   }
 }
