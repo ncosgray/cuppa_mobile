@@ -35,7 +35,6 @@ dependencies:
   package_info_plus: ^4.2.0
   provider: ^6.0.5
   quick_actions: ^1.0.6
-  reorderables: ^0.6.0
   shared_preferences: ^2.2.2
   showcaseview: ^2.0.3
   sliver_tools: ^0.2.12
