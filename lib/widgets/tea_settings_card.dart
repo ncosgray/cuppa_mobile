@@ -33,9 +33,9 @@ import 'package:provider/provider.dart';
 // Widget defining a tea settings card
 class TeaSettingsCard extends StatefulWidget {
   const TeaSettingsCard({
-    Key? key,
+    super.key,
     required this.tea,
-  }) : super(key: key);
+  });
 
   final Tea tea;
 

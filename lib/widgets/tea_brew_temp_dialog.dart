@@ -21,13 +21,13 @@ import 'package:flutter/material.dart';
 // Display a tea brew temperature entry dialog box
 class TeaBrewTempDialog extends StatefulWidget {
   const TeaBrewTempDialog({
-    Key? key,
+    super.key,
     required this.initialTemp,
     required this.tempFOptions,
     required this.tempCOptions,
     required this.buttonTextCancel,
     required this.buttonTextOK,
-  }) : super(key: key);
+  });
 
   final int initialTemp;
   final List<int> tempFOptions;

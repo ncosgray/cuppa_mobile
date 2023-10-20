@@ -28,7 +28,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 // About Cuppa page
 class AboutWidget extends StatelessWidget {
-  const AboutWidget({Key? key}) : super(key: key);
+  const AboutWidget({super.key});
 
   // Build About page
   @override

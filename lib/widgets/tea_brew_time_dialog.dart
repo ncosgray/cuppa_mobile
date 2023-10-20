@@ -21,7 +21,7 @@ import 'package:flutter/material.dart';
 // Display a tea brew time entry dialog box
 class TeaBrewTimeDialog extends StatefulWidget {
   const TeaBrewTimeDialog({
-    Key? key,
+    super.key,
     required this.initialHours,
     required this.hourOptions,
     required this.hourLabel,
@@ -32,7 +32,7 @@ class TeaBrewTimeDialog extends StatefulWidget {
     required this.secondOptions,
     required this.buttonTextCancel,
     required this.buttonTextOK,
-  }) : super(key: key);
+  });
 
   final int initialHours;
   final List<int> hourOptions;

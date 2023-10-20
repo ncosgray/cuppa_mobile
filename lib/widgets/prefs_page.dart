@@ -34,7 +34,7 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 // Cuppa Preferences page
 class PrefsWidget extends StatelessWidget {
-  const PrefsWidget({Key? key}) : super(key: key);
+  const PrefsWidget({super.key});
 
   // Build Prefs page
   @override

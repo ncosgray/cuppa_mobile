@@ -18,8 +18,11 @@ import 'package:flutter/material.dart';
 
 // Widget defining a cancel brewing button
 class CancelButton extends StatelessWidget {
-  const CancelButton({Key? key, this.active = false, required this.onPressed})
-      : super(key: key);
+  const CancelButton({
+    super.key,
+    this.active = false,
+    required this.onPressed,
+  });
 
   final bool active;
   final ValueChanged<bool> onPressed;
