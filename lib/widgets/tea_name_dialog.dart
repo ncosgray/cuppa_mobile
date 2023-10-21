@@ -19,12 +19,12 @@ import 'package:flutter/material.dart';
 // Text entry dialog
 class TeaNameDialog extends StatefulWidget {
   const TeaNameDialog({
-    Key? key,
+    super.key,
     required this.initialValue,
     required this.validator,
     required this.buttonTextCancel,
     required this.buttonTextOK,
-  }) : super(key: key);
+  });
 
   final String initialValue;
   final String? Function(String?) validator;

@@ -22,13 +22,13 @@ import 'package:flutter/material.dart';
 // Text entry dialog
 class TeaColorDialog extends StatefulWidget {
   const TeaColorDialog({
-    Key? key,
+    super.key,
     required this.initialTeaColor,
     required this.initialColorShade,
     required this.previewIcon,
     required this.buttonTextCancel,
     required this.buttonTextOK,
-  }) : super(key: key);
+  });
 
   final TeaColor initialTeaColor;
   final Color? initialColorShade;

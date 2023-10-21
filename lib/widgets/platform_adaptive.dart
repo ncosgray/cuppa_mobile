@@ -338,13 +338,13 @@ Widget adaptiveSegmentedControl({
 class PlatformAdaptiveNavBar extends StatelessWidget
     implements PreferredSizeWidget {
   const PlatformAdaptiveNavBar({
-    Key? key,
+    super.key,
     required this.isPoppable,
     this.textScaleFactor = 1.0,
     required this.title,
     this.actionRoute,
     this.actionIcon,
-  }) : super(key: key);
+  });
 
   final bool isPoppable;
   final double textScaleFactor;
@@ -403,11 +403,11 @@ class PlatformAdaptiveNavBar extends StatelessWidget
 // List tile with styling appropriate to platform
 class PlatformAdaptiveListTile extends StatelessWidget {
   const PlatformAdaptiveListTile({
-    Key? key,
+    super.key,
     required this.itemIcon,
     required this.item,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Widget itemIcon;
   final Widget item;

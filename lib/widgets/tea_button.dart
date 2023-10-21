@@ -24,11 +24,11 @@ import 'package:provider/provider.dart';
 // Widget defining a tea brew start button
 class TeaButton extends StatelessWidget {
   const TeaButton({
-    Key? key,
+    super.key,
     required this.tea,
     required this.fade,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   final Tea tea;
   final bool fade;

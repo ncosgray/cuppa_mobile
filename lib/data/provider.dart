@@ -97,6 +97,9 @@ class AppProvider extends ChangeNotifier {
 
   // Reorder the tea list
   void reorderTeas(int oldIndex, int newIndex) {
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
     Tea tea = _teaList.removeAt(oldIndex);
     _teaList.insert(newIndex, tea);
     saveTeas();

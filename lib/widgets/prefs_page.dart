@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/provider.dart';
+import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/about_page.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
@@ -29,12 +30,11 @@ import 'package:cuppa_mobile/widgets/text_styles.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reorderables/reorderables.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 // Cuppa Preferences page
 class PrefsWidget extends StatelessWidget {
-  const PrefsWidget({Key? key}) : super(key: key);
+  const PrefsWidget({super.key});
 
   // Build Prefs page
   @override
@@ -149,66 +149,66 @@ class PrefsWidget extends StatelessWidget {
   // Reoderable list of tea settings cards
   Widget _teaSettingsList() {
     return Consumer<AppProvider>(
-      builder: (context, provider, child) => ReorderableSliverList(
-        buildDraggableFeedback: draggableFeedback,
+      builder: (context, provider, child) => SliverReorderableList(
+        itemBuilder: _teaSettingsListItem,
+        itemCount: provider.teaList.length,
+        proxyDecorator: draggableFeedback,
         onReorder: (int oldIndex, int newIndex) {
           // Reorder the tea list
           provider.reorderTeas(oldIndex, newIndex);
         },
-        delegate: ReorderableSliverChildListDelegate(
-          provider.teaList.map<Widget>((tea) {
-            if (tea.isActive) {
-              // Don't allow deleting if timer is active
-              return IgnorePointer(
-                // Disable editing actively brewing tea
-                ignoring: tea.isActive,
-                child: Container(
-                  key: Key('${tea.name}${tea.id}'),
-                  child: TeaSettingsCard(
-                    tea: tea,
-                  ),
-                ),
-              );
-            } else {
-              // Deleteable
-              return Dismissible(
-                key: Key('${tea.name}${tea.id}'),
-                onDismissed: (direction) {
-                  // Provide an undo option
-                  int? teaIndex =
-                      provider.teaList.indexWhere((item) => item.id == tea.id);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      duration: const Duration(milliseconds: 1500),
-                      content: Text(
-                        AppString.undo_message.translate(teaName: tea.name),
-                      ),
-                      action: SnackBarAction(
-                        label: AppString.undo_button.translate(),
-                        // Re-add deleted tea in its former position
-                        onPressed: () =>
-                            provider.addTea(tea, atIndex: teaIndex),
-                      ),
-                    ),
-                  );
-
-                  // Delete this from the tea list
-                  provider.deleteTea(tea);
-                },
-                // Dismissible delete warning background
-                background:
-                    dismissibleBackground(context, Alignment.centerLeft),
-                secondaryBackground:
-                    dismissibleBackground(context, Alignment.centerRight),
-                resizeDuration: longAnimationDuration,
-                child: TeaSettingsCard(
-                  tea: tea,
-                ),
-              );
-            }
-          }).toList(),
-        ),
       ),
+    );
+  }
+
+  // Tea settings list item
+  Widget _teaSettingsListItem(BuildContext context, int index) {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+    Tea tea = provider.teaList[index];
+
+    return ReorderableDelayedDragStartListener(
+      key: Key('reorder${tea.name}${tea.id}'),
+      index: index,
+      child: tea.isActive
+          ?
+          // Don't allow deleting if timer is active
+          TeaSettingsCard(
+              tea: tea,
+            )
+          :
+          // Deleteable
+          Dismissible(
+              key: Key('dismiss${tea.name}${tea.id}'),
+              onDismissed: (direction) {
+                // Provide an undo option
+                int? teaIndex =
+                    provider.teaList.indexWhere((item) => item.id == tea.id);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    duration: const Duration(milliseconds: 1500),
+                    content: Text(
+                      AppString.undo_message.translate(teaName: tea.name),
+                    ),
+                    action: SnackBarAction(
+                      label: AppString.undo_button.translate(),
+                      // Re-add deleted tea in its former position
+                      onPressed: () => provider.addTea(tea, atIndex: teaIndex),
+                    ),
+                  ),
+                );
+
+                // Delete this from the tea list
+                provider.deleteTea(tea);
+              },
+              // Dismissible delete warning background
+              background: dismissibleBackground(context, Alignment.centerLeft),
+              secondaryBackground:
+                  dismissibleBackground(context, Alignment.centerRight),
+              resizeDuration: longAnimationDuration,
+              child: TeaSettingsCard(
+                tea: tea,
+              ),
+            ),
     );
   }
 

@@ -70,9 +70,9 @@ Widget dismissibleBackground(BuildContext context, Alignment alignment) {
 
 // Custom draggable feedback for reorderable list
 Widget draggableFeedback(
-  BuildContext context,
-  BoxConstraints constraints,
   Widget child,
+  int index,
+  Animation<double> animation,
 ) {
   return Transform(
     transform: Matrix4.rotationZ(0),
@@ -87,7 +87,7 @@ Widget draggableFeedback(
           ),
         ],
       ),
-      child: ConstrainedBox(constraints: constraints, child: child),
+      child: child,
     ),
   );
 }

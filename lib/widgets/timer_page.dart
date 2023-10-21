@@ -40,7 +40,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 // Cuppa Timer page
 class TimerWidget extends StatefulWidget {
-  const TimerWidget({Key? key}) : super(key: key);
+  const TimerWidget({super.key});
 
   @override
   _TimerWidgetState createState() => _TimerWidgetState();

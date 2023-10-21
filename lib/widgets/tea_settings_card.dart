@@ -33,9 +33,9 @@ import 'package:provider/provider.dart';
 // Widget defining a tea settings card
 class TeaSettingsCard extends StatefulWidget {
   const TeaSettingsCard({
-    Key? key,
+    super.key,
     required this.tea,
-  }) : super(key: key);
+  });
 
   final Tea tea;
 
@@ -98,86 +98,90 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         getDeviceSize(context).isLargeDevice;
 
     return Card(
-      child: ListTile(
-        horizontalTitleGap: layoutPortrait ? 4.0 : 24.0,
-        title: Opacity(
-          opacity: tea.isActive ? 0.4 : 1.0,
-          child: SizedBox(
-            height: layoutPortrait ? 88.0 : 64.0,
-            child: Flex(
-              // Determine layout by device size
-              direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
-              children: [
-                Flexible(
-                  child: Container(
-                    height: 54.0,
-                    padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
-                    child: Row(
-                      children: [
-                        // Favorite status
-                        _favoriteButton(),
-                        // Tea name with edit icon
-                        _teaNameEditor(),
-                      ],
+      child: IgnorePointer(
+        // Disable editing actively brewing tea
+        ignoring: tea.isActive,
+        child: ListTile(
+          horizontalTitleGap: layoutPortrait ? 4.0 : 24.0,
+          title: Opacity(
+            opacity: tea.isActive ? 0.4 : 1.0,
+            child: SizedBox(
+              height: layoutPortrait ? 88.0 : 64.0,
+              child: Flex(
+                // Determine layout by device size
+                direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
+                children: [
+                  Flexible(
+                    child: Container(
+                      height: 54.0,
+                      padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
+                      child: Row(
+                        children: [
+                          // Favorite status
+                          _favoriteButton(),
+                          // Tea name with edit icon
+                          _teaNameEditor(),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                // Tea settings selection
-                Flexible(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 2.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        // Brew time
-                        Flexible(
-                          flex: 11,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: _teaBrewTimeSelector(),
+                  // Tea settings selection
+                  Flexible(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 2.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          // Brew time
+                          Flexible(
+                            flex: 11,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: _teaBrewTimeSelector(),
+                            ),
                           ),
-                        ),
-                        // Brew temperature
-                        Flexible(
-                          flex: 8,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: _teaBrewTempSelector(),
+                          // Brew temperature
+                          Flexible(
+                            flex: 8,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: _teaBrewTempSelector(),
+                            ),
                           ),
-                        ),
-                        // Settings separator
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            minWidth: 12.0,
-                            maxWidth: double.infinity,
+                          // Settings separator
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              minWidth: 12.0,
+                              maxWidth: double.infinity,
+                            ),
+                            child: Container(),
                           ),
-                          child: Container(),
-                        ),
-                        // Tea color selection
-                        Flexible(
-                          flex: 6,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: _teaColorSelector(),
+                          // Tea color selection
+                          Flexible(
+                            flex: 6,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: _teaColorSelector(),
+                            ),
                           ),
-                        ),
-                        // Icon selection
-                        Flexible(
-                          flex: 6,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: _teaIconSelector(),
+                          // Icon selection
+                          Flexible(
+                            flex: 6,
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: _teaIconSelector(),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
+          trailing: const SizedBox(height: double.infinity, child: dragHandle),
         ),
-        trailing: const SizedBox(height: double.infinity, child: dragHandle),
       ),
     );
   }
