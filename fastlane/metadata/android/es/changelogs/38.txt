@@ -1,0 +1,5 @@
+* Nuevo diseño para el selector del color ofrece docenas de opciones de color del té.
+* Corregido un error que provocaba que el nombre del té fuera invisible en algunas situaciones.
+* Compatible con los nuevos permisos de Android 14.
+* Varios ajustes de usabilidad e interfaz.
+* Añadida traducción al japonés, y otras actualizaciones en la traducción - ¡contribuye a través de Weblate!

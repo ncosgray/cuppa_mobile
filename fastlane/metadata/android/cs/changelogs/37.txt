@@ -1,0 +1,4 @@
+* Přidáno tlačítko pro vrácení akce při mazání čajů.
+* Opravena chyba se zkratkami po přeuspořádání seznamu čajů.
+* Úpravy použitelnosti a rozhraní, včetně nových animací.
+* Překlady v urdštině a tradiční čínštině - přispějte dalšími jazyky přes Weblate!

@@ -1,0 +1,5 @@
+* Plná podpora pro studeně louhované čaje (12+ hodin louhování).
+* Přepracovaná stránka s nastaveními pro tablety a skládací zařízení.
+* Naléhavější upozornění od časovače.
+* Úpravy použitelnosti a rozhraní.
+* Aktualizace překladů jazyků - přispějte přes Weblate!
