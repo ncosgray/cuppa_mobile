@@ -52,74 +52,70 @@ class PrefsWidget extends StatelessWidget {
         actionRoute: const AboutWidget(),
       ),
       body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
-          child: Row(
-            children: [
-              Expanded(
+        child: Row(
+          children: [
+            Expanded(
+              child: CustomScrollView(
+                slivers: [
+                  // Teas section header
+                  _prefsHeader(context, AppString.teas_title.translate()),
+                  // Tea settings info text
+                  SliverToBoxAdapter(
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        margin:
+                            const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 12.0),
+                        child: Text(
+                          AppString.prefs_header.translate(),
+                          style: textStyleSubtitle,
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Tea settings cards
+                  SliverAnimatedPaintExtent(
+                    duration: longAnimationDuration,
+                    child: _teaSettingsList(),
+                  ),
+                  // Add Tea and Remove All buttons
+                  SliverToBoxAdapter(
+                    child: Container(
+                      margin: const EdgeInsets.fromLTRB(12.0, 4.0, 12.0, 8.0),
+                      child: Row(
+                        children: [
+                          Expanded(child: _addTeaButton()),
+                          _removeAllButton(context),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Other settings inline
+                  SliverToBoxAdapter(
+                    child: Visibility(
+                      visible: !layoutColumns,
+                      child: _otherSettingsList(context),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Other settings in second column with header
+            Visibility(
+              visible: layoutColumns,
+              child: Expanded(
                 child: CustomScrollView(
                   slivers: [
-                    // Teas section header
-                    _prefsHeader(context, AppString.teas_title.translate()),
-                    // Tea settings info text
-                    SliverToBoxAdapter(
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                          margin:
-                              const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 12.0),
-                          child: Text(
-                            AppString.prefs_header.translate(),
-                            style: textStyleSubtitle,
-                          ),
-                        ),
-                      ),
+                    _prefsHeader(
+                      context,
+                      AppString.settings_title.translate(),
                     ),
-                    // Tea settings cards
-                    SliverAnimatedPaintExtent(
-                      duration: longAnimationDuration,
-                      child: _teaSettingsList(),
-                    ),
-                    // Add Tea and Remove All buttons
-                    SliverToBoxAdapter(
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 6.0),
-                        child: Row(
-                          children: [
-                            Expanded(child: _addTeaButton()),
-                            _removeAllButton(context),
-                          ],
-                        ),
-                      ),
-                    ),
-                    // Other settings inline
-                    SliverToBoxAdapter(
-                      child: Visibility(
-                        visible: !layoutColumns,
-                        child: _otherSettingsList(context),
-                      ),
-                    ),
+                    SliverToBoxAdapter(child: _otherSettingsList(context)),
                   ],
                 ),
               ),
-              // Other settings in second column with header
-              Visibility(visible: layoutColumns, child: Container(width: 6.0)),
-              Visibility(
-                visible: layoutColumns,
-                child: Expanded(
-                  child: CustomScrollView(
-                    slivers: [
-                      _prefsHeader(
-                        context,
-                        AppString.settings_title.translate(),
-                      ),
-                      SliverToBoxAdapter(child: _otherSettingsList(context)),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -133,9 +129,11 @@ class PrefsWidget extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
       shadowColor: Theme.of(context).shadowColor,
-      leadingWidth: 200.0,
-      leading: Container(
-        margin: const EdgeInsets.fromLTRB(6.0, 18.0, 6.0, 12.0),
+      automaticallyImplyLeading: false,
+      titleSpacing: 0.0,
+      title: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 12.0),
+        alignment: Alignment.centerLeft,
         child: Text(
           title,
           style: textStyleHeader.copyWith(
@@ -219,6 +217,7 @@ class PrefsWidget extends StatelessWidget {
       builder: (context, count, child) => SizedBox(
         height: 64.0,
         child: Card(
+          margin: EdgeInsets.zero,
           shadowColor: Colors.transparent,
           clipBehavior: Clip.antiAlias,
           child: InkWell(
@@ -328,26 +327,30 @@ class PrefsWidget extends StatelessWidget {
     AppProvider provider = Provider.of<AppProvider>(context);
 
     return (provider.teaCount > 0 && provider.activeTeas.isEmpty)
-        ? SizedBox(
-            width: 64.0,
-            height: 64.0,
-            child: Card(
-              shadowColor: Colors.transparent,
-              surfaceTintColor: Theme.of(context).colorScheme.error,
-              clipBehavior: Clip.antiAlias,
-              child: InkWell(
-                child: getPlatformRemoveAllIcon(
-                  Theme.of(context).colorScheme.error,
+        ? Container(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: SizedBox(
+              width: 64.0,
+              height: 64.0,
+              child: Card(
+                margin: EdgeInsets.zero,
+                shadowColor: Colors.transparent,
+                surfaceTintColor: Theme.of(context).colorScheme.error,
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                  child: getPlatformRemoveAllIcon(
+                    Theme.of(context).colorScheme.error,
+                  ),
+                  onTap: () async {
+                    AppProvider provider =
+                        Provider.of<AppProvider>(context, listen: false);
+                    bool confirmed = await _confirmDelete(context);
+                    if (confirmed) {
+                      // Clear tea list
+                      provider.clearTeaList();
+                    }
+                  },
                 ),
-                onTap: () async {
-                  AppProvider provider =
-                      Provider.of<AppProvider>(context, listen: false);
-                  bool confirmed = await _confirmDelete(context);
-                  if (confirmed) {
-                    // Clear tea list
-                    provider.clearTeaList();
-                  }
-                },
               ),
             ),
           )
@@ -387,29 +390,26 @@ class PrefsWidget extends StatelessWidget {
 
   // List of other settings
   Widget _otherSettingsList(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 6.0),
-      child: Column(
-        children: [
-          // Setting: show extra info on buttons
-          _showExtraSetting(context),
-          listDivider,
-          // Setting: hide timer increment buttons
-          _hideIncrementsSetting(context),
-          listDivider,
-          // Setting: default to Celsius or Fahrenheit
-          _useCelsiusSetting(context),
-          listDivider,
-          // Setting: app theme selection
-          _appThemeSetting(context),
-          listDivider,
-          // Setting: app language selection
-          _appLanguageSetting(context),
-          listDivider,
-          // Notification info
-          _notificationLink(),
-        ],
-      ),
+    return Column(
+      children: [
+        // Setting: show extra info on buttons
+        _showExtraSetting(context),
+        listDivider,
+        // Setting: hide timer increment buttons
+        _hideIncrementsSetting(context),
+        listDivider,
+        // Setting: default to Celsius or Fahrenheit
+        _useCelsiusSetting(context),
+        listDivider,
+        // Setting: app theme selection
+        _appThemeSetting(context),
+        listDivider,
+        // Setting: app language selection
+        _appLanguageSetting(context),
+        listDivider,
+        // Notification info
+        _notificationLink(),
+      ],
     );
   }
 
@@ -429,7 +429,8 @@ class PrefsWidget extends StatelessWidget {
         onChanged: (bool newValue) {
           provider.showExtra = newValue;
         },
-        contentPadding: const EdgeInsets.all(6.0),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
         dense: true,
       ),
     );
@@ -454,7 +455,8 @@ class PrefsWidget extends StatelessWidget {
         onChanged: (bool newValue) {
           provider.hideIncrements = newValue;
         },
-        contentPadding: const EdgeInsets.all(6.0),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
         dense: true,
       ),
     );
@@ -476,7 +478,8 @@ class PrefsWidget extends StatelessWidget {
         onChanged: (bool newValue) {
           provider.useCelsius = newValue;
         },
-        contentPadding: const EdgeInsets.all(6.0),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
         dense: true,
       ),
     );
@@ -508,7 +511,8 @@ class PrefsWidget extends StatelessWidget {
           itemBuilder: _appThemeItem,
           separatorBuilder: _separatorDummy,
         ),
-        contentPadding: const EdgeInsets.all(6.0),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
         dense: true,
       ),
     );
@@ -566,7 +570,8 @@ class PrefsWidget extends StatelessWidget {
           itemBuilder: _appLanguageItem,
           separatorBuilder: _separatorDummy,
         ),
-        contentPadding: const EdgeInsets.all(6.0),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
         dense: true,
       ),
     );
@@ -629,7 +634,7 @@ class PrefsWidget extends StatelessWidget {
         trailing: const SizedBox(height: double.infinity, child: launchIcon),
         onTap: () =>
             AppSettings.openAppSettings(type: AppSettingsType.notification),
-        contentPadding: const EdgeInsets.fromLTRB(6.0, 6.0, 6.0, 18.0),
+        contentPadding: const EdgeInsets.fromLTRB(12.0, 6.0, 12.0, 12.0),
         dense: true,
       ),
     );

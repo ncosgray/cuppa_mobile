@@ -98,6 +98,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         getDeviceSize(context).isLargeDevice;
 
     return Card(
+      margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
       child: IgnorePointer(
         // Disable editing actively brewing tea
         ignoring: tea.isActive,
