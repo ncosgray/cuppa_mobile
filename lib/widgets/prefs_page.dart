@@ -448,7 +448,10 @@ class PrefsWidget extends StatelessWidget {
           style: textStyleTitle,
         ),
         subtitle: provider.hideIncrements
-            ? Text(AppString.prefs_hide_increments_info.translate())
+            ? Text(
+                AppString.prefs_hide_increments_info.translate(),
+                style: textStyleSubtitle,
+              )
             : null,
         value: provider.hideIncrements,
         // Save hideIncrements setting to prefs
