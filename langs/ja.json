@@ -19,7 +19,7 @@
     "no_button": "いいえ",
     "notification_channel_name": "タイマー通知",
     "notification_text": "{{tea_name}} の準備ができました!",
-    "notification_title": "醸造が完了しました...",
+    "notification_title": "抽出が完了しました…",
     "ok_button": "OK",
     "prefs_app_theme": "カラーテーマを選択",
     "prefs_header": "お茶の名前、淹れる時間、温度、ボタンのスタイルを設定します。お茶をソート (長押し) したり、スワイプして削除したりすることもできます。{{favorites_max}} 個のお気に入りのお茶にスターを付けて、アプリアイコンのショートカットとして追加できます。",
