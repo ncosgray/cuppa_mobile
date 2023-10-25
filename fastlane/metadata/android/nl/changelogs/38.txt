@@ -1,0 +1,5 @@
+* [OPGELOST] Bug die het theenaamvenster soms onzichtbaar maakte;
+* [VERBETERD] De kleurkiezer is volledig opnieuw ontworpen en bevat tientallen nieuwe kleuren;
+* [VERBETERD] Compatibel gemaakt met de nieuwe Android 14-rechten;
+* [VERBETERD] Vormgeving;
+* [VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!
