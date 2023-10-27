@@ -64,5 +64,8 @@
     "tea_name_cold_brew": "Kaldbrygget",
     "settings_title": "Innstillinger",
     "undo_button": "Angre",
-    "undo_message": "{{tea_name}} slettet."
+    "undo_message": "{{tea_name}} slettet.",
+    "prefs_hide_increments": "Skjul timerjusteringsknapper",
+    "unit_seconds": "s",
+    "prefs_hide_increments_info": "Trykk på en aktiv nedtellingstidtaker for å justere den"
 }
