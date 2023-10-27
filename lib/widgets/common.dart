@@ -23,26 +23,29 @@ import 'package:url_launcher/url_launcher.dart';
 // List divider
 const Widget listDivider = Divider(
   thickness: 1.0,
-  indent: 6.0,
-  endIndent: 6.0,
+  indent: 12.0,
+  endIndent: 12.0,
 );
 
 // About text linking to app website
 Widget aboutText() {
   return InkWell(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(AppString.about_app.translate(), style: textStyleFooter),
-        const Row(
-          children: [
-            Text(aboutCopyright, style: textStyleFooter),
-            VerticalDivider(),
-            Text(aboutURL, style: textStyleFooterLink),
-          ],
-        ),
-      ],
+    child: Container(
+      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(AppString.about_app.translate(), style: textStyleFooter),
+          const Row(
+            children: [
+              Text(aboutCopyright, style: textStyleFooter),
+              VerticalDivider(),
+              Text(aboutURL, style: textStyleFooterLink),
+            ],
+          ),
+        ],
+      ),
     ),
     onTap: () =>
         launchUrl(Uri.parse(aboutURL), mode: LaunchMode.externalApplication),
@@ -52,16 +55,14 @@ Widget aboutText() {
 // Dismissible delete warning background
 Widget dismissibleBackground(BuildContext context, Alignment alignment) {
   return Container(
-    padding: const EdgeInsets.all(5.0),
-    child: Container(
-      color: Theme.of(context).colorScheme.error,
-      child: Padding(
-        padding: const EdgeInsets.all(14.0),
-        child: Align(
-          alignment: alignment,
-          child: getPlatformRemoveIcon(
-            Theme.of(context).colorScheme.onError,
-          ),
+    color: Theme.of(context).colorScheme.error,
+    margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+    child: Padding(
+      padding: const EdgeInsets.all(14.0),
+      child: Align(
+        alignment: alignment,
+        child: getPlatformRemoveIcon(
+          Theme.of(context).colorScheme.onError,
         ),
       ),
     ),
@@ -74,21 +75,16 @@ Widget draggableFeedback(
   int index,
   Animation<double> animation,
 ) {
-  return Transform(
-    transform: Matrix4.rotationZ(0),
-    alignment: FractionalOffset.topLeft,
-    child: Container(
-      decoration: const BoxDecoration(
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.grey,
-            blurRadius: 7.0,
-            offset: Offset(0.0, 0.75),
-          ),
-        ],
-      ),
-      child: child,
+  return Container(
+    decoration: const BoxDecoration(
+      boxShadow: <BoxShadow>[
+        BoxShadow(
+          color: Colors.grey,
+          blurRadius: 14.0,
+        ),
+      ],
     ),
+    child: child,
   );
 }
 
