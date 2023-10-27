@@ -64,5 +64,8 @@
     "tutorial_text5": "Gozatu zure ondo prestatutako te katiluaz!",
     "tea_name_cold_brew": "Garagardo hotza",
     "tutorial": "Tutoriala",
-    "tutorial_text3": "Jo botoi bat tea egiten den bitartean kronometratzen hasteko."
+    "tutorial_text3": "Jo botoi bat tea egiten den bitartean kronometratzen hasteko.",
+    "prefs_hide_increments": "Ezkutatu tenporizadorea doitzeko botoiak",
+    "unit_seconds": "s",
+    "prefs_hide_increments_info": "Sakatu atzerako kontaketa aktibo bat doitzeko"
 }
