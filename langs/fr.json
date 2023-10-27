@@ -23,6 +23,8 @@
   "ok_button": "OK",
   "prefs_app_theme": "Choisissez le thème des couleurs de l’appli",
   "prefs_header": "Définissez le nom des infusions, les durée d’infusion, les températures et les styles de bouton. Vous pouvez également trier (pression longue) ou glisser pour supprimer des infusions. Sélectionnez jusqu’à {{favorites_max}} infusions favorites pour les ajouter aux raccourcis de l’application.",
+  "prefs_hide_increments": "Masquer les boutons de réglage du minuteur",
+  "prefs_hide_increments_info": "Appuyez sur un compte à rebours actif pour le régler",
   "prefs_language": "Choisissez la langue de l’appli",
   "prefs_notifications": "Ouvrez les paramètres système de votre appareil pour configurer les notifications pour {{app_name}}.",
   "prefs_show_extra": "Afficher le temps d’infusion et la température sur les boutons de la minuterie",
@@ -54,7 +56,7 @@
   "tutorial_info": "Comment utiliser {{app_name}}",
   "tutorial_text1": "Bienvenue sur {{app_name}}, une application simple de compte à rebours de temps d'infusion.",
   "tutorial_text2": "Ajoutez jusqu'à {{teas_max}} infusions et paramétrez-les comme vous voulez.",
-  "tutorial_text3": "Appuyez sur un bouton d'infusion pour débuter le compte à rebours jusqu'à infusion optimale.",
+  "tutorial_text3": "Appuyez sur un bouton d'infusion pour débuter le compte à rebours jusqu'à infusion optimale. Vous pouvez également appuyer longuement sur l'icône {{app_name}} sur votre écran d'accueil pour chronométrer votre thé préféré.",
   "tutorial_text4": "Vous pouvez avoir jusqu'à {{timers_max}} comptes à rebours en même temps.",
   "tutorial_text5": "Profitez de votre boisson parfaitement infusée !",
   "undo_button": "Annuler",
@@ -63,6 +65,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "h",
   "unit_minutes": "min",
+  "unit_seconds": "s",
   "version_history": "Historique des versions",
   "yes_button": "Oui"
 }

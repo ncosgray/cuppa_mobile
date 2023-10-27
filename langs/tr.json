@@ -23,6 +23,8 @@
   "ok_button": "Tamam",
   "prefs_app_theme": "Uygulama renk temasını seç",
   "prefs_header": "Çay adlarını, demleme sürelerini, sıcaklıkları ve düğme tarzlarını ayarlayın. Ayrıca çayları sıralayabilir (uzun basın) veya silmek için kaydırabilirsiniz. Uygulama simgesi kısayolları olarak eklemek için sevdiğiniz {{favorites_max}} çaya yıldız ekleyin.",
+  "prefs_hide_increments": "Zamanlayıcı ayar düğmelerini gizle",
+  "prefs_hide_increments_info": "Ayarlamak için aktif bir geri sayım sayacına dokunun",
   "prefs_language": "Uygulama dilini seç",
   "prefs_notifications": "{{app_name}} için bildirimleri yapılandırmak için aygıtınızın sistem ayarlarını açın.",
   "prefs_show_extra": "Zamanlayıcı düğmelerinde demleme süresini ve sıcaklığını göster",
@@ -54,7 +56,7 @@
   "tutorial_info": "{{app_name}} nasıl kullanılır",
   "tutorial_text1": "Basit bir çay zamanlayıcı uygulaması olan {{app_name}}'ya hoş geldiniz.",
   "tutorial_text2": "{{teas_max}} kadar çay ekleyin ve beğeninize göre özelleştirin.",
-  "tutorial_text3": "Çayınız demlenirken zamanlamayı başlatmak için bir düğmeye dokunun.",
+  "tutorial_text3": "Çayınız demlenirken zamanlamayı başlatmak için bir düğmeye dokunun. Veya favori bir çayı zamanlamak için ana ekranınızdaki {{app_name}} simgesine uzun basın.",
   "tutorial_text4": "Aynı anda çalışan {{timers_max}} zamanlayıcıya sahip olabilirsiniz.",
   "tutorial_text5": "Mükemmel demlenen çayınızın tadını çıkarın!",
   "undo_button": "Geri al",
@@ -63,6 +65,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "s",
   "unit_minutes": "d",
+  "unit_seconds": "s",
   "version_history": "Sürüm geçmişi",
   "yes_button": "Evet"
 }

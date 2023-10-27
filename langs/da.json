@@ -23,6 +23,8 @@
   "ok_button": "OK",
   "prefs_app_theme": "Vælg app farvetema",
   "prefs_header": "Indstil te-navne, bryggetider, temperaturer og farver. Du kan også sortere (langt tryk) eller slette (stryge) te fra listen. Stjerne op til {{favorites_max}} foretrukne te'er for at tilføje dem som appikon-genveje.",
+  "prefs_hide_increments": "Skjul timerjusteringsknapper",
+  "prefs_hide_increments_info": "Tryk på en aktiv nedtællingstimer for at justere den",
   "prefs_language": "Vælg app sprog",
   "prefs_notifications": "Åbn enhedens systemindstillinger for at konfigurere notifikationer for {{app_name}}.",
   "prefs_show_extra": "Vis brygningstid og temperatur på timer-knapperne",
@@ -54,7 +56,7 @@
   "tutorial_info": "Sådan bruger du {{app_name}}",
   "tutorial_text1": "Velkommen til {{app_name}}, en simpel tetimer-app.",
   "tutorial_text2": "Tilføj op til {{teas_max}} te og tilpas dem efter din smag.",
-  "tutorial_text3": "Tryk på en knap for at begynde at time din te, mens den stejler.",
+  "tutorial_text3": "Tryk på en knap for at begynde at time din te, mens den stejler. Eller tryk længe på {{app_name}} ikonet på din startskærm for at time en yndlingste.",
   "tutorial_text4": "Du kan have {{timers_max}} timere kørende på én gang.",
   "tutorial_text5": "Nyd din perfekt bryggede kop te!",
   "undo_button": "Fortryd",
@@ -63,6 +65,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "h",
   "unit_minutes": "m",
+  "unit_seconds": "s",
   "version_history": "Versions historik",
   "yes_button": "Ja"
 }

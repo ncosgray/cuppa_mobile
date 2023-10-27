@@ -23,6 +23,8 @@
   "ok_button": "Oldu",
   "prefs_app_theme": "Tətbiq rəng mövzusunu seç",
   "prefs_header": "Çay adlarını, dəmləmə vaxtlarını, temperaturu və düymə üslublarını təyin et. Həmçinin çayları çeşidləyə (uzun basın) və ya silmək üçün sürüşdürə bilərsiniz. Tətbiq nişanı qısayolları kimi əlavə etmək üçün {{favorites_max}} sevimli çayı ulduzla.",
+  "prefs_hide_increments": "Taymer tənzimləmə düymələrini giz",
+  "prefs_hide_increments_info": "Tənzimləmək üçün aktiv geri sayma taymerinə vurun",
   "prefs_language": "Tətbiq dili seç",
   "prefs_notifications": "{{app_name}} bildirişlərini konfiqurasiya etmək üçün cihazınızın sistem tənzimləmələrini açın.",
   "prefs_show_extra": "Taymer düymələrində dəmləmə vaxtını və temperaturu göstər",
@@ -54,7 +56,7 @@
   "tutorial_info": "{{app_name}} necə istifadə etmək lazımdır?",
   "tutorial_text1": "{{app_name}} xoş gəlmisiniz, sadə çay timer app.",
   "tutorial_text2": "{{teas_max}}-ə qədər çay əlavə edib, xoşunuza gəlir.",
-  "tutorial_text3": "Çayınızı dik kimi vaxt təyin etməyə başlamaq üçün bir düyməyə basın.",
+  "tutorial_text3": "Çayınızı dik kimi vaxt təyin etməyə başlamaq üçün bir düyməyə basın. Və ya sevimli çayı vaxtlamaq üçün ana ekranınızdakı {{app_name}} simgesini uzun müddət basın.",
   "tutorial_text4": "{{timers_max}} timer bir anda qaça bilərsiniz.",
   "tutorial_text5": "Mükəmməl bir şəkildə bişirilmiş bir fincan çaydan zövq alın!",
   "undo_button": "geri",
@@ -63,6 +65,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "h",
   "unit_minutes": "m",
+  "unit_seconds": "s",
   "version_history": "Versiya tarixçəsi",
   "yes_button": "Bəli"
 }

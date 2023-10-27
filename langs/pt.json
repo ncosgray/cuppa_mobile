@@ -23,6 +23,8 @@
   "ok_button": "OK",
   "prefs_app_theme": "Escolher o tema de cores do aplicativo",
   "prefs_header": "Defina nomes de chá, tempos de infusão, temperaturas e estilos de botão. Você também pode classificar (pressão longa) ou deslizar para excluir os chás. Marque até {{favorites_max}} chás favoritos para adicioná-los como atalhos de ícones de aplicativos.",
+  "prefs_hide_increments": "Ocultar botões de ajuste do cronômetro",
+  "prefs_hide_increments_info": "Toque em um cronômetro de contagem regressiva ativo para ajustá-lo",
   "prefs_language": "Escolha o idioma do aplicativo",
   "prefs_notifications": "Abra as configurações do sistema do seu dispositivo para configurar notificações para {{app_name}}.",
   "prefs_show_extra": "Mostrar tempo de preparação e temperatura nos botões do temporizador",
@@ -54,7 +56,7 @@
   "tutorial_info": "Como usar o {{app_name}}",
   "tutorial_text1": "Bem-vindo ao {{app_name}}, um aplicativo simples de temporizador de chá.",
   "tutorial_text2": "Adicione até {{teas_max}} chás e personalize-os ao seu gosto.",
-  "tutorial_text3": "Toque em um botão para começar a cronometrar seu chá à medida que ele se enfunda.",
+  "tutorial_text3": "Toque em um botão para começar a cronometrar seu chá à medida que ele se enfunda. Ou pressione e segure o ícone {{app_name}} na tela inicial para programar seu chá favorito.",
   "tutorial_text4": "Você pode ter {{timers_max}} temporizadores em execução de uma só vez.",
   "tutorial_text5": "Aproveite a sua xícara de chá perfeitamente preparada!",
   "undo_button": "Desfazer",
@@ -63,6 +65,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "h",
   "unit_minutes": "m",
+  "unit_seconds": "s",
   "version_history": "Histórico de versões",
   "yes_button": "Sim"
 }

@@ -23,6 +23,8 @@
   "ok_button": "OK",
   "prefs_app_theme": "Scegli il tema dell’app",
   "prefs_header": "Imposta il nome dei tè, le durate di infusione, le temperature e gli stili di pulsante. È anche possibile ordinare (premere a lungo), o passare il dito per eliminare i tè. Metti una stella fino a {{favorites_max}} tè preferiti per aggiungerli come scorciatoie dell’icona dell’applicazione.",
+  "prefs_hide_increments": "Nascondi i pulsanti di regolazione del timer",
+  "prefs_hide_increments_info": "Tocca un conto alla rovescia attivo per regolarlo",
   "prefs_language": "Scegli la lingua dell’app",
   "prefs_notifications": "Apri le impostazioni di sistema del tuo dispositivo per configurare le notifiche per {{app_name}}.",
   "prefs_show_extra": "Mostra il tempo di infusione e la temperatura sui pulsanti del contaminuti",
@@ -54,7 +56,7 @@
   "tutorial_info": "Come usare {{app_name}}",
   "tutorial_text1": "Benvenuto su {{app_name}}, una semplice app per il timer del tè.",
   "tutorial_text2": "Aggiungi fino a {{teas_max}} tè e personalizzali a tuo piacimento.",
-  "tutorial_text3": "Tocca un pulsante per iniziare a cronometrare il tuo tè mentre si immerge.",
+  "tutorial_text3": "Tocca un pulsante per iniziare a cronometrare il tuo tè mentre si immerge. Oppure, premi a lungo l'icona {{app_name}} nella schermata iniziale per impostare il tempo desiderato per il tuo tè preferito.",
   "tutorial_text4": "Puoi avere {{timers_max}} timer in esecuzione contemporaneamente.",
   "tutorial_text5": "Goditi la tua tazza di tè perfettamente preparata!",
   "undo_button": "Annulla",
@@ -63,6 +65,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "o",
   "unit_minutes": "min",
+  "unit_seconds": "s",
   "version_history": "Cronologia delle versioni",
   "yes_button": "Sì"
 }

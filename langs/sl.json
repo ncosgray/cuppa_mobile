@@ -23,6 +23,8 @@
   "ok_button": "OK",
   "prefs_app_theme": "Izberite barvno temo aplikacije",
   "prefs_header": "Preimenuj čaje, spremeni čas kuhanja, temperaturo in barvo. Čaje lahko z dolgim pritiskom tudi razvrstite, ali jih izbrišete s seznama tako, da jih povlečete na stran. Označite do {{favorites_max}} priljubljenih čajev, ki se vam bodo prikazali na domačem zaslonu kot bližnjice.",
+  "prefs_hide_increments": "Skrij gumbe za nastavitev časovnika",
+  "prefs_hide_increments_info": "Dotaknite se aktivnega odštevanja, da ga prilagodite",
   "prefs_language": "Izberite jezik aplikacije",
   "prefs_notifications": "Odprite sistemske nastavitve na vaši napravi, da nastavite obvestila za {{app_name}}.",
   "prefs_show_extra": "Prikaz časa in temperature kuhanja na gumbih časovnika",
@@ -54,7 +56,7 @@
   "tutorial_info": "Kako uporabljati zdravilo {{app_name}}",
   "tutorial_text1": "Dobrodošli v {{app_name}}, preprosti aplikaciji za časovnik čaja.",
   "tutorial_text2": "Dodajte do {{teas_max}} čaja in jih prilagodite po vašem okusu.",
-  "tutorial_text3": "Tapnite gumb, da začnete umerjati svoj čaj, ko se strmi.",
+  "tutorial_text3": "Tapnite gumb, da začnete umerjati svoj čaj, ko se strmi. Ali pa dolgo pritisnite ikono {{app_name}} na začetnem zaslonu, da si privoščite najljubši čaj.",
   "tutorial_text4": "Lahko imaš {{timers_max}} časovnika naenkrat.",
   "tutorial_text5": "Uživajte v popolni skodelici čaja!",
   "undo_button": "Razveljavi",
@@ -63,6 +65,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "h",
   "unit_minutes": "m",
+  "unit_seconds": "s",
   "version_history": "Zgodovina različic",
   "yes_button": "Da"
 }

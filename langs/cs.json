@@ -23,6 +23,8 @@
   "ok_button": "OK",
   "prefs_app_theme": "Vyberte barevný motiv aplikace",
   "prefs_header": "Nastavte názvy čajů, časy louhování, teploty a barvy tlačítek. Můžete také třídit (dlouhým stisknutím) nebo přejetím prstem smazat čaje z listu. Označte hvězdičkou až {{favorites_max}} oblíbené čaje a přidejte je jako zástupce ikon aplikací.",
+  "prefs_hide_increments": "Skrýt tlačítka nastavení časovače",
+  "prefs_hide_increments_info": "Klepnutím na aktivní odpočítávací časovač jej upravte",
   "prefs_language": "Vyberte jazyk aplikace",
   "prefs_notifications": "Otevřte si nastavení vašeho zařízení pro konfiguraci oznámení pro {{app_name}}.",
   "prefs_show_extra": "Zobrazit délku vaření a teplotu na tlačítkách časovače",
@@ -54,7 +56,7 @@
   "tutorial_info": "Jak se přípravek {{app_name}} používá",
   "tutorial_text1": "Vítejte v {{app_name}}, jednoduché aplikaci na časovač čaje.",
   "tutorial_text2": "Přidejte až {{teas_max}} čajů a přizpůsobte si je podle svých představ.",
-  "tutorial_text3": "Klepnutím na tlačítko zahájíte časování čaje, jak se louhuje.",
+  "tutorial_text3": "Klepnutím na tlačítko zahájíte časování čaje, jak se louhuje. Nebo dlouhým stisknutím ikony {{app_name}} na domovské obrazovce načasujte oblíbený čaj.",
   "tutorial_text4": "Můžete mít spuštěné {{timers_max}} časovače najednou.",
   "tutorial_text5": "Vychutnejte si dokonale uvařený šálek čaje!",
   "undo_button": "Zrušit",
@@ -63,6 +65,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "h",
   "unit_minutes": "min",
+  "unit_seconds": "s",
   "version_history": "Historie verzí",
   "yes_button": "Ano"
 }

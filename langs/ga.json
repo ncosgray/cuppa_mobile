@@ -23,6 +23,8 @@
   "ok_button": "OK",
   "prefs_app_theme": "Roghnaigh téama dath an aip",
   "prefs_header": "Socraigh ainmneacha tae, amanna, teochtaí agus dathanna. Is féidir leat freisin (preas fada) a shórtáil, nó tae a scriosadh (swipe) ón liosta. Rith suas go dtí {{favorites_max}} tae is fearr leat chun iad a chur mar aicearraí deilbhín app.",
+  "prefs_hide_increments": "Folaigh cnaipí coigeartaithe ama",
+  "prefs_hide_increments_info": "Tapáil ama comhaireamh siar gníomhach chun é a choigeartú",
   "prefs_language": "Roghnaigh teanga an aip",
   "prefs_notifications": "Oscail socruithe córais do ghléis chun fógraí do {{app_name}} a chumrú.",
   "prefs_show_extra": "Taispeáin brew am agus teocht ar an lasc ama cnaipí",
@@ -54,7 +56,7 @@
   "tutorial_info": "Conas {{app_name}} a úsáid",
   "tutorial_text1": "Fáilte go {{app_name}}, aip simplí lasc ama tae.",
   "tutorial_text2": "Cuir suas le {{teas_max}} tae agus iad a shaincheapadh ar do thaitneamh.",
-  "tutorial_text3": "Tapáil cnaipe chun tús a chur le do chuid tae a uainiú de réir mar a bhíonn sé géar.",
+  "tutorial_text3": "Tapáil cnaipe chun tús a chur le do chuid tae a uainiú de réir mar a bhíonn sé géar. Nó, brúigh an deilbhín {{app_name}} fada ar do scáileán baile chun an tae is fearr leat a aimsiú.",
   "tutorial_text4": "Is féidir leat {{timers_max}} lasc ama a bheith ag rith ag an am céanna.",
   "tutorial_text5": "Bain sult as do cupán tae breá brewed!",
   "undo_button": "Cealaigh",
@@ -63,6 +65,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "h",
   "unit_minutes": "m",
+  "unit_seconds": "s",
   "version_history": "Stair leagan",
   "yes_button": "Cealaigh"
 }

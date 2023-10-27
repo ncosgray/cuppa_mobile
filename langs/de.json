@@ -23,6 +23,8 @@
   "ok_button": "OK",
   "prefs_app_theme": "Farbschema der Anwendung auswählen",
   "prefs_header": "Legen Sie Teenamen, Ziehzeiten, Temperaturen und Schaltfläche-Stile fest. Sie können Tees auch sortieren (langes Drücken) oder durch Streichen löschen. Markieren Sie bis zu {{favorites_max}} Lieblingstees, um sie als App-Icon-Verknüpfungen hinzuzufügen.",
+  "prefs_hide_increments": "Tasten zur Timer-Einstellung ausblenden",
+  "prefs_hide_increments_info": "Tippen Sie auf einen aktiven Countdown-Timer, um ihn anzupassen",
   "prefs_language": "Sprache der Anwendung auswählen",
   "prefs_notifications": "Öffnen Sie die Systemeinstellungen Ihres Geräts, um Benachrichtigungen für {{app_name}} zu konfigurieren.",
   "prefs_show_extra": "Brühzeit und Temperatur auf den Timertasten anzeigen",
@@ -54,7 +56,7 @@
   "tutorial_info": "Verwendung von {{app_name}}",
   "tutorial_text1": "Willkommen zu {{app_name}}, einer simplen Tee-Timer App.",
   "tutorial_text2": "Füge bis zu {{teas_max}} Tees hinzu und passe sie an deinen Geschmack an.",
-  "tutorial_text3": "Tipp auf eine der Tasten, um die Ziehzeit deines Tees zu bestimmen und den Timer zu starten.",
+  "tutorial_text3": "Tipp auf eine der Tasten, um die Ziehzeit deines Tees zu bestimmen und den Timer zu starten. Oder drücken Sie lange auf das {{app_name}} -Symbol auf Ihrem Startbildschirm, um einen Lieblingstee zu trinken.",
   "tutorial_text4": "Du kannst {{timers_max}} Timer gleichzeitig laufen lassen.",
   "tutorial_text5": "Genieß deine perfekt gebrühte Tasse Tee!",
   "undo_button": "Widerrufen",
@@ -63,6 +65,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "h",
   "unit_minutes": "min",
+  "unit_seconds": "s",
   "version_history": "Versionsgeschichte",
   "yes_button": "Ja"
 }

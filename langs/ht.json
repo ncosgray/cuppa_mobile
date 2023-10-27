@@ -23,6 +23,8 @@
   "ok_button": "OK",
   "prefs_app_theme": "Chwazi tèm koulè aplikasyon an",
   "prefs_header": "Ekri non te, tan preparasyon, tanperati ak koulè yo. Ou kapab fè tri (long laprès), oswa efase (glise) te nan lis la. Star jiska {{favorites_max}} ti pi renmen yo pou ajoute yo kòm rakoursi ikòn aplikasyon an.",
+  "prefs_hide_increments": "Kache bouton ajisteman timèr",
+  "prefs_hide_increments_info": "Tape yon dekont dekonte aktif pou ajiste li",
   "prefs_language": "Chwazi lang pou aplikasyon an",
   "prefs_notifications": "Louvri anviwònman sistèm aparèy ou an pouw konfigire notifikasyon pou {{app_name}}.",
   "prefs_show_extra": "Montre tan ak tanperati sou bouton revèy",
@@ -54,7 +56,7 @@
   "tutorial_info": "Ki jan yo sèvi ak {{app_name}}",
   "tutorial_text1": "Byenveni nan {{app_name}}, yon app revèy senp.",
   "tutorial_text2": "Ajoute jiska {{teas_max}} te ak Customize yo nan gou ou.",
-  "tutorial_text3": "Tape yon bouton yo kòmanse distribye te ou jan li etap.",
+  "tutorial_text3": "Tape yon bouton yo kòmanse distribye te ou jan li etap. Oswa, lontan-peze icône a {{app_name}} sou ekran lakay ou a tan yon te pi renmen.",
   "tutorial_text4": "Ou ka gen {{timers_max}} fwa kouri nan yon fwa.",
   "tutorial_text5": "Jwi tas parfe ou kwaze nan te!",
   "undo_button": "Defèt",
@@ -63,6 +65,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "h",
   "unit_minutes": "m",
+  "unit_seconds": "s",
   "version_history": "Istwa vèsyon",
   "yes_button": "Wi"
 }

@@ -23,6 +23,8 @@
   "ok_button": "确认",
   "prefs_app_theme": "选择应用程序的颜色主题",
   "prefs_header": "设置茶叶名称、冲泡时间、温度和按钮样式。你还可以进行排序（长按并拖动），或横划来删除茶叶。最多可以收藏 {{favorites_max}} 种茶叶，并将其加入应用图标的快捷方式。",
+  "prefs_hide_increments": "隐藏计时器调整按钮",
+  "prefs_hide_increments_info": "点击有效的倒计时器进行调整",
   "prefs_language": "选择显示语言",
   "prefs_notifications": "如想要更改{{app_name}}的通知设置，请在系统的通知管理设置里更改。",
   "prefs_show_extra": "在计时器按钮上显示冲泡时间和温度",
@@ -54,7 +56,7 @@
   "tutorial_info": "如何使用 {{app_name}}",
   "tutorial_text1": "欢迎使用 {{app_name}}，一个简单的泡茶计时器。",
   "tutorial_text2": "添加多达 {{teas_max}} 种茶叶，并根据您的喜好进行定制。",
-  "tutorial_text3": "轻按一个按钮开始泡茶计时。",
+  "tutorial_text3": "轻按一个按钮开始泡茶计时。或者，长按主屏幕上的 {{app_name}} 图标来计时一杯最喜欢的茶。",
   "tutorial_text4": "最多可以同时运行 {{timers_max}} 个计时器。",
   "tutorial_text5": "请你尽情享受一杯完美冲泡的茶！",
   "undo_button": "撤销",
@@ -63,6 +65,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "h",
   "unit_minutes": "m",
+  "unit_seconds": "s",
   "version_history": "版本历史",
   "yes_button": "是"
 }

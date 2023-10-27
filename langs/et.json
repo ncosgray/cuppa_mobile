@@ -23,6 +23,8 @@
   "ok_button": "Sobib",
   "prefs_app_theme": "Valige rakenduse värviteema",
   "prefs_header": "Määra tee nimed, tõmbamisajad, temperatuurid ja nuppude välimus. Samuti saad (pika vajutusega) loendeid sorteerida või kustutada (pühkida). Tähista kuni {{favorites_max}} lemmikteed, et lisada need rakenduse kiirvalikutena.",
+  "prefs_hide_increments": "Peida taimeri reguleerimise nupud",
+  "prefs_hide_increments_info": "Selle reguleerimiseks puudutage aktiivset tagasiarvestuse taimerit",
   "prefs_language": "Valige rakenduse keel",
   "prefs_notifications": "Konfigureerimaks teated rakendusele {{app_name}}, ava oma nutiseadme süsteemi seadistused.",
   "prefs_show_extra": "Taimeri nuppudel näidatakse keetmisaega ja temperatuuri",
@@ -54,7 +56,7 @@
   "tutorial_info": "{{app_name}}'i kasutamine",
   "tutorial_text1": "Tere tulemast {{app_name}}, lihtsasse teetaimeri rakendusse.",
   "tutorial_text2": "Lisage kuni {{teas_max}} teed ja kohandage neid oma maitse järgi.",
-  "tutorial_text3": "Puudutage nuppu, et alustada tee ajastamist, kui see järsuks muutub.",
+  "tutorial_text3": "Puudutage nuppu, et alustada tee ajastamist, kui see järsuks muutub. Või vajutage pikalt oma avaekraanil ikooni {{app_name}}, et lemmiktee ajastada.",
   "tutorial_text4": "Teil võib korraga töötada {{timers_max}} taimerit.",
   "tutorial_text5": "Nautige oma täiuslikult pruulitud tassi teed!",
   "undo_button": "Pööra tegevus tagasi",
@@ -63,6 +65,7 @@
   "unit_fahrenheit": "F",
   "unit_hours": "h",
   "unit_minutes": "m",
+  "unit_seconds": "s",
   "version_history": "Versiooniajalugu",
   "yes_button": "Jah"
 }
