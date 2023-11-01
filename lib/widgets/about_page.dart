@@ -13,10 +13,12 @@
 // About Cuppa page
 // - Version and build number
 // - Links to GitHub, Weblate, etc.
+// - Timer usage stats
 
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
@@ -103,6 +105,12 @@ class AboutWidget extends StatelessWidget {
                     url: privacyURL,
                   ),
                   listDivider,
+                  // Timer stats
+                  _listItem(
+                    title: AppString.stats_title.translate(),
+                    onTap: () => _openTimerStats(context),
+                  ),
+                  listDivider,
                   // Tutorial
                   _listItem(
                     title: AppString.tutorial.translate(),
@@ -157,6 +165,65 @@ class AboutWidget extends StatelessWidget {
             const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
         dense: true,
       ),
+    );
+  }
+
+  // Open a dialog showing the timer usage stats
+  Future<void> _openTimerStats(BuildContext context) async {
+    // Fetch stats
+    int beginDateTime = await Stats.getMetric(sql: statsBeginMetricSQL);
+    int totalCount = await Stats.getMetric(sql: statsCountMetricSQL);
+    int totalTime = await Stats.getMetric(sql: statsBrewTimeMetricSQL);
+    List<Stat> summaryStats = await Stats.getTeaStats(sql: statsTeaSummarySQL);
+
+    // Display all stats in a dialog
+    if (!context.mounted) return;
+    showAdaptiveDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog.adaptive(
+          title: Text(AppString.stats_title.translate()),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                // General metrics
+                Visibility(
+                  visible: beginDateTime > 0,
+                  child: Stats.metricWidget(
+                    metricName: AppString.stats_begin.translate(),
+                    metric: beginDateTime,
+                    formatDate: true,
+                  ),
+                ),
+                Stats.metricWidget(
+                  metricName: AppString.stats_timer_count.translate(),
+                  metric: totalCount,
+                ),
+                Stats.metricWidget(
+                  metricName: AppString.stats_timer_time.translate(),
+                  metric: totalTime,
+                  formatTime: true,
+                ),
+                // Tea timer usage summary
+                Visibility(
+                  visible: summaryStats.isNotEmpty,
+                  child: listDivider,
+                ),
+                for (Stat stat in summaryStats)
+                  stat.toWidget(totalCount: totalCount),
+              ],
+            ),
+          ),
+          actions: [
+            adaptiveDialogAction(
+              isDefaultAction: true,
+              text: AppString.ok_button.translate(),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+          ],
+        );
+      },
     );
   }
 }

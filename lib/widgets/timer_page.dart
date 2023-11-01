@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
+import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/data/tea_timer.dart';
 import 'package:cuppa_mobile/widgets/cancel_button.dart';
@@ -671,6 +672,7 @@ class _TimerWidgetState extends State<TimerWidget> {
           AppString.notification_text.translate(teaName: tea.name),
           timer.notifyID,
         );
+        Stats.insertStat(tea);
       } else if (tea.timerNotifyID != null) {
         // Resume with same timer ID
         timer = tea.timerNotifyID == _timer1.notifyID ? _timer1 : _timer2;

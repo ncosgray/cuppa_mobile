@@ -99,6 +99,7 @@ Widget miniTeaButton({
     data: darkTheme ? ThemeData.dark() : ThemeData.light(),
     child: Card(
       elevation: 1.0,
+      margin: EdgeInsets.zero,
       clipBehavior: Clip.antiAlias,
       child: Container(
         decoration: BoxDecoration(color: isActive ? color : null),

@@ -155,3 +155,52 @@ const longAnimationDuration = Duration(milliseconds: 200);
 // Timer increments
 const incrementSeconds = 10;
 const hideTimerIncrementsDelay = 5;
+
+// Stats data
+const statsDatabase = 'Cuppa_stats.db';
+const statsTable = 'statsData';
+const statsColumnId = 'id';
+const statsColumnName = 'name';
+const statsColumnBrewTime = 'brewTime';
+const statsColumnBrewTemp = 'brewTemp';
+const statsColumnColorShadeRed = 'colorShadeRed';
+const statsColumnColorShadeGreen = 'colorShadeGreen';
+const statsColumnColorShadeBlue = 'colorShadeBlue';
+const statsColumnIconValue = 'iconValue';
+const statsColumnIsFavorite = 'isFavorite';
+const statsColumnTimerStartTime = 'timerStartTime';
+const statsColumnCount = 'count';
+const statsColumnMetric = 'metric';
+const statsCreateSQL = '''CREATE TABLE statsData (
+      id INTEGER
+      , name TEXT
+      , brewTime INTEGER
+      , brewTemp INTEGER
+      , colorShadeRed INTEGER
+      , colorShadeGreen INTEGER
+      , colorShadeBlue INTEGER
+      , iconValue INTEGER
+      , isFavorite INTEGER
+      , timerStartTime INTEGER
+    )''';
+const statsBeginMetricSQL = '''SELECT MIN(timerStartTime) AS metric
+    FROM statsData''';
+const statsCountMetricSQL = '''SELECT COUNT(*) AS metric
+    FROM statsData''';
+const statsBrewTimeMetricSQL = '''SELECT SUM(IFNULL(brewTime, 0)) AS metric
+    FROM statsData''';
+const statsTeaSummarySQL = '''SELECT id
+    , name
+    , colorShadeRed
+    , colorShadeGreen
+    , colorShadeBlue
+    , iconValue
+    , COUNT(*) AS count
+    FROM statsData
+    GROUP BY id
+    , name
+    , colorShadeRed
+    , colorShadeGreen
+    , colorShadeBlue
+    , iconValue
+    ORDER BY COUNT(*) DESC''';
