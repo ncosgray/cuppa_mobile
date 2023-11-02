@@ -66,51 +66,6 @@ class AboutWidget extends StatelessWidget {
             SliverToBoxAdapter(
               child: Column(
                 children: [
-                  // Changelog
-                  _listItem(
-                    title: AppString.version_history.translate(),
-                    url: versionsURL,
-                  ),
-                  listDivider,
-                  // App license info
-                  _listItem(
-                    title: AppString.about_license.translate(),
-                    url: licenseURL,
-                  ),
-                  listDivider,
-                  // Link to app source code
-                  _listItem(
-                    title: AppString.source_code.translate(),
-                    subtitle: AppString.source_code_info.translate(),
-                    url: sourceURL,
-                  ),
-                  listDivider,
-                  // App localization info
-                  _listItem(
-                    title: AppString.help_translate.translate(),
-                    subtitle: AppString.help_translate_info.translate(),
-                    url: translateURL,
-                  ),
-                  listDivider,
-                  // How to report issues
-                  _listItem(
-                    title: AppString.issues.translate(),
-                    subtitle: AppString.issues_info.translate(),
-                    url: issuesURL,
-                  ),
-                  listDivider,
-                  // Privacy policy
-                  _listItem(
-                    title: AppString.privacy_policy.translate(),
-                    url: privacyURL,
-                  ),
-                  listDivider,
-                  // Timer stats
-                  _listItem(
-                    title: AppString.stats_title.translate(),
-                    onTap: () => _openTimerStats(context),
-                  ),
-                  listDivider,
                   // Tutorial
                   _listItem(
                     title: AppString.tutorial.translate(),
@@ -121,6 +76,51 @@ class AboutWidget extends StatelessWidget {
                       ShowCaseWidget.of(context)
                           .startShowCase(tutorialSteps.keys.toList());
                     },
+                  ),
+                  listDivider,
+                  // Timer stats
+                  _listItem(
+                    title: AppString.stats_title.translate(),
+                    onTap: () => _openTimerStats(context),
+                  ),
+                  listDivider,
+                  // How to report issues
+                  _listItem(
+                    title: AppString.issues.translate(),
+                    subtitle: AppString.issues_info.translate(),
+                    url: issuesURL,
+                  ),
+                  listDivider,
+                  // App localization info
+                  _listItem(
+                    title: AppString.help_translate.translate(),
+                    subtitle: AppString.help_translate_info.translate(),
+                    url: translateURL,
+                  ),
+                  listDivider,
+                  // Changelog
+                  _listItem(
+                    title: AppString.version_history.translate(),
+                    url: versionsURL,
+                  ),
+                  listDivider,
+                  // Link to app source code
+                  _listItem(
+                    title: AppString.source_code.translate(),
+                    subtitle: AppString.source_code_info.translate(),
+                    url: sourceURL,
+                  ),
+                  listDivider,
+                  // App license info
+                  _listItem(
+                    title: AppString.about_license.translate(),
+                    url: licenseURL,
+                  ),
+                  listDivider,
+                  // Privacy policy
+                  _listItem(
+                    title: AppString.privacy_policy.translate(),
+                    url: privacyURL,
                   ),
                   listDivider,
                 ],
