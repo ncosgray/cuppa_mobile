@@ -223,7 +223,7 @@ const statsTeaSummarySQL = '''SELECT statsData.id
     , COUNT(*) AS count
     FROM statsData
     INNER JOIN (
-      SELECT id
+      SELECT DISTINCT id
       , name
       , colorShadeRed
       , colorShadeGreen
