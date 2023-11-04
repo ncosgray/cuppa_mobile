@@ -27,7 +27,7 @@ import 'package:sqflite/sqflite.dart';
 abstract class Stats {
   static Database? _statsData;
 
-  // Stats databse getter
+  // Stats database getter
   static Future<Database> get statsData async {
     if (_statsData?.isOpen != null) return _statsData!;
 
@@ -129,7 +129,7 @@ abstract class Stats {
     required String metric,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+      padding: const EdgeInsets.all(4.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -229,7 +229,7 @@ class Stat {
         totalCount > 0 ? '(${formatPercent(count / totalCount)})' : '';
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(12.0, 8.0, 12.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 0.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
