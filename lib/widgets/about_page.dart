@@ -26,7 +26,6 @@ import 'package:cuppa_mobile/widgets/text_styles.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -196,9 +195,7 @@ class AboutWidget extends StatelessWidget {
                   visible: beginDateTime > 0,
                   child: Stats.metricWidget(
                     metricName: AppString.stats_begin.translate(),
-                    metric: DateFormat('yyyy-MM-dd').format(
-                      DateTime.fromMillisecondsSinceEpoch(beginDateTime),
-                    ),
+                    metric: formatDate(beginDateTime),
                   ),
                 ),
                 Stats.metricWidget(

@@ -20,7 +20,6 @@ import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -226,11 +225,8 @@ class Stat {
       colorShadeBlue,
       1.0,
     );
-    String time = DateFormat('yyyy-MM-dd HH:mm')
-        .format(DateTime.fromMillisecondsSinceEpoch(timerStartTime));
-    String percent = totalCount > 0
-        ? '(${NumberFormat('#%').format(count / totalCount)})'
-        : '';
+    String percent =
+        totalCount > 0 ? '(${formatPercent(count / totalCount)})' : '';
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(12.0, 8.0, 12.0, 0.0),
@@ -297,7 +293,7 @@ class Stat {
               // Details: Timer start date and time
               Visibility(
                 visible: details,
-                child: Text(time),
+                child: Text(formatDate(timerStartTime, dateTime: true)),
               ),
             ],
           ),
