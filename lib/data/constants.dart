@@ -214,18 +214,33 @@ const statsAfternoonTeaSQL = '''SELECT (
     GROUP BY stat.id
     ORDER BY COUNT(*) DESC
     LIMIT 1''';
-const statsTeaSummarySQL = '''SELECT id
-    , name
-    , colorShadeRed
-    , colorShadeGreen
-    , colorShadeBlue
-    , iconValue
+const statsTeaSummarySQL = '''SELECT statsData.id
+    , tea.name
+    , tea.colorShadeRed
+    , tea.colorShadeGreen
+    , tea.colorShadeBlue
+    , tea.iconValue
     , COUNT(*) AS count
     FROM statsData
-    GROUP BY id
-    , name
-    , colorShadeRed
-    , colorShadeGreen
-    , colorShadeBlue
-    , iconValue
+    INNER JOIN (
+      SELECT id
+      , name
+      , colorShadeRed
+      , colorShadeGreen
+      , colorShadeBlue
+      , iconValue
+      FROM statsData AS stat
+      WHERE timerStartTime = (
+        SELECT MAX(timerStartTime)
+        FROM statsData
+        WHERE id = stat.id
+      )
+    ) AS tea
+    ON tea.id = statsData.id
+    GROUP BY statsData.id
+    , tea.name
+    , tea.colorShadeRed
+    , tea.colorShadeGreen
+    , tea.colorShadeBlue
+    , tea.iconValue
     ORDER BY COUNT(*) DESC''';
