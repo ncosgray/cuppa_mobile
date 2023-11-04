@@ -15,6 +15,7 @@
 // - Links to GitHub, Weblate, etc.
 // - Timer usage stats
 
+import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -25,6 +26,7 @@ import 'package:cuppa_mobile/widgets/text_styles.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -174,6 +176,8 @@ class AboutWidget extends StatelessWidget {
     int beginDateTime = await Stats.getMetric(sql: statsBeginMetricSQL);
     int totalCount = await Stats.getMetric(sql: statsCountMetricSQL);
     int totalTime = await Stats.getMetric(sql: statsBrewTimeMetricSQL);
+    String morningTea = await Stats.getString(sql: statsMorningTeaSQL);
+    String afternoonTea = await Stats.getString(sql: statsAfternoonTeaSQL);
     List<Stat> summaryStats = await Stats.getTeaStats(sql: statsTeaSummarySQL);
 
     // Display all stats in a dialog
@@ -192,18 +196,32 @@ class AboutWidget extends StatelessWidget {
                   visible: beginDateTime > 0,
                   child: Stats.metricWidget(
                     metricName: AppString.stats_begin.translate(),
-                    metric: beginDateTime,
-                    formatDate: true,
+                    metric: DateFormat('yyyy-MM-dd').format(
+                      DateTime.fromMillisecondsSinceEpoch(beginDateTime),
+                    ),
                   ),
                 ),
                 Stats.metricWidget(
                   metricName: AppString.stats_timer_count.translate(),
-                  metric: totalCount,
+                  metric: totalCount.toString(),
                 ),
                 Stats.metricWidget(
                   metricName: AppString.stats_timer_time.translate(),
-                  metric: totalTime,
-                  formatTime: true,
+                  metric: formatTimer(totalTime),
+                ),
+                Visibility(
+                  visible: morningTea.isNotEmpty,
+                  child: Stats.metricWidget(
+                    metricName: AppString.stats_favorite_am.translate(),
+                    metric: morningTea,
+                  ),
+                ),
+                Visibility(
+                  visible: afternoonTea.isNotEmpty,
+                  child: Stats.metricWidget(
+                    metricName: AppString.stats_favorite_pm.translate(),
+                    metric: afternoonTea,
+                  ),
                 ),
                 // Tea timer usage summary
                 Visibility(

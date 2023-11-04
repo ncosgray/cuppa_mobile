@@ -111,20 +111,24 @@ abstract class Stats {
     return metric ?? 0;
   }
 
+  // Retrieve a string value from the stats database
+  static Future<String> getString({required String sql}) async {
+    String metric = '';
+    final db = await statsData;
+
+    // Query the stats table
+    var result = await db.rawQuery(sql);
+    if (result.isNotEmpty) {
+      metric = result[0][statsColumnString].toString();
+    }
+    return metric;
+  }
+
   // Generate a metric widget
   static Widget metricWidget({
     required String metricName,
-    required int metric,
-    bool formatTime = false,
-    bool formatDate = false,
+    required String metric,
   }) {
-    String metricString = formatTime
-        ? formatTimer(metric)
-        : formatDate
-            ? DateFormat('yyyy-MM-dd')
-                .format(DateTime.fromMillisecondsSinceEpoch(metric))
-            : '$metric';
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
       child: Row(
@@ -139,7 +143,7 @@ abstract class Stats {
           ),
           // Formatted metric value
           Text(
-            metricString,
+            metric,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),

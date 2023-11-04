@@ -35,6 +35,8 @@
   "source_code": "Source code",
   "source_code_info": "Repository on GitHub",
   "stats_begin": "Timer data since",
+  "stats_favorite_am": "Favorite before noon",
+  "stats_favorite_pm": "Favorite after noon",
   "stats_timer_count": "Number of timers started",
   "stats_timer_time": "Total steep time",
   "stats_title": "Timer stats",

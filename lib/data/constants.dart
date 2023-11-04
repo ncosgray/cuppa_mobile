@@ -171,6 +171,7 @@ const statsColumnIsFavorite = 'isFavorite';
 const statsColumnTimerStartTime = 'timerStartTime';
 const statsColumnCount = 'count';
 const statsColumnMetric = 'metric';
+const statsColumnString = 'string';
 const statsCreateSQL = '''CREATE TABLE statsData (
       id INTEGER
       , name TEXT
@@ -189,6 +190,30 @@ const statsCountMetricSQL = '''SELECT COUNT(*) AS metric
     FROM statsData''';
 const statsBrewTimeMetricSQL = '''SELECT SUM(IFNULL(brewTime, 0)) AS metric
     FROM statsData''';
+const statsMorningTeaSQL = '''SELECT (
+      SELECT name
+      FROM statsData
+      WHERE id = stat.id
+      ORDER BY timerStartTime DESC
+      LIMIT 1
+    ) AS string
+    FROM statsData stat
+    WHERE STRFTIME('%H', stat.timerStartTime / 1000, 'unixepoch', 'localtime') - 12 < 0
+    GROUP BY stat.id
+    ORDER BY COUNT(*) DESC
+    LIMIT 1''';
+const statsAfternoonTeaSQL = '''SELECT (
+      SELECT name
+      FROM statsData
+      WHERE id = stat.id
+      ORDER BY timerStartTime DESC
+      LIMIT 1
+    ) AS string
+    FROM statsData stat
+    WHERE STRFTIME('%H', stat.timerStartTime / 1000, 'unixepoch', 'localtime') - 12 >= 0
+    GROUP BY stat.id
+    ORDER BY COUNT(*) DESC
+    LIMIT 1''';
 const statsTeaSummarySQL = '''SELECT id
     , name
     , colorShadeRed
