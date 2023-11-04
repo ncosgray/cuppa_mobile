@@ -320,7 +320,8 @@ abstract class Stats {
 enum MetricQuery {
   beginDateTime(0),
   totalCount(1),
-  totalTime(2);
+  totalTime(2),
+  starredCount(3);
 
   final int value;
 
@@ -333,6 +334,9 @@ enum MetricQuery {
     FROM $statsTable''';
   final totalTimeSQL = '''SELECT SUM(IFNULL($statsColumnBrewTime, 0)) AS metric
     FROM $statsTable''';
+  final starredCountSQL = '''SELECT COUNT(*) AS metric
+    FROM $statsTable
+    WHERE $statsColumnIsFavorite = 1''';
 
   // Query SQL
   get sql {
@@ -341,6 +345,8 @@ enum MetricQuery {
         return totalCountSQL;
       case 2:
         return totalTimeSQL;
+      case 3:
+        return starredCountSQL;
       default:
         return beginDateTimeSQL;
     }

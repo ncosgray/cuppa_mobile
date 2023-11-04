@@ -174,6 +174,7 @@ class AboutWidget extends StatelessWidget {
     // Fetch stats
     int beginDateTime = await Stats.getMetric(MetricQuery.beginDateTime);
     int totalCount = await Stats.getMetric(MetricQuery.totalCount);
+    int starredCount = await Stats.getMetric(MetricQuery.starredCount);
     int totalTime = await Stats.getMetric(MetricQuery.totalTime);
     String morningTea = await Stats.getString(StringQuery.morningTea);
     String afternoonTea = await Stats.getString(StringQuery.afternoonTea);
@@ -201,6 +202,13 @@ class AboutWidget extends StatelessWidget {
                 Stats.metricWidget(
                   metricName: AppString.stats_timer_count.translate(),
                   metric: totalCount.toString(),
+                ),
+                Visibility(
+                  visible: totalCount > 0,
+                  child: Stats.metricWidget(
+                    metricName: AppString.stats_starred.translate(),
+                    metric: formatPercent(starredCount / totalCount),
+                  ),
                 ),
                 Stats.metricWidget(
                   metricName: AppString.stats_timer_time.translate(),
