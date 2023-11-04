@@ -172,12 +172,12 @@ class AboutWidget extends StatelessWidget {
   // Open a dialog showing the timer usage stats
   Future<void> _openTimerStats(BuildContext context) async {
     // Fetch stats
-    int beginDateTime = await Stats.getMetric(sql: statsBeginMetricSQL);
-    int totalCount = await Stats.getMetric(sql: statsCountMetricSQL);
-    int totalTime = await Stats.getMetric(sql: statsBrewTimeMetricSQL);
-    String morningTea = await Stats.getString(sql: statsMorningTeaSQL);
-    String afternoonTea = await Stats.getString(sql: statsAfternoonTeaSQL);
-    List<Stat> summaryStats = await Stats.getTeaStats(sql: statsTeaSummarySQL);
+    int beginDateTime = await Stats.getMetric(MetricQuery.beginDateTime);
+    int totalCount = await Stats.getMetric(MetricQuery.totalCount);
+    int totalTime = await Stats.getMetric(MetricQuery.totalTime);
+    String morningTea = await Stats.getString(StringQuery.morningTea);
+    String afternoonTea = await Stats.getString(StringQuery.afternoonTea);
+    List<Stat> summaryStats = await Stats.getTeaStats(ListQuery.summaryStats);
 
     // Display all stats in a dialog
     if (!context.mounted) return;

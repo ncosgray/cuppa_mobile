@@ -13,6 +13,7 @@
 // Cuppa data
 // - Tea timer usage statistics and database functionality
 // - Stats display widgets
+// - Query enums
 
 import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
@@ -22,136 +23,6 @@ import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
-// Stats methods
-abstract class Stats {
-  static Database? _statsData;
-
-  // Stats database getter
-  static Future<Database> get statsData async {
-    if (_statsData?.isOpen != null) return _statsData!;
-
-    _statsData = await openStats();
-    return _statsData!;
-  }
-
-  // Open the usage stats database
-  static Future<Database> openStats() async {
-    return await openDatabase(
-      join(await getDatabasesPath(), statsDatabase),
-      version: 1,
-      onCreate: (Database db, _) async {
-        await db.execute(statsCreateSQL);
-      },
-    );
-  }
-
-  // Add a new stat to usage data
-  static Future<void> insertStat(Tea tea) async {
-    final db = await statsData;
-
-    // Insert a row into the stats table
-    await db.insert(
-      statsTable,
-      Stat(tea: tea).toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
-
-  // Retrieve tea stats from the database
-  static Future<List<Stat>> getTeaStats({String? sql}) async {
-    final db = await statsData;
-
-    // Query the stats table
-    List<Map<String, dynamic>> results;
-    if (sql == null) {
-      // Get all stats
-      results = await db.query(statsTable);
-    } else {
-      // Get stats from query
-      results = await db.rawQuery(sql);
-    }
-
-    // Convert the query results to a list
-    return List.generate(results.length, (i) {
-      return Stat(
-        id: int.tryParse(results[i][statsColumnId].toString()),
-        name: results[i][statsColumnName].toString(),
-        brewTime: int.tryParse(results[i][statsColumnBrewTime].toString()),
-        brewTemp: int.tryParse(results[i][statsColumnBrewTemp].toString()),
-        colorShadeRed:
-            int.tryParse(results[i][statsColumnColorShadeRed].toString()),
-        colorShadeGreen:
-            int.tryParse(results[i][statsColumnColorShadeGreen].toString()),
-        colorShadeBlue:
-            int.tryParse(results[i][statsColumnColorShadeBlue].toString()),
-        iconValue: int.tryParse(results[i][statsColumnIconValue].toString()),
-        isFavorite:
-            (int.tryParse(results[i][statsColumnIsFavorite].toString())) == 1
-                ? true
-                : false,
-        timerStartTime:
-            int.tryParse(results[i][statsColumnTimerStartTime].toString()),
-        count: int.tryParse(results[i][statsColumnCount].toString()),
-      );
-    });
-  }
-
-  // Retrieve a single numeric value from the stats database
-  static Future<int> getMetric({required String sql}) async {
-    int? metric;
-    final db = await statsData;
-
-    // Query the stats table
-    var result = await db.rawQuery(sql);
-    if (result.isNotEmpty) {
-      metric = int.tryParse(result[0][statsColumnMetric].toString());
-    }
-    return metric ?? 0;
-  }
-
-  // Retrieve a string value from the stats database
-  static Future<String> getString({required String sql}) async {
-    String metric = '';
-    final db = await statsData;
-
-    // Query the stats table
-    var result = await db.rawQuery(sql);
-    if (result.isNotEmpty) {
-      metric = result[0][statsColumnString].toString();
-    }
-    return metric;
-  }
-
-  // Generate a metric widget
-  static Widget metricWidget({
-    required String metricName,
-    required String metric,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Metric name
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: Text(
-              metricName,
-            ),
-          ),
-          // Formatted metric value
-          Text(
-            metric,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 // Stat entry definition
 class Stat {
@@ -300,5 +171,273 @@ class Stat {
         ],
       ),
     );
+  }
+}
+
+// Stats methods
+abstract class Stats {
+  static Database? _statsData;
+  static const statsCreateSQL = '''CREATE TABLE $statsTable (
+      $statsColumnId INTEGER
+      , $statsColumnName TEXT
+      , $statsColumnBrewTime INTEGER
+      , $statsColumnBrewTemp INTEGER
+      , $statsColumnColorShadeRed INTEGER
+      , $statsColumnColorShadeGreen INTEGER
+      , $statsColumnColorShadeBlue INTEGER
+      , $statsColumnIconValue INTEGER
+      , $statsColumnIsFavorite INTEGER
+      , $statsColumnTimerStartTime INTEGER
+    )''';
+
+  // Stats database getter
+  static Future<Database> get statsData async {
+    if (_statsData?.isOpen != null) return _statsData!;
+
+    _statsData = await openStats();
+    return _statsData!;
+  }
+
+  // Open the usage stats database
+  static Future<Database> openStats() async {
+    return await openDatabase(
+      join(await getDatabasesPath(), statsDatabase),
+      version: 1,
+      onCreate: (Database db, _) async {
+        await db.execute(statsCreateSQL);
+      },
+    );
+  }
+
+  // Add a new stat to usage data
+  static Future<void> insertStat(Tea tea) async {
+    final db = await statsData;
+
+    // Insert a row into the stats table
+    await db.insert(
+      statsTable,
+      Stat(tea: tea).toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  // Retrieve tea stats from the database
+  static Future<List<Stat>> getTeaStats([ListQuery? q]) async {
+    final db = await statsData;
+
+    // Query the stats table
+    List<Map<String, dynamic>> results;
+    if (q == null) {
+      // Get all stats
+      results = await db.query(statsTable);
+    } else {
+      // Get stats from query
+      results = await db.rawQuery(q.sql);
+    }
+
+    // Convert the query results to a list
+    return List.generate(results.length, (i) {
+      return Stat(
+        id: int.tryParse(results[i][statsColumnId].toString()),
+        name: results[i][statsColumnName].toString(),
+        brewTime: int.tryParse(results[i][statsColumnBrewTime].toString()),
+        brewTemp: int.tryParse(results[i][statsColumnBrewTemp].toString()),
+        colorShadeRed:
+            int.tryParse(results[i][statsColumnColorShadeRed].toString()),
+        colorShadeGreen:
+            int.tryParse(results[i][statsColumnColorShadeGreen].toString()),
+        colorShadeBlue:
+            int.tryParse(results[i][statsColumnColorShadeBlue].toString()),
+        iconValue: int.tryParse(results[i][statsColumnIconValue].toString()),
+        isFavorite:
+            (int.tryParse(results[i][statsColumnIsFavorite].toString())) == 1
+                ? true
+                : false,
+        timerStartTime:
+            int.tryParse(results[i][statsColumnTimerStartTime].toString()),
+        count: int.tryParse(results[i][statsColumnCount].toString()),
+      );
+    });
+  }
+
+  // Retrieve a single numeric value from the stats database
+  static Future<int> getMetric(MetricQuery q) async {
+    int? metric;
+    final db = await statsData;
+
+    // Query the stats table
+    var result = await db.rawQuery(q.sql);
+    if (result.isNotEmpty) {
+      metric = int.tryParse(result[0][statsColumnMetric].toString());
+    }
+    return metric ?? 0;
+  }
+
+  // Retrieve a string value from the stats database
+  static Future<String> getString(StringQuery q) async {
+    String metric = '';
+    final db = await statsData;
+
+    // Query the stats table
+    var result = await db.rawQuery(q.sql);
+    if (result.isNotEmpty) {
+      metric = result[0][statsColumnString].toString();
+    }
+    return metric;
+  }
+
+  // Generate a metric widget
+  static Widget metricWidget({
+    required String metricName,
+    required String metric,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Metric name
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: Text(
+              metricName,
+            ),
+          ),
+          // Formatted metric value
+          Text(
+            metric,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Metric queries
+enum MetricQuery {
+  beginDateTime(0),
+  totalCount(1),
+  totalTime(2);
+
+  final int value;
+
+  const MetricQuery(this.value);
+
+  // Stats queries
+  final beginDateTimeSQL = '''SELECT MIN($statsColumnTimerStartTime) AS metric
+    FROM $statsTable''';
+  final totalCountSQL = '''SELECT COUNT(*) AS metric
+    FROM $statsTable''';
+  final totalTimeSQL = '''SELECT SUM(IFNULL($statsColumnBrewTime, 0)) AS metric
+    FROM $statsTable''';
+
+  // Query SQL
+  get sql {
+    switch (value) {
+      case 1:
+        return totalCountSQL;
+      case 2:
+        return totalTimeSQL;
+      default:
+        return beginDateTimeSQL;
+    }
+  }
+}
+
+// String queries
+enum StringQuery {
+  morningTea(0),
+  afternoonTea(1);
+
+  final int value;
+
+  const StringQuery(this.value);
+
+  // Stats queries
+  final morningTeaSQL = '''SELECT (
+      SELECT $statsColumnName
+      FROM $statsTable
+      WHERE $statsColumnId = stat.$statsColumnId
+      ORDER BY $statsColumnTimerStartTime DESC
+      LIMIT 1
+    ) AS string
+    FROM $statsTable stat
+    WHERE STRFTIME('%H', stat.$statsColumnTimerStartTime / 1000, 'unixepoch', 'localtime') - 12 < 0
+    GROUP BY stat.$statsColumnId
+    ORDER BY COUNT(*) DESC
+    LIMIT 1''';
+  final afternoonTeaSQL = '''SELECT (
+      SELECT $statsColumnName
+      FROM $statsTable
+      WHERE $statsColumnId = stat.$statsColumnId
+      ORDER BY $statsColumnTimerStartTime DESC
+      LIMIT 1
+    ) AS string
+    FROM $statsTable stat
+    WHERE STRFTIME('%H', stat.$statsColumnTimerStartTime / 1000, 'unixepoch', 'localtime') - 12 >= 0
+    GROUP BY stat.$statsColumnId
+    ORDER BY COUNT(*) DESC
+    LIMIT 1''';
+
+  // Query SQL
+  get sql {
+    switch (value) {
+      case 1:
+        return afternoonTeaSQL;
+      default:
+        return morningTeaSQL;
+    }
+  }
+}
+
+// List queries
+enum ListQuery {
+  summaryStats(0);
+
+  final int value;
+
+  const ListQuery(this.value);
+
+  // Stats queries
+  final summaryStatsSQL = '''SELECT $statsTable.$statsColumnId
+    , tea.$statsColumnName
+    , tea.$statsColumnColorShadeRed
+    , tea.$statsColumnColorShadeGreen
+    , tea.$statsColumnColorShadeBlue
+    , tea.$statsColumnIconValue
+    , COUNT(*) AS count
+    FROM $statsTable
+    INNER JOIN (
+      SELECT DISTINCT $statsColumnId
+      , $statsColumnName
+      , $statsColumnColorShadeRed
+      , $statsColumnColorShadeGreen
+      , $statsColumnColorShadeBlue
+      , $statsColumnIconValue
+      FROM $statsTable AS stat
+      WHERE $statsColumnTimerStartTime = (
+        SELECT MAX($statsColumnTimerStartTime)
+        FROM $statsTable
+        WHERE $statsColumnId = stat.$statsColumnId
+      )
+    ) AS tea
+    ON tea.$statsColumnId = $statsTable.$statsColumnId
+    GROUP BY $statsTable.$statsColumnId
+    , tea.$statsColumnName
+    , tea.$statsColumnColorShadeRed
+    , tea.$statsColumnColorShadeGreen
+    , tea.$statsColumnColorShadeBlue
+    , tea.$statsColumnIconValue
+    ORDER BY COUNT(*) DESC''';
+
+  // Query SQL
+  get sql {
+    switch (value) {
+      default:
+        return summaryStatsSQL;
+    }
   }
 }
