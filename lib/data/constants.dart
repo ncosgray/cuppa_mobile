@@ -19,6 +19,7 @@ const appIcon = 'images/Cuppa_icon.png';
 const aboutCopyright = '\u00a9 Nathan Cosgray';
 const aboutURL = 'https://nathanatos.com';
 const unknownString = '?';
+const starSymbol = '\u2605';
 
 // About list item link URLs
 const versionsURL = 'https://github.com/ncosgray/cuppa_mobile/releases';

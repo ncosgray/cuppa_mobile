@@ -148,7 +148,8 @@ enum AppString {
         .replaceAll('{{app_name}}', appName)
         .replaceAll('{{favorites_max}}', favoritesMaxCount.toString())
         .replaceAll('{{teas_max}}', teasMaxCount.toString())
-        .replaceAll('{{timers_max}}', timersMaxCount.toString());
+        .replaceAll('{{timers_max}}', timersMaxCount.toString())
+        .replaceAll('{{star_symbol}}', starSymbol);
   }
 }
 
