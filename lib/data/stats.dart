@@ -35,7 +35,7 @@ class Stat {
   late int colorShadeGreen;
   late int colorShadeBlue;
   late int iconValue;
-  late int isFavorite;
+  late bool isFavorite;
   late int timerStartTime;
   late int count;
 
@@ -63,7 +63,7 @@ class Stat {
     this.colorShadeGreen = tea?.getColor().green ?? colorShadeGreen ?? 0;
     this.colorShadeBlue = tea?.getColor().blue ?? colorShadeBlue ?? 0;
     this.iconValue = tea?.icon.value ?? iconValue ?? 0;
-    this.isFavorite = (tea?.isFavorite ?? isFavorite ?? false) ? 1 : 0;
+    this.isFavorite = tea?.isFavorite ?? isFavorite ?? false;
     this.timerStartTime =
         timerStartTime ?? DateTime.now().millisecondsSinceEpoch;
     this.count = count ?? 0;
@@ -80,7 +80,7 @@ class Stat {
       statsColumnColorShadeGreen: this.colorShadeGreen,
       statsColumnColorShadeBlue: this.colorShadeBlue,
       statsColumnIconValue: this.iconValue,
-      statsColumnIsFavorite: this.isFavorite,
+      statsColumnIsFavorite: this.isFavorite ? 1 : 0,
       statsColumnTimerStartTime: this.timerStartTime,
     };
   }
@@ -117,12 +117,16 @@ class Stat {
               // Tea name
               Padding(
                 padding: const EdgeInsets.only(right: 12.0),
-                child: Text(
-                  this.name,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: color,
-                  ),
+                child: Row(
+                  children: [
+                    Text(
+                      this.name + (isFavorite ? ' $starSymbol' : ''),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: color,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -250,9 +254,7 @@ abstract class Stats {
             int.tryParse(results[i][statsColumnColorShadeBlue].toString()),
         iconValue: int.tryParse(results[i][statsColumnIconValue].toString()),
         isFavorite:
-            (int.tryParse(results[i][statsColumnIsFavorite].toString())) == 1
-                ? true
-                : false,
+            int.tryParse(results[i][statsColumnIsFavorite].toString()) == 1,
         timerStartTime:
             int.tryParse(results[i][statsColumnTimerStartTime].toString()),
         count: int.tryParse(results[i][statsColumnCount].toString()),
@@ -414,6 +416,7 @@ enum ListQuery {
     , tea.$statsColumnColorShadeGreen
     , tea.$statsColumnColorShadeBlue
     , tea.$statsColumnIconValue
+    , tea.$statsColumnIsFavorite
     , COUNT(*) AS count
     FROM $statsTable
     INNER JOIN (
@@ -423,6 +426,7 @@ enum ListQuery {
       , $statsColumnColorShadeGreen
       , $statsColumnColorShadeBlue
       , $statsColumnIconValue
+      , $statsColumnIsFavorite
       FROM $statsTable AS stat
       WHERE $statsColumnTimerStartTime = (
         SELECT MAX($statsColumnTimerStartTime)
@@ -437,6 +441,7 @@ enum ListQuery {
     , tea.$statsColumnColorShadeGreen
     , tea.$statsColumnColorShadeBlue
     , tea.$statsColumnIconValue
+    , tea.$statsColumnIsFavorite
     ORDER BY COUNT(*) DESC''';
 
   // Query SQL
