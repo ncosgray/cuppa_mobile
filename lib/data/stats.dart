@@ -180,8 +180,8 @@ class Stat {
 
 // Stats methods
 abstract class Stats {
-  static Database? _statsData;
-  static const statsCreateSQL = '''CREATE TABLE $statsTable (
+  // Data management queries
+  static const createSQL = '''CREATE TABLE $statsTable (
       $statsColumnId INTEGER
       , $statsColumnName TEXT
       , $statsColumnBrewTime INTEGER
@@ -193,8 +193,10 @@ abstract class Stats {
       , $statsColumnIsFavorite INTEGER
       , $statsColumnTimerStartTime INTEGER
     )''';
+  static const deleteAllSQL = 'DELETE FROM $statsTable';
 
   // Stats database getter
+  static Database? _statsData;
   static Future<Database> get statsData async {
     if (_statsData?.isOpen != null) return _statsData!;
 
@@ -208,9 +210,17 @@ abstract class Stats {
       join(await getDatabasesPath(), statsDatabase),
       version: 1,
       onCreate: (Database db, _) async {
-        await db.execute(statsCreateSQL);
+        await db.execute(createSQL);
       },
     );
+  }
+
+  // Clear usage data
+  static Future<void> clearStats() async {
+    final db = await statsData;
+
+    // Delete contents of stats table
+    await db.rawQuery(deleteAllSQL);
   }
 
   // Add a new stat to usage data

@@ -156,6 +156,10 @@ abstract class Prefs {
     return sharedPrefs.getString(prefAppLanguage);
   }
 
+  static bool? loadCollectStats() {
+    return sharedPrefs.getBool(prefCollectStats);
+  }
+
   // Store setting(s) in shared prefs
   static void saveSettings({
     bool? showExtra,
@@ -163,6 +167,7 @@ abstract class Prefs {
     bool? useCelsius,
     AppTheme? appTheme,
     String? appLanguage,
+    bool? collectStats,
   }) {
     if (showExtra != null) {
       sharedPrefs.setBool(prefShowExtra, showExtra);
@@ -178,6 +183,9 @@ abstract class Prefs {
     }
     if (appLanguage != null) {
       sharedPrefs.setString(prefAppLanguage, appLanguage);
+    }
+    if (collectStats != null) {
+      sharedPrefs.setBool(prefCollectStats, collectStats);
     }
   }
 
