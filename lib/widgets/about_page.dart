@@ -19,6 +19,7 @@ import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
@@ -26,6 +27,7 @@ import 'package:cuppa_mobile/widgets/text_styles.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -79,12 +81,24 @@ class AboutWidget extends StatelessWidget {
                     },
                   ),
                   listDivider,
-                  // Timer stats
-                  _listItem(
-                    title: AppString.stats_title.translate(),
-                    onTap: () => _openTimerStats(context),
+                  // Display timer usage stats, if enabled
+                  Selector<AppProvider, bool>(
+                    selector: (_, provider) => provider.collectStats,
+                    builder: (context, collectStats, child) => Visibility(
+                      visible: collectStats,
+                      child: _listItem(
+                        title: AppString.stats_title.translate(),
+                        onTap: () => _openTimerStats(context),
+                      ),
+                    ),
                   ),
-                  listDivider,
+                  Selector<AppProvider, bool>(
+                    selector: (_, provider) => provider.collectStats,
+                    builder: (context, collectStats, child) => Visibility(
+                      visible: collectStats,
+                      child: listDivider,
+                    ),
+                  ),
                   // How to report issues
                   _listItem(
                     title: AppString.issues.translate(),
