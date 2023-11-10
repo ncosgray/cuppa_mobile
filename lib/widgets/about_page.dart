@@ -13,16 +13,14 @@
 // About Cuppa page
 // - Version and build number
 // - Links to GitHub, Weblate, etc.
-// - Timer usage stats
 
-import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/provider.dart';
-import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/stats_page.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
@@ -87,8 +85,12 @@ class AboutWidget extends StatelessWidget {
                     builder: (context, collectStats, child) => Visibility(
                       visible: collectStats,
                       child: _listItem(
-                        title: AppString.stats_title.translate(),
-                        onTap: () => _openTimerStats(context),
+                        title: AppString.stats_header.translate(),
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const StatsWidget(),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -180,87 +182,6 @@ class AboutWidget extends StatelessWidget {
             const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
         dense: true,
       ),
-    );
-  }
-
-  // Open a dialog showing the timer usage stats
-  Future<void> _openTimerStats(BuildContext context) async {
-    // Fetch stats
-    int beginDateTime = await Stats.getMetric(MetricQuery.beginDateTime);
-    int totalCount = await Stats.getMetric(MetricQuery.totalCount);
-    int starredCount = await Stats.getMetric(MetricQuery.starredCount);
-    int totalTime = await Stats.getMetric(MetricQuery.totalTime);
-    String morningTea = await Stats.getString(StringQuery.morningTea);
-    String afternoonTea = await Stats.getString(StringQuery.afternoonTea);
-    List<Stat> summaryStats = await Stats.getTeaStats(ListQuery.summaryStats);
-
-    // Display all stats in a dialog
-    if (!context.mounted) return;
-    showAdaptiveDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return AlertDialog.adaptive(
-          title: Text(AppString.stats_title.translate()),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                // General metrics
-                Visibility(
-                  visible: beginDateTime > 0,
-                  child: Stats.metricWidget(
-                    metricName: AppString.stats_begin.translate(),
-                    metric: formatDate(beginDateTime),
-                  ),
-                ),
-                Stats.metricWidget(
-                  metricName: AppString.stats_timer_count.translate(),
-                  metric: totalCount.toString(),
-                ),
-                Visibility(
-                  visible: totalCount > 0,
-                  child: Stats.metricWidget(
-                    metricName: AppString.stats_starred.translate(),
-                    metric: formatPercent(starredCount / totalCount),
-                  ),
-                ),
-                Stats.metricWidget(
-                  metricName: AppString.stats_timer_time.translate(),
-                  metric: formatTimer(totalTime),
-                ),
-                Visibility(
-                  visible: morningTea.isNotEmpty,
-                  child: Stats.metricWidget(
-                    metricName: AppString.stats_favorite_am.translate(),
-                    metric: morningTea,
-                  ),
-                ),
-                Visibility(
-                  visible: afternoonTea.isNotEmpty,
-                  child: Stats.metricWidget(
-                    metricName: AppString.stats_favorite_pm.translate(),
-                    metric: afternoonTea,
-                  ),
-                ),
-                // Tea timer usage summary
-                Visibility(
-                  visible: summaryStats.isNotEmpty,
-                  child: listDivider,
-                ),
-                for (Stat stat in summaryStats)
-                  stat.toWidget(totalCount: totalCount),
-              ],
-            ),
-          ),
-          actions: [
-            adaptiveDialogAction(
-              isDefaultAction: true,
-              text: AppString.ok_button.translate(),
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-          ],
-        );
-      },
     );
   }
 }

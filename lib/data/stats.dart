@@ -19,6 +19,7 @@ import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
+import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
@@ -121,8 +122,7 @@ class Stat {
                   children: [
                     Text(
                       this.name + (isFavorite ? ' $starSymbol' : ''),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                      style: textStyleStat.copyWith(
                         color: color,
                       ),
                     ),
@@ -152,13 +152,12 @@ class Stat {
                           padding: const EdgeInsets.only(right: 4.0),
                           child: Text(
                             '$count',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: textStyleStat,
                           ),
                         ),
                         Text(
                           percent,
+                          style: textStyleStatLabel,
                         ),
                       ],
                     ),
@@ -296,35 +295,6 @@ abstract class Stats {
       metric = result[0][statsColumnString].toString();
     }
     return metric;
-  }
-
-  // Generate a metric widget
-  static Widget metricWidget({
-    required String metricName,
-    required String metric,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Metric name
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: Text(
-              metricName,
-            ),
-          ),
-          // Formatted metric value
-          Text(
-            metric,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
 

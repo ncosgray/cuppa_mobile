@@ -102,6 +102,7 @@ enum AppString {
   stats_enable('stats_enable'),
   stats_favorite_am('stats_favorite_am'),
   stats_favorite_pm('stats_favorite_pm'),
+  stats_header('stats_header'),
   stats_starred('stats_starred'),
   stats_timer_count('stats_timer_count'),
   stats_timer_time('stats_timer_time'),
