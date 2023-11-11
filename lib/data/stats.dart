@@ -70,6 +70,16 @@ class Stat {
     this.count = count ?? 0;
   }
 
+  // Getters
+  Color get color {
+    return Color.fromRGBO(
+      colorShadeRed,
+      colorShadeGreen,
+      colorShadeBlue,
+      1.0,
+    );
+  }
+
   // Convert a stat to a map for inserting
   Map<String, dynamic> toMap() {
     return {
@@ -91,12 +101,6 @@ class Stat {
     bool details = false,
     int totalCount = 0,
   }) {
-    Color color = Color.fromRGBO(
-      colorShadeRed,
-      colorShadeGreen,
-      colorShadeBlue,
-      1.0,
-    );
     String percent =
         totalCount > 0 ? '(${formatPercent(count / totalCount)})' : '';
 
