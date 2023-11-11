@@ -25,6 +25,7 @@ dependencies:
   app_settings: ^5.1.1
   cupertino_icons: ^1.0.6
   dynamic_color: ^1.6.8
+  fl_chart: ^0.64.0
   flex_color_picker: ^3.3.0
   flutter:
     sdk: flutter

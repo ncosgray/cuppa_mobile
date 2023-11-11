@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 // Timer Stats page
@@ -43,6 +44,11 @@ class _StatsWidgetState extends State<StatsWidget> {
   // Build Stats page
   @override
   Widget build(BuildContext context) {
+    // Determine chart size based on device size
+    double chartSize = getDeviceSize(context).isPortrait
+        ? getDeviceSize(context).width * 0.5
+        : getDeviceSize(context).height * 0.5;
+
     return Scaffold(
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
@@ -57,6 +63,7 @@ class _StatsWidgetState extends State<StatsWidget> {
               // Usage report
               return CustomScrollView(
                 slivers: [
+                  // Report header
                   SliverAppBar(
                     elevation: 1,
                     pinned: true,
@@ -76,6 +83,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                       ),
                     ),
                   ),
+                  // Summary section
                   SliverToBoxAdapter(
                     child: Container(
                       margin: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
@@ -84,10 +92,33 @@ class _StatsWidgetState extends State<StatsWidget> {
                           // Summary stats
                           for (Stat stat in summaryStats)
                             stat.toWidget(totalCount: totalCount),
+                          // Summary pie chart
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16.0),
+                            child: SizedBox(
+                              width: chartSize,
+                              height: chartSize,
+                              child: PieChart(
+                                PieChartData(
+                                  sectionsSpace: 1.0,
+                                  startDegreeOffset: 270.0,
+                                  centerSpaceRadius: 0.0,
+                                  sections: [
+                                    for (Stat stat in summaryStats)
+                                      _chartSection(
+                                        stat: stat,
+                                        radius: chartSize / 2.0,
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
+                  // Metrics section
                   SliverFillRemaining(
                     hasScrollBody: false,
                     fillOverscroll: true,
@@ -138,6 +169,23 @@ class _StatsWidgetState extends State<StatsWidget> {
     summaryStats = await Stats.getTeaStats(ListQuery.summaryStats);
 
     return true;
+  }
+
+  // Pie chart stat section
+  PieChartSectionData _chartSection({
+    required Stat stat,
+    required double radius,
+  }) {
+    return PieChartSectionData(
+      value: stat.count.toDouble(),
+      color: stat.color,
+      radius: radius,
+      title: totalCount > 0 ? formatPercent(stat.count / totalCount) : null,
+      titleStyle: textStyleSubtitle.copyWith(
+        color: Colors.white,
+      ),
+      titlePositionPercentageOffset: 0.7,
+    );
   }
 
   // Metrics list
