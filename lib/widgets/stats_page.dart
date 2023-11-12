@@ -41,14 +41,12 @@ class _StatsWidgetState extends State<StatsWidget> {
   String afternoonTea = '';
   List<Stat> summaryStats = [];
 
+  // Chart interaction
+  int selectedSection = -1;
+
   // Build Stats page
   @override
   Widget build(BuildContext context) {
-    // Determine chart size based on device size
-    double chartSize = getDeviceSize(context).isPortrait
-        ? getDeviceSize(context).width * 0.5
-        : getDeviceSize(context).height * 0.5;
-
     return Scaffold(
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
@@ -90,30 +88,14 @@ class _StatsWidgetState extends State<StatsWidget> {
                       child: Column(
                         children: <Widget>[
                           // Summary stats
-                          for (Stat stat in summaryStats)
-                            stat.toWidget(totalCount: totalCount),
-                          // Summary pie chart
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: SizedBox(
-                              width: chartSize,
-                              height: chartSize,
-                              child: PieChart(
-                                PieChartData(
-                                  sectionsSpace: 1.0,
-                                  startDegreeOffset: 270.0,
-                                  centerSpaceRadius: 0.0,
-                                  sections: [
-                                    for (Stat stat in summaryStats)
-                                      _chartSection(
-                                        stat: stat,
-                                        radius: chartSize / 2.0,
-                                      ),
-                                  ],
-                                ),
-                              ),
+                          for (int i = 0; i < summaryStats.length; i++)
+                            summaryStats[i].toWidget(
+                              fade:
+                                  selectedSection > -1 && i != selectedSection,
+                              totalCount: totalCount,
                             ),
-                          ),
+                          // Summary pie chart
+                          _chart(),
                         ],
                       ),
                     ),
@@ -171,18 +153,67 @@ class _StatsWidgetState extends State<StatsWidget> {
     return true;
   }
 
+  // Build a pie chart
+  Widget _chart() {
+    // Determine chart size based on device size
+    double chartSize = getDeviceSize(context).isPortrait
+        ? getDeviceSize(context).width * 0.5
+        : getDeviceSize(context).height * 0.5;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 24.0),
+      child: SizedBox(
+        width: chartSize,
+        height: chartSize,
+        child: PieChart(
+          PieChartData(
+            sectionsSpace: 1.0,
+            startDegreeOffset: 270.0,
+            centerSpaceRadius: 0.0,
+            // Chart sections
+            sections: [
+              for (int i = 0; i < summaryStats.length; i++)
+                _chartSection(
+                  stat: summaryStats[i],
+                  radius: chartSize / 2.0,
+                  selected: i == selectedSection,
+                ),
+            ],
+            // Chart interactivity
+            pieTouchData: PieTouchData(
+              touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                setState(() {
+                  if (!event.isInterestedForInteractions ||
+                      pieTouchResponse == null ||
+                      pieTouchResponse.touchedSection == null) {
+                    selectedSection = -1;
+                    return;
+                  }
+                  selectedSection =
+                      pieTouchResponse.touchedSection!.touchedSectionIndex;
+                });
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   // Pie chart stat section
   PieChartSectionData _chartSection({
     required Stat stat,
     required double radius,
+    bool selected = false,
   }) {
     return PieChartSectionData(
       value: stat.count.toDouble(),
       color: stat.color,
-      radius: radius,
+      radius: selected ? radius * 1.05 : radius,
       title: totalCount > 0 ? formatPercent(stat.count / totalCount) : null,
       titleStyle: textStyleSubtitle.copyWith(
         color: Colors.white,
+        fontWeight: selected ? FontWeight.bold : null,
       ),
       titlePositionPercentageOffset: 0.7,
     );
