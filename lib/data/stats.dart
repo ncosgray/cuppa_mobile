@@ -12,14 +12,10 @@
 
 // Cuppa data
 // - Tea timer usage statistics and database functionality
-// - Stats display widgets
 // - Query enums
 
-import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:cuppa_mobile/widgets/common.dart';
-import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
@@ -94,94 +90,6 @@ class Stat {
       statsColumnIsFavorite: this.isFavorite ? 1 : 0,
       statsColumnTimerStartTime: this.timerStartTime,
     };
-  }
-
-  // Generate a stat widget
-  Widget toWidget({
-    bool details = false,
-    bool fade = false,
-    int totalCount = 0,
-  }) {
-    String percent =
-        totalCount > 0 ? '(${formatPercent(count / totalCount)})' : '';
-
-    return Opacity(
-      opacity: fade ? 0.4 : 1.0,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 0.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                // Tea icon button
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: miniTeaButton(
-                    color: color,
-                    icon: TeaIcon.values[iconValue].getIcon(),
-                  ),
-                ),
-                // Tea name
-                Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        this.name + (isFavorite ? ' $starSymbol' : ''),
-                        style: textStyleStat.copyWith(
-                          color: color,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    // Details: Brew time and temperature
-                    Visibility(
-                      visible: details,
-                      child: Text(
-                        '${formatTimer(brewTime)} @ ${formatTemp(brewTemp)}',
-                      ),
-                    ),
-                    // Tea timer usage
-                    Visibility(
-                      visible: count > 0,
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 4.0),
-                            child: Text(
-                              '$count',
-                              style: textStyleStat,
-                            ),
-                          ),
-                          Text(
-                            percent,
-                            style: textStyleStatLabel,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                // Details: Timer start date and time
-                Visibility(
-                  visible: details,
-                  child: Text(formatDate(timerStartTime, dateTime: true)),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }
 

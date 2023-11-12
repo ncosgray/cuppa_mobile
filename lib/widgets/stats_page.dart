@@ -12,11 +12,15 @@
 
 // Cuppa stats page
 // - Tea timer usage report
+// - Stats display widgets
 
 import 'package:cuppa_mobile/helpers.dart';
+import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/stats.dart';
+import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
@@ -89,10 +93,11 @@ class _StatsWidgetState extends State<StatsWidget> {
                         children: <Widget>[
                           // Summary stats
                           for (int i = 0; i < summaryStats.length; i++)
-                            summaryStats[i].toWidget(
+                            _statWidget(
+                              stat: summaryStats[i],
+                              totalCount: totalCount,
                               fade:
                                   selectedSection > -1 && i != selectedSection,
-                              totalCount: totalCount,
                             ),
                           // Summary pie chart
                           _chart(),
@@ -151,6 +156,95 @@ class _StatsWidgetState extends State<StatsWidget> {
     summaryStats = await Stats.getTeaStats(ListQuery.summaryStats);
 
     return true;
+  }
+
+  // Generate a stat widget
+  Widget _statWidget({
+    required Stat stat,
+    int totalCount = 0,
+    bool details = false,
+    bool fade = false,
+  }) {
+    String percent =
+        totalCount > 0 ? '(${formatPercent(stat.count / totalCount)})' : '';
+
+    return Opacity(
+      opacity: fade ? 0.4 : 1.0,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 0.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                // Tea icon button
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: miniTeaButton(
+                    color: stat.color,
+                    icon: TeaIcon.values[stat.iconValue].getIcon(),
+                  ),
+                ),
+                // Tea name
+                Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        stat.name + (stat.isFavorite ? ' $starSymbol' : ''),
+                        style: textStyleStat.copyWith(
+                          color: stat.color,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    // Details: Brew time and temperature
+                    Visibility(
+                      visible: details,
+                      child: Text(
+                        '${formatTimer(stat.brewTime)} @ ${formatTemp(stat.brewTemp)}',
+                      ),
+                    ),
+                    // Tea timer usage
+                    Visibility(
+                      visible: stat.count > 0,
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 4.0),
+                            child: Text(
+                              '${stat.count}',
+                              style: textStyleStat,
+                            ),
+                          ),
+                          Text(
+                            percent,
+                            style: textStyleStatLabel,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                // Details: Timer start date and time
+                Visibility(
+                  visible: details,
+                  child: Text(formatDate(stat.timerStartTime, dateTime: true)),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   // Build a pie chart
