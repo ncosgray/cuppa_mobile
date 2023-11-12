@@ -399,6 +399,9 @@ class PrefsWidget extends StatelessWidget {
         // Setting: hide timer increment buttons
         _hideIncrementsSetting(context),
         listDivider,
+        // Setting: collect timer usage stats
+        _collectStatsSetting(context),
+        listDivider,
         // Setting: default to Celsius or Fahrenheit
         _useCelsiusSetting(context),
         listDivider,
@@ -407,9 +410,6 @@ class PrefsWidget extends StatelessWidget {
         listDivider,
         // Setting: app language selection
         _appLanguageSetting(context),
-        listDivider,
-        // Setting: collect timer usage stats
-        _collectStatsSetting(context),
         listDivider,
         // Notification info
         _notificationLink(),
