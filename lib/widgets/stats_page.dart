@@ -168,8 +168,9 @@ class _StatsWidgetState extends State<StatsWidget> {
     String percent =
         totalCount > 0 ? '(${formatPercent(stat.count / totalCount)})' : '';
 
-    return Opacity(
+    return AnimatedOpacity(
       opacity: fade ? 0.4 : 1.0,
+      duration: shortAnimationDuration,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 0.0),
         child: Row(
