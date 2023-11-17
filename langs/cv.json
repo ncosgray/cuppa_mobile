@@ -1,1 +1,13 @@
-{}
+{
+    "no_button": "Ҫук",
+    "add_tea_button": "Чей хуш",
+    "cancel_button": "Пӑрахӑҫла",
+    "issues": "Ыйтусем",
+    "language_name": "Акăлчан",
+    "ok_button": "Юрать",
+    "yes_button": "Ийя",
+    "confirm_title": "Асӑрканӑр!",
+    "new_tea_default_name": "Ҫӗнӗ чей",
+    "about_license": "Ҫӑмӑл котлӑ лиҫенси",
+    "about_title": "{{app_name}} ҫинчен"
+}
