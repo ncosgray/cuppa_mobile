@@ -19,7 +19,7 @@ version: 2.3.0+39
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
-  flutter: ^3.13.9
+  flutter: ^3.16.0
 
 dependencies:
   app_settings: ^5.1.1
@@ -36,7 +36,7 @@ dependencies:
   intl: ^0.18.1
   package_info_plus: ^4.2.0
   path: ^1.8.3
-  provider: ^6.0.5
+  provider: ^6.1.1
   quick_actions: ^1.0.6
   shared_preferences: ^2.2.2
   showcaseview: ^2.0.3
@@ -54,7 +54,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^3.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
