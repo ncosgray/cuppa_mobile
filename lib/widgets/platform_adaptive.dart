@@ -340,14 +340,12 @@ class PlatformAdaptiveNavBar extends StatelessWidget
   const PlatformAdaptiveNavBar({
     super.key,
     required this.isPoppable,
-    this.textScaleFactor = 1.0,
     required this.title,
     this.actionRoute,
     this.actionIcon,
   });
 
   final bool isPoppable;
-  final double textScaleFactor;
   final String title;
   final Widget? actionRoute;
   final Widget? actionIcon;
@@ -368,7 +366,6 @@ class PlatformAdaptiveNavBar extends StatelessWidget
             : null,
         middle: Text(
           title,
-          textScaleFactor: textScaleFactor,
           style: TextStyle(
             color: Theme.of(context).textTheme.titleLarge!.color,
           ),

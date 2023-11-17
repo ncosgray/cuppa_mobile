@@ -108,7 +108,6 @@ class _TimerWidgetState extends State<TimerWidget> {
     return Scaffold(
       appBar: PlatformAdaptiveNavBar(
         isPoppable: false,
-        textScaleFactor: appTextScale,
         title: appName,
         // Button to navigate to Preferences page
         actionIcon: tutorialTooltip(
@@ -305,7 +304,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                     maxLines: 1,
                     softWrap: false,
                     overflow: TextOverflow.clip,
-                    textScaleFactor: 1.0,
+                    textScaler: TextScaler.noScaling,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 150.0,

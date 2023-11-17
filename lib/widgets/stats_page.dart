@@ -17,7 +17,6 @@
 import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
@@ -54,7 +53,6 @@ class _StatsWidgetState extends State<StatsWidget> {
     return Scaffold(
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
-        textScaleFactor: appTextScale,
         title: AppString.stats_title.translate(),
       ),
       body: SafeArea(

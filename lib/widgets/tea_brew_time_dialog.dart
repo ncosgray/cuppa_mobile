@@ -214,7 +214,6 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
             child: Text(
               hourLabel,
               style: textStyleSettingTertiary,
-              textScaleFactor: 1.0,
             ),
           ),
           Visibility(visible: _hoursSelectionMode, child: timePickerSpacer),
@@ -242,7 +241,6 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
           Text(
             _hoursSelectionMode ? minuteLabel : ':',
             style: textStyleSettingTertiary,
-            textScaleFactor: 1.0,
           ),
           Visibility(visible: !_hoursSelectionMode, child: timePickerSpacer),
           // Seconds picker

@@ -39,7 +39,6 @@ class AboutWidget extends StatelessWidget {
     return Scaffold(
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
-        textScaleFactor: appTextScale,
         title: AppString.about_title.translate(),
       ),
       body: SafeArea(
