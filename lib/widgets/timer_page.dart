@@ -132,12 +132,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                     flex: 2,
                     child: Container(
                       padding: layoutPortrait
-                          ? const EdgeInsets.fromLTRB(
-                              48.0,
-                              24.0,
-                              48.0,
-                              12.0,
-                            )
+                          ? const EdgeInsets.fromLTRB(48.0, 24.0, 48.0, 12.0)
                           : const EdgeInsets.all(12.0),
                       alignment: layoutPortrait
                           ? Alignment.center
@@ -168,12 +163,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                       ),
                       padding: layoutPortrait
                           ? const EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 12.0)
-                          : const EdgeInsets.fromLTRB(
-                              48.0,
-                              12.0,
-                              12.0,
-                              12.0,
-                            ),
+                          : const EdgeInsets.fromLTRB(48.0, 12.0, 12.0, 12.0),
                       alignment: layoutPortrait
                           ? Alignment.center
                           : Alignment.centerLeft,
@@ -184,13 +174,10 @@ class _TimerWidgetState extends State<TimerWidget> {
               ),
             ),
             // Tea brew start buttons
-            SizedBox(
-              height: 190.0,
-              child: Container(
-                margin: const EdgeInsets.only(left: 10.0),
-                alignment: Alignment.center,
-                child: _teaButtonList(),
-              ),
+            Container(
+              margin: const EdgeInsets.only(left: 10.0, bottom: 4.0),
+              alignment: Alignment.center,
+              child: _teaButtonList(),
             ),
           ],
         ),
@@ -460,11 +447,16 @@ class _TimerWidgetState extends State<TimerWidget> {
                                     : null,
                           ),
                           // Cancel brewing button
-                          Visibility(
-                            visible: tea.isActive,
-                            child: CancelButton(
-                              active: tea.isActive,
-                              onPressed: (_) => _cancelTimerForTea(tea),
+                          Container(
+                            constraints: const BoxConstraints(
+                              minHeight: 48.0,
+                            ),
+                            child: Visibility(
+                              visible: tea.isActive,
+                              child: CancelButton(
+                                active: tea.isActive,
+                                onPressed: (_) => _cancelTimerForTea(tea),
+                              ),
                             ),
                           ),
                         ],
@@ -474,10 +466,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                 );
               } else {
                 // Add button if tea list is empty
-                return Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: _addButton(),
-                );
+                return _addButton();
               }
             },
           ),
@@ -489,14 +478,15 @@ class _TimerWidgetState extends State<TimerWidget> {
   // Add button linking to Prefs page
   Widget _addButton() {
     return Card(
+      clipBehavior: Clip.antiAlias,
+      margin: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () => Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => const PrefsWidget())),
         child: Container(
           constraints: const BoxConstraints(
-            maxHeight: 116.0,
+            minHeight: 116.0,
             minWidth: 88.0,
-            maxWidth: double.infinity,
           ),
           margin: const EdgeInsets.all(8.0),
           child: Column(

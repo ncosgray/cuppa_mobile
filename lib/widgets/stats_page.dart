@@ -163,6 +163,7 @@ class _StatsWidgetState extends State<StatsWidget> {
     bool details = false,
     bool fade = false,
   }) {
+    double maxWidth = (getDeviceSize(context).width / 1.5) - 12.0;
     String percent =
         totalCount > 0 ? '(${formatPercent(stat.count / totalCount)})' : '';
 
@@ -187,15 +188,14 @@ class _StatsWidgetState extends State<StatsWidget> {
                 // Tea name
                 Padding(
                   padding: const EdgeInsets.only(right: 12.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        stat.name + (stat.isFavorite ? ' $starSymbol' : ''),
-                        style: textStyleStat.copyWith(
-                          color: stat.color,
-                        ),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: maxWidth),
+                    child: Text(
+                      stat.name + (stat.isFavorite ? ' $starSymbol' : ''),
+                      style: textStyleStat.copyWith(
+                        color: stat.color,
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ],
@@ -357,10 +357,12 @@ class _StatsWidgetState extends State<StatsWidget> {
   }
 
   // Generate a metric list item widget
-  static Widget _metricWidget({
+  Widget _metricWidget({
     required String metricName,
     required String metric,
   }) {
+    double maxWidth = (getDeviceSize(context).width / 2.0) - 12.0;
+
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Row(
@@ -369,15 +371,21 @@ class _StatsWidgetState extends State<StatsWidget> {
           // Metric name
           Padding(
             padding: const EdgeInsets.only(right: 12.0),
-            child: Text(
-              metricName,
-              style: textStyleStatLabel,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: maxWidth),
+              child: Text(
+                metricName,
+                style: textStyleStatLabel,
+              ),
             ),
           ),
           // Formatted metric value
-          Text(
-            metric,
-            style: textStyleStat,
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: maxWidth),
+            child: Text(
+              metric,
+              style: textStyleStat,
+            ),
           ),
         ],
       ),

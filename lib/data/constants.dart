@@ -44,7 +44,6 @@ const teasMaxCount = 15;
 const timersMaxCount = 2;
 
 // UI sizing thresholds
-const maxTextScale = 1.4;
 const largeDeviceSize = 550;
 
 // Notifications
