@@ -72,3 +72,12 @@ const TextStyle textStyleTutorialTitle = TextStyle(
   fontSize: 16.0,
   fontWeight: FontWeight.bold,
 );
+
+const TextStyle textStyleStat = TextStyle(
+  fontSize: 16.0,
+  fontWeight: FontWeight.bold,
+);
+
+const TextStyle textStyleStatLabel = TextStyle(
+  fontSize: 16.0,
+);
