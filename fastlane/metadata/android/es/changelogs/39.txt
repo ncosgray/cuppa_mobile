@@ -1,0 +1,4 @@
+* Ahora es posible ajustar el tiempo restante en un temporizador de té activo.
+* Opciones adicionales de temperatura de infusión.
+* Varios ajustes de usabilidad e interfaz.
+* Actualizaciones de traducción - ¡contribuye a través de Weblate!
