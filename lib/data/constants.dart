@@ -19,6 +19,7 @@ const appIcon = 'images/Cuppa_icon.png';
 const aboutCopyright = '\u00a9 Nathan Cosgray';
 const aboutURL = 'https://nathanatos.com';
 const unknownString = '?';
+const starSymbol = '\u2605';
 
 // About list item link URLs
 const versionsURL = 'https://github.com/ncosgray/cuppa_mobile/releases';
@@ -124,6 +125,7 @@ const prefTeaList = 'Cuppa_tea_list';
 const prefNextTeaID = 'Cuppa_next_tea_id';
 const prefShowExtra = 'Cuppa_show_extra';
 const prefHideIncrements = 'Cuppa_hide_increments';
+const prefCollectStats = 'Cuppa_collect_stats';
 const prefUseCelsius = 'Cuppa_use_celsius';
 const prefAppTheme = 'Cuppa_app_theme';
 const prefAppLanguage = 'Cuppa_app_language';
@@ -155,3 +157,20 @@ const longAnimationDuration = Duration(milliseconds: 200);
 // Timer increments
 const incrementSeconds = 10;
 const hideTimerIncrementsDelay = 5;
+
+// Stats data
+const statsDatabase = 'Cuppa_stats.db';
+const statsTable = 'statsData';
+const statsColumnId = 'id';
+const statsColumnName = 'name';
+const statsColumnBrewTime = 'brewTime';
+const statsColumnBrewTemp = 'brewTemp';
+const statsColumnColorShadeRed = 'colorShadeRed';
+const statsColumnColorShadeGreen = 'colorShadeGreen';
+const statsColumnColorShadeBlue = 'colorShadeBlue';
+const statsColumnIconValue = 'iconValue';
+const statsColumnIsFavorite = 'isFavorite';
+const statsColumnTimerStartTime = 'timerStartTime';
+const statsColumnCount = 'count';
+const statsColumnMetric = 'metric';
+const statsColumnString = 'string';

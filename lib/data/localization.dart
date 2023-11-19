@@ -65,6 +65,7 @@ enum AppString {
   about_title('about_title'),
   add_tea_button('add_tea_button'),
   cancel_button('cancel_button'),
+  confirm_continue('confirm_continue'),
   confirm_delete('confirm_delete'),
   confirm_message_line1('confirm_message_line1'),
   confirm_message_line2('confirm_message_line2'),
@@ -95,6 +96,17 @@ enum AppString {
   settings_title('settings_title'),
   source_code_info('source_code_info'),
   source_code('source_code'),
+  stats_begin('stats_begin'),
+  stats_confirm_disable('stats_confirm_disable'),
+  stats_confirm_enable('stats_confirm_enable'),
+  stats_enable('stats_enable'),
+  stats_favorite_am('stats_favorite_am'),
+  stats_favorite_pm('stats_favorite_pm'),
+  stats_header('stats_header'),
+  stats_starred('stats_starred'),
+  stats_timer_count('stats_timer_count'),
+  stats_timer_time('stats_timer_time'),
+  stats_title('stats_title'),
   tea_name_assam('tea_name_assam'),
   tea_name_black('tea_name_black'),
   tea_name_chamomile('tea_name_chamomile'),
@@ -141,7 +153,8 @@ enum AppString {
         .replaceAll('{{app_name}}', appName)
         .replaceAll('{{favorites_max}}', favoritesMaxCount.toString())
         .replaceAll('{{teas_max}}', teasMaxCount.toString())
-        .replaceAll('{{timers_max}}', timersMaxCount.toString());
+        .replaceAll('{{timers_max}}', timersMaxCount.toString())
+        .replaceAll('{{star_symbol}}', starSymbol);
   }
 }
 

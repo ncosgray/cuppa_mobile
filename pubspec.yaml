@@ -25,6 +25,7 @@ dependencies:
   app_settings: ^5.1.1
   cupertino_icons: ^1.0.6
   dynamic_color: ^1.6.8
+  fl_chart: ^0.64.0
   flex_color_picker: ^3.3.0
   flutter:
     sdk: flutter
@@ -32,12 +33,15 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_timezone: ^1.0.8
+  intl: ^0.18.1
   package_info_plus: ^4.2.0
+  path: ^1.8.3
   provider: ^6.0.5
   quick_actions: ^1.0.6
   shared_preferences: ^2.2.2
   showcaseview: ^2.0.3
   sliver_tools: ^0.2.12
+  sqflite: ^2.3.0
   url_launcher: ^6.2.1
   wakelock_plus: ^1.1.3
 

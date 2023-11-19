@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/provider.dart';
+import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/about_page.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
@@ -398,6 +399,9 @@ class PrefsWidget extends StatelessWidget {
         // Setting: hide timer increment buttons
         _hideIncrementsSetting(context),
         listDivider,
+        // Setting: collect timer usage stats
+        _collectStatsSetting(context),
+        listDivider,
         // Setting: default to Celsius or Fahrenheit
         _useCelsiusSetting(context),
         listDivider,
@@ -462,6 +466,84 @@ class PrefsWidget extends StatelessWidget {
             const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
         dense: true,
       ),
+    );
+  }
+
+  // Setting: collect timer usage stats
+  Widget _collectStatsSetting(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
+    return Align(
+      alignment: Alignment.topLeft,
+      child: SwitchListTile.adaptive(
+        title: Text(
+          AppString.stats_enable.translate(),
+          style: textStyleTitle,
+        ),
+        value: provider.collectStats,
+        // Save collectStats setting to prefs
+        onChanged: (bool newValue) async {
+          AppProvider provider =
+              Provider.of<AppProvider>(context, listen: false);
+
+          // Show a prompt with more information
+          bool confirmed = false;
+          if (provider.collectStats) {
+            confirmed = await _confirmStatsSetting(context, disable: true);
+          } else {
+            confirmed = await _confirmStatsSetting(context);
+          }
+          if (confirmed) {
+            // Update setting
+            provider.collectStats = newValue;
+
+            // Clear usage data if collection gets disabled
+            if (!provider.collectStats) {
+              Stats.clearStats();
+            }
+          }
+        },
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+        dense: true,
+      ),
+    );
+  }
+
+  // Stats collection confirmation prompt
+  Future _confirmStatsSetting(BuildContext context, {bool disable = false}) {
+    return showAdaptiveDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog.adaptive(
+          title: Text(AppString.confirm_title.translate()),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  disable
+                      ? AppString.stats_confirm_disable.translate()
+                      : AppString.stats_confirm_enable.translate(),
+                ),
+                const SizedBox(height: 14.0),
+                Text(AppString.confirm_continue.translate()),
+              ],
+            ),
+          ),
+          actions: [
+            adaptiveDialogAction(
+              isDefaultAction: true,
+              text: AppString.no_button.translate(),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+            adaptiveDialogAction(
+              text: AppString.yes_button.translate(),
+              onPressed: () => Navigator.of(context).pop(true),
+            ),
+          ],
+        );
+      },
     );
   }
 

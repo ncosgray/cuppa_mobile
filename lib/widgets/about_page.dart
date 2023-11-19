@@ -17,12 +17,15 @@
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/stats_page.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -64,45 +67,6 @@ class AboutWidget extends StatelessWidget {
             SliverToBoxAdapter(
               child: Column(
                 children: [
-                  // Changelog
-                  _listItem(
-                    title: AppString.version_history.translate(),
-                    url: versionsURL,
-                  ),
-                  listDivider,
-                  // App license info
-                  _listItem(
-                    title: AppString.about_license.translate(),
-                    url: licenseURL,
-                  ),
-                  listDivider,
-                  // Link to app source code
-                  _listItem(
-                    title: AppString.source_code.translate(),
-                    subtitle: AppString.source_code_info.translate(),
-                    url: sourceURL,
-                  ),
-                  listDivider,
-                  // App localization info
-                  _listItem(
-                    title: AppString.help_translate.translate(),
-                    subtitle: AppString.help_translate_info.translate(),
-                    url: translateURL,
-                  ),
-                  listDivider,
-                  // How to report issues
-                  _listItem(
-                    title: AppString.issues.translate(),
-                    subtitle: AppString.issues_info.translate(),
-                    url: issuesURL,
-                  ),
-                  listDivider,
-                  // Privacy policy
-                  _listItem(
-                    title: AppString.privacy_policy.translate(),
-                    url: privacyURL,
-                  ),
-                  listDivider,
                   // Tutorial
                   _listItem(
                     title: AppString.tutorial.translate(),
@@ -113,6 +77,67 @@ class AboutWidget extends StatelessWidget {
                       ShowCaseWidget.of(context)
                           .startShowCase(tutorialSteps.keys.toList());
                     },
+                  ),
+                  listDivider,
+                  // Display timer usage stats, if enabled
+                  Selector<AppProvider, bool>(
+                    selector: (_, provider) => provider.collectStats,
+                    builder: (context, collectStats, child) => Visibility(
+                      visible: collectStats,
+                      child: _listItem(
+                        title: AppString.stats_header.translate(),
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const StatsWidget(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Selector<AppProvider, bool>(
+                    selector: (_, provider) => provider.collectStats,
+                    builder: (context, collectStats, child) => Visibility(
+                      visible: collectStats,
+                      child: listDivider,
+                    ),
+                  ),
+                  // How to report issues
+                  _listItem(
+                    title: AppString.issues.translate(),
+                    subtitle: AppString.issues_info.translate(),
+                    url: issuesURL,
+                  ),
+                  listDivider,
+                  // App localization info
+                  _listItem(
+                    title: AppString.help_translate.translate(),
+                    subtitle: AppString.help_translate_info.translate(),
+                    url: translateURL,
+                  ),
+                  listDivider,
+                  // Changelog
+                  _listItem(
+                    title: AppString.version_history.translate(),
+                    url: versionsURL,
+                  ),
+                  listDivider,
+                  // Link to app source code
+                  _listItem(
+                    title: AppString.source_code.translate(),
+                    subtitle: AppString.source_code_info.translate(),
+                    url: sourceURL,
+                  ),
+                  listDivider,
+                  // App license info
+                  _listItem(
+                    title: AppString.about_license.translate(),
+                    url: licenseURL,
+                  ),
+                  listDivider,
+                  // Privacy policy
+                  _listItem(
+                    title: AppString.privacy_policy.translate(),
+                    url: privacyURL,
                   ),
                   listDivider,
                 ],

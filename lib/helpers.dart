@@ -16,6 +16,7 @@ import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 const boilDegreesC = 100;
 const boilDegreesF = 212;
@@ -64,6 +65,22 @@ String formatTimer(s) {
   } else {
     return '$mins:${secs.toString().padLeft(2, '0')}';
   }
+}
+
+// Format epoch time as date or datetime string
+String formatDate(ms, {bool dateTime = false}) {
+  return ms > 0
+      ? dateTime
+          ? DateFormat('yyyy-MM-dd HH:mm')
+              .format(DateTime.fromMillisecondsSinceEpoch(ms))
+          : DateFormat('yyyy-MM-dd')
+              .format(DateTime.fromMillisecondsSinceEpoch(ms))
+      : '';
+}
+
+// Format number as percentage
+String formatPercent(i) {
+  return NumberFormat('#%').format(i);
 }
 
 // Fetch details about the device size and orientation

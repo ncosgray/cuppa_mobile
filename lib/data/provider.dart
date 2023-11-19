@@ -262,6 +262,15 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Setting: collect timer usage stats
+  bool _collectStats = false;
+  bool get collectStats => _collectStats;
+  set collectStats(bool newValue) {
+    _collectStats = newValue;
+    Prefs.saveSettings(collectStats: _collectStats);
+    notifyListeners();
+  }
+
   // Notify listeners
   void notify() {
     notifyListeners();
@@ -274,6 +283,7 @@ class AppProvider extends ChangeNotifier {
     _hideIncrements = Prefs.loadHideIncrements() ?? _hideIncrements;
     _appTheme = Prefs.loadAppTheme() ?? _appTheme;
     _appLanguage = Prefs.loadAppLanguage() ?? _appLanguage;
+    _collectStats = Prefs.loadCollectStats() ?? _collectStats;
 
     // Load teas from prefs
     if (Prefs.teaPrefsExist()) {
