@@ -119,10 +119,9 @@ class _StatsWidgetState extends State<StatsWidget> {
                                   for (int i = 0; i < summaryStats.length; i++)
                                     _statWidget(
                                       stat: summaryStats[i],
+                                      statIndex: i,
                                       maxWidth: summaryWidth,
                                       totalCount: totalCount,
-                                      fade: selectedSection > -1 &&
-                                          i != selectedSection,
                                     ),
                                 ],
                               ),
@@ -198,88 +197,97 @@ class _StatsWidgetState extends State<StatsWidget> {
   // Generate a stat widget
   Widget _statWidget({
     required Stat stat,
+    required int statIndex,
     required double maxWidth,
     int totalCount = 0,
     bool details = false,
-    bool fade = false,
   }) {
     String percent =
         totalCount > 0 ? '(${formatPercent(stat.count / totalCount)})' : '';
+    bool fade = selectedSection > -1 && statIndex != selectedSection;
 
     return AnimatedOpacity(
       opacity: fade ? 0.4 : 1.0,
       duration: shortAnimationDuration,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 0.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                // Tea icon button
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: miniTeaButton(
-                    color: stat.color,
-                    icon: TeaIcon.values[stat.iconValue].getIcon(),
-                  ),
-                ),
-                // Tea name
-                Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: maxWidth),
-                    child: Text(
-                      stat.name + (stat.isFavorite ? ' $starSymbol' : ''),
-                      style: textStyleStat.copyWith(
-                        color: stat.color,
-                      ),
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  // Tea icon button
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: miniTeaButton(
+                      color: stat.color,
+                      icon: TeaIcon.values[stat.iconValue].getIcon(),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    // Details: Brew time and temperature
-                    Visibility(
-                      visible: details,
+                  // Tea name
+                  Padding(
+                    padding: const EdgeInsets.only(right: 12.0),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: maxWidth),
                       child: Text(
-                        '${formatTimer(stat.brewTime)} @ ${formatTemp(stat.brewTemp)}',
+                        stat.name + (stat.isFavorite ? ' $starSymbol' : ''),
+                        style: textStyleStat.copyWith(
+                          color: stat.color,
+                        ),
                       ),
                     ),
-                    // Tea timer usage
-                    Visibility(
-                      visible: stat.count > 0,
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 4.0),
-                            child: Text(
-                              '${stat.count}',
-                              style: textStyleStat,
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      // Details: Brew time and temperature
+                      Visibility(
+                        visible: details,
+                        child: Text(
+                          '${formatTimer(stat.brewTime)} @ ${formatTemp(stat.brewTemp)}',
+                        ),
+                      ),
+                      // Tea timer usage
+                      Visibility(
+                        visible: stat.count > 0,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 4.0),
+                              child: Text(
+                                '${stat.count}',
+                                style: textStyleStat,
+                              ),
                             ),
-                          ),
-                          Text(
-                            percent,
-                            style: textStyleStatLabel,
-                          ),
-                        ],
+                            Text(
+                              percent,
+                              style: textStyleStatLabel,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                // Details: Timer start date and time
-                Visibility(
-                  visible: details,
-                  child: Text(formatDate(stat.timerStartTime, dateTime: true)),
-                ),
-              ],
-            ),
-          ],
+                    ],
+                  ),
+                  // Details: Timer start date and time
+                  Visibility(
+                    visible: details,
+                    child:
+                        Text(formatDate(stat.timerStartTime, dateTime: true)),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          // Chart interactivity
+          onTapDown: (_) => setState(() => selectedSection = statIndex),
+          onTapUp: (_) => setState(() => selectedSection = -1),
+          onTapCancel: () => setState(() => selectedSection = -1),
         ),
       ),
     );
