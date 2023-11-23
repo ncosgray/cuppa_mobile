@@ -214,7 +214,6 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
             child: Text(
               hourLabel,
               style: textStyleSettingTertiary,
-              textScaleFactor: 1.0,
             ),
           ),
           Visibility(visible: _hoursSelectionMode, child: timePickerSpacer),
@@ -242,7 +241,6 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
           Text(
             _hoursSelectionMode ? minuteLabel : ':',
             style: textStyleSettingTertiary,
-            textScaleFactor: 1.0,
           ),
           Visibility(visible: !_hoursSelectionMode, child: timePickerSpacer),
           // Seconds picker
@@ -301,14 +299,16 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
     required List<int> timeValues,
     bool padTime = false,
   }) {
+    double itemWidth = MediaQuery.of(context).textScaler.scale(28.0);
+
     return Row(
       children: [
         SizedBox(
-          width: 36.0,
+          width: itemWidth,
           child: ListWheelScrollView(
             controller: controller,
             physics: const FixedExtentScrollPhysics(),
-            itemExtent: 28.0,
+            itemExtent: itemWidth,
             squeeze: 1.1,
             diameterRatio: 1.1,
             perspective: 0.01,
