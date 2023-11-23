@@ -23,6 +23,7 @@ import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
+import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -50,6 +51,18 @@ class _StatsWidgetState extends State<StatsWidget> {
   // Build Stats page
   @override
   Widget build(BuildContext context) {
+    // Determine layout and widget sizes based on device size
+    bool layoutPortrait = getDeviceSize(context).isPortrait &&
+        !getDeviceSize(context).isLargeDevice;
+    double summaryWidth =
+        (getDeviceSize(context).width / (layoutPortrait ? 1.0 : 2.0));
+    double chartSize = layoutPortrait
+        ? getDeviceSize(context).width * 0.6
+        : min(
+            getDeviceSize(context).width * 0.4,
+            getDeviceSize(context).height * 0.4,
+          );
+
     return Scaffold(
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
@@ -87,18 +100,44 @@ class _StatsWidgetState extends State<StatsWidget> {
                   SliverToBoxAdapter(
                     child: Container(
                       margin: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                      child: Column(
-                        children: <Widget>[
+                      child: Flex(
+                        // Determine layout by device size
+                        direction:
+                            layoutPortrait ? Axis.vertical : Axis.horizontal,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           // Summary stats
-                          for (int i = 0; i < summaryStats.length; i++)
-                            _statWidget(
-                              stat: summaryStats[i],
-                              totalCount: totalCount,
-                              fade:
-                                  selectedSection > -1 && i != selectedSection,
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: ConstrainedBox(
+                              constraints:
+                                  BoxConstraints(maxWidth: summaryWidth),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  for (int i = 0; i < summaryStats.length; i++)
+                                    _statWidget(
+                                      stat: summaryStats[i],
+                                      maxWidth: summaryWidth,
+                                      totalCount: totalCount,
+                                      fade: selectedSection > -1 &&
+                                          i != selectedSection,
+                                    ),
+                                ],
+                              ),
                             ),
+                          ),
                           // Summary pie chart
-                          _chart(),
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Padding(
+                              padding: layoutPortrait
+                                  ? const EdgeInsets.only(top: 24.0)
+                                  : const EdgeInsets.all(24.0),
+                              child: _chart(chartSize: chartSize),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -159,11 +198,11 @@ class _StatsWidgetState extends State<StatsWidget> {
   // Generate a stat widget
   Widget _statWidget({
     required Stat stat,
+    required double maxWidth,
     int totalCount = 0,
     bool details = false,
     bool fade = false,
   }) {
-    double maxWidth = (getDeviceSize(context).width / 1.5) - 12.0;
     String percent =
         totalCount > 0 ? '(${formatPercent(stat.count / totalCount)})' : '';
 
@@ -247,46 +286,38 @@ class _StatsWidgetState extends State<StatsWidget> {
   }
 
   // Build a pie chart
-  Widget _chart() {
-    // Determine chart size based on device size
-    double chartSize = getDeviceSize(context).isPortrait
-        ? getDeviceSize(context).width * 0.5
-        : getDeviceSize(context).height * 0.5;
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 24.0),
-      child: SizedBox(
-        width: chartSize,
-        height: chartSize,
-        child: PieChart(
-          PieChartData(
-            sectionsSpace: 1.0,
-            startDegreeOffset: 270.0,
-            centerSpaceRadius: 0.0,
-            // Chart sections
-            sections: [
-              for (int i = 0; i < summaryStats.length; i++)
-                _chartSection(
-                  stat: summaryStats[i],
-                  radius: chartSize / 2.0,
-                  selected: i == selectedSection,
-                ),
-            ],
-            // Chart interactivity
-            pieTouchData: PieTouchData(
-              touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                setState(() {
-                  if (!event.isInterestedForInteractions ||
-                      pieTouchResponse == null ||
-                      pieTouchResponse.touchedSection == null) {
-                    selectedSection = -1;
-                    return;
-                  }
-                  selectedSection =
-                      pieTouchResponse.touchedSection!.touchedSectionIndex;
-                });
-              },
-            ),
+  Widget _chart({required double chartSize}) {
+    return SizedBox(
+      width: chartSize,
+      height: chartSize,
+      child: PieChart(
+        PieChartData(
+          sectionsSpace: 1.0,
+          startDegreeOffset: 270.0,
+          centerSpaceRadius: 0.0,
+          // Chart sections
+          sections: [
+            for (int i = 0; i < summaryStats.length; i++)
+              _chartSection(
+                stat: summaryStats[i],
+                radius: chartSize / 2.0,
+                selected: i == selectedSection,
+              ),
+          ],
+          // Chart interactivity
+          pieTouchData: PieTouchData(
+            touchCallback: (FlTouchEvent event, pieTouchResponse) {
+              setState(() {
+                if (!event.isInterestedForInteractions ||
+                    pieTouchResponse == null ||
+                    pieTouchResponse.touchedSection == null) {
+                  selectedSection = -1;
+                  return;
+                }
+                selectedSection =
+                    pieTouchResponse.touchedSection!.touchedSectionIndex;
+              });
+            },
           ),
         ),
       ),
