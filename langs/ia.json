@@ -1,1 +1,16 @@
-{}
+{
+    "about_app": "{{app_name}} es un application libere e de codice aperte.",
+    "no_button": "Non",
+    "cancel_button": "Cancellar",
+    "issues": "Defectos",
+    "help_translate_info": "Contribuer via Weblate",
+    "language_name": "Interlingua",
+    "help_translate": "Adjuta in le traduction de {{app_name}}",
+    "ok_button": "OK",
+    "notification_channel_name": "Notificationes del temporisator",
+    "prefs_language": "Selige le lingua del application",
+    "confirm_message_line2": "Cancellar e initiar un nove temporisator?",
+    "about_license": "Licencia de codice aperte",
+    "confirm_message_line1": "Il ha temporisatores active.",
+    "about_title": "A proposito de {{app_name}}"
+}
