@@ -15,7 +15,6 @@
 
 import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
-import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/presets.dart';
@@ -46,7 +45,6 @@ class PrefsWidget extends StatelessWidget {
     return Scaffold(
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
-        textScaleFactor: appTextScale,
         title: AppString.prefs_title.translate(),
         // Button to navigate to About page
         actionIcon: getPlatformAboutIcon(),

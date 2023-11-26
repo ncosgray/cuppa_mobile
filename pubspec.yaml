@@ -18,25 +18,25 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 2.3.0+39
 
 environment:
-  sdk: '>=3.0.5 <4.0.0'
-  flutter: ^3.13.9
+  sdk: '>=3.2.0 <4.0.0'
+  flutter: ^3.16.0
 
 dependencies:
   app_settings: ^5.1.1
   cupertino_icons: ^1.0.6
   dynamic_color: ^1.6.8
-  fl_chart: ^0.64.0
+  fl_chart: ^0.65.0
   flex_color_picker: ^3.3.0
   flutter:
     sdk: flutter
-  flutter_local_notifications: ^16.1.0
+  flutter_local_notifications: ^16.2.0
   flutter_localizations:
     sdk: flutter
   flutter_timezone: ^1.0.8
   intl: ^0.18.1
   package_info_plus: ^4.2.0
   path: ^1.8.3
-  provider: ^6.0.5
+  provider: ^6.1.1
   quick_actions: ^1.0.6
   shared_preferences: ^2.2.2
   showcaseview: ^2.0.3
@@ -54,7 +54,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^3.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

@@ -86,20 +86,10 @@ class CuppaApp extends StatelessWidget {
             builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
               return MaterialApp(
                 builder: (context, child) {
-                  // Set scale factor, up to a limit
-                  appTextScale =
-                      MediaQuery.of(context).textScaleFactor > maxTextScale
-                          ? maxTextScale
-                          : MediaQuery.of(context).textScaleFactor;
                   return ShowCaseWidget(
                     autoPlay: false,
                     builder: Builder(
-                      builder: (context) => MediaQuery(
-                        data: MediaQuery.of(context).copyWith(
-                          textScaleFactor: appTextScale,
-                        ),
-                        child: child!,
-                      ),
+                      builder: (context) => child!,
                     ),
                   );
                 },

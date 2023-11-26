@@ -58,9 +58,8 @@ class TeaButton extends StatelessWidget {
               duration: longAnimationDuration,
               child: Container(
                 constraints: const BoxConstraints(
-                  maxHeight: 116.0,
+                  minHeight: 116.0,
                   minWidth: 88.0,
-                  maxWidth: double.infinity,
                 ),
                 margin: const EdgeInsets.all(8.0),
                 // Timer icon with tea name
@@ -88,12 +87,8 @@ class TeaButton extends StatelessWidget {
                           children: [
                             // Brew time
                             Container(
-                              padding: const EdgeInsets.fromLTRB(
-                                4.0,
-                                2.0,
-                                4.0,
-                                0.0,
-                              ),
+                              padding:
+                                  const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 0.0),
                               child: Text(
                                 formatTimer(tea.brewTime),
                                 style: textStyleButtonSecondary.copyWith(
@@ -105,12 +100,8 @@ class TeaButton extends StatelessWidget {
                             ),
                             // Brew temperature
                             Container(
-                              padding: const EdgeInsets.fromLTRB(
-                                4.0,
-                                2.0,
-                                4.0,
-                                0.0,
-                              ),
+                              padding:
+                                  const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 0.0),
                               child: Text(
                                 tea.getTempDisplay(
                                   useCelsius: Provider.of<AppProvider>(

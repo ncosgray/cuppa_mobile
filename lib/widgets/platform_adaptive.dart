@@ -56,7 +56,6 @@ final ThemeData kIOSBlackTheme = ThemeData(
 
 // Android themes
 final ThemeData kDefaultTheme = ThemeData(
-  useMaterial3: true,
   colorSchemeSeed: Colors.blue,
   textTheme: Typography.blackMountainView,
   iconTheme: const IconThemeData(
@@ -68,7 +67,6 @@ final ThemeData kDefaultTheme = ThemeData(
   brightness: Brightness.light,
 );
 final ThemeData kDarkTheme = ThemeData(
-  useMaterial3: true,
   colorSchemeSeed: Colors.blue,
   scaffoldBackgroundColor: const Color(0xff323232),
   cardTheme: CardTheme(
@@ -84,7 +82,6 @@ final ThemeData kDarkTheme = ThemeData(
   brightness: Brightness.dark,
 );
 final ThemeData kBlackTheme = ThemeData(
-  useMaterial3: true,
   colorSchemeSeed: Colors.blue,
   scaffoldBackgroundColor: Colors.black,
   textTheme: Typography.whiteMountainView,
@@ -340,14 +337,12 @@ class PlatformAdaptiveNavBar extends StatelessWidget
   const PlatformAdaptiveNavBar({
     super.key,
     required this.isPoppable,
-    this.textScaleFactor = 1.0,
     required this.title,
     this.actionRoute,
     this.actionIcon,
   });
 
   final bool isPoppable;
-  final double textScaleFactor;
   final String title;
   final Widget? actionRoute;
   final Widget? actionIcon;
@@ -368,7 +363,6 @@ class PlatformAdaptiveNavBar extends StatelessWidget
             : null,
         middle: Text(
           title,
-          textScaleFactor: textScaleFactor,
           style: TextStyle(
             color: Theme.of(context).textTheme.titleLarge!.color,
           ),

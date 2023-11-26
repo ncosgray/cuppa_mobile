@@ -17,13 +17,13 @@
 import 'package:cuppa_mobile/helpers.dart';
 import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
+import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -51,10 +51,21 @@ class _StatsWidgetState extends State<StatsWidget> {
   // Build Stats page
   @override
   Widget build(BuildContext context) {
+    // Determine layout and widget sizes based on device size
+    bool layoutPortrait = getDeviceSize(context).isPortrait &&
+        !getDeviceSize(context).isLargeDevice;
+    double summaryWidth =
+        (getDeviceSize(context).width / (layoutPortrait ? 1.0 : 2.0));
+    double chartSize = layoutPortrait
+        ? getDeviceSize(context).width * 0.6
+        : min(
+            getDeviceSize(context).width * 0.4,
+            getDeviceSize(context).height * 0.4,
+          );
+
     return Scaffold(
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
-        textScaleFactor: appTextScale,
         title: AppString.stats_title.translate(),
       ),
       body: SafeArea(
@@ -89,18 +100,43 @@ class _StatsWidgetState extends State<StatsWidget> {
                   SliverToBoxAdapter(
                     child: Container(
                       margin: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                      child: Column(
-                        children: <Widget>[
+                      child: Flex(
+                        // Determine layout by device size
+                        direction:
+                            layoutPortrait ? Axis.vertical : Axis.horizontal,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           // Summary stats
-                          for (int i = 0; i < summaryStats.length; i++)
-                            _statWidget(
-                              stat: summaryStats[i],
-                              totalCount: totalCount,
-                              fade:
-                                  selectedSection > -1 && i != selectedSection,
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: ConstrainedBox(
+                              constraints:
+                                  BoxConstraints(maxWidth: summaryWidth),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  for (int i = 0; i < summaryStats.length; i++)
+                                    _statWidget(
+                                      stat: summaryStats[i],
+                                      statIndex: i,
+                                      maxWidth: summaryWidth,
+                                      totalCount: totalCount,
+                                    ),
+                                ],
+                              ),
                             ),
+                          ),
                           // Summary pie chart
-                          _chart(),
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Padding(
+                              padding: layoutPortrait
+                                  ? const EdgeInsets.only(top: 24.0)
+                                  : const EdgeInsets.all(24.0),
+                              child: _chart(chartSize: chartSize),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -161,134 +197,135 @@ class _StatsWidgetState extends State<StatsWidget> {
   // Generate a stat widget
   Widget _statWidget({
     required Stat stat,
+    required int statIndex,
+    required double maxWidth,
     int totalCount = 0,
     bool details = false,
-    bool fade = false,
   }) {
     String percent =
         totalCount > 0 ? '(${formatPercent(stat.count / totalCount)})' : '';
+    bool fade = selectedSection > -1 && statIndex != selectedSection;
 
     return AnimatedOpacity(
       opacity: fade ? 0.4 : 1.0,
       duration: shortAnimationDuration,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 0.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                // Tea icon button
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: miniTeaButton(
-                    color: stat.color,
-                    icon: TeaIcon.values[stat.iconValue].getIcon(),
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  // Tea icon button
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: miniTeaButton(
+                      color: stat.color,
+                      icon: TeaIcon.values[stat.iconValue].getIcon(),
+                    ),
                   ),
-                ),
-                // Tea name
-                Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: Row(
-                    children: [
-                      Text(
+                  // Tea name
+                  Padding(
+                    padding: const EdgeInsets.only(right: 12.0),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: maxWidth),
+                      child: Text(
                         stat.name + (stat.isFavorite ? ' $starSymbol' : ''),
                         style: textStyleStat.copyWith(
                           color: stat.color,
                         ),
                       ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      // Details: Brew time and temperature
+                      Visibility(
+                        visible: details,
+                        child: Text(
+                          '${formatTimer(stat.brewTime)} @ ${formatTemp(stat.brewTemp)}',
+                        ),
+                      ),
+                      // Tea timer usage
+                      Visibility(
+                        visible: stat.count > 0,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 4.0),
+                              child: Text(
+                                '${stat.count}',
+                                style: textStyleStat,
+                              ),
+                            ),
+                            Text(
+                              percent,
+                              style: textStyleStatLabel,
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    // Details: Brew time and temperature
-                    Visibility(
-                      visible: details,
-                      child: Text(
-                        '${formatTimer(stat.brewTime)} @ ${formatTemp(stat.brewTemp)}',
-                      ),
-                    ),
-                    // Tea timer usage
-                    Visibility(
-                      visible: stat.count > 0,
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 4.0),
-                            child: Text(
-                              '${stat.count}',
-                              style: textStyleStat,
-                            ),
-                          ),
-                          Text(
-                            percent,
-                            style: textStyleStatLabel,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                // Details: Timer start date and time
-                Visibility(
-                  visible: details,
-                  child: Text(formatDate(stat.timerStartTime, dateTime: true)),
-                ),
-              ],
-            ),
-          ],
+                  // Details: Timer start date and time
+                  Visibility(
+                    visible: details,
+                    child:
+                        Text(formatDate(stat.timerStartTime, dateTime: true)),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          // Chart interactivity
+          onTapDown: (_) => setState(() => selectedSection = statIndex),
+          onTapUp: (_) => setState(() => selectedSection = -1),
+          onTapCancel: () => setState(() => selectedSection = -1),
         ),
       ),
     );
   }
 
   // Build a pie chart
-  Widget _chart() {
-    // Determine chart size based on device size
-    double chartSize = getDeviceSize(context).isPortrait
-        ? getDeviceSize(context).width * 0.5
-        : getDeviceSize(context).height * 0.5;
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 24.0),
-      child: SizedBox(
-        width: chartSize,
-        height: chartSize,
-        child: PieChart(
-          PieChartData(
-            sectionsSpace: 1.0,
-            startDegreeOffset: 270.0,
-            centerSpaceRadius: 0.0,
-            // Chart sections
-            sections: [
-              for (int i = 0; i < summaryStats.length; i++)
-                _chartSection(
-                  stat: summaryStats[i],
-                  radius: chartSize / 2.0,
-                  selected: i == selectedSection,
-                ),
-            ],
-            // Chart interactivity
-            pieTouchData: PieTouchData(
-              touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                setState(() {
-                  if (!event.isInterestedForInteractions ||
-                      pieTouchResponse == null ||
-                      pieTouchResponse.touchedSection == null) {
-                    selectedSection = -1;
-                    return;
-                  }
-                  selectedSection =
-                      pieTouchResponse.touchedSection!.touchedSectionIndex;
-                });
-              },
-            ),
+  Widget _chart({required double chartSize}) {
+    return SizedBox(
+      width: chartSize,
+      height: chartSize,
+      child: PieChart(
+        PieChartData(
+          sectionsSpace: 1.0,
+          startDegreeOffset: 270.0,
+          centerSpaceRadius: 0.0,
+          // Chart sections
+          sections: [
+            for (int i = 0; i < summaryStats.length; i++)
+              _chartSection(
+                stat: summaryStats[i],
+                radius: chartSize / 2.0,
+                selected: i == selectedSection,
+              ),
+          ],
+          // Chart interactivity
+          pieTouchData: PieTouchData(
+            touchCallback: (FlTouchEvent event, pieTouchResponse) {
+              setState(() {
+                if (!event.isInterestedForInteractions ||
+                    pieTouchResponse == null ||
+                    pieTouchResponse.touchedSection == null) {
+                  selectedSection = -1;
+                  return;
+                }
+                selectedSection =
+                    pieTouchResponse.touchedSection!.touchedSectionIndex;
+              });
+            },
           ),
         ),
       ),
@@ -359,10 +396,12 @@ class _StatsWidgetState extends State<StatsWidget> {
   }
 
   // Generate a metric list item widget
-  static Widget _metricWidget({
+  Widget _metricWidget({
     required String metricName,
     required String metric,
   }) {
+    double maxWidth = (getDeviceSize(context).width / 2.0) - 12.0;
+
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Row(
@@ -371,15 +410,21 @@ class _StatsWidgetState extends State<StatsWidget> {
           // Metric name
           Padding(
             padding: const EdgeInsets.only(right: 12.0),
-            child: Text(
-              metricName,
-              style: textStyleStatLabel,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: maxWidth),
+              child: Text(
+                metricName,
+                style: textStyleStatLabel,
+              ),
             ),
           ),
           // Formatted metric value
-          Text(
-            metric,
-            style: textStyleStat,
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: maxWidth),
+            child: Text(
+              metric,
+              style: textStyleStat,
+            ),
           ),
         ],
       ),

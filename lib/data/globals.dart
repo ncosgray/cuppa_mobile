@@ -27,7 +27,6 @@ int nextTeaID = 0;
 
 // Device info
 late TargetPlatform appPlatform;
-double appTextScale = 1.0;
 bool isLocaleMetric = true;
 
 // Package info
