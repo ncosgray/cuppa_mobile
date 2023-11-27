@@ -40,6 +40,7 @@ final Map<Locale, String> supportedLocales = {
   const Locale.fromSubtags(languageCode: 'fr'): 'Français',
   const Locale.fromSubtags(languageCode: 'ga'): 'Gaeilge',
   const Locale.fromSubtags(languageCode: 'it'): 'Italiano',
+  const Locale.fromSubtags(languageCode: 'lb'): 'Lëtzebuergesch',
   const Locale.fromSubtags(languageCode: 'nl'): 'Nederlands',
   const Locale.fromSubtags(languageCode: 'nb'): 'Norsk Bokmål',
   const Locale.fromSubtags(languageCode: 'pt'): 'Português',
