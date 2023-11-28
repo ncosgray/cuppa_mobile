@@ -236,11 +236,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
             ),
             Container(
               padding: const EdgeInsets.only(right: 6.0),
-              child: Icon(
-                Icons.edit,
-                color: Theme.of(context).iconTheme.color,
-                size: 20.0,
-              ),
+              child: const Icon(Icons.edit, size: 20.0),
             ),
           ],
         ),
