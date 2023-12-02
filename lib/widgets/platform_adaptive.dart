@@ -37,6 +37,12 @@ Icon getPlatformAboutIcon() {
       : const Icon(Icons.help);
 }
 
+Icon getPlatformStatsIcon() {
+  return appPlatform == TargetPlatform.iOS
+      ? const Icon(CupertinoIcons.chart_pie)
+      : const Icon(Icons.pie_chart_outline);
+}
+
 Icon getPlatformRemoveIcon(Color color) {
   return appPlatform == TargetPlatform.iOS
       ? Icon(CupertinoIcons.trash_fill, color: color)
@@ -47,6 +53,25 @@ Icon getPlatformRemoveAllIcon(Color color) {
   return appPlatform == TargetPlatform.iOS
       ? Icon(CupertinoIcons.square_stack_3d_up_slash_fill, color: color)
       : Icon(Icons.delete_sweep_outlined, color: color);
+}
+
+// Nav bar action button with styling appropriate to platform
+Widget adaptiveNavBarActionButton({
+  required Widget icon,
+  required Function()? onPressed,
+}) {
+  if (appPlatform == TargetPlatform.iOS) {
+    return CupertinoButton(
+      padding: EdgeInsets.zero,
+      onPressed: onPressed,
+      child: icon,
+    );
+  } else {
+    return IconButton(
+      icon: icon,
+      onPressed: onPressed,
+    );
+  }
 }
 
 // Dialog action button appropriate to platform
@@ -245,18 +270,43 @@ class PlatformAdaptiveNavBar extends StatelessWidget
     required this.title,
     this.actionRoute,
     this.actionIcon,
+    this.secondaryActionRoute,
+    this.secondaryActionIcon,
   });
 
   final bool isPoppable;
   final String title;
   final Widget? actionRoute;
   final Widget? actionIcon;
+  final Widget? secondaryActionRoute;
+  final Widget? secondaryActionIcon;
 
   @override
   Size get preferredSize => const Size.fromHeight(56.0); // Android default
 
   @override
   Widget build(BuildContext context) {
+    // Build action list
+    List<Widget> actions = [];
+    if (secondaryActionIcon != null && secondaryActionRoute != null) {
+      actions.add(
+        adaptiveNavBarActionButton(
+          icon: secondaryActionIcon!,
+          onPressed: () => Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => secondaryActionRoute!)),
+        ),
+      );
+    }
+    if (actionIcon != null && actionRoute != null) {
+      actions.add(
+        adaptiveNavBarActionButton(
+          icon: actionIcon!,
+          onPressed: () => Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => actionRoute!)),
+        ),
+      );
+    }
+
     if (appPlatform == TargetPlatform.iOS) {
       return CupertinoNavigationBar(
         transitionBetweenRoutes: false,
@@ -272,31 +322,22 @@ class PlatformAdaptiveNavBar extends StatelessWidget
         middle: Text(
           title,
           style: TextStyle(
-            color: Theme.of(context).textTheme.titleLarge!.color,
+            color: Theme.of(context).textTheme.titleMedium!.color,
           ),
         ),
-        trailing: actionIcon != null && actionRoute != null
-            ? CupertinoButton(
-                padding: EdgeInsets.zero,
-                onPressed: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => actionRoute!)),
-                child: actionIcon!,
-              )
-            : null,
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: actions,
+        ),
       );
     } else {
       return AppBar(
         elevation: 4,
-        title: Text(title),
-        actions: actionIcon != null && actionRoute != null
-            ? <Widget>[
-                IconButton(
-                  icon: actionIcon!,
-                  onPressed: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => actionRoute!)),
-                ),
-              ]
-            : null,
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        actions: actions,
       );
     }
   }

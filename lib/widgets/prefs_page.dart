@@ -24,6 +24,7 @@ import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/about_page.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/stats_page.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
 
@@ -39,6 +40,8 @@ class PrefsWidget extends StatelessWidget {
   // Build Prefs page
   @override
   Widget build(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
     // Determine layout based on device size
     bool layoutColumns = getDeviceSize(context).isLargeDevice;
 
@@ -49,6 +52,11 @@ class PrefsWidget extends StatelessWidget {
         // Button to navigate to About page
         actionIcon: getPlatformAboutIcon(),
         actionRoute: const AboutWidget(),
+        // Button to navigate to Stats page
+        secondaryActionIcon:
+            provider.collectStats ? getPlatformStatsIcon() : null,
+        secondaryActionRoute:
+            provider.collectStats ? const StatsWidget() : null,
       ),
       body: SafeArea(
         child: Row(
