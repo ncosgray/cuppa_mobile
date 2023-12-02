@@ -16,6 +16,7 @@ import 'package:cuppa_mobile/data/constants.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/text_styles.dart';
+import 'package:cuppa_mobile/widgets/themes.dart';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -96,7 +97,7 @@ Widget miniTeaButton({
   bool darkTheme = false,
 }) {
   return Theme(
-    data: darkTheme ? ThemeData.dark() : ThemeData.light(),
+    data: darkTheme ? darkThemeData : lightThemeData,
     child: Card(
       elevation: 1.0,
       margin: EdgeInsets.zero,

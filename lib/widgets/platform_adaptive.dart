@@ -11,7 +11,6 @@
 */
 
 // Cuppa platform adaptive elements
-// - Light and dark themes for Android and iOS
 // - Icons for Android and iOS
 // - Buttons and controls for Android and iOS
 // - Text form field for Android and iOS
@@ -22,102 +21,8 @@
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
 
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// iOS themes
-final ThemeData kIOSTheme = ThemeData(
-  primaryColor: Colors.grey.shade100,
-  textTheme: Typography.blackCupertino,
-  iconTheme: const IconThemeData(
-    color: Colors.grey,
-  ),
-  brightness: Brightness.light,
-);
-final ThemeData kIOSDarkTheme = ThemeData(
-  primaryColor: Colors.grey.shade900,
-  textTheme: Typography.whiteCupertino,
-  iconTheme: const IconThemeData(
-    color: Colors.white,
-  ),
-  brightness: Brightness.dark,
-);
-final ThemeData kIOSBlackTheme = ThemeData(
-  primaryColor: Colors.grey.shade900,
-  scaffoldBackgroundColor: Colors.black,
-  cardColor: Colors.grey.shade900,
-  textTheme: Typography.whiteCupertino,
-  iconTheme: const IconThemeData(
-    color: Colors.white,
-  ),
-  brightness: Brightness.dark,
-);
-
-// Android themes
-final ThemeData kDefaultTheme = ThemeData(
-  colorSchemeSeed: Colors.blue,
-  textTheme: Typography.blackMountainView,
-  iconTheme: const IconThemeData(
-    color: Colors.grey,
-  ),
-  listTileTheme: const ListTileThemeData(
-    iconColor: Colors.grey,
-  ),
-  brightness: Brightness.light,
-);
-final ThemeData kDarkTheme = ThemeData(
-  colorSchemeSeed: Colors.blue,
-  scaffoldBackgroundColor: const Color(0xff323232),
-  cardTheme: CardTheme(
-    color: Colors.grey.shade800,
-  ),
-  textTheme: Typography.whiteMountainView,
-  iconTheme: const IconThemeData(
-    color: Colors.white,
-  ),
-  listTileTheme: const ListTileThemeData(
-    iconColor: Colors.white,
-  ),
-  brightness: Brightness.dark,
-);
-final ThemeData kBlackTheme = ThemeData(
-  colorSchemeSeed: Colors.blue,
-  scaffoldBackgroundColor: Colors.black,
-  textTheme: Typography.whiteMountainView,
-  iconTheme: const IconThemeData(
-    color: Colors.white,
-  ),
-  listTileTheme: const ListTileThemeData(
-    iconColor: Colors.white,
-  ),
-  brightness: Brightness.dark,
-);
-
-// Get theme appropriate to platform
-ThemeData getPlatformAdaptiveTheme({ColorScheme? dynamicColors}) {
-  ThemeData theme =
-      appPlatform == TargetPlatform.iOS ? kIOSTheme : kDefaultTheme;
-  if (dynamicColors != null) {
-    // Use dynamic colors if provided
-    theme = theme.copyWith(colorScheme: dynamicColors.harmonized());
-  }
-  return theme;
-}
-
-ThemeData getPlatformAdaptiveDarkTheme({
-  ColorScheme? dynamicColors,
-  bool blackTheme = true,
-}) {
-  ThemeData theme = appPlatform == TargetPlatform.iOS
-      ? (blackTheme ? kIOSBlackTheme : kIOSDarkTheme)
-      : (blackTheme ? kBlackTheme : kDarkTheme);
-  if (dynamicColors != null) {
-    // Use dynamic colors if provided
-    theme = theme.copyWith(colorScheme: dynamicColors.harmonized());
-  }
-  return theme;
-}
 
 // Platform specific icons
 Icon getPlatformSettingsIcon() {
@@ -355,7 +260,10 @@ class PlatformAdaptiveNavBar extends StatelessWidget
     if (appPlatform == TargetPlatform.iOS) {
       return CupertinoNavigationBar(
         transitionBetweenRoutes: false,
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: CupertinoDynamicColor.resolve(
+          CupertinoTheme.of(context).barBackgroundColor,
+          context,
+        ),
         leading: isPoppable
             ? CupertinoNavigationBarBackButton(
                 onPressed: () => Navigator.of(context).pop(),
