@@ -233,7 +233,7 @@ class PrefsWidget extends StatelessWidget {
                 AppString.add_tea_button.translate(),
                 style: textStyleButton,
               ),
-              icon: const Icon(Icons.add_circle, size: 20.0),
+              icon: addIcon,
               style: ButtonStyle(
                 shape: MaterialStateProperty.all(
                   const RoundedRectangleBorder(
@@ -712,10 +712,7 @@ class PrefsWidget extends StatelessWidget {
         minLeadingWidth: 30.0,
         leading: const SizedBox(
           height: double.infinity,
-          child: Icon(
-            Icons.info,
-            size: 20.0,
-          ),
+          child: infoIcon,
         ),
         horizontalTitleGap: 0.0,
         title: Text(

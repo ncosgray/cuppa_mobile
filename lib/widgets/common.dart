@@ -138,3 +138,31 @@ const Widget clearIcon = Icon(
   size: 14.0,
   color: Colors.grey,
 );
+
+const Widget addIcon = Icon(
+  Icons.add_circle,
+  size: 20.0,
+);
+
+const Widget editIcon = Icon(
+  Icons.edit,
+  size: 20.0,
+);
+
+const Widget favoriteStarIcon = Icon(
+  Icons.star,
+  color: Colors.amber,
+);
+
+const Widget nonFavoriteStarIcon = Icon(
+  Icons.star,
+);
+
+const Widget disabledStarIcon = Icon(
+  Icons.star_border_outlined,
+);
+
+const Widget infoIcon = Icon(
+  Icons.info,
+  size: 20.0,
+);

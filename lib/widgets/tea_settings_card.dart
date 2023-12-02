@@ -195,13 +195,13 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
       constraints: const BoxConstraints(minWidth: 32.0, minHeight: 32.0),
       splashRadius: 32.0,
       icon: tea.isFavorite
-          ? const Icon(Icons.star, color: Colors.amber)
+          ? favoriteStarIcon
           : Provider.of<AppProvider>(context, listen: false)
                       .favoritesList
                       .length <
                   favoritesMaxCount
-              ? const Icon(Icons.star)
-              : const Icon(Icons.star_border_outlined),
+              ? nonFavoriteStarIcon
+              : disabledStarIcon,
       // Toggle favorite status if enabled or max not reached
       onPressed: tea.isFavorite ||
               Provider.of<AppProvider>(context, listen: false)
@@ -236,7 +236,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
             ),
             Container(
               padding: const EdgeInsets.only(right: 6.0),
-              child: const Icon(Icons.edit, size: 20.0),
+              child: editIcon,
             ),
           ],
         ),
