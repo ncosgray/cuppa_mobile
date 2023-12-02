@@ -16,6 +16,10 @@ import 'package:flutter/material.dart';
 
 const Color textColorLink = Colors.blue;
 
+const TextStyle textStyleNavBar = TextStyle(
+  fontSize: 20.0,
+);
+
 const TextStyle textStyleHeader = TextStyle(
   fontSize: 18.0,
   fontWeight: FontWeight.bold,

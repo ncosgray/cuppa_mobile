@@ -20,6 +20,7 @@
 
 import 'package:cuppa_mobile/data/globals.dart';
 import 'package:cuppa_mobile/widgets/common.dart';
+import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -322,7 +323,10 @@ class PlatformAdaptiveNavBar extends StatelessWidget
         middle: Text(
           title,
           style: TextStyle(
-            color: Theme.of(context).textTheme.titleMedium!.color,
+            color: CupertinoDynamicColor.resolve(
+              CupertinoTheme.of(context).textTheme.navTitleTextStyle.color!,
+              context,
+            ),
           ),
         ),
         trailing: Row(
@@ -335,7 +339,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
         elevation: 4,
         title: Text(
           title,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: textStyleNavBar,
         ),
         actions: actions,
       );
