@@ -40,43 +40,34 @@ class Tea {
   // Constructor
   Tea({
     int? id,
-    required String name,
-    required int brewTime,
-    required int brewTemp,
+    required this.name,
+    required this.brewTime,
+    required this.brewTemp,
     TeaColor? color,
     int colorValue = 0,
-    Color? colorShade,
+    this.colorShade,
     TeaIcon? icon,
     int iconValue = 0,
-    required bool isFavorite,
-    required bool isActive,
-    int timerEndTime = 0,
-    int? timerNotifyID,
-    bool animate = false,
+    required this.isFavorite,
+    required this.isActive,
+    this.timerEndTime = 0,
+    this.timerNotifyID,
+    this.animate = false,
   }) {
     // Assign next tea ID if not given
     this.id = id ?? nextTeaID++;
-    this.name = name;
-    this.brewTime = brewTime;
-    this.brewTemp = brewTemp;
     // Prefer TeaColor or lookup from value if color not given
     this.color = color ??
         TeaColor.values.firstWhere(
           (color) => color.value == colorValue,
           orElse: () => TeaColor.values[0],
         );
-    this.colorShade = colorShade;
     // Prefer TeaIcon or lookup from value if icon not given
     this.icon = icon ??
         TeaIcon.values.firstWhere(
           (icon) => icon.value == iconValue,
           orElse: () => TeaIcon.values[0],
         );
-    this.isFavorite = isFavorite;
-    this.isActive = isActive;
-    this.timerEndTime = timerEndTime;
-    this.timerNotifyID = timerNotifyID;
-    this.animate = animate;
   }
 
   // Activate brew timer

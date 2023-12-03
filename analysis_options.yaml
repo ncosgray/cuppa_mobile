@@ -27,7 +27,6 @@ linter:
     constant_identifier_names: false
     library_private_types_in_public_api: false
     no_logic_in_create_state: false
-    prefer_initializing_formals: false
     require_trailing_commas: true
     unnecessary_this: false
 

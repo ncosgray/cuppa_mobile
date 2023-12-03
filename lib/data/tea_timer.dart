@@ -29,9 +29,7 @@ class TeaTimer {
   Timer? ticker;
 
   // Constructor
-  TeaTimer({required int notifyID}) {
-    this.notifyID = notifyID;
-  }
+  TeaTimer({required this.notifyID});
 
   // Start brewing
   void start(Tea newTea, void Function(Timer? timer) handleTick) {
