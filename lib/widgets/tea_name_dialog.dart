@@ -32,7 +32,7 @@ class TeaNameDialog extends StatefulWidget {
   final String buttonTextOK;
 
   @override
-  _TeaNameDialogState createState() => _TeaNameDialogState(
+  State<TeaNameDialog> createState() => _TeaNameDialogState(
         initialValue: initialValue,
         validator: validator,
         buttonTextCancel: buttonTextCancel,

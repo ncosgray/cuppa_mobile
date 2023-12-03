@@ -44,7 +44,7 @@ class TimerWidget extends StatefulWidget {
   const TimerWidget({super.key});
 
   @override
-  _TimerWidgetState createState() => _TimerWidgetState();
+  State<TimerWidget> createState() => _TimerWidgetState();
 }
 
 class _TimerWidgetState extends State<TimerWidget> {

@@ -37,7 +37,7 @@ class TeaColorDialog extends StatefulWidget {
   final String buttonTextOK;
 
   @override
-  _TeaColorDialogState createState() => _TeaColorDialogState(
+  State<TeaColorDialog> createState() => _TeaColorDialogState(
         initialTeaColor: initialTeaColor,
         initialColorShade: initialColorShade,
         previewIcon: previewIcon,

@@ -40,7 +40,7 @@ class TeaSettingsCard extends StatefulWidget {
   final Tea tea;
 
   @override
-  _TeaSettingsCardState createState() => _TeaSettingsCardState(tea: tea);
+  State<TeaSettingsCard> createState() => _TeaSettingsCardState(tea: tea);
 }
 
 class _TeaSettingsCardState extends State<TeaSettingsCard>
