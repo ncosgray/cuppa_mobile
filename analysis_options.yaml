@@ -25,7 +25,7 @@ linter:
     library_private_types_in_public_api: false
     no_logic_in_create_state: false
     require_trailing_commas: true
-    unnecessary_this: false
+    #unnecessary_this: false
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
