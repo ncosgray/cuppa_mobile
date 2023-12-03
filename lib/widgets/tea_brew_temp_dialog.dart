@@ -36,30 +36,10 @@ class TeaBrewTempDialog extends StatefulWidget {
   final String buttonTextOK;
 
   @override
-  State<TeaBrewTempDialog> createState() => _TeaBrewTempDialogState(
-        initialTemp: initialTemp,
-        tempFOptions: tempFOptions,
-        tempCOptions: tempCOptions,
-        buttonTextCancel: buttonTextCancel,
-        buttonTextOK: buttonTextOK,
-      );
+  State<TeaBrewTempDialog> createState() => _TeaBrewTempDialogState();
 }
 
 class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
-  _TeaBrewTempDialogState({
-    required this.initialTemp,
-    required this.tempFOptions,
-    required this.tempCOptions,
-    required this.buttonTextCancel,
-    required this.buttonTextOK,
-  });
-
-  final int initialTemp;
-  final List<int> tempFOptions;
-  final List<int> tempCOptions;
-  final String buttonTextCancel;
-  final String buttonTextOK;
-
   // State variables
   late int _newTemp;
   int _newTempIndex = 0;
@@ -71,14 +51,14 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
     super.initState();
 
     // Set starting values
-    _newTemp = initialTemp;
-    if (tempCOptions.contains(_newTemp)) {
-      _newTempIndex = tempCOptions.indexOf(_newTemp);
+    _newTemp = widget.initialTemp;
+    if (widget.tempCOptions.contains(_newTemp)) {
+      _newTempIndex = widget.tempCOptions.indexOf(_newTemp);
     }
-    if (tempFOptions.contains(_newTemp)) {
-      _newTempIndex = tempFOptions.indexOf(_newTemp);
+    if (widget.tempFOptions.contains(_newTemp)) {
+      _newTempIndex = widget.tempFOptions.indexOf(_newTemp);
     }
-    _unitsCelsius = isTempCelsius(initialTemp);
+    _unitsCelsius = isTempCelsius(widget.initialTemp);
   }
 
   // Build dialog
@@ -92,12 +72,12 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
       actions: <Widget>[
         // Cancel and close dialog
         adaptiveDialogAction(
-          text: buttonTextCancel,
+          text: widget.buttonTextCancel,
           onPressed: () => Navigator.pop(context, null),
         ),
         // Save and close dialog
         adaptiveDialogAction(
-          text: buttonTextOK,
+          text: widget.buttonTextOK,
           isDefaultAction: true,
           onPressed: () => Navigator.pop(context, _newTemp),
         ),
@@ -127,9 +107,9 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
                 setState(() {
                   _unitsCelsius = selected;
                   if (_unitsCelsius) {
-                    _newTemp = tempCOptions[_newTempIndex];
+                    _newTemp = widget.tempCOptions[_newTempIndex];
                   } else {
-                    _newTemp = tempFOptions[_newTempIndex];
+                    _newTemp = widget.tempFOptions[_newTempIndex];
                   }
                 });
               }
@@ -157,7 +137,7 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
               // Increment up
               adaptiveSmallButton(
                 icon: Icons.keyboard_arrow_up,
-                onPressed: _newTempIndex < tempCOptions.length - 1
+                onPressed: _newTempIndex < widget.tempCOptions.length - 1
                     ? () {
                         _newTempIndex++;
                         _updateTempSlider();
@@ -171,8 +151,8 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
           Slider.adaptive(
             value: _newTempIndex.toDouble(),
             min: 0.0,
-            max: (tempCOptions.length - 1).toDouble(),
-            divisions: tempCOptions.length - 1,
+            max: (widget.tempCOptions.length - 1).toDouble(),
+            divisions: widget.tempCOptions.length - 1,
             onChanged: (newValue) {
               _newTempIndex = newValue.toInt();
               _updateTempSlider();
@@ -187,8 +167,8 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
   void _updateTempSlider() {
     setState(() {
       _newTemp = _unitsCelsius
-          ? tempCOptions[_newTempIndex]
-          : tempFOptions[_newTempIndex];
+          ? widget.tempCOptions[_newTempIndex]
+          : widget.tempFOptions[_newTempIndex];
     });
   }
 }

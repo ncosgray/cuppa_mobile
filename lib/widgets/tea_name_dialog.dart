@@ -32,27 +32,10 @@ class TeaNameDialog extends StatefulWidget {
   final String buttonTextOK;
 
   @override
-  State<TeaNameDialog> createState() => _TeaNameDialogState(
-        initialValue: initialValue,
-        validator: validator,
-        buttonTextCancel: buttonTextCancel,
-        buttonTextOK: buttonTextOK,
-      );
+  State<TeaNameDialog> createState() => _TeaNameDialogState();
 }
 
 class _TeaNameDialogState extends State<TeaNameDialog> {
-  _TeaNameDialogState({
-    required this.initialValue,
-    required this.validator,
-    required this.buttonTextCancel,
-    required this.buttonTextOK,
-  });
-
-  final String initialValue;
-  final String? Function(String?) validator;
-  final String buttonTextCancel;
-  final String buttonTextOK;
-
   // State variables
   late GlobalKey<FormState> _formKey;
   late String _newValue;
@@ -65,7 +48,7 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
     super.initState();
 
     _formKey = GlobalKey();
-    _newValue = initialValue;
+    _newValue = widget.initialValue;
     _isValid = true;
     _controller = TextEditingController(text: _newValue);
   }
@@ -86,7 +69,7 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
                 textColor: Theme.of(context).textTheme.bodyLarge!.color!,
                 cursorColor: _isValid ? null : Colors.red,
                 controller: _controller,
-                validator: validator,
+                validator: widget.validator,
                 onChanged: (String newValue) {
                   // Validate text and set new value
                   setState(() {
@@ -110,7 +93,7 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
           actions: <Widget>[
             // Cancel and close dialog
             adaptiveDialogAction(
-              text: buttonTextCancel,
+              text: widget.buttonTextCancel,
               onPressed: () => Navigator.of(context).pop(),
             ),
             // Save and close dialog, if valid
@@ -118,7 +101,7 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
               isDefaultAction: true,
               onPressed:
                   _isValid ? () => Navigator.of(context).pop(_newValue) : null,
-              text: buttonTextOK,
+              text: widget.buttonTextOK,
             ),
           ],
         ),

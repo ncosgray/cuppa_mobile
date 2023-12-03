@@ -22,7 +22,6 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
-    no_logic_in_create_state: false
     require_trailing_commas: true
 
 # Additional information about this file can be found at

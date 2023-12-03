@@ -37,30 +37,10 @@ class TeaColorDialog extends StatefulWidget {
   final String buttonTextOK;
 
   @override
-  State<TeaColorDialog> createState() => _TeaColorDialogState(
-        initialTeaColor: initialTeaColor,
-        initialColorShade: initialColorShade,
-        previewIcon: previewIcon,
-        buttonTextCancel: buttonTextCancel,
-        buttonTextOK: buttonTextOK,
-      );
+  State<TeaColorDialog> createState() => _TeaColorDialogState();
 }
 
 class _TeaColorDialogState extends State<TeaColorDialog> {
-  _TeaColorDialogState({
-    required this.initialTeaColor,
-    required this.initialColorShade,
-    required this.previewIcon,
-    required this.buttonTextCancel,
-    required this.buttonTextOK,
-  });
-
-  final TeaColor initialTeaColor;
-  final Color? initialColorShade;
-  final IconData previewIcon;
-  final String buttonTextCancel;
-  final String buttonTextOK;
-
   // State variables
   late TeaColor _newTeaColor;
   late Color? _newColorShade;
@@ -71,8 +51,9 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
     super.initState();
 
     // Set starting values
-    _newTeaColor = initialTeaColor;
-    _newColorShade = initialColorShade ?? initialTeaColor.getColor();
+    _newTeaColor = widget.initialTeaColor;
+    _newColorShade =
+        widget.initialColorShade ?? widget.initialTeaColor.getColor();
   }
 
   // Build dialog
@@ -90,16 +71,16 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 miniTeaButton(
-                  icon: previewIcon,
+                  icon: widget.previewIcon,
                   color: _newColorShade,
                 ),
                 miniTeaButton(
-                  icon: previewIcon,
+                  icon: widget.previewIcon,
                   color: _newColorShade,
                   isActive: true,
                 ),
                 miniTeaButton(
-                  icon: previewIcon,
+                  icon: widget.previewIcon,
                   color: _newColorShade,
                   darkTheme: true,
                 ),
@@ -143,12 +124,12 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
       ),
       actions: [
         adaptiveDialogAction(
-          text: buttonTextCancel,
+          text: widget.buttonTextCancel,
           onPressed: () => Navigator.of(context).pop(null),
         ),
         adaptiveDialogAction(
           isDefaultAction: true,
-          text: buttonTextOK,
+          text: widget.buttonTextOK,
           onPressed: () => Navigator.of(context).pop(
             (teaColor: _newTeaColor, colorShade: _newColorShade),
           ),

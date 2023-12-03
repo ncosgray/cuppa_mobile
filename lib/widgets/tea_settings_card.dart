@@ -40,17 +40,11 @@ class TeaSettingsCard extends StatefulWidget {
   final Tea tea;
 
   @override
-  State<TeaSettingsCard> createState() => _TeaSettingsCardState(tea: tea);
+  State<TeaSettingsCard> createState() => _TeaSettingsCardState();
 }
 
 class _TeaSettingsCardState extends State<TeaSettingsCard>
     with SingleTickerProviderStateMixin {
-  _TeaSettingsCardState({
-    required this.tea,
-  });
-
-  final Tea tea;
-
   late AnimationController _animationController;
   late Animation<double> _animation;
 
@@ -79,8 +73,8 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   @override
   Widget build(BuildContext context) {
     // Animate adding a new tea or skip animation for existing teas
-    if (tea.animate) {
-      tea.animate = false;
+    if (widget.tea.animate) {
+      widget.tea.animate = false;
       _animationController.forward();
       return ScaleTransition(
         scale: _animation,
@@ -101,11 +95,11 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
       margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
       child: IgnorePointer(
         // Disable editing actively brewing tea
-        ignoring: tea.isActive,
+        ignoring: widget.tea.isActive,
         child: ListTile(
           horizontalTitleGap: layoutPortrait ? 4.0 : 24.0,
           title: Opacity(
-            opacity: tea.isActive ? 0.4 : 1.0,
+            opacity: widget.tea.isActive ? 0.4 : 1.0,
             child: SizedBox(
               height: layoutPortrait ? 88.0 : 64.0,
               child: Flex(
@@ -194,7 +188,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       constraints: const BoxConstraints(minWidth: 32.0, minHeight: 32.0),
       splashRadius: 32.0,
-      icon: tea.isFavorite
+      icon: widget.tea.isFavorite
           ? favoriteStarIcon
           : Provider.of<AppProvider>(context, listen: false)
                       .favoritesList
@@ -203,13 +197,13 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
               ? nonFavoriteStarIcon
               : disabledStarIcon,
       // Toggle favorite status if enabled or max not reached
-      onPressed: tea.isFavorite ||
+      onPressed: widget.tea.isFavorite ||
               Provider.of<AppProvider>(context, listen: false)
                       .favoritesList
                       .length <
                   favoritesMaxCount
           ? () => Provider.of<AppProvider>(context, listen: false)
-              .updateTea(tea, isFavorite: !tea.isFavorite)
+              .updateTea(widget.tea, isFavorite: !widget.tea.isFavorite)
           : null,
     );
   }
@@ -226,11 +220,11 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6.0),
               child: Text(
-                tea.name,
+                widget.tea.name,
                 textAlign: TextAlign.left,
                 maxLines: 1,
                 style: textStyleSetting.copyWith(
-                  color: tea.getColor(),
+                  color: widget.tea.getColor(),
                 ),
               ),
             ),
@@ -241,11 +235,12 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           ],
         ),
         // Open tea name dialog
-        onTap: () => _openTeaNameDialog(context, tea.name).then((newValue) {
+        onTap: () =>
+            _openTeaNameDialog(context, widget.tea.name).then((newValue) {
           if (newValue != null) {
             // Save name to prefs
             Provider.of<AppProvider>(context, listen: false)
-                .updateTea(tea, name: newValue);
+                .updateTea(widget.tea, name: newValue);
           }
         }),
       ),
@@ -291,7 +286,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                formatTimer(tea.brewTime),
+                formatTimer(widget.tea.brewTime),
                 style: textStyleSettingSeconday,
               ),
               dropdownArrow,
@@ -301,14 +296,14 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         // Open tea brew time dialog
         onTap: () => _openTeaBrewTimeDialog(
           context,
-          tea.brewTimeHours,
-          tea.brewTimeMinutes,
-          tea.brewTimeSeconds,
+          widget.tea.brewTimeHours,
+          widget.tea.brewTimeMinutes,
+          widget.tea.brewTimeSeconds,
         ).then((newValue) {
           if (newValue != null) {
             // Save brew time to prefs
             Provider.of<AppProvider>(context, listen: false)
-                .updateTea(tea, brewTime: newValue);
+                .updateTea(widget.tea, brewTime: newValue);
           }
         }),
       ),
@@ -355,7 +350,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
             children: <Widget>[
               Text(
                 formatTemp(
-                  tea.brewTemp,
+                  widget.tea.brewTemp,
                   useCelsius: Provider.of<AppProvider>(context, listen: false)
                       .useCelsius,
                 ),
@@ -366,12 +361,12 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           ),
         ),
         // Open tea brew temp dialog
-        onTap: () =>
-            _openTeaBrewTempDialog(context, tea.brewTemp).then((newValue) {
+        onTap: () => _openTeaBrewTempDialog(context, widget.tea.brewTemp)
+            .then((newValue) {
           if (newValue != null) {
             // Save brew temp to prefs
             Provider.of<AppProvider>(context, listen: false)
-                .updateTea(tea, brewTemp: newValue);
+                .updateTea(widget.tea, brewTemp: newValue);
           }
         }),
       ),
@@ -414,7 +409,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                 height: 18.0,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4.0),
-                  color: tea.getColor(),
+                  color: widget.tea.getColor(),
                 ),
               ),
               dropdownArrow,
@@ -422,12 +417,13 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           ),
         ),
         // Open tea color dialog
-        onTap: () => _openColorDialog(context, tea.color, tea.colorShade)
-            .then((newValues) {
+        onTap: () =>
+            _openColorDialog(context, widget.tea.color, widget.tea.colorShade)
+                .then((newValues) {
           if (newValues != null) {
             // Save color data to prefs
             Provider.of<AppProvider>(context, listen: false).updateTea(
-              tea,
+              widget.tea,
               color: newValues.teaColor,
               colorShade: newValues.colorShade,
             );
@@ -450,7 +446,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         return TeaColorDialog(
           initialTeaColor: currentTeaColor,
           initialColorShade: currentColorShade,
-          previewIcon: tea.teaIcon,
+          previewIcon: widget.tea.teaIcon,
           buttonTextCancel: AppString.cancel_button.translate(),
           buttonTextOK: AppString.ok_button.translate(),
         );
@@ -472,8 +468,8 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
               SizedBox(
                 width: 18.0,
                 child: Icon(
-                  tea.teaIcon,
-                  color: tea.getColor(),
+                  widget.tea.teaIcon,
+                  color: widget.tea.getColor(),
                 ),
               ),
               dropdownArrow,
@@ -481,7 +477,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           ),
         ),
         // Open tea icon dialog
-        onTap: () => _openIconDialog(context, tea),
+        onTap: () => _openIconDialog(context, widget.tea),
       ),
     );
   }
@@ -529,7 +525,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
       // Set selected icon
       onPressed: () {
         Provider.of<AppProvider>(context, listen: false)
-            .updateTea(tea, icon: value);
+            .updateTea(widget.tea, icon: value);
         Navigator.of(context).pop(true);
       },
     );
