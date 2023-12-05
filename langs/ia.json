@@ -46,5 +46,11 @@
     "notification_text": "{{tea_name}} ora es preste!",
     "tea_name_mint": "The de mentha",
     "teas_title": "Thes",
-    "version_history": "Chronologia del versiones"
+    "version_history": "Chronologia del versiones",
+    "tutorial_info": "Comenciar le uso de {{app_name}}",
+    "tea_name_puer": "Pu'er",
+    "prefs_notifications": "Aperi le parametros de systema de tu apparato pro definir le notificationes de {{app_name}}.",
+    "issues_info": "Signalar un defecto o requestar un functionalitate",
+    "prefs_header": "Set nomines de the, brew times, temperaturas e stylos de button. You can also sort (long press), or swipe pro deler le thes. Star up to {{favorites_max}} thes favorite pro adder los como accessos directe de application.",
+    "stats_timer_count": "Comenciava le temporisatores"
 }
