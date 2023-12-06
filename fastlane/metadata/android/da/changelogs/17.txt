@@ -1,0 +1,4 @@
+* Vandtemperaturindstilling for hver enkelt te.
+* Mulighed for visning af ekstra bryggeinfo på tidsursknap.
+* Tag tid på te som skal trække i mere end ti minutter.
+* Flere sprog og oversættelsesforbedringer - bidrag via Weblate!
