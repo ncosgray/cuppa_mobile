@@ -54,7 +54,7 @@ class TeaButton extends StatelessWidget {
           child: InkWell(
             onTap: _handleTap,
             child: AnimatedOpacity(
-              opacity: fade ? 0.4 : 1.0,
+              opacity: fade ? fadeOpacity : noOpacity,
               duration: longAnimationDuration,
               child: Container(
                 constraints: const BoxConstraints(

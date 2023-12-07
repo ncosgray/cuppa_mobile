@@ -99,7 +99,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         child: ListTile(
           horizontalTitleGap: layoutPortrait ? 4.0 : 24.0,
           title: Opacity(
-            opacity: widget.tea.isActive ? 0.4 : 1.0,
+            opacity: widget.tea.isActive ? fadeOpacity : noOpacity,
             child: SizedBox(
               height: layoutPortrait ? 88.0 : 64.0,
               child: Flex(

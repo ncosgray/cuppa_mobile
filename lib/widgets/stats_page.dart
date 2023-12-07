@@ -207,7 +207,7 @@ class _StatsWidgetState extends State<StatsWidget> {
     bool fade = selectedSection > -1 && statIndex != selectedSection;
 
     return AnimatedOpacity(
-      opacity: fade ? 0.4 : 1.0,
+      opacity: fade ? fadeOpacity : noOpacity,
       duration: shortAnimationDuration,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 0.0),
