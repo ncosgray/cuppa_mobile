@@ -13,9 +13,9 @@
 // Cuppa data
 // - Preset tea types
 
+import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:cuppa_mobile/helpers.dart';
 
 import 'package:flutter/material.dart';
 

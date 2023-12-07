@@ -13,8 +13,10 @@
 // Cuppa Preferences page
 // - Build prefs interface and interactivity
 
-import 'package:cuppa_mobile/helpers.dart';
-import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
+import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/presets.dart';
@@ -22,11 +24,10 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/about_page.dart';
-import 'package:cuppa_mobile/widgets/common.dart';
+import 'package:cuppa_mobile/widgets/list_divider.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/stats_page.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
-import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
@@ -157,12 +158,31 @@ class PrefsWidget extends StatelessWidget {
       builder: (context, provider, child) => SliverReorderableList(
         itemBuilder: _teaSettingsListItem,
         itemCount: provider.teaList.length,
-        proxyDecorator: draggableFeedback,
+        proxyDecorator: _draggableFeedback,
         onReorder: (int oldIndex, int newIndex) {
           // Reorder the tea list
           provider.reorderTeas(oldIndex, newIndex);
         },
       ),
+    );
+  }
+
+  // Custom draggable feedback for reorderable list
+  Widget _draggableFeedback(
+    Widget child,
+    int index,
+    Animation<double> animation,
+  ) {
+    return Container(
+      decoration: const BoxDecoration(
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 14.0,
+          ),
+        ],
+      ),
+      child: child,
     );
   }
 
@@ -206,14 +226,31 @@ class PrefsWidget extends StatelessWidget {
                 provider.deleteTea(tea);
               },
               // Dismissible delete warning background
-              background: dismissibleBackground(context, Alignment.centerLeft),
+              background: _dismissibleBackground(context, Alignment.centerLeft),
               secondaryBackground:
-                  dismissibleBackground(context, Alignment.centerRight),
+                  _dismissibleBackground(context, Alignment.centerRight),
               resizeDuration: longAnimationDuration,
               child: TeaSettingsCard(
                 tea: tea,
               ),
             ),
+    );
+  }
+
+  // Dismissible delete warning background
+  Widget _dismissibleBackground(BuildContext context, Alignment alignment) {
+    return Container(
+      color: Theme.of(context).colorScheme.error,
+      margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+      child: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: Align(
+          alignment: alignment,
+          child: getPlatformRemoveIcon(
+            Theme.of(context).colorScheme.onError,
+          ),
+        ),
+      ),
     );
   }
 

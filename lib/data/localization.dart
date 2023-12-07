@@ -15,7 +15,7 @@
 // - Get translated strings
 // - String keys
 
-import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/common/constants.dart';
 
 import 'dart:async';
 import 'dart:convert';

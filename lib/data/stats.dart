@@ -14,7 +14,7 @@
 // - Tea timer usage statistics and database functionality
 // - Query enums
 
-import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'package:flutter/widgets.dart';

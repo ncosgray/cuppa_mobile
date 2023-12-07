@@ -14,20 +14,20 @@
 // - Build interface and interactivity
 // - Start, confirm, cancel timers
 
-import 'package:cuppa_mobile/helpers.dart';
-import 'package:cuppa_mobile/data/constants.dart';
-import 'package:cuppa_mobile/data/globals.dart';
+import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
+import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/stats.dart';
-import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/data/tea_timer.dart';
+import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/cancel_button.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/prefs_page.dart';
 import 'package:cuppa_mobile/widgets/tea_button.dart';
-import 'package:cuppa_mobile/widgets/text_styles.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'dart:async';

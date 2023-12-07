@@ -18,9 +18,9 @@
 // - PlatformAdaptiveListTile list tile for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
-import 'package:cuppa_mobile/data/globals.dart';
-import 'package:cuppa_mobile/widgets/common.dart';
-import 'package:cuppa_mobile/widgets/text_styles.dart';
+import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/text_styles.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

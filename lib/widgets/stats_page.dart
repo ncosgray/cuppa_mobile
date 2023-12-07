@@ -14,14 +14,14 @@
 // - Tea timer usage report
 // - Stats display widgets
 
-import 'package:cuppa_mobile/helpers.dart';
-import 'package:cuppa_mobile/data/constants.dart';
-import 'package:cuppa_mobile/data/tea.dart';
+import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
+import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/stats.dart';
-import 'package:cuppa_mobile/widgets/common.dart';
+import 'package:cuppa_mobile/data/tea.dart';
+import 'package:cuppa_mobile/widgets/mini_tea_button.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
-import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';

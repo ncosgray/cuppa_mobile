@@ -12,9 +12,9 @@
 
 // Cuppa tea temperature picker dialog
 
-import 'package:cuppa_mobile/helpers.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
+import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
-import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/material.dart';
 
