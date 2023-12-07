@@ -17,57 +17,57 @@ import 'package:cuppa_mobile/common/colors.dart';
 import 'package:flutter/material.dart';
 
 // Icons
-const Widget dropdownArrow = Icon(
+const Icon dropdownArrow = Icon(
   Icons.arrow_drop_down,
   size: 24.0,
 );
 
-const Widget launchIcon = Icon(
+const Icon launchIcon = Icon(
   Icons.launch,
   size: 16.0,
 );
 
-const Widget dragHandle = Icon(
+const Icon dragHandle = Icon(
   Icons.drag_handle,
   size: 20.0,
 );
 
-const Widget clearIcon = Icon(
+const Icon clearIcon = Icon(
   Icons.cancel_outlined,
   size: 14.0,
   color: clearIconColor,
 );
 
-const Widget addIcon = Icon(
+const Icon addIcon = Icon(
   Icons.add_circle,
   size: 20.0,
 );
 
-const Widget editIcon = Icon(
+const Icon editIcon = Icon(
   Icons.edit,
   size: 20.0,
 );
 
-const Widget favoriteStarIcon = Icon(
+const Icon favoriteStarIcon = Icon(
   Icons.star,
   color: favoriteIconColor,
 );
 
-const Widget nonFavoriteStarIcon = Icon(
+const Icon nonFavoriteStarIcon = Icon(
   Icons.star,
 );
 
-const Widget disabledStarIcon = Icon(
+const Icon disabledStarIcon = Icon(
   Icons.star_border_outlined,
 );
 
-const Widget infoIcon = Icon(
+const Icon infoIcon = Icon(
   Icons.info,
   size: 20.0,
 );
 
 // Variable color icons
-Widget customPresetIcon({required Color color}) {
+Icon customPresetIcon({required Color color}) {
   return Icon(
     Icons.add_circle,
     color: color,
@@ -75,7 +75,7 @@ Widget customPresetIcon({required Color color}) {
   );
 }
 
-Widget cancelIcon({required Color color}) {
+Icon cancelIcon({required Color color}) {
   return Icon(
     Icons.cancel,
     color: color,
@@ -83,7 +83,7 @@ Widget cancelIcon({required Color color}) {
   );
 }
 
-Widget navigateIcon({required Color color}) {
+Icon navigateIcon({required Color color}) {
   return Icon(
     Icons.arrow_circle_right,
     size: 28.0,
