@@ -12,6 +12,7 @@
 
 // Cuppa mini tea button widget
 
+import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/themes.dart';
 
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ Widget miniTeaButton({
           margin: const EdgeInsets.all(8.0),
           child: Icon(
             icon,
-            color: isActive ? Colors.white : color,
+            color: isActive ? activeColor : color,
             size: 28.0,
           ),
         ),

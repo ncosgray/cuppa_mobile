@@ -14,6 +14,7 @@
 // - Tea timer usage report
 // - Stats display widgets
 
+import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
@@ -344,7 +345,7 @@ class _StatsWidgetState extends State<StatsWidget> {
       radius: selected ? radius * 1.05 : radius,
       title: totalCount > 0 ? formatPercent(stat.count / totalCount) : null,
       titleStyle: textStyleSubtitle.copyWith(
-        color: Colors.white,
+        color: activeColor,
         fontWeight: selected ? FontWeight.bold : null,
       ),
       titlePositionPercentageOffset: 0.7,

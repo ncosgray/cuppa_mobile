@@ -14,6 +14,7 @@
 // - Build interface and interactivity
 // - Start, confirm, cancel timers
 
+import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
@@ -189,7 +190,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   Widget _countdownTimer(bool layoutPortrait) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.green,
+        color: timerBackgroundColor,
         // Apply background colors to distinguish timers
         gradient: _timerCount > 0
             ? LinearGradient(
@@ -243,7 +244,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                       margin: const EdgeInsets.symmetric(horizontal: 12.0),
                       width: layoutPortrait ? 420.0 : 12.0,
                       height: layoutPortrait ? 12.0 : 140.0,
-                      color: Colors.white,
+                      color: timerForegroundColor,
                     ),
                   ),
                   // Timer 2
@@ -295,7 +296,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 150.0,
-                      color: Colors.white,
+                      color: timerForegroundColor,
                     ),
                   ),
                 ),
@@ -347,13 +348,13 @@ class _TimerWidgetState extends State<TimerWidget> {
           children: [
             Icon(
               secs > 0 ? Icons.add_circle_outline : Icons.remove_circle_outline,
-              color: Colors.white,
+              color: timerForegroundColor,
               size: 28.0,
             ),
             Text(
               '$buttonValue$buttonValueUnit',
               style: const TextStyle(
-                color: Colors.white,
+                color: timerForegroundColor,
                 fontSize: 16.0,
               ),
             ),
@@ -555,7 +556,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         channelShowBadge: true,
         showWhen: true,
         enableLights: true,
-        color: Colors.green,
+        color: timerBackgroundColor,
         enableVibration: true,
         vibrationPattern: notifyVibratePattern,
         playSound: true,

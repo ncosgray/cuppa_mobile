@@ -12,6 +12,7 @@
 
 // Cuppa icons
 
+import 'package:cuppa_mobile/common/colors.dart';
 import 'package:flutter/material.dart';
 
 // Icons
@@ -33,7 +34,7 @@ const Widget dragHandle = Icon(
 const Widget clearIcon = Icon(
   Icons.cancel_outlined,
   size: 14.0,
-  color: Colors.grey,
+  color: clearIconColor,
 );
 
 const Widget addIcon = Icon(
@@ -48,7 +49,7 @@ const Widget editIcon = Icon(
 
 const Widget favoriteStarIcon = Icon(
   Icons.star,
-  color: Colors.amber,
+  color: favoriteIconColor,
 );
 
 const Widget nonFavoriteStarIcon = Icon(

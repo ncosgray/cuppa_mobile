@@ -13,6 +13,7 @@
 // Cuppa Preferences page
 // - Build prefs interface and interactivity
 
+import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
@@ -177,7 +178,7 @@ class PrefsWidget extends StatelessWidget {
       decoration: const BoxDecoration(
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.grey,
+            color: shadowColor,
             blurRadius: 14.0,
           ),
         ],

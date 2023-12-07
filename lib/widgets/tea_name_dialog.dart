@@ -12,6 +12,7 @@
 
 // Cuppa tea name entry dialog
 
+import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'package:flutter/material.dart';
@@ -67,7 +68,7 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: adaptiveTextFormField(
                 textColor: Theme.of(context).textTheme.bodyLarge!.color!,
-                cursorColor: _isValid ? null : Colors.red,
+                cursorColor: _isValid ? null : invalidColor,
                 controller: _controller,
                 validator: widget.validator,
                 onChanged: (String newValue) {

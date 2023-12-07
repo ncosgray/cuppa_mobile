@@ -12,6 +12,7 @@
 
 // Cuppa tea timer button
 
+import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
@@ -68,13 +69,13 @@ class TeaButton extends StatelessWidget {
                   children: [
                     Icon(
                       tea.teaIcon,
-                      color: tea.isActive ? Colors.white : tea.getColor(),
+                      color: tea.isActive ? activeColor : tea.getColor(),
                       size: 64.0,
                     ),
                     Text(
                       tea.buttonName,
                       style: textStyleButton.copyWith(
-                        color: tea.isActive ? Colors.white : tea.getColor(),
+                        color: tea.isActive ? activeColor : tea.getColor(),
                       ),
                     ),
                     // Optional extra info: brew time and temp display
@@ -93,7 +94,7 @@ class TeaButton extends StatelessWidget {
                                 formatTimer(tea.brewTime),
                                 style: textStyleButtonSecondary.copyWith(
                                   color: tea.isActive
-                                      ? Colors.white
+                                      ? activeColor
                                       : tea.getColor(),
                                 ),
                               ),
@@ -111,7 +112,7 @@ class TeaButton extends StatelessWidget {
                                 ),
                                 style: textStyleButtonSecondary.copyWith(
                                   color: tea.isActive
-                                      ? Colors.white
+                                      ? activeColor
                                       : tea.getColor(),
                                 ),
                               ),
