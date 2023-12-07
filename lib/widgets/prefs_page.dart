@@ -306,11 +306,13 @@ class PrefsWidget extends StatelessWidget {
       // Preset tea icon
       itemIcon: SizedBox.square(
         dimension: 48.0,
-        child: Icon(
-          preset.isCustom ? Icons.add_circle : preset.getIcon(),
-          color: preset.getColor(),
-          size: preset.isCustom ? 20.0 : 24.0,
-        ),
+        child: preset.isCustom
+            ? customPresetIcon(color: preset.getColor())
+            : Icon(
+                preset.getIcon(),
+                color: preset.getColor(),
+                size: 24.0,
+              ),
       ),
       // Preset tea brew time and temperature
       item: Column(

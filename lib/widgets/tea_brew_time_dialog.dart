@@ -13,6 +13,7 @@
 // Cuppa time entry dialog
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
@@ -120,7 +121,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
         children: [
           // Increment down
           adaptiveSmallButton(
-            icon: Icons.keyboard_arrow_down,
+            icon: incrementDownIcon,
             onPressed: () {
               if (_hoursSelectionMode) {
                 _minutesIndex--;
@@ -227,7 +228,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
           timePickerSpacer,
           // Increment up
           adaptiveSmallButton(
-            icon: Icons.keyboard_arrow_up,
+            icon: incrementUpIcon,
             onPressed: () {
               if (_hoursSelectionMode) {
                 _minutesIndex++;

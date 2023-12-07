@@ -18,6 +18,7 @@ import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
+import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -347,7 +348,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         child: Column(
           children: [
             Icon(
-              secs > 0 ? Icons.add_circle_outline : Icons.remove_circle_outline,
+              secs > 0 ? incrementPlusIcon : incrementMinusIcon,
               color: timerForegroundColor,
               size: 28.0,
             ),
@@ -499,11 +500,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                   color: Theme.of(context).colorScheme.error,
                 ),
               ),
-              Icon(
-                Icons.arrow_circle_right,
-                size: 28.0,
-                color: Theme.of(context).colorScheme.error,
-              ),
+              navigateIcon(color: Theme.of(context).colorScheme.error),
             ],
           ),
         ),

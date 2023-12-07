@@ -13,6 +13,7 @@
 // Cuppa icons
 
 import 'package:cuppa_mobile/common/colors.dart';
+
 import 'package:flutter/material.dart';
 
 // Icons
@@ -64,3 +65,34 @@ const Widget infoIcon = Icon(
   Icons.info,
   size: 20.0,
 );
+
+// Variable color icons
+Widget customPresetIcon({required Color color}) {
+  return Icon(
+    Icons.add_circle,
+    color: color,
+    size: 20.0,
+  );
+}
+
+Widget cancelIcon({required Color color}) {
+  return Icon(
+    Icons.cancel,
+    color: color,
+    size: 14.0,
+  );
+}
+
+Widget navigateIcon({required Color color}) {
+  return Icon(
+    Icons.arrow_circle_right,
+    size: 28.0,
+    color: color,
+  );
+}
+
+// Icon data for increment buttons
+const IconData incrementUpIcon = Icons.keyboard_arrow_up;
+const IconData incrementDownIcon = Icons.keyboard_arrow_down;
+const IconData incrementPlusIcon = Icons.add_circle_outline;
+const IconData incrementMinusIcon = Icons.remove_circle_outline;

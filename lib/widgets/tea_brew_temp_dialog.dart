@@ -13,6 +13,7 @@
 // Cuppa tea temperature picker dialog
 
 import 'package:cuppa_mobile/common/helpers.dart';
+import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
@@ -121,7 +122,7 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
             children: [
               // Increment down
               adaptiveSmallButton(
-                icon: Icons.keyboard_arrow_down,
+                icon: incrementDownIcon,
                 onPressed: _newTempIndex > 0
                     ? () {
                         _newTempIndex--;
@@ -136,7 +137,7 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
               ),
               // Increment up
               adaptiveSmallButton(
-                icon: Icons.keyboard_arrow_up,
+                icon: incrementUpIcon,
                 onPressed: _newTempIndex < widget.tempCOptions.length - 1
                     ? () {
                         _newTempIndex++;
