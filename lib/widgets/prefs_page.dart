@@ -301,16 +301,17 @@ class PrefsWidget extends StatelessWidget {
   Widget _teaPresetItem(BuildContext context, int index) {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     Preset preset = Presets.presetList[index];
+    Color presetColor = preset.getColor();
 
     return PlatformAdaptiveListTile(
       // Preset tea icon
       itemIcon: SizedBox.square(
         dimension: 48.0,
         child: preset.isCustom
-            ? customPresetIcon(color: preset.getColor())
+            ? customPresetIcon(color: presetColor)
             : Icon(
                 preset.getIcon(),
-                color: preset.getColor(),
+                color: presetColor,
                 size: 24.0,
               ),
       ),
@@ -323,7 +324,7 @@ class PrefsWidget extends StatelessWidget {
           Text(
             preset.localizedName,
             style: textStyleSetting.copyWith(
-              color: preset.getColor(),
+              color: presetColor,
             ),
           ),
           Container(
@@ -334,7 +335,7 @@ class PrefsWidget extends StatelessWidget {
                       Text(
                         formatTimer(preset.brewTime),
                         style: textStyleSettingSeconday.copyWith(
-                          color: preset.getColor(),
+                          color: presetColor,
                         ),
                       ),
                       ConstrainedBox(
@@ -347,7 +348,7 @@ class PrefsWidget extends StatelessWidget {
                       Text(
                         preset.tempDisplay(provider.useCelsius),
                         style: textStyleSettingSeconday.copyWith(
-                          color: preset.getColor(),
+                          color: presetColor,
                         ),
                       ),
                       ConstrainedBox(
