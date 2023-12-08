@@ -303,9 +303,10 @@ class PrefsWidget extends StatelessWidget {
     Preset preset = Presets.presetList[index];
     Color presetColor = preset.getColor();
 
-    return PlatformAdaptiveListTile(
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
       // Preset tea icon
-      itemIcon: SizedBox.square(
+      leading: SizedBox.square(
         dimension: 48.0,
         child: preset.isCustom
             ? customPresetIcon(color: presetColor)
@@ -316,7 +317,7 @@ class PrefsWidget extends StatelessWidget {
               ),
       ),
       // Preset tea brew time and temperature
-      item: Column(
+      title: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

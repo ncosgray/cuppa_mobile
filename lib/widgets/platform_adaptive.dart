@@ -15,7 +15,6 @@
 // - Buttons and controls for Android and iOS
 // - Text form field for Android and iOS
 // - PlatformAdaptiveNavBar creates page navigation for context platform
-// - PlatformAdaptiveListTile list tile for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
 import 'package:cuppa_mobile/common/globals.dart';
@@ -342,39 +341,6 @@ class PlatformAdaptiveNavBar extends StatelessWidget
           style: textStyleNavBar,
         ),
         actions: actions,
-      );
-    }
-  }
-}
-
-// List tile with styling appropriate to platform
-class PlatformAdaptiveListTile extends StatelessWidget {
-  const PlatformAdaptiveListTile({
-    super.key,
-    required this.itemIcon,
-    required this.item,
-    required this.onTap,
-  });
-
-  final Widget itemIcon;
-  final Widget item;
-  final Function()? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    if (appPlatform == TargetPlatform.iOS) {
-      return CupertinoListTile(
-        backgroundColorActivated: Colors.transparent,
-        leading: itemIcon,
-        title: item,
-        onTap: onTap,
-      );
-    } else {
-      return ListTile(
-        contentPadding: EdgeInsets.zero,
-        leading: itemIcon,
-        title: item,
-        onTap: onTap,
       );
     }
   }
