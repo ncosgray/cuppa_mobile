@@ -51,6 +51,15 @@
     "tea_name_puer": "Pu'er",
     "prefs_notifications": "Aperi le parametros de systema de tu apparato pro definir le notificationes de {{app_name}}.",
     "issues_info": "Signalar un defecto o requestar un functionalitate",
-    "prefs_header": "Set nomines de the, brew times, temperaturas e stylos de button. You can also sort (long press), or swipe pro deler le thes. Star up to {{favorites_max}} thes favorite pro adder los como accessos directe de application.",
-    "stats_timer_count": "Comenciava le temporisatores"
+    "prefs_header": "Define le nomines de the, tempores de infusion, temperaturas e stylos de button. You can also sort (long press), or swipe pro deler le thes. Star up to {{favorites_max}} thes favorite pro adder los como accessos directe de application.",
+    "stats_timer_count": "Comenciava le temporisatores",
+    "stats_title": "Statisticas del temporisator",
+    "tutorial": "Tutorial",
+    "confirm_delete": "Es tu secur que tu vole deler tote le thes?",
+    "prefs_show_extra": "Monstrar le tempore de infusion e temperatura sur le buttones de temporisator",
+    "stats_confirm_disable": "Disactivar le collection de statisticas delera tu datos actual.",
+    "confirm_continue": "Vole tu continuar?",
+    "confirm_title": "Attention!",
+    "tea_name_herbal": "Tisana",
+    "notification_title": "Preparation completate..."
 }
