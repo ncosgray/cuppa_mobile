@@ -61,34 +61,31 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
       child: SingleChildScrollView(
         child: AlertDialog.adaptive(
           // Text entry
-          content: Material(
-            type: MaterialType.transparency,
-            child: Form(
-              key: _formKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              child: adaptiveTextFormField(
-                textColor: Theme.of(context).textTheme.bodyLarge!.color!,
-                cursorColor: _isValid ? null : invalidColor,
-                controller: _controller,
-                validator: widget.validator,
-                onChanged: (String newValue) {
-                  // Validate text and set new value
-                  setState(() {
-                    _isValid = false;
-                    if (_formKey.currentState != null) {
-                      if (_formKey.currentState!.validate()) {
-                        _isValid = true;
-                        _newValue = newValue;
-                      }
-                    }
-                  });
-                },
-                onCleared: () => setState(() {
-                  // Invalidate an empty value
+          content: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: adaptiveTextFormField(
+              textColor: Theme.of(context).textTheme.bodyLarge!.color!,
+              cursorColor: _isValid ? null : invalidColor,
+              controller: _controller,
+              validator: widget.validator,
+              onChanged: (String newValue) {
+                // Validate text and set new value
+                setState(() {
                   _isValid = false;
-                  _controller.clear();
-                }),
-              ),
+                  if (_formKey.currentState != null) {
+                    if (_formKey.currentState!.validate()) {
+                      _isValid = true;
+                      _newValue = newValue;
+                    }
+                  }
+                });
+              },
+              onCleared: () => setState(() {
+                // Invalidate an empty value
+                _isValid = false;
+                _controller.clear();
+              }),
             ),
           ),
           actions: <Widget>[
