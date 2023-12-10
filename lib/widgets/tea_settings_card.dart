@@ -16,6 +16,7 @@
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -92,7 +93,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         getDeviceSize(context).isLargeDevice;
 
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
+      margin: bodyPadding,
       child: IgnorePointer(
         // Disable editing actively brewing tea
         ignoring: widget.tea.isActive,
@@ -109,7 +110,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                   Flexible(
                     child: Container(
                       height: 54.0,
-                      padding: const EdgeInsets.fromLTRB(0.0, 2.0, 0.0, 2.0),
+                      padding: noPadding,
                       child: Row(
                         children: [
                           // Favorite status
@@ -123,7 +124,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                   // Tea settings selection
                   Flexible(
                     child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 2.0),
+                      padding: noPadding,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -185,7 +186,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   Widget _favoriteButton() {
     return IconButton(
       iconSize: 24.0,
-      padding: const EdgeInsets.symmetric(horizontal: 2.0),
+      padding: noPadding,
       constraints: const BoxConstraints(minWidth: 32.0, minHeight: 32.0),
       splashRadius: 32.0,
       icon: widget.tea.isFavorite
@@ -218,7 +219,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6.0),
+              padding: smallDefaultPadding,
               child: Text(
                 widget.tea.name,
                 textAlign: TextAlign.left,
@@ -229,7 +230,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
               ),
             ),
             Container(
-              padding: const EdgeInsets.only(right: 6.0),
+              padding: smallDefaultPadding,
               child: editIcon,
             ),
           ],
@@ -280,7 +281,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
       height: double.infinity,
       child: InkWell(
         child: Container(
-          padding: const EdgeInsets.only(left: 6.0),
+          padding: noPadding,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -343,7 +344,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
       height: double.infinity,
       child: InkWell(
         child: Container(
-          padding: const EdgeInsets.only(left: 6.0),
+          padding: rowPadding,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -399,7 +400,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
       height: double.infinity,
       child: InkWell(
         child: Container(
-          padding: const EdgeInsets.only(left: 6.0),
+          padding: rowPadding,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -460,17 +461,14 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
       height: double.infinity,
       child: InkWell(
         child: Container(
-          padding: const EdgeInsets.only(left: 6.0),
+          padding: noPadding,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SizedBox(
-                width: 18.0,
-                child: Icon(
-                  widget.tea.teaIcon,
-                  color: widget.tea.getColor(),
-                ),
+              Icon(
+                widget.tea.teaIcon,
+                color: widget.tea.getColor(),
               ),
               dropdownArrow,
             ],

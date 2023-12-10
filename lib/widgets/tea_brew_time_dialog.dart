@@ -14,6 +14,7 @@
 
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
@@ -112,8 +113,6 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
 
   // Build a time picker
   Widget _timePicker() {
-    const Widget timePickerSpacer = SizedBox(width: 14.0);
-
     return SizedBox(
       height: 120.0,
       child: Row(
@@ -148,7 +147,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
               _updateTimePicker(doScroll: true);
             },
           ),
-          timePickerSpacer,
+          spacerWidget,
           // Hours picker
           Visibility(
             visible: _hoursSelectionMode,
@@ -182,7 +181,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
               style: textStyleSettingTertiary,
             ),
           ),
-          Visibility(visible: _hoursSelectionMode, child: timePickerSpacer),
+          Visibility(visible: _hoursSelectionMode, child: spacerWidget),
           // Minutes picker
           _timePickerScrollWheel(
             controller: _minutesController,
@@ -203,13 +202,13 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
               }
             },
           ),
-          Visibility(visible: !_hoursSelectionMode, child: timePickerSpacer),
+          Visibility(visible: !_hoursSelectionMode, child: spacerWidget),
           // Unit
           Text(
             _hoursSelectionMode ? widget.minuteLabel : ':',
             style: textStyleSettingTertiary,
           ),
-          Visibility(visible: !_hoursSelectionMode, child: timePickerSpacer),
+          Visibility(visible: !_hoursSelectionMode, child: spacerWidget),
           // Seconds picker
           Visibility(
             visible: !_hoursSelectionMode,
@@ -225,7 +224,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
               padTime: true,
             ),
           ),
-          timePickerSpacer,
+          spacerWidget,
           // Increment up
           adaptiveSmallButton(
             icon: incrementUpIcon,

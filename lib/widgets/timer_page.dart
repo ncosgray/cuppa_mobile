@@ -19,6 +19,7 @@ import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -134,8 +135,8 @@ class _TimerWidgetState extends State<TimerWidget> {
                     flex: 2,
                     child: Container(
                       padding: layoutPortrait
-                          ? const EdgeInsets.fromLTRB(48.0, 24.0, 48.0, 12.0)
-                          : const EdgeInsets.all(12.0),
+                          ? const EdgeInsets.fromLTRB(48.0, 18.0, 48.0, 0.0)
+                          : const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0.0),
                       alignment: layoutPortrait
                           ? Alignment.center
                           : Alignment.centerRight,
@@ -164,8 +165,8 @@ class _TimerWidgetState extends State<TimerWidget> {
                         maxWidth: getDeviceSize(context).height * 0.6,
                       ),
                       padding: layoutPortrait
-                          ? const EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 12.0)
-                          : const EdgeInsets.fromLTRB(48.0, 12.0, 12.0, 12.0),
+                          ? const EdgeInsets.fromLTRB(18.0, 12.0, 18.0, 0.0)
+                          : const EdgeInsets.fromLTRB(48.0, 12.0, 12.0, 0.0),
                       alignment: layoutPortrait
                           ? Alignment.center
                           : Alignment.centerLeft,
@@ -177,7 +178,7 @@ class _TimerWidgetState extends State<TimerWidget> {
             ),
             // Tea brew start buttons
             Container(
-              margin: const EdgeInsets.only(left: 10.0, bottom: 4.0),
+              margin: largeDefaultPadding,
               alignment: Alignment.center,
               child: _teaButtonList(),
             ),
@@ -273,7 +274,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       selector: (_, provider) => provider.hideIncrements,
       builder: (context, hideIncrements, child) => Row(
         children: [
-          const SizedBox(width: 14.0),
+          spacerWidget,
           IgnorePointer(
             ignoring: timer == null || !hideIncrements,
             child: GestureDetector(
@@ -312,7 +313,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                     _incrementButton(timer, -secs),
                   ],
                 )
-              : const SizedBox(width: 14.0),
+              : spacerWidget,
         ],
       ),
     );
@@ -326,7 +327,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         : AppString.unit_seconds.translate();
 
     return Container(
-      margin: const EdgeInsets.all(4.0),
+      margin: smallDefaultPadding,
       child: TextButton(
         // Increment this timer
         onPressed: () {
@@ -432,13 +433,13 @@ class _TimerWidgetState extends State<TimerWidget> {
               if (provider.teaCount > 0) {
                 // Tea buttons
                 return Row(
-                  children: provider.teaList.map<Padding>((Tea tea) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: Column(
-                        children: [
-                          // Start brewing button
-                          TeaButton(
+                  children: provider.teaList.map<Widget>((Tea tea) {
+                    return Column(
+                      children: [
+                        // Start brewing button
+                        Padding(
+                          padding: largeDefaultPadding,
+                          child: TeaButton(
                             key: GlobalObjectKey(tea.id),
                             tea: tea,
                             fade:
@@ -448,21 +449,21 @@ class _TimerWidgetState extends State<TimerWidget> {
                                     ? (_) => _setTimer(tea)
                                     : null,
                           ),
-                          // Cancel brewing button
-                          Container(
-                            constraints: const BoxConstraints(
-                              minHeight: 48.0,
-                            ),
-                            child: Visibility(
-                              visible: tea.isActive,
-                              child: CancelButton(
-                                active: tea.isActive,
-                                onPressed: (_) => _cancelTimerForTea(tea),
-                              ),
+                        ),
+                        // Cancel brewing button
+                        Container(
+                          constraints: const BoxConstraints(
+                            minHeight: 48.0,
+                          ),
+                          child: Visibility(
+                            visible: tea.isActive,
+                            child: CancelButton(
+                              active: tea.isActive,
+                              onPressed: (_) => _cancelTimerForTea(tea),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     );
                   }).toList(),
                 );
@@ -481,7 +482,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   Widget _addButton() {
     return Card(
       clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.all(8.0),
+      margin: largeDefaultPadding,
       child: InkWell(
         onTap: () => Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => const PrefsWidget())),
@@ -490,7 +491,7 @@ class _TimerWidgetState extends State<TimerWidget> {
             minHeight: 116.0,
             minWidth: 88.0,
           ),
-          margin: const EdgeInsets.all(8.0),
+          margin: largeDefaultPadding,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

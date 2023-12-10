@@ -15,6 +15,7 @@
 import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
+import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
@@ -44,6 +45,7 @@ class TeaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: noPadding,
       elevation: tea.isActive ? 0.0 : 1.0,
       clipBehavior: Clip.antiAlias,
       child: Container(
@@ -62,7 +64,7 @@ class TeaButton extends StatelessWidget {
                   minHeight: 116.0,
                   minWidth: 88.0,
                 ),
-                margin: const EdgeInsets.all(8.0),
+                margin: largeDefaultPadding,
                 // Timer icon with tea name
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -88,8 +90,7 @@ class TeaButton extends StatelessWidget {
                           children: [
                             // Brew time
                             Container(
-                              padding:
-                                  const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 0.0),
+                              padding: rowPadding,
                               child: Text(
                                 formatTimer(tea.brewTime),
                                 style: textStyleButtonSecondary.copyWith(
@@ -101,8 +102,7 @@ class TeaButton extends StatelessWidget {
                             ),
                             // Brew temperature
                             Container(
-                              padding:
-                                  const EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 0.0),
+                              padding: rowPadding,
                               child: Text(
                                 tea.getTempDisplay(
                                   useCelsius: Provider.of<AppProvider>(

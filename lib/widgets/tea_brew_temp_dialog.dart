@@ -14,6 +14,7 @@
 
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
@@ -88,8 +89,6 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
 
   // Build a temperature picker
   Widget _tempPicker() {
-    const Widget tempPickerSpacer = SizedBox(height: 14.0);
-
     return Material(
       type: MaterialType.transparency,
       child: Column(
@@ -116,7 +115,7 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
               }
             },
           ),
-          tempPickerSpacer,
+          spacerWidget,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -147,7 +146,7 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
               ),
             ],
           ),
-          tempPickerSpacer,
+          spacerWidget,
           // Temperature picker
           Slider.adaptive(
             value: _newTempIndex.toDouble(),

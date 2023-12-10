@@ -17,6 +17,7 @@
 import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
+import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/stats.dart';
@@ -87,7 +88,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                     automaticallyImplyLeading: false,
                     titleSpacing: 0.0,
                     title: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                      margin: headerPadding,
                       alignment: Alignment.centerLeft,
                       child: Text(
                         AppString.stats_header.translate(),
@@ -99,47 +100,41 @@ class _StatsWidgetState extends State<StatsWidget> {
                   ),
                   // Summary section
                   SliverToBoxAdapter(
-                    child: Container(
-                      margin: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                      child: Flex(
-                        // Determine layout by device size
-                        direction:
-                            layoutPortrait ? Axis.vertical : Axis.horizontal,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Summary stats
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: ConstrainedBox(
-                              constraints:
-                                  BoxConstraints(maxWidth: summaryWidth),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  for (int i = 0; i < summaryStats.length; i++)
-                                    _statWidget(
-                                      stat: summaryStats[i],
-                                      statIndex: i,
-                                      maxWidth: summaryWidth,
-                                      totalCount: totalCount,
-                                    ),
-                                ],
-                              ),
+                    child: Flex(
+                      // Determine layout by device size
+                      direction:
+                          layoutPortrait ? Axis.vertical : Axis.horizontal,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Summary stats
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(maxWidth: summaryWidth),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                for (int i = 0; i < summaryStats.length; i++)
+                                  _statWidget(
+                                    stat: summaryStats[i],
+                                    statIndex: i,
+                                    maxWidth: summaryWidth,
+                                    totalCount: totalCount,
+                                  ),
+                              ],
                             ),
                           ),
-                          // Summary pie chart
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: Padding(
-                              padding: layoutPortrait
-                                  ? const EdgeInsets.only(top: 24.0)
-                                  : const EdgeInsets.all(24.0),
-                              child: _chart(chartSize: chartSize),
-                            ),
+                        ),
+                        // Summary pie chart
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: _chart(chartSize: chartSize),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                   // Metrics section
@@ -147,7 +142,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                     hasScrollBody: false,
                     fillOverscroll: true,
                     child: Container(
-                      margin: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                      margin: bodyPadding,
                       child: Align(
                         alignment: Alignment.bottomCenter,
                         // General metrics
@@ -155,7 +150,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                           child: Card(
                             elevation: 1.0,
                             child: Container(
-                              margin: const EdgeInsets.all(8.0),
+                              margin: largeDefaultPadding,
                               child: _metricsList(),
                             ),
                           ),
@@ -211,7 +206,7 @@ class _StatsWidgetState extends State<StatsWidget> {
       opacity: fade ? fadeOpacity : noOpacity,
       duration: shortAnimationDuration,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(4.0, 8.0, 4.0, 0.0),
+        padding: bodyPadding,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           child: Row(
@@ -221,7 +216,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                 children: [
                   // Tea icon button
                   Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
+                    padding: rowPadding,
                     child: miniTeaButton(
                       color: stat.color,
                       icon: TeaIcon.values[stat.iconValue].getIcon(),
@@ -229,7 +224,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                   ),
                   // Tea name
                   Padding(
-                    padding: const EdgeInsets.only(right: 12.0),
+                    padding: rowPadding,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: maxWidth),
                       child: Text(
@@ -260,7 +255,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                         child: Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(right: 4.0),
+                              padding: rowPadding,
                               child: Text(
                                 '${stat.count}',
                                 style: textStyleStat,
@@ -404,19 +399,16 @@ class _StatsWidgetState extends State<StatsWidget> {
     double maxWidth = (getDeviceSize(context).width / 2.0) - 12.0;
 
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: smallDefaultPadding,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Metric name
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: maxWidth),
-              child: Text(
-                metricName,
-                style: textStyleStatLabel,
-              ),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: maxWidth),
+            child: Text(
+              metricName,
+              style: textStyleStatLabel,
             ),
           ),
           // Formatted metric value

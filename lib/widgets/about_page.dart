@@ -17,6 +17,7 @@
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/provider.dart';
@@ -53,7 +54,7 @@ class AboutWidget extends StatelessWidget {
               shadowColor: Theme.of(context).shadowColor,
               // Teacup icon
               leading: Container(
-                padding: const EdgeInsets.only(left: 8.0),
+                padding: largeDefaultPadding,
                 child: Image.asset(appIcon, fit: BoxFit.scaleDown),
               ),
               // Cuppa version and build
@@ -148,11 +149,8 @@ class AboutWidget extends StatelessWidget {
               fillOverscroll: true,
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Container(
-                  margin: const EdgeInsets.only(top: 12.0),
-                  // About text linking to app website
-                  child: _aboutText(),
-                ),
+                // About text linking to app website
+                child: _aboutText(),
               ),
             ),
           ],
@@ -178,8 +176,7 @@ class AboutWidget extends StatelessWidget {
             ? () =>
                 launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)
             : onTap,
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+        contentPadding: listTilePadding,
         dense: true,
       ),
     );
@@ -189,7 +186,7 @@ class AboutWidget extends StatelessWidget {
   Widget _aboutText() {
     return InkWell(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+        padding: listTilePadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,

@@ -13,6 +13,7 @@
 // Cuppa mini tea button widget
 
 import 'package:cuppa_mobile/common/colors.dart';
+import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/themes.dart';
 
 import 'package:flutter/material.dart';
@@ -28,12 +29,12 @@ Widget miniTeaButton({
     data: darkTheme ? darkThemeData : lightThemeData,
     child: Card(
       elevation: 1.0,
-      margin: EdgeInsets.zero,
+      margin: noPadding,
       clipBehavior: Clip.antiAlias,
       child: Container(
         decoration: BoxDecoration(color: isActive ? color : null),
         child: Container(
-          margin: const EdgeInsets.all(8.0),
+          margin: largeDefaultPadding,
           child: Icon(
             icon,
             color: isActive ? activeColor : color,

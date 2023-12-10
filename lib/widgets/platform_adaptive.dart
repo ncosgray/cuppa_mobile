@@ -19,6 +19,7 @@
 
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -62,7 +63,7 @@ Widget adaptiveNavBarActionButton({
 }) {
   if (appPlatform == TargetPlatform.iOS) {
     return CupertinoButton(
-      padding: EdgeInsets.zero,
+      padding: noPadding,
       onPressed: onPressed,
       child: icon,
     );
@@ -101,7 +102,7 @@ Widget adaptiveSmallButton({
 }) {
   if (appPlatform == TargetPlatform.iOS) {
     return CupertinoButton(
-      padding: EdgeInsets.zero,
+      padding: noPadding,
       onPressed: onPressed,
       child: Icon(icon),
     );
@@ -122,7 +123,7 @@ Widget adaptiveLargeButton({
   if (appPlatform == TargetPlatform.iOS) {
     return CupertinoButton(
       minSize: 72.0,
-      padding: EdgeInsets.zero,
+      padding: noPadding,
       onPressed: onPressed,
       child: Icon(icon, size: 36.0),
     );
@@ -134,7 +135,7 @@ Widget adaptiveLargeButton({
           borderRadius: BorderRadius.circular(12.0),
         ),
         minimumSize: const Size(60.0, 60.0),
-        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+        padding: smallDefaultPadding,
       ),
       onPressed: onPressed,
       child: Icon(icon, size: 36.0),
@@ -153,7 +154,7 @@ Widget adaptiveTextFormField({
 }) {
   if (appPlatform == TargetPlatform.iOS) {
     return CupertinoFormSection.insetGrouped(
-      margin: EdgeInsets.zero,
+      margin: noPadding,
       backgroundColor: Colors.transparent,
       children: [
         Row(
@@ -169,7 +170,7 @@ Widget adaptiveTextFormField({
                 textCapitalization: TextCapitalization.words,
                 maxLines: 1,
                 textAlignVertical: TextAlignVertical.center,
-                padding: const EdgeInsets.all(8.0),
+                padding: largeDefaultPadding,
                 style: TextStyle(color: textColor),
                 cursorColor: cursorColor,
                 validator: validator,
@@ -180,7 +181,7 @@ Widget adaptiveTextFormField({
               visible: controller.text.isNotEmpty,
               // Clear field button
               child: CupertinoButton(
-                padding: EdgeInsets.zero,
+                padding: noPadding,
                 onPressed: onCleared,
                 child: clearIcon,
               ),
@@ -192,7 +193,7 @@ Widget adaptiveTextFormField({
     );
   } else {
     return Container(
-      padding: const EdgeInsets.all(8.0),
+      padding: largeDefaultPadding,
       child: TextFormField(
         controller: controller,
         autofocus: true,
@@ -207,7 +208,7 @@ Widget adaptiveTextFormField({
           suffixIcon: controller.text.isNotEmpty
               // Clear field button
               ? IconButton(
-                  padding: EdgeInsets.zero,
+                  padding: noPadding,
                   onPressed: onCleared,
                   icon: clearIcon,
                 )
@@ -399,7 +400,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
             child: Scrollbar(
               // Item options
               child: ListView.separated(
-                padding: EdgeInsets.zero,
+                padding: noPadding,
                 shrinkWrap: true,
                 itemCount: itemList.length,
                 itemBuilder: itemBuilder,
