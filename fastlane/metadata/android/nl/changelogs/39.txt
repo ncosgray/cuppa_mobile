@@ -1,0 +1,4 @@
+[NIEUW] De resterende tijd van een actieve kookwekker kan voortaan worden aangepast;
+[NIEUW] Extra temperatuuropties;
+[VERBETERD] Verbeterde vormgeving;
+[VERBETERD] Bijgewerkte vertalingen - draag ook bij via Weblate!
