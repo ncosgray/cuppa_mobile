@@ -13,9 +13,9 @@
 // Cuppa data
 // - Tea definition class
 
-import 'package:cuppa_mobile/data/constants.dart';
-import 'package:cuppa_mobile/data/globals.dart';
-import 'package:cuppa_mobile/helpers.dart';
+import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
 
 import 'package:flutter/material.dart';
 
@@ -40,64 +40,55 @@ class Tea {
   // Constructor
   Tea({
     int? id,
-    required String name,
-    required int brewTime,
-    required int brewTemp,
+    required this.name,
+    required this.brewTime,
+    required this.brewTemp,
     TeaColor? color,
     int colorValue = 0,
-    Color? colorShade,
+    this.colorShade,
     TeaIcon? icon,
     int iconValue = 0,
-    required bool isFavorite,
-    required bool isActive,
-    int timerEndTime = 0,
-    int? timerNotifyID,
-    bool animate = false,
+    required this.isFavorite,
+    required this.isActive,
+    this.timerEndTime = 0,
+    this.timerNotifyID,
+    this.animate = false,
   }) {
     // Assign next tea ID if not given
     this.id = id ?? nextTeaID++;
-    this.name = name;
-    this.brewTime = brewTime;
-    this.brewTemp = brewTemp;
     // Prefer TeaColor or lookup from value if color not given
     this.color = color ??
         TeaColor.values.firstWhere(
           (color) => color.value == colorValue,
           orElse: () => TeaColor.values[0],
         );
-    this.colorShade = colorShade;
     // Prefer TeaIcon or lookup from value if icon not given
     this.icon = icon ??
         TeaIcon.values.firstWhere(
           (icon) => icon.value == iconValue,
           orElse: () => TeaIcon.values[0],
         );
-    this.isFavorite = isFavorite;
-    this.isActive = isActive;
-    this.timerEndTime = timerEndTime;
-    this.timerNotifyID = timerNotifyID;
-    this.animate = animate;
   }
 
   // Activate brew timer
   void activate(int notifyID) {
-    this.isActive = true;
-    this.timerEndTime = DateTime.now()
-        .add(Duration(seconds: this.brewTime + 1))
+    isActive = true;
+    timerEndTime = DateTime.now()
+        .add(Duration(seconds: brewTime + 1))
         .millisecondsSinceEpoch;
-    this.timerNotifyID = notifyID;
+    timerNotifyID = notifyID;
   }
 
   // Deactivate brew timer
   void deactivate() {
-    this.isActive = false;
-    this.timerEndTime = 0;
-    this.timerNotifyID = null;
+    isActive = false;
+    timerEndTime = 0;
+    timerNotifyID = null;
   }
 
   // Adjust brew time remaining
   void adjustBrewTimeRemaining(int ms) {
-    this.timerEndTime += ms;
+    timerEndTime += ms;
   }
 
   // Get brew time remaining
@@ -110,53 +101,53 @@ class Tea {
 
   // Tea display getters
   get buttonName {
-    return this.name.toUpperCase();
+    return name.toUpperCase();
   }
 
   String getTempDisplay({bool? useCelsius}) {
-    return formatTemp(this.brewTemp, useCelsius: useCelsius);
+    return formatTemp(brewTemp, useCelsius: useCelsius);
   }
 
   // Color getter
   Color getColor() {
-    return this.colorShade ?? this.color.getColor();
+    return colorShade ?? color.getColor();
   }
 
   // Icon getter
   IconData get teaIcon {
-    return this.icon.getIcon();
+    return icon.getIcon();
   }
 
   // Brew time getters
   int get brewTimeSeconds {
-    return this.brewTime - (this.brewTimeMinutes * 60);
+    return brewTime - (brewTimeMinutes * 60);
   }
 
   int get brewTimeMinutes {
-    return (this.brewTime / 60).floor() - (this.brewTimeHours * 60);
+    return (brewTime / 60).floor() - (brewTimeHours * 60);
   }
 
   int get brewTimeHours {
-    return (this.brewTime / 3600).floor();
+    return (brewTime / 3600).floor();
   }
 
   // Brew time setters
   set brewTimeSeconds(int newSecs) {
-    this.brewTime = (this.brewTimeMinutes * 60) + newSecs;
+    brewTime = (brewTimeMinutes * 60) + newSecs;
   }
 
   set brewTimeMinutes(int newMins) {
-    this.brewTime = (newMins * 60) + this.brewTimeSeconds;
+    brewTime = (newMins * 60) + brewTimeSeconds;
   }
 
   set brewTimeHours(int newHrs) {
-    this.brewTime = (newHrs * 3600) + this.brewTimeMinutes;
+    brewTime = (newHrs * 3600) + brewTimeMinutes;
   }
 
   // Quick action shortcut icons based on color and tea icon
   get shortcutIcon {
     if (appPlatform == TargetPlatform.iOS) {
-      switch (this.icon) {
+      switch (icon) {
         case TeaIcon.cup:
           return shortcutIconIOSCup;
         case TeaIcon.flower:
@@ -165,10 +156,10 @@ class Tea {
           return shortcutIconIOS;
       }
     } else {
-      switch (this.color) {
+      switch (color) {
         case TeaColor.red:
           {
-            switch (this.icon) {
+            switch (icon) {
               case TeaIcon.cup:
                 return shortcutIconCupRed;
               case TeaIcon.flower:
@@ -179,7 +170,7 @@ class Tea {
           }
         case TeaColor.orange:
           {
-            switch (this.icon) {
+            switch (icon) {
               case TeaIcon.cup:
                 return shortcutIconCupOrange;
               case TeaIcon.flower:
@@ -190,7 +181,7 @@ class Tea {
           }
         case TeaColor.green:
           {
-            switch (this.icon) {
+            switch (icon) {
               case TeaIcon.cup:
                 return shortcutIconCupGreen;
               case TeaIcon.flower:
@@ -201,7 +192,7 @@ class Tea {
           }
         case TeaColor.blue:
           {
-            switch (this.icon) {
+            switch (icon) {
               case TeaIcon.cup:
                 return shortcutIconCupBlue;
               case TeaIcon.flower:
@@ -212,7 +203,7 @@ class Tea {
           }
         case TeaColor.purple:
           {
-            switch (this.icon) {
+            switch (icon) {
               case TeaIcon.cup:
                 return shortcutIconCupPurple;
               case TeaIcon.flower:
@@ -223,7 +214,7 @@ class Tea {
           }
         case TeaColor.brown:
           {
-            switch (this.icon) {
+            switch (icon) {
               case TeaIcon.cup:
                 return shortcutIconCupBrown;
               case TeaIcon.flower:
@@ -234,7 +225,7 @@ class Tea {
           }
         case TeaColor.pink:
           {
-            switch (this.icon) {
+            switch (icon) {
               case TeaIcon.cup:
                 return shortcutIconCupPink;
               case TeaIcon.flower:
@@ -245,7 +236,7 @@ class Tea {
           }
         case TeaColor.amber:
           {
-            switch (this.icon) {
+            switch (icon) {
               case TeaIcon.cup:
                 return shortcutIconCupAmber;
               case TeaIcon.flower:
@@ -256,7 +247,7 @@ class Tea {
           }
         case TeaColor.teal:
           {
-            switch (this.icon) {
+            switch (icon) {
               case TeaIcon.cup:
                 return shortcutIconCupTeal;
               case TeaIcon.flower:
@@ -267,7 +258,7 @@ class Tea {
           }
         case TeaColor.cyan:
           {
-            switch (this.icon) {
+            switch (icon) {
               case TeaIcon.cup:
                 return shortcutIconCupCyan;
               case TeaIcon.flower:
@@ -278,7 +269,7 @@ class Tea {
           }
         case TeaColor.lavender:
           {
-            switch (this.icon) {
+            switch (icon) {
               case TeaIcon.cup:
                 return shortcutIconCupLavender;
               case TeaIcon.flower:
@@ -289,7 +280,7 @@ class Tea {
           }
         default:
           {
-            switch (this.icon) {
+            switch (icon) {
               case TeaIcon.cup:
                 return shortcutIconCupBlack;
               case TeaIcon.flower:
@@ -330,19 +321,19 @@ class Tea {
 
   Map<String, dynamic> toJson() {
     return {
-      jsonKeyID: this.id,
-      jsonKeyName: this.name,
-      jsonKeyBrewTime: this.brewTime,
-      jsonKeyBrewTemp: this.brewTemp,
-      jsonKeyColor: this.color.value,
-      jsonKeyColorShadeRed: this.colorShade?.red,
-      jsonKeyColorShadeGreen: this.colorShade?.green,
-      jsonKeyColorShadeBlue: this.colorShade?.blue,
-      jsonKeyIcon: this.icon.value,
-      jsonKeyIsFavorite: this.isFavorite,
-      jsonKeyIsActive: this.isActive,
-      jsonKeyTimerEndTime: this.timerEndTime,
-      jsonKeyTimerNotifyID: this.timerNotifyID,
+      jsonKeyID: id,
+      jsonKeyName: name,
+      jsonKeyBrewTime: brewTime,
+      jsonKeyBrewTemp: brewTemp,
+      jsonKeyColor: color.value,
+      jsonKeyColorShadeRed: colorShade?.red,
+      jsonKeyColorShadeGreen: colorShade?.green,
+      jsonKeyColorShadeBlue: colorShade?.blue,
+      jsonKeyIcon: icon.value,
+      jsonKeyIsFavorite: isFavorite,
+      jsonKeyIsActive: isActive,
+      jsonKeyTimerEndTime: timerEndTime,
+      jsonKeyTimerNotifyID: timerNotifyID,
     };
   }
 }

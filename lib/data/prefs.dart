@@ -13,11 +13,11 @@
 // Cuppa preferences
 // - Handle shared prefs
 
-import 'package:cuppa_mobile/data/constants.dart';
-import 'package:cuppa_mobile/data/globals.dart';
+import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:cuppa_mobile/helpers.dart';
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -202,10 +202,10 @@ abstract class Prefs {
 // App themes
 enum AppTheme {
   system(0),
-  theme_light(1),
-  theme_dark(2),
-  theme_black(3),
-  system_black(4);
+  light(1),
+  dark(2),
+  black(3),
+  systemBlack(4);
 
   final int value;
 

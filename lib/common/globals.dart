@@ -13,7 +13,7 @@
 // Cuppa globals
 // - Shared preferences, quick actions
 
-import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/common/constants.dart';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/foundation.dart';

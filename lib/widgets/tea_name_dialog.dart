@@ -12,6 +12,7 @@
 
 // Cuppa tea name entry dialog
 
+import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'package:flutter/material.dart';
@@ -32,27 +33,10 @@ class TeaNameDialog extends StatefulWidget {
   final String buttonTextOK;
 
   @override
-  _TeaNameDialogState createState() => _TeaNameDialogState(
-        initialValue: initialValue,
-        validator: validator,
-        buttonTextCancel: buttonTextCancel,
-        buttonTextOK: buttonTextOK,
-      );
+  State<TeaNameDialog> createState() => _TeaNameDialogState();
 }
 
 class _TeaNameDialogState extends State<TeaNameDialog> {
-  _TeaNameDialogState({
-    required this.initialValue,
-    required this.validator,
-    required this.buttonTextCancel,
-    required this.buttonTextOK,
-  });
-
-  final String initialValue;
-  final String? Function(String?) validator;
-  final String buttonTextCancel;
-  final String buttonTextOK;
-
   // State variables
   late GlobalKey<FormState> _formKey;
   late String _newValue;
@@ -65,7 +49,7 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
     super.initState();
 
     _formKey = GlobalKey();
-    _newValue = initialValue;
+    _newValue = widget.initialValue;
     _isValid = true;
     _controller = TextEditingController(text: _newValue);
   }
@@ -77,40 +61,37 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
       child: SingleChildScrollView(
         child: AlertDialog.adaptive(
           // Text entry
-          content: Material(
-            type: MaterialType.transparency,
-            child: Form(
-              key: _formKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              child: adaptiveTextFormField(
-                textColor: Theme.of(context).textTheme.bodyLarge!.color!,
-                cursorColor: _isValid ? null : Colors.red,
-                controller: _controller,
-                validator: validator,
-                onChanged: (String newValue) {
-                  // Validate text and set new value
-                  setState(() {
-                    _isValid = false;
-                    if (_formKey.currentState != null) {
-                      if (_formKey.currentState!.validate()) {
-                        _isValid = true;
-                        _newValue = newValue;
-                      }
-                    }
-                  });
-                },
-                onCleared: () => setState(() {
-                  // Invalidate an empty value
+          content: Form(
+            key: _formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: adaptiveTextFormField(
+              textColor: Theme.of(context).textTheme.bodyLarge!.color!,
+              cursorColor: _isValid ? null : invalidColor,
+              controller: _controller,
+              validator: widget.validator,
+              onChanged: (String newValue) {
+                // Validate text and set new value
+                setState(() {
                   _isValid = false;
-                  _controller.clear();
-                }),
-              ),
+                  if (_formKey.currentState != null) {
+                    if (_formKey.currentState!.validate()) {
+                      _isValid = true;
+                      _newValue = newValue;
+                    }
+                  }
+                });
+              },
+              onCleared: () => setState(() {
+                // Invalidate an empty value
+                _isValid = false;
+                _controller.clear();
+              }),
             ),
           ),
           actions: <Widget>[
             // Cancel and close dialog
             adaptiveDialogAction(
-              text: buttonTextCancel,
+              text: widget.buttonTextCancel,
               onPressed: () => Navigator.of(context).pop(),
             ),
             // Save and close dialog, if valid
@@ -118,7 +99,7 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
               isDefaultAction: true,
               onPressed:
                   _isValid ? () => Navigator.of(context).pop(_newValue) : null,
-              text: buttonTextOK,
+              text: widget.buttonTextOK,
             ),
           ],
         ),

@@ -12,7 +12,7 @@
 
 // Cuppa helper functions
 
-import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 
 import 'package:flutter/material.dart';

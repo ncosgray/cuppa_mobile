@@ -18,18 +18,18 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 2.4.0+40
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
-  flutter: ^3.16.2
+  sdk: '>=3.2.3 <4.0.0'
+  flutter: ^3.16.5
 
 dependencies:
   app_settings: ^5.1.1
   cupertino_icons: ^1.0.6
-  dynamic_color: ^1.6.8
-  fl_chart: ^0.65.0
+  dynamic_color: ^1.6.9
+  fl_chart: ^0.66.0
   flex_color_picker: ^3.3.0
   flutter:
     sdk: flutter
-  flutter_local_notifications: ^16.2.0
+  flutter_local_notifications: ^16.3.0
   flutter_localizations:
     sdk: flutter
   flutter_timezone: ^1.0.8
@@ -42,7 +42,7 @@ dependencies:
   showcaseview: ^2.0.3
   sliver_tools: ^0.2.12
   sqflite: ^2.3.0
-  url_launcher: ^6.2.1
+  url_launcher: ^6.2.2
   wakelock_plus: ^1.1.4
 
 dev_dependencies:

@@ -14,14 +14,16 @@
 // - Version and build number
 // - Links to GitHub, Weblate, etc.
 
-import 'package:cuppa_mobile/data/constants.dart';
-import 'package:cuppa_mobile/data/globals.dart';
+import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/provider.dart';
-import 'package:cuppa_mobile/widgets/common.dart';
+import 'package:cuppa_mobile/widgets/list_divider.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/stats_page.dart';
-import 'package:cuppa_mobile/widgets/text_styles.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'package:flutter/material.dart';
@@ -52,7 +54,7 @@ class AboutWidget extends StatelessWidget {
               shadowColor: Theme.of(context).shadowColor,
               // Teacup icon
               leading: Container(
-                padding: const EdgeInsets.only(left: 8.0),
+                padding: largeDefaultPadding,
                 child: Image.asset(appIcon, fit: BoxFit.scaleDown),
               ),
               // Cuppa version and build
@@ -147,11 +149,8 @@ class AboutWidget extends StatelessWidget {
               fillOverscroll: true,
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Container(
-                  margin: const EdgeInsets.only(top: 12.0),
-                  // About text linking to app website
-                  child: aboutText(),
-                ),
+                // About text linking to app website
+                child: _aboutText(),
               ),
             ),
           ],
@@ -177,10 +176,34 @@ class AboutWidget extends StatelessWidget {
             ? () =>
                 launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)
             : onTap,
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+        contentPadding: listTilePadding,
         dense: true,
       ),
+    );
+  }
+
+  // About text linking to app website
+  Widget _aboutText() {
+    return InkWell(
+      child: Container(
+        padding: listTilePadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(AppString.about_app.translate(), style: textStyleFooter),
+            const Row(
+              children: [
+                Text(aboutCopyright, style: textStyleFooter),
+                VerticalDivider(),
+                Text(aboutURL, style: textStyleFooterLink),
+              ],
+            ),
+          ],
+        ),
+      ),
+      onTap: () =>
+          launchUrl(Uri.parse(aboutURL), mode: LaunchMode.externalApplication),
     );
   }
 }

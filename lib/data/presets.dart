@@ -13,9 +13,9 @@
 // Cuppa data
 // - Preset tea types
 
+import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:cuppa_mobile/helpers.dart';
 
 import 'package:flutter/material.dart';
 
@@ -43,34 +43,34 @@ class Preset {
 
   // Localized tea name
   get localizedName {
-    return this.key.translate();
+    return key.translate();
   }
 
   // Color getter
   Color getColor() {
-    return this.color.getColor();
+    return color.getColor();
   }
 
   // Icon getter
   IconData getIcon() {
-    return this.icon.getIcon();
+    return icon.getIcon();
   }
 
   // Brew temp getter
   String tempDisplay(bool useCelsius) {
     return formatTemp(
-      useCelsius ? this.brewTempDegreesC : this.brewTempDegreesF,
+      useCelsius ? brewTempDegreesC : brewTempDegreesF,
     );
   }
 
   // Create a new tea from this preset
   Tea createTea({required bool useCelsius, bool isFavorite = false}) {
     return Tea(
-      name: this.localizedName,
-      brewTime: this.brewTime,
-      brewTemp: (useCelsius ? this.brewTempDegreesC : this.brewTempDegreesF),
-      color: this.color,
-      icon: this.icon,
+      name: localizedName,
+      brewTime: brewTime,
+      brewTemp: (useCelsius ? brewTempDegreesC : brewTempDegreesF),
+      color: color,
+      icon: icon,
       isFavorite: isFavorite,
       isActive: false,
     );

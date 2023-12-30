@@ -12,9 +12,11 @@
 
 // Cuppa time entry dialog
 
-import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
-import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/material.dart';
 
@@ -46,45 +48,10 @@ class TeaBrewTimeDialog extends StatefulWidget {
   final String buttonTextOK;
 
   @override
-  State<TeaBrewTimeDialog> createState() => _TeaBrewTimeDialogState(
-        initialHours: initialHours,
-        hourOptions: hourOptions,
-        hourLabel: hourLabel,
-        initialMinutes: initialMinutes,
-        minuteOptions: minuteOptions,
-        minuteLabel: minuteLabel,
-        initialSeconds: initialSeconds,
-        secondOptions: secondOptions,
-        buttonTextCancel: buttonTextCancel,
-        buttonTextOK: buttonTextOK,
-      );
+  State<TeaBrewTimeDialog> createState() => _TeaBrewTimeDialogState();
 }
 
 class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
-  _TeaBrewTimeDialogState({
-    required this.initialHours,
-    required this.hourOptions,
-    required this.hourLabel,
-    required this.initialMinutes,
-    required this.minuteOptions,
-    required this.minuteLabel,
-    required this.initialSeconds,
-    required this.secondOptions,
-    required this.buttonTextCancel,
-    required this.buttonTextOK,
-  });
-
-  final int initialHours;
-  final List<int> hourOptions;
-  final String hourLabel;
-  final int initialMinutes;
-  final List<int> minuteOptions;
-  final String minuteLabel;
-  final int initialSeconds;
-  final List<int> secondOptions;
-  final String buttonTextCancel;
-  final String buttonTextOK;
-
   // State variables
   int _hoursIndex = 0;
   int _minutesIndex = 0;
@@ -100,17 +67,17 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
     super.initState();
 
     // Set starting values
-    if (hourOptions.contains(initialHours)) {
-      _hoursIndex = hourOptions.indexOf(initialHours);
+    if (widget.hourOptions.contains(widget.initialHours)) {
+      _hoursIndex = widget.hourOptions.indexOf(widget.initialHours);
     }
     _hoursController = FixedExtentScrollController(initialItem: _hoursIndex);
-    if (minuteOptions.contains(initialMinutes)) {
-      _minutesIndex = minuteOptions.indexOf(initialMinutes);
+    if (widget.minuteOptions.contains(widget.initialMinutes)) {
+      _minutesIndex = widget.minuteOptions.indexOf(widget.initialMinutes);
     }
     _minutesController =
         FixedExtentScrollController(initialItem: _minutesIndex);
-    if (secondOptions.contains(initialSeconds)) {
-      _secondsIndex = secondOptions.indexOf(initialSeconds);
+    if (widget.secondOptions.contains(widget.initialSeconds)) {
+      _secondsIndex = widget.secondOptions.indexOf(widget.initialSeconds);
     }
     _secondsController =
         FixedExtentScrollController(initialItem: _secondsIndex);
@@ -126,18 +93,18 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
       actions: <Widget>[
         // Cancel and close dialog
         adaptiveDialogAction(
-          text: buttonTextCancel,
+          text: widget.buttonTextCancel,
           onPressed: () => Navigator.pop(context, null),
         ),
         // Save and close dialog
         adaptiveDialogAction(
           isDefaultAction: true,
-          text: buttonTextOK,
+          text: widget.buttonTextOK,
           onPressed: () => Navigator.pop(
             context,
-            hourOptions[_hoursIndex] * 3600 +
-                minuteOptions[_minutesIndex] * 60 +
-                secondOptions[_secondsIndex],
+            widget.hourOptions[_hoursIndex] * 3600 +
+                widget.minuteOptions[_minutesIndex] * 60 +
+                widget.secondOptions[_secondsIndex],
           ),
         ),
       ],
@@ -146,8 +113,6 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
 
   // Build a time picker
   Widget _timePicker() {
-    const Widget timePickerSpacer = SizedBox(width: 14.0);
-
     return SizedBox(
       height: 120.0,
       child: Row(
@@ -155,7 +120,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
         children: [
           // Increment down
           adaptiveSmallButton(
-            icon: Icons.keyboard_arrow_down,
+            icon: incrementDownIcon,
             onPressed: () {
               if (_hoursSelectionMode) {
                 _minutesIndex--;
@@ -164,41 +129,41 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
               }
               if (_secondsIndex < 0) {
                 _minutesIndex--;
-                _secondsIndex = secondOptions.length - 1;
+                _secondsIndex = widget.secondOptions.length - 1;
               }
               if (_minutesIndex < 0) {
                 _hoursIndex--;
-                _minutesIndex = minuteOptions.length - 1;
+                _minutesIndex = widget.minuteOptions.length - 1;
               }
               if (_hoursIndex <= 0) {
                 _hoursIndex = 0;
                 if (_hoursSelectionMode) {
                   // Change to minutes selection mode at 0 hours
                   _hoursSelectionMode = false;
-                  _minutesIndex = minuteOptions.length - 1;
-                  _secondsIndex = secondOptions.length - 1;
+                  _minutesIndex = widget.minuteOptions.length - 1;
+                  _secondsIndex = widget.secondOptions.length - 1;
                 }
               }
               _updateTimePicker(doScroll: true);
             },
           ),
-          timePickerSpacer,
+          spacerWidget,
           // Hours picker
           Visibility(
             visible: _hoursSelectionMode,
             maintainState: true,
             child: _timePickerScrollWheel(
               controller: _hoursController,
-              initialValue: initialHours,
-              timeValues: hourOptions,
+              initialValue: widget.initialHours,
+              timeValues: widget.hourOptions,
               onChanged: (newValue) {
                 if (newValue <= 0) {
                   _hoursIndex = 0;
                   if (_hoursSelectionMode) {
                     // Change to minutes selection mode at 0 hours
                     _hoursSelectionMode = false;
-                    _minutesIndex = minuteOptions.length - 1;
-                    _secondsIndex = secondOptions.length - 1;
+                    _minutesIndex = widget.minuteOptions.length - 1;
+                    _secondsIndex = widget.secondOptions.length - 1;
                   }
                   _updateTimePicker(doScroll: true);
                 } else {
@@ -212,19 +177,20 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
           Visibility(
             visible: _hoursSelectionMode,
             child: Text(
-              hourLabel,
+              widget.hourLabel,
               style: textStyleSettingTertiary,
             ),
           ),
-          Visibility(visible: _hoursSelectionMode, child: timePickerSpacer),
+          Visibility(visible: _hoursSelectionMode, child: spacerWidget),
           // Minutes picker
           _timePickerScrollWheel(
             controller: _minutesController,
-            initialValue: initialMinutes,
-            timeValues:
-                _hoursSelectionMode ? minuteOptions : minuteOptions + [60],
+            initialValue: widget.initialMinutes,
+            timeValues: _hoursSelectionMode
+                ? widget.minuteOptions
+                : widget.minuteOptions + [60],
             onChanged: (newValue) {
-              if (newValue >= minuteOptions.length) {
+              if (newValue >= widget.minuteOptions.length) {
                 // Change to hours selection mode at 60 minutes
                 _hoursSelectionMode = true;
                 _hoursIndex++;
@@ -236,21 +202,21 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
               }
             },
           ),
-          Visibility(visible: !_hoursSelectionMode, child: timePickerSpacer),
+          Visibility(visible: !_hoursSelectionMode, child: spacerWidget),
           // Unit
           Text(
-            _hoursSelectionMode ? minuteLabel : ':',
+            _hoursSelectionMode ? widget.minuteLabel : ':',
             style: textStyleSettingTertiary,
           ),
-          Visibility(visible: !_hoursSelectionMode, child: timePickerSpacer),
+          Visibility(visible: !_hoursSelectionMode, child: spacerWidget),
           // Seconds picker
           Visibility(
             visible: !_hoursSelectionMode,
             maintainState: true,
             child: _timePickerScrollWheel(
               controller: _secondsController,
-              initialValue: initialSeconds,
-              timeValues: secondOptions,
+              initialValue: widget.initialSeconds,
+              timeValues: widget.secondOptions,
               onChanged: (newValue) {
                 _secondsIndex = newValue;
                 _updateTimePicker();
@@ -258,21 +224,21 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
               padTime: true,
             ),
           ),
-          timePickerSpacer,
+          spacerWidget,
           // Increment up
           adaptiveSmallButton(
-            icon: Icons.keyboard_arrow_up,
+            icon: incrementUpIcon,
             onPressed: () {
               if (_hoursSelectionMode) {
                 _minutesIndex++;
               } else {
                 _secondsIndex++;
               }
-              if (_secondsIndex >= secondOptions.length) {
+              if (_secondsIndex >= widget.secondOptions.length) {
                 _minutesIndex++;
                 _secondsIndex = 0;
               }
-              if (_minutesIndex >= minuteOptions.length) {
+              if (_minutesIndex >= widget.minuteOptions.length) {
                 _minutesIndex = 0;
                 _hoursIndex++;
                 if (!_hoursSelectionMode) {
@@ -280,8 +246,8 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
                   _hoursSelectionMode = true;
                 }
               }
-              if (_hoursIndex >= hourOptions.length) {
-                _hoursIndex = hourOptions.length - 1;
+              if (_hoursIndex >= widget.hourOptions.length) {
+                _hoursIndex = widget.hourOptions.length - 1;
               }
               _updateTimePicker(doScroll: true);
             },
@@ -338,10 +304,10 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
   // Update time picker scroll wheel position
   void _updateTimePicker({bool doScroll = false}) {
     // Ensure we never have a 0:00:00 brew time
-    if (hourOptions[_hoursIndex] == 0 &&
-        minuteOptions[_minutesIndex] == 0 &&
-        secondOptions[_secondsIndex] == 0) {
-      if (hourOptions[_hoursIndex] > 0) {
+    if (widget.hourOptions[_hoursIndex] == 0 &&
+        widget.minuteOptions[_minutesIndex] == 0 &&
+        widget.secondOptions[_secondsIndex] == 0) {
+      if (widget.hourOptions[_hoursIndex] > 0) {
         _minutesIndex++;
       } else {
         _secondsIndex++;

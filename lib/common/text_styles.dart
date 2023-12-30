@@ -12,9 +12,9 @@
 
 // Cuppa text styles
 
-import 'package:flutter/material.dart';
+import 'package:cuppa_mobile/common/colors.dart';
 
-const Color textColorLink = Colors.blue;
+import 'package:flutter/material.dart';
 
 const TextStyle textStyleNavBar = TextStyle(
   fontSize: 20.0,
@@ -40,9 +40,9 @@ const TextStyle textStyleFooter = TextStyle(
 
 const TextStyle textStyleFooterLink = TextStyle(
   fontSize: 12.0,
-  color: textColorLink,
+  color: linkColor,
   decoration: TextDecoration.underline,
-  decorationColor: textColorLink,
+  decorationColor: linkColor,
 );
 
 const TextStyle textStyleButton = TextStyle(
