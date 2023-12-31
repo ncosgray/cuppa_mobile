@@ -1,0 +1,5 @@
+* Opt in to usage stats to get access to a fun chart that shows your tea drinking habits!
+* Privacy policy updated for stats collection.
+* Better scaling for large system font sizes.
+* Various usability and interface tweaks.
+* Added Luxembourgish translation, and other translation updates - contribute via Weblate!

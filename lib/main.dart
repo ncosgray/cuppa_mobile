@@ -12,12 +12,12 @@
 
 // Cuppa: a simple tea timer app for Android and iOS
 
-import 'package:cuppa_mobile/data/constants.dart';
-import 'package:cuppa_mobile/data/globals.dart';
+import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/themes.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
-import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/timer_page.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
@@ -96,10 +96,10 @@ class CuppaApp extends StatelessWidget {
                 title: appName,
                 debugShowCheckedModeBanner: false,
                 // Configure app theme including dynamic colors if supported
-                theme: getPlatformAdaptiveTheme(
+                theme: createLightTheme(
                   dynamicColors: lightDynamic,
                 ),
-                darkTheme: getPlatformAdaptiveDarkTheme(
+                darkTheme: createDarkTheme(
                   dynamicColors: darkDynamic,
                   blackTheme: appThemeBlack,
                 ),

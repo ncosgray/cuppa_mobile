@@ -14,7 +14,7 @@
 // - Tea timer usage statistics and database functionality
 // - Query enums
 
-import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'package:flutter/widgets.dart';
@@ -79,16 +79,16 @@ class Stat {
   // Convert a stat to a map for inserting
   Map<String, dynamic> toMap() {
     return {
-      statsColumnId: this.id,
-      statsColumnName: this.name,
-      statsColumnBrewTime: this.brewTime,
-      statsColumnBrewTemp: this.brewTemp,
-      statsColumnColorShadeRed: this.colorShadeRed,
-      statsColumnColorShadeGreen: this.colorShadeGreen,
-      statsColumnColorShadeBlue: this.colorShadeBlue,
-      statsColumnIconValue: this.iconValue,
-      statsColumnIsFavorite: this.isFavorite ? 1 : 0,
-      statsColumnTimerStartTime: this.timerStartTime,
+      statsColumnId: id,
+      statsColumnName: name,
+      statsColumnBrewTime: brewTime,
+      statsColumnBrewTemp: brewTemp,
+      statsColumnColorShadeRed: colorShadeRed,
+      statsColumnColorShadeGreen: colorShadeGreen,
+      statsColumnColorShadeBlue: colorShadeBlue,
+      statsColumnIconValue: iconValue,
+      statsColumnIsFavorite: isFavorite ? 1 : 0,
+      statsColumnTimerStartTime: timerStartTime,
     };
   }
 }

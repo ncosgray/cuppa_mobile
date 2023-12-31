@@ -13,7 +13,7 @@
 // Cuppa data
 // - Instance of a tea timer
 
-import 'package:cuppa_mobile/helpers.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'dart:async';
@@ -29,9 +29,7 @@ class TeaTimer {
   Timer? ticker;
 
   // Constructor
-  TeaTimer({required int notifyID}) {
-    this.notifyID = notifyID;
-  }
+  TeaTimer({required this.notifyID});
 
   // Start brewing
   void start(Tea newTea, void Function(Timer? timer) handleTick) {

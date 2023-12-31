@@ -15,7 +15,7 @@
 // - Get translated strings
 // - String keys
 
-import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/common/constants.dart';
 
 import 'dart:async';
 import 'dart:convert';
@@ -40,6 +40,7 @@ final Map<Locale, String> supportedLocales = {
   const Locale.fromSubtags(languageCode: 'fr'): 'Français',
   const Locale.fromSubtags(languageCode: 'ga'): 'Gaeilge',
   const Locale.fromSubtags(languageCode: 'it'): 'Italiano',
+  const Locale.fromSubtags(languageCode: 'lb'): 'Lëtzebuergesch',
   const Locale.fromSubtags(languageCode: 'nl'): 'Nederlands',
   const Locale.fromSubtags(languageCode: 'nb'): 'Norsk Bokmål',
   const Locale.fromSubtags(languageCode: 'pt'): 'Português',
@@ -59,6 +60,7 @@ final List<String> supportedLanguageCodes = supportedLocales.keys
     .toList();
 
 // Localizable app strings
+// ignore_for_file: constant_identifier_names
 enum AppString {
   about_app('about_app'),
   about_license('about_license'),

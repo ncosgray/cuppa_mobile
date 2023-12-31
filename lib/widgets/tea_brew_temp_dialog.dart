@@ -12,9 +12,11 @@
 
 // Cuppa tea temperature picker dialog
 
-import 'package:cuppa_mobile/helpers.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
+import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
-import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:flutter/material.dart';
 
@@ -36,30 +38,10 @@ class TeaBrewTempDialog extends StatefulWidget {
   final String buttonTextOK;
 
   @override
-  State<TeaBrewTempDialog> createState() => _TeaBrewTempDialogState(
-        initialTemp: initialTemp,
-        tempFOptions: tempFOptions,
-        tempCOptions: tempCOptions,
-        buttonTextCancel: buttonTextCancel,
-        buttonTextOK: buttonTextOK,
-      );
+  State<TeaBrewTempDialog> createState() => _TeaBrewTempDialogState();
 }
 
 class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
-  _TeaBrewTempDialogState({
-    required this.initialTemp,
-    required this.tempFOptions,
-    required this.tempCOptions,
-    required this.buttonTextCancel,
-    required this.buttonTextOK,
-  });
-
-  final int initialTemp;
-  final List<int> tempFOptions;
-  final List<int> tempCOptions;
-  final String buttonTextCancel;
-  final String buttonTextOK;
-
   // State variables
   late int _newTemp;
   int _newTempIndex = 0;
@@ -71,14 +53,14 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
     super.initState();
 
     // Set starting values
-    _newTemp = initialTemp;
-    if (tempCOptions.contains(_newTemp)) {
-      _newTempIndex = tempCOptions.indexOf(_newTemp);
+    _newTemp = widget.initialTemp;
+    if (widget.tempCOptions.contains(_newTemp)) {
+      _newTempIndex = widget.tempCOptions.indexOf(_newTemp);
     }
-    if (tempFOptions.contains(_newTemp)) {
-      _newTempIndex = tempFOptions.indexOf(_newTemp);
+    if (widget.tempFOptions.contains(_newTemp)) {
+      _newTempIndex = widget.tempFOptions.indexOf(_newTemp);
     }
-    _unitsCelsius = isTempCelsius(initialTemp);
+    _unitsCelsius = isTempCelsius(widget.initialTemp);
   }
 
   // Build dialog
@@ -92,12 +74,12 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
       actions: <Widget>[
         // Cancel and close dialog
         adaptiveDialogAction(
-          text: buttonTextCancel,
+          text: widget.buttonTextCancel,
           onPressed: () => Navigator.pop(context, null),
         ),
         // Save and close dialog
         adaptiveDialogAction(
-          text: buttonTextOK,
+          text: widget.buttonTextOK,
           isDefaultAction: true,
           onPressed: () => Navigator.pop(context, _newTemp),
         ),
@@ -107,8 +89,6 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
 
   // Build a temperature picker
   Widget _tempPicker() {
-    const Widget tempPickerSpacer = SizedBox(height: 14.0);
-
     return Material(
       type: MaterialType.transparency,
       child: Column(
@@ -127,21 +107,21 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
                 setState(() {
                   _unitsCelsius = selected;
                   if (_unitsCelsius) {
-                    _newTemp = tempCOptions[_newTempIndex];
+                    _newTemp = widget.tempCOptions[_newTempIndex];
                   } else {
-                    _newTemp = tempFOptions[_newTempIndex];
+                    _newTemp = widget.tempFOptions[_newTempIndex];
                   }
                 });
               }
             },
           ),
-          tempPickerSpacer,
+          spacerWidget,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Increment down
               adaptiveSmallButton(
-                icon: Icons.keyboard_arrow_down,
+                icon: incrementDownIcon,
                 onPressed: _newTempIndex > 0
                     ? () {
                         _newTempIndex--;
@@ -156,8 +136,8 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
               ),
               // Increment up
               adaptiveSmallButton(
-                icon: Icons.keyboard_arrow_up,
-                onPressed: _newTempIndex < tempCOptions.length - 1
+                icon: incrementUpIcon,
+                onPressed: _newTempIndex < widget.tempCOptions.length - 1
                     ? () {
                         _newTempIndex++;
                         _updateTempSlider();
@@ -166,13 +146,13 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
               ),
             ],
           ),
-          tempPickerSpacer,
+          spacerWidget,
           // Temperature picker
           Slider.adaptive(
             value: _newTempIndex.toDouble(),
             min: 0.0,
-            max: (tempCOptions.length - 1).toDouble(),
-            divisions: tempCOptions.length - 1,
+            max: (widget.tempCOptions.length - 1).toDouble(),
+            divisions: widget.tempCOptions.length - 1,
             onChanged: (newValue) {
               _newTempIndex = newValue.toInt();
               _updateTempSlider();
@@ -187,8 +167,8 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
   void _updateTempSlider() {
     setState(() {
       _newTemp = _unitsCelsius
-          ? tempCOptions[_newTempIndex]
-          : tempFOptions[_newTempIndex];
+          ? widget.tempCOptions[_newTempIndex]
+          : widget.tempFOptions[_newTempIndex];
     });
   }
 }

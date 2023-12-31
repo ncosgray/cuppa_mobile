@@ -13,12 +13,12 @@ To make the app so quick and easy that you'll actually use it, we have built it 
 
 Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in the cup and gradually darken as the tea steeps. A countdown timer shows the steep time remaining. You can have up to two separate teas brewing at once, each with its own countdown timer. When the tea is done Cuppa will let you know with a notification -- depending on your device settings, this may be accompanied by a sound and/or vibration.
 
-<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="200"/>
--|-|-|-
+<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="200"/>
+-|-|-|-|-
 
 ### Install
 
-| Android (4.4+) | iOS (10+) |
+| Android (4.4+) | iOS (12+) |
 | :--: | :--: |
 | <a href="https://play.google.com/store/apps/details?id=com.nathanatos.Cuppa"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" width="206" height="80"/></a><br/><a href="https://f-droid.org/en/packages/com.nathanatos.Cuppa/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" width="206" height="80"/></a> | <a href="https://itunes.apple.com/us/app/cuppa-tea-timer/id1241458171"><img src="https://www.nathanatos.com/software/images/ios-app-store-badge.png" alt="Download on the App Store" width="168" height="50"/></a> |
 

@@ -173,3 +173,7 @@ const statsColumnTimerStartTime = 'timerStartTime';
 const statsColumnCount = 'count';
 const statsColumnMetric = 'metric';
 const statsColumnString = 'string';
+
+// Opacities
+const noOpacity = 1.0;
+const fadeOpacity = 0.4;

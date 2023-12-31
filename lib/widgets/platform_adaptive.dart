@@ -11,113 +11,19 @@
 */
 
 // Cuppa platform adaptive elements
-// - Light and dark themes for Android and iOS
 // - Icons for Android and iOS
 // - Buttons and controls for Android and iOS
 // - Text form field for Android and iOS
 // - PlatformAdaptiveNavBar creates page navigation for context platform
-// - PlatformAdaptiveListTile list tile for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
-import 'package:cuppa_mobile/data/globals.dart';
-import 'package:cuppa_mobile/widgets/common.dart';
+import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/text_styles.dart';
 
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-// iOS themes
-final ThemeData kIOSTheme = ThemeData(
-  primaryColor: Colors.grey.shade100,
-  textTheme: Typography.blackCupertino,
-  iconTheme: const IconThemeData(
-    color: Colors.grey,
-  ),
-  brightness: Brightness.light,
-);
-final ThemeData kIOSDarkTheme = ThemeData(
-  primaryColor: Colors.grey.shade900,
-  textTheme: Typography.whiteCupertino,
-  iconTheme: const IconThemeData(
-    color: Colors.white,
-  ),
-  brightness: Brightness.dark,
-);
-final ThemeData kIOSBlackTheme = ThemeData(
-  primaryColor: Colors.grey.shade900,
-  scaffoldBackgroundColor: Colors.black,
-  cardColor: Colors.grey.shade900,
-  textTheme: Typography.whiteCupertino,
-  iconTheme: const IconThemeData(
-    color: Colors.white,
-  ),
-  brightness: Brightness.dark,
-);
-
-// Android themes
-final ThemeData kDefaultTheme = ThemeData(
-  colorSchemeSeed: Colors.blue,
-  textTheme: Typography.blackMountainView,
-  iconTheme: const IconThemeData(
-    color: Colors.grey,
-  ),
-  listTileTheme: const ListTileThemeData(
-    iconColor: Colors.grey,
-  ),
-  brightness: Brightness.light,
-);
-final ThemeData kDarkTheme = ThemeData(
-  colorSchemeSeed: Colors.blue,
-  scaffoldBackgroundColor: const Color(0xff323232),
-  cardTheme: CardTheme(
-    color: Colors.grey.shade800,
-  ),
-  textTheme: Typography.whiteMountainView,
-  iconTheme: const IconThemeData(
-    color: Colors.white,
-  ),
-  listTileTheme: const ListTileThemeData(
-    iconColor: Colors.white,
-  ),
-  brightness: Brightness.dark,
-);
-final ThemeData kBlackTheme = ThemeData(
-  colorSchemeSeed: Colors.blue,
-  scaffoldBackgroundColor: Colors.black,
-  textTheme: Typography.whiteMountainView,
-  iconTheme: const IconThemeData(
-    color: Colors.white,
-  ),
-  listTileTheme: const ListTileThemeData(
-    iconColor: Colors.white,
-  ),
-  brightness: Brightness.dark,
-);
-
-// Get theme appropriate to platform
-ThemeData getPlatformAdaptiveTheme({ColorScheme? dynamicColors}) {
-  ThemeData theme =
-      appPlatform == TargetPlatform.iOS ? kIOSTheme : kDefaultTheme;
-  if (dynamicColors != null) {
-    // Use dynamic colors if provided
-    theme = theme.copyWith(colorScheme: dynamicColors.harmonized());
-  }
-  return theme;
-}
-
-ThemeData getPlatformAdaptiveDarkTheme({
-  ColorScheme? dynamicColors,
-  bool blackTheme = true,
-}) {
-  ThemeData theme = appPlatform == TargetPlatform.iOS
-      ? (blackTheme ? kIOSBlackTheme : kIOSDarkTheme)
-      : (blackTheme ? kBlackTheme : kDarkTheme);
-  if (dynamicColors != null) {
-    // Use dynamic colors if provided
-    theme = theme.copyWith(colorScheme: dynamicColors.harmonized());
-  }
-  return theme;
-}
 
 // Platform specific icons
 Icon getPlatformSettingsIcon() {
@@ -132,6 +38,12 @@ Icon getPlatformAboutIcon() {
       : const Icon(Icons.help);
 }
 
+Icon getPlatformStatsIcon() {
+  return appPlatform == TargetPlatform.iOS
+      ? const Icon(CupertinoIcons.chart_pie)
+      : const Icon(Icons.pie_chart_outline);
+}
+
 Icon getPlatformRemoveIcon(Color color) {
   return appPlatform == TargetPlatform.iOS
       ? Icon(CupertinoIcons.trash_fill, color: color)
@@ -142,6 +54,25 @@ Icon getPlatformRemoveAllIcon(Color color) {
   return appPlatform == TargetPlatform.iOS
       ? Icon(CupertinoIcons.square_stack_3d_up_slash_fill, color: color)
       : Icon(Icons.delete_sweep_outlined, color: color);
+}
+
+// Nav bar action button with styling appropriate to platform
+Widget adaptiveNavBarActionButton({
+  required Widget icon,
+  required Function()? onPressed,
+}) {
+  if (appPlatform == TargetPlatform.iOS) {
+    return CupertinoButton(
+      padding: noPadding,
+      onPressed: onPressed,
+      child: icon,
+    );
+  } else {
+    return IconButton(
+      icon: icon,
+      onPressed: onPressed,
+    );
+  }
 }
 
 // Dialog action button appropriate to platform
@@ -171,7 +102,7 @@ Widget adaptiveSmallButton({
 }) {
   if (appPlatform == TargetPlatform.iOS) {
     return CupertinoButton(
-      padding: EdgeInsets.zero,
+      padding: noPadding,
       onPressed: onPressed,
       child: Icon(icon),
     );
@@ -192,7 +123,7 @@ Widget adaptiveLargeButton({
   if (appPlatform == TargetPlatform.iOS) {
     return CupertinoButton(
       minSize: 72.0,
-      padding: EdgeInsets.zero,
+      padding: noPadding,
       onPressed: onPressed,
       child: Icon(icon, size: 36.0),
     );
@@ -204,7 +135,7 @@ Widget adaptiveLargeButton({
           borderRadius: BorderRadius.circular(12.0),
         ),
         minimumSize: const Size(60.0, 60.0),
-        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+        padding: smallDefaultPadding,
       ),
       onPressed: onPressed,
       child: Icon(icon, size: 36.0),
@@ -223,7 +154,7 @@ Widget adaptiveTextFormField({
 }) {
   if (appPlatform == TargetPlatform.iOS) {
     return CupertinoFormSection.insetGrouped(
-      margin: EdgeInsets.zero,
+      margin: noPadding,
       backgroundColor: Colors.transparent,
       children: [
         Row(
@@ -239,7 +170,7 @@ Widget adaptiveTextFormField({
                 textCapitalization: TextCapitalization.words,
                 maxLines: 1,
                 textAlignVertical: TextAlignVertical.center,
-                padding: const EdgeInsets.all(8.0),
+                padding: largeDefaultPadding,
                 style: TextStyle(color: textColor),
                 cursorColor: cursorColor,
                 validator: validator,
@@ -250,7 +181,7 @@ Widget adaptiveTextFormField({
               visible: controller.text.isNotEmpty,
               // Clear field button
               child: CupertinoButton(
-                padding: EdgeInsets.zero,
+                padding: noPadding,
                 onPressed: onCleared,
                 child: clearIcon,
               ),
@@ -262,7 +193,7 @@ Widget adaptiveTextFormField({
     );
   } else {
     return Container(
-      padding: const EdgeInsets.all(8.0),
+      padding: largeDefaultPadding,
       child: TextFormField(
         controller: controller,
         autofocus: true,
@@ -277,7 +208,7 @@ Widget adaptiveTextFormField({
           suffixIcon: controller.text.isNotEmpty
               // Clear field button
               ? IconButton(
-                  padding: EdgeInsets.zero,
+                  padding: noPadding,
                   onPressed: onCleared,
                   icon: clearIcon,
                 )
@@ -340,22 +271,50 @@ class PlatformAdaptiveNavBar extends StatelessWidget
     required this.title,
     this.actionRoute,
     this.actionIcon,
+    this.secondaryActionRoute,
+    this.secondaryActionIcon,
   });
 
   final bool isPoppable;
   final String title;
   final Widget? actionRoute;
   final Widget? actionIcon;
+  final Widget? secondaryActionRoute;
+  final Widget? secondaryActionIcon;
 
   @override
   Size get preferredSize => const Size.fromHeight(56.0); // Android default
 
   @override
   Widget build(BuildContext context) {
+    // Build action list
+    List<Widget> actions = [];
+    if (secondaryActionIcon != null && secondaryActionRoute != null) {
+      actions.add(
+        adaptiveNavBarActionButton(
+          icon: secondaryActionIcon!,
+          onPressed: () => Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => secondaryActionRoute!)),
+        ),
+      );
+    }
+    if (actionIcon != null && actionRoute != null) {
+      actions.add(
+        adaptiveNavBarActionButton(
+          icon: actionIcon!,
+          onPressed: () => Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => actionRoute!)),
+        ),
+      );
+    }
+
     if (appPlatform == TargetPlatform.iOS) {
       return CupertinoNavigationBar(
         transitionBetweenRoutes: false,
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: CupertinoDynamicColor.resolve(
+          CupertinoTheme.of(context).barBackgroundColor,
+          context,
+        ),
         leading: isPoppable
             ? CupertinoNavigationBarBackButton(
                 onPressed: () => Navigator.of(context).pop(),
@@ -364,64 +323,25 @@ class PlatformAdaptiveNavBar extends StatelessWidget
         middle: Text(
           title,
           style: TextStyle(
-            color: Theme.of(context).textTheme.titleLarge!.color,
+            color: CupertinoDynamicColor.resolve(
+              CupertinoTheme.of(context).textTheme.navTitleTextStyle.color!,
+              context,
+            ),
           ),
         ),
-        trailing: actionIcon != null && actionRoute != null
-            ? CupertinoButton(
-                padding: EdgeInsets.zero,
-                onPressed: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => actionRoute!)),
-                child: actionIcon!,
-              )
-            : null,
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: actions,
+        ),
       );
     } else {
       return AppBar(
         elevation: 4,
-        title: Text(title),
-        actions: actionIcon != null && actionRoute != null
-            ? <Widget>[
-                IconButton(
-                  icon: actionIcon!,
-                  onPressed: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => actionRoute!)),
-                ),
-              ]
-            : null,
-      );
-    }
-  }
-}
-
-// List tile with styling appropriate to platform
-class PlatformAdaptiveListTile extends StatelessWidget {
-  const PlatformAdaptiveListTile({
-    super.key,
-    required this.itemIcon,
-    required this.item,
-    required this.onTap,
-  });
-
-  final Widget itemIcon;
-  final Widget item;
-  final Function()? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    if (appPlatform == TargetPlatform.iOS) {
-      return CupertinoListTile(
-        backgroundColorActivated: Colors.transparent,
-        leading: itemIcon,
-        title: item,
-        onTap: onTap,
-      );
-    } else {
-      return ListTile(
-        contentPadding: EdgeInsets.zero,
-        leading: itemIcon,
-        title: item,
-        onTap: onTap,
+        title: Text(
+          title,
+          style: textStyleNavBar,
+        ),
+        actions: actions,
       );
     }
   }
@@ -480,7 +400,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
             child: Scrollbar(
               // Item options
               child: ListView.separated(
-                padding: EdgeInsets.zero,
+                padding: noPadding,
                 shrinkWrap: true,
                 itemCount: itemList.length,
                 itemBuilder: itemBuilder,

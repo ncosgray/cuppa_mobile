@@ -13,8 +13,12 @@
 // Cuppa Preferences page
 // - Build prefs interface and interactivity
 
-import 'package:cuppa_mobile/helpers.dart';
-import 'package:cuppa_mobile/data/constants.dart';
+import 'package:cuppa_mobile/common/colors.dart';
+import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
+import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/presets.dart';
@@ -22,10 +26,10 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/about_page.dart';
-import 'package:cuppa_mobile/widgets/common.dart';
+import 'package:cuppa_mobile/widgets/list_divider.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/stats_page.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
-import 'package:cuppa_mobile/widgets/text_styles.dart';
 
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +43,8 @@ class PrefsWidget extends StatelessWidget {
   // Build Prefs page
   @override
   Widget build(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
     // Determine layout based on device size
     bool layoutColumns = getDeviceSize(context).isLargeDevice;
 
@@ -49,6 +55,11 @@ class PrefsWidget extends StatelessWidget {
         // Button to navigate to About page
         actionIcon: getPlatformAboutIcon(),
         actionRoute: const AboutWidget(),
+        // Button to navigate to Stats page
+        secondaryActionIcon:
+            provider.collectStats ? getPlatformStatsIcon() : null,
+        secondaryActionRoute:
+            provider.collectStats ? const StatsWidget() : null,
       ),
       body: SafeArea(
         child: Row(
@@ -63,8 +74,7 @@ class PrefsWidget extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Container(
-                        margin:
-                            const EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 12.0),
+                        margin: bodyPadding,
                         child: Text(
                           AppString.prefs_header.translate(),
                           style: textStyleSubtitle,
@@ -80,7 +90,7 @@ class PrefsWidget extends StatelessWidget {
                   // Add Tea and Remove All buttons
                   SliverToBoxAdapter(
                     child: Container(
-                      margin: const EdgeInsets.fromLTRB(12.0, 4.0, 12.0, 8.0),
+                      margin: bodyPadding,
                       child: Row(
                         children: [
                           Expanded(child: _addTeaButton()),
@@ -131,7 +141,7 @@ class PrefsWidget extends StatelessWidget {
       automaticallyImplyLeading: false,
       titleSpacing: 0.0,
       title: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 12.0),
+        margin: headerPadding,
         alignment: Alignment.centerLeft,
         child: Text(
           title,
@@ -149,12 +159,31 @@ class PrefsWidget extends StatelessWidget {
       builder: (context, provider, child) => SliverReorderableList(
         itemBuilder: _teaSettingsListItem,
         itemCount: provider.teaList.length,
-        proxyDecorator: draggableFeedback,
+        proxyDecorator: _draggableFeedback,
         onReorder: (int oldIndex, int newIndex) {
           // Reorder the tea list
           provider.reorderTeas(oldIndex, newIndex);
         },
       ),
+    );
+  }
+
+  // Custom draggable feedback for reorderable list
+  Widget _draggableFeedback(
+    Widget child,
+    int index,
+    Animation<double> animation,
+  ) {
+    return Container(
+      decoration: const BoxDecoration(
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: shadowColor,
+            blurRadius: 14.0,
+          ),
+        ],
+      ),
+      child: child,
     );
   }
 
@@ -198,14 +227,31 @@ class PrefsWidget extends StatelessWidget {
                 provider.deleteTea(tea);
               },
               // Dismissible delete warning background
-              background: dismissibleBackground(context, Alignment.centerLeft),
+              background: _dismissibleBackground(context, Alignment.centerLeft),
               secondaryBackground:
-                  dismissibleBackground(context, Alignment.centerRight),
+                  _dismissibleBackground(context, Alignment.centerRight),
               resizeDuration: longAnimationDuration,
               child: TeaSettingsCard(
                 tea: tea,
               ),
             ),
+    );
+  }
+
+  // Dismissible delete warning background
+  Widget _dismissibleBackground(BuildContext context, Alignment alignment) {
+    return Container(
+      color: Theme.of(context).colorScheme.error,
+      margin: bodyPadding,
+      child: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: Align(
+          alignment: alignment,
+          child: getPlatformRemoveIcon(
+            Theme.of(context).colorScheme.onError,
+          ),
+        ),
+      ),
     );
   }
 
@@ -216,7 +262,7 @@ class PrefsWidget extends StatelessWidget {
       builder: (context, count, child) => SizedBox(
         height: 64.0,
         child: Card(
-          margin: EdgeInsets.zero,
+          margin: noPadding,
           shadowColor: Colors.transparent,
           clipBehavior: Clip.antiAlias,
           child: InkWell(
@@ -225,7 +271,7 @@ class PrefsWidget extends StatelessWidget {
                 AppString.add_tea_button.translate(),
                 style: textStyleButton,
               ),
-              icon: const Icon(Icons.add_circle, size: 20.0),
+              icon: addIcon,
               style: ButtonStyle(
                 shape: MaterialStateProperty.all(
                   const RoundedRectangleBorder(
@@ -255,19 +301,23 @@ class PrefsWidget extends StatelessWidget {
   Widget _teaPresetItem(BuildContext context, int index) {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     Preset preset = Presets.presetList[index];
+    Color presetColor = preset.getColor();
 
-    return PlatformAdaptiveListTile(
+    return ListTile(
+      contentPadding: noPadding,
       // Preset tea icon
-      itemIcon: SizedBox.square(
+      leading: SizedBox.square(
         dimension: 48.0,
-        child: Icon(
-          preset.isCustom ? Icons.add_circle : preset.getIcon(),
-          color: preset.getColor(),
-          size: preset.isCustom ? 20.0 : 24.0,
-        ),
+        child: preset.isCustom
+            ? customPresetIcon(color: presetColor)
+            : Icon(
+                preset.getIcon(),
+                color: presetColor,
+                size: 24.0,
+              ),
       ),
       // Preset tea brew time and temperature
-      item: Column(
+      title: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -275,7 +325,7 @@ class PrefsWidget extends StatelessWidget {
           Text(
             preset.localizedName,
             style: textStyleSetting.copyWith(
-              color: preset.getColor(),
+              color: presetColor,
             ),
           ),
           Container(
@@ -286,7 +336,7 @@ class PrefsWidget extends StatelessWidget {
                       Text(
                         formatTimer(preset.brewTime),
                         style: textStyleSettingSeconday.copyWith(
-                          color: preset.getColor(),
+                          color: presetColor,
                         ),
                       ),
                       ConstrainedBox(
@@ -299,7 +349,7 @@ class PrefsWidget extends StatelessWidget {
                       Text(
                         preset.tempDisplay(provider.useCelsius),
                         style: textStyleSettingSeconday.copyWith(
-                          color: preset.getColor(),
+                          color: presetColor,
                         ),
                       ),
                       ConstrainedBox(
@@ -332,7 +382,7 @@ class PrefsWidget extends StatelessWidget {
               width: 64.0,
               height: 64.0,
               child: Card(
-                margin: EdgeInsets.zero,
+                margin: noPadding,
                 shadowColor: Colors.transparent,
                 surfaceTintColor: Theme.of(context).colorScheme.error,
                 clipBehavior: Clip.antiAlias,
@@ -431,8 +481,7 @@ class PrefsWidget extends StatelessWidget {
         onChanged: (bool newValue) {
           provider.showExtra = newValue;
         },
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+        contentPadding: listTilePadding,
         dense: true,
       ),
     );
@@ -460,8 +509,7 @@ class PrefsWidget extends StatelessWidget {
         onChanged: (bool newValue) {
           provider.hideIncrements = newValue;
         },
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+        contentPadding: listTilePadding,
         dense: true,
       ),
     );
@@ -501,8 +549,7 @@ class PrefsWidget extends StatelessWidget {
             }
           }
         },
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+        contentPadding: listTilePadding,
         dense: true,
       ),
     );
@@ -561,8 +608,7 @@ class PrefsWidget extends StatelessWidget {
         onChanged: (bool newValue) {
           provider.useCelsius = newValue;
         },
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+        contentPadding: listTilePadding,
         dense: true,
       ),
     );
@@ -594,8 +640,7 @@ class PrefsWidget extends StatelessWidget {
           itemBuilder: _appThemeItem,
           separatorBuilder: _separatorDummy,
         ),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+        contentPadding: listTilePadding,
         dense: true,
       ),
     );
@@ -607,7 +652,7 @@ class PrefsWidget extends StatelessWidget {
     AppTheme value = AppTheme.values.elementAt(index);
 
     return RadioListTile.adaptive(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 6.0),
+      contentPadding: radioTilePadding,
       dense: true,
       useCupertinoCheckmarkStyle: true,
       value: value,
@@ -653,8 +698,7 @@ class PrefsWidget extends StatelessWidget {
           itemBuilder: _appLanguageItem,
           separatorBuilder: _separatorDummy,
         ),
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+        contentPadding: listTilePadding,
         dense: true,
       ),
     );
@@ -666,7 +710,7 @@ class PrefsWidget extends StatelessWidget {
     String value = languageOptions[index];
 
     return RadioListTile.adaptive(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 6.0),
+      contentPadding: radioTilePadding,
       dense: true,
       useCupertinoCheckmarkStyle: true,
       value: value,
@@ -704,10 +748,7 @@ class PrefsWidget extends StatelessWidget {
         minLeadingWidth: 30.0,
         leading: const SizedBox(
           height: double.infinity,
-          child: Icon(
-            Icons.info,
-            size: 20.0,
-          ),
+          child: infoIcon,
         ),
         horizontalTitleGap: 0.0,
         title: Text(
@@ -717,7 +758,7 @@ class PrefsWidget extends StatelessWidget {
         trailing: const SizedBox(height: double.infinity, child: launchIcon),
         onTap: () =>
             AppSettings.openAppSettings(type: AppSettingsType.notification),
-        contentPadding: const EdgeInsets.fromLTRB(12.0, 6.0, 12.0, 12.0),
+        contentPadding: listTilePadding,
         dense: true,
       ),
     );
