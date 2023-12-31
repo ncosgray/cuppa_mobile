@@ -1,0 +1,5 @@
+* Regístrate en las estadísticas de uso para acceder a un divertido gráfico que muestra tus hábitos de consumo de té.
+* Política de privacidad actualizada para la recopilación de estadísticas.
+* Mejor escalado para tamaños de fuente grandes.
+* Varios ajustes de usabilidad e interfaz.
+* Añadida traducción al luxemburgués y otras actualizaciones de traducción. ¡Contribuye a través de Weblate!
