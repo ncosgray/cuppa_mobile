@@ -19,6 +19,7 @@ import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
+import 'package:cuppa_mobile/data/export.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/presets.dart';
@@ -459,6 +460,9 @@ class PrefsWidget extends StatelessWidget {
         // Setting: app language selection
         _appLanguageSetting(context),
         listDivider,
+        // Tools: export/import data
+        _exportImportTools(context),
+        listDivider,
         // Notification info
         _notificationLink(),
       ],
@@ -727,6 +731,83 @@ class PrefsWidget extends StatelessWidget {
       onChanged: (_) {
         provider.appLanguage = value;
         Navigator.of(context).pop(true);
+      },
+    );
+  }
+
+  // Tools: export/import data
+  Widget _exportImportTools(BuildContext context) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: ListTile(
+        iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
+        title: Text(
+          AppString.export_import.translate(),
+          style: textStyleTitle,
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _exportButton(context),
+            const VerticalDivider(),
+            _importButton(context),
+          ],
+        ),
+        contentPadding: listTilePadding,
+        dense: true,
+      ),
+    );
+  }
+
+  // Export button
+  Widget _exportButton(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
+    return IconButton(
+      icon: getPlatformExportIcon(),
+      onPressed: () => Export.create(provider, share: true),
+    );
+  }
+
+  // Import button
+  Widget _importButton(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
+    return IconButton(
+      icon: getPlatformImportIcon(),
+      onPressed: () {
+        // Attempt to load an export file and report the result
+        Export.load(provider).then(
+          (imported) => showAdaptiveDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog.adaptive(
+                title: !imported
+                    ? Text(AppString.confirm_title.translate())
+                    : null,
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      Text(
+                        imported
+                            ? AppString.import_sucess.translate()
+                            : AppString.import_failure.translate(),
+                      ),
+                    ],
+                  ),
+                ),
+                actions: [
+                  adaptiveDialogAction(
+                    isDefaultAction: true,
+                    text: AppString.ok_button.translate(),
+                    onPressed: () => Navigator.of(context).pop(false),
+                  ),
+                ],
+              );
+            },
+          ),
+        );
       },
     );
   }
