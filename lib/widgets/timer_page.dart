@@ -664,7 +664,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
         // Update timer stats, if enabled
         if (provider.collectStats) {
-          Stats.insertStat(tea);
+          Stats.insertStat(Stat(tea: tea));
         }
       } else if (tea.timerNotifyID != null) {
         // Resume with same timer ID

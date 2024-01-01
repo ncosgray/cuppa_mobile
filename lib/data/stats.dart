@@ -91,6 +91,35 @@ class Stat {
       statsColumnTimerStartTime: timerStartTime,
     };
   }
+
+  // Factories
+  factory Stat.fromJson(Map<String, dynamic> json) {
+    return Stat(
+      id: json[jsonKeyID],
+      name: json[jsonKeyName] ?? unknownString,
+      brewTime: json[jsonKeyBrewTime] ?? 0,
+      brewTemp: json[jsonKeyBrewTemp] ?? 0,
+      colorShadeRed: json[jsonKeyColorShadeRed] ?? 0,
+      colorShadeGreen: json[jsonKeyColorShadeGreen] ?? 0,
+      colorShadeBlue: json[jsonKeyColorShadeBlue] ?? 0,
+      iconValue: json[jsonKeyIcon] ?? 0,
+      isFavorite: json[jsonKeyIsFavorite] ?? false,
+      timerStartTime: json[jsonKeyTimerStartTime] ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        jsonKeyID: id,
+        jsonKeyName: name,
+        jsonKeyBrewTime: brewTime,
+        jsonKeyBrewTemp: brewTemp,
+        jsonKeyColorShadeRed: colorShadeRed,
+        jsonKeyColorShadeGreen: colorShadeGreen,
+        jsonKeyColorShadeBlue: colorShadeBlue,
+        jsonKeyIcon: iconValue,
+        jsonKeyIsFavorite: isFavorite,
+        jsonKeyTimerStartTime: timerStartTime,
+      };
 }
 
 // Stats methods
@@ -139,13 +168,13 @@ abstract class Stats {
   }
 
   // Add a new stat to usage data
-  static Future<void> insertStat(Tea tea) async {
+  static Future<void> insertStat(Stat stat) async {
     final db = await statsData;
 
     // Insert a row into the stats table
     await db.insert(
       statsTable,
-      Stat(tea: tea).toMap(),
+      stat.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }

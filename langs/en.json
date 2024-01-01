@@ -11,6 +11,7 @@
   "confirm_title": "Warning!",
   "error_name_long": "* Tea name is too long.",
   "error_name_missing": "* Please enter a tea name.",
+  "export_label": "Cuppa data file",
   "help_translate": "Help translate {{app_name}}",
   "help_translate_info": "Contribute via Weblate",
   "issues": "Issues",

@@ -130,7 +130,15 @@ const prefAppTheme = 'Cuppa_app_theme';
 const prefAppLanguage = 'Cuppa_app_language';
 const prefSkipTutorial = 'Cuppa_skip_tutorial';
 
-// More teas JSON keys
+// JSON keys
+const jsonKeySettings = 'settings';
+const jsonKeyShowExtra = 'showExtra';
+const jsonKeyHideIncrements = 'hideIncrements';
+const jsonKeyUseCelsius = 'useCelsius';
+const jsonKeyAppTheme = 'appTheme';
+const jsonKeyAppLanguage = 'appLanguage';
+const jsonKeyCollectStats = 'collectStats';
+const jsonKeyTeas = 'teaList';
 const jsonKeyID = 'id';
 const jsonKeyName = 'name';
 const jsonKeyBrewTime = 'brewTime';
@@ -144,6 +152,11 @@ const jsonKeyIsFavorite = 'isFavorite';
 const jsonKeyIsActive = 'isActive';
 const jsonKeyTimerEndTime = 'timerEndTime';
 const jsonKeyTimerNotifyID = 'timerNotifyID';
+const jsonKeyStats = 'stats';
+const jsonKeyTimerStartTime = 'timerStartTime';
+
+// Export file
+const exportFileName = 'CuppaData.json';
 
 // Localization
 const defaultLanguage = 'en';
