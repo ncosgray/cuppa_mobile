@@ -6,6 +6,7 @@
   "cancel_button": "Cancel",
   "confirm_continue": "Do you want to continue?",
   "confirm_delete": "Are you sure you want to delete all teas?",
+  "confirm_import": "Importing will replace all your current settings and usage data.",
   "confirm_message_line1": "There are active timers.",
   "confirm_message_line2": "Cancel and start a new timer?",
   "confirm_title": "Warning!",

@@ -784,7 +784,6 @@ class PrefsWidget extends StatelessWidget {
                 barrierDismissible: false,
                 builder: (BuildContext context) {
                   return AlertDialog.adaptive(
-                    title: Text(AppString.confirm_title.translate()),
                     content: SingleChildScrollView(
                       child: ListBody(
                         children: <Widget>[
@@ -815,35 +814,71 @@ class PrefsWidget extends StatelessWidget {
 
     return IconButton(
       icon: getPlatformImportIcon(),
-      onPressed: () {
-        // Attempt to load an export file and report the result
-        Export.load(provider).then(
-          (imported) => showAdaptiveDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return AlertDialog.adaptive(
-                content: SingleChildScrollView(
-                  child: ListBody(
-                    children: <Widget>[
-                      Text(
-                        imported
-                            ? AppString.import_sucess.translate()
-                            : AppString.import_failure.translate(),
-                      ),
-                    ],
+      onPressed: () async {
+        bool confirmed = await _confirmImport(context);
+        if (confirmed) {
+          // Attempt to load an export file and report the result
+          Export.load(provider).then(
+            (imported) => showAdaptiveDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return AlertDialog.adaptive(
+                  content: SingleChildScrollView(
+                    child: ListBody(
+                      children: <Widget>[
+                        Text(
+                          imported
+                              ? AppString.import_sucess.translate()
+                              : AppString.import_failure.translate(),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                actions: [
-                  adaptiveDialogAction(
-                    isDefaultAction: true,
-                    text: AppString.ok_button.translate(),
-                    onPressed: () => Navigator.of(context).pop(false),
-                  ),
-                ],
-              );
-            },
+                  actions: [
+                    adaptiveDialogAction(
+                      isDefaultAction: true,
+                      text: AppString.ok_button.translate(),
+                      onPressed: () => Navigator.of(context).pop(false),
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  // Import confirmation dialog
+  Future _confirmImport(BuildContext context) {
+    return showAdaptiveDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog.adaptive(
+          title: Text(AppString.confirm_title.translate()),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(AppString.confirm_import.translate()),
+                const SizedBox(height: 14.0),
+                Text(AppString.confirm_continue.translate()),
+              ],
+            ),
           ),
+          actions: [
+            adaptiveDialogAction(
+              isDefaultAction: true,
+              text: AppString.no_button.translate(),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+            adaptiveDialogAction(
+              text: AppString.yes_button.translate(),
+              onPressed: () => Navigator.of(context).pop(true),
+            ),
+          ],
         );
       },
     );

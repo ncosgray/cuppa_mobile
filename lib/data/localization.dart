@@ -69,6 +69,7 @@ enum AppString {
   cancel_button('cancel_button'),
   confirm_continue('confirm_continue'),
   confirm_delete('confirm_delete'),
+  confirm_import('confirm_import'),
   confirm_message_line1('confirm_message_line1'),
   confirm_message_line2('confirm_message_line2'),
   confirm_title('confirm_title'),
