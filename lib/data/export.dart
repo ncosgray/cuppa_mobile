@@ -14,6 +14,7 @@
 // - Export and import tea list, settings, and usage stats
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
@@ -29,33 +30,41 @@ import 'package:share_plus/share_plus.dart';
 // Export/import functionality
 abstract class Export {
   // Create and optionally share a JSON file containing all app data
-  static void create(AppProvider provider, {bool share = false}) async {
-    // Create the export dataset
-    String exportData = ExportFile(
-      settings: Settings(
-        showExtra: provider.showExtra,
-        hideIncrements: provider.hideIncrements,
-        useCelsius: provider.useCelsius,
-        appThemeValue: provider.appTheme.value,
-        appLanguage: provider.appLanguage,
-        collectStats: provider.collectStats,
-      ),
-      teaList: provider.teaList,
-      stats: await Stats.getTeaStats(),
-    ).toJson();
+  static Future<bool> create(AppProvider provider, {bool share = false}) async {
+    try {
+      // Create the export dataset
+      String exportData = ExportFile(
+        settings: Settings(
+          showExtra: provider.showExtra,
+          hideIncrements: provider.hideIncrements,
+          useCelsius: provider.useCelsius,
+          appThemeValue: provider.appTheme.value,
+          appLanguage: provider.appLanguage,
+          collectStats: provider.collectStats,
+        ),
+        teaList: provider.teaList,
+        stats: await Stats.getTeaStats(),
+      ).toJson();
 
-    // Save to a temp file
-    final Directory dir = await getApplicationDocumentsDirectory();
-    final File file = File('${dir.path}/$exportFileName');
-    File exportFile = await file.writeAsString(exportData);
+      // Save to a temp file
+      final Directory dir = await getApplicationDocumentsDirectory();
+      final File file =
+          File('${dir.path}/$exportFileName.$exportFileExtension');
+      File exportFile = await file.writeAsString(exportData);
 
-    // Share via OS
-    if (share) {
-      await Share.shareXFiles(
-        [XFile(exportFile.path)],
-        subject: AppString.export_label.translate(),
-      );
+      // Share via OS
+      if (share) {
+        await Share.shareXFiles(
+          [XFile(exportFile.path)],
+          subject: AppString.export_label.translate(),
+        );
+      }
+    } catch (e) {
+      // Something went wrong
+      return Future.value(false);
     }
+
+    return Future.value(true);
   }
 
   // Load an export file
@@ -63,58 +72,66 @@ abstract class Export {
     bool imported = false;
 
     // Prompt for export file source
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: [exportFileExtension],
+    );
     if (result != null && result.files.single.path != null) {
-      // Read file contents
-      final File file = File(result.files.single.path!);
-      ExportFile exportData =
-          ExportFile.fromJson(jsonDecode(file.readAsStringSync()));
+      try {
+        // Read file contents
+        final File file = File(result.files.single.path!);
+        ExportFile exportData =
+            ExportFile.fromJson(jsonDecode(file.readAsStringSync()));
 
-      // Apply imported settings, replacing existing
-      if (exportData.settings != null) {
-        if (exportData.settings!.showExtra != null) {
-          provider.showExtra = exportData.settings!.showExtra!;
+        // Apply imported settings, replacing existing
+        if (exportData.settings != null) {
+          if (exportData.settings!.showExtra != null) {
+            provider.showExtra = exportData.settings!.showExtra!;
+          }
+
+          if (exportData.settings!.hideIncrements != null) {
+            provider.hideIncrements = exportData.settings!.hideIncrements!;
+          }
+
+          if (exportData.settings!.useCelsius != null) {
+            provider.useCelsius = exportData.settings!.useCelsius!;
+          }
+
+          // Look up appTheme from value
+          if (exportData.settings!.appThemeValue != null &&
+              exportData.settings!.appThemeValue! < AppTheme.values.length) {
+            provider.appTheme =
+                AppTheme.values[exportData.settings!.appThemeValue!];
+          }
+
+          if (exportData.settings!.appLanguage != null) {
+            provider.appLanguage = exportData.settings!.appLanguage!;
+          }
+
+          if (exportData.settings!.collectStats != null) {
+            provider.collectStats = exportData.settings!.collectStats!;
+          }
+
+          imported = true;
         }
 
-        if (exportData.settings!.hideIncrements != null) {
-          provider.hideIncrements = exportData.settings!.hideIncrements!;
+        // Load imported teas, replacing existing
+        if (exportData.teaList != null) {
+          provider.teaList = exportData.teaList!;
+          imported = true;
         }
 
-        if (exportData.settings!.useCelsius != null) {
-          provider.useCelsius = exportData.settings!.useCelsius!;
+        // Load imported stats, replacing existing
+        if (exportData.stats != null) {
+          Stats.clearStats();
+          for (Stat stat in exportData.stats!) {
+            Stats.insertStat(stat);
+          }
+          imported = true;
         }
-
-        // Look up appTheme from value
-        if (exportData.settings!.appThemeValue != null &&
-            exportData.settings!.appThemeValue! < AppTheme.values.length) {
-          provider.appTheme =
-              AppTheme.values[exportData.settings!.appThemeValue!];
-        }
-
-        if (exportData.settings!.appLanguage != null) {
-          provider.appLanguage = exportData.settings!.appLanguage!;
-        }
-
-        if (exportData.settings!.collectStats != null) {
-          provider.collectStats = exportData.settings!.collectStats!;
-        }
-
-        imported = true;
-      }
-
-      // Load imported teas, replacing existing
-      if (exportData.teaList != null) {
-        provider.teaList = exportData.teaList!;
-        imported = true;
-      }
-
-      // Load imported stats, replacing existing
-      if (exportData.stats != null) {
-        Stats.clearStats();
-        for (Stat stat in exportData.stats!) {
-          Stats.insertStat(stat);
-        }
-        imported = true;
+      } catch (e) {
+        // Something went wrong
+        imported = false;
       }
     }
 
@@ -137,13 +154,17 @@ class ExportFile {
 
   // Factories
   factory ExportFile.fromJson(Map<String, dynamic> json) {
-    return ExportFile(
-      settings: Settings.fromJson(json[jsonKeySettings]),
-      teaList:
-          (json[jsonKeyTeas].map<Tea>((tea) => Tea.fromJson(tea))).toList(),
-      stats: (json[jsonKeyStats].map<Stat>((stat) => Stat.fromJson(stat)))
-          .toList(),
-    );
+    try {
+      return ExportFile(
+        settings: Settings.fromJson(json[jsonKeySettings]),
+        teaList:
+            (json[jsonKeyTeas].map<Tea>((tea) => Tea.fromJson(tea))).toList(),
+        stats: (json[jsonKeyStats].map<Stat>((stat) => Stat.fromJson(stat)))
+            .toList(),
+      );
+    } catch (e) {
+      return ExportFile(settings: null, teaList: null, stats: null);
+    }
   }
 
   String toJson() {
@@ -177,12 +198,12 @@ class Settings {
   // Factories
   factory Settings.fromJson(Map<String, dynamic> json) {
     return Settings(
-      showExtra: json[jsonKeyShowExtra],
-      hideIncrements: json[jsonKeyHideIncrements],
-      useCelsius: json[jsonKeyUseCelsius],
-      appThemeValue: json[jsonKeyAppTheme],
-      appLanguage: json[jsonKeyAppLanguage],
-      collectStats: json[jsonKeyCollectStats],
+      showExtra: tryCast<bool>(json[jsonKeyShowExtra]),
+      hideIncrements: tryCast<bool>(json[jsonKeyHideIncrements]),
+      useCelsius: tryCast<bool>(json[jsonKeyUseCelsius]),
+      appThemeValue: tryCast<int>(json[jsonKeyAppTheme]),
+      appLanguage: tryCast<String>(json[jsonKeyAppLanguage]),
+      collectStats: tryCast<bool>(json[jsonKeyCollectStats]),
     );
   }
 

@@ -15,6 +15,7 @@
 // - Query enums
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'package:flutter/widgets.dart';
@@ -95,16 +96,16 @@ class Stat {
   // Factories
   factory Stat.fromJson(Map<String, dynamic> json) {
     return Stat(
-      id: json[jsonKeyID],
-      name: json[jsonKeyName] ?? unknownString,
-      brewTime: json[jsonKeyBrewTime] ?? 0,
-      brewTemp: json[jsonKeyBrewTemp] ?? 0,
-      colorShadeRed: json[jsonKeyColorShadeRed] ?? 0,
-      colorShadeGreen: json[jsonKeyColorShadeGreen] ?? 0,
-      colorShadeBlue: json[jsonKeyColorShadeBlue] ?? 0,
-      iconValue: json[jsonKeyIcon] ?? 0,
-      isFavorite: json[jsonKeyIsFavorite] ?? false,
-      timerStartTime: json[jsonKeyTimerStartTime] ?? 0,
+      id: tryCast<int>(json[jsonKeyID]),
+      name: tryCast<String>(json[jsonKeyName]) ?? unknownString,
+      brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? 0,
+      brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? 0,
+      colorShadeRed: tryCast<int>(json[jsonKeyColorShadeRed]) ?? 0,
+      colorShadeGreen: tryCast<int>(json[jsonKeyColorShadeGreen]) ?? 0,
+      colorShadeBlue: tryCast<int>(json[jsonKeyColorShadeBlue]) ?? 0,
+      iconValue: tryCast<int>(json[jsonKeyIcon]) ?? 0,
+      isFavorite: tryCast<bool>(json[jsonKeyIsFavorite]) ?? false,
+      timerStartTime: tryCast<int>(json[jsonKeyTimerStartTime]) ?? 0,
     );
   }
 

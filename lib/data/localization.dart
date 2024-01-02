@@ -74,6 +74,7 @@ enum AppString {
   confirm_title('confirm_title'),
   error_name_long('error_name_long'),
   error_name_missing('error_name_missing'),
+  export_failure('export_failure'),
   export_import('export_import'),
   export_label('export_label'),
   help_translate_info('help_translate_info'),

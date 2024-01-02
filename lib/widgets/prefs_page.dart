@@ -737,24 +737,33 @@ class PrefsWidget extends StatelessWidget {
 
   // Tools: export/import data
   Widget _exportImportTools(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
     return Align(
       alignment: Alignment.topLeft,
-      child: ListTile(
-        iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
-        title: Text(
-          AppString.export_import.translate(),
-          style: textStyleTitle,
+      child: IgnorePointer(
+        // Disable export/import while timer is active
+        ignoring: provider.activeTeas.isNotEmpty,
+        child: Opacity(
+          opacity: provider.activeTeas.isNotEmpty ? fadeOpacity : noOpacity,
+          child: ListTile(
+            iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
+            title: Text(
+              AppString.export_import.translate(),
+              style: textStyleTitle,
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _exportButton(context),
+                const VerticalDivider(),
+                _importButton(context),
+              ],
+            ),
+            contentPadding: listTilePadding,
+            dense: true,
+          ),
         ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _exportButton(context),
-            const VerticalDivider(),
-            _importButton(context),
-          ],
-        ),
-        contentPadding: listTilePadding,
-        dense: true,
       ),
     );
   }
@@ -765,7 +774,38 @@ class PrefsWidget extends StatelessWidget {
 
     return IconButton(
       icon: getPlatformExportIcon(),
-      onPressed: () => Export.create(provider, share: true),
+      onPressed: () {
+        // Attempt to save an export file and report if failed
+        Export.create(provider, share: true).then(
+          (exported) {
+            if (!exported) {
+              showAdaptiveDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return AlertDialog.adaptive(
+                    title: Text(AppString.confirm_title.translate()),
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: <Widget>[
+                          Text(AppString.export_failure.translate()),
+                        ],
+                      ),
+                    ),
+                    actions: [
+                      adaptiveDialogAction(
+                        isDefaultAction: true,
+                        text: AppString.ok_button.translate(),
+                        onPressed: () => Navigator.of(context).pop(false),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          },
+        );
+      },
     );
   }
 
@@ -783,9 +823,6 @@ class PrefsWidget extends StatelessWidget {
             barrierDismissible: false,
             builder: (BuildContext context) {
               return AlertDialog.adaptive(
-                title: !imported
-                    ? Text(AppString.confirm_title.translate())
-                    : null,
                 content: SingleChildScrollView(
                   child: ListBody(
                     children: <Widget>[

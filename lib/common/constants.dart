@@ -156,7 +156,8 @@ const jsonKeyStats = 'stats';
 const jsonKeyTimerStartTime = 'timerStartTime';
 
 // Export file
-const exportFileName = 'CuppaData.json';
+const exportFileName = 'CuppaData';
+const exportFileExtension = 'json';
 
 // Localization
 const defaultLanguage = 'en';

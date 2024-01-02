@@ -110,8 +110,12 @@ abstract class Prefs {
     // Load tea list
     List<String>? teaListJson = sharedPrefs.getStringList(prefTeaList);
     if (teaListJson != null) {
-      teaList += (teaListJson.map<Tea>((tea) => Tea.fromJson(jsonDecode(tea))))
-          .toList();
+      try {
+        teaList += (teaListJson
+            .map<Tea>((tea) => Tea.fromJson(jsonDecode(tea)))).toList();
+      } catch (e) {
+        // Something went wrong
+      }
     }
 
     // Save to shared prefs if any legacy teas were migrated
