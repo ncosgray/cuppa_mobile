@@ -14,6 +14,7 @@
 // - Version and build number
 // - Links to GitHub, Weblate, etc.
 
+import 'package:cuppa_mobile/common/confirm_dialog.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/icons.dart';
@@ -266,8 +267,12 @@ class AboutWidget extends StatelessWidget {
     return IconButton(
       icon: getPlatformImportIcon(),
       onPressed: () async {
-        bool confirmed = await _confirmImport(context);
-        if (confirmed) {
+        // Show a prompt with more information
+        if (await confirmDialog(
+          context: context,
+          body: Text(AppString.confirm_import.translate()),
+          bodyExtra: Text(AppString.confirm_continue.translate()),
+        )) {
           // Attempt to load an export file and report the result
           Export.load(provider).then(
             (imported) => showAdaptiveDialog(
@@ -298,39 +303,6 @@ class AboutWidget extends StatelessWidget {
             ),
           );
         }
-      },
-    );
-  }
-
-  // Import confirmation dialog
-  Future _confirmImport(BuildContext context) {
-    return showAdaptiveDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog.adaptive(
-          title: Text(AppString.confirm_title.translate()),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(AppString.confirm_import.translate()),
-                const SizedBox(height: 14.0),
-                Text(AppString.confirm_continue.translate()),
-              ],
-            ),
-          ),
-          actions: [
-            adaptiveDialogAction(
-              isDefaultAction: true,
-              text: AppString.no_button.translate(),
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-            adaptiveDialogAction(
-              text: AppString.yes_button.translate(),
-              onPressed: () => Navigator.of(context).pop(true),
-            ),
-          ],
-        );
       },
     );
   }

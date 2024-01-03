@@ -15,6 +15,7 @@
 // - Start, confirm, cancel timers
 
 import 'package:cuppa_mobile/common/colors.dart';
+import 'package:cuppa_mobile/common/confirm_dialog.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
@@ -583,42 +584,6 @@ class _TimerWidgetState extends State<TimerWidget> {
     );
   }
 
-  // Confirmation dialog
-  Future _confirmTimer() {
-    if (_timerCount == timersMaxCount) {
-      return showAdaptiveDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog.adaptive(
-            title: Text(AppString.confirm_title.translate()),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(AppString.confirm_message_line1.translate()),
-                  Text(AppString.confirm_message_line2.translate()),
-                ],
-              ),
-            ),
-            actions: [
-              adaptiveDialogAction(
-                isDefaultAction: true,
-                text: AppString.no_button.translate(),
-                onPressed: () => Navigator.of(context).pop(false),
-              ),
-              adaptiveDialogAction(
-                text: AppString.yes_button.translate(),
-                onPressed: () => Navigator.of(context).pop(true),
-              ),
-            ],
-          );
-        },
-      );
-    } else {
-      return Future.value(true);
-    }
-  }
-
   // Ticker handler for a TeaTimer
   void Function(Timer? ticker) _handleTick(TeaTimer timer) {
     return (ticker) {
@@ -730,14 +695,22 @@ class _TimerWidgetState extends State<TimerWidget> {
         if (teaIndex >= 0 && teaIndex < provider.teaCount) {
           Tea tea = provider.teaList[teaIndex];
           if (!tea.isActive) {
-            if (await _confirmTimer()) {
-              if (_timerCount == timersMaxCount) {
-                // Cancel to free a timer slot if needed
+            if (_timerCount >= timersMaxCount) {
+              // Ask to cancel and free a timer slot if needed
+              if (await confirmDialog(
+                context: context,
+                body: Text(AppString.confirm_message_line1.translate()),
+                bodyExtra: Text(AppString.confirm_message_line2.translate()),
+              )) {
                 _cancelAllTimers();
+              } else {
+                return;
               }
-              _setTimer(tea);
-              _doScroll = true;
             }
+
+            // Start timer from shortcut
+            _setTimer(tea);
+            _doScroll = true;
           }
         }
       }
