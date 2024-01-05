@@ -14,8 +14,8 @@
 // - Build prefs interface and interactivity
 
 import 'package:cuppa_mobile/common/colors.dart';
-import 'package:cuppa_mobile/common/confirm_dialog.dart';
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
@@ -394,7 +394,7 @@ class PrefsWidget extends StatelessWidget {
                   onTap: () async {
                     AppProvider provider =
                         Provider.of<AppProvider>(context, listen: false);
-                    if (await confirmDialog(
+                    if (await showConfirmDialog(
                       context: context,
                       body: Text(AppString.confirm_delete.translate()),
                     )) {
@@ -505,7 +505,7 @@ class PrefsWidget extends StatelessWidget {
               Provider.of<AppProvider>(context, listen: false);
 
           // Show a prompt with more information
-          if (await confirmDialog(
+          if (await showConfirmDialog(
             context: context,
             body: Text(
               provider.collectStats

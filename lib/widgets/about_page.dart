@@ -14,8 +14,8 @@
 // - Version and build number
 // - Links to GitHub, Weblate, etc.
 
-import 'package:cuppa_mobile/common/confirm_dialog.dart';
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
@@ -231,27 +231,9 @@ class AboutWidget extends StatelessWidget {
         Export.create(provider, share: true).then(
           (exported) {
             if (!exported) {
-              showAdaptiveDialog(
+              showInfoDialog(
                 context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return AlertDialog.adaptive(
-                    content: SingleChildScrollView(
-                      child: ListBody(
-                        children: <Widget>[
-                          Text(AppString.export_failure.translate()),
-                        ],
-                      ),
-                    ),
-                    actions: [
-                      adaptiveDialogAction(
-                        isDefaultAction: true,
-                        text: AppString.ok_button.translate(),
-                        onPressed: () => Navigator.of(context).pop(false),
-                      ),
-                    ],
-                  );
-                },
+                message: AppString.export_failure.translate(),
               );
             }
           },
@@ -268,38 +250,18 @@ class AboutWidget extends StatelessWidget {
       icon: getPlatformImportIcon(),
       onPressed: () async {
         // Show a prompt with more information
-        if (await confirmDialog(
+        if (await showConfirmDialog(
           context: context,
           body: Text(AppString.confirm_import.translate()),
           bodyExtra: Text(AppString.confirm_continue.translate()),
         )) {
           // Attempt to load an export file and report the result
           Export.load(provider).then(
-            (imported) => showAdaptiveDialog(
+            (imported) => showInfoDialog(
               context: context,
-              barrierDismissible: false,
-              builder: (BuildContext context) {
-                return AlertDialog.adaptive(
-                  content: SingleChildScrollView(
-                    child: ListBody(
-                      children: <Widget>[
-                        Text(
-                          imported
-                              ? AppString.import_sucess.translate()
-                              : AppString.import_failure.translate(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  actions: [
-                    adaptiveDialogAction(
-                      isDefaultAction: true,
-                      text: AppString.ok_button.translate(),
-                      onPressed: () => Navigator.of(context).pop(false),
-                    ),
-                  ],
-                );
-              },
+              message: imported
+                  ? AppString.import_sucess.translate()
+                  : AppString.import_failure.translate(),
             ),
           );
         }

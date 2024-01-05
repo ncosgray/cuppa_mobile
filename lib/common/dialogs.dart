@@ -1,7 +1,7 @@
 /*
  *******************************************************************************
  Package:  cuppa_mobile
- Class:    confirm_dialog.dart
+ Class:    dialogs.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
  Copyright (c) 2017-2023 Nathan Cosgray. All rights reserved.
@@ -10,14 +10,17 @@
  *******************************************************************************
 */
 
-// Generic confirmation dialog
+// Generic dialogs
+// - Confirmation dialog, informational dialog
 
+import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'package:flutter/material.dart';
 
-Future confirmDialog({
+// Confirmation dialog with Yes/No options
+Future showConfirmDialog({
   required BuildContext context,
   required Widget body,
   Widget? bodyExtra,
@@ -25,11 +28,11 @@ Future confirmDialog({
   // Build the dialog text
   List<Widget> listBody = [body];
   if (bodyExtra != null) {
-    listBody.add(const SizedBox(height: 14.0));
+    listBody.add(spacerWidget);
     listBody.add(bodyExtra);
   }
 
-  return showAdaptiveDialog(
+  return showAdaptiveDialog<bool>(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
@@ -47,6 +50,29 @@ Future confirmDialog({
           adaptiveDialogAction(
             text: AppString.yes_button.translate(),
             onPressed: () => Navigator.of(context).pop(true),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+// Information-only dialog without options
+Future showInfoDialog({
+  required BuildContext context,
+  required String message,
+}) {
+  return showAdaptiveDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog.adaptive(
+        content: SingleChildScrollView(child: Text(message)),
+        actions: [
+          adaptiveDialogAction(
+            isDefaultAction: true,
+            text: AppString.ok_button.translate(),
+            onPressed: () => Navigator.of(context).pop(),
           ),
         ],
       );

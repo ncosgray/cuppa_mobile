@@ -15,8 +15,8 @@
 // - Start, confirm, cancel timers
 
 import 'package:cuppa_mobile/common/colors.dart';
-import 'package:cuppa_mobile/common/confirm_dialog.dart';
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
@@ -697,7 +697,7 @@ class _TimerWidgetState extends State<TimerWidget> {
           if (!tea.isActive) {
             if (_timerCount >= timersMaxCount) {
               // Ask to cancel and free a timer slot if needed
-              if (await confirmDialog(
+              if (await showConfirmDialog(
                 context: context,
                 body: Text(AppString.confirm_message_line1.translate()),
                 bodyExtra: Text(AppString.confirm_message_line2.translate()),
