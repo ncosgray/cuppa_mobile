@@ -296,14 +296,14 @@ class Tea {
   // Factories
   factory Tea.fromJson(Map<String, dynamic> json) {
     return Tea(
-      id: json[jsonKeyID],
-      name: json[jsonKeyName] ?? unknownString,
-      brewTime: json[jsonKeyBrewTime] ?? 0,
-      brewTemp: json[jsonKeyBrewTemp] ?? 0,
-      colorValue: json[jsonKeyColor] ?? 0,
-      colorShade: json[jsonKeyColorShadeRed] != null &&
-              json[jsonKeyColorShadeGreen] != null &&
-              json[jsonKeyColorShadeBlue] != null
+      id: tryCast<int>(json[jsonKeyID]),
+      name: tryCast<String>(json[jsonKeyName]) ?? unknownString,
+      brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? 0,
+      brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? 0,
+      colorValue: tryCast<int>(json[jsonKeyColor]) ?? 0,
+      colorShade: tryCast<int>(json[jsonKeyColorShadeRed]) != null &&
+              tryCast<int>(json[jsonKeyColorShadeGreen]) != null &&
+              tryCast<int>(json[jsonKeyColorShadeBlue]) != null
           ? Color.fromRGBO(
               json[jsonKeyColorShadeRed],
               json[jsonKeyColorShadeGreen],
@@ -311,11 +311,11 @@ class Tea {
               1.0,
             )
           : null,
-      iconValue: json[jsonKeyIcon] ?? 0,
-      isFavorite: json[jsonKeyIsFavorite] ?? false,
-      isActive: json[jsonKeyIsActive] ?? false,
-      timerEndTime: json[jsonKeyTimerEndTime] ?? 0,
-      timerNotifyID: json[jsonKeyTimerNotifyID],
+      iconValue: tryCast<int>(json[jsonKeyIcon]) ?? 0,
+      isFavorite: tryCast<bool>(json[jsonKeyIsFavorite]) ?? false,
+      isActive: tryCast<bool>(json[jsonKeyIsActive]) ?? false,
+      timerEndTime: tryCast<int>(json[jsonKeyTimerEndTime]) ?? 0,
+      timerNotifyID: tryCast<int>(json[jsonKeyTimerNotifyID]),
     );
   }
 

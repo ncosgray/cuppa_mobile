@@ -29,6 +29,10 @@ class AppProvider extends ChangeNotifier {
   // Teas
   List<Tea> _teaList = [];
   List<Tea> get teaList => [..._teaList];
+  set teaList(List<Tea> newList) {
+    _teaList = newList;
+    saveTeas();
+  }
 
   // Get number of teas
   int get teaCount {

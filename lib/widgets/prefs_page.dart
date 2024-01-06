@@ -15,6 +15,7 @@
 
 import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
@@ -393,8 +394,10 @@ class PrefsWidget extends StatelessWidget {
                   onTap: () async {
                     AppProvider provider =
                         Provider.of<AppProvider>(context, listen: false);
-                    bool confirmed = await _confirmDelete(context);
-                    if (confirmed) {
+                    if (await showConfirmDialog(
+                      context: context,
+                      body: Text(AppString.confirm_delete.translate()),
+                    )) {
                       // Clear tea list
                       provider.clearTeaList();
                     }
@@ -404,37 +407,6 @@ class PrefsWidget extends StatelessWidget {
             ),
           )
         : const SizedBox.shrink();
-  }
-
-  // Delete confirmation dialog
-  Future _confirmDelete(BuildContext context) {
-    return showAdaptiveDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog.adaptive(
-          title: Text(AppString.confirm_title.translate()),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(AppString.confirm_delete.translate()),
-              ],
-            ),
-          ),
-          actions: [
-            adaptiveDialogAction(
-              isDefaultAction: true,
-              text: AppString.no_button.translate(),
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-            adaptiveDialogAction(
-              text: AppString.yes_button.translate(),
-              onPressed: () => Navigator.of(context).pop(true),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   // List of other settings
@@ -533,13 +505,15 @@ class PrefsWidget extends StatelessWidget {
               Provider.of<AppProvider>(context, listen: false);
 
           // Show a prompt with more information
-          bool confirmed = false;
-          if (provider.collectStats) {
-            confirmed = await _confirmStatsSetting(context, disable: true);
-          } else {
-            confirmed = await _confirmStatsSetting(context);
-          }
-          if (confirmed) {
+          if (await showConfirmDialog(
+            context: context,
+            body: Text(
+              provider.collectStats
+                  ? AppString.stats_confirm_disable.translate()
+                  : AppString.stats_confirm_enable.translate(),
+            ),
+            bodyExtra: Text(AppString.confirm_continue.translate()),
+          )) {
             // Update setting
             provider.collectStats = newValue;
 
@@ -552,43 +526,6 @@ class PrefsWidget extends StatelessWidget {
         contentPadding: listTilePadding,
         dense: true,
       ),
-    );
-  }
-
-  // Stats collection confirmation prompt
-  Future _confirmStatsSetting(BuildContext context, {bool disable = false}) {
-    return showAdaptiveDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog.adaptive(
-          title: Text(AppString.confirm_title.translate()),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  disable
-                      ? AppString.stats_confirm_disable.translate()
-                      : AppString.stats_confirm_enable.translate(),
-                ),
-                const SizedBox(height: 14.0),
-                Text(AppString.confirm_continue.translate()),
-              ],
-            ),
-          ),
-          actions: [
-            adaptiveDialogAction(
-              isDefaultAction: true,
-              text: AppString.no_button.translate(),
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-            adaptiveDialogAction(
-              text: AppString.yes_button.translate(),
-              onPressed: () => Navigator.of(context).pop(true),
-            ),
-          ],
-        );
-      },
     );
   }
 
