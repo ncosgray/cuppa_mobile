@@ -25,6 +25,9 @@ const roomTempDegreesF = 68;
 const degreeSymbol = '\u00b0';
 const hairSpace = '\u200a';
 
+// Type conversion
+T? tryCast<T>(dynamic object) => object is T ? object : null;
+
 // Infer C or F based on temp range
 bool isTempCelsius(i) {
   return (i <= boilDegreesC && i != roomTempDegreesF);
