@@ -27,7 +27,6 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/about_page.dart';
-import 'package:cuppa_mobile/widgets/list_divider.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/stats_page.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
