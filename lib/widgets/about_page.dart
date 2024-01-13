@@ -4,7 +4,7 @@
  Class:    about_page.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2023 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -23,7 +23,6 @@ import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/export.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/provider.dart';
-import 'package:cuppa_mobile/widgets/list_divider.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/stats_page.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';

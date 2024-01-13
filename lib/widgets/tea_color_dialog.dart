@@ -4,7 +4,7 @@
  Class:    tea_color_dialog.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2023 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -12,8 +12,8 @@
 
 // Cuppa tea color selection dialog
 
+import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:cuppa_mobile/widgets/list_divider.dart';
 import 'package:cuppa_mobile/widgets/mini_tea_button.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 

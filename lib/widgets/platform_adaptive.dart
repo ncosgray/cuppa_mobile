@@ -4,7 +4,7 @@
  Class:    platform_adaptive.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2023 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -177,7 +177,7 @@ Widget adaptiveTextFormField({
                 controller: controller,
                 autofocus: true,
                 autocorrect: false,
-                enableSuggestions: false,
+                enableSuggestions: true,
                 enableInteractiveSelection: true,
                 textCapitalization: TextCapitalization.words,
                 maxLines: 1,
@@ -210,7 +210,7 @@ Widget adaptiveTextFormField({
         controller: controller,
         autofocus: true,
         autocorrect: false,
-        enableSuggestions: false,
+        enableSuggestions: true,
         enableInteractiveSelection: true,
         textCapitalization: TextCapitalization.words,
         maxLines: 1,

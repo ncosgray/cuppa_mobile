@@ -4,7 +4,7 @@
  Class:    stats_page.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2023 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -334,11 +334,14 @@ class _StatsWidgetState extends State<StatsWidget> {
     required double radius,
     bool selected = false,
   }) {
+    double percent = totalCount > 0 ? stat.count / totalCount : 0.0;
+
     return PieChartSectionData(
       value: stat.count.toDouble(),
       color: stat.color,
       radius: selected ? radius * 1.05 : radius,
-      title: totalCount > 0 ? formatPercent(stat.count / totalCount) : null,
+      showTitle: percent > 0.05,
+      title: formatPercent(percent),
       titleStyle: textStyleSubtitle.copyWith(
         color: activeColor,
         fontWeight: selected ? FontWeight.bold : null,
