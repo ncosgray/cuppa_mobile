@@ -82,8 +82,8 @@
     "yes_button": "Sí",
     "confirm_import": "La importación sustituirá todos tus ajustes y datos de uso actuales.",
     "export_import": "Exportar o importar datos de la aplicación",
-    "export_label": "Archivo de datos de Cuppa",
-    "import_failure": "No se ha podido cargar el archivo de datos de Cuppa.",
+    "export_label": "Archivo de datos de {{app_name}}",
+    "import_failure": "No se ha podido cargar el archivo de datos de {{app_name}}.",
     "import_sucess": "¡Importado con éxito!",
-    "export_failure": "No se ha podido guardar el archivo de datos de Cuppa."
+    "export_failure": "No se ha podido guardar el archivo de datos de {{app_name}}."
 }
