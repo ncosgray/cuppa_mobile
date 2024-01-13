@@ -81,6 +81,6 @@
     "version_history": "Versionsgeschichte",
     "yes_button": "Ja",
     "export_import": "App-Daten exportieren oder importieren",
-    "export_label": "Cuppa-Datendatei",
+    "export_label": "{{app_name}}-Datendatei",
     "import_sucess": "Erfolgreich importiert!"
 }
