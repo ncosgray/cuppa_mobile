@@ -80,10 +80,10 @@
     "unit_seconds": "sec",
     "version_history": "Versiegeschiedenis",
     "yes_button": "Ja",
-    "export_failure": "Het Cuppa-gegevensbestand kan niet worden opgeslagen.",
+    "export_failure": "Het {{app_name}}-gegevensbestand kan niet worden opgeslagen.",
     "export_import": "Appgegevens im-/exporteren",
-    "export_label": "Cuppa-gegevensbestand",
-    "import_failure": "Het Cuppa-gegevensbestand kan niet worden geladen.",
+    "export_label": "{{app_name}}-gegevensbestand",
+    "import_failure": "Het {{app_name}}-gegevensbestand kan niet worden geladen.",
     "confirm_import": "Door de import worden al je huidige instellingen en gebruiksgegevens vervangen.",
     "import_sucess": "Importeren voltooid!"
 }
