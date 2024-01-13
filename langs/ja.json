@@ -42,7 +42,7 @@
     "stats_favorite_am": "お昼前にお気に入り",
     "stats_favorite_pm": "お昼以降のお気に入り",
     "stats_header": "ティータイマー使用レポート",
-    "stats_starred": "スター付きティー {0}}",
+    "stats_starred": "スター付きティー {{star_symbol}}",
     "stats_timer_count": "タイマーが開始されました",
     "stats_timer_time": "総スティープ時間",
     "stats_title": "タイマー統計",
