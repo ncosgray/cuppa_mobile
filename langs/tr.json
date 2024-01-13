@@ -81,9 +81,9 @@
     "version_history": "Sürüm geçmişi",
     "yes_button": "Evet",
     "export_import": "Uygulama verilerini dışa veya içe aktar",
-    "import_failure": "Cuppa veri dosyası yüklenemedi.",
+    "import_failure": "{{app_name}} veri dosyası yüklenemedi.",
     "confirm_import": "İçe aktarma işlemi tüm geçerli ayarlarınızı ve kullanım verilerinizi değiştirecektir.",
-    "export_failure": "Cuppa veri dosyası kaydedilemedi.",
-    "export_label": "Cuppa veri dosyası",
+    "export_failure": "{{app_name}} veri dosyası kaydedilemedi.",
+    "export_label": "{{app_name}} veri dosyası",
     "import_sucess": "Başarıyla içe aktarıldı!"
 }
