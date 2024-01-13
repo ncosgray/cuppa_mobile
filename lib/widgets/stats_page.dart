@@ -334,11 +334,14 @@ class _StatsWidgetState extends State<StatsWidget> {
     required double radius,
     bool selected = false,
   }) {
+    double percent = totalCount > 0 ? stat.count / totalCount : 0.0;
+
     return PieChartSectionData(
       value: stat.count.toDouble(),
       color: stat.color,
       radius: selected ? radius * 1.05 : radius,
-      title: totalCount > 0 ? formatPercent(stat.count / totalCount) : null,
+      showTitle: percent > 0.05,
+      title: formatPercent(percent),
       titleStyle: textStyleSubtitle.copyWith(
         color: activeColor,
         fontWeight: selected ? FontWeight.bold : null,
