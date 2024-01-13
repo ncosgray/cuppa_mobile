@@ -80,10 +80,10 @@
     "unit_seconds": "s.",
     "version_history": "Versionshistorik",
     "yes_button": "Ja",
-    "export_failure": "Cuppa-datafilen kunne ikke gemmes.",
+    "export_failure": "{{app_name}}-datafilen kunne ikke gemmes.",
     "confirm_import": "Ved import erstattes alle dine nuværende indstillinger og brugsdata.",
     "export_import": "Eksportér eller importér appdata",
-    "import_failure": "Cuppa-datafilen kunne ikke indlæses.",
+    "import_failure": "{{app_name}}-datafilen kunne ikke indlæses.",
     "import_sucess": "Importerede problemfrit!",
-    "export_label": "Cuppa-datafil"
+    "export_label": "{{app_name}}-datafil"
 }
