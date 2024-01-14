@@ -35,7 +35,7 @@
   "prefs_language": "Choose app language",
   "prefs_notifications": "Open your device's system settings to configure notifications for {{app_name}}.",
   "prefs_show_extra": "Show brew time and temperature on timer buttons",
-  "prefs_title": "{{app_name}} Preferences",
+  "prefs_title": "Preferences",
   "prefs_use_celsius": "Use Celsius temperature for new teas",
   "privacy_policy": "Privacy policy",
   "settings_title": "Settings",
