@@ -1,0 +1,3 @@
+* Cuppa er blevet oversat til 9 nye sprog. Du kan bidrage via Weblate!
+* Tag tid på teer med en bryggetid på under 1 minut.
+* Forskellige mindre brugerfladeforbedringer og fejlrettelser.

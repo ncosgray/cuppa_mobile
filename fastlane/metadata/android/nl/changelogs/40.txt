@@ -1,0 +1,5 @@
+* [NIEUW] Optionele gebruiksstatistieken om inzicht te krijgen in je theegedrag;
+* [BIJGEWERKT] Privacybeleid in verband met gebruiksstatistieken;
+* [VERBETERD] Betere inpassing bij gebruik van grote lettertypen;
+* [VERBETERD] Verbeterde vormgeving;
+* [NIEUW] Luxemburgse vertaling en bijgewerkte vertalingen - draag ook bij via Weblate!

@@ -1,0 +1,4 @@
+* Mulighed for at tilføje mere end tre brugerdefinerede tesorter i indstillingerne.
+* Mulighed for ændring af rækkefølgen på dine te-knapper.
+* Forbedret grafik.
+* Nye oversættelser - bidrag via Weblate!
