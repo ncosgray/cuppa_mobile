@@ -223,18 +223,32 @@ class AboutWidget extends StatelessWidget {
   Widget _exportButton(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return IconButton(
-      icon: getPlatformExportIcon(),
-      onPressed: () {
-        // Attempt to save an export file and report if failed
-        Export.create(provider, share: true).then(
-          (exported) {
-            if (!exported) {
-              showInfoDialog(
-                context: context,
-                message: AppString.export_failure.translate(),
-              );
-            }
+    return Builder(
+      builder: (BuildContext context) {
+        return IconButton(
+          icon: getPlatformExportIcon(),
+          onPressed: () {
+            // Render location for share sheet on iPad
+            RenderBox? renderBox = context.findRenderObject() as RenderBox?;
+            Rect sharePositionOrigin =
+                (renderBox?.localToGlobal(Offset.zero) ?? Offset.zero) &
+                    (renderBox?.size ?? const Size(4.0, 4.0));
+
+            // Attempt to save an export file and report if failed
+            Export.create(
+              provider,
+              share: true,
+              sharePositionOrigin: sharePositionOrigin,
+            ).then(
+              (exported) {
+                if (!exported) {
+                  showInfoDialog(
+                    context: context,
+                    message: AppString.export_failure.translate(),
+                  );
+                }
+              },
+            );
           },
         );
       },

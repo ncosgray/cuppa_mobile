@@ -24,13 +24,18 @@ import 'package:file_picker/file_picker.dart';
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 // Export/import functionality
 abstract class Export {
   // Create and optionally share a JSON file containing all app data
-  static Future<bool> create(AppProvider provider, {bool share = false}) async {
+  static Future<bool> create(
+    AppProvider provider, {
+    bool share = false,
+    Rect? sharePositionOrigin,
+  }) async {
     try {
       // Create the export dataset
       String exportData = ExportFile(
@@ -57,6 +62,7 @@ abstract class Export {
         await Share.shareXFiles(
           [XFile(exportFile.path)],
           subject: AppString.export_label.translate(),
+          sharePositionOrigin: sharePositionOrigin,
         );
       }
     } catch (e) {
