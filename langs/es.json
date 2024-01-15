@@ -29,7 +29,7 @@
     "prefs_language": "Elige el idioma de la aplicación",
     "prefs_notifications": "Abra los ajustes de sistema de su dispositivo para configurar las notificaciones de {{app_name}}.",
     "prefs_show_extra": "Mostrar el tiempo de infusión y la temperatura en los botones del temporizador",
-    "prefs_title": "Preferencias de {{app_name}}",
+    "prefs_title": "Preferencias",
     "prefs_use_celsius": "Use temperatura Celsius para nuevos tés",
     "privacy_policy": "Política de privacidad",
     "settings_title": "Ajustes",
