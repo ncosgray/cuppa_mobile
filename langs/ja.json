@@ -29,7 +29,7 @@
     "prefs_language": "言語を選択",
     "prefs_notifications": "デバイスのシステム設定を開いて {{app_name}} の通知を設定します。",
     "prefs_show_extra": "タイマーボタンに時間と温度を表示",
-    "prefs_title": "{{app_name}} プリファレンス",
+    "prefs_title": "プリファレンス",
     "prefs_use_celsius": "新茶には摂氏温度を使用してください",
     "privacy_policy": "プライバシーポリシー",
     "settings_title": "[設定]",
