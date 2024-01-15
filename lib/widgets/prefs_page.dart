@@ -94,6 +94,7 @@ class PrefsWidget extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(child: _addTeaButton()),
+                          smallSpacerWidget,
                           _removeAllButton(context),
                         ],
                       ),
@@ -376,32 +377,29 @@ class PrefsWidget extends StatelessWidget {
     AppProvider provider = Provider.of<AppProvider>(context);
 
     return (provider.teaCount > 0 && provider.activeTeas.isEmpty)
-        ? Container(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: SizedBox(
-              width: 64.0,
-              height: 64.0,
-              child: Card(
-                margin: noPadding,
-                shadowColor: Colors.transparent,
-                surfaceTintColor: Theme.of(context).colorScheme.error,
-                clipBehavior: Clip.antiAlias,
-                child: InkWell(
-                  child: getPlatformRemoveAllIcon(
-                    Theme.of(context).colorScheme.error,
-                  ),
-                  onTap: () async {
-                    AppProvider provider =
-                        Provider.of<AppProvider>(context, listen: false);
-                    if (await showConfirmDialog(
-                      context: context,
-                      body: Text(AppString.confirm_delete.translate()),
-                    )) {
-                      // Clear tea list
-                      provider.clearTeaList();
-                    }
-                  },
+        ? SizedBox(
+            width: 64.0,
+            height: 64.0,
+            child: Card(
+              margin: noPadding,
+              shadowColor: Colors.transparent,
+              surfaceTintColor: Theme.of(context).colorScheme.error,
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                child: getPlatformRemoveAllIcon(
+                  Theme.of(context).colorScheme.error,
                 ),
+                onTap: () async {
+                  AppProvider provider =
+                      Provider.of<AppProvider>(context, listen: false);
+                  if (await showConfirmDialog(
+                    context: context,
+                    body: Text(AppString.confirm_delete.translate()),
+                  )) {
+                    // Clear tea list
+                    provider.clearTeaList();
+                  }
+                },
               ),
             ),
           )

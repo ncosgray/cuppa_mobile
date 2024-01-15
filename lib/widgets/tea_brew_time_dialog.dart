@@ -117,6 +117,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
       height: 120.0,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        textDirection: TextDirection.ltr,
         children: [
           // Increment down
           adaptiveSmallButton(
