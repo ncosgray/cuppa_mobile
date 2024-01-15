@@ -28,7 +28,7 @@ Future showConfirmDialog({
   // Build the dialog text
   List<Widget> listBody = [body];
   if (bodyExtra != null) {
-    listBody.add(spacerWidget);
+    listBody.add(smallSpacerWidget);
     listBody.add(bodyExtra);
   }
 

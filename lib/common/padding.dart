@@ -21,10 +21,14 @@ const Divider listDivider = Divider(
   endIndent: 12.0,
 );
 
-// Spacer
+// Spacers
 const SizedBox spacerWidget = SizedBox(
   width: 14.0,
   height: 14.0,
+);
+const SizedBox smallSpacerWidget = SizedBox(
+  width: 8.0,
+  height: 8.0,
 );
 
 // General use padding
