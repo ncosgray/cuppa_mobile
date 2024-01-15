@@ -19,7 +19,7 @@ version: 2.4.0+40
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
-  flutter: ^3.16.5
+  flutter: ^3.16.7
 
 dependencies:
   app_settings: ^5.1.1
@@ -37,15 +37,15 @@ dependencies:
   intl: ^0.18.1
   package_info_plus: ^5.0.1
   path: ^1.8.3
-  path_provider: ^2.1.1
+  path_provider: ^2.1.2
   provider: ^6.1.1
-  quick_actions: ^1.0.6
+  quick_actions: ^1.0.7
   share_plus: ^7.2.1
   shared_preferences: ^2.2.2
   showcaseview: ^2.0.3
   sliver_tools: ^0.2.12
   sqflite: ^2.3.0
-  url_launcher: ^6.2.2
+  url_launcher: ^6.2.3
   wakelock_plus: ^1.1.4
 
 dev_dependencies:
