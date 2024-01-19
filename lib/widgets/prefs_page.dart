@@ -37,8 +37,16 @@ import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 // Cuppa Preferences page
-class PrefsWidget extends StatelessWidget {
+class PrefsWidget extends StatefulWidget {
   const PrefsWidget({super.key});
+
+  @override
+  State<PrefsWidget> createState() => _PrefsWidgetState();
+}
+
+class _PrefsWidgetState extends State<PrefsWidget> {
+  // State variables
+  bool _animateTeaList = false;
 
   // Build Prefs page
   @override
@@ -94,6 +102,8 @@ class PrefsWidget extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(child: _addTeaButton()),
+                          smallSpacerWidget,
+                          _sortTeasButton(context),
                           smallSpacerWidget,
                           _removeAllButton(context),
                         ],
@@ -156,10 +166,17 @@ class PrefsWidget extends StatelessWidget {
 
   // Reoderable list of tea settings cards
   Widget _teaSettingsList() {
+    // Reset animate flag after a delay
+    if (_animateTeaList) {
+      Future.delayed(shortAnimationDuration, () {
+        setState(() => _animateTeaList = false);
+      });
+    }
+
     return Consumer<AppProvider>(
       builder: (context, provider, child) => SliverReorderableList(
-        itemBuilder: _teaSettingsListItem,
-        itemCount: provider.teaList.length,
+        itemBuilder: _animateTeaList ? _separatorDummy : _teaSettingsListItem,
+        itemCount: _animateTeaList ? 0 : provider.teaList.length,
         proxyDecorator: _draggableFeedback,
         onReorder: (int oldIndex, int newIndex) {
           // Reorder the tea list
@@ -367,6 +384,64 @@ class PrefsWidget extends StatelessWidget {
       // Add selected tea
       onTap: () {
         provider.addTea(preset.createTea(useCelsius: provider.useCelsius));
+        Navigator.of(context).pop(true);
+      },
+    );
+  }
+
+  // Sort teas button
+  Widget _sortTeasButton(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
+    return (provider.teaCount > 0)
+        ? SizedBox(
+            width: 64.0,
+            height: 64.0,
+            child: Card(
+              margin: noPadding,
+              shadowColor: Colors.transparent,
+              surfaceTintColor: Theme.of(context).colorScheme.secondary,
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                child: getPlatformSortIcon(
+                  Theme.of(context).colorScheme.secondary,
+                ),
+                onTap: () => openPlatformAdaptiveSelectList(
+                  context: context,
+                  titleText: AppString.sort_title.translate(),
+                  buttonTextCancel: AppString.cancel_button.translate(),
+                  // Don't offer to sort by usage unless stats are available
+                  itemList: provider.collectStats
+                      ? SortBy.values
+                      : SortBy.values
+                          .where((item) => item != SortBy.usage)
+                          .toList(),
+                  itemBuilder: _sortByOption,
+                  separatorBuilder: _separatorDummy,
+                ),
+              ),
+            ),
+          )
+        : const SizedBox.shrink();
+  }
+
+  // Sort by option
+  Widget _sortByOption(BuildContext context, int index) {
+    SortBy value = SortBy.values.elementAt(index);
+
+    return ListTile(
+      contentPadding: noPadding,
+      dense: true,
+      // Sorting type
+      title: Text(
+        value.localizedName,
+        style: textStyleTitle,
+      ),
+      onTap: () {
+        // Apply new sorting and animate the tea settings list
+        _animateTeaList = true;
+        Provider.of<AppProvider>(context, listen: false)
+            .sortTeas(sortBy: value);
         Navigator.of(context).pop(true);
       },
     );
