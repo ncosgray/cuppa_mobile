@@ -56,10 +56,10 @@ Icon getPlatformRemoveAllIcon(Color color) {
       : Icon(Icons.delete_sweep_outlined, color: color);
 }
 
-Icon getPlatformSortIcon(Color color) {
+Icon getPlatformSortIcon() {
   return appPlatform == TargetPlatform.iOS
-      ? Icon(CupertinoIcons.sort_down, color: color)
-      : Icon(Icons.swap_vert, color: color);
+      ? const Icon(CupertinoIcons.sort_down)
+      : const Icon(Icons.swap_vert);
 }
 
 Icon getPlatformExportIcon() {

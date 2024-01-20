@@ -76,7 +76,17 @@ class _PrefsWidgetState extends State<PrefsWidget> {
               child: CustomScrollView(
                 slivers: [
                   // Teas section header
-                  _prefsHeader(context, AppString.teas_title.translate()),
+                  _prefsHeader(
+                    context,
+                    title: AppString.teas_title.translate(),
+                    // Sort Teas button
+                    action: provider.teaCount > 0
+                        ? _sortTeasButton(
+                            context,
+                            includeUsage: provider.collectStats,
+                          )
+                        : null,
+                  ),
                   // Tea settings info text
                   SliverToBoxAdapter(
                     child: Align(
@@ -102,10 +112,9 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                       child: Row(
                         children: [
                           Expanded(child: _addTeaButton()),
-                          smallSpacerWidget,
-                          _sortTeasButton(context),
-                          smallSpacerWidget,
-                          _removeAllButton(context),
+                          (provider.teaCount > 0 && provider.activeTeas.isEmpty)
+                              ? _removeAllButton(context)
+                              : const SizedBox.shrink(),
                         ],
                       ),
                     ),
@@ -128,7 +137,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                   slivers: [
                     _prefsHeader(
                       context,
-                      AppString.settings_title.translate(),
+                      title: AppString.settings_title.translate(),
                     ),
                     SliverToBoxAdapter(child: _otherSettingsList(context)),
                   ],
@@ -142,7 +151,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
   }
 
   // Prefs page column header
-  Widget _prefsHeader(BuildContext context, String title) {
+  Widget _prefsHeader(
+    BuildContext context, {
+    required String title,
+    Widget? action,
+  }) {
     return SliverAppBar(
       elevation: 1,
       pinned: true,
@@ -161,6 +174,47 @@ class _PrefsWidgetState extends State<PrefsWidget> {
           ),
         ),
       ),
+      actions: action != null ? [action] : null,
+    );
+  }
+
+  // Sort teas button
+  Widget _sortTeasButton(BuildContext context, {bool includeUsage = false}) {
+    return IconButton(
+      icon: getPlatformSortIcon(),
+      onPressed: () => openPlatformAdaptiveSelectList(
+        context: context,
+        titleText: AppString.sort_title.translate(),
+        buttonTextCancel: AppString.cancel_button.translate(),
+        // Don't offer to sort by usage unless stats are available
+        itemList: includeUsage
+            ? SortBy.values
+            : SortBy.values.where((item) => item != SortBy.usage).toList(),
+        itemBuilder: _sortByOption,
+        separatorBuilder: _separatorDummy,
+      ),
+    );
+  }
+
+  // Sort by option
+  Widget _sortByOption(BuildContext context, int index) {
+    SortBy value = SortBy.values.elementAt(index);
+
+    return ListTile(
+      contentPadding: noPadding,
+      dense: true,
+      // Sorting type
+      title: Text(
+        value.localizedName,
+        style: textStyleTitle,
+      ),
+      onTap: () {
+        // Apply new sorting and animate the tea settings list
+        _animateTeaList = true;
+        Provider.of<AppProvider>(context, listen: false)
+            .sortTeas(sortBy: value);
+        Navigator.of(context).pop(true);
+      },
     );
   }
 
@@ -278,7 +332,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
     return Selector<AppProvider, int>(
       selector: (_, provider) => provider.teaCount,
       builder: (context, count, child) => SizedBox(
-        height: 64.0,
+        height: 48.0,
         child: Card(
           margin: noPadding,
           shadowColor: Colors.transparent,
@@ -389,96 +443,39 @@ class _PrefsWidgetState extends State<PrefsWidget> {
     );
   }
 
-  // Sort teas button
-  Widget _sortTeasButton(BuildContext context) {
-    AppProvider provider = Provider.of<AppProvider>(context);
-
-    return (provider.teaCount > 0)
-        ? SizedBox(
-            width: 64.0,
-            height: 64.0,
-            child: Card(
-              margin: noPadding,
-              shadowColor: Colors.transparent,
-              surfaceTintColor: Theme.of(context).colorScheme.secondary,
-              clipBehavior: Clip.antiAlias,
-              child: InkWell(
-                child: getPlatformSortIcon(
-                  Theme.of(context).colorScheme.secondary,
-                ),
-                onTap: () => openPlatformAdaptiveSelectList(
-                  context: context,
-                  titleText: AppString.sort_title.translate(),
-                  buttonTextCancel: AppString.cancel_button.translate(),
-                  // Don't offer to sort by usage unless stats are available
-                  itemList: provider.collectStats
-                      ? SortBy.values
-                      : SortBy.values
-                          .where((item) => item != SortBy.usage)
-                          .toList(),
-                  itemBuilder: _sortByOption,
-                  separatorBuilder: _separatorDummy,
-                ),
-              ),
-            ),
-          )
-        : const SizedBox.shrink();
-  }
-
-  // Sort by option
-  Widget _sortByOption(BuildContext context, int index) {
-    SortBy value = SortBy.values.elementAt(index);
-
-    return ListTile(
-      contentPadding: noPadding,
-      dense: true,
-      // Sorting type
-      title: Text(
-        value.localizedName,
-        style: textStyleTitle,
-      ),
-      onTap: () {
-        // Apply new sorting and animate the tea settings list
-        _animateTeaList = true;
-        Provider.of<AppProvider>(context, listen: false)
-            .sortTeas(sortBy: value);
-        Navigator.of(context).pop(true);
-      },
-    );
-  }
-
   // Remove all teas button
   Widget _removeAllButton(BuildContext context) {
-    AppProvider provider = Provider.of<AppProvider>(context);
-
-    return (provider.teaCount > 0 && provider.activeTeas.isEmpty)
-        ? SizedBox(
-            width: 64.0,
-            height: 64.0,
-            child: Card(
-              margin: noPadding,
-              shadowColor: Colors.transparent,
-              surfaceTintColor: Theme.of(context).colorScheme.error,
-              clipBehavior: Clip.antiAlias,
-              child: InkWell(
-                child: getPlatformRemoveAllIcon(
-                  Theme.of(context).colorScheme.error,
-                ),
-                onTap: () async {
-                  AppProvider provider =
-                      Provider.of<AppProvider>(context, listen: false);
-                  if (await showConfirmDialog(
-                    context: context,
-                    body: Text(AppString.confirm_delete.translate()),
-                  )) {
-                    // Clear tea list
-                    provider.clearTeaList();
-                  }
-                },
+    return Row(
+      children: [
+        smallSpacerWidget,
+        SizedBox(
+          width: 48.0,
+          height: 48.0,
+          child: Card(
+            margin: noPadding,
+            shadowColor: Colors.transparent,
+            surfaceTintColor: Theme.of(context).colorScheme.error,
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              child: getPlatformRemoveAllIcon(
+                Theme.of(context).colorScheme.error,
               ),
+              onTap: () async {
+                AppProvider provider =
+                    Provider.of<AppProvider>(context, listen: false);
+                if (await showConfirmDialog(
+                  context: context,
+                  body: Text(AppString.confirm_delete.translate()),
+                )) {
+                  // Clear tea list
+                  provider.clearTeaList();
+                }
+              },
             ),
-          )
-        : const SizedBox.shrink();
+          ),
+        ),
+      ],
+    );
   }
 
   // List of other settings
