@@ -368,7 +368,8 @@ enum ListQuery {
     , tea.$statsColumnColorShadeBlue
     , tea.$statsColumnIconValue
     , tea.$statsColumnIsFavorite
-    ORDER BY COUNT(*) DESC''';
+    ORDER BY COUNT(*) DESC
+    , tea.$statsColumnName ASC''';
 
   // Query SQL
   get sql {
