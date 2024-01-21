@@ -40,6 +40,8 @@
   "privacy_policy": "Privacy policy",
   "settings_title": "Settings",
   "sort_by_alpha": "Tea name (alphabetical)",
+  "sort_by_brew_time": "Brewing time",
+  "sort_by_color": "Color",
   "sort_by_favorite": "Starred",
   "sort_by_usage": "Most used",
   "sort_title": "Sort By",

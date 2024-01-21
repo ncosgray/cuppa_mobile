@@ -103,6 +103,48 @@ class AppProvider extends ChangeNotifier {
   // Sort the tea list
   void sortTeas({SortBy? sortBy}) async {
     switch (sortBy) {
+      case SortBy.favorite:
+        {
+          // Sort favorites first, then alpha
+          _teaList.sort((a, b) {
+            int compare =
+                (a.isFavorite ? 0 : 1).compareTo(b.isFavorite ? 0 : 1);
+            if (compare != 0) {
+              return compare;
+            }
+            return a.name.compareTo(b.name);
+          });
+        }
+      case SortBy.color:
+        {
+          // Sort by hue/lightness, then alpha
+          _teaList.sort((a, b) {
+            HSLColor aColor =
+                HSLColor.fromColor(a.colorShade ?? a.color.getColor());
+            HSLColor bColor =
+                HSLColor.fromColor(b.colorShade ?? b.color.getColor());
+            int compare = aColor.hue.compareTo(bColor.hue);
+            if (compare != 0) {
+              return compare;
+            }
+            compare = bColor.lightness.compareTo(aColor.lightness);
+            if (compare != 0) {
+              return compare;
+            }
+            return a.name.compareTo(b.name);
+          });
+        }
+      case SortBy.brewTime:
+        {
+          // Sort shortest brew time first, then alpha
+          _teaList.sort((a, b) {
+            int compare = a.brewTime.compareTo(b.brewTime);
+            if (compare != 0) {
+              return compare;
+            }
+            return a.name.compareTo(b.name);
+          });
+        }
       case SortBy.usage:
         {
           // Fetch usage stats
@@ -119,18 +161,6 @@ class AppProvider extends ChangeNotifier {
               orElse: () => Stat(count: 0),
             )).count;
             int compare = bUsage.compareTo(aUsage);
-            if (compare != 0) {
-              return compare;
-            }
-            return a.name.compareTo(b.name);
-          });
-        }
-      case SortBy.favorite:
-        {
-          // Sort favorites first, then alpha
-          _teaList.sort((a, b) {
-            int compare =
-                (a.isFavorite ? 0 : 1).compareTo(b.isFavorite ? 0 : 1);
             if (compare != 0) {
               return compare;
             }
@@ -350,7 +380,9 @@ class AppProvider extends ChangeNotifier {
 enum SortBy {
   alpha(0),
   favorite(1),
-  usage(2);
+  color(2),
+  brewTime(3),
+  usage(4);
 
   final int value;
 
@@ -362,6 +394,10 @@ enum SortBy {
       case 1:
         return AppString.sort_by_favorite.translate();
       case 2:
+        return AppString.sort_by_color.translate();
+      case 3:
+        return AppString.sort_by_brew_time.translate();
+      case 4:
         return AppString.sort_by_usage.translate();
       default:
         return AppString.sort_by_alpha.translate();

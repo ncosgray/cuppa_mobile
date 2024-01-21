@@ -103,6 +103,8 @@ enum AppString {
   privacy_policy('privacy_policy'),
   settings_title('settings_title'),
   sort_by_alpha('sort_by_alpha'),
+  sort_by_brew_time('sort_by_brew_time'),
+  sort_by_color('sort_by_color'),
   sort_by_favorite('sort_by_favorite'),
   sort_by_usage('sort_by_usage'),
   sort_title('sort_title'),
