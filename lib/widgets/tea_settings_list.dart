@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/presets.dart';
@@ -140,7 +141,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
             ? SortBy.values
             : SortBy.values.where((item) => item != SortBy.usage).toList(),
         itemBuilder: _sortByOption,
-        separatorBuilder: _separatorDummy,
+        separatorBuilder: separatorDummy,
       ),
     );
   }
@@ -177,7 +178,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
 
     return Consumer<AppProvider>(
       builder: (context, provider, child) => SliverReorderableList(
-        itemBuilder: _animateTeaList ? _separatorDummy : _teaSettingsListItem,
+        itemBuilder: _animateTeaList ? separatorDummy : _teaSettingsListItem,
         itemCount: _animateTeaList ? 0 : provider.teaList.length,
         proxyDecorator: _draggableFeedback,
         onReorder: (int oldIndex, int newIndex) {
@@ -307,7 +308,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                         buttonTextCancel: AppString.cancel_button.translate(),
                         itemList: Presets.presetList,
                         itemBuilder: _teaPresetItem,
-                        separatorBuilder: _separatorBuilder,
+                        separatorBuilder: separatorBuilder,
                       )
                   : null,
             ),
@@ -424,15 +425,5 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
         ),
       ],
     );
-  }
-
-  // Select list separator
-  Widget _separatorBuilder(BuildContext context, int index) {
-    return listDivider;
-  }
-
-  // Placeholder list separator
-  Widget _separatorDummy(BuildContext context, int index) {
-    return Container();
   }
 }

@@ -18,6 +18,7 @@ import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -290,7 +291,7 @@ class PrefsWidget extends StatelessWidget {
           buttonTextCancel: AppString.cancel_button.translate(),
           itemList: AppTheme.values,
           itemBuilder: _appThemeItem,
-          separatorBuilder: _separatorDummy,
+          separatorBuilder: separatorDummy,
         ),
         contentPadding: listTilePadding,
         dense: true,
@@ -348,7 +349,7 @@ class PrefsWidget extends StatelessWidget {
           buttonTextCancel: AppString.cancel_button.translate(),
           itemList: languageOptions,
           itemBuilder: _appLanguageItem,
-          separatorBuilder: _separatorDummy,
+          separatorBuilder: separatorDummy,
         ),
         contentPadding: listTilePadding,
         dense: true,
@@ -381,11 +382,6 @@ class PrefsWidget extends StatelessWidget {
         Navigator.of(context).pop(true);
       },
     );
-  }
-
-  // Placeholder list separator
-  Widget _separatorDummy(BuildContext context, int index) {
-    return Container();
   }
 
   // Notification settings info text and link

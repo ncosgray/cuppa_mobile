@@ -1,0 +1,27 @@
+/*
+ *******************************************************************************
+ Package:  cuppa_mobile
+ Class:    separators.dart
+ Author:   Nathan Cosgray | https://www.nathanatos.com
+ -------------------------------------------------------------------------------
+ Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+
+ This source code is licensed under the BSD-style license found in LICENSE.txt.
+ *******************************************************************************
+*/
+
+// Cuppa separator builders
+
+import 'package:cuppa_mobile/common/padding.dart';
+import 'package:flutter/material.dart';
+
+// Select list separator
+
+Widget separatorBuilder(BuildContext context, int index) {
+  return listDivider;
+}
+
+// Placeholder list separator
+Widget separatorDummy(BuildContext context, int index) {
+  return Container();
+}
