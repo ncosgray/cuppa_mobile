@@ -25,6 +25,7 @@ import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/widgets/about_page.dart';
+import 'package:cuppa_mobile/widgets/page_header.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/stats_page.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
@@ -82,7 +83,7 @@ class PrefsWidget extends StatelessWidget {
               child: Expanded(
                 child: CustomScrollView(
                   slivers: [
-                    _prefsHeader(
+                    pageHeader(
                       context,
                       title: AppString.settings_title.translate(),
                     ),
@@ -94,34 +95,6 @@ class PrefsWidget extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  // Prefs page column header
-  Widget _prefsHeader(
-    BuildContext context, {
-    required String title,
-    Widget? action,
-  }) {
-    return SliverAppBar(
-      elevation: 1,
-      pinned: true,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-      shadowColor: Theme.of(context).shadowColor,
-      automaticallyImplyLeading: false,
-      titleSpacing: 0.0,
-      title: Container(
-        margin: headerPadding,
-        alignment: Alignment.centerLeft,
-        child: Text(
-          title,
-          style: textStyleHeader.copyWith(
-            color: Theme.of(context).textTheme.bodyLarge!.color!,
-          ),
-        ),
-      ),
-      actions: action != null ? [action] : null,
     );
   }
 

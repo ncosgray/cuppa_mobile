@@ -26,6 +26,7 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
+import 'package:cuppa_mobile/widgets/page_header.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
 
@@ -52,7 +53,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
       builder: (context, provider, child) => MultiSliver(
         children: [
           // Teas section header
-          _prefsHeader(
+          pageHeader(
             context,
             title: AppString.teas_title.translate(),
             // Sort Teas button
@@ -97,34 +98,6 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
           ),
         ],
       ),
-    );
-  }
-
-  // Prefs page column header
-  Widget _prefsHeader(
-    BuildContext context, {
-    required String title,
-    Widget? action,
-  }) {
-    return SliverAppBar(
-      elevation: 1,
-      pinned: true,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-      shadowColor: Theme.of(context).shadowColor,
-      automaticallyImplyLeading: false,
-      titleSpacing: 0.0,
-      title: Container(
-        margin: headerPadding,
-        alignment: Alignment.centerLeft,
-        child: Text(
-          title,
-          style: textStyleHeader.copyWith(
-            color: Theme.of(context).textTheme.bodyLarge!.color!,
-          ),
-        ),
-      ),
-      actions: action != null ? [action] : null,
     );
   }
 
