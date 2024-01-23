@@ -329,7 +329,8 @@ enum StringQuery {
 
 // List queries
 enum ListQuery {
-  summaryStats(0);
+  summaryStats(0),
+  mostUsed(1);
 
   final int value;
 
@@ -370,10 +371,17 @@ enum ListQuery {
     , tea.$statsColumnIsFavorite
     ORDER BY COUNT(*) DESC
     , tea.$statsColumnName ASC''';
+  final mostUsedSQL = '''SELECT $statsTable.$statsColumnId
+    , COUNT(*) AS count
+    FROM $statsTable
+    GROUP BY $statsTable.$statsColumnId
+    ORDER BY COUNT(*) DESC''';
 
   // Query SQL
   get sql {
     switch (value) {
+      case 1:
+        return mostUsedSQL;
       default:
         return summaryStatsSQL;
     }

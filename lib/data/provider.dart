@@ -147,8 +147,8 @@ class AppProvider extends ChangeNotifier {
         }
       case SortBy.usage:
         {
-          // Fetch usage stats
-          List<Stat> stats = await Stats.getTeaStats(ListQuery.summaryStats);
+          // Fetch sort order from stats
+          List<Stat> stats = await Stats.getTeaStats(ListQuery.mostUsed);
 
           // Sort most used first (descending), then alpha
           _teaList.sort((a, b) {
