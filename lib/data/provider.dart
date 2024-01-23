@@ -394,6 +394,17 @@ enum SortBy {
 
   const SortBy(this.value);
 
+  // Flag if there is a stats dependency for sort criteria
+  bool get statsRequired {
+    switch (value) {
+      case 4:
+      case 5:
+        return true;
+      default:
+        return false;
+    }
+  }
+
   // Localized sort criteria names
   get localizedName {
     switch (value) {

@@ -60,7 +60,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
             action: provider.teaCount > 0
                 ? _sortTeasButton(
                     context,
-                    includeUsage: provider.collectStats,
+                    statsAvailable: provider.collectStats,
                   )
                 : null,
           ),
@@ -102,19 +102,17 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   }
 
   // Sort teas button
-  Widget _sortTeasButton(BuildContext context, {bool includeUsage = false}) {
+  Widget _sortTeasButton(BuildContext context, {bool statsAvailable = false}) {
     return IconButton(
       icon: getPlatformSortIcon(),
       onPressed: () => openPlatformAdaptiveSelectList(
         context: context,
         titleText: AppString.sort_title.translate(),
         buttonTextCancel: AppString.cancel_button.translate(),
-        // Don't offer to sort by usage unless stats are available
-        itemList: includeUsage
-            ? SortBy.values
-            : SortBy.values
-                .where((item) => item != SortBy.usage && item != SortBy.recent)
-                .toList(),
+        // Don't offer to sort with stats data unless stats are available
+        itemList: SortBy.values
+            .where((item) => statsAvailable || !item.statsRequired)
+            .toList(),
         itemBuilder: _sortByOption,
         separatorBuilder: separatorDummy,
       ),
