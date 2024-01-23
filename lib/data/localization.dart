@@ -106,6 +106,7 @@ enum AppString {
   sort_by_brew_time('sort_by_brew_time'),
   sort_by_color('sort_by_color'),
   sort_by_favorite('sort_by_favorite'),
+  sort_by_recent('sort_by_recent'),
   sort_by_usage('sort_by_usage'),
   sort_title('sort_title'),
   source_code_info('source_code_info'),

@@ -146,11 +146,16 @@ class AppProvider extends ChangeNotifier {
           });
         }
       case SortBy.usage:
+      case SortBy.recent:
         {
           // Fetch sort order from stats
-          List<Stat> stats = await Stats.getTeaStats(ListQuery.mostUsed);
+          List<Stat> stats = await Stats.getTeaStats(
+            sortBy == SortBy.recent
+                ? ListQuery.recentlyUsed
+                : ListQuery.mostUsed,
+          );
 
-          // Sort most used first (descending), then alpha
+          // Sort most used/recent first, then alpha
           _teaList.sort((a, b) {
             int aUsage = (stats.firstWhere(
               (stat) => stat.id == a.id,
@@ -382,7 +387,8 @@ enum SortBy {
   favorite(1),
   color(2),
   brewTime(3),
-  usage(4);
+  usage(4),
+  recent(5);
 
   final int value;
 
@@ -399,6 +405,8 @@ enum SortBy {
         return AppString.sort_by_brew_time.translate();
       case 4:
         return AppString.sort_by_usage.translate();
+      case 5:
+        return AppString.sort_by_recent.translate();
       default:
         return AppString.sort_by_alpha.translate();
     }

@@ -43,6 +43,7 @@
   "sort_by_brew_time": "Steep time (short to long)",
   "sort_by_color": "Color",
   "sort_by_favorite": "Starred teas first",
+  "sort_by_recent": "Brewed most recently",
   "sort_by_usage": "Brewed most often",
   "sort_title": "Sort Teas",
   "source_code": "Source code",

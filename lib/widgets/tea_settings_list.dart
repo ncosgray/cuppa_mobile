@@ -112,7 +112,9 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
         // Don't offer to sort by usage unless stats are available
         itemList: includeUsage
             ? SortBy.values
-            : SortBy.values.where((item) => item != SortBy.usage).toList(),
+            : SortBy.values
+                .where((item) => item != SortBy.usage && item != SortBy.recent)
+                .toList(),
         itemBuilder: _sortByOption,
         separatorBuilder: separatorDummy,
       ),
