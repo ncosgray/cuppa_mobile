@@ -33,6 +33,7 @@ import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
 // Cuppa Preferences page
 class PrefsWidget extends StatelessWidget {
@@ -68,26 +69,20 @@ class PrefsWidget extends StatelessWidget {
                   // Tea settings
                   const TeaSettingsList(),
                   // Other settings inline
-                  SliverToBoxAdapter(
-                    child: Visibility(
-                      visible: !layoutColumns,
-                      child: _otherSettingsList(context),
-                    ),
+                  SliverOffstage(
+                    offstage: layoutColumns,
+                    sliver: _otherSettingsList(context),
                   ),
                 ],
               ),
             ),
-            // Other settings in second column with header
+            // Other settings in second column
             Visibility(
               visible: layoutColumns,
               child: Expanded(
                 child: CustomScrollView(
                   slivers: [
-                    pageHeader(
-                      context,
-                      title: AppString.settings_title.translate(),
-                    ),
-                    SliverToBoxAdapter(child: _otherSettingsList(context)),
+                    _otherSettingsList(context),
                   ],
                 ),
               ),
@@ -98,30 +93,41 @@ class PrefsWidget extends StatelessWidget {
     );
   }
 
-  // List of other settings
+  // List of other settings with pinned header
   Widget _otherSettingsList(BuildContext context) {
-    return Column(
+    return MultiSliver(
+      pushPinnedChildren: true,
       children: [
-        // Setting: show extra info on buttons
-        _showExtraSetting(context),
-        listDivider,
-        // Setting: hide timer increment buttons
-        _hideIncrementsSetting(context),
-        listDivider,
-        // Setting: collect timer usage stats
-        _collectStatsSetting(context),
-        listDivider,
-        // Setting: default to Celsius or Fahrenheit
-        _useCelsiusSetting(context),
-        listDivider,
-        // Setting: app theme selection
-        _appThemeSetting(context),
-        listDivider,
-        // Setting: app language selection
-        _appLanguageSetting(context),
-        listDivider,
-        // Notification info
-        _notificationLink(),
+        pageHeader(
+          context,
+          title: AppString.settings_title.translate(),
+        ),
+        SliverToBoxAdapter(
+          child: Column(
+            children: [
+              // Setting: show extra info on buttons
+              _showExtraSetting(context),
+              listDivider,
+              // Setting: hide timer increment buttons
+              _hideIncrementsSetting(context),
+              listDivider,
+              // Setting: collect timer usage stats
+              _collectStatsSetting(context),
+              listDivider,
+              // Setting: default to Celsius or Fahrenheit
+              _useCelsiusSetting(context),
+              listDivider,
+              // Setting: app theme selection
+              _appThemeSetting(context),
+              listDivider,
+              // Setting: app language selection
+              _appLanguageSetting(context),
+              listDivider,
+              // Notification info
+              _notificationLink(),
+            ],
+          ),
+        ),
       ],
     );
   }

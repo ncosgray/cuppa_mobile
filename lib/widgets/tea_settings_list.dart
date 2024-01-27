@@ -51,6 +51,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   Widget build(BuildContext context) {
     return Consumer<AppProvider>(
       builder: (context, provider, child) => MultiSliver(
+        pushPinnedChildren: true,
         children: [
           // Teas section header
           pageHeader(
