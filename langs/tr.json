@@ -85,5 +85,12 @@
     "unit_minutes": "d",
     "unit_seconds": "s",
     "version_history": "Sürüm geçmişi",
-    "yes_button": "Evet"
+    "yes_button": "Evet",
+    "sort_by_alpha": "Çay adı (alfabetik)",
+    "sort_by_brew_time": "Aşırma zamanı (kısadan uzuna)",
+    "sort_by_color": "Renk",
+    "sort_by_favorite": "İlk olarak yıldızlanan çaylar",
+    "sort_by_recent": "En son demlenen",
+    "sort_by_usage": "En fazla demlenen",
+    "sort_title": "Çayları sırala"
 }
