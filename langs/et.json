@@ -29,7 +29,7 @@
     "notification_title": "Jook on nüüd tõmmanud...",
     "ok_button": "Sobib",
     "prefs_app_theme": "Valige rakenduse värviteema",
-    "prefs_header": "Määra tee nimed, tõmbamisajad, temperatuurid ja nuppude välimus. Samuti saad (pika vajutusega) loendeid sorteerida või kustutada (pühkida). Tähista kuni {{favorites_max}} lemmikteed, et lisada need rakenduse kiirvalikutena.",
+    "prefs_header": "Määra tee nimed, tõmbamisajad, temperatuurid ja nuppude välimus. Samuti saad (pika vajutusega) loendeid teede tegemise järjekorda muuta või viipamisega teesid kustutada (pühkida). Tähista kuni {{favorites_max}} lemmikteed, et lisada need rakenduse kiirvalikutena.",
     "prefs_hide_increments": "Peida taimeri reguleerimise nupud",
     "prefs_hide_increments_info": "Selle reguleerimiseks puudutage aktiivset tagasiarvestuse taimerit",
     "prefs_language": "Valige rakenduse keel",
@@ -85,5 +85,12 @@
     "unit_minutes": "m",
     "unit_seconds": "s",
     "version_history": "Versiooniajalugu",
-    "yes_button": "Jah"
+    "yes_button": "Jah",
+    "sort_by_alpha": "Tee nimi (tähestikuline järjekord)",
+    "sort_by_color": "Värv",
+    "sort_by_favorite": "Tärnidega teed esmalt",
+    "sort_title": "Järjesta teesid",
+    "sort_by_brew_time": "Tee tõmbamise aeg (lühemast pikemani)",
+    "sort_by_recent": "Hiljuti valmistatud teed",
+    "sort_by_usage": "Sagedamini valmistatud teed"
 }
