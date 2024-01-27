@@ -115,6 +115,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                         children: [
                           // Favorite status
                           _favoriteButton(),
+                          smallSpacerWidget,
                           // Tea name with edit icon
                           _teaNameEditor(),
                         ],
@@ -126,21 +127,20 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                     child: Container(
                       padding: noPadding,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           // Brew time
-                          Flexible(
-                            flex: 11,
+                          Expanded(
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: _teaBrewTimeSelector(),
                             ),
                           ),
                           // Brew temperature
-                          Flexible(
-                            flex: 8,
+                          Container(
+                            padding: rowPadding,
                             child: Align(
-                              alignment: Alignment.center,
+                              alignment: Alignment.centerRight,
                               child: _teaBrewTempSelector(),
                             ),
                           ),
@@ -153,20 +153,17 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                             child: Container(),
                           ),
                           // Tea color selection
-                          Flexible(
-                            flex: 6,
+                          Container(
+                            padding: rowPadding,
                             child: Align(
-                              alignment: Alignment.center,
+                              alignment: Alignment.centerLeft,
                               child: _teaColorSelector(),
                             ),
                           ),
                           // Icon selection
-                          Flexible(
-                            flex: 6,
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: _teaIconSelector(),
-                            ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: _teaIconSelector(),
                           ),
                         ],
                       ),
@@ -184,21 +181,10 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
 
   // Button to change favorite status
   Widget _favoriteButton() {
-    return IconButton(
-      iconSize: 24.0,
-      padding: noPadding,
-      constraints: const BoxConstraints(minWidth: 32.0, minHeight: 32.0),
-      splashRadius: 32.0,
-      icon: widget.tea.isFavorite
-          ? favoriteStarIcon
-          : Provider.of<AppProvider>(context, listen: false)
-                      .favoritesList
-                      .length <
-                  favoritesMaxCount
-              ? nonFavoriteStarIcon
-              : disabledStarIcon,
+    return InkWell(
+      customBorder: const CircleBorder(),
       // Toggle favorite status if enabled or max not reached
-      onPressed: widget.tea.isFavorite ||
+      onTap: widget.tea.isFavorite ||
               Provider.of<AppProvider>(context, listen: false)
                       .favoritesList
                       .length <
@@ -206,6 +192,17 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           ? () => Provider.of<AppProvider>(context, listen: false)
               .updateTea(widget.tea, isFavorite: !widget.tea.isFavorite)
           : null,
+      child: Container(
+        padding: smallDefaultPadding,
+        child: widget.tea.isFavorite
+            ? favoriteStarIcon
+            : Provider.of<AppProvider>(context, listen: false)
+                        .favoritesList
+                        .length <
+                    favoritesMaxCount
+                ? nonFavoriteStarIcon
+                : disabledStarIcon,
+      ),
     );
   }
 
@@ -219,7 +216,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: smallDefaultPadding,
+              padding: rowPadding,
               child: Text(
                 widget.tea.name,
                 textAlign: TextAlign.left,

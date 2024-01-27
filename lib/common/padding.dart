@@ -45,6 +45,10 @@ const EdgeInsetsGeometry bodyPadding = EdgeInsets.symmetric(
   vertical: 4.0,
   horizontal: 12.0,
 );
+const EdgeInsetsGeometry timerPadding = EdgeInsets.symmetric(
+  vertical: 2.0,
+  horizontal: 12.0,
+);
 const EdgeInsetsGeometry listTilePadding = EdgeInsets.symmetric(
   vertical: 6.0,
   horizontal: 12.0,

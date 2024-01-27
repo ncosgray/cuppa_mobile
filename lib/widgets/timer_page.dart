@@ -286,9 +286,9 @@ class _TimerWidgetState extends State<TimerWidget> {
               }),
               // Timer time remaining
               child: SizedBox(
-                width: text.length * 90.0,
+                width: text.length * 96.0,
                 child: Container(
-                  padding: const EdgeInsets.all(4.0),
+                  padding: timerPadding,
                   alignment: Alignment.center,
                   child: Text(
                     text,
@@ -454,7 +454,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                         // Cancel brewing button
                         Container(
                           constraints: const BoxConstraints(
-                            minHeight: 48.0,
+                            minHeight: 32.0,
                           ),
                           child: Visibility(
                             visible: tea.isActive,
