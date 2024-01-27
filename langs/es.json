@@ -29,7 +29,7 @@
     "notification_title": "Preparación completa...",
     "ok_button": "OK",
     "prefs_app_theme": "Elija el tema de color de la aplicación",
-    "prefs_header": "Establece los nombres de los tés, los tiempos de infusión, las temperaturas y los estilos de los botones. También puede ordenar (pulsación larga), o deslizar para eliminar tés. Marca hasta {{favorites_max}} tés favoritos para añadirlos como accesos directos al icono de la aplicación.",
+    "prefs_header": "Configura los nombres de los tés, los tiempos de infusión, las temperaturas y los estilos de los botones. Cambia el orden de los tés (pulsa prolongadamente un té o toca el botón de ordenación de arriba), o desliza el dedo para eliminarlos. Marca hasta {{favorites_max}} tés favoritos para añadirlos como accesos directos al icono de la aplicación.",
     "prefs_hide_increments": "Ocultar los botones de ajuste del temporizador",
     "prefs_hide_increments_info": "Toca un temporizador activo de cuenta atrás para ajustarlo",
     "prefs_language": "Elige el idioma de la aplicación",
@@ -85,5 +85,12 @@
     "unit_minutes": "m",
     "unit_seconds": "s",
     "version_history": "Historial de versiones",
-    "yes_button": "Sí"
+    "yes_button": "Sí",
+    "sort_by_brew_time": "Tiempo de empinado (de corto a largo)",
+    "sort_by_color": "Color",
+    "sort_by_favorite": "Tés estrellados primero",
+    "sort_by_recent": "Elaboración más reciente",
+    "sort_title": "Ordenar tés",
+    "sort_by_alpha": "Nombre del té (por orden alfabético)",
+    "sort_by_usage": "Elaborada más a menudo"
 }
