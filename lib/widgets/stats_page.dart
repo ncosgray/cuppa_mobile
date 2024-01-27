@@ -23,6 +23,7 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/mini_tea_button.dart';
+import 'package:cuppa_mobile/widgets/page_header.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'dart:math';
@@ -79,24 +80,9 @@ class _StatsWidgetState extends State<StatsWidget> {
               return CustomScrollView(
                 slivers: [
                   // Report header
-                  SliverAppBar(
-                    elevation: 1,
-                    pinned: true,
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-                    shadowColor: Theme.of(context).shadowColor,
-                    automaticallyImplyLeading: false,
-                    titleSpacing: 0.0,
-                    title: Container(
-                      margin: headerPadding,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        AppString.stats_header.translate(),
-                        style: textStyleHeader.copyWith(
-                          color: Theme.of(context).textTheme.bodyLarge!.color!,
-                        ),
-                      ),
-                    ),
+                  pageHeader(
+                    context,
+                    title: AppString.stats_header.translate(),
                   ),
                   // Summary section
                   SliverToBoxAdapter(

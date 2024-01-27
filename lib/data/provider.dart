@@ -19,6 +19,7 @@ import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/presets.dart';
+import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'package:flutter/material.dart';
@@ -97,6 +98,87 @@ class AppProvider extends ChangeNotifier {
       }
       saveTeas();
     }
+  }
+
+  // Sort the tea list
+  void sortTeas({SortBy? sortBy}) async {
+    switch (sortBy) {
+      case SortBy.favorite:
+        {
+          // Sort favorites first, then alpha
+          _teaList.sort((a, b) {
+            int compare =
+                (a.isFavorite ? 0 : 1).compareTo(b.isFavorite ? 0 : 1);
+            if (compare != 0) {
+              return compare;
+            }
+            return a.name.compareTo(b.name);
+          });
+        }
+      case SortBy.color:
+        {
+          // Sort by hue/lightness, then alpha
+          _teaList.sort((a, b) {
+            HSLColor aColor =
+                HSLColor.fromColor(a.colorShade ?? a.color.getColor());
+            HSLColor bColor =
+                HSLColor.fromColor(b.colorShade ?? b.color.getColor());
+            int compare = aColor.hue.compareTo(bColor.hue);
+            if (compare != 0) {
+              return compare;
+            }
+            compare = bColor.lightness.compareTo(aColor.lightness);
+            if (compare != 0) {
+              return compare;
+            }
+            return a.name.compareTo(b.name);
+          });
+        }
+      case SortBy.brewTime:
+        {
+          // Sort shortest brew time first, then alpha
+          _teaList.sort((a, b) {
+            int compare = a.brewTime.compareTo(b.brewTime);
+            if (compare != 0) {
+              return compare;
+            }
+            return a.name.compareTo(b.name);
+          });
+        }
+      case SortBy.usage:
+      case SortBy.recent:
+        {
+          // Fetch sort order from stats
+          List<Stat> stats = await Stats.getTeaStats(
+            sortBy == SortBy.recent
+                ? ListQuery.recentlyUsed
+                : ListQuery.mostUsed,
+          );
+
+          // Sort most used/recent first, then alpha
+          _teaList.sort((a, b) {
+            int aUsage = (stats.firstWhere(
+              (stat) => stat.id == a.id,
+              orElse: () => Stat(count: 0),
+            )).count;
+            int bUsage = (stats.firstWhere(
+              (stat) => stat.id == b.id,
+              orElse: () => Stat(count: 0),
+            )).count;
+            int compare = bUsage.compareTo(aUsage);
+            if (compare != 0) {
+              return compare;
+            }
+            return a.name.compareTo(b.name);
+          });
+        }
+      default:
+        {
+          // Default to alpha sort
+          _teaList.sort((a, b) => a.name.compareTo(b.name));
+        }
+    }
+    saveTeas();
   }
 
   // Reorder the tea list
@@ -295,6 +377,49 @@ class AppProvider extends ChangeNotifier {
 
       // Manage quick actions
       setQuickActions();
+    }
+  }
+}
+
+// Sort criteria
+enum SortBy {
+  alpha(0),
+  favorite(1),
+  color(2),
+  brewTime(3),
+  usage(4),
+  recent(5);
+
+  final int value;
+
+  const SortBy(this.value);
+
+  // Flag if there is a stats dependency for sort criteria
+  bool get statsRequired {
+    switch (value) {
+      case 4:
+      case 5:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  // Localized sort criteria names
+  get localizedName {
+    switch (value) {
+      case 1:
+        return AppString.sort_by_favorite.translate();
+      case 2:
+        return AppString.sort_by_color.translate();
+      case 3:
+        return AppString.sort_by_brew_time.translate();
+      case 4:
+        return AppString.sort_by_usage.translate();
+      case 5:
+        return AppString.sort_by_recent.translate();
+      default:
+        return AppString.sort_by_alpha.translate();
     }
   }
 }

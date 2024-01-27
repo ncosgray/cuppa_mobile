@@ -23,6 +23,7 @@ import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/export.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/provider.dart';
+import 'package:cuppa_mobile/widgets/page_header.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/stats_page.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
@@ -47,24 +48,16 @@ class AboutWidget extends StatelessWidget {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverAppBar(
-              elevation: 1,
-              pinned: true,
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-              shadowColor: Theme.of(context).shadowColor,
+            pageHeader(
+              context,
               // Teacup icon
               leading: Container(
                 padding: largeDefaultPadding,
                 child: Image.asset(appIcon, fit: BoxFit.scaleDown),
               ),
               // Cuppa version and build
-              title: Text(
-                '$appName ${packageInfo.version} (${packageInfo.buildNumber})',
-                style: textStyleHeader.copyWith(
-                  color: Theme.of(context).textTheme.bodyLarge!.color!,
-                ),
-              ),
+              title:
+                  '$appName ${packageInfo.version} (${packageInfo.buildNumber})',
             ),
             SliverToBoxAdapter(
               child: Column(
