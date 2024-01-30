@@ -1,0 +1,5 @@
+* Çay içme alışkanlıklarınızı gösteren eğlenceli bir grafiğe erişmek için kullanım istatistiklerini seçin!
+* İstatistik toplama için gizlilik politikası güncellendi.
+* Büyük sistem yazı tipi boyutları için daha iyi ölçeklendirme.
+* Çeşitli kullanılabilirlik ve arayüz düzenlemeleri.
+* Lüksemburgca çeviri ve diğer çeviri güncellemeleri eklendi - Weblate ile katkıda bulunun!
