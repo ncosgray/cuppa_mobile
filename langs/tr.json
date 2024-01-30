@@ -29,7 +29,7 @@
     "notification_title": "Demleme tamamlandı...",
     "ok_button": "Tamam",
     "prefs_app_theme": "Uygulama renk temasını seç",
-    "prefs_header": "Çay adlarını, demleme sürelerini, sıcaklıkları ve düğme tarzlarını ayarlayın. Ayrıca çayları sıralayabilir (uzun basın) veya silmek için kaydırabilirsiniz. Uygulama simgesi kısayolları olarak eklemek için sevdiğiniz {{favorites_max}} çaya yıldız ekleyin.",
+    "prefs_header": "Çay adlarını, demleme sürelerini, sıcaklıkları ve düğme tarzlarını ayarlayın. Çay sırasını değiştirin (bir çaya uzun basın veya yukarıdaki sıralama düğmesine dokunun) veya silmek için kaydırın. Uygulama simgesi kısayolları olarak eklemek için sevdiğiniz {{favorites_max}} çaya yıldız ekleyin.",
     "prefs_hide_increments": "Zamanlayıcı ayar düğmelerini gizle",
     "prefs_hide_increments_info": "Ayarlamak için aktif bir geri sayım sayacına dokunun",
     "prefs_language": "Uygulama dilini seç",
