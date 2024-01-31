@@ -145,7 +145,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   Widget _teaSettingsList() {
     // Reset animate flag after a delay
     if (_animateTeaList) {
-      Future.delayed(shortAnimationDuration, () {
+      Future.delayed(longAnimationDuration, () {
         setState(() => _animateTeaList = false);
       });
     }
