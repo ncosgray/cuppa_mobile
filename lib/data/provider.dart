@@ -357,6 +357,15 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Setting: stacked timer button view
+  bool _stackedView = false;
+  bool get stackedView => _stackedView;
+  set stackedView(bool newValue) {
+    _stackedView = newValue;
+    Prefs.saveSettings(stackedView: _stackedView);
+    notifyListeners();
+  }
+
   // Notify listeners
   void notify() {
     notifyListeners();
@@ -370,6 +379,7 @@ class AppProvider extends ChangeNotifier {
     _appTheme = Prefs.loadAppTheme() ?? _appTheme;
     _appLanguage = Prefs.loadAppLanguage() ?? _appLanguage;
     _collectStats = Prefs.loadCollectStats() ?? _collectStats;
+    _stackedView = Prefs.loadStackedView() ?? _stackedView;
 
     // Load teas from prefs
     if (Prefs.teaPrefsExist()) {

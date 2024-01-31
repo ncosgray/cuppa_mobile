@@ -61,7 +61,7 @@ class TeaButton extends StatelessWidget {
               duration: longAnimationDuration,
               child: Container(
                 constraints: const BoxConstraints(
-                  minHeight: 116.0,
+                  minHeight: 106.0,
                   minWidth: 88.0,
                 ),
                 margin: largeDefaultPadding,

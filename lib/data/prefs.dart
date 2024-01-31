@@ -164,6 +164,10 @@ abstract class Prefs {
     return sharedPrefs.getBool(prefCollectStats);
   }
 
+  static bool? loadStackedView() {
+    return sharedPrefs.getBool(prefStackedView);
+  }
+
   // Store setting(s) in shared prefs
   static void saveSettings({
     bool? showExtra,
@@ -172,6 +176,7 @@ abstract class Prefs {
     AppTheme? appTheme,
     String? appLanguage,
     bool? collectStats,
+    bool? stackedView,
   }) {
     if (showExtra != null) {
       sharedPrefs.setBool(prefShowExtra, showExtra);
@@ -190,6 +195,9 @@ abstract class Prefs {
     }
     if (collectStats != null) {
       sharedPrefs.setBool(prefCollectStats, collectStats);
+    }
+    if (stackedView != null) {
+      sharedPrefs.setBool(prefStackedView, stackedView);
     }
   }
 

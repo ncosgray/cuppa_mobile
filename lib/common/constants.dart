@@ -42,6 +42,7 @@ const teaBrewTimeMaxMinutes = 60;
 const teaBrewTimeMaxHours = 24;
 const teasMaxCount = 15;
 const timersMaxCount = 2;
+const stackedViewTeaCount = 3;
 
 // UI sizing thresholds
 const largeDeviceSize = 550;
@@ -124,6 +125,7 @@ const prefTeaList = 'Cuppa_tea_list';
 const prefNextTeaID = 'Cuppa_next_tea_id';
 const prefShowExtra = 'Cuppa_show_extra';
 const prefHideIncrements = 'Cuppa_hide_increments';
+const prefStackedView = 'Cuppa_stacked_view';
 const prefCollectStats = 'Cuppa_collect_stats';
 const prefUseCelsius = 'Cuppa_use_celsius';
 const prefAppTheme = 'Cuppa_app_theme';
@@ -134,6 +136,7 @@ const prefSkipTutorial = 'Cuppa_skip_tutorial';
 const jsonKeySettings = 'settings';
 const jsonKeyShowExtra = 'showExtra';
 const jsonKeyHideIncrements = 'hideIncrements';
+const jsonKeyStackedView = 'stackedView';
 const jsonKeyUseCelsius = 'useCelsius';
 const jsonKeyAppTheme = 'appTheme';
 const jsonKeyAppLanguage = 'appLanguage';
