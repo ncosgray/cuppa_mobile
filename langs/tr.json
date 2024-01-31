@@ -92,5 +92,6 @@
     "sort_by_favorite": "İlk olarak yıldızlanan çaylar",
     "sort_by_recent": "En son demlenen",
     "sort_by_usage": "En fazla demlenen",
-    "sort_title": "Çayları sırala"
+    "sort_title": "Çayları sırala",
+    "prefs_stacked_view": "Sayaç düğmelerini birden çok satıra yerleştir"
 }
