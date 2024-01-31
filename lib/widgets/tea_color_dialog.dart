@@ -12,7 +12,7 @@
 
 // Cuppa tea color selection dialog
 
-import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/mini_tea_button.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';

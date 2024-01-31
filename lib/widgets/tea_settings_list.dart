@@ -51,6 +51,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   Widget build(BuildContext context) {
     return Consumer<AppProvider>(
       builder: (context, provider, child) => MultiSliver(
+        pushPinnedChildren: true,
         children: [
           // Teas section header
           pageHeader(
@@ -144,7 +145,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   Widget _teaSettingsList() {
     // Reset animate flag after a delay
     if (_animateTeaList) {
-      Future.delayed(shortAnimationDuration, () {
+      Future.delayed(longAnimationDuration, () {
         setState(() => _animateTeaList = false);
       });
     }

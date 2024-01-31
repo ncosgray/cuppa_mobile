@@ -46,6 +46,7 @@ abstract class Export {
           appThemeValue: provider.appTheme.value,
           appLanguage: provider.appLanguage,
           collectStats: provider.collectStats,
+          stackedView: provider.stackedView,
         ),
         teaList: provider.teaList,
         stats: await Stats.getTeaStats(),
@@ -116,6 +117,10 @@ abstract class Export {
 
           if (exportData.settings!.collectStats != null) {
             provider.collectStats = exportData.settings!.collectStats!;
+          }
+
+          if (exportData.settings!.stackedView != null) {
+            provider.stackedView = exportData.settings!.stackedView!;
           }
 
           imported = true;
@@ -190,6 +195,7 @@ class Settings {
   int? appThemeValue;
   String? appLanguage;
   bool? collectStats;
+  bool? stackedView;
 
   // Constructor
   Settings({
@@ -199,6 +205,7 @@ class Settings {
     this.appThemeValue,
     this.appLanguage,
     this.collectStats,
+    this.stackedView,
   });
 
   // Factories
@@ -210,6 +217,7 @@ class Settings {
       appThemeValue: tryCast<int>(json[jsonKeyAppTheme]),
       appLanguage: tryCast<String>(json[jsonKeyAppLanguage]),
       collectStats: tryCast<bool>(json[jsonKeyCollectStats]),
+      stackedView: tryCast<bool>(json[jsonKeyStackedView]),
     );
   }
 
@@ -220,5 +228,6 @@ class Settings {
         jsonKeyAppTheme: appThemeValue,
         jsonKeyAppLanguage: appLanguage,
         jsonKeyCollectStats: collectStats,
+        jsonKeyStackedView: stackedView,
       };
 }

@@ -33,6 +33,7 @@ import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
 // Cuppa Preferences page
 class PrefsWidget extends StatelessWidget {
@@ -68,26 +69,20 @@ class PrefsWidget extends StatelessWidget {
                   // Tea settings
                   const TeaSettingsList(),
                   // Other settings inline
-                  SliverToBoxAdapter(
-                    child: Visibility(
-                      visible: !layoutColumns,
-                      child: _otherSettingsList(context),
-                    ),
+                  SliverOffstage(
+                    offstage: layoutColumns,
+                    sliver: _otherSettingsList(context),
                   ),
                 ],
               ),
             ),
-            // Other settings in second column with header
+            // Other settings in second column
             Visibility(
               visible: layoutColumns,
               child: Expanded(
                 child: CustomScrollView(
                   slivers: [
-                    pageHeader(
-                      context,
-                      title: AppString.settings_title.translate(),
-                    ),
-                    SliverToBoxAdapter(child: _otherSettingsList(context)),
+                    _otherSettingsList(context),
                   ],
                 ),
               ),
@@ -98,35 +93,105 @@ class PrefsWidget extends StatelessWidget {
     );
   }
 
-  // List of other settings
+  // List of other settings with pinned header
   Widget _otherSettingsList(BuildContext context) {
-    return Column(
+    return MultiSliver(
+      pushPinnedChildren: true,
       children: [
-        // Setting: show extra info on buttons
-        _showExtraSetting(context),
-        listDivider,
-        // Setting: hide timer increment buttons
-        _hideIncrementsSetting(context),
-        listDivider,
-        // Setting: collect timer usage stats
-        _collectStatsSetting(context),
-        listDivider,
-        // Setting: default to Celsius or Fahrenheit
-        _useCelsiusSetting(context),
-        listDivider,
-        // Setting: app theme selection
-        _appThemeSetting(context),
-        listDivider,
-        // Setting: app language selection
-        _appLanguageSetting(context),
-        listDivider,
-        // Notification info
-        _notificationLink(),
+        pageHeader(
+          context,
+          title: AppString.settings_title.translate(),
+        ),
+        SliverToBoxAdapter(
+          child: Column(
+            children: [
+              // Setting: collect timer usage stats
+              _collectStatsSetting(context),
+              listDivider,
+              // Setting: show extra info on buttons
+              _showExtraSetting(context),
+              listDivider,
+              // Setting: hide timer increment buttons
+              _hideIncrementsSetting(context),
+              listDivider,
+              // Setting: stacked timer button view
+              Selector<AppProvider, bool>(
+                selector: (_, provider) =>
+                    provider.teaCount > stackedViewTeaCount,
+                builder: (context, showStackedView, child) {
+                  return Visibility(
+                    visible: showStackedView,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _stackedViewSetting(context),
+                        listDivider,
+                      ],
+                    ),
+                  );
+                },
+              ),
+              // Setting: default to Celsius or Fahrenheit
+              _useCelsiusSetting(context),
+              listDivider,
+              // Setting: app theme selection
+              _appThemeSetting(context),
+              listDivider,
+              // Setting: app language selection
+              _appLanguageSetting(context),
+              listDivider,
+              // Notification info
+              _notificationLink(),
+            ],
+          ),
+        ),
       ],
     );
   }
 
-  // Setting: show extra info on buttons
+  // Setting: collect timer usage stats
+  Widget _collectStatsSetting(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
+    return Align(
+      alignment: Alignment.topLeft,
+      child: SwitchListTile.adaptive(
+        title: Text(
+          AppString.stats_enable.translate(),
+          style: textStyleTitle,
+        ),
+        value: provider.collectStats,
+        // Save collectStats setting to prefs
+        onChanged: (bool newValue) async {
+          AppProvider provider =
+              Provider.of<AppProvider>(context, listen: false);
+
+          // Show a prompt with more information
+          if (await showConfirmDialog(
+            context: context,
+            body: Text(
+              provider.collectStats
+                  ? AppString.stats_confirm_disable.translate()
+                  : AppString.stats_confirm_enable.translate(),
+            ),
+            bodyExtra: Text(AppString.confirm_continue.translate()),
+          )) {
+            // Update setting
+            provider.collectStats = newValue;
+
+            // Clear usage data if collection gets disabled
+            if (!provider.collectStats) {
+              Stats.clearStats();
+            }
+          }
+        },
+        contentPadding: listTilePadding,
+        dense: true,
+      ),
+    );
+  }
+
+// Setting: show extra info on buttons
   Widget _showExtraSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
@@ -176,41 +241,21 @@ class PrefsWidget extends StatelessWidget {
     );
   }
 
-  // Setting: collect timer usage stats
-  Widget _collectStatsSetting(BuildContext context) {
+  // Setting: stacked timer button view
+  Widget _stackedViewSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
     return Align(
       alignment: Alignment.topLeft,
       child: SwitchListTile.adaptive(
         title: Text(
-          AppString.stats_enable.translate(),
+          AppString.prefs_stacked_view.translate(),
           style: textStyleTitle,
         ),
-        value: provider.collectStats,
-        // Save collectStats setting to prefs
-        onChanged: (bool newValue) async {
-          AppProvider provider =
-              Provider.of<AppProvider>(context, listen: false);
-
-          // Show a prompt with more information
-          if (await showConfirmDialog(
-            context: context,
-            body: Text(
-              provider.collectStats
-                  ? AppString.stats_confirm_disable.translate()
-                  : AppString.stats_confirm_enable.translate(),
-            ),
-            bodyExtra: Text(AppString.confirm_continue.translate()),
-          )) {
-            // Update setting
-            provider.collectStats = newValue;
-
-            // Clear usage data if collection gets disabled
-            if (!provider.collectStats) {
-              Stats.clearStats();
-            }
-          }
+        value: provider.stackedView,
+        // Save stackedView setting to prefs
+        onChanged: (bool newValue) {
+          provider.stackedView = newValue;
         },
         contentPadding: listTilePadding,
         dense: true,

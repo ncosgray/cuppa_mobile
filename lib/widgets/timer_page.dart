@@ -36,6 +36,8 @@ import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'dart:async';
 import 'dart:math';
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -105,9 +107,8 @@ class _TimerWidgetState extends State<TimerWidget> {
       }
     }
 
-    // Determine layout based on device size
-    bool layoutPortrait = getDeviceSize(context).isPortrait ||
-        getDeviceSize(context).isLargeDevice;
+    // Determine layout based on device orientation
+    bool layoutPortrait = getDeviceSize(context).isPortrait;
 
     return Scaffold(
       appBar: PlatformAdaptiveNavBar(
@@ -125,19 +126,17 @@ class _TimerWidgetState extends State<TimerWidget> {
         child: Column(
           children: [
             Expanded(
-              flex: layoutPortrait ? 8 : 2,
               child: Flex(
-                // Determine layout by device size
                 direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Countdown timers
                   Expanded(
-                    flex: 2,
+                    flex: layoutPortrait ? 4 : 3,
                     child: Container(
                       padding: layoutPortrait
-                          ? const EdgeInsets.fromLTRB(48.0, 18.0, 48.0, 0.0)
-                          : const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0.0),
+                          ? wideTimerLayoutPadding
+                          : narrowTimerLayoutPadding,
                       alignment: layoutPortrait
                           ? Alignment.center
                           : Alignment.centerRight,
@@ -159,30 +158,31 @@ class _TimerWidgetState extends State<TimerWidget> {
                     ),
                   ),
                   // Teacup
-                  Expanded(
-                    flex: layoutPortrait ? 3 : 2,
-                    child: Container(
-                      constraints: BoxConstraints(
-                        maxWidth: getDeviceSize(context).height * 0.6,
-                      ),
-                      padding: layoutPortrait
-                          ? const EdgeInsets.fromLTRB(18.0, 12.0, 18.0, 0.0)
-                          : const EdgeInsets.fromLTRB(48.0, 12.0, 12.0, 0.0),
-                      alignment: layoutPortrait
-                          ? Alignment.center
-                          : Alignment.centerLeft,
-                      child: _teacup(),
-                    ),
+                  Selector<AppProvider, bool>(
+                    selector: (_, provider) => provider.stackedView,
+                    builder: (context, stackedView, child) {
+                      return Expanded(
+                        flex: layoutPortrait && !stackedView ? 5 : 3,
+                        child: Container(
+                          constraints: BoxConstraints(
+                            maxWidth: getDeviceSize(context).height * 0.45,
+                          ),
+                          padding: layoutPortrait
+                              ? narrowTimerLayoutPadding
+                              : wideTimerLayoutPadding,
+                          alignment: layoutPortrait
+                              ? Alignment.center
+                              : Alignment.centerLeft,
+                          child: _teacup(),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
             ),
             // Tea brew start buttons
-            Container(
-              margin: largeDefaultPadding,
-              alignment: Alignment.center,
-              child: _teaButtonList(),
-            ),
+            _teaButtonList(layoutPortrait),
           ],
         ),
       ),
@@ -286,9 +286,9 @@ class _TimerWidgetState extends State<TimerWidget> {
               }),
               // Timer time remaining
               child: SizedBox(
-                width: text.length * 90.0,
+                width: text.length * 96.0,
                 child: Container(
-                  padding: const EdgeInsets.all(4.0),
+                  padding: timerPadding,
                   alignment: Alignment.center,
                   child: Text(
                     text,
@@ -416,66 +416,114 @@ class _TimerWidgetState extends State<TimerWidget> {
     );
   }
 
-  // Horizontally scrollable list of available tea buttons
-  Widget _teaButtonList() {
-    return tutorialTooltip(
-      context: context,
-      key: tutorialKey3,
-      child: tutorialTooltip(
-        context: context,
-        key: tutorialKey4,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(),
-          clipBehavior: Clip.none,
-          controller: _scrollController,
-          child: Consumer<AppProvider>(
-            builder: (context, provider, child) {
-              if (provider.teaCount > 0) {
-                // Tea buttons
-                return Row(
-                  children: provider.teaList.map<Widget>((Tea tea) {
-                    return Column(
-                      children: [
-                        // Start brewing button
-                        Padding(
-                          padding: largeDefaultPadding,
-                          child: TeaButton(
-                            key: GlobalObjectKey(tea.id),
-                            tea: tea,
-                            fade:
-                                !(_timerCount < timersMaxCount || tea.isActive),
-                            onPressed:
-                                _timerCount < timersMaxCount && !tea.isActive
-                                    ? (_) => _setTimer(tea)
-                                    : null,
-                          ),
-                        ),
-                        // Cancel brewing button
-                        Container(
-                          constraints: const BoxConstraints(
-                            minHeight: 48.0,
-                          ),
-                          child: Visibility(
-                            visible: tea.isActive,
-                            child: CancelButton(
-                              active: tea.isActive,
-                              onPressed: (_) => _cancelTimerForTea(tea),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }).toList(),
-                );
-              } else {
-                // Add button if tea list is empty
-                return _addButton();
-              }
-            },
+  // List/grid of available tea buttons
+  Widget _teaButtonList(bool layoutPortrait) {
+    return Consumer<AppProvider>(
+      builder: (context, provider, child) {
+        List<Widget> teaButtonRows = [];
+
+        if (provider.teaCount > 0) {
+          if (provider.stackedView && getDeviceSize(context).isLargeDevice) {
+            // Arrange into two rows of tea buttons for large screens
+            int topRowLength = (provider.teaCount / 2).floor();
+            teaButtonRows.add(
+              _teaButtonRow(provider.teaList.sublist(0, topRowLength)),
+            );
+            teaButtonRows.add(
+              _teaButtonRow(provider.teaList.sublist(topRowLength)),
+            );
+          } else if (provider.stackedView && layoutPortrait) {
+            // Arrange into multiple rows for small screens
+            Iterable<List<Tea>> teaRows =
+                provider.teaList.slices(stackedViewTeaCount);
+            for (List<Tea> teaRow in teaRows) {
+              teaButtonRows.add(_teaButtonRow(teaRow));
+            }
+          } else {
+            // Single row of tea buttons
+            teaButtonRows.add(_teaButtonRow(provider.teaList));
+          }
+        } else {
+          // Add button if tea list is empty
+          teaButtonRows.add(_addButton());
+        }
+
+        // Build tea button list/grid container
+        return Container(
+          padding: noPadding,
+          height: teaButtonRows.length > 1 ? 376.0 : null,
+          alignment: Alignment.center,
+          child: tutorialTooltip(
+            context: context,
+            key: tutorialKey3,
+            child: tutorialTooltip(
+              context: context,
+              key: tutorialKey4,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    smallSpacerWidget,
+                    ...teaButtonRows,
+                    smallSpacerWidget,
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // Horizontally scrollable list of tea buttons
+  Widget _teaButtonRow(List<Tea> teas) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      clipBehavior: Clip.none,
+      controller: _scrollController,
+      child: Row(
+        children: [
+          smallSpacerWidget,
+          ...teas.map<Widget>((Tea tea) => _teaButton(tea)),
+          smallSpacerWidget,
+        ],
+      ),
+    );
+  }
+
+  // Tea button paired with cancel button
+  Widget _teaButton(Tea tea) {
+    return Column(
+      children: [
+        // Start brewing button
+        Padding(
+          padding: largeDefaultPadding,
+          child: TeaButton(
+            key: GlobalObjectKey(tea.id),
+            tea: tea,
+            fade: !(_timerCount < timersMaxCount || tea.isActive),
+            onPressed: _timerCount < timersMaxCount && !tea.isActive
+                ? (_) => _setTimer(tea)
+                : null,
           ),
         ),
-      ),
+        // Cancel brewing button
+        Container(
+          constraints: const BoxConstraints(
+            minHeight: 34.0,
+          ),
+          child: Visibility(
+            visible: tea.isActive,
+            child: CancelButton(
+              active: tea.isActive,
+              onPressed: (_) => _cancelTimerForTea(tea),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -489,7 +537,7 @@ class _TimerWidgetState extends State<TimerWidget> {
             .push(MaterialPageRoute(builder: (_) => const PrefsWidget())),
         child: Container(
           constraints: const BoxConstraints(
-            minHeight: 116.0,
+            minHeight: 106.0,
             minWidth: 88.0,
           ),
           margin: largeDefaultPadding,

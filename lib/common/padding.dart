@@ -14,13 +14,6 @@
 
 import 'package:flutter/material.dart';
 
-// List divider
-const Divider listDivider = Divider(
-  thickness: 1.0,
-  indent: 12.0,
-  endIndent: 12.0,
-);
-
 // Spacers
 const SizedBox spacerWidget = SizedBox(
   width: 14.0,
@@ -43,6 +36,15 @@ const EdgeInsetsGeometry headerPadding = EdgeInsets.symmetric(
 );
 const EdgeInsetsGeometry bodyPadding = EdgeInsets.symmetric(
   vertical: 4.0,
+  horizontal: 12.0,
+);
+const EdgeInsetsGeometry narrowTimerLayoutPadding = EdgeInsets.all(12.0);
+const EdgeInsetsGeometry wideTimerLayoutPadding = EdgeInsets.symmetric(
+  vertical: 12.0,
+  horizontal: 48.0,
+);
+const EdgeInsetsGeometry timerPadding = EdgeInsets.symmetric(
+  vertical: 2.0,
   horizontal: 12.0,
 );
 const EdgeInsetsGeometry listTilePadding = EdgeInsets.symmetric(

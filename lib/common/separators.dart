@@ -12,11 +12,9 @@
 
 // Cuppa separator builders
 
-import 'package:cuppa_mobile/common/padding.dart';
 import 'package:flutter/material.dart';
 
 // Select list separator
-
 Widget separatorBuilder(BuildContext context, int index) {
   return listDivider;
 }
@@ -25,3 +23,10 @@ Widget separatorBuilder(BuildContext context, int index) {
 Widget separatorDummy(BuildContext context, int index) {
   return Container();
 }
+
+// List divider
+const Divider listDivider = Divider(
+  thickness: 1.0,
+  indent: 12.0,
+  endIndent: 12.0,
+);

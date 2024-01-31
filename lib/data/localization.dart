@@ -92,6 +92,7 @@ enum AppString {
   notification_title('notification_title'),
   ok_button('ok_button'),
   prefs_app_theme('prefs_app_theme'),
+  prefs_stacked_view('prefs_stacked_view'),
   prefs_header('prefs_header'),
   prefs_hide_increments('prefs_hide_increments'),
   prefs_hide_increments_info('prefs_hide_increments_info'),
