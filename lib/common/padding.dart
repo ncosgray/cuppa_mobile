@@ -14,13 +14,6 @@
 
 import 'package:flutter/material.dart';
 
-// List divider
-const Divider listDivider = Divider(
-  thickness: 1.0,
-  indent: 12.0,
-  endIndent: 12.0,
-);
-
 // Spacers
 const SizedBox spacerWidget = SizedBox(
   width: 14.0,
