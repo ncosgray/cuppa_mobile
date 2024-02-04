@@ -92,5 +92,6 @@
     "sort_title": "Järjesta teesid",
     "sort_by_brew_time": "Tee tõmbamise aeg (lühemast pikemani)",
     "sort_by_recent": "Hiljuti valmistatud teed",
-    "sort_by_usage": "Sagedamini valmistatud teed"
+    "sort_by_usage": "Sagedamini valmistatud teed",
+    "prefs_stacked_view": "Säti taimeri nupud mitmesse ritta"
 }
