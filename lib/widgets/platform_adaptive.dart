@@ -334,7 +334,8 @@ class PlatformAdaptiveNavBar extends StatelessWidget
           context,
         ),
         leading: isPoppable
-            ? CupertinoNavigationBarBackButton(
+            ? adaptiveNavBarActionButton(
+                icon: const Icon(CupertinoIcons.back),
                 onPressed: () => Navigator.of(context).pop(),
               )
             : null,
