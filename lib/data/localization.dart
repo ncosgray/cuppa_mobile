@@ -123,6 +123,7 @@ enum AppString {
   stats_timer_count('stats_timer_count'),
   stats_timer_time('stats_timer_time'),
   stats_title('stats_title'),
+  support_the_project('support_the_project'),
   tea_name_assam('tea_name_assam'),
   tea_name_black('tea_name_black'),
   tea_name_chamomile('tea_name_chamomile'),
