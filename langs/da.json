@@ -29,7 +29,7 @@
     "notification_title": "Trækning er færdig...",
     "ok_button": "OK",
     "prefs_app_theme": "Vælg appens farvetema",
-    "prefs_header": "Indstil tenavne, trækketider, temperaturer og farver. Du kan også sortere (langt tryk) eller slette (stryge) teer fra listen. Stjernemarkér op til {{favorites_max}} foretrukne teer for at tilføje dem som appikon-genveje.",
+    "prefs_header": "Indstil tenavne, trækketider, temperaturer og farver. Ændr rækkefølgen på teerne (langt tryk på en te eller et tryk på sorteringsknappen foroven) eller slet teer fra listen (stryg). Stjernemarkér op til {{favorites_max}} foretrukne teer for at tilføje dem som appikon-genveje.",
     "prefs_hide_increments": "Skjul timerjusteringsknapper",
     "prefs_hide_increments_info": "Tryk på en aktiv nedtællingstimer for at justere den",
     "prefs_language": "Vælg appens sprog",
@@ -85,5 +85,13 @@
     "unit_minutes": "m.",
     "unit_seconds": "s.",
     "version_history": "Versionshistorik",
-    "yes_button": "Ja"
+    "yes_button": "Ja",
+    "sort_by_favorite": "Stjernemarkerede teer først",
+    "sort_by_alpha": "Tenavn (alfabetisk)",
+    "sort_by_brew_time": "Trækketid (kort til lang)",
+    "sort_title": "Sortér teer",
+    "sort_by_recent": "Senest brygget",
+    "sort_by_color": "Farve",
+    "sort_by_usage": "Oftest brygget",
+    "prefs_stacked_view": "Stabl timerknapper i flere rækker"
 }
