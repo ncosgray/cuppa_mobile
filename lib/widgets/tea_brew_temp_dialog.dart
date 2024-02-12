@@ -97,26 +97,30 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           // Unit selector
-          Opacity(
+          AnimatedOpacity(
             opacity: _newTemp == roomTemp ? fullOpacity : noOpacity,
-            child: adaptiveSegmentedControl(
-              // Degrees C
-              buttonTextTrue: degreesC,
-              // Degrees F
-              buttonTextFalse: degreesF,
-              groupValue: _unitsCelsius,
-              onValueChanged: (bool? selected) {
-                if (selected != null) {
-                  setState(() {
-                    _unitsCelsius = selected;
-                    if (_unitsCelsius) {
-                      _newTemp = widget.tempCOptions[_newTempIndex];
-                    } else {
-                      _newTemp = widget.tempFOptions[_newTempIndex];
-                    }
-                  });
-                }
-              },
+            duration: longAnimationDuration,
+            child: IgnorePointer(
+              ignoring: _newTemp == roomTemp,
+              child: adaptiveSegmentedControl(
+                // Degrees C
+                buttonTextTrue: degreesC,
+                // Degrees F
+                buttonTextFalse: degreesF,
+                groupValue: _unitsCelsius,
+                onValueChanged: (bool? selected) {
+                  if (selected != null) {
+                    setState(() {
+                      _unitsCelsius = selected;
+                      if (_unitsCelsius) {
+                        _newTemp = widget.tempCOptions[_newTempIndex];
+                      } else {
+                        _newTemp = widget.tempFOptions[_newTempIndex];
+                      }
+                    });
+                  }
+                },
+              ),
             ),
           ),
           spacerWidget,
