@@ -342,10 +342,13 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                         ),
                         child: Container(),
                       ),
-                      Text(
-                        preset.tempDisplay(provider.useCelsius),
-                        style: textStyleSettingSeconday.copyWith(
-                          color: presetColor,
+                      Visibility(
+                        visible: preset.brewTempDegreesC > roomTemp,
+                        child: Text(
+                          preset.tempDisplay(provider.useCelsius),
+                          style: textStyleSettingSeconday.copyWith(
+                            color: presetColor,
+                          ),
                         ),
                       ),
                       ConstrainedBox(

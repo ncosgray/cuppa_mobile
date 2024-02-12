@@ -196,3 +196,4 @@ const statsColumnString = 'string';
 // Opacities
 const noOpacity = 1.0;
 const fadeOpacity = 0.4;
+const fullOpacity = 0.0;

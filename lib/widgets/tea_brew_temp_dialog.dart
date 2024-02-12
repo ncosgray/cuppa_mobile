@@ -12,6 +12,7 @@
 
 // Cuppa tea temperature picker dialog
 
+import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
@@ -96,24 +97,27 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           // Unit selector
-          adaptiveSegmentedControl(
-            // Degrees C
-            buttonTextTrue: degreesC,
-            // Degrees F
-            buttonTextFalse: degreesF,
-            groupValue: _unitsCelsius,
-            onValueChanged: (bool? selected) {
-              if (selected != null) {
-                setState(() {
-                  _unitsCelsius = selected;
-                  if (_unitsCelsius) {
-                    _newTemp = widget.tempCOptions[_newTempIndex];
-                  } else {
-                    _newTemp = widget.tempFOptions[_newTempIndex];
-                  }
-                });
-              }
-            },
+          Opacity(
+            opacity: _newTemp == roomTemp ? fullOpacity : noOpacity,
+            child: adaptiveSegmentedControl(
+              // Degrees C
+              buttonTextTrue: degreesC,
+              // Degrees F
+              buttonTextFalse: degreesF,
+              groupValue: _unitsCelsius,
+              onValueChanged: (bool? selected) {
+                if (selected != null) {
+                  setState(() {
+                    _unitsCelsius = selected;
+                    if (_unitsCelsius) {
+                      _newTemp = widget.tempCOptions[_newTempIndex];
+                    } else {
+                      _newTemp = widget.tempFOptions[_newTempIndex];
+                    }
+                  });
+                }
+              },
+            ),
           ),
           spacerWidget,
           Row(
