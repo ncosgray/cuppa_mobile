@@ -273,10 +273,9 @@ final List<int> brewTimeSecondOptions = [0, 15, 30, 45];
 
 // Brewing temperature options
 final List<int> brewTempCOptions =
-    ([roomTempDegreesC] + [for (var i = 50; i <= boilDegreesC; i += 5) i]);
-final List<int> brewTempFOptions = ([roomTempDegreesF] +
-    [for (var i = 110; i <= 200; i += 10) i] +
-    [boilDegreesF]);
+    ([roomTemp] + [for (var i = 45; i <= boilDegreesC; i++) i]);
+final List<int> brewTempFOptions =
+    ([roomTemp] + [for (var i = 102; i <= 210; i += 2) i] + [boilDegreesF]);
 
 // App language options
 final List<String> languageOptions =
