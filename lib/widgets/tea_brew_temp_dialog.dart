@@ -90,6 +90,8 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
 
   // Build a temperature picker
   Widget _tempPicker() {
+    int maxTempIndex = widget.tempCOptions.length - 1;
+
     return Material(
       type: MaterialType.transparency,
       child: Column(
@@ -99,7 +101,7 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
           // Unit selector
           AnimatedOpacity(
             opacity: _newTemp == roomTemp ? fullOpacity : noOpacity,
-            duration: longAnimationDuration,
+            duration: shortAnimationDuration,
             child: IgnorePointer(
               ignoring: _newTemp == roomTemp,
               child: adaptiveSegmentedControl(
@@ -132,7 +134,14 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
                 icon: incrementDownIcon,
                 onPressed: _newTempIndex > 0
                     ? () {
-                        _newTempIndex--;
+                        // Approach room temp slowly
+                        if (_newTempIndex == 1) {
+                          _newTempIndex = 0;
+                        } else if (_newTempIndex <= brewTempIncrement) {
+                          _newTempIndex = 1;
+                        } else {
+                          _newTempIndex -= brewTempIncrement;
+                        }
                         _updateTempSlider();
                       }
                     : null,
@@ -145,9 +154,13 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
               // Increment up
               adaptiveSmallButton(
                 icon: incrementUpIcon,
-                onPressed: _newTempIndex < widget.tempCOptions.length - 1
+                onPressed: _newTempIndex < maxTempIndex
                     ? () {
-                        _newTempIndex++;
+                        _newTempIndex +=
+                            (_newTempIndex == 0 ? 1 : brewTempIncrement);
+                        if (_newTempIndex > maxTempIndex) {
+                          _newTempIndex = maxTempIndex;
+                        }
                         _updateTempSlider();
                       }
                     : null,
@@ -159,8 +172,8 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
           Slider.adaptive(
             value: _newTempIndex.toDouble(),
             min: 0.0,
-            max: (widget.tempCOptions.length - 1).toDouble(),
-            divisions: widget.tempCOptions.length - 1,
+            max: maxTempIndex.toDouble(),
+            divisions: maxTempIndex,
             onChanged: (newValue) {
               _newTempIndex = newValue.toInt();
               _updateTempSlider();
