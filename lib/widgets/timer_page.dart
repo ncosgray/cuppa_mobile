@@ -296,11 +296,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                     softWrap: false,
                     overflow: TextOverflow.clip,
                     textScaler: TextScaler.noScaling,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 150.0,
-                      color: timerForegroundColor,
-                    ),
+                    style: textStyleTimer,
                   ),
                 ),
               ),
@@ -356,10 +352,7 @@ class _TimerWidgetState extends State<TimerWidget> {
             ),
             Text(
               '$buttonValue$buttonValueUnit',
-              style: const TextStyle(
-                color: timerForegroundColor,
-                fontSize: 16.0,
-              ),
+              style: textStyleTimerIncrement,
             ),
           ],
         ),
