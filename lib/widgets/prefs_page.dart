@@ -175,6 +175,7 @@ class PrefsWidget extends StatelessWidget {
                   : AppString.stats_confirm_enable.translate(),
             ),
             bodyExtra: Text(AppString.confirm_continue.translate()),
+            isDestructiveAction: provider.collectStats,
           )) {
             // Update setting
             provider.collectStats = newValue;

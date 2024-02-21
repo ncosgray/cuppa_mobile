@@ -24,6 +24,7 @@ Future showConfirmDialog({
   required BuildContext context,
   required Widget body,
   Widget? bodyExtra,
+  bool isDestructiveAction = true,
 }) {
   // Build the dialog text
   List<Widget> listBody = [body];
@@ -48,6 +49,7 @@ Future showConfirmDialog({
             onPressed: () => Navigator.of(context).pop(false),
           ),
           adaptiveDialogAction(
+            isDestructiveAction: isDestructiveAction,
             text: AppString.yes_button.translate(),
             onPressed: () => Navigator.of(context).pop(true),
           ),
