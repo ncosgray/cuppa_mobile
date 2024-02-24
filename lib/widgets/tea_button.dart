@@ -101,19 +101,22 @@ class TeaButton extends StatelessWidget {
                               ),
                             ),
                             // Brew temperature
-                            Container(
-                              padding: rowPadding,
-                              child: Text(
-                                tea.getTempDisplay(
-                                  useCelsius: Provider.of<AppProvider>(
-                                    context,
-                                    listen: false,
-                                  ).useCelsius,
-                                ),
-                                style: textStyleButtonSecondary.copyWith(
-                                  color: tea.isActive
-                                      ? activeColor
-                                      : tea.getColor(),
+                            Visibility(
+                              visible: tea.brewTemp > roomTemp,
+                              child: Container(
+                                padding: rowPadding,
+                                child: Text(
+                                  tea.getTempDisplay(
+                                    useCelsius: Provider.of<AppProvider>(
+                                      context,
+                                      listen: false,
+                                    ).useCelsius,
+                                  ),
+                                  style: textStyleButtonSecondary.copyWith(
+                                    color: tea.isActive
+                                        ? activeColor
+                                        : tea.getColor(),
+                                  ),
                                 ),
                               ),
                             ),

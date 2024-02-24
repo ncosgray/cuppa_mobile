@@ -39,6 +39,12 @@ void main() async {
   sharedPrefs = await SharedPreferences.getInstance();
   packageInfo = await PackageInfo.fromPlatform();
 
+  // Set metric locale based on country code
+  if ((WidgetsBinding.instance.platformDispatcher.locale.countryCode ?? '') ==
+      'US') {
+    isLocaleMetric = false;
+  }
+
   // Get time zone
   tz.initializeTimeZones();
   final String timeZoneName = await FlutterTimezone.getLocalTimezone();
@@ -121,11 +127,6 @@ class CuppaApp extends StatelessWidget {
                 ],
                 localeResolutionCallback: (locale, supportedLocales) {
                   if (locale != null) {
-                    // Set metric locale based on country code
-                    if (locale.countryCode == 'US') {
-                      isLocaleMetric = false;
-                    }
-
                     // Set locale if supported
                     for (Locale supportedLocale in supportedLocales) {
                       if (supportedLocale.languageCode == locale.languageCode &&

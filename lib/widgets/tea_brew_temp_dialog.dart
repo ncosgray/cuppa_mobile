@@ -12,6 +12,7 @@
 
 // Cuppa tea temperature picker dialog
 
+import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
@@ -25,15 +26,21 @@ class TeaBrewTempDialog extends StatefulWidget {
   const TeaBrewTempDialog({
     super.key,
     required this.initialTemp,
-    required this.tempFOptions,
+    required this.useCelsius,
     required this.tempCOptions,
+    required this.tempFOptions,
+    required this.tempCIncrements,
+    required this.tempFIncrements,
     required this.buttonTextCancel,
     required this.buttonTextOK,
   });
 
   final int initialTemp;
-  final List<int> tempFOptions;
+  final bool useCelsius;
   final List<int> tempCOptions;
+  final List<int> tempFOptions;
+  final List<int> tempCIncrements;
+  final List<int> tempFIncrements;
   final String buttonTextCancel;
   final String buttonTextOK;
 
@@ -44,8 +51,8 @@ class TeaBrewTempDialog extends StatefulWidget {
 class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
   // State variables
   late int _newTemp;
-  int _newTempIndex = 0;
   late bool _unitsCelsius;
+  int _newTempIndex = 0;
 
   // Initialize dialog state
   @override
@@ -53,14 +60,16 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
     super.initState();
 
     // Set starting values
-    _newTemp = widget.initialTemp;
+    _newTemp = isRoomTemp(widget.initialTemp, useCelsius: widget.useCelsius)
+        ? roomTemp
+        : widget.initialTemp;
+    _unitsCelsius = isCelsiusTemp(_newTemp, useCelsius: widget.useCelsius);
     if (widget.tempCOptions.contains(_newTemp)) {
       _newTempIndex = widget.tempCOptions.indexOf(_newTemp);
     }
     if (widget.tempFOptions.contains(_newTemp)) {
       _newTempIndex = widget.tempFOptions.indexOf(_newTemp);
     }
-    _unitsCelsius = isTempCelsius(widget.initialTemp);
   }
 
   // Build dialog
@@ -89,6 +98,8 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
 
   // Build a temperature picker
   Widget _tempPicker() {
+    int maxTempIndex = widget.tempCOptions.length - 1;
+
     return Material(
       type: MaterialType.transparency,
       child: Column(
@@ -96,24 +107,33 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           // Unit selector
-          adaptiveSegmentedControl(
-            // Degrees C
-            buttonTextTrue: degreesC,
-            // Degrees F
-            buttonTextFalse: degreesF,
-            groupValue: _unitsCelsius,
-            onValueChanged: (bool? selected) {
-              if (selected != null) {
-                setState(() {
-                  _unitsCelsius = selected;
-                  if (_unitsCelsius) {
-                    _newTemp = widget.tempCOptions[_newTempIndex];
-                  } else {
-                    _newTemp = widget.tempFOptions[_newTempIndex];
+          AnimatedOpacity(
+            opacity: isRoomTemp(_newTemp, useCelsius: _unitsCelsius)
+                ? fullOpacity
+                : noOpacity,
+            duration: shortAnimationDuration,
+            child: IgnorePointer(
+              ignoring: _newTemp == roomTemp,
+              child: adaptiveSegmentedControl(
+                // Degrees C
+                buttonTextTrue: degreesC,
+                // Degrees F
+                buttonTextFalse: degreesF,
+                groupValue: _unitsCelsius,
+                onValueChanged: (bool? selected) {
+                  if (selected != null) {
+                    setState(() {
+                      _unitsCelsius = selected;
+                      if (_unitsCelsius) {
+                        _newTemp = widget.tempCOptions[_newTempIndex];
+                      } else {
+                        _newTemp = widget.tempFOptions[_newTempIndex];
+                      }
+                    });
                   }
-                });
-              }
-            },
+                },
+              ),
+            ),
           ),
           spacerWidget,
           Row(
@@ -122,26 +142,19 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
               // Increment down
               adaptiveSmallButton(
                 icon: incrementDownIcon,
-                onPressed: _newTempIndex > 0
-                    ? () {
-                        _newTempIndex--;
-                        _updateTempSlider();
-                      }
-                    : null,
+                onPressed:
+                    _newTempIndex > 0 ? () => _incrementTemp(down: true) : null,
               ),
               // Display selected temperature
               Text(
-                formatTemp(_newTemp),
+                formatTemp(_newTemp, useCelsius: _unitsCelsius),
                 style: textStyleSettingSeconday,
               ),
               // Increment up
               adaptiveSmallButton(
                 icon: incrementUpIcon,
-                onPressed: _newTempIndex < widget.tempCOptions.length - 1
-                    ? () {
-                        _newTempIndex++;
-                        _updateTempSlider();
-                      }
+                onPressed: _newTempIndex < maxTempIndex
+                    ? () => _incrementTemp()
                     : null,
               ),
             ],
@@ -151,8 +164,8 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
           Slider.adaptive(
             value: _newTempIndex.toDouble(),
             min: 0.0,
-            max: (widget.tempCOptions.length - 1).toDouble(),
-            divisions: widget.tempCOptions.length - 1,
+            max: maxTempIndex.toDouble(),
+            divisions: maxTempIndex,
             onChanged: (newValue) {
               _newTempIndex = newValue.toInt();
               _updateTempSlider();
@@ -161,6 +174,38 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
         ],
       ),
     );
+  }
+
+  // Increment temperature in discrete steps
+  void _incrementTemp({bool down = false}) {
+    int maxTempIndex = widget.tempCOptions.length - 1;
+    int incrementTemp;
+
+    // Increment up or down
+    if (down) {
+      incrementTemp = _unitsCelsius
+          ? widget.tempCIncrements
+              .lastWhere((temp) => temp < _newTemp, orElse: () => _newTemp)
+          : widget.tempFIncrements
+              .lastWhere((temp) => temp < _newTemp, orElse: () => _newTemp);
+    } else {
+      incrementTemp = _unitsCelsius
+          ? widget.tempCIncrements
+              .firstWhere((temp) => temp > _newTemp, orElse: () => _newTemp)
+          : widget.tempFIncrements
+              .firstWhere((temp) => temp > _newTemp, orElse: () => _newTemp);
+    }
+
+    // Set new temperature
+    _newTempIndex = _unitsCelsius
+        ? widget.tempCOptions.indexOf(incrementTemp)
+        : widget.tempFOptions.indexOf(incrementTemp);
+    if (_newTempIndex < 0) {
+      _newTempIndex = 0;
+    } else if (_newTempIndex > maxTempIndex) {
+      _newTempIndex = maxTempIndex;
+    }
+    _updateTempSlider();
   }
 
   // Update temperature slider position

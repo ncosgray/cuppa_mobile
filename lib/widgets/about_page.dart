@@ -114,6 +114,12 @@ class AboutWidget extends StatelessWidget {
                     url: translateURL,
                   ),
                   listDivider,
+                  // Support the project
+                  _listItem(
+                    title: AppString.support_the_project.translate(),
+                    url: supportURL,
+                  ),
+                  listDivider,
                   // Changelog
                   _listItem(
                     title: AppString.version_history.translate(),

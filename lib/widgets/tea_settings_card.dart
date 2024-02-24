@@ -382,8 +382,12 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
       builder: (BuildContext context) {
         return TeaBrewTempDialog(
           initialTemp: currentTemp,
-          tempFOptions: brewTempFOptions,
+          useCelsius:
+              Provider.of<AppProvider>(context, listen: false).useCelsius,
           tempCOptions: brewTempCOptions,
+          tempFOptions: brewTempFOptions,
+          tempCIncrements: brewTempCIncrements,
+          tempFIncrements: brewTempFIncrements,
           buttonTextCancel: AppString.cancel_button.translate(),
           buttonTextOK: AppString.ok_button.translate(),
         );

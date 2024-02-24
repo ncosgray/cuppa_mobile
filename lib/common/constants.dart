@@ -29,6 +29,8 @@ const sourceURL = 'https://github.com/ncosgray/cuppa_mobile';
 const translateURL = 'https://hosted.weblate.org/engage/cuppa/';
 const issuesURL = 'https://github.com/ncosgray/cuppa_mobile/issues';
 const privacyURL = 'https://www.nathanatos.com/privacy/';
+const supportURL =
+    'https://github.com/ncosgray/cuppa_mobile?tab=readme-ov-file#support-the-project';
 
 // Cup images
 const cupImageDefault = 'images/Cuppa_hires_default.png';
@@ -174,6 +176,9 @@ const longAnimationDuration = Duration(milliseconds: 200);
 const incrementSeconds = 10;
 const hideTimerIncrementsDelay = 5;
 
+// Temperature index increments
+const brewTempIncrement = 5;
+
 // Stats data
 const statsDatabase = 'Cuppa_stats.db';
 const statsTable = 'statsData';
@@ -194,3 +199,4 @@ const statsColumnString = 'string';
 // Opacities
 const noOpacity = 1.0;
 const fadeOpacity = 0.4;
+const fullOpacity = 0.0;

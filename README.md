@@ -47,6 +47,8 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 Buy us a cup of tea to support active development of Cuppa.
 
 <a href="https://paypal.me/ncosgray"><img src="https://www.nathanatos.com/software/images/paypal-badge.png" alt="Donate with PayPal" width="185" height="50"/></a><br/>
+<a href="https://venmo.com/nathancosgray"><img src="https://www.nathanatos.com/software/images/venmo-badge.png" alt="Donate with Venmo" width="185" height="50"/></a><br/>
+<img src="https://www.nathanatos.com/software/images/ethereum-logo.png" alt="Ethereum Logo" width="15" height="25"/> <a href="ethereum:0xc5be97ea75ad15854ed09529139e672fae2f63c0">Ethereum: 0xc5be97ea75ad15854ed09529139e672fae2f63c0</a><br/>
 
 ### About
 
