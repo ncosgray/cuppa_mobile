@@ -1,0 +1,5 @@
+* Soğuk demlenen çaylar için tam destek (12+ saat demleme).
+* Tabletler ve katlanabilir aygıtlar için yeniden tasarlanan Tercihler sayfası.
+* Daha ısrarcı sayaç bildirimleri.
+* Kullanılabilirlik ve arayüz düzenlemeleri.
+* Dil çeviri güncellemeleri - Weblate ile katkıda bulunun!

@@ -1,0 +1,4 @@
+* Etkin bir çay sayacında kalan süreyi ayarlamak artık mümkün.
+* Ek demleme sıcaklığı seçenekleri.
+* Çeşitli kullanılabilirlik ve arayüz düzenlemeleri.
+* Dil çeviri güncellemeleri - Weblate ile katkıda bulunun!

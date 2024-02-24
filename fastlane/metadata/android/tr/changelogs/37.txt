@@ -1,0 +1,4 @@
+* Çayları silerken bir Geri Al düğmesi eklendi.
+* Çay listesi yeniden sıralandıktan sonra kısayollarla ilgili bir hata düzeltildi.
+* Yeni animasyonlar da dahil olmak üzere kullanılabilirlik ve arayüz düzenlemeleri.
+* Urduca ve Geleneksel Çince çevirileri - Weblate ile daha fazla dile katkıda bulunun!

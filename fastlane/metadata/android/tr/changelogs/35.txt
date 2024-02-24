@@ -1,0 +1,4 @@
+* Yeni Cuppa kullanıcıları için bir öğretici eklendi.
+* Daha uzun demleme sürelerini desteği.
+* Kullanılabilirlik ve arayüz düzenlemeleri.
+* Yeni Çince çeviri - Weblate ile daha fazla dile katkıda bulunun!

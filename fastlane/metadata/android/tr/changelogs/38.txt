@@ -1,0 +1,5 @@
+* Yeni tasarlanan renk seçici düzinelerce daha fazla çay rengi seçeneği sunuyor!
+* Çay adı iletişim kutusunun bazı durumlarda görünmez olmasına neden olan bir hata düzeltildi.
+* Yeni Android 14 izinleri ile uyumlu.
+* Çeşitli kullanılabilirlik ve arayüz düzenlemeleri.
+* Japonca çeviri ve diğer çeviri güncellemeleri eklendi - Weblate ile katkıda bulunun!

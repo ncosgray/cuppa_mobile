@@ -1,0 +1,3 @@
+* Dışa/içe aktarma özelliği Cuppa verilerinizi başka bir aygıta kopyalamanızı kolaylaştırır.
+* Çeşitli kullanılabilirlik ve arayüz düzenlemeleri.
+* Dil çeviri güncellemeleri - Weblate ile katkıda bulunun!
