@@ -55,6 +55,20 @@ const TextStyle textStyleButtonSecondary = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+const TextStyle textStyleTimer = TextStyle(
+  fontSize: 150.0,
+  fontWeight: FontWeight.bold,
+  color: timerForegroundColor,
+  fontFeatures: [
+    FontFeature.tabularFigures(),
+  ],
+);
+
+const TextStyle textStyleTimerIncrement = TextStyle(
+  fontSize: 16.0,
+  color: timerForegroundColor,
+);
+
 const TextStyle textStyleSetting = TextStyle(
   fontSize: 18.0,
   fontWeight: FontWeight.bold,

@@ -13,6 +13,7 @@
 // Cuppa helper functions
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 
 import 'package:flutter/material.dart';
@@ -20,17 +21,32 @@ import 'package:intl/intl.dart';
 
 const boilDegreesC = 100;
 const boilDegreesF = 212;
+const minDegreesC = 45;
+const minDegreesF = 102;
+const roomTemp = 0;
 const roomTempDegreesC = 20;
 const roomTempDegreesF = 68;
 const degreeSymbol = '\u00b0';
 const hairSpace = '\u200a';
+const emDash = '\u2014';
 
 // Type conversion
 T? tryCast<T>(dynamic object) => object is T ? object : null;
 
-// Infer C or F based on temp range
-bool isTempCelsius(i) {
-  return (i <= boilDegreesC && i != roomTempDegreesF);
+// Room temp check based on locale
+bool isRoomTemp(i, {bool? useCelsius}) {
+  return i == roomTemp ||
+      i == roomTempDegreesC ||
+      (i == roomTempDegreesF && !(useCelsius ?? isLocaleMetric));
+}
+
+// Infer C or F based on temp range and locale
+bool isCelsiusTemp(i, {bool? useCelsius}) {
+  if (isRoomTemp(i, useCelsius: useCelsius)) {
+    return useCelsius ?? isLocaleMetric;
+  } else {
+    return i <= boilDegreesC;
+  }
 }
 
 // Localized temperature units
@@ -44,11 +60,15 @@ String get degreesF {
 
 // Format brew temperature as number with optional units
 String formatTemp(i, {bool? useCelsius}) {
+  if (isRoomTemp(i, useCelsius: useCelsius)) {
+    // Room temperature
+    return '$emDash$degreeSymbol';
+  }
   String unit = useCelsius == null
       ? degreeSymbol
-      : isTempCelsius(i) && !useCelsius
+      : isCelsiusTemp(i, useCelsius: useCelsius) && !useCelsius
           ? degreesC
-          : !isTempCelsius(i) && useCelsius
+          : !isCelsiusTemp(i, useCelsius: useCelsius) && useCelsius
               ? degreesF
               : degreeSymbol;
   return '$i$unit';

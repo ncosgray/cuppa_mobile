@@ -49,8 +49,12 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   // Build tea settings list
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppProvider>(
-      builder: (context, provider, child) => MultiSliver(
+    return Selector<AppProvider, ({List<Tea> teaList, bool activeTeas})>(
+      selector: (_, provider) => (
+        teaList: provider.teaList,
+        activeTeas: provider.activeTeas.isNotEmpty,
+      ),
+      builder: (context, teaData, child) => MultiSliver(
         pushPinnedChildren: true,
         children: [
           // Teas section header
@@ -58,12 +62,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
             context,
             title: AppString.teas_title.translate(),
             // Sort Teas button
-            action: provider.teaCount > 0
-                ? _sortTeasButton(
-                    context,
-                    statsAvailable: provider.collectStats,
-                  )
-                : null,
+            action: teaData.teaList.isNotEmpty ? _sortTeasButton() : null,
           ),
           // Tea settings info text
           SliverToBoxAdapter(
@@ -90,8 +89,8 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
               child: Row(
                 children: [
                   Expanded(child: _addTeaButton()),
-                  (provider.teaCount > 0 && provider.activeTeas.isEmpty)
-                      ? _removeAllButton(context)
+                  (teaData.teaList.isNotEmpty && !teaData.activeTeas)
+                      ? _removeAllButton()
                       : const SizedBox.shrink(),
                 ],
               ),
@@ -103,7 +102,9 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   }
 
   // Sort teas button
-  Widget _sortTeasButton(BuildContext context, {bool statsAvailable = false}) {
+  Widget _sortTeasButton() {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
     return IconButton(
       icon: getPlatformSortIcon(),
       onPressed: () => openPlatformAdaptiveSelectList(
@@ -112,7 +113,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
         buttonTextCancel: AppString.cancel_button.translate(),
         // Don't offer to sort with stats data unless stats are available
         itemList: SortBy.values
-            .where((item) => statsAvailable || !item.statsRequired)
+            .where((item) => provider.collectStats || !item.statsRequired)
             .toList(),
         itemBuilder: _sortByOption,
         separatorBuilder: separatorDummy,
@@ -143,6 +144,8 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
 
   // Reoderable list of tea settings cards
   Widget _teaSettingsList() {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
     // Reset animate flag after a delay
     if (_animateTeaList) {
       Future.delayed(longAnimationDuration, () {
@@ -150,16 +153,14 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
       });
     }
 
-    return Consumer<AppProvider>(
-      builder: (context, provider, child) => SliverReorderableList(
-        itemBuilder: _animateTeaList ? separatorDummy : _teaSettingsListItem,
-        itemCount: _animateTeaList ? 0 : provider.teaList.length,
-        proxyDecorator: _draggableFeedback,
-        onReorder: (int oldIndex, int newIndex) {
-          // Reorder the tea list
-          provider.reorderTeas(oldIndex, newIndex);
-        },
-      ),
+    return SliverReorderableList(
+      itemBuilder: _animateTeaList ? separatorDummy : _teaSettingsListItem,
+      itemCount: _animateTeaList ? 0 : provider.teaCount,
+      proxyDecorator: _draggableFeedback,
+      onReorder: (int oldIndex, int newIndex) {
+        // Reorder the tea list
+        provider.reorderTeas(oldIndex, newIndex);
+      },
     );
   }
 
@@ -254,7 +255,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   Widget _addTeaButton() {
     return Selector<AppProvider, int>(
       selector: (_, provider) => provider.teaCount,
-      builder: (context, count, child) => SizedBox(
+      builder: (context, teaCount, child) => SizedBox(
         height: 48.0,
         child: Card(
           margin: noPadding,
@@ -275,7 +276,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                 ),
               ),
               // Disable adding teas if there are maximum teas
-              onPressed: count < teasMaxCount
+              onPressed: teaCount < teasMaxCount
                   ? () => openPlatformAdaptiveSelectList(
                         context: context,
                         titleText: AppString.add_tea_button.translate(),
@@ -341,10 +342,13 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                         ),
                         child: Container(),
                       ),
-                      Text(
-                        preset.tempDisplay(provider.useCelsius),
-                        style: textStyleSettingSeconday.copyWith(
-                          color: presetColor,
+                      Visibility(
+                        visible: preset.brewTempDegreesC > roomTemp,
+                        child: Text(
+                          preset.tempDisplay(provider.useCelsius),
+                          style: textStyleSettingSeconday.copyWith(
+                            color: presetColor,
+                          ),
                         ),
                       ),
                       ConstrainedBox(
@@ -367,7 +371,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   }
 
   // Remove all teas button
-  Widget _removeAllButton(BuildContext context) {
+  Widget _removeAllButton() {
     return Row(
       children: [
         smallSpacerWidget,

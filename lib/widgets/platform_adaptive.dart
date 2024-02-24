@@ -96,20 +96,27 @@ Widget adaptiveNavBarActionButton({
 // Dialog action button appropriate to platform
 Widget adaptiveDialogAction({
   bool isDefaultAction = false,
+  bool isDestructiveAction = false,
   required String text,
   required Function()? onPressed,
 }) {
   if (appPlatform == TargetPlatform.iOS) {
     return CupertinoDialogAction(
       isDefaultAction: isDefaultAction,
+      isDestructiveAction: isDestructiveAction,
       onPressed: onPressed,
       child: Text(text),
     );
   } else {
-    return FilledButton.tonal(
-      onPressed: onPressed,
-      child: Text(text),
-    );
+    return isDestructiveAction
+        ? TextButton(
+            onPressed: onPressed,
+            child: Text(text),
+          )
+        : FilledButton.tonal(
+            onPressed: onPressed,
+            child: Text(text),
+          );
   }
 }
 

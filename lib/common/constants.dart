@@ -176,6 +176,9 @@ const longAnimationDuration = Duration(milliseconds: 200);
 const incrementSeconds = 10;
 const hideTimerIncrementsDelay = 5;
 
+// Temperature index increments
+const brewTempIncrement = 5;
+
 // Stats data
 const statsDatabase = 'Cuppa_stats.db';
 const statsTable = 'statsData';
@@ -196,3 +199,4 @@ const statsColumnString = 'string';
 // Opacities
 const noOpacity = 1.0;
 const fadeOpacity = 0.4;
+const fullOpacity = 0.0;

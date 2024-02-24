@@ -296,11 +296,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                     softWrap: false,
                     overflow: TextOverflow.clip,
                     textScaler: TextScaler.noScaling,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 150.0,
-                      color: timerForegroundColor,
-                    ),
+                    style: textStyleTimer,
                   ),
                 ),
               ),
@@ -356,10 +352,7 @@ class _TimerWidgetState extends State<TimerWidget> {
             ),
             Text(
               '$buttonValue$buttonValueUnit',
-              style: const TextStyle(
-                color: timerForegroundColor,
-                fontSize: 16.0,
-              ),
+              style: textStyleTimerIncrement,
             ),
           ],
         ),
@@ -418,30 +411,33 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // List/grid of available tea buttons
   Widget _teaButtonList(bool layoutPortrait) {
-    return Consumer<AppProvider>(
-      builder: (context, provider, child) {
+    return Selector<AppProvider, ({List<Tea> teaList, bool stackedView})>(
+      selector: (_, provider) => (
+        teaList: provider.teaList,
+        stackedView: provider.stackedView,
+      ),
+      builder: (context, buttonData, child) {
         List<Widget> teaButtonRows = [];
 
-        if (provider.teaCount > 0) {
-          if (provider.stackedView && getDeviceSize(context).isLargeDevice) {
+        if (buttonData.teaList.isNotEmpty) {
+          if (buttonData.stackedView && getDeviceSize(context).isLargeDevice) {
             // Arrange into two rows of tea buttons for large screens
-            int topRowLength = (provider.teaCount / 2).floor();
+            int topRowLength = (buttonData.teaList.length / 2).floor();
             teaButtonRows.add(
-              _teaButtonRow(provider.teaList.sublist(0, topRowLength)),
+              _teaButtonRow(buttonData.teaList.sublist(0, topRowLength)),
             );
             teaButtonRows.add(
-              _teaButtonRow(provider.teaList.sublist(topRowLength)),
+              _teaButtonRow(buttonData.teaList.sublist(topRowLength)),
             );
-          } else if (provider.stackedView && layoutPortrait) {
+          } else if (buttonData.stackedView && layoutPortrait) {
             // Arrange into multiple rows for small screens
-            Iterable<List<Tea>> teaRows =
-                provider.teaList.slices(stackedViewTeaCount);
-            for (List<Tea> teaRow in teaRows) {
+            for (List<Tea> teaRow
+                in buttonData.teaList.slices(stackedViewTeaCount)) {
               teaButtonRows.add(_teaButtonRow(teaRow));
             }
           } else {
             // Single row of tea buttons
-            teaButtonRows.add(_teaButtonRow(provider.teaList));
+            teaButtonRows.add(_teaButtonRow(buttonData.teaList));
           }
         } else {
           // Add button if tea list is empty
