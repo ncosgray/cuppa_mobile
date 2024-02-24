@@ -21,6 +21,8 @@ import 'package:intl/intl.dart';
 
 const boilDegreesC = 100;
 const boilDegreesF = 212;
+const minDegreesC = 45;
+const minDegreesF = 102;
 const roomTemp = 0;
 const roomTempDegreesC = 20;
 const roomTempDegreesF = 68;

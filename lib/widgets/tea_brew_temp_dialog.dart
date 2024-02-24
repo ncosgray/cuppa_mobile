@@ -27,16 +27,20 @@ class TeaBrewTempDialog extends StatefulWidget {
     super.key,
     required this.initialTemp,
     required this.useCelsius,
-    required this.tempFOptions,
     required this.tempCOptions,
+    required this.tempFOptions,
+    required this.tempCIncrements,
+    required this.tempFIncrements,
     required this.buttonTextCancel,
     required this.buttonTextOK,
   });
 
   final int initialTemp;
   final bool useCelsius;
-  final List<int> tempFOptions;
   final List<int> tempCOptions;
+  final List<int> tempFOptions;
+  final List<int> tempCIncrements;
+  final List<int> tempFIncrements;
   final String buttonTextCancel;
   final String buttonTextOK;
 
@@ -138,19 +142,8 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
               // Increment down
               adaptiveSmallButton(
                 icon: incrementDownIcon,
-                onPressed: _newTempIndex > 0
-                    ? () {
-                        // Approach room temp slowly
-                        if (_newTempIndex == 1) {
-                          _newTempIndex = 0;
-                        } else if (_newTempIndex <= brewTempIncrement) {
-                          _newTempIndex = 1;
-                        } else {
-                          _newTempIndex -= brewTempIncrement;
-                        }
-                        _updateTempSlider();
-                      }
-                    : null,
+                onPressed:
+                    _newTempIndex > 0 ? () => _incrementTemp(down: true) : null,
               ),
               // Display selected temperature
               Text(
@@ -161,14 +154,7 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
               adaptiveSmallButton(
                 icon: incrementUpIcon,
                 onPressed: _newTempIndex < maxTempIndex
-                    ? () {
-                        _newTempIndex +=
-                            (_newTempIndex == 0 ? 1 : brewTempIncrement);
-                        if (_newTempIndex > maxTempIndex) {
-                          _newTempIndex = maxTempIndex;
-                        }
-                        _updateTempSlider();
-                      }
+                    ? () => _incrementTemp()
                     : null,
               ),
             ],
@@ -188,6 +174,38 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
         ],
       ),
     );
+  }
+
+  // Increment temperature in discrete steps
+  void _incrementTemp({bool down = false}) {
+    int maxTempIndex = widget.tempCOptions.length - 1;
+    int incrementTemp;
+
+    // Increment up or down
+    if (down) {
+      incrementTemp = _unitsCelsius
+          ? widget.tempCIncrements
+              .lastWhere((temp) => temp < _newTemp, orElse: () => _newTemp)
+          : widget.tempFIncrements
+              .lastWhere((temp) => temp < _newTemp, orElse: () => _newTemp);
+    } else {
+      incrementTemp = _unitsCelsius
+          ? widget.tempCIncrements
+              .firstWhere((temp) => temp > _newTemp, orElse: () => _newTemp)
+          : widget.tempFIncrements
+              .firstWhere((temp) => temp > _newTemp, orElse: () => _newTemp);
+    }
+
+    // Set new temperature
+    _newTempIndex = _unitsCelsius
+        ? widget.tempCOptions.indexOf(incrementTemp)
+        : widget.tempFOptions.indexOf(incrementTemp);
+    if (_newTempIndex < 0) {
+      _newTempIndex = 0;
+    } else if (_newTempIndex > maxTempIndex) {
+      _newTempIndex = maxTempIndex;
+    }
+    _updateTempSlider();
   }
 
   // Update temperature slider position

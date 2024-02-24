@@ -384,8 +384,10 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           initialTemp: currentTemp,
           useCelsius:
               Provider.of<AppProvider>(context, listen: false).useCelsius,
-          tempFOptions: brewTempFOptions,
           tempCOptions: brewTempCOptions,
+          tempFOptions: brewTempFOptions,
+          tempCIncrements: brewTempCIncrements,
+          tempFIncrements: brewTempFIncrements,
           buttonTextCancel: AppString.cancel_button.translate(),
           buttonTextOK: AppString.ok_button.translate(),
         );
