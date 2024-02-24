@@ -295,18 +295,11 @@ class Tea {
 
   // Factories
   factory Tea.fromJson(Map<String, dynamic> json) {
-    int brewTemp = tryCast<int>(json[jsonKeyBrewTemp]) ?? 0;
-    // Convert legacy room temperatures
-    if ((brewTemp == roomTempDegreesC && isLocaleMetric) ||
-        (brewTemp == roomTempDegreesF && !isLocaleMetric)) {
-      brewTemp = roomTemp;
-    }
-
     return Tea(
       id: tryCast<int>(json[jsonKeyID]),
       name: tryCast<String>(json[jsonKeyName]) ?? unknownString,
       brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? 0,
-      brewTemp: brewTemp,
+      brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? 0,
       colorValue: tryCast<int>(json[jsonKeyColor]) ?? 0,
       colorShade: tryCast<int>(json[jsonKeyColorShadeRed]) != null &&
               tryCast<int>(json[jsonKeyColorShadeGreen]) != null &&

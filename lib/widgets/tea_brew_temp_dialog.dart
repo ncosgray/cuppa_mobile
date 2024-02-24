@@ -26,6 +26,7 @@ class TeaBrewTempDialog extends StatefulWidget {
   const TeaBrewTempDialog({
     super.key,
     required this.initialTemp,
+    required this.useCelsius,
     required this.tempFOptions,
     required this.tempCOptions,
     required this.buttonTextCancel,
@@ -33,6 +34,7 @@ class TeaBrewTempDialog extends StatefulWidget {
   });
 
   final int initialTemp;
+  final bool useCelsius;
   final List<int> tempFOptions;
   final List<int> tempCOptions;
   final String buttonTextCancel;
@@ -45,8 +47,8 @@ class TeaBrewTempDialog extends StatefulWidget {
 class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
   // State variables
   late int _newTemp;
-  int _newTempIndex = 0;
   late bool _unitsCelsius;
+  int _newTempIndex = 0;
 
   // Initialize dialog state
   @override
@@ -54,14 +56,16 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
     super.initState();
 
     // Set starting values
-    _newTemp = widget.initialTemp;
+    _newTemp = isRoomTemp(widget.initialTemp, useCelsius: widget.useCelsius)
+        ? roomTemp
+        : widget.initialTemp;
+    _unitsCelsius = isCelsiusTemp(_newTemp, useCelsius: widget.useCelsius);
     if (widget.tempCOptions.contains(_newTemp)) {
       _newTempIndex = widget.tempCOptions.indexOf(_newTemp);
     }
     if (widget.tempFOptions.contains(_newTemp)) {
       _newTempIndex = widget.tempFOptions.indexOf(_newTemp);
     }
-    _unitsCelsius = isTempCelsius(widget.initialTemp);
   }
 
   // Build dialog
@@ -100,7 +104,9 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
         children: [
           // Unit selector
           AnimatedOpacity(
-            opacity: _newTemp == roomTemp ? fullOpacity : noOpacity,
+            opacity: isRoomTemp(_newTemp, useCelsius: _unitsCelsius)
+                ? fullOpacity
+                : noOpacity,
             duration: shortAnimationDuration,
             child: IgnorePointer(
               ignoring: _newTemp == roomTemp,
@@ -148,7 +154,7 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
               ),
               // Display selected temperature
               Text(
-                formatTemp(_newTemp),
+                formatTemp(_newTemp, useCelsius: _unitsCelsius),
                 style: textStyleSettingSeconday,
               ),
               // Increment up

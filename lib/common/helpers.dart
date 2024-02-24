@@ -31,9 +31,20 @@ const emDash = '\u2014';
 // Type conversion
 T? tryCast<T>(dynamic object) => object is T ? object : null;
 
+// Room temp check based on locale
+bool isRoomTemp(i, {bool? useCelsius}) {
+  return i == roomTemp ||
+      i == roomTempDegreesC ||
+      (i == roomTempDegreesF && !(useCelsius ?? isLocaleMetric));
+}
+
 // Infer C or F based on temp range and locale
-bool isTempCelsius(i) {
-  return i <= boilDegreesC && !(i == roomTemp && !isLocaleMetric);
+bool isCelsiusTemp(i, {bool? useCelsius}) {
+  if (isRoomTemp(i, useCelsius: useCelsius)) {
+    return useCelsius ?? isLocaleMetric;
+  } else {
+    return i <= boilDegreesC;
+  }
 }
 
 // Localized temperature units
@@ -47,15 +58,15 @@ String get degreesF {
 
 // Format brew temperature as number with optional units
 String formatTemp(i, {bool? useCelsius}) {
-  if (i == 0) {
+  if (isRoomTemp(i, useCelsius: useCelsius)) {
     // Room temperature
     return '$emDash$degreeSymbol';
   }
   String unit = useCelsius == null
       ? degreeSymbol
-      : isTempCelsius(i) && !useCelsius
+      : isCelsiusTemp(i, useCelsius: useCelsius) && !useCelsius
           ? degreesC
-          : !isTempCelsius(i) && useCelsius
+          : !isCelsiusTemp(i, useCelsius: useCelsius) && useCelsius
               ? degreesF
               : degreeSymbol;
   return '$i$unit';
