@@ -113,11 +113,14 @@ class _StatsWidgetState extends State<StatsWidget> {
                           ),
                         ),
                         // Summary pie chart
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.all(24.0),
-                            child: _chart(chartSize: chartSize),
+                        Visibility(
+                          visible: summaryStats.isNotEmpty,
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.all(24.0),
+                              child: _chart(chartSize: chartSize),
+                            ),
                           ),
                         ),
                       ],
