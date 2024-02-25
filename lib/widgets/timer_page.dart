@@ -495,16 +495,13 @@ class _TimerWidgetState extends State<TimerWidget> {
     return Column(
       children: [
         // Start brewing button
-        Padding(
-          padding: largeDefaultPadding,
-          child: TeaButton(
-            key: GlobalObjectKey(tea.id),
-            tea: tea,
-            fade: !(_timerCount < timersMaxCount || tea.isActive),
-            onPressed: _timerCount < timersMaxCount && !tea.isActive
-                ? (_) => _setTimer(tea)
-                : null,
-          ),
+        TeaButton(
+          key: GlobalObjectKey(tea.id),
+          tea: tea,
+          fade: !(_timerCount < timersMaxCount || tea.isActive),
+          onPressed: _timerCount < timersMaxCount && !tea.isActive
+              ? (_) => _setTimer(tea)
+              : null,
         ),
         // Cancel brewing button
         Container(
