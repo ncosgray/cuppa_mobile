@@ -68,6 +68,7 @@ class PrefsWidget extends StatelessWidget {
                 slivers: [
                   // Tea settings
                   const TeaSettingsList(),
+                  const SliverToBoxAdapter(child: smallSpacerWidget),
                   // Other settings inline
                   SliverOffstage(
                     offstage: layoutColumns,

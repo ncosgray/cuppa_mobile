@@ -45,7 +45,7 @@ class TeaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: noPadding,
+      margin: largeDefaultPadding,
       elevation: tea.isActive ? 0.0 : 1.0,
       clipBehavior: Clip.antiAlias,
       child: Container(
