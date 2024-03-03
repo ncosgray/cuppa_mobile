@@ -1,0 +1,5 @@
+* Aceda às estatísticas de utilização para ter acesso a um gráfico divertido que mostra os seus hábitos de consumo de chá!
+* Política de privacidade actualizada para recolha de estatísticas.
+* Melhor dimensionamento para tamanhos de letra grandes do sistema.
+* Vários ajustes de usabilidade e interface.
+* Adicionada a tradução para luxemburguês e outras actualizações de tradução - contribua através do Weblate!

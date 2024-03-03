@@ -1,0 +1,4 @@
+* Adicionado um botão para anular a eliminação de chás.
+* Foi corrigido um erro com os atalhos depois de a lista de chás ter sido reordenada.
+* Ajustes de usabilidade e interface, incluindo novas animações.
+* Traduções para urdu e chinês tradicional - contribua com mais idiomas através do Weblate!
