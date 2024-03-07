@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/local_notifications.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -38,12 +39,9 @@ import 'dart:async';
 import 'dart:math';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
-// ignore: depend_on_referenced_packages
-import 'package:timezone/timezone.dart' as tz;
 
 // Cuppa Timer page
 class TimerWidget extends StatefulWidget {
@@ -332,7 +330,7 @@ class _TimerWidgetState extends State<TimerWidget> {
             if (Provider.of<AppProvider>(context, listen: false)
                 .incrementTimer(timer.tea!, secs)) {
               // If adjustment was successful, update the notification
-              _sendNotification(
+              sendNotification(
                 timer.tea!.brewTimeRemaining,
                 AppString.notification_title.translate(),
                 AppString.notification_text.translate(teaName: timer.tea!.name),
@@ -558,73 +556,6 @@ class _TimerWidgetState extends State<TimerWidget> {
         .length;
   }
 
-  // Set up the brewing complete notification
-  Future<void> _sendNotification(
-    int secs,
-    String title,
-    String text,
-    int notifyID,
-  ) async {
-    tz.TZDateTime notifyTime =
-        tz.TZDateTime.now(tz.local).add(Duration(seconds: secs));
-
-    // Request notification permissions
-    if (appPlatform == TargetPlatform.iOS) {
-      await notify
-          .resolvePlatformSpecificImplementation<
-              IOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
-    } else {
-      await notify
-          .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()
-          ?.requestNotificationsPermission();
-    }
-
-    // Configure and schedule the alarm
-    NotificationDetails notifyDetails = NotificationDetails(
-      android: AndroidNotificationDetails(
-        notifyChannel,
-        AppString.notification_channel_name.translate(),
-        importance: Importance.high,
-        priority: Priority.high,
-        visibility: NotificationVisibility.public,
-        channelShowBadge: true,
-        showWhen: true,
-        enableLights: true,
-        color: timerBackgroundColor,
-        enableVibration: true,
-        vibrationPattern: notifyVibratePattern,
-        playSound: true,
-        sound: const RawResourceAndroidNotificationSound(notifySound),
-        audioAttributesUsage: AudioAttributesUsage.alarm,
-      ),
-      iOS: const DarwinNotificationDetails(
-        presentAlert: true,
-        presentBadge: true,
-        presentSound: true,
-        presentBanner: true,
-        presentList: true,
-        sound: notifySoundIOS,
-        interruptionLevel: InterruptionLevel.timeSensitive,
-      ),
-    );
-    await notify.zonedSchedule(
-      notifyID,
-      title,
-      text,
-      notifyTime,
-      notifyDetails,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-    );
-  }
-
   // Ticker handler for a TeaTimer
   void Function(Timer? ticker) _handleTick(TeaTimer timer) {
     return (ticker) {
@@ -661,7 +592,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
         // Start a new timer
         provider.activateTea(tea, timer.notifyID);
-        _sendNotification(
+        sendNotification(
           tea.brewTime,
           AppString.notification_title.translate(),
           AppString.notification_text.translate(teaName: tea.name),

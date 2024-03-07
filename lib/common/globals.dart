@@ -15,7 +15,6 @@
 
 import 'package:cuppa_mobile/common/constants.dart';
 
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:quick_actions/quick_actions.dart';
@@ -39,18 +38,3 @@ PackageInfo packageInfo = PackageInfo(
 
 // Quick actions
 const QuickActions quickActions = QuickActions();
-
-// Notifications
-final FlutterLocalNotificationsPlugin notify =
-    FlutterLocalNotificationsPlugin();
-const List<int> notifyVibrateDelay = [0];
-const List<int> notifyVibrateSubpattern = [400, 200, 400];
-const List<int> notifyVibratePause = [1000];
-final Int64List notifyVibratePattern = Int64List.fromList(
-  notifyVibrateDelay +
-      notifyVibrateSubpattern +
-      notifyVibratePause +
-      notifyVibrateSubpattern +
-      notifyVibratePause +
-      notifyVibrateSubpattern,
-);

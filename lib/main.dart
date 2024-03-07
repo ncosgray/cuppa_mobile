@@ -14,6 +14,7 @@
 
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/local_notifications.dart';
 import 'package:cuppa_mobile/common/themes.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -21,7 +22,6 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/widgets/timer_page.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:flutter/material.dart';
@@ -51,17 +51,7 @@ void main() async {
   tz.setLocalLocation(tz.getLocation(timeZoneName));
 
   // Initialize notifications plugin
-  await notify.initialize(
-    const InitializationSettings(
-      android: AndroidInitializationSettings(notifyIcon),
-      iOS: DarwinInitializationSettings(
-        // Wait to request permissions when user starts a timer
-        requestSoundPermission: false,
-        requestBadgePermission: false,
-        requestAlertPermission: false,
-      ),
-    ),
-  );
+  await initializeNotifications();
 
   runApp(const CuppaApp());
 }
