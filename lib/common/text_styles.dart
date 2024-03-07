@@ -99,3 +99,7 @@ const TextStyle textStyleStat = TextStyle(
 const TextStyle textStyleStatLabel = TextStyle(
   fontSize: 16.0,
 );
+
+const TextStyle textStyleStatOption = TextStyle(
+  fontSize: 14.0,
+);

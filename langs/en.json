@@ -56,6 +56,7 @@
   "stats_favorite_am": "Favorite before noon",
   "stats_favorite_pm": "Favorite after noon",
   "stats_header": "Tea timer usage report",
+  "stats_include_deleted": "Include deleted teas in chart",
   "stats_starred": "Starred teas {{star_symbol}}",
   "stats_timer_count": "Timers started",
   "stats_timer_time": "Total steep time",
