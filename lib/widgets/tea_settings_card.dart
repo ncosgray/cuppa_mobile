@@ -17,6 +17,7 @@ import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/local_notifications.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -235,6 +236,18 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
               navigatorKey.currentContext!,
               listen: false,
             ).updateTea(widget.tea, name: newValue);
+
+            // Edit notification for active timer
+            if (widget.tea.isActive &&
+                widget.tea.brewTimeRemaining > 0 &&
+                widget.tea.timerNotifyID != null) {
+              sendNotification(
+                widget.tea.brewTimeRemaining,
+                AppString.notification_title.translate(),
+                AppString.notification_text.translate(teaName: widget.tea.name),
+                widget.tea.timerNotifyID!,
+              );
+            }
           }
         }),
       ),
