@@ -154,42 +154,38 @@ class PrefsWidget extends StatelessWidget {
   Widget _collectStatsSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return Align(
-      alignment: Alignment.topLeft,
-      child: SwitchListTile.adaptive(
-        title: Text(
-          AppString.stats_enable.translate(),
-          style: textStyleTitle,
-        ),
-        value: provider.collectStats,
-        // Save collectStats setting to prefs
-        onChanged: (bool newValue) async {
-          AppProvider provider =
-              Provider.of<AppProvider>(context, listen: false);
-
-          // Show a prompt with more information
-          if (await showConfirmDialog(
-            context: context,
-            body: Text(
-              provider.collectStats
-                  ? AppString.stats_confirm_disable.translate()
-                  : AppString.stats_confirm_enable.translate(),
-            ),
-            bodyExtra: Text(AppString.confirm_continue.translate()),
-            isDestructiveAction: provider.collectStats,
-          )) {
-            // Update setting
-            provider.collectStats = newValue;
-
-            // Clear usage data if collection gets disabled
-            if (!provider.collectStats) {
-              Stats.clearStats();
-            }
-          }
-        },
-        contentPadding: listTilePadding,
-        dense: true,
+    return SwitchListTile.adaptive(
+      title: Text(
+        AppString.stats_enable.translate(),
+        style: textStyleTitle,
       ),
+      value: provider.collectStats,
+      // Save collectStats setting to prefs
+      onChanged: (bool newValue) async {
+        AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
+        // Show a prompt with more information
+        if (await showConfirmDialog(
+          context: context,
+          body: Text(
+            provider.collectStats
+                ? AppString.stats_confirm_disable.translate()
+                : AppString.stats_confirm_enable.translate(),
+          ),
+          bodyExtra: Text(AppString.confirm_continue.translate()),
+          isDestructiveAction: provider.collectStats,
+        )) {
+          // Update setting
+          provider.collectStats = newValue;
+
+          // Clear usage data if collection gets disabled
+          if (!provider.collectStats) {
+            Stats.clearStats();
+          }
+        }
+      },
+      contentPadding: listTilePadding,
+      dense: true,
     );
   }
 
@@ -197,21 +193,18 @@ class PrefsWidget extends StatelessWidget {
   Widget _showExtraSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return Align(
-      alignment: Alignment.topLeft,
-      child: SwitchListTile.adaptive(
-        title: Text(
-          AppString.prefs_show_extra.translate(),
-          style: textStyleTitle,
-        ),
-        value: provider.showExtra,
-        // Save showExtra setting to prefs
-        onChanged: (bool newValue) {
-          provider.showExtra = newValue;
-        },
-        contentPadding: listTilePadding,
-        dense: true,
+    return SwitchListTile.adaptive(
+      title: Text(
+        AppString.prefs_show_extra.translate(),
+        style: textStyleTitle,
       ),
+      value: provider.showExtra,
+      // Save showExtra setting to prefs
+      onChanged: (bool newValue) {
+        provider.showExtra = newValue;
+      },
+      contentPadding: listTilePadding,
+      dense: true,
     );
   }
 
@@ -219,27 +212,24 @@ class PrefsWidget extends StatelessWidget {
   Widget _hideIncrementsSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return Align(
-      alignment: Alignment.topLeft,
-      child: SwitchListTile.adaptive(
-        title: Text(
-          AppString.prefs_hide_increments.translate(),
-          style: textStyleTitle,
-        ),
-        subtitle: provider.hideIncrements
-            ? Text(
-                AppString.prefs_hide_increments_info.translate(),
-                style: textStyleSubtitle,
-              )
-            : null,
-        value: provider.hideIncrements,
-        // Save hideIncrements setting to prefs
-        onChanged: (bool newValue) {
-          provider.hideIncrements = newValue;
-        },
-        contentPadding: listTilePadding,
-        dense: true,
+    return SwitchListTile.adaptive(
+      title: Text(
+        AppString.prefs_hide_increments.translate(),
+        style: textStyleTitle,
       ),
+      subtitle: provider.hideIncrements
+          ? Text(
+              AppString.prefs_hide_increments_info.translate(),
+              style: textStyleSubtitle,
+            )
+          : null,
+      value: provider.hideIncrements,
+      // Save hideIncrements setting to prefs
+      onChanged: (bool newValue) {
+        provider.hideIncrements = newValue;
+      },
+      contentPadding: listTilePadding,
+      dense: true,
     );
   }
 
@@ -247,21 +237,18 @@ class PrefsWidget extends StatelessWidget {
   Widget _stackedViewSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return Align(
-      alignment: Alignment.topLeft,
-      child: SwitchListTile.adaptive(
-        title: Text(
-          AppString.prefs_stacked_view.translate(),
-          style: textStyleTitle,
-        ),
-        value: provider.stackedView,
-        // Save stackedView setting to prefs
-        onChanged: (bool newValue) {
-          provider.stackedView = newValue;
-        },
-        contentPadding: listTilePadding,
-        dense: true,
+    return SwitchListTile.adaptive(
+      title: Text(
+        AppString.prefs_stacked_view.translate(),
+        style: textStyleTitle,
       ),
+      value: provider.stackedView,
+      // Save stackedView setting to prefs
+      onChanged: (bool newValue) {
+        provider.stackedView = newValue;
+      },
+      contentPadding: listTilePadding,
+      dense: true,
     );
   }
 
@@ -269,21 +256,18 @@ class PrefsWidget extends StatelessWidget {
   Widget _useCelsiusSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return Align(
-      alignment: Alignment.topLeft,
-      child: SwitchListTile.adaptive(
-        title: Text(
-          AppString.prefs_use_celsius.translate(),
-          style: textStyleTitle,
-        ),
-        value: provider.useCelsius,
-        // Save useCelsius setting to prefs
-        onChanged: (bool newValue) {
-          provider.useCelsius = newValue;
-        },
-        contentPadding: listTilePadding,
-        dense: true,
+    return SwitchListTile.adaptive(
+      title: Text(
+        AppString.prefs_use_celsius.translate(),
+        style: textStyleTitle,
       ),
+      value: provider.useCelsius,
+      // Save useCelsius setting to prefs
+      onChanged: (bool newValue) {
+        provider.useCelsius = newValue;
+      },
+      contentPadding: listTilePadding,
+      dense: true,
     );
   }
 
@@ -291,31 +275,28 @@ class PrefsWidget extends StatelessWidget {
   Widget _appThemeSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return Align(
-      alignment: Alignment.topLeft,
-      child: ListTile(
-        title: Text(
-          AppString.prefs_app_theme.translate(),
-          style: textStyleTitle,
-        ),
-        trailing: Text(
-          provider.appTheme.localizedName,
-          style: textStyleTitle.copyWith(
-            color: Theme.of(context).textTheme.bodySmall!.color!,
-          ),
-        ),
-        // Open app theme dialog
-        onTap: () => openPlatformAdaptiveSelectList(
-          context: context,
-          titleText: AppString.prefs_app_theme.translate(),
-          buttonTextCancel: AppString.cancel_button.translate(),
-          itemList: AppTheme.values,
-          itemBuilder: _appThemeItem,
-          separatorBuilder: separatorDummy,
-        ),
-        contentPadding: listTilePadding,
-        dense: true,
+    return ListTile(
+      title: Text(
+        AppString.prefs_app_theme.translate(),
+        style: textStyleTitle,
       ),
+      trailing: Text(
+        provider.appTheme.localizedName,
+        style: textStyleTitle.copyWith(
+          color: Theme.of(context).textTheme.bodySmall!.color!,
+        ),
+      ),
+      // Open app theme dialog
+      onTap: () => openPlatformAdaptiveSelectList(
+        context: context,
+        titleText: AppString.prefs_app_theme.translate(),
+        buttonTextCancel: AppString.cancel_button.translate(),
+        itemList: AppTheme.values,
+        itemBuilder: _appThemeItem,
+        separatorBuilder: separatorDummy,
+      ),
+      contentPadding: listTilePadding,
+      dense: true,
     );
   }
 
@@ -347,33 +328,29 @@ class PrefsWidget extends StatelessWidget {
   Widget _appLanguageSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return Align(
-      alignment: Alignment.topLeft,
-      child: ListTile(
-        title:
-            Text(AppString.prefs_language.translate(), style: textStyleTitle),
-        trailing: Text(
-          provider.appLanguage != followSystemLanguage &&
-                  supportedLocales
-                      .containsKey(parseLocaleString(provider.appLanguage))
-              ? supportedLocales[parseLocaleString(provider.appLanguage)]!
-              : AppString.theme_system.translate(),
-          style: textStyleTitle.copyWith(
-            color: Theme.of(context).textTheme.bodySmall!.color!,
-          ),
+    return ListTile(
+      title: Text(AppString.prefs_language.translate(), style: textStyleTitle),
+      trailing: Text(
+        provider.appLanguage != followSystemLanguage &&
+                supportedLocales
+                    .containsKey(parseLocaleString(provider.appLanguage))
+            ? supportedLocales[parseLocaleString(provider.appLanguage)]!
+            : AppString.theme_system.translate(),
+        style: textStyleTitle.copyWith(
+          color: Theme.of(context).textTheme.bodySmall!.color!,
         ),
-        // Open app language dialog
-        onTap: () => openPlatformAdaptiveSelectList(
-          context: context,
-          titleText: AppString.prefs_language.translate(),
-          buttonTextCancel: AppString.cancel_button.translate(),
-          itemList: languageOptions,
-          itemBuilder: _appLanguageItem,
-          separatorBuilder: separatorDummy,
-        ),
-        contentPadding: listTilePadding,
-        dense: true,
       ),
+      // Open app language dialog
+      onTap: () => openPlatformAdaptiveSelectList(
+        context: context,
+        titleText: AppString.prefs_language.translate(),
+        buttonTextCancel: AppString.cancel_button.translate(),
+        itemList: languageOptions,
+        itemBuilder: _appLanguageItem,
+        separatorBuilder: separatorDummy,
+      ),
+      contentPadding: listTilePadding,
+      dense: true,
     );
   }
 
