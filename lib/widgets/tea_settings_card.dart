@@ -14,6 +14,7 @@
 // - Build interface for tea customization
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
@@ -94,87 +95,80 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
 
     return Card(
       margin: bodyPadding,
-      child: IgnorePointer(
-        // Disable editing actively brewing tea
-        ignoring: widget.tea.isActive,
-        child: ListTile(
-          horizontalTitleGap: layoutPortrait ? 4.0 : 24.0,
-          title: Opacity(
-            opacity: widget.tea.isActive ? fadeOpacity : noOpacity,
-            child: SizedBox(
-              height: layoutPortrait ? 88.0 : 64.0,
-              child: Flex(
-                // Determine layout by device size
-                direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
-                children: [
-                  Flexible(
-                    child: Container(
-                      height: 54.0,
-                      padding: noPadding,
-                      child: Row(
-                        children: [
-                          // Favorite status
-                          _favoriteButton(),
-                          smallSpacerWidget,
-                          // Tea name with edit icon
-                          _teaNameEditor(),
-                        ],
-                      ),
-                    ),
+      child: ListTile(
+        horizontalTitleGap: layoutPortrait ? 4.0 : 24.0,
+        title: SizedBox(
+          height: layoutPortrait ? 88.0 : 64.0,
+          child: Flex(
+            // Determine layout by device size
+            direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
+            children: [
+              Flexible(
+                child: Container(
+                  height: 54.0,
+                  padding: noPadding,
+                  child: Row(
+                    children: [
+                      // Favorite status
+                      _favoriteButton(),
+                      smallSpacerWidget,
+                      // Tea name with edit icon
+                      _teaNameEditor(),
+                    ],
                   ),
-                  // Tea settings selection
-                  Flexible(
-                    child: Container(
-                      padding: noPadding,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Brew time
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: _teaBrewTimeSelector(),
-                            ),
-                          ),
-                          // Brew temperature
-                          Container(
-                            padding: rowPadding,
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: _teaBrewTempSelector(),
-                            ),
-                          ),
-                          // Settings separator
-                          ConstrainedBox(
-                            constraints: const BoxConstraints(
-                              minWidth: 12.0,
-                              maxWidth: double.infinity,
-                            ),
-                            child: Container(),
-                          ),
-                          // Tea color selection
-                          Container(
-                            padding: rowPadding,
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: _teaColorSelector(),
-                            ),
-                          ),
-                          // Icon selection
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: _teaIconSelector(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+              // Tea settings selection
+              Flexible(
+                child: Container(
+                  padding: noPadding,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Brew time
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: _teaBrewTimeSelector(),
+                        ),
+                      ),
+                      // Brew temperature
+                      Container(
+                        padding: rowPadding,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: _teaBrewTempSelector(),
+                        ),
+                      ),
+                      // Settings separator
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          minWidth: 12.0,
+                          maxWidth: double.infinity,
+                        ),
+                        child: Container(),
+                      ),
+                      // Tea color selection
+                      Container(
+                        padding: rowPadding,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: _teaColorSelector(),
+                        ),
+                      ),
+                      // Icon selection
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: _teaIconSelector(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          trailing: const SizedBox(height: double.infinity, child: dragHandle),
         ),
+        trailing: const SizedBox(height: double.infinity, child: dragHandle),
       ),
     );
   }
@@ -237,8 +231,10 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
             _openTeaNameDialog(context, widget.tea.name).then((newValue) {
           if (newValue != null) {
             // Save name to prefs
-            Provider.of<AppProvider>(context, listen: false)
-                .updateTea(widget.tea, name: newValue);
+            Provider.of<AppProvider>(
+              navigatorKey.currentContext!,
+              listen: false,
+            ).updateTea(widget.tea, name: newValue);
           }
         }),
       ),
@@ -300,8 +296,10 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         ).then((newValue) {
           if (newValue != null) {
             // Save brew time to prefs
-            Provider.of<AppProvider>(context, listen: false)
-                .updateTea(widget.tea, brewTime: newValue);
+            Provider.of<AppProvider>(
+              navigatorKey.currentContext!,
+              listen: false,
+            ).updateTea(widget.tea, brewTime: newValue);
           }
         }),
       ),
@@ -363,8 +361,10 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
             .then((newValue) {
           if (newValue != null) {
             // Save brew temp to prefs
-            Provider.of<AppProvider>(context, listen: false)
-                .updateTea(widget.tea, brewTemp: newValue);
+            Provider.of<AppProvider>(
+              navigatorKey.currentContext!,
+              listen: false,
+            ).updateTea(widget.tea, brewTemp: newValue);
           }
         }),
       ),
@@ -424,7 +424,10 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                 .then((newValues) {
           if (newValues != null) {
             // Save color data to prefs
-            Provider.of<AppProvider>(context, listen: false).updateTea(
+            Provider.of<AppProvider>(
+              navigatorKey.currentContext!,
+              listen: false,
+            ).updateTea(
               widget.tea,
               color: newValues.teaColor,
               colorShade: newValues.colorShade,
@@ -523,9 +526,11 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
       icon: value.getIcon(),
       // Set selected icon
       onPressed: () {
-        Provider.of<AppProvider>(context, listen: false)
-            .updateTea(widget.tea, icon: value);
-        Navigator.of(context).pop(true);
+        Provider.of<AppProvider>(
+          navigatorKey.currentContext!,
+          listen: false,
+        ).updateTea(widget.tea, icon: value);
+        Navigator.of(navigatorKey.currentContext!).pop(true);
       },
     );
   }

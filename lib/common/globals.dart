@@ -15,10 +15,13 @@
 
 import 'package:cuppa_mobile/common/constants.dart';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+// Global navigator
+final navigatorKey = GlobalKey<NavigatorState>();
 
 // Shared preferences
 late SharedPreferences sharedPrefs;

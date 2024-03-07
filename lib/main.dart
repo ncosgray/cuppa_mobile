@@ -91,6 +91,7 @@ class CuppaApp extends StatelessWidget {
                 },
                 title: appName,
                 debugShowCheckedModeBanner: false,
+                navigatorKey: navigatorKey,
                 // Configure app theme including dynamic colors if supported
                 theme: createLightTheme(
                   dynamicColors: lightDynamic,
