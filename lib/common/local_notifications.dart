@@ -58,8 +58,9 @@ Future<void> sendNotification(
   int secs,
   String title,
   String text,
-  int notifyID,
-) async {
+  int notifyID, {
+  bool silent = false,
+}) async {
   tz.TZDateTime notifyTime =
       tz.TZDateTime.now(tz.local).add(Duration(seconds: secs));
 
@@ -95,13 +96,14 @@ Future<void> sendNotification(
       enableVibration: true,
       vibrationPattern: notifyVibratePattern,
       playSound: true,
+      silent: silent,
       sound: const RawResourceAndroidNotificationSound(notifySound),
       audioAttributesUsage: AudioAttributesUsage.alarm,
     ),
-    iOS: const DarwinNotificationDetails(
+    iOS: DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: true,
-      presentSound: true,
+      presentSound: !silent,
       presentBanner: true,
       presentList: true,
       sound: notifySoundIOS,

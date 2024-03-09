@@ -271,6 +271,10 @@ class _TimerWidgetState extends State<TimerWidget> {
       selector: (_, provider) => provider.hideIncrements,
       builder: (context, hideIncrements, child) => Row(
         children: [
+          // Silence button
+          timer != null && (_showTimerIncrements || !hideIncrements)
+              ? _silenceButton(timer)
+              : spacerWidget,
           IgnorePointer(
             ignoring: timer == null || !hideIncrements,
             child: GestureDetector(
@@ -311,6 +315,37 @@ class _TimerWidgetState extends State<TimerWidget> {
     );
   }
 
+  // Silence timer button
+  Widget _silenceButton(TeaTimer timer) {
+    return Container(
+      margin: smallDefaultPadding,
+      child: TextButton(
+        // Toggle silent status for this timer
+        onPressed: () {
+          if (timer.tea != null) {
+            setState(() => timer.toggleSilent());
+
+            // Update the notification
+            sendNotification(
+              timer.tea!.brewTimeRemaining,
+              AppString.notification_title.translate(),
+              AppString.notification_text.translate(teaName: timer.tea!.name),
+              timer.notifyID,
+              silent: timer.isSilent,
+            );
+          }
+          _hideTimerIncrementsDelay = hideTimerIncrementsDelay;
+        },
+        // Button with speaker icon
+        child: Icon(
+          timer.isSilent ? Icons.volume_off : Icons.volume_up,
+          color: timerForegroundColor,
+          size: 28.0,
+        ),
+      ),
+    );
+  }
+
   // Increment timer button
   Widget _incrementButton(TeaTimer timer, int secs) {
     int buttonValue = secs.abs() > 60 ? secs.abs() ~/ 60 : secs.abs();
@@ -332,6 +367,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                 AppString.notification_title.translate(),
                 AppString.notification_text.translate(teaName: timer.tea!.name),
                 timer.notifyID,
+                silent: timer.isSilent,
               );
             }
           }

@@ -33,6 +33,7 @@ class TeaTimer {
   // Fields
   late int notifyID;
   bool isActive = false;
+  bool isSilent = false;
   Tea? tea;
   int brewTime = 0;
   int timerSeconds = 0;
@@ -44,10 +45,16 @@ class TeaTimer {
   // Start brewing
   void start(Tea newTea, void Function(Timer? timer) handleTick) {
     isActive = true;
+    isSilent = false;
     tea = newTea;
     brewTime = newTea.brewTime;
     ticker = Timer.periodic(const Duration(milliseconds: 100), handleTick);
     decrement();
+  }
+
+  // Silence or unsilence timer notification
+  void toggleSilent() {
+    isSilent = !isSilent;
   }
 
   // Decrement remaining brew time
