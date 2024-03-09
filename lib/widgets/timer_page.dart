@@ -53,8 +53,6 @@ class TimerWidget extends StatefulWidget {
 
 class _TimerWidgetState extends State<TimerWidget> {
   // State variables
-  final TeaTimer _timer1 = TeaTimer(notifyID: notifyID1);
-  final TeaTimer _timer2 = TeaTimer(notifyID: notifyID2);
   bool _showTimerIncrements = false;
   int _hideTimerIncrementsDelay = 0;
   final ScrollController _scrollController = ScrollController();
@@ -94,7 +92,7 @@ class _TimerWidgetState extends State<TimerWidget> {
     // Process tea list scroll request after build
     Future.delayed(
       Duration.zero,
-      () => _scrollToTeaButton(_timer1.tea ?? _timer2.tea),
+      () => _scrollToTeaButton(timer1.tea ?? timer2.tea),
     );
 
     // Delay before hiding increments buttons
@@ -193,7 +191,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       decoration: BoxDecoration(
         color: timerBackgroundColor,
         // Apply background colors to distinguish timers
-        gradient: _timerCount > 0
+        gradient: activeTimerCount > 0
             ? LinearGradient(
                 begin:
                     layoutPortrait ? Alignment.topCenter : Alignment.centerLeft,
@@ -201,16 +199,16 @@ class _TimerWidgetState extends State<TimerWidget> {
                     ? Alignment.bottomCenter
                     : Alignment.centerRight,
                 stops: List<double>.filled(
-                  _timerCount,
-                  !layoutPortrait && _timerCount > 1
-                      ? _timer1.timerString.length /
-                          (_timer1.timerString.length +
-                              _timer2.timerString.length)
+                  activeTimerCount,
+                  !layoutPortrait && activeTimerCount > 1
+                      ? timer1.timerString.length /
+                          (timer1.timerString.length +
+                              timer2.timerString.length)
                       : 0.5,
                 ),
                 colors: [
-                  for (Tea? tea in [_timer1.tea, _timer2.tea])
-                    if (tea != null) tea.getColor(),
+                  for (TeaTimer timer in timerList)
+                    if (timer.tea != null) timer.tea!.getColor(),
                 ],
               )
             : null,
@@ -219,7 +217,7 @@ class _TimerWidgetState extends State<TimerWidget> {
       child: AnimatedSize(
         duration: shortAnimationDuration,
         curve: Curves.linear,
-        child: _timerCount == 0
+        child: activeTimerCount == 0
             ?
             // Idle timer
             _timerText()
@@ -232,15 +230,15 @@ class _TimerWidgetState extends State<TimerWidget> {
                   AnimatedSize(
                     duration: longAnimationDuration,
                     curve: Curves.easeInOut,
-                    child: _timer1.isActive
-                        ? _timerText(_timer1)
+                    child: timer1.isActive
+                        ? _timerText(timer1)
                         : const SizedBox.shrink(),
                   ),
                   // Separator for timers with the same color
                   Visibility(
-                    visible: _timerCount > 1 &&
-                        _timer1.tea?.color == _timer2.tea?.color &&
-                        _timer1.tea?.colorShade == _timer2.tea?.colorShade,
+                    visible: activeTimerCount > 1 &&
+                        timer1.tea?.color == timer2.tea?.color &&
+                        timer1.tea?.colorShade == timer2.tea?.colorShade,
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 12.0),
                       width: layoutPortrait ? 420.0 : 12.0,
@@ -252,8 +250,8 @@ class _TimerWidgetState extends State<TimerWidget> {
                   AnimatedSize(
                     duration: longAnimationDuration,
                     curve: Curves.easeInOut,
-                    child: _timer2.isActive
-                        ? _timerText(_timer2)
+                    child: timer2.isActive
+                        ? _timerText(timer2)
                         : const SizedBox.shrink(),
                   ),
                 ],
@@ -273,7 +271,6 @@ class _TimerWidgetState extends State<TimerWidget> {
       selector: (_, provider) => provider.hideIncrements,
       builder: (context, hideIncrements, child) => Row(
         children: [
-          spacerWidget,
           IgnorePointer(
             ignoring: timer == null || !hideIncrements,
             child: GestureDetector(
@@ -385,9 +382,9 @@ class _TimerWidgetState extends State<TimerWidget> {
         ),
         // While timing, gradually darken the tea in the cup
         Opacity(
-          opacity: _timerCount == 0
+          opacity: activeTimerCount == 0
               ? 0.0
-              : min(_timer1.timerPercent, _timer2.timerPercent),
+              : min(timer1.timerPercent, timer2.timerPercent),
           child: Image.asset(
             cupImageTea,
             fit: BoxFit.fitWidth,
@@ -396,7 +393,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         ),
         // While timing, put a teabag in the cup
         Visibility(
-          visible: _timerCount > 0,
+          visible: activeTimerCount > 0,
           child: Image.asset(
             cupImageBag,
             fit: BoxFit.fitWidth,
@@ -496,8 +493,8 @@ class _TimerWidgetState extends State<TimerWidget> {
         TeaButton(
           key: GlobalObjectKey(tea.id),
           tea: tea,
-          fade: !(_timerCount < timersMaxCount || tea.isActive),
-          onPressed: _timerCount < timersMaxCount && !tea.isActive
+          fade: !(activeTimerCount < timersMaxCount || tea.isActive),
+          onPressed: activeTimerCount < timersMaxCount && !tea.isActive
               ? (_) => _setTimer(tea)
               : null,
         ),
@@ -549,13 +546,6 @@ class _TimerWidgetState extends State<TimerWidget> {
     );
   }
 
-  // Count of currently active timers
-  int get _timerCount {
-    return [_timer1.isActive, _timer2.isActive]
-        .where((active) => active)
-        .length;
-  }
-
   // Ticker handler for a TeaTimer
   void Function(Timer? ticker) _handleTick(TeaTimer timer) {
     return (ticker) {
@@ -585,7 +575,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   void _setTimer(Tea tea, {bool resume = false}) {
     setState(() {
       // Determine next available timer
-      TeaTimer timer = !_timer1.isActive ? _timer1 : _timer2;
+      TeaTimer timer = !timer1.isActive ? timer1 : timer2;
 
       if (!resume) {
         AppProvider provider = Provider.of<AppProvider>(context, listen: false);
@@ -605,7 +595,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         }
       } else if (tea.timerNotifyID != null) {
         // Resume with same timer ID
-        timer = tea.timerNotifyID == _timer1.notifyID ? _timer1 : _timer2;
+        timer = tea.timerNotifyID == timer1.notifyID ? timer1 : timer2;
       }
 
       // Set up timer state
@@ -621,10 +611,10 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   // Cancel timer for a given tea
   void _cancelTimerForTea(Tea tea) {
-    if (_timer1.tea == tea) {
-      _cancelTimer(_timer1);
-    } else if (_timer2.tea == tea) {
-      _cancelTimer(_timer2);
+    for (TeaTimer timer in timerList) {
+      if (timer.tea == tea) {
+        _cancelTimer(timer);
+      }
     }
   }
 
@@ -632,8 +622,9 @@ class _TimerWidgetState extends State<TimerWidget> {
   void _cancelAllTimers() {
     setState(() {
       Provider.of<AppProvider>(context, listen: false).clearActiveTea();
-      _cancelTimer(_timer1);
-      _cancelTimer(_timer2);
+      for (TeaTimer timer in timerList) {
+        _cancelTimer(timer);
+      }
     });
   }
 
@@ -667,7 +658,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         if (teaIndex >= 0 && teaIndex < provider.teaCount) {
           Tea tea = provider.teaList[teaIndex];
           if (!tea.isActive) {
-            if (_timerCount >= timersMaxCount) {
+            if (activeTimerCount >= timersMaxCount) {
               // Ask to cancel and free a timer slot if needed
               if (await showConfirmDialog(
                 context: context,

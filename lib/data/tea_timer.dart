@@ -11,14 +11,24 @@
 */
 
 // Cuppa data
-// - Instance of a tea timer
+// - Tea timer class and timer objects
+// - Timer utility functions
 
+import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'dart:async';
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
+// Tea timers
+final TeaTimer timer1 = TeaTimer(notifyID: notifyID1);
+final TeaTimer timer2 = TeaTimer(notifyID: notifyID2);
+final List<TeaTimer> timerList = [timer1, timer2];
+
+// Tea timer definition
 class TeaTimer {
   // Fields
   late int notifyID;
@@ -74,4 +84,14 @@ class TeaTimer {
   String get timerString {
     return formatTimer(timerSeconds);
   }
+}
+
+// Get timer from ID
+TeaTimer? getTimerFromID(int id) {
+  return timerList.firstWhereOrNull((timer) => timer.notifyID == id);
+}
+
+// Count of currently active timers
+int get activeTimerCount {
+  return timerList.where((timer) => timer.isActive).length;
 }
