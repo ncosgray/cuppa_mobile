@@ -25,6 +25,7 @@
   "new_tea_default_name": "New Tea",
   "no_button": "No",
   "notification_channel_name": "Timer notifications",
+  "notification_channel_silent": "Silent notifications",
   "notification_text": "{{tea_name}} is now ready!",
   "notification_title": "Brewing complete...",
   "ok_button": "OK",

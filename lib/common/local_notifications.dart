@@ -81,11 +81,28 @@ Future<void> sendNotification(
         ?.requestNotificationsPermission();
   }
 
+  // Cancel existing notification if channel needs to be changed (Android only)
+  if (appPlatform == TargetPlatform.android) {
+    List<PendingNotificationRequest> pendingNotifications =
+        await notify.pendingNotificationRequests();
+    for (PendingNotificationRequest notification in pendingNotifications) {
+      // Check for mismatch between channel and silent status
+      if (notification.payload != null && notification.id == notifyID) {
+        if ((notification.payload == notifyChannel && silent) ||
+            (notification.payload == notifyChannelSilent && !silent)) {
+          await notify.cancel(notifyID);
+        }
+      }
+    }
+  }
+
   // Configure and schedule the alarm
   NotificationDetails notifyDetails = NotificationDetails(
     android: AndroidNotificationDetails(
-      notifyChannel,
-      AppString.notification_channel_name.translate(),
+      silent ? notifyChannelSilent : notifyChannel,
+      silent
+          ? AppString.notification_channel_silent.translate()
+          : AppString.notification_channel_name.translate(),
       importance: Importance.high,
       priority: Priority.high,
       visibility: NotificationVisibility.public,
@@ -95,9 +112,10 @@ Future<void> sendNotification(
       color: timerBackgroundColor,
       enableVibration: true,
       vibrationPattern: notifyVibratePattern,
-      playSound: true,
-      silent: silent,
-      sound: const RawResourceAndroidNotificationSound(notifySound),
+      playSound: !silent,
+      sound: silent
+          ? null
+          : const RawResourceAndroidNotificationSound(notifySound),
       audioAttributesUsage: AudioAttributesUsage.alarm,
     ),
     iOS: DarwinNotificationDetails(
@@ -116,6 +134,7 @@ Future<void> sendNotification(
     text,
     notifyTime,
     notifyDetails,
+    payload: silent ? notifyChannelSilent : notifyChannel,
     androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     uiLocalNotificationDateInterpretation:
         UILocalNotificationDateInterpretation.absoluteTime,

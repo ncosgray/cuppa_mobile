@@ -53,6 +53,7 @@ const largeDeviceSize = 550;
 const notifyID1 = 0;
 const notifyID2 = 1;
 const notifyChannel = 'Cuppa_timer_channel';
+const notifyChannelSilent = 'Cuppa_silent_channel';
 const notifyIcon = 'ic_stat_name';
 const notifySound = 'spoon';
 const notifySoundIOS = 'sound/spoon.aiff';
