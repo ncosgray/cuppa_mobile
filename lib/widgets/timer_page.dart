@@ -284,18 +284,23 @@ class _TimerWidgetState extends State<TimerWidget> {
                 _hideTimerIncrementsDelay = hideTimerIncrementsDelay;
               }),
               // Timer time remaining
-              child: SizedBox(
-                width: text.length * 96.0,
-                child: Container(
-                  padding: timerPadding,
-                  alignment: Alignment.center,
-                  child: Text(
-                    text,
-                    maxLines: 1,
-                    softWrap: false,
-                    overflow: TextOverflow.clip,
-                    textScaler: TextScaler.noScaling,
-                    style: textStyleTimer,
+              child: AnimatedScale(
+                scale: timer?.timerSeconds == 1 ? 1.04 : 1.0,
+                duration: const Duration(seconds: 1),
+                curve: Curves.easeOutExpo,
+                child: SizedBox(
+                  width: text.length * 96.0,
+                  child: Container(
+                    padding: timerPadding,
+                    alignment: Alignment.center,
+                    child: Text(
+                      text,
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.clip,
+                      textScaler: TextScaler.noScaling,
+                      style: textStyleTimer,
+                    ),
                   ),
                 ),
               ),
