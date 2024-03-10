@@ -42,6 +42,7 @@ abstract class Export {
         settings: Settings(
           showExtra: provider.showExtra,
           hideIncrements: provider.hideIncrements,
+          silentDefault: provider.silentDefault,
           useCelsius: provider.useCelsius,
           appThemeValue: provider.appTheme.value,
           appLanguage: provider.appLanguage,
@@ -98,6 +99,10 @@ abstract class Export {
 
           if (exportData.settings!.hideIncrements != null) {
             provider.hideIncrements = exportData.settings!.hideIncrements!;
+          }
+
+          if (exportData.settings!.silentDefault != null) {
+            provider.silentDefault = exportData.settings!.silentDefault!;
           }
 
           if (exportData.settings!.useCelsius != null) {
@@ -191,6 +196,7 @@ class ExportFile {
 class Settings {
   bool? showExtra;
   bool? hideIncrements;
+  bool? silentDefault;
   bool? useCelsius;
   int? appThemeValue;
   String? appLanguage;
@@ -201,6 +207,7 @@ class Settings {
   Settings({
     this.showExtra,
     this.hideIncrements,
+    this.silentDefault,
     this.useCelsius,
     this.appThemeValue,
     this.appLanguage,
@@ -213,6 +220,7 @@ class Settings {
     return Settings(
       showExtra: tryCast<bool>(json[jsonKeyShowExtra]),
       hideIncrements: tryCast<bool>(json[jsonKeyHideIncrements]),
+      silentDefault: tryCast<bool>(json[jsonKeySilentDefault]),
       useCelsius: tryCast<bool>(json[jsonKeyUseCelsius]),
       appThemeValue: tryCast<int>(json[jsonKeyAppTheme]),
       appLanguage: tryCast<String>(json[jsonKeyAppLanguage]),
@@ -224,6 +232,7 @@ class Settings {
   Map<String, dynamic> toJson() => {
         jsonKeyShowExtra: showExtra,
         jsonKeyHideIncrements: hideIncrements,
+        jsonKeySilentDefault: silentDefault,
         jsonKeyUseCelsius: useCelsius,
         jsonKeyAppTheme: appThemeValue,
         jsonKeyAppLanguage: appLanguage,

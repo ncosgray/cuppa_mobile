@@ -24,7 +24,6 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:cuppa_mobile/data/tea_timer.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/tea_brew_temp_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_brew_time_dialog.dart';
@@ -247,8 +246,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                 AppString.notification_title.translate(),
                 AppString.notification_text.translate(teaName: widget.tea.name),
                 widget.tea.timerNotifyID!,
-                silent: getTimerFromID(widget.tea.timerNotifyID!)?.isSilent ??
-                    false,
+                silent: widget.tea.isSilent,
               );
             }
           }

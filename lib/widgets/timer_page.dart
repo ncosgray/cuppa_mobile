@@ -323,7 +323,10 @@ class _TimerWidgetState extends State<TimerWidget> {
         // Toggle silent status for this timer
         onPressed: () {
           if (timer.tea != null) {
-            setState(() => timer.toggleSilent());
+            setState(
+              () => Provider.of<AppProvider>(context, listen: false)
+                  .updateTea(timer.tea!, isSilent: !(timer.tea!.isSilent)),
+            );
 
             // Update the notification
             sendNotification(
@@ -331,14 +334,14 @@ class _TimerWidgetState extends State<TimerWidget> {
               AppString.notification_title.translate(),
               AppString.notification_text.translate(teaName: timer.tea!.name),
               timer.notifyID,
-              silent: timer.isSilent,
+              silent: timer.tea!.isSilent,
             );
           }
           _hideTimerIncrementsDelay = hideTimerIncrementsDelay;
         },
         // Button with speaker icon
         child: Icon(
-          timer.isSilent ? Icons.volume_off : Icons.volume_up,
+          (timer.tea?.isSilent ?? false) ? Icons.volume_off : Icons.volume_up,
           color: timerForegroundColor,
           size: 28.0,
         ),
@@ -367,7 +370,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                 AppString.notification_title.translate(),
                 AppString.notification_text.translate(teaName: timer.tea!.name),
                 timer.notifyID,
-                silent: timer.isSilent,
+                silent: timer.tea!.isSilent,
               );
             }
           }
@@ -617,12 +620,13 @@ class _TimerWidgetState extends State<TimerWidget> {
         AppProvider provider = Provider.of<AppProvider>(context, listen: false);
 
         // Start a new timer
-        provider.activateTea(tea, timer.notifyID);
+        provider.activateTea(tea, timer.notifyID, provider.silentDefault);
         sendNotification(
           tea.brewTime,
           AppString.notification_title.translate(),
           AppString.notification_text.translate(teaName: tea.name),
           timer.notifyID,
+          silent: provider.silentDefault,
         );
 
         // Update timer stats, if enabled

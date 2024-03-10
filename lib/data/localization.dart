@@ -100,6 +100,8 @@ enum AppString {
   prefs_language('prefs_language'),
   prefs_notifications('prefs_notifications'),
   prefs_show_extra('prefs_show_extra'),
+  prefs_silent_default('prefs_silent_default'),
+  prefs_silent_default_info('prefs_silent_default_info'),
   prefs_title('prefs_title'),
   prefs_use_celsius('prefs_use_celsius'),
   privacy_policy('privacy_policy'),

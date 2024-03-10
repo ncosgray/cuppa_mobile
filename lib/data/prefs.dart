@@ -143,6 +143,10 @@ abstract class Prefs {
     return sharedPrefs.getBool(prefHideIncrements);
   }
 
+  static bool? loadSilentDefault() {
+    return sharedPrefs.getBool(prefSilentDefault);
+  }
+
   static bool? loadUseCelsius() {
     return sharedPrefs.getBool(prefUseCelsius);
   }
@@ -172,6 +176,7 @@ abstract class Prefs {
   static void saveSettings({
     bool? showExtra,
     bool? hideIncrements,
+    bool? silentDefault,
     bool? useCelsius,
     AppTheme? appTheme,
     String? appLanguage,
@@ -183,6 +188,9 @@ abstract class Prefs {
     }
     if (hideIncrements != null) {
       sharedPrefs.setBool(prefHideIncrements, hideIncrements);
+    }
+    if (silentDefault != null) {
+      sharedPrefs.setBool(prefSilentDefault, silentDefault);
     }
     if (useCelsius != null) {
       sharedPrefs.setBool(prefUseCelsius, useCelsius);

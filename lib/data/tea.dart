@@ -33,6 +33,7 @@ class Tea {
   late TeaIcon icon;
   late bool isFavorite;
   late bool isActive;
+  late bool isSilent;
   late int timerEndTime;
   int? timerNotifyID;
   late bool animate;
@@ -50,6 +51,7 @@ class Tea {
     int iconValue = 0,
     required this.isFavorite,
     required this.isActive,
+    this.isSilent = false,
     this.timerEndTime = 0,
     this.timerNotifyID,
     this.animate = false,
@@ -71,8 +73,9 @@ class Tea {
   }
 
   // Activate brew timer
-  void activate(int notifyID) {
+  void activate(int notifyID, bool silentDefault) {
     isActive = true;
+    isSilent = silentDefault;
     timerEndTime = DateTime.now()
         .add(Duration(seconds: brewTime + 1))
         .millisecondsSinceEpoch;
@@ -82,6 +85,7 @@ class Tea {
   // Deactivate brew timer
   void deactivate() {
     isActive = false;
+    isSilent = false;
     timerEndTime = 0;
     timerNotifyID = null;
   }
@@ -314,6 +318,7 @@ class Tea {
       iconValue: tryCast<int>(json[jsonKeyIcon]) ?? 0,
       isFavorite: tryCast<bool>(json[jsonKeyIsFavorite]) ?? false,
       isActive: tryCast<bool>(json[jsonKeyIsActive]) ?? false,
+      isSilent: tryCast<bool>(json[jsonKeyIsSilent]) ?? false,
       timerEndTime: tryCast<int>(json[jsonKeyTimerEndTime]) ?? 0,
       timerNotifyID: tryCast<int>(json[jsonKeyTimerNotifyID]),
     );
@@ -332,6 +337,7 @@ class Tea {
       jsonKeyIcon: icon.value,
       jsonKeyIsFavorite: isFavorite,
       jsonKeyIsActive: isActive,
+      jsonKeyIsSilent: isSilent,
       jsonKeyTimerEndTime: timerEndTime,
       jsonKeyTimerNotifyID: timerNotifyID,
     };
