@@ -1,0 +1,5 @@
+* Melden Sie sich für die Nutzungsstatistiken an, um Zugang zu einem lustigen Diagramm zu erhalten, das Ihre Teetrinkgewohnheiten zeigt!
+* Aktualisierung der Datenschutzbestimmungen für die Statistiksammlung.
+* Bessere Skalierung für große Systemschriftgrößen.
+* Verschiedene Optimierungen der Benutzerfreundlichkeit und der Benutzeroberfläche.
+* Neue luxemburgische Übersetzung und andere Übersetzungsupdates - tragen Sie über Weblate bei!

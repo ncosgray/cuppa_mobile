@@ -1,0 +1,5 @@
+* Der neu gestaltete Farbwähler bietet Dutzende weiterer Farboptionen für Tee!
+* Ein Fehler wurde behoben, der dazu führte, dass der Tee-Namensdialog in manchen Situationen nicht sichtbar war.
+* Kompatibel mit den neuen Android 14 Berechtigungen.
+* Verschiedene Verbesserungen der Benutzerfreundlichkeit und der Benutzeroberfläche.
+* Japanische Übersetzung und andere Übersetzungsupdates hinzugefügt - tragen Sie über Weblate bei!

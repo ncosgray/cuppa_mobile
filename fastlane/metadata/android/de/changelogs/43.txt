@@ -1,0 +1,3 @@
+* Export/Import macht es einfach, Ihre Cuppa-Daten auf ein anderes Gerät zu kopieren.
+* Verschiedene Verbesserungen der Benutzerfreundlichkeit und der Benutzeroberfläche.
+* Updates für Sprachübersetzungen - tragen Sie über Weblate bei!
