@@ -1,0 +1,4 @@
+* Includi la temperatura dell'acqua per ogni tè.
+* Opzione per mostrare informazioni extra sui bottoni del timer.
+* Infusi che si preparano in meno di un minuto.
+* Più lingue e miglioramenti nelle traduzioni - contribuisci da Weblate!

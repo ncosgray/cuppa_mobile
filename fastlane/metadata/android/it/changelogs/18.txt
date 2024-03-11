@@ -1,0 +1,4 @@
+* Aggiungi più di 3 tè personalizzati nelle preferenze di Cuppa
+* Cambia l'ordine dei bottoni del tè.
+* Qualità grafica migliorata.
+* Novità nelle traduzioni - contribuisci da Weblate!
