@@ -215,24 +215,27 @@ class PrefsWidget extends StatelessWidget {
   Widget _hideIncrementsSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return SwitchListTile.adaptive(
-      title: Text(
-        AppString.prefs_hide_increments.translate(),
-        style: textStyleTitle,
+    return AnimatedSize(
+      duration: shortAnimationDuration,
+      child: SwitchListTile.adaptive(
+        title: Text(
+          AppString.prefs_hide_increments.translate(),
+          style: textStyleTitle,
+        ),
+        subtitle: provider.hideIncrements
+            ? Text(
+                AppString.prefs_hide_increments_info.translate(),
+                style: textStyleSubtitle,
+              )
+            : null,
+        value: provider.hideIncrements,
+        // Save hideIncrements setting to prefs
+        onChanged: (bool newValue) {
+          provider.hideIncrements = newValue;
+        },
+        contentPadding: listTilePadding,
+        dense: true,
       ),
-      subtitle: provider.hideIncrements
-          ? Text(
-              AppString.prefs_hide_increments_info.translate(),
-              style: textStyleSubtitle,
-            )
-          : null,
-      value: provider.hideIncrements,
-      // Save hideIncrements setting to prefs
-      onChanged: (bool newValue) {
-        provider.hideIncrements = newValue;
-      },
-      contentPadding: listTilePadding,
-      dense: true,
     );
   }
 
@@ -240,24 +243,27 @@ class PrefsWidget extends StatelessWidget {
   Widget _defaultSilentSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return SwitchListTile.adaptive(
-      title: Text(
-        AppString.prefs_silent_default.translate(),
-        style: textStyleTitle,
+    return AnimatedSize(
+      duration: shortAnimationDuration,
+      child: SwitchListTile.adaptive(
+        title: Text(
+          AppString.prefs_silent_default.translate(),
+          style: textStyleTitle,
+        ),
+        subtitle: provider.hideIncrements
+            ? Text(
+                AppString.prefs_silent_default_info.translate(),
+                style: textStyleSubtitle,
+              )
+            : null,
+        value: provider.silentDefault,
+        // Save silentDefault setting to prefs
+        onChanged: (bool newValue) {
+          provider.silentDefault = newValue;
+        },
+        contentPadding: listTilePadding,
+        dense: true,
       ),
-      subtitle: provider.hideIncrements
-          ? Text(
-              AppString.prefs_silent_default_info.translate(),
-              style: textStyleSubtitle,
-            )
-          : null,
-      value: provider.silentDefault,
-      // Save silentDefault setting to prefs
-      onChanged: (bool newValue) {
-        provider.silentDefault = newValue;
-      },
-      contentPadding: listTilePadding,
-      dense: true,
     );
   }
 
