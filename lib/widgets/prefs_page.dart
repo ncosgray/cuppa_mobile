@@ -17,6 +17,7 @@ import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/list_tiles.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
@@ -157,11 +158,9 @@ class PrefsWidget extends StatelessWidget {
   Widget _collectStatsSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return SwitchListTile.adaptive(
-      title: Text(
-        AppString.stats_enable.translate(),
-        style: textStyleTitle,
-      ),
+    return settingSwitch(
+      context,
+      title: AppString.stats_enable.translate(),
       value: provider.collectStats,
       // Save collectStats setting to prefs
       onChanged: (bool newValue) async {
@@ -187,8 +186,6 @@ class PrefsWidget extends StatelessWidget {
           }
         }
       },
-      contentPadding: listTilePadding,
-      dense: true,
     );
   }
 
@@ -196,18 +193,14 @@ class PrefsWidget extends StatelessWidget {
   Widget _showExtraSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return SwitchListTile.adaptive(
-      title: Text(
-        AppString.prefs_show_extra.translate(),
-        style: textStyleTitle,
-      ),
+    return settingSwitch(
+      context,
+      title: AppString.prefs_show_extra.translate(),
       value: provider.showExtra,
       // Save showExtra setting to prefs
       onChanged: (bool newValue) {
         provider.showExtra = newValue;
       },
-      contentPadding: listTilePadding,
-      dense: true,
     );
   }
 
@@ -215,27 +208,17 @@ class PrefsWidget extends StatelessWidget {
   Widget _hideIncrementsSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return AnimatedSize(
-      duration: shortAnimationDuration,
-      child: SwitchListTile.adaptive(
-        title: Text(
-          AppString.prefs_hide_increments.translate(),
-          style: textStyleTitle,
-        ),
-        subtitle: provider.hideIncrements
-            ? Text(
-                AppString.prefs_hide_increments_info.translate(),
-                style: textStyleSubtitle,
-              )
-            : null,
-        value: provider.hideIncrements,
-        // Save hideIncrements setting to prefs
-        onChanged: (bool newValue) {
-          provider.hideIncrements = newValue;
-        },
-        contentPadding: listTilePadding,
-        dense: true,
-      ),
+    return settingSwitch(
+      context,
+      title: AppString.prefs_hide_increments.translate(),
+      subtitle: provider.hideIncrements
+          ? AppString.prefs_hide_increments_info.translate()
+          : null,
+      value: provider.hideIncrements,
+      // Save hideIncrements setting to prefs
+      onChanged: (bool newValue) {
+        provider.hideIncrements = newValue;
+      },
     );
   }
 
@@ -243,27 +226,17 @@ class PrefsWidget extends StatelessWidget {
   Widget _defaultSilentSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return AnimatedSize(
-      duration: shortAnimationDuration,
-      child: SwitchListTile.adaptive(
-        title: Text(
-          AppString.prefs_silent_default.translate(),
-          style: textStyleTitle,
-        ),
-        subtitle: provider.hideIncrements
-            ? Text(
-                AppString.prefs_silent_default_info.translate(),
-                style: textStyleSubtitle,
-              )
-            : null,
-        value: provider.silentDefault,
-        // Save silentDefault setting to prefs
-        onChanged: (bool newValue) {
-          provider.silentDefault = newValue;
-        },
-        contentPadding: listTilePadding,
-        dense: true,
-      ),
+    return settingSwitch(
+      context,
+      title: AppString.prefs_silent_default.translate(),
+      subtitle: provider.hideIncrements
+          ? AppString.prefs_silent_default_info.translate()
+          : null,
+      value: provider.silentDefault,
+      // Save silentDefault setting to prefs
+      onChanged: (bool newValue) {
+        provider.silentDefault = newValue;
+      },
     );
   }
 
@@ -271,18 +244,14 @@ class PrefsWidget extends StatelessWidget {
   Widget _stackedViewSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return SwitchListTile.adaptive(
-      title: Text(
-        AppString.prefs_stacked_view.translate(),
-        style: textStyleTitle,
-      ),
+    return settingSwitch(
+      context,
+      title: AppString.prefs_stacked_view.translate(),
       value: provider.stackedView,
       // Save stackedView setting to prefs
       onChanged: (bool newValue) {
         provider.stackedView = newValue;
       },
-      contentPadding: listTilePadding,
-      dense: true,
     );
   }
 
@@ -290,18 +259,14 @@ class PrefsWidget extends StatelessWidget {
   Widget _useCelsiusSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return SwitchListTile.adaptive(
-      title: Text(
-        AppString.prefs_use_celsius.translate(),
-        style: textStyleTitle,
-      ),
+    return settingSwitch(
+      context,
+      title: AppString.prefs_use_celsius.translate(),
       value: provider.useCelsius,
       // Save useCelsius setting to prefs
       onChanged: (bool newValue) {
         provider.useCelsius = newValue;
       },
-      contentPadding: listTilePadding,
-      dense: true,
     );
   }
 
@@ -309,28 +274,12 @@ class PrefsWidget extends StatelessWidget {
   Widget _appThemeSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return ListTile(
-      title: Text(
-        AppString.prefs_app_theme.translate(),
-        style: textStyleTitle,
-      ),
-      trailing: Text(
-        provider.appTheme.localizedName,
-        style: textStyleTitle.copyWith(
-          color: Theme.of(context).textTheme.bodySmall!.color!,
-        ),
-      ),
-      // Open app theme dialog
-      onTap: () => openPlatformAdaptiveSelectList(
-        context: context,
-        titleText: AppString.prefs_app_theme.translate(),
-        buttonTextCancel: AppString.cancel_button.translate(),
-        itemList: AppTheme.values,
-        itemBuilder: _appThemeItem,
-        separatorBuilder: separatorDummy,
-      ),
-      contentPadding: listTilePadding,
-      dense: true,
+    return settingList(
+      context,
+      title: AppString.prefs_app_theme.translate(),
+      selectedItem: provider.appTheme.localizedName,
+      itemList: AppTheme.values,
+      itemBuilder: _appThemeItem,
     );
   }
 
@@ -339,17 +288,12 @@ class PrefsWidget extends StatelessWidget {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     AppTheme value = AppTheme.values.elementAt(index);
 
-    return RadioListTile.adaptive(
-      contentPadding: radioTilePadding,
-      dense: true,
-      useCupertinoCheckmarkStyle: true,
+    return settingListItem(
+      context,
+      // Theme name
+      title: value.localizedName,
       value: value,
       groupValue: provider.appTheme,
-      // Theme name
-      title: Text(
-        value.localizedName,
-        style: textStyleTitle,
-      ),
       // Save appTheme to prefs
       onChanged: (_) {
         provider.appTheme = value;
@@ -362,29 +306,16 @@ class PrefsWidget extends StatelessWidget {
   Widget _appLanguageSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
-    return ListTile(
-      title: Text(AppString.prefs_language.translate(), style: textStyleTitle),
-      trailing: Text(
-        provider.appLanguage != followSystemLanguage &&
-                supportedLocales
-                    .containsKey(parseLocaleString(provider.appLanguage))
-            ? supportedLocales[parseLocaleString(provider.appLanguage)]!
-            : AppString.theme_system.translate(),
-        style: textStyleTitle.copyWith(
-          color: Theme.of(context).textTheme.bodySmall!.color!,
-        ),
-      ),
-      // Open app language dialog
-      onTap: () => openPlatformAdaptiveSelectList(
-        context: context,
-        titleText: AppString.prefs_language.translate(),
-        buttonTextCancel: AppString.cancel_button.translate(),
-        itemList: languageOptions,
-        itemBuilder: _appLanguageItem,
-        separatorBuilder: separatorDummy,
-      ),
-      contentPadding: listTilePadding,
-      dense: true,
+    return settingList(
+      context,
+      title: AppString.prefs_language.translate(),
+      selectedItem: provider.appLanguage != followSystemLanguage &&
+              supportedLocales
+                  .containsKey(parseLocaleString(provider.appLanguage))
+          ? supportedLocales[parseLocaleString(provider.appLanguage)]!
+          : AppString.theme_system.translate(),
+      itemList: languageOptions,
+      itemBuilder: _appLanguageItem,
     );
   }
 
@@ -393,20 +324,15 @@ class PrefsWidget extends StatelessWidget {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     String value = languageOptions[index];
 
-    return RadioListTile.adaptive(
-      contentPadding: radioTilePadding,
-      dense: true,
-      useCupertinoCheckmarkStyle: true,
+    return settingListItem(
+      context,
+      // Language name
+      title: value != followSystemLanguage &&
+              supportedLocales.containsKey(parseLocaleString(value))
+          ? supportedLocales[parseLocaleString(value)]!
+          : AppString.theme_system.translate(),
       value: value,
       groupValue: provider.appLanguage,
-      // Language name
-      title: Text(
-        value != followSystemLanguage &&
-                supportedLocales.containsKey(parseLocaleString(value))
-            ? supportedLocales[parseLocaleString(value)]!
-            : AppString.theme_system.translate(),
-        style: textStyleTitle,
-      ),
       // Save appLanguage to prefs
       onChanged: (_) {
         provider.appLanguage = value;

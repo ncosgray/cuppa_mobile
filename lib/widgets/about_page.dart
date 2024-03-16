@@ -17,7 +17,7 @@
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/globals.dart';
-import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/list_tiles.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
@@ -64,7 +64,7 @@ class AboutWidget extends StatelessWidget {
               child: Column(
                 children: [
                   // Tutorial
-                  _listItem(
+                  aboutLink(
                     title: AppString.tutorial.translate(),
                     subtitle: AppString.tutorial_info.translate(),
                     onTap: () {
@@ -80,7 +80,7 @@ class AboutWidget extends StatelessWidget {
                     selector: (_, provider) => provider.collectStats,
                     builder: (context, collectStats, child) => Visibility(
                       visible: collectStats,
-                      child: _listItem(
+                      child: aboutLink(
                         title: AppString.stats_header.translate(),
                         onTap: () => Navigator.of(context).push(
                           MaterialPageRoute(
@@ -101,46 +101,46 @@ class AboutWidget extends StatelessWidget {
                   _exportImportTools(context),
                   listDivider,
                   // How to report issues
-                  _listItem(
+                  aboutLink(
                     title: AppString.issues.translate(),
                     subtitle: AppString.issues_info.translate(),
                     url: issuesURL,
                   ),
                   listDivider,
                   // App localization info
-                  _listItem(
+                  aboutLink(
                     title: AppString.help_translate.translate(),
                     subtitle: AppString.help_translate_info.translate(),
                     url: translateURL,
                   ),
                   listDivider,
                   // Support the project
-                  _listItem(
+                  aboutLink(
                     title: AppString.support_the_project.translate(),
                     url: supportURL,
                   ),
                   listDivider,
                   // Changelog
-                  _listItem(
+                  aboutLink(
                     title: AppString.version_history.translate(),
                     url: versionsURL,
                   ),
                   listDivider,
                   // Link to app source code
-                  _listItem(
+                  aboutLink(
                     title: AppString.source_code.translate(),
                     subtitle: AppString.source_code_info.translate(),
                     url: sourceURL,
                   ),
                   listDivider,
                   // App license info
-                  _listItem(
+                  aboutLink(
                     title: AppString.about_license.translate(),
                     url: licenseURL,
                   ),
                   listDivider,
                   // Privacy policy
-                  _listItem(
+                  aboutLink(
                     title: AppString.privacy_policy.translate(),
                     url: privacyURL,
                   ),
@@ -159,29 +159,6 @@ class AboutWidget extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  // About list item
-  Widget _listItem({
-    required String title,
-    String? subtitle,
-    String? url,
-    Function()? onTap,
-  }) {
-    return InkWell(
-      child: ListTile(
-        title: Text(title, style: textStyleTitle),
-        subtitle:
-            subtitle != null ? Text(subtitle, style: textStyleSubtitle) : null,
-        trailing: url != null ? launchIcon : null,
-        onTap: url != null
-            ? () =>
-                launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)
-            : onTap,
-        contentPadding: listTilePadding,
-        dense: true,
       ),
     );
   }
