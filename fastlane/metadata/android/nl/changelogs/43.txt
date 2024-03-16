@@ -1,0 +1,3 @@
+* Exporteren/importeren maakt het eenvoudig om uw Cuppa-gegevens naar een ander apparaat te kopiëren.
+* Verschillende verbeteringen in bruikbaarheid en interface.
+* Updates voor taalvertalingen - draag bij via Weblate!
