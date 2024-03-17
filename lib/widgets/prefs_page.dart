@@ -110,6 +110,9 @@ class PrefsWidget extends StatelessWidget {
               // Setting: collect timer usage stats
               _collectStatsSetting(context),
               listDivider,
+              // Setting: use brew ratios
+              _useBrewRatiosSetting(context),
+              listDivider,
               // Setting: show extra info on buttons
               _showExtraSetting(context),
               listDivider,
@@ -189,13 +192,30 @@ class PrefsWidget extends StatelessWidget {
     );
   }
 
-// Setting: show extra info on buttons
+  // Setting: use brew ratios
+  Widget _useBrewRatiosSetting(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
+    return settingSwitch(
+      context,
+      title: AppString.prefs_use_brew_ratios.translate(),
+      value: provider.useBrewRatios,
+      // Save useBrewRatios setting to prefs
+      onChanged: (bool newValue) {
+        provider.useBrewRatios = newValue;
+      },
+    );
+  }
+
+  // Setting: show extra info on buttons
   Widget _showExtraSetting(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context);
 
     return settingSwitch(
       context,
-      title: AppString.prefs_show_extra.translate(),
+      title: provider.useBrewRatios
+          ? AppString.prefs_show_extra_ratios.translate()
+          : AppString.prefs_show_extra.translate(),
       value: provider.showExtra,
       // Save showExtra setting to prefs
       onChanged: (bool newValue) {

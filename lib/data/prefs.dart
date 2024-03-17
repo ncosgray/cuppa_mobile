@@ -154,6 +154,10 @@ abstract class Prefs {
     return sharedPrefs.getBool(prefUseCelsius);
   }
 
+  static bool? loadUseBrewRatios() {
+    return sharedPrefs.getBool(prefUseBrewRatios);
+  }
+
   static AppTheme? loadAppTheme() {
     int? appThemeValue = sharedPrefs.getInt(prefAppTheme);
     if (appThemeValue != null && appThemeValue < AppTheme.values.length) {
@@ -181,6 +185,7 @@ abstract class Prefs {
     bool? hideIncrements,
     bool? silentDefault,
     bool? useCelsius,
+    bool? useBrewRatios,
     AppTheme? appTheme,
     String? appLanguage,
     bool? collectStats,
@@ -197,6 +202,9 @@ abstract class Prefs {
     }
     if (useCelsius != null) {
       sharedPrefs.setBool(prefUseCelsius, useCelsius);
+    }
+    if (useBrewRatios != null) {
+      sharedPrefs.setBool(prefUseBrewRatios, useBrewRatios);
     }
     if (appTheme != null) {
       sharedPrefs.setInt(prefAppTheme, appTheme.value);

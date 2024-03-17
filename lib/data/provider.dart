@@ -348,6 +348,15 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Setting: use brew ratios
+  bool _useBrewRatios = false;
+  bool get useBrewRatios => _useBrewRatios;
+  set useBrewRatios(bool newValue) {
+    _useBrewRatios = newValue;
+    Prefs.saveSettings(useBrewRatios: _useBrewRatios);
+    notifyListeners();
+  }
+
   // Setting: app color theme
   AppTheme _appTheme = AppTheme.system;
   AppTheme get appTheme => _appTheme;
@@ -395,6 +404,7 @@ class AppProvider extends ChangeNotifier {
     _showExtra = Prefs.loadShowExtra() ?? _showExtra;
     _hideIncrements = Prefs.loadHideIncrements() ?? _hideIncrements;
     _silentDefault = Prefs.loadSilentDefault() ?? _silentDefault;
+    _useBrewRatios = Prefs.loadUseBrewRatios() ?? _useBrewRatios;
     _appTheme = Prefs.loadAppTheme() ?? _appTheme;
     _appLanguage = Prefs.loadAppLanguage() ?? _appLanguage;
     _collectStats = Prefs.loadCollectStats() ?? _collectStats;

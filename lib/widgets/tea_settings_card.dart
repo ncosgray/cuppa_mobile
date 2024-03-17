@@ -126,10 +126,16 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                         ),
                       ),
                       smallSpacerWidget,
-                      // Tea color selection
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: _teaColorSelector(),
+                      // Tea color selection - alternate layout
+                      Selector<AppProvider, bool>(
+                        selector: (_, provider) => provider.useBrewRatios,
+                        builder: (context, useBrewRatios, child) => Visibility(
+                          visible: useBrewRatios,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: _teaColorSelector(),
+                          ),
+                        ),
                       ),
                       Visibility(
                         visible: !layoutPortrait,
@@ -163,9 +169,27 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                       ),
                       // Brew ratio
                       smallSpacerWidget,
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: _teaBrewRatioSelector(),
+                      Selector<AppProvider, bool>(
+                        selector: (_, provider) => provider.useBrewRatios,
+                        builder: (context, useBrewRatios, child) => Visibility(
+                          visible: useBrewRatios,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: _teaBrewRatioSelector(),
+                          ),
+                        ),
+                      ),
+                      smallSpacerWidget,
+                      // Tea color selection - default layout
+                      Selector<AppProvider, bool>(
+                        selector: (_, provider) => provider.useBrewRatios,
+                        builder: (context, useBrewRatios, child) => Visibility(
+                          visible: !useBrewRatios,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: _teaColorSelector(),
+                          ),
+                        ),
                       ),
                       smallSpacerWidget,
                       // Icon selection
