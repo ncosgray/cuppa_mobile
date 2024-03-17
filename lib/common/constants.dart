@@ -46,6 +46,26 @@ const teasMaxCount = 15;
 const timersMaxCount = 2;
 const stackedViewTeaCount = 3;
 
+// Temperatures
+const boilDegreesC = 100;
+const boilDegreesF = 212;
+const minDegreesC = 45;
+const minDegreesF = 102;
+const roomTemp = 0;
+const roomTempDegreesC = 20;
+const roomTempDegreesF = 68;
+
+// Brewing ratios
+const double brewRatioNumeratorMin = 0.5;
+const double brewRatioNumeratorMax = 20.0;
+const double brewRatioNumeratorStep = 0.5;
+
+// Defaults
+const double defaultBrewRatioNumeratorG = 3.0;
+const double defaultBrewRatioNumeratorTsp = 1.0;
+const defaultBrewRatioDenominatorMl = 250;
+const defaultBrewRatioDenominatorOz = 8;
+
 // UI sizing thresholds
 const largeDeviceSize = 550;
 
@@ -151,6 +171,11 @@ const jsonKeyID = 'id';
 const jsonKeyName = 'name';
 const jsonKeyBrewTime = 'brewTime';
 const jsonKeyBrewTemp = 'brewTemp';
+const jsonKeyBrewRatio = 'brewRatio';
+const jsonKeyBrewRatioNumerator = 'brewRatioNumerator';
+const jsonKeyBrewRatioDenominator = 'brewRatioDenominator';
+const jsonKeyBrewRatioMetricNumerator = 'brewRatioMetricNumerator';
+const jsonKeyBrewRatioMetricDenominator = 'brewRatioMetricDenominator';
 const jsonKeyColor = 'color';
 const jsonKeyColorShadeRed = 'colorShadeRed';
 const jsonKeyColorShadeGreen = 'colorShadeGreen';
@@ -204,3 +229,8 @@ const statsColumnString = 'string';
 const noOpacity = 1.0;
 const fadeOpacity = 0.4;
 const fullOpacity = 0.0;
+
+// Symbols
+const degreeSymbol = '\u00b0';
+const hairSpace = '\u200a';
+const emDash = '\u2014';

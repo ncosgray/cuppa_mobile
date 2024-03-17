@@ -80,43 +80,61 @@ class TeaButton extends StatelessWidget {
                         color: tea.isActive ? activeColor : tea.getColor(),
                       ),
                     ),
-                    // Optional extra info: brew time and temp display
+                    // Optional extra info: brew time, temp, and ratio display
                     Selector<AppProvider, bool>(
                       selector: (_, provider) => provider.showExtra,
                       builder: (context, showExtra, child) => Visibility(
                         visible: showExtra,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            // Brew time
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // Brew time
+                                Container(
+                                  padding: rowPadding,
+                                  child: Text(
+                                    formatTimer(tea.brewTime),
+                                    style: textStyleButtonSecondary.copyWith(
+                                      color: tea.isActive
+                                          ? activeColor
+                                          : tea.getColor(),
+                                    ),
+                                  ),
+                                ),
+                                // Brew temperature
+                                Visibility(
+                                  visible: tea.brewTemp > roomTemp,
+                                  child: Container(
+                                    padding: rowPadding,
+                                    child: Text(
+                                      tea.getTempDisplay(
+                                        useCelsius: Provider.of<AppProvider>(
+                                          context,
+                                          listen: false,
+                                        ).useCelsius,
+                                      ),
+                                      style: textStyleButtonSecondary.copyWith(
+                                        color: tea.isActive
+                                            ? activeColor
+                                            : tea.getColor(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            // Brew ratio
                             Container(
                               padding: rowPadding,
                               child: Text(
-                                formatTimer(tea.brewTime),
+                                tea.getBrewRatioDisplay(truncate: false),
                                 style: textStyleButtonSecondary.copyWith(
                                   color: tea.isActive
                                       ? activeColor
                                       : tea.getColor(),
-                                ),
-                              ),
-                            ),
-                            // Brew temperature
-                            Visibility(
-                              visible: tea.brewTemp > roomTemp,
-                              child: Container(
-                                padding: rowPadding,
-                                child: Text(
-                                  tea.getTempDisplay(
-                                    useCelsius: Provider.of<AppProvider>(
-                                      context,
-                                      listen: false,
-                                    ).useCelsius,
-                                  ),
-                                  style: textStyleButtonSecondary.copyWith(
-                                    color: tea.isActive
-                                        ? activeColor
-                                        : tea.getColor(),
-                                  ),
                                 ),
                               ),
                             ),

@@ -312,7 +312,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                 size: 24.0,
               ),
       ),
-      // Preset tea brew time and temperature
+      // Preset tea brew time, temperature, and ratio
       title: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
@@ -328,6 +328,8 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
             child: preset.isCustom
                 ? null
                 : Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
                         formatTimer(preset.brewTime),
@@ -335,12 +337,9 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                           color: presetColor,
                         ),
                       ),
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          minWidth: 6.0,
-                          maxWidth: 30.0,
-                        ),
-                        child: Container(),
+                      Visibility(
+                        visible: preset.brewTempDegreesC > roomTemp,
+                        child: spacerWidget,
                       ),
                       Visibility(
                         visible: preset.brewTempDegreesC > roomTemp,
@@ -351,11 +350,12 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                           ),
                         ),
                       ),
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          maxWidth: double.infinity,
+                      spacerWidget,
+                      Text(
+                        preset.ratioDisplay(provider.useCelsius),
+                        style: textStyleSettingSeconday.copyWith(
+                          color: presetColor,
                         ),
-                        child: Container(),
                       ),
                     ],
                   ),

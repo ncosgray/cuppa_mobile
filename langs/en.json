@@ -94,9 +94,13 @@
   "undo_message": "Deleted {{tea_name}}.",
   "unit_celsius": "C",
   "unit_fahrenheit": "F",
+  "unit_grams": "g",
   "unit_hours": "h",
+  "unit_milliliters": "mL",
   "unit_minutes": "m",
+  "unit_ounces": "oz",
   "unit_seconds": "s",
+  "unit_teaspoons": "tsp",
   "version_history": "Version history",
   "yes_button": "Yes"
 }

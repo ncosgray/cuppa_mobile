@@ -157,9 +157,13 @@ enum AppString {
   undo_message('undo_message'),
   unit_celsius('unit_celsius'),
   unit_fahrenheit('unit_fahrenheit'),
+  unit_grams('unit_grams'),
   unit_hours('unit_hours'),
+  unit_milliliters('unit_milliliters'),
   unit_minutes('unit_minutes'),
+  unit_ounces('unit_ounces'),
   unit_seconds('unit_seconds'),
+  unit_teaspoons('unit_teaspoons'),
   version_history('version_history'),
   yes_button('yes_button');
 
