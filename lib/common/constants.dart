@@ -11,15 +11,13 @@
 */
 
 // Cuppa constants
-// - App info, prefs keys, settings limits
+// - App info, defaults, prefs keys, settings limits
 
 // App info
 const appName = 'Cuppa';
 const appIcon = 'images/Cuppa_icon.png';
 const aboutCopyright = '\u00a9 Nathan Cosgray';
 const aboutURL = 'https://nathanatos.com';
-const unknownString = '?';
-const starSymbol = '\u2605';
 
 // About list item link URLs
 const versionsURL = 'https://github.com/ncosgray/cuppa_mobile/releases';
@@ -46,6 +44,16 @@ const teasMaxCount = 15;
 const timersMaxCount = 2;
 const stackedViewTeaCount = 3;
 
+// Defaults
+const unknownString = '?';
+const defaultBrewTime = 240;
+const defaultTeaColorValue = 0;
+const defaultTeaIconValue = 0;
+const double defaultBrewRatioNumeratorG = 3.0;
+const double defaultBrewRatioNumeratorTsp = 1.0;
+const defaultBrewRatioDenominatorMl = 250;
+const defaultBrewRatioDenominatorOz = 8;
+
 // Temperatures
 const boilDegreesC = 100;
 const boilDegreesF = 212;
@@ -59,12 +67,6 @@ const roomTempDegreesF = 68;
 const double brewRatioNumeratorMin = 0.5;
 const double brewRatioNumeratorMax = 20.0;
 const double brewRatioNumeratorStep = 0.5;
-
-// Defaults
-const double defaultBrewRatioNumeratorG = 3.0;
-const double defaultBrewRatioNumeratorTsp = 1.0;
-const defaultBrewRatioDenominatorMl = 250;
-const defaultBrewRatioDenominatorOz = 8;
 
 // UI sizing thresholds
 const largeDeviceSize = 550;
@@ -231,6 +233,7 @@ const fadeOpacity = 0.4;
 const fullOpacity = 0.0;
 
 // Symbols
+const starSymbol = '\u2605';
 const degreeSymbol = '\u00b0';
 const hairSpace = '\u200a';
 const emDash = '\u2014';

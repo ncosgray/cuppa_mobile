@@ -98,9 +98,9 @@ abstract class Presets {
     // Custom blank tea
     Preset(
       key: AppString.new_tea_default_name,
-      brewTime: 240,
-      brewTempDegreesC: 100,
-      brewTempDegreesF: 212,
+      brewTime: defaultBrewTime,
+      brewTempDegreesC: boilDegreesC,
+      brewTempDegreesF: boilDegreesF,
       brewRatioG: BrewRatio(
         ratioNumerator: defaultBrewRatioNumeratorG,
         ratioDenominator: defaultBrewRatioDenominatorMl,
@@ -121,8 +121,8 @@ abstract class Presets {
     Preset(
       key: AppString.tea_name_black,
       brewTime: 240,
-      brewTempDegreesC: 100,
-      brewTempDegreesF: 212,
+      brewTempDegreesC: boilDegreesC,
+      brewTempDegreesF: boilDegreesF,
       brewRatioG: BrewRatio(
         ratioNumerator: 3.0,
         ratioDenominator: 250,
@@ -226,8 +226,8 @@ abstract class Presets {
     Preset(
       key: AppString.tea_name_herbal,
       brewTime: 300,
-      brewTempDegreesC: 100,
-      brewTempDegreesF: 212,
+      brewTempDegreesC: boilDegreesC,
+      brewTempDegreesF: boilDegreesF,
       brewRatioG: BrewRatio(
         ratioNumerator: 6.0,
         ratioDenominator: 250,
@@ -247,8 +247,8 @@ abstract class Presets {
     Preset(
       key: AppString.tea_name_chamomile,
       brewTime: 300,
-      brewTempDegreesC: 100,
-      brewTempDegreesF: 212,
+      brewTempDegreesC: boilDegreesC,
+      brewTempDegreesF: boilDegreesF,
       brewRatioG: BrewRatio(
         ratioNumerator: 6.0,
         ratioDenominator: 250,
@@ -268,8 +268,8 @@ abstract class Presets {
     Preset(
       key: AppString.tea_name_mint,
       brewTime: 240,
-      brewTempDegreesC: 100,
-      brewTempDegreesF: 212,
+      brewTempDegreesC: boilDegreesC,
+      brewTempDegreesF: boilDegreesF,
       brewRatioG: BrewRatio(
         ratioNumerator: 6.0,
         ratioDenominator: 250,
@@ -289,8 +289,8 @@ abstract class Presets {
     Preset(
       key: AppString.tea_name_rooibos,
       brewTime: 180,
-      brewTempDegreesC: 100,
-      brewTempDegreesF: 212,
+      brewTempDegreesC: boilDegreesC,
+      brewTempDegreesF: boilDegreesF,
       brewRatioG: BrewRatio(
         ratioNumerator: 6.0,
         ratioDenominator: 250,
@@ -310,8 +310,8 @@ abstract class Presets {
     Preset(
       key: AppString.tea_name_oolong,
       brewTime: 240,
-      brewTempDegreesC: 100,
-      brewTempDegreesF: 212,
+      brewTempDegreesC: boilDegreesC,
+      brewTempDegreesF: boilDegreesF,
       brewRatioG: BrewRatio(
         ratioNumerator: 4.5,
         ratioDenominator: 250,

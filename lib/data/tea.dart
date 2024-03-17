@@ -48,10 +48,10 @@ class Tea {
     required this.brewTemp,
     required this.brewRatio,
     TeaColor? color,
-    int colorValue = 0,
+    int colorValue = defaultTeaColorValue,
     this.colorShade,
     TeaIcon? icon,
-    int iconValue = 0,
+    int iconValue = defaultTeaIconValue,
     required this.isFavorite,
     required this.isActive,
     this.isSilent = false,
@@ -309,12 +309,12 @@ class Tea {
     return Tea(
       id: tryCast<int>(json[jsonKeyID]),
       name: tryCast<String>(json[jsonKeyName]) ?? unknownString,
-      brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? 0,
-      brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? 0,
+      brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? defaultBrewTime,
+      brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? boilDegreesC,
       brewRatio: json[jsonKeyBrewRatio] != null
           ? BrewRatio.fromJson(json[jsonKeyBrewRatio])
           : BrewRatio(),
-      colorValue: tryCast<int>(json[jsonKeyColor]) ?? 0,
+      colorValue: tryCast<int>(json[jsonKeyColor]) ?? defaultTeaColorValue,
       colorShade: tryCast<int>(json[jsonKeyColorShadeRed]) != null &&
               tryCast<int>(json[jsonKeyColorShadeGreen]) != null &&
               tryCast<int>(json[jsonKeyColorShadeBlue]) != null
@@ -325,7 +325,7 @@ class Tea {
               1.0,
             )
           : null,
-      iconValue: tryCast<int>(json[jsonKeyIcon]) ?? 0,
+      iconValue: tryCast<int>(json[jsonKeyIcon]) ?? defaultTeaIconValue,
       isFavorite: tryCast<bool>(json[jsonKeyIsFavorite]) ?? false,
       isActive: tryCast<bool>(json[jsonKeyIsActive]) ?? false,
       isSilent: tryCast<bool>(json[jsonKeyIsSilent]) ?? false,

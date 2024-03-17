@@ -44,11 +44,11 @@ abstract class Prefs {
       teaList.add(
         Tea(
           name: sharedPrefs.getString(prefTea1Name) ?? unknownString,
-          brewTime: sharedPrefs.getInt(prefTea1BrewTime) ?? 0,
-          brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ?? 100,
+          brewTime: sharedPrefs.getInt(prefTea1BrewTime) ?? defaultBrewTime,
+          brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ?? boilDegreesC,
           brewRatio: BrewRatio(),
-          colorValue: sharedPrefs.getInt(prefTea1Color) ?? 0,
-          iconValue: sharedPrefs.getInt(prefTea1Icon) ?? 0,
+          colorValue: sharedPrefs.getInt(prefTea1Color) ?? defaultTeaColorValue,
+          iconValue: sharedPrefs.getInt(prefTea1Icon) ?? defaultTeaIconValue,
           isFavorite: sharedPrefs.getBool(prefTea1IsFavorite) ?? true,
           isActive: sharedPrefs.getBool(prefTea1IsActive) ?? false,
         ),
@@ -68,11 +68,11 @@ abstract class Prefs {
       teaList.add(
         Tea(
           name: sharedPrefs.getString(prefTea2Name) ?? unknownString,
-          brewTime: sharedPrefs.getInt(prefTea2BrewTime) ?? 0,
-          brewTemp: sharedPrefs.getInt(prefTea2BrewTemp) ?? 100,
+          brewTime: sharedPrefs.getInt(prefTea2BrewTime) ?? defaultBrewTime,
+          brewTemp: sharedPrefs.getInt(prefTea2BrewTemp) ?? boilDegreesC,
           brewRatio: BrewRatio(),
-          colorValue: sharedPrefs.getInt(prefTea2Color) ?? 0,
-          iconValue: 0,
+          colorValue: sharedPrefs.getInt(prefTea2Color) ?? defaultTeaColorValue,
+          iconValue: defaultTeaIconValue,
           isFavorite: sharedPrefs.getBool(prefTea2IsFavorite) ?? true,
           isActive: sharedPrefs.getBool(prefTea2IsActive) ?? false,
         ),
@@ -92,11 +92,11 @@ abstract class Prefs {
       teaList.add(
         Tea(
           name: sharedPrefs.getString(prefTea3Name) ?? unknownString,
-          brewTime: sharedPrefs.getInt(prefTea3BrewTime) ?? 0,
-          brewTemp: sharedPrefs.getInt(prefTea3BrewTemp) ?? 100,
+          brewTime: sharedPrefs.getInt(prefTea3BrewTime) ?? defaultBrewTime,
+          brewTemp: sharedPrefs.getInt(prefTea3BrewTemp) ?? boilDegreesC,
           brewRatio: BrewRatio(),
-          colorValue: sharedPrefs.getInt(prefTea3Color) ?? 0,
-          iconValue: 0,
+          colorValue: sharedPrefs.getInt(prefTea3Color) ?? defaultTeaColorValue,
+          iconValue: defaultTeaIconValue,
           isFavorite: sharedPrefs.getBool(prefTea3IsFavorite) ?? true,
           isActive: sharedPrefs.getBool(prefTea3IsActive) ?? false,
         ),

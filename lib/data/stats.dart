@@ -54,13 +54,13 @@ class Stat {
     int? count,
   }) {
     this.id = tea?.id ?? id ?? 0;
-    this.name = tea?.name ?? name ?? '';
-    this.brewTime = tea?.brewTime ?? brewTime ?? 0;
-    this.brewTemp = tea?.brewTemp ?? brewTemp ?? 0;
+    this.name = tea?.name ?? name ?? unknownString;
+    this.brewTime = tea?.brewTime ?? brewTime ?? defaultBrewTime;
+    this.brewTemp = tea?.brewTemp ?? brewTemp ?? boilDegreesC;
     this.colorShadeRed = tea?.getColor().red ?? colorShadeRed ?? 0;
     this.colorShadeGreen = tea?.getColor().green ?? colorShadeGreen ?? 0;
     this.colorShadeBlue = tea?.getColor().blue ?? colorShadeBlue ?? 0;
-    this.iconValue = tea?.icon.value ?? iconValue ?? 0;
+    this.iconValue = tea?.icon.value ?? iconValue ?? defaultTeaIconValue;
     this.isFavorite = tea?.isFavorite ?? isFavorite ?? false;
     this.timerStartTime =
         timerStartTime ?? DateTime.now().millisecondsSinceEpoch;
@@ -98,12 +98,15 @@ class Stat {
     return Stat(
       id: tryCast<int>(json[jsonKeyID]),
       name: tryCast<String>(json[jsonKeyName]) ?? unknownString,
-      brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? 0,
-      brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? 0,
-      colorShadeRed: tryCast<int>(json[jsonKeyColorShadeRed]) ?? 0,
-      colorShadeGreen: tryCast<int>(json[jsonKeyColorShadeGreen]) ?? 0,
-      colorShadeBlue: tryCast<int>(json[jsonKeyColorShadeBlue]) ?? 0,
-      iconValue: tryCast<int>(json[jsonKeyIcon]) ?? 0,
+      brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? defaultBrewTime,
+      brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? boilDegreesC,
+      colorShadeRed:
+          tryCast<int>(json[jsonKeyColorShadeRed]) ?? defaultTeaColorValue,
+      colorShadeGreen:
+          tryCast<int>(json[jsonKeyColorShadeGreen]) ?? defaultTeaColorValue,
+      colorShadeBlue:
+          tryCast<int>(json[jsonKeyColorShadeBlue]) ?? defaultTeaColorValue,
+      iconValue: tryCast<int>(json[jsonKeyIcon]) ?? defaultTeaIconValue,
       isFavorite: tryCast<bool>(json[jsonKeyIsFavorite]) ?? false,
       timerStartTime: tryCast<int>(json[jsonKeyTimerStartTime]) ?? 0,
     );
