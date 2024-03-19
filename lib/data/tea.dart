@@ -107,16 +107,12 @@ class Tea {
   }
 
   // Tea display getters
-  get buttonName {
+  String get buttonName {
     return name.toUpperCase();
   }
 
   String getTempDisplay({bool? useCelsius}) {
     return formatTemp(brewTemp, useCelsius: useCelsius);
-  }
-
-  String getBrewRatioDisplay({required bool truncate}) {
-    return brewRatio.formatRatio(truncate: truncate);
   }
 
   // Color getter

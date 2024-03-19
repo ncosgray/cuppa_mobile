@@ -100,6 +100,27 @@ String formatPercent(i) {
   return NumberFormat('#%').format(i);
 }
 
+// Format ratio amounts with units
+String formatNumeratorAmount(
+  double i, {
+  required bool useMetric,
+}) {
+  String unit = useMetric
+      ? AppString.unit_grams.translate()
+      : AppString.unit_teaspoons.translate();
+  return '${i.toPrecision()}$unit';
+}
+
+String formatDenominatorAmount(
+  int i, {
+  required bool useMetric,
+}) {
+  String unit = useMetric
+      ? AppString.unit_milliliters.translate()
+      : AppString.unit_ounces.translate();
+  return '$i$unit';
+}
+
 // Fetch details about the device size and orientation
 ({double width, double height, bool isPortrait, bool isLargeDevice})
     getDeviceSize(BuildContext context) {

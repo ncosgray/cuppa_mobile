@@ -135,7 +135,7 @@ class TeaButton extends StatelessWidget {
                                 child: Container(
                                   padding: rowPadding,
                                   child: Text(
-                                    tea.getBrewRatioDisplay(truncate: false),
+                                    tea.brewRatio.ratioString,
                                     style: textStyleButtonSecondary.copyWith(
                                       color: tea.isActive
                                           ? activeColor

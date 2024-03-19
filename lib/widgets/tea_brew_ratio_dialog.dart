@@ -129,7 +129,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
               spacerWidget,
               // Display selected numerator
               Text(
-                _newRatio.ratioNumerator.toString(),
+                _newRatio.numeratorString,
                 style: textStyleSettingSeconday,
               ),
               spacerWidget,
@@ -197,7 +197,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
               spacerWidget,
               // Display selected denominator
               Text(
-                _newRatio.ratioDenominator.toString(),
+                _newRatio.denominatorString,
                 style: textStyleSettingSeconday,
               ),
               spacerWidget,
@@ -228,7 +228,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
           spacerWidget,
           // Display full selected ratio
           Text(
-            _newRatio.formatRatio(truncate: false),
+            _newRatio.ratioString,
             style: textStyleSettingSeconday,
           ),
         ],

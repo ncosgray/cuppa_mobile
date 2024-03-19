@@ -72,8 +72,8 @@ class Preset {
   // Brew ratio display
   String ratioDisplay(bool useCelsius) {
     return useCelsius
-        ? brewRatioG.formatRatio(truncate: true)
-        : brewRatioTsp.formatRatio(truncate: true);
+        ? brewRatioG.numeratorString
+        : brewRatioTsp.numeratorString;
   }
 
   // Create a new tea from this preset

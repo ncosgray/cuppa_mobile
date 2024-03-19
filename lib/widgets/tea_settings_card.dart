@@ -509,7 +509,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              widget.tea.getBrewRatioDisplay(truncate: true),
+              widget.tea.brewRatio.numeratorString,
               style: textStyleSettingSeconday,
             ),
             dropdownArrow,

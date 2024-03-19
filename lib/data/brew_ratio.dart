@@ -16,7 +16,6 @@
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
-import 'package:cuppa_mobile/data/localization.dart';
 
 // Brew ratio definition
 class BrewRatio {
@@ -71,23 +70,21 @@ class BrewRatio {
   bool get metricDenominator => _metricDenominator;
 
   String get numeratorString {
-    return '$_ratioNumerator$numeratorUnit';
+    return formatNumeratorAmount(
+      _ratioNumerator,
+      useMetric: _metricNumerator,
+    );
   }
 
   String get denominatorString {
-    return '$_ratioDenominator$denominatorUnit';
+    return formatDenominatorAmount(
+      _ratioDenominator,
+      useMetric: _metricDenominator,
+    );
   }
 
-  String get numeratorUnit {
-    return _metricNumerator
-        ? AppString.unit_grams.translate()
-        : AppString.unit_teaspoons.translate();
-  }
-
-  String get denominatorUnit {
-    return _metricDenominator
-        ? AppString.unit_milliliters.translate()
-        : AppString.unit_ounces.translate();
+  String get ratioString {
+    return '$numeratorString / $denominatorString';
   }
 
   // Setters
@@ -111,14 +108,5 @@ class BrewRatio {
 
   set metricDenominator(bool? b) {
     _metricDenominator = b ?? isLocaleMetric;
-  }
-
-  // Format ratio with units
-  String formatRatio({required bool truncate}) {
-    if (truncate) {
-      return numeratorString;
-    } else {
-      return '$numeratorString / $denominatorString';
-    }
   }
 }
