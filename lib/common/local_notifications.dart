@@ -124,7 +124,7 @@ Future<void> sendNotification(
       presentSound: !silent,
       presentBanner: true,
       presentList: true,
-      sound: notifySoundIOS,
+      sound: silent ? null : notifySoundIOS,
       interruptionLevel: InterruptionLevel.timeSensitive,
     ),
   );
