@@ -116,12 +116,6 @@ class PrefsWidget extends StatelessWidget {
               // Setting: show extra info on buttons
               _showExtraSetting(context),
               listDivider,
-              // Setting: hide timer increment buttons
-              _hideIncrementsSetting(context),
-              listDivider,
-              // Setting: default to silent timer notifications
-              _defaultSilentSetting(context),
-              listDivider,
               // Setting: stacked timer button view
               Selector<AppProvider, bool>(
                 selector: (_, provider) =>
@@ -139,14 +133,20 @@ class PrefsWidget extends StatelessWidget {
                   );
                 },
               ),
-              // Setting: default to Celsius or Fahrenheit
-              _useCelsiusSetting(context),
+              // Setting: hide timer increment buttons
+              _hideIncrementsSetting(context),
+              listDivider,
+              // Setting: default to silent timer notifications
+              _defaultSilentSetting(context),
               listDivider,
               // Setting: app theme selection
               _appThemeSetting(context),
               listDivider,
               // Setting: app language selection
               _appLanguageSetting(context),
+              listDivider,
+              // Setting: default to Celsius or Fahrenheit
+              _useCelsiusSetting(context),
               listDivider,
               // Notification info
               _notificationLink(),
