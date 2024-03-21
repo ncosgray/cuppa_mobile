@@ -192,6 +192,8 @@ const jsonKeyTimerEndTime = 'timerEndTime';
 const jsonKeyTimerNotifyID = 'timerNotifyID';
 const jsonKeyStats = 'stats';
 const jsonKeyTimerStartTime = 'timerStartTime';
+const jsonKeyBrewAmount = 'brewAmount';
+const jsonKeyBrewAmountMetric = 'brewAmountMetric';
 
 // Export file
 const exportFileName = 'CuppaData';
@@ -219,6 +221,8 @@ const statsColumnId = 'id';
 const statsColumnName = 'name';
 const statsColumnBrewTime = 'brewTime';
 const statsColumnBrewTemp = 'brewTemp';
+const statsColumnBrewAmount = 'brewAmount';
+const statsColumnBrewAmountMetric = 'brewAmountMetric';
 const statsColumnColorShadeRed = 'colorShadeRed';
 const statsColumnColorShadeGreen = 'colorShadeGreen';
 const statsColumnColorShadeBlue = 'colorShadeBlue';

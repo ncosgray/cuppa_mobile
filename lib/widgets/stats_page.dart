@@ -46,6 +46,7 @@ class _StatsWidgetState extends State<StatsWidget> {
   int _totalCount = 0;
   int _starredCount = 0;
   int _totalTime = 0;
+  String _totalAmount = '';
   String _morningTea = '';
   String _afternoonTea = '';
   List<Stat> _summaryStats = [];
@@ -214,6 +215,19 @@ class _StatsWidgetState extends State<StatsWidget> {
     _morningTea = await Stats.getString(StringQuery.morningTea);
     _afternoonTea = await Stats.getString(StringQuery.afternoonTea);
     _summaryStats = await Stats.getTeaStats(ListQuery.summaryStats);
+
+    // Get total amounts for each unit and concatenate
+    double totalAmountG = await Stats.getDecimal(DecimalQuery.totalAmountG);
+    double totalAmountTsp = await Stats.getDecimal(DecimalQuery.totalAmountTsp);
+    _totalAmount = totalAmountG > 0.0
+        ? formatNumeratorAmount(totalAmountG, useMetric: true)
+        : '';
+    if (totalAmountG > 0.0 && totalAmountTsp > 0.0) {
+      _totalAmount += ' + ';
+    }
+    _totalAmount += totalAmountTsp > 0.0
+        ? formatNumeratorAmount(totalAmountTsp, useMetric: false)
+        : '';
 
     return true;
   }
@@ -422,6 +436,14 @@ class _StatsWidgetState extends State<StatsWidget> {
         _metricWidget(
           metricName: AppString.stats_timer_time.translate(),
           metric: formatTimer(_totalTime),
+        ),
+        Visibility(
+          visible:
+              Provider.of<AppProvider>(context, listen: false).useBrewRatios,
+          child: _metricWidget(
+            metricName: AppString.stats_tea_amount.translate(),
+            metric: _totalAmount,
+          ),
         ),
         Visibility(
           visible: _morningTea.isNotEmpty,

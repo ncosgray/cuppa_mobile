@@ -126,6 +126,7 @@ enum AppString {
   stats_header('stats_header'),
   stats_include_deleted('stats_include_deleted'),
   stats_starred('stats_starred'),
+  stats_tea_amount('stats_tea_amount'),
   stats_timer_count('stats_timer_count'),
   stats_timer_time('stats_timer_time'),
   stats_title('stats_title'),

@@ -63,6 +63,7 @@
   "stats_header": "Tea timer usage report",
   "stats_include_deleted": "Include deleted teas in chart",
   "stats_starred": "Starred teas {{star_symbol}}",
+  "stats_tea_amount": "Total amount of tea",
   "stats_timer_count": "Timers started",
   "stats_timer_time": "Total steep time",
   "stats_title": "Timer Stats",
