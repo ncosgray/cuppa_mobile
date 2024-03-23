@@ -17,6 +17,18 @@ import 'package:cuppa_mobile/common/colors.dart';
 import 'package:flutter/material.dart';
 
 // Icons
+const Icon mutedIcon = Icon(
+  Icons.volume_off,
+  color: timerForegroundColor,
+  size: 32.0,
+);
+
+const Icon unmutedIcon = Icon(
+  Icons.volume_up,
+  color: timerForegroundColor,
+  size: 32.0,
+);
+
 const Icon dropdownArrow = Icon(
   Icons.arrow_drop_down,
   size: 24.0,

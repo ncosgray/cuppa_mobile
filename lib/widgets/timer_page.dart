@@ -324,7 +324,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   Widget _silenceButton(TeaTimer timer) {
     return Container(
       margin: smallDefaultPadding,
-      child: TextButton(
+      child: IconButton(
         // Toggle silent status for this timer
         onPressed: () {
           if (timer.tea != null) {
@@ -345,11 +345,7 @@ class _TimerWidgetState extends State<TimerWidget> {
           _hideTimerIncrementsDelay = hideTimerIncrementsDelay;
         },
         // Button with speaker icon
-        child: Icon(
-          (timer.tea?.isSilent ?? false) ? Icons.volume_off : Icons.volume_up,
-          color: timerForegroundColor,
-          size: 28.0,
-        ),
+        icon: (timer.tea?.isSilent ?? false) ? mutedIcon : unmutedIcon,
       ),
     );
   }
