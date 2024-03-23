@@ -229,7 +229,8 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
           // Display full selected ratio
           Text(
             _newRatio.ratioString,
-            style: textStyleSettingSeconday,
+            style:
+                textStyleSettingSeconday.copyWith(fontWeight: FontWeight.bold),
           ),
         ],
       ),

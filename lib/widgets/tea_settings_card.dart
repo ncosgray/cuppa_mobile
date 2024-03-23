@@ -614,6 +614,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
     TeaIcon value = TeaIcon.values[index];
     return adaptiveLargeButton(
       icon: value.getIcon(),
+      iconColor: Theme.of(context).textTheme.bodySmall!.color!,
       // Set selected icon
       onPressed: () {
         Provider.of<AppProvider>(
