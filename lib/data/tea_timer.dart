@@ -77,7 +77,7 @@ class TeaTimer {
 
   // Calculate percent complete
   double get timerPercent {
-    return timerSeconds > 0 && brewTime > 0 ? timerSeconds / brewTime : 1.0;
+    return brewTime > 0 ? timerSeconds / brewTime : 1.0;
   }
 
   // Formatted timer seconds
