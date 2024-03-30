@@ -207,9 +207,9 @@ const followSystemLanguage = '';
 const shortAnimationDuration = Duration(milliseconds: 100);
 const longAnimationDuration = Duration(milliseconds: 200);
 
-// Timer increments
+// Timer adjustments
 const incrementSeconds = 10;
-const hideTimerIncrementsDelay = 5;
+const hideTimerAdjustmentsDelay = 5;
 
 // Temperature index increments
 const brewTempIncrement = 5;

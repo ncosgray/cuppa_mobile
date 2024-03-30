@@ -1,0 +1,357 @@
+/*
+ *******************************************************************************
+ Package:  cuppa_mobile
+ Class:    tea_button_list.dart
+ Author:   Nathan Cosgray | https://www.nathanatos.com
+ -------------------------------------------------------------------------------
+ Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+
+ This source code is licensed under the BSD-style license found in LICENSE.txt.
+ *******************************************************************************
+*/
+
+// Cuppa timer button list
+// - Start, confirm, cancel timers
+
+import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/dialogs.dart';
+import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
+import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/local_notifications.dart';
+import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/text_styles.dart';
+import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/data/prefs.dart';
+import 'package:cuppa_mobile/data/provider.dart';
+import 'package:cuppa_mobile/data/stats.dart';
+import 'package:cuppa_mobile/data/tea_timer.dart';
+import 'package:cuppa_mobile/data/tea.dart';
+import 'package:cuppa_mobile/widgets/cancel_button.dart';
+import 'package:cuppa_mobile/widgets/prefs_page.dart';
+import 'package:cuppa_mobile/widgets/tea_button.dart';
+import 'package:cuppa_mobile/widgets/tutorial.dart';
+
+import 'dart:async';
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:showcaseview/showcaseview.dart';
+
+// List or grid of TeaButtons
+class TeaButtonList extends StatefulWidget {
+  const TeaButtonList({super.key});
+
+  @override
+  State<TeaButtonList> createState() => _TeaButtonListState();
+}
+
+class _TeaButtonListState extends State<TeaButtonList> {
+  // State variables
+  final ScrollController _scrollController = ScrollController();
+
+  // Timer button list state
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
+      // Set default brew temp units based on locale
+      provider.useCelsius = Prefs.loadUseCelsius() ?? isLocaleMetric;
+
+      // Add default presets if no custom teas have been set
+      if (provider.teaCount == 0 && !Prefs.teaPrefsExist()) {
+        provider.loadDefaults();
+
+        // Start a tutorial for new users
+        if (Prefs.showTutorial) {
+          ShowCaseWidget.of(context).startShowCase(tutorialSteps.keys.toList());
+          Prefs.setSkipTutorial();
+        }
+      }
+
+      // Manage timers
+      _checkNextTimer();
+      _checkShortcutTimer();
+    });
+  }
+
+  // Build timer button list
+  @override
+  Widget build(BuildContext context) {
+    // Determine layout based on device orientation
+    bool layoutPortrait = getDeviceSize(context).isPortrait;
+
+    // List/grid of available tea buttons
+    return Selector<AppProvider, ({List<Tea> teaList, bool stackedView})>(
+      selector: (_, provider) => (
+        teaList: provider.teaList,
+        stackedView: provider.stackedView,
+      ),
+      builder: (context, buttonData, child) {
+        List<Widget> teaButtonRows = [];
+
+        if (buttonData.teaList.isNotEmpty) {
+          if (buttonData.stackedView && getDeviceSize(context).isLargeDevice) {
+            // Arrange into two rows of tea buttons for large screens
+            int topRowLength = (buttonData.teaList.length / 2).floor();
+            teaButtonRows.add(
+              _teaButtonRow(buttonData.teaList.sublist(0, topRowLength)),
+            );
+            teaButtonRows.add(
+              _teaButtonRow(buttonData.teaList.sublist(topRowLength)),
+            );
+          } else if (buttonData.stackedView && layoutPortrait) {
+            // Arrange into multiple rows for small screens
+            for (List<Tea> teaRow
+                in buttonData.teaList.slices(stackedViewTeaCount)) {
+              teaButtonRows.add(_teaButtonRow(teaRow));
+            }
+          } else {
+            // Single row of tea buttons
+            teaButtonRows.add(_teaButtonRow(buttonData.teaList));
+          }
+        } else {
+          // Add button if tea list is empty
+          teaButtonRows.add(_addButton());
+        }
+
+        // Build tea button list/grid container
+        return Container(
+          padding: noPadding,
+          height: teaButtonRows.length > 1 ? 376.0 : null,
+          alignment: Alignment.center,
+          child: tutorialTooltip(
+            context: context,
+            key: tutorialKey3,
+            child: tutorialTooltip(
+              context: context,
+              key: tutorialKey4,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    smallSpacerWidget,
+                    ...teaButtonRows,
+                    smallSpacerWidget,
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // Horizontally scrollable list of tea buttons
+  Widget _teaButtonRow(List<Tea> teas) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      clipBehavior: Clip.none,
+      controller: _scrollController,
+      child: Row(
+        children: [
+          smallSpacerWidget,
+          ...teas.map<Widget>((Tea tea) => _teaButton(tea)),
+          smallSpacerWidget,
+        ],
+      ),
+    );
+  }
+
+  // Tea button paired with cancel button
+  Widget _teaButton(Tea tea) {
+    return Column(
+      children: [
+        // Start brewing button
+        TeaButton(
+          key: GlobalObjectKey(tea.id),
+          tea: tea,
+          fade: !(activeTimerCount < timersMaxCount || tea.isActive),
+          onPressed: activeTimerCount < timersMaxCount && !tea.isActive
+              ? (_) => _setTimer(tea)
+              : null,
+        ),
+        // Cancel brewing button
+        Container(
+          constraints: const BoxConstraints(
+            minHeight: 34.0,
+          ),
+          child: Visibility(
+            visible: tea.isActive,
+            child: CancelButton(
+              active: tea.isActive,
+              onPressed: (_) => _cancelTimerForTea(tea),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Add button linking to Prefs page
+  Widget _addButton() {
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      margin: largeDefaultPadding,
+      child: InkWell(
+        onTap: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => const PrefsWidget())),
+        child: Container(
+          constraints: const BoxConstraints(
+            minHeight: 106.0,
+            minWidth: 88.0,
+          ),
+          margin: largeDefaultPadding,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                AppString.teas_title.translate(),
+                style: textStyleButton.copyWith(
+                  color: Theme.of(context).colorScheme.error,
+                ),
+              ),
+              navigateIcon(color: Theme.of(context).colorScheme.error),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Ticker handler for a TeaTimer
+  void Function(Timer? ticker) _handleTick(TeaTimer timer) {
+    return (ticker) {
+      if (timer.isActive) {
+        int timerSeconds = timer.timerSeconds;
+        if (timerSeconds > 0) {
+          timer.decrement();
+          if (timer.timerSeconds != timerSeconds) {
+            // Only update UI if the timer countdown changed
+            Provider.of<AppProvider>(context, listen: false).notify();
+          }
+        } else {
+          // Brewing complete
+          if (timer.tea != null) {
+            Provider.of<AppProvider>(context, listen: false)
+                .deactivateTea(timer.tea!);
+          }
+          timer.stop();
+        }
+      }
+    };
+  }
+
+  // Start a new brewing timer
+  void _setTimer(Tea tea, {bool resume = false}) {
+    // Determine next available timer
+    TeaTimer timer = !timer1.isActive ? timer1 : timer2;
+
+    if (!resume) {
+      AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
+      // Start a new timer
+      provider.activateTea(tea, timer.notifyID, provider.silentDefault);
+      sendNotification(
+        tea.brewTime,
+        AppString.notification_title.translate(),
+        AppString.notification_text.translate(teaName: tea.name),
+        timer.notifyID,
+        silent: provider.silentDefault,
+      );
+
+      // Update timer stats, if enabled
+      if (provider.collectStats) {
+        Stats.insertStat(Stat(tea: tea));
+      }
+    } else if (tea.timerNotifyID != null) {
+      // Resume with same timer ID
+      timer = tea.timerNotifyID == timer1.notifyID ? timer1 : timer2;
+    }
+
+    // Set up timer state
+    timer.start(tea, _handleTick(timer));
+  }
+
+  // Cancel a timer
+  void _cancelTimer(TeaTimer timer) async {
+    timer.reset();
+    await notify.cancel(timer.notifyID);
+  }
+
+  // Cancel timer for a given tea
+  void _cancelTimerForTea(Tea tea) {
+    for (TeaTimer timer in timerList) {
+      if (timer.tea == tea) {
+        _cancelTimer(timer);
+      }
+    }
+  }
+
+  // Force cancel and reset all timers
+  void _cancelAllTimers() {
+    for (TeaTimer timer in timerList) {
+      _cancelTimer(timer);
+    }
+    Provider.of<AppProvider>(context, listen: false).clearActiveTea();
+  }
+
+  // Start timer from stored prefs
+  void _checkNextTimer() {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
+    // Load saved brewing timer info from prefs
+    for (Tea tea in provider.activeTeas) {
+      if (tea.brewTimeRemaining > 0) {
+        // Resume timer from stored prefs
+        _setTimer(tea, resume: true);
+        doScroll = true;
+      } else {
+        provider.deactivateTea(tea);
+      }
+    }
+  }
+
+  // Start a timer from shortcut selection
+  void _checkShortcutTimer() {
+    quickActions.initialize((String shortcutType) async {
+      AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+      int? teaID = int.tryParse(shortcutType.replaceAll(shortcutPrefixID, ''));
+      int? teaIndex = int.tryParse(shortcutType.replaceAll(shortcutPrefix, ''));
+      if (teaID != null) {
+        // Prefer lookup by tea ID
+        teaIndex = provider.teaList.indexWhere((tea) => tea.id == teaID);
+      }
+      if (teaIndex != null) {
+        if (teaIndex >= 0 && teaIndex < provider.teaCount) {
+          Tea tea = provider.teaList[teaIndex];
+          if (!tea.isActive) {
+            if (activeTimerCount >= timersMaxCount) {
+              // Ask to cancel and free a timer slot if needed
+              if (await showConfirmDialog(
+                context: context,
+                body: Text(AppString.confirm_message_line1.translate()),
+                bodyExtra: Text(AppString.confirm_message_line2.translate()),
+              )) {
+                _cancelAllTimers();
+              } else {
+                return;
+              }
+            }
+
+            // Start timer from shortcut
+            _setTimer(tea);
+            doScroll = true;
+          }
+        }
+      }
+    });
+  }
+}
