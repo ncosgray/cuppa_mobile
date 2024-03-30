@@ -28,7 +28,7 @@ import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea_timer.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/cancel_button.dart';
-import 'package:cuppa_mobile/widgets/prefs_page.dart';
+import 'package:cuppa_mobile/pages/prefs_page.dart';
 import 'package:cuppa_mobile/widgets/tea_button.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 

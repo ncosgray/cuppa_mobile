@@ -25,10 +25,10 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/stats.dart';
-import 'package:cuppa_mobile/widgets/about_page.dart';
+import 'package:cuppa_mobile/pages/about_page.dart';
+import 'package:cuppa_mobile/pages/stats_page.dart';
 import 'package:cuppa_mobile/widgets/page_header.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
-import 'package:cuppa_mobile/widgets/stats_page.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
 
 import 'package:app_settings/app_settings.dart';

@@ -18,13 +18,13 @@ import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/data/provider.dart';
-import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/data/tea_timer.dart';
-import 'package:cuppa_mobile/widgets/timer_countdown.dart';
+import 'package:cuppa_mobile/data/tea.dart';
+import 'package:cuppa_mobile/pages/prefs_page.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
-import 'package:cuppa_mobile/widgets/prefs_page.dart';
 import 'package:cuppa_mobile/widgets/tea_button_list.dart';
 import 'package:cuppa_mobile/widgets/teacup.dart';
+import 'package:cuppa_mobile/widgets/timer_countdown.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'package:flutter/material.dart';

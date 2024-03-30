@@ -19,7 +19,7 @@ import 'package:cuppa_mobile/common/themes.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
-import 'package:cuppa_mobile/widgets/timer_page.dart';
+import 'package:cuppa_mobile/pages/timer_page.dart';
 
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
