@@ -36,7 +36,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Widget defining a tea settings card
-class TeaSettingsCard extends StatefulWidget {
+class TeaSettingsCard extends StatelessWidget {
   const TeaSettingsCard({
     super.key,
     required this.tea,
@@ -44,54 +44,9 @@ class TeaSettingsCard extends StatefulWidget {
 
   final Tea tea;
 
-  @override
-  State<TeaSettingsCard> createState() => _TeaSettingsCardState();
-}
-
-class _TeaSettingsCardState extends State<TeaSettingsCard>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _animation;
-
-  @override
-  initState() {
-    super.initState();
-
-    // Settings card pop-in
-    _animationController = AnimationController(
-      duration: shortAnimationDuration,
-      vsync: this,
-    );
-    _animation = Tween(
-      begin: 0.5,
-      end: 1.0,
-    ).animate(_animationController);
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-
-    super.dispose();
-  }
-
+  // Build a tea settings card
   @override
   Widget build(BuildContext context) {
-    // Animate adding a new tea or skip animation for existing teas
-    if (widget.tea.animate) {
-      widget.tea.animate = false;
-      _animationController.forward();
-      return ScaleTransition(
-        scale: _animation,
-        child: _settingsCard(context),
-      );
-    } else {
-      return _settingsCard(context);
-    }
-  }
-
-  // Build a tea settings card
-  Widget _settingsCard(BuildContext context) {
     // Determine layout based on device size
     bool layoutPortrait = getDeviceSize(context).isPortrait ||
         getDeviceSize(context).isLargeDevice;
@@ -115,14 +70,14 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                       // Favorite status
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: _favoriteButton(),
+                        child: _favoriteButton(context),
                       ),
                       smallSpacerWidget,
                       // Tea name with edit icon
                       Expanded(
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: _teaNameEditor(),
+                          child: _teaNameEditor(context),
                         ),
                       ),
                       smallSpacerWidget,
@@ -133,7 +88,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                           visible: useBrewRatios,
                           child: Align(
                             alignment: Alignment.centerRight,
-                            child: _teaColorSelector(),
+                            child: _teaColorSelector(context),
                           ),
                         ),
                       ),
@@ -158,14 +113,14 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                           alignment: layoutPortrait
                               ? Alignment.centerLeft
                               : Alignment.center,
-                          child: _teaBrewTimeSelector(),
+                          child: _teaBrewTimeSelector(context),
                         ),
                       ),
                       smallSpacerWidget,
                       // Brew temperature
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: _teaBrewTempSelector(),
+                        child: _teaBrewTempSelector(context),
                       ),
                       // Brew ratio
                       smallSpacerWidget,
@@ -175,7 +130,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                           visible: useBrewRatios,
                           child: Align(
                             alignment: Alignment.centerRight,
-                            child: _teaBrewRatioSelector(),
+                            child: _teaBrewRatioSelector(context),
                           ),
                         ),
                       ),
@@ -187,7 +142,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                           visible: !useBrewRatios,
                           child: Align(
                             alignment: Alignment.centerRight,
-                            child: _teaColorSelector(),
+                            child: _teaColorSelector(context),
                           ),
                         ),
                       ),
@@ -195,7 +150,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                       // Icon selection
                       Align(
                         alignment: Alignment.centerRight,
-                        child: _teaIconSelector(),
+                        child: _teaIconSelector(context),
                       ),
                     ],
                   ),
@@ -210,21 +165,21 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   }
 
   // Button to change favorite status
-  Widget _favoriteButton() {
+  Widget _favoriteButton(BuildContext context) {
     return InkWell(
       customBorder: const CircleBorder(),
       // Toggle favorite status if enabled or max not reached
-      onTap: widget.tea.isFavorite ||
+      onTap: tea.isFavorite ||
               Provider.of<AppProvider>(context, listen: false)
                       .favoritesList
                       .length <
                   favoritesMaxCount
           ? () => Provider.of<AppProvider>(context, listen: false)
-              .updateTea(widget.tea, isFavorite: !widget.tea.isFavorite)
+              .updateTea(tea, isFavorite: !tea.isFavorite)
           : null,
       child: Container(
         padding: smallDefaultPadding,
-        child: widget.tea.isFavorite
+        child: tea.isFavorite
             ? favoriteStarIcon
             : Provider.of<AppProvider>(context, listen: false)
                         .favoritesList
@@ -237,7 +192,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   }
 
   // Tea name editor
-  Widget _teaNameEditor() {
+  Widget _teaNameEditor(BuildContext context) {
     return SizedBox(
       height: double.infinity,
       child: InkWell(
@@ -247,12 +202,12 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           children: <Widget>[
             Flexible(
               child: Text(
-                widget.tea.name,
+                tea.name,
                 textAlign: TextAlign.left,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: textStyleSetting.copyWith(
-                  color: widget.tea.getColor(),
+                  color: tea.getColor(),
                 ),
               ),
             ),
@@ -263,25 +218,24 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           ],
         ),
         // Open tea name dialog
-        onTap: () =>
-            _openTeaNameDialog(context, widget.tea.name).then((newValue) {
+        onTap: () => _openTeaNameDialog(context, tea.name).then((newValue) {
           if (newValue != null) {
             // Save name to prefs
             Provider.of<AppProvider>(
               navigatorKey.currentContext!,
               listen: false,
-            ).updateTea(widget.tea, name: newValue);
+            ).updateTea(tea, name: newValue);
 
             // Edit notification for active timer
-            if (widget.tea.isActive &&
-                widget.tea.brewTimeRemaining > 0 &&
-                widget.tea.timerNotifyID != null) {
+            if (tea.isActive &&
+                tea.brewTimeRemaining > 0 &&
+                tea.timerNotifyID != null) {
               sendNotification(
-                widget.tea.brewTimeRemaining,
+                tea.brewTimeRemaining,
                 AppString.notification_title.translate(),
-                AppString.notification_text.translate(teaName: widget.tea.name),
-                widget.tea.timerNotifyID!,
-                silent: widget.tea.isSilent,
+                AppString.notification_text.translate(teaName: tea.name),
+                tea.timerNotifyID!,
+                silent: tea.isSilent,
               );
             }
           }
@@ -318,7 +272,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   }
 
   // Tea color selection
-  Widget _teaColorSelector() {
+  Widget _teaColorSelector(BuildContext context) {
     return SizedBox(
       height: double.infinity,
       child: InkWell(
@@ -331,23 +285,22 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
               height: 20.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4.0),
-                color: widget.tea.getColor(),
+                color: tea.getColor(),
               ),
             ),
             dropdownArrow,
           ],
         ),
         // Open tea color dialog
-        onTap: () =>
-            _openColorDialog(context, widget.tea.color, widget.tea.colorShade)
-                .then((newValues) {
+        onTap: () => _openColorDialog(context, tea.color, tea.colorShade)
+            .then((newValues) {
           if (newValues != null) {
             // Save color data to prefs
             Provider.of<AppProvider>(
               navigatorKey.currentContext!,
               listen: false,
             ).updateTea(
-              widget.tea,
+              tea,
               color: newValues.teaColor,
               colorShade: newValues.colorShade,
             );
@@ -370,7 +323,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         return TeaColorDialog(
           initialTeaColor: currentTeaColor,
           initialColorShade: currentColorShade,
-          previewIcon: widget.tea.teaIcon,
+          previewIcon: tea.teaIcon,
           buttonTextCancel: AppString.cancel_button.translate(),
           buttonTextOK: AppString.ok_button.translate(),
         );
@@ -379,7 +332,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   }
 
   // Tea brew time selection
-  Widget _teaBrewTimeSelector() {
+  Widget _teaBrewTimeSelector(BuildContext context) {
     return SizedBox(
       height: double.infinity,
       child: InkWell(
@@ -388,7 +341,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
-              formatTimer(widget.tea.brewTime),
+              formatTimer(tea.brewTime),
               style: textStyleSettingSeconday,
             ),
             dropdownArrow,
@@ -397,16 +350,16 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         // Open tea brew time dialog
         onTap: () => _openTeaBrewTimeDialog(
           context,
-          widget.tea.brewTimeHours,
-          widget.tea.brewTimeMinutes,
-          widget.tea.brewTimeSeconds,
+          tea.brewTimeHours,
+          tea.brewTimeMinutes,
+          tea.brewTimeSeconds,
         ).then((newValue) {
           if (newValue != null) {
             // Save brew time to prefs
             Provider.of<AppProvider>(
               navigatorKey.currentContext!,
               listen: false,
-            ).updateTea(widget.tea, brewTime: newValue);
+            ).updateTea(tea, brewTime: newValue);
           }
         }),
       ),
@@ -441,7 +394,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   }
 
   // Tea brew temp selection
-  Widget _teaBrewTempSelector() {
+  Widget _teaBrewTempSelector(BuildContext context) {
     return SizedBox(
       height: double.infinity,
       child: InkWell(
@@ -451,7 +404,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           children: <Widget>[
             Text(
               formatTemp(
-                widget.tea.brewTemp,
+                tea.brewTemp,
                 useCelsius:
                     Provider.of<AppProvider>(context, listen: false).useCelsius,
               ),
@@ -461,14 +414,14 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           ],
         ),
         // Open tea brew temp dialog
-        onTap: () => _openTeaBrewTempDialog(context, widget.tea.brewTemp)
-            .then((newValue) {
+        onTap: () =>
+            _openTeaBrewTempDialog(context, tea.brewTemp).then((newValue) {
           if (newValue != null) {
             // Save brew temp to prefs
             Provider.of<AppProvider>(
               navigatorKey.currentContext!,
               listen: false,
-            ).updateTea(widget.tea, brewTemp: newValue);
+            ).updateTea(tea, brewTemp: newValue);
           }
         }),
       ),
@@ -500,7 +453,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   }
 
   // Tea brew ratio selection
-  Widget _teaBrewRatioSelector() {
+  Widget _teaBrewRatioSelector(BuildContext context) {
     return SizedBox(
       height: double.infinity,
       child: InkWell(
@@ -509,22 +462,22 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              widget.tea.brewRatio.numeratorString,
+              tea.brewRatio.numeratorString,
               style: textStyleSettingSeconday,
             ),
             dropdownArrow,
           ],
         ),
         // Open tea brew ratio dialog
-        onTap: () => _openTeaBrewRatioDialog(context, widget.tea.brewRatio)
-            .then((newValue) {
+        onTap: () =>
+            _openTeaBrewRatioDialog(context, tea.brewRatio).then((newValue) {
           if (newValue != null) {
             // Save brew ratio to prefs
             Provider.of<AppProvider>(
               navigatorKey.currentContext!,
               listen: false,
             ).updateTea(
-              widget.tea,
+              tea,
               brewRatio: newValue,
             );
           }
@@ -552,7 +505,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   }
 
   // Tea icon selection
-  Widget _teaIconSelector() {
+  Widget _teaIconSelector(BuildContext context) {
     return SizedBox(
       height: double.infinity,
       child: InkWell(
@@ -561,7 +514,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(
-              widget.tea.teaIcon,
+              tea.teaIcon,
               color: Theme.of(context).textTheme.bodySmall!.color!,
               size: 22.0,
             ),
@@ -569,7 +522,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           ],
         ),
         // Open tea icon dialog
-        onTap: () => _openIconDialog(context, widget.tea),
+        onTap: () => _openIconDialog(context, tea),
       ),
     );
   }
@@ -592,7 +545,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                   // Tea icon buttons
                   children: List.generate(
                     TeaIcon.values.length,
-                    (index) => _iconButton(index),
+                    (index) => _iconButton(context, index),
                   ),
                 ),
               ],
@@ -610,7 +563,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   }
 
   // Tea icon button
-  Widget _iconButton(int index) {
+  Widget _iconButton(BuildContext context, int index) {
     TeaIcon value = TeaIcon.values[index];
     return adaptiveLargeButton(
       icon: value.getIcon(),
@@ -620,7 +573,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
         Provider.of<AppProvider>(
           navigatorKey.currentContext!,
           listen: false,
-        ).updateTea(widget.tea, icon: value);
+        ).updateTea(tea, icon: value);
         Navigator.of(navigatorKey.currentContext!).pop(true);
       },
     );

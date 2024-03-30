@@ -38,7 +38,6 @@ class Tea {
   late bool isSilent;
   late int timerEndTime;
   int? timerNotifyID;
-  late bool animate;
 
   // Constructor
   Tea({
@@ -57,7 +56,6 @@ class Tea {
     this.isSilent = false,
     this.timerEndTime = 0,
     this.timerNotifyID,
-    this.animate = false,
   }) {
     // Assign next tea ID if not given
     this.id = id ?? nextTeaID++;
