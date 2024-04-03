@@ -41,4 +41,3 @@ PackageInfo packageInfo = PackageInfo(
 
 // Quick actions
 const QuickActions quickActions = QuickActions();
-bool doScroll = false;

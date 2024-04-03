@@ -14,12 +14,9 @@
 // - Build interface and interactivity
 
 import 'package:cuppa_mobile/common/constants.dart';
-import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/data/provider.dart';
-import 'package:cuppa_mobile/data/tea_timer.dart';
-import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/pages/prefs_page.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/tea_button_list.dart';
@@ -37,12 +34,6 @@ class TimerWidget extends StatelessWidget {
   // Build Timer page
   @override
   Widget build(BuildContext context) {
-    // Process tea list scroll request after build
-    Future.delayed(
-      Duration.zero,
-      () => _scrollToTeaButton(context),
-    );
-
     // Determine layout based on device orientation
     bool layoutPortrait = getDeviceSize(context).isPortrait;
 
@@ -123,20 +114,5 @@ class TimerWidget extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  // Autoscroll tea button list to specified tea
-  void _scrollToTeaButton(BuildContext context) {
-    Tea? tea = timer1.tea ?? timer2.tea;
-    if (tea != null && doScroll) {
-      // Ensure we are on the home screen
-      Navigator.of(context).popUntil((route) => route.isFirst);
-
-      BuildContext? target = GlobalObjectKey(tea.id).currentContext;
-      if (target != null) {
-        Scrollable.ensureVisible(target);
-      }
-    }
-    doScroll = false;
   }
 }

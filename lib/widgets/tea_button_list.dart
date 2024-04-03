@@ -250,7 +250,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
   }
 
   // Start a new brewing timer
-  void _setTimer(Tea tea, {bool resume = false}) {
+  void _setTimer(Tea tea, {bool resume = false, bool autoScroll = false}) {
     // Determine next available timer
     TeaTimer timer = !timer1.isActive ? timer1 : timer2;
 
@@ -278,6 +278,17 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
     // Set up timer state
     timer.start(tea, _handleTick(timer));
+
+    if (autoScroll) {
+      // Ensure we are on the home screen (timer page)
+      Navigator.of(context).popUntil((route) => route.isFirst);
+
+      // Autoscroll tea button list to this tea
+      BuildContext? target = GlobalObjectKey(tea.id).currentContext;
+      if (target != null) {
+        Scrollable.ensureVisible(target);
+      }
+    }
   }
 
   // Cancel a timer
@@ -311,8 +322,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
     for (Tea tea in provider.activeTeas) {
       if (tea.brewTimeRemaining > 0) {
         // Resume timer from stored prefs
-        _setTimer(tea, resume: true);
-        doScroll = true;
+        _setTimer(tea, resume: true, autoScroll: true);
       } else {
         provider.deactivateTea(tea);
       }
@@ -347,8 +357,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
             }
 
             // Start timer from shortcut
-            _setTimer(tea);
-            doScroll = true;
+            _setTimer(tea, autoScroll: true);
           }
         }
       }
