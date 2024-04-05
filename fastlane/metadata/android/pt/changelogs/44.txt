@@ -1,0 +1,5 @@
+* Ordene a sua lista de chá por uma variedade de critérios com apenas alguns toques.
+* Adicionada uma nova opção para organizar os botões do temporizador de chá na vertical.
+* Estão disponíveis opções de temperatura mais granulares utilizando o seletor.
+* Vários ajustes de usabilidade e interface.
+* Atualizações da tradução de idiomas - contribua através do Weblate!
