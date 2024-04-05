@@ -1,0 +1,4 @@
+* Beim Löschen von Tees wurde eine Rückgängig-Schaltfläche hinzugefügt.
+* Behebung eines Fehlers bei Verknüpfungen, nachdem die Teeliste neu sortiert wurde.
+* Optimierungen der Benutzerfreundlichkeit und der Benutzeroberfläche, einschließlich neuer Animationen.
+* Übersetzungen für Urdu und traditionelles Chinesisch - weitere Sprachen können über Weblate hinzugefügt werden!

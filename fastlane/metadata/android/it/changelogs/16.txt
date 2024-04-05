@@ -1,0 +1,3 @@
+* Cuppa è stato tradotto in 9 nuove lingue - contribuisci da Weblate!
+* Infusi che si preparano in meno di un minuto.
+* Svariati piccoli miglioramenti dell'UI e aggiustamento di bug.

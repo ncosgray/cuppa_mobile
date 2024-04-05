@@ -1,0 +1,4 @@
+* Es ist jetzt möglich, die verbleibende Zeit eines aktiven Tee-Timers einzustellen.
+* Zusätzliche Optionen für die Brühtemperatur.
+* Verschiedene Verbesserungen der Benutzerfreundlichkeit und der Benutzeroberfläche.
+* Aktualisierte Sprachübersetzungen - tragen Sie über Weblate bei!

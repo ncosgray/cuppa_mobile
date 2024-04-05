@@ -1,0 +1,5 @@
+* O novo design do seletor de cores oferece mais dezenas de opções de cores de chá!
+* Corrigido um erro que fazia com que a caixa de diálogo do nome do chá ficasse invisível em algumas situações.
+* Compatível com as novas permissões do Android 14.
+* Vários ajustes de usabilidade e interface.
+* Adicionada tradução para japonês e outras actualizações de tradução - contribua através do Weblate!

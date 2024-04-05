@@ -1,0 +1,4 @@
+* Agora é possível ajustar o tempo restante num temporizador de chá ativo.
+* Opções adicionais de temperatura de infusão.
+* Vários ajustes de usabilidade e interface.
+* Atualizações da tradução de idiomas - contribua através do Weblate!
