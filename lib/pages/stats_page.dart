@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/mini_tea_button.dart';
@@ -29,6 +30,7 @@ import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // Timer Stats page
 class StatsWidget extends StatefulWidget {
@@ -40,16 +42,18 @@ class StatsWidget extends StatefulWidget {
 
 class _StatsWidgetState extends State<StatsWidget> {
   // Timer data
-  int beginDateTime = 0;
-  int totalCount = 0;
-  int starredCount = 0;
-  int totalTime = 0;
-  String morningTea = '';
-  String afternoonTea = '';
-  List<Stat> summaryStats = [];
+  int _beginDateTime = 0;
+  int _totalCount = 0;
+  int _starredCount = 0;
+  int _totalTime = 0;
+  String _totalAmount = '';
+  String _morningTea = '';
+  String _afternoonTea = '';
+  List<Stat> _summaryStats = [];
 
   // Chart interaction
-  int selectedSection = -1;
+  bool _includeDeleted = false;
+  int _selectedSection = -1;
 
   // Build Stats page
   @override
@@ -98,30 +102,66 @@ class _StatsWidgetState extends State<StatsWidget> {
                           alignment: Alignment.topLeft,
                           child: ConstrainedBox(
                             constraints: BoxConstraints(maxWidth: summaryWidth),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                for (int i = 0; i < summaryStats.length; i++)
-                                  _statWidget(
-                                    stat: summaryStats[i],
-                                    statIndex: i,
-                                    maxWidth: summaryWidth,
-                                    totalCount: totalCount,
+                            child: AnimatedSize(
+                              duration: longAnimationDuration,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  ..._filteredSummaryStats.map<Widget>(
+                                    (Stat stat) => _statWidget(
+                                      stat: stat,
+                                      statIndex: _summaryStats.indexOf(stat),
+                                      maxWidth: summaryWidth,
+                                    ),
                                   ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                        // Summary pie chart
-                        Visibility(
-                          visible: summaryStats.isNotEmpty,
-                          child: Align(
-                            alignment: Alignment.topCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.all(24.0),
-                              child: _chart(chartSize: chartSize),
+                        Column(
+                          children: [
+                            // Summary pie chart
+                            Visibility(
+                              visible: _filteredSummaryStats.isNotEmpty,
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(24.0),
+                                  child: _chart(chartSize: chartSize),
+                                ),
+                              ),
                             ),
-                          ),
+                            // Chart option: Include deleted teas
+                            Visibility(
+                              visible: _includeDeleted ||
+                                  _totalCount != _filteredTotalCount,
+                              child: Padding(
+                                padding: smallDefaultPadding,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ConstrainedBox(
+                                      constraints:
+                                          BoxConstraints(maxWidth: chartSize),
+                                      child: Text(
+                                        AppString.stats_include_deleted
+                                            .translate(),
+                                        style: textStyleStatOption,
+                                      ),
+                                    ),
+                                    Checkbox.adaptive(
+                                      value: _includeDeleted,
+                                      onChanged: (newValue) => setState(
+                                        () =>
+                                            _includeDeleted = newValue ?? false,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -168,15 +208,45 @@ class _StatsWidgetState extends State<StatsWidget> {
 
   // Fetch stats from database
   Future<bool> _fetchTimerStats() async {
-    beginDateTime = await Stats.getMetric(MetricQuery.beginDateTime);
-    totalCount = await Stats.getMetric(MetricQuery.totalCount);
-    starredCount = await Stats.getMetric(MetricQuery.starredCount);
-    totalTime = await Stats.getMetric(MetricQuery.totalTime);
-    morningTea = await Stats.getString(StringQuery.morningTea);
-    afternoonTea = await Stats.getString(StringQuery.afternoonTea);
-    summaryStats = await Stats.getTeaStats(ListQuery.summaryStats);
+    _beginDateTime = await Stats.getMetric(MetricQuery.beginDateTime);
+    _totalCount = await Stats.getMetric(MetricQuery.totalCount);
+    _starredCount = await Stats.getMetric(MetricQuery.starredCount);
+    _totalTime = await Stats.getMetric(MetricQuery.totalTime);
+    _morningTea = await Stats.getString(StringQuery.morningTea);
+    _afternoonTea = await Stats.getString(StringQuery.afternoonTea);
+    _summaryStats = await Stats.getTeaStats(ListQuery.summaryStats);
+
+    // Get total amounts for each unit and concatenate
+    double totalAmountG = await Stats.getDecimal(DecimalQuery.totalAmountG);
+    double totalAmountTsp = await Stats.getDecimal(DecimalQuery.totalAmountTsp);
+    _totalAmount = totalAmountG > 0.0
+        ? formatNumeratorAmount(totalAmountG, useMetric: true)
+        : '';
+    if (totalAmountG > 0.0 && totalAmountTsp > 0.0) {
+      _totalAmount += ' + ';
+    }
+    _totalAmount += totalAmountTsp > 0.0
+        ? formatNumeratorAmount(totalAmountTsp, useMetric: false)
+        : '';
 
     return true;
+  }
+
+  // Apply deleted teas filter to stats
+  Iterable<Stat> get _filteredSummaryStats {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
+    return _summaryStats.where(
+      (stat) =>
+          _includeDeleted || provider.teaList.any((tea) => tea.id == stat.id),
+    );
+  }
+
+  int get _filteredTotalCount {
+    return _filteredSummaryStats.fold<int>(
+      0,
+      (total, stat) => total + stat.count,
+    );
   }
 
   // Generate a stat widget
@@ -184,12 +254,12 @@ class _StatsWidgetState extends State<StatsWidget> {
     required Stat stat,
     required int statIndex,
     required double maxWidth,
-    int totalCount = 0,
     bool details = false,
   }) {
-    String percent =
-        totalCount > 0 ? '(${formatPercent(stat.count / totalCount)})' : '';
-    bool fade = selectedSection > -1 && statIndex != selectedSection;
+    String percent = _filteredTotalCount > 0
+        ? '(${formatPercent(stat.count / _filteredTotalCount)})'
+        : '';
+    bool fade = _selectedSection > -1 && statIndex != _selectedSection;
 
     return AnimatedOpacity(
       opacity: fade ? fadeOpacity : noOpacity,
@@ -270,9 +340,9 @@ class _StatsWidgetState extends State<StatsWidget> {
             ],
           ),
           // Chart interactivity
-          onTapDown: (_) => setState(() => selectedSection = statIndex),
-          onTapUp: (_) => setState(() => selectedSection = -1),
-          onTapCancel: () => setState(() => selectedSection = -1),
+          onTapDown: (_) => setState(() => _selectedSection = statIndex),
+          onTapUp: (_) => setState(() => _selectedSection = -1),
+          onTapCancel: () => setState(() => _selectedSection = -1),
         ),
       ),
     );
@@ -290,12 +360,13 @@ class _StatsWidgetState extends State<StatsWidget> {
           centerSpaceRadius: 0.0,
           // Chart sections
           sections: [
-            for (int i = 0; i < summaryStats.length; i++)
-              _chartSection(
-                stat: summaryStats[i],
+            ..._filteredSummaryStats.map<PieChartSectionData>(
+              (Stat stat) => _chartSection(
+                stat: stat,
                 radius: chartSize / 2.0,
-                selected: i == selectedSection,
+                selected: _summaryStats.indexOf(stat) == _selectedSection,
               ),
+            ),
           ],
           // Chart interactivity
           pieTouchData: PieTouchData(
@@ -304,10 +375,10 @@ class _StatsWidgetState extends State<StatsWidget> {
                 if (!event.isInterestedForInteractions ||
                     pieTouchResponse == null ||
                     pieTouchResponse.touchedSection == null) {
-                  selectedSection = -1;
+                  _selectedSection = -1;
                   return;
                 }
-                selectedSection =
+                _selectedSection =
                     pieTouchResponse.touchedSection!.touchedSectionIndex;
               });
             },
@@ -323,7 +394,8 @@ class _StatsWidgetState extends State<StatsWidget> {
     required double radius,
     bool selected = false,
   }) {
-    double percent = totalCount > 0 ? stat.count / totalCount : 0.0;
+    double percent =
+        _filteredTotalCount > 0 ? stat.count / _filteredTotalCount : 0.0;
 
     return PieChartSectionData(
       value: stat.count.toDouble(),
@@ -344,39 +416,47 @@ class _StatsWidgetState extends State<StatsWidget> {
     return Column(
       children: [
         Visibility(
-          visible: beginDateTime > 0,
+          visible: _beginDateTime > 0,
           child: _metricWidget(
             metricName: AppString.stats_begin.translate(),
-            metric: formatDate(beginDateTime),
+            metric: formatDate(_beginDateTime),
           ),
         ),
         _metricWidget(
           metricName: AppString.stats_timer_count.translate(),
-          metric: totalCount.toString(),
+          metric: _totalCount.toString(),
         ),
         Visibility(
-          visible: totalCount > 0,
+          visible: _totalCount > 0,
           child: _metricWidget(
             metricName: AppString.stats_starred.translate(),
-            metric: formatPercent(starredCount / totalCount),
+            metric: formatPercent(_starredCount / _totalCount),
           ),
         ),
         _metricWidget(
           metricName: AppString.stats_timer_time.translate(),
-          metric: formatTimer(totalTime),
+          metric: formatTimer(_totalTime),
         ),
         Visibility(
-          visible: morningTea.isNotEmpty,
+          visible:
+              Provider.of<AppProvider>(context, listen: false).useBrewRatios,
           child: _metricWidget(
-            metricName: AppString.stats_favorite_am.translate(),
-            metric: morningTea,
+            metricName: AppString.stats_tea_amount.translate(),
+            metric: _totalAmount,
           ),
         ),
         Visibility(
-          visible: afternoonTea.isNotEmpty,
+          visible: _morningTea.isNotEmpty,
+          child: _metricWidget(
+            metricName: AppString.stats_favorite_am.translate(),
+            metric: _morningTea,
+          ),
+        ),
+        Visibility(
+          visible: _afternoonTea.isNotEmpty,
           child: _metricWidget(
             metricName: AppString.stats_favorite_pm.translate(),
-            metric: afternoonTea,
+            metric: _afternoonTea,
           ),
         ),
       ],

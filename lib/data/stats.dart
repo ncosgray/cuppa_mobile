@@ -15,6 +15,7 @@
 // - Query enums
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
@@ -29,6 +30,8 @@ class Stat {
   late String name;
   late int brewTime;
   late int brewTemp;
+  late double brewAmount;
+  late bool brewAmountMetric;
   late int colorShadeRed;
   late int colorShadeGreen;
   late int colorShadeBlue;
@@ -44,6 +47,8 @@ class Stat {
     String? name,
     int? brewTime,
     int? brewTemp,
+    double? brewAmount,
+    bool? brewAmountMetric,
     Color? color,
     int? colorShadeRed,
     int? colorShadeGreen,
@@ -54,13 +59,16 @@ class Stat {
     int? count,
   }) {
     this.id = tea?.id ?? id ?? 0;
-    this.name = tea?.name ?? name ?? '';
-    this.brewTime = tea?.brewTime ?? brewTime ?? 0;
-    this.brewTemp = tea?.brewTemp ?? brewTemp ?? 0;
+    this.name = tea?.name ?? name ?? unknownString;
+    this.brewTime = tea?.brewTime ?? brewTime ?? defaultBrewTime;
+    this.brewTemp = tea?.brewTemp ?? brewTemp ?? boilDegreesC;
+    this.brewAmount = tea?.brewRatio.ratioNumerator ?? brewAmount ?? 0.0;
+    this.brewAmountMetric =
+        tea?.brewRatio.metricNumerator ?? brewAmountMetric ?? isLocaleMetric;
     this.colorShadeRed = tea?.getColor().red ?? colorShadeRed ?? 0;
     this.colorShadeGreen = tea?.getColor().green ?? colorShadeGreen ?? 0;
     this.colorShadeBlue = tea?.getColor().blue ?? colorShadeBlue ?? 0;
-    this.iconValue = tea?.icon.value ?? iconValue ?? 0;
+    this.iconValue = tea?.icon.value ?? iconValue ?? defaultTeaIconValue;
     this.isFavorite = tea?.isFavorite ?? isFavorite ?? false;
     this.timerStartTime =
         timerStartTime ?? DateTime.now().millisecondsSinceEpoch;
@@ -84,6 +92,8 @@ class Stat {
       statsColumnName: name,
       statsColumnBrewTime: brewTime,
       statsColumnBrewTemp: brewTemp,
+      statsColumnBrewAmount: (brewAmount * 10.0).toInt(),
+      statsColumnBrewAmountMetric: brewAmountMetric ? 1 : 0,
       statsColumnColorShadeRed: colorShadeRed,
       statsColumnColorShadeGreen: colorShadeGreen,
       statsColumnColorShadeBlue: colorShadeBlue,
@@ -98,12 +108,18 @@ class Stat {
     return Stat(
       id: tryCast<int>(json[jsonKeyID]),
       name: tryCast<String>(json[jsonKeyName]) ?? unknownString,
-      brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? 0,
-      brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? 0,
-      colorShadeRed: tryCast<int>(json[jsonKeyColorShadeRed]) ?? 0,
-      colorShadeGreen: tryCast<int>(json[jsonKeyColorShadeGreen]) ?? 0,
-      colorShadeBlue: tryCast<int>(json[jsonKeyColorShadeBlue]) ?? 0,
-      iconValue: tryCast<int>(json[jsonKeyIcon]) ?? 0,
+      brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? defaultBrewTime,
+      brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? boilDegreesC,
+      brewAmount: tryCast<double>(json[jsonKeyBrewAmount]) ?? 0.0,
+      brewAmountMetric:
+          tryCast<bool>(json[jsonKeyBrewAmountMetric]) ?? isLocaleMetric,
+      colorShadeRed:
+          tryCast<int>(json[jsonKeyColorShadeRed]) ?? defaultTeaColorValue,
+      colorShadeGreen:
+          tryCast<int>(json[jsonKeyColorShadeGreen]) ?? defaultTeaColorValue,
+      colorShadeBlue:
+          tryCast<int>(json[jsonKeyColorShadeBlue]) ?? defaultTeaColorValue,
+      iconValue: tryCast<int>(json[jsonKeyIcon]) ?? defaultTeaIconValue,
       isFavorite: tryCast<bool>(json[jsonKeyIsFavorite]) ?? false,
       timerStartTime: tryCast<int>(json[jsonKeyTimerStartTime]) ?? 0,
     );
@@ -114,6 +130,8 @@ class Stat {
         jsonKeyName: name,
         jsonKeyBrewTime: brewTime,
         jsonKeyBrewTemp: brewTemp,
+        jsonKeyBrewAmount: brewAmount,
+        jsonKeyBrewAmountMetric: brewAmountMetric,
         jsonKeyColorShadeRed: colorShadeRed,
         jsonKeyColorShadeGreen: colorShadeGreen,
         jsonKeyColorShadeBlue: colorShadeBlue,
@@ -126,7 +144,7 @@ class Stat {
 // Stats methods
 abstract class Stats {
   // Data management queries
-  static const createSQL = '''CREATE TABLE $statsTable (
+  static const createSQL = '''CREATE TABLE IF NOT EXISTS $statsTable (
       $statsColumnId INTEGER
       , $statsColumnName TEXT
       , $statsColumnBrewTime INTEGER
@@ -137,7 +155,13 @@ abstract class Stats {
       , $statsColumnIconValue INTEGER
       , $statsColumnIsFavorite INTEGER
       , $statsColumnTimerStartTime INTEGER
+      , $statsColumnBrewAmount INTEGER
+      , $statsColumnBrewAmountMetric INTEGER
     )''';
+  static const upgradeV2Step1SQL = '''ALTER TABLE $statsTable
+    ADD $statsColumnBrewAmount INTEGER''';
+  static const upgradeV2Step2SQL = '''ALTER TABLE $statsTable
+    ADD $statsColumnBrewAmountMetric INTEGER''';
   static const deleteAllSQL = 'DELETE FROM $statsTable';
 
   // Stats database getter
@@ -153,9 +177,13 @@ abstract class Stats {
   static Future<Database> openStats() async {
     return await openDatabase(
       join(await getDatabasesPath(), statsDatabase),
-      version: 1,
-      onCreate: (Database db, _) async {
-        await db.execute(createSQL);
+      version: 2,
+      onCreate: (Database db, _) async => await db.execute(createSQL),
+      onUpgrade: (Database db, int oldVersion, int newVersion) async {
+        if (oldVersion < 2) {
+          await db.execute(upgradeV2Step1SQL);
+          await db.execute(upgradeV2Step2SQL);
+        }
       },
     );
   }
@@ -201,6 +229,13 @@ abstract class Stats {
         name: results[i][statsColumnName].toString(),
         brewTime: int.tryParse(results[i][statsColumnBrewTime].toString()),
         brewTemp: int.tryParse(results[i][statsColumnBrewTemp].toString()),
+        brewAmount:
+            (num.tryParse(results[i][statsColumnBrewAmount].toString()) ??
+                    0.0) /
+                10.0,
+        brewAmountMetric:
+            int.tryParse(results[i][statsColumnBrewAmountMetric].toString()) ==
+                1,
         colorShadeRed:
             int.tryParse(results[i][statsColumnColorShadeRed].toString()),
         colorShadeGreen:
@@ -228,6 +263,19 @@ abstract class Stats {
       metric = int.tryParse(result[0][statsColumnMetric].toString());
     }
     return metric ?? 0;
+  }
+
+  // Retrieve a single decimal value from the stats database
+  static Future<double> getDecimal(DecimalQuery q) async {
+    double? metric;
+    final db = await statsData;
+
+    // Query the stats table
+    var result = await db.rawQuery(q.sql);
+    if (result.isNotEmpty) {
+      metric = double.tryParse(result[0][statsColumnMetric].toString());
+    }
+    return metric ?? 0.0;
   }
 
   // Retrieve a string value from the stats database
@@ -277,6 +325,34 @@ enum MetricQuery {
         return starredCountSQL;
       default:
         return beginDateTimeSQL;
+    }
+  }
+}
+
+// Decimal queries
+enum DecimalQuery {
+  totalAmountG(0),
+  totalAmountTsp(1);
+
+  final int value;
+
+  const DecimalQuery(this.value);
+
+  // Stats queries
+  final totalAmountGSQL = '''SELECT SUM($statsColumnBrewAmount)/10.0 AS metric
+    FROM $statsTable
+    WHERE $statsColumnBrewAmountMetric = 1''';
+  final totalAmountTspSQL = '''SELECT SUM($statsColumnBrewAmount)/10.0 AS metric
+    FROM $statsTable
+    WHERE $statsColumnBrewAmountMetric <> 1''';
+
+  // Query SQL
+  get sql {
+    switch (value) {
+      case 1:
+        return totalAmountTspSQL;
+      default:
+        return totalAmountGSQL;
     }
   }
 }

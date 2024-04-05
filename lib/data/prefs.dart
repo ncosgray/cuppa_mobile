@@ -15,7 +15,7 @@
 
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
-import 'package:cuppa_mobile/common/helpers.dart';
+import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
@@ -44,10 +44,11 @@ abstract class Prefs {
       teaList.add(
         Tea(
           name: sharedPrefs.getString(prefTea1Name) ?? unknownString,
-          brewTime: sharedPrefs.getInt(prefTea1BrewTime) ?? 0,
-          brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ?? 100,
-          colorValue: sharedPrefs.getInt(prefTea1Color) ?? 0,
-          iconValue: sharedPrefs.getInt(prefTea1Icon) ?? 0,
+          brewTime: sharedPrefs.getInt(prefTea1BrewTime) ?? defaultBrewTime,
+          brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ?? boilDegreesC,
+          brewRatio: BrewRatio(),
+          colorValue: sharedPrefs.getInt(prefTea1Color) ?? defaultTeaColorValue,
+          iconValue: sharedPrefs.getInt(prefTea1Icon) ?? defaultTeaIconValue,
           isFavorite: sharedPrefs.getBool(prefTea1IsFavorite) ?? true,
           isActive: sharedPrefs.getBool(prefTea1IsActive) ?? false,
         ),
@@ -67,10 +68,11 @@ abstract class Prefs {
       teaList.add(
         Tea(
           name: sharedPrefs.getString(prefTea2Name) ?? unknownString,
-          brewTime: sharedPrefs.getInt(prefTea2BrewTime) ?? 0,
-          brewTemp: sharedPrefs.getInt(prefTea2BrewTemp) ?? 100,
-          colorValue: sharedPrefs.getInt(prefTea2Color) ?? 0,
-          iconValue: 0,
+          brewTime: sharedPrefs.getInt(prefTea2BrewTime) ?? defaultBrewTime,
+          brewTemp: sharedPrefs.getInt(prefTea2BrewTemp) ?? boilDegreesC,
+          brewRatio: BrewRatio(),
+          colorValue: sharedPrefs.getInt(prefTea2Color) ?? defaultTeaColorValue,
+          iconValue: defaultTeaIconValue,
           isFavorite: sharedPrefs.getBool(prefTea2IsFavorite) ?? true,
           isActive: sharedPrefs.getBool(prefTea2IsActive) ?? false,
         ),
@@ -90,10 +92,11 @@ abstract class Prefs {
       teaList.add(
         Tea(
           name: sharedPrefs.getString(prefTea3Name) ?? unknownString,
-          brewTime: sharedPrefs.getInt(prefTea3BrewTime) ?? 0,
-          brewTemp: sharedPrefs.getInt(prefTea3BrewTemp) ?? 100,
-          colorValue: sharedPrefs.getInt(prefTea3Color) ?? 0,
-          iconValue: 0,
+          brewTime: sharedPrefs.getInt(prefTea3BrewTime) ?? defaultBrewTime,
+          brewTemp: sharedPrefs.getInt(prefTea3BrewTemp) ?? boilDegreesC,
+          brewRatio: BrewRatio(),
+          colorValue: sharedPrefs.getInt(prefTea3Color) ?? defaultTeaColorValue,
+          iconValue: defaultTeaIconValue,
           isFavorite: sharedPrefs.getBool(prefTea3IsFavorite) ?? true,
           isActive: sharedPrefs.getBool(prefTea3IsActive) ?? false,
         ),
@@ -143,8 +146,16 @@ abstract class Prefs {
     return sharedPrefs.getBool(prefHideIncrements);
   }
 
+  static bool? loadSilentDefault() {
+    return sharedPrefs.getBool(prefSilentDefault);
+  }
+
   static bool? loadUseCelsius() {
     return sharedPrefs.getBool(prefUseCelsius);
+  }
+
+  static bool? loadUseBrewRatios() {
+    return sharedPrefs.getBool(prefUseBrewRatios);
   }
 
   static AppTheme? loadAppTheme() {
@@ -172,7 +183,9 @@ abstract class Prefs {
   static void saveSettings({
     bool? showExtra,
     bool? hideIncrements,
+    bool? silentDefault,
     bool? useCelsius,
+    bool? useBrewRatios,
     AppTheme? appTheme,
     String? appLanguage,
     bool? collectStats,
@@ -184,8 +197,14 @@ abstract class Prefs {
     if (hideIncrements != null) {
       sharedPrefs.setBool(prefHideIncrements, hideIncrements);
     }
+    if (silentDefault != null) {
+      sharedPrefs.setBool(prefSilentDefault, silentDefault);
+    }
     if (useCelsius != null) {
       sharedPrefs.setBool(prefUseCelsius, useCelsius);
+    }
+    if (useBrewRatios != null) {
+      sharedPrefs.setBool(prefUseBrewRatios, useBrewRatios);
     }
     if (appTheme != null) {
       sharedPrefs.setInt(prefAppTheme, appTheme.value);
@@ -290,6 +309,13 @@ final List<int> brewTempFIncrements = [
   minDegreesF,
   ...[for (var i = 110; i <= 200; i += 10) i],
   boilDegreesF,
+];
+
+// Brew ratio denominator options
+final List<int> brewRatioMlOptions = [for (var i = 50; i <= 500; i += 50) i];
+final List<int> brewRatioOzOptions = [
+  1,
+  ...[for (var i = 2; i <= 18; i += 2) i],
 ];
 
 // App language options

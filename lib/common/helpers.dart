@@ -19,19 +19,13 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-const boilDegreesC = 100;
-const boilDegreesF = 212;
-const minDegreesC = 45;
-const minDegreesF = 102;
-const roomTemp = 0;
-const roomTempDegreesC = 20;
-const roomTempDegreesF = 68;
-const degreeSymbol = '\u00b0';
-const hairSpace = '\u200a';
-const emDash = '\u2014';
-
 // Type conversion
 T? tryCast<T>(dynamic object) => object is T ? object : null;
+
+// Precision extension for double
+extension Ex on double {
+  double toPrecision([int n = 1]) => double.parse(toStringAsFixed(n));
+}
 
 // Room temp check based on locale
 bool isRoomTemp(i, {bool? useCelsius}) {
@@ -104,6 +98,27 @@ String formatDate(ms, {bool dateTime = false}) {
 // Format number as percentage
 String formatPercent(i) {
   return NumberFormat('#%').format(i);
+}
+
+// Format ratio amounts with units
+String formatNumeratorAmount(
+  double i, {
+  required bool useMetric,
+}) {
+  String unit = useMetric
+      ? AppString.unit_grams.translate()
+      : AppString.unit_teaspoons.translate();
+  return '${i.toPrecision()}$unit';
+}
+
+String formatDenominatorAmount(
+  int i, {
+  required bool useMetric,
+}) {
+  String unit = useMetric
+      ? AppString.unit_milliliters.translate()
+      : AppString.unit_ounces.translate();
+  return '$i$unit';
 }
 
 // Fetch details about the device size and orientation

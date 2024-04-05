@@ -14,15 +14,19 @@
 // - Build interface for tea customization
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/local_notifications.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
+import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/widgets/tea_brew_ratio_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_brew_temp_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_brew_time_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_color_dialog.dart';
@@ -32,7 +36,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Widget defining a tea settings card
-class TeaSettingsCard extends StatefulWidget {
+class TeaSettingsCard extends StatelessWidget {
   const TeaSettingsCard({
     super.key,
     required this.tea,
@@ -40,161 +44,142 @@ class TeaSettingsCard extends StatefulWidget {
 
   final Tea tea;
 
-  @override
-  State<TeaSettingsCard> createState() => _TeaSettingsCardState();
-}
-
-class _TeaSettingsCardState extends State<TeaSettingsCard>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _animation;
-
-  @override
-  initState() {
-    super.initState();
-
-    // Settings card pop-in
-    _animationController = AnimationController(
-      duration: shortAnimationDuration,
-      vsync: this,
-    );
-    _animation = Tween(
-      begin: 0.5,
-      end: 1.0,
-    ).animate(_animationController);
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-
-    super.dispose();
-  }
-
+  // Build a tea settings card
   @override
   Widget build(BuildContext context) {
-    // Animate adding a new tea or skip animation for existing teas
-    if (widget.tea.animate) {
-      widget.tea.animate = false;
-      _animationController.forward();
-      return ScaleTransition(
-        scale: _animation,
-        child: _settingsCard(context),
-      );
-    } else {
-      return _settingsCard(context);
-    }
-  }
-
-  // Build a tea settings card
-  Widget _settingsCard(BuildContext context) {
     // Determine layout based on device size
     bool layoutPortrait = getDeviceSize(context).isPortrait ||
         getDeviceSize(context).isLargeDevice;
 
     return Card(
       margin: bodyPadding,
-      child: IgnorePointer(
-        // Disable editing actively brewing tea
-        ignoring: widget.tea.isActive,
-        child: ListTile(
-          horizontalTitleGap: layoutPortrait ? 4.0 : 24.0,
-          title: Opacity(
-            opacity: widget.tea.isActive ? fadeOpacity : noOpacity,
-            child: SizedBox(
-              height: layoutPortrait ? 88.0 : 64.0,
-              child: Flex(
-                // Determine layout by device size
-                direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
-                children: [
-                  Flexible(
-                    child: Container(
-                      height: 54.0,
-                      padding: noPadding,
-                      child: Row(
-                        children: [
-                          // Favorite status
-                          _favoriteButton(),
-                          smallSpacerWidget,
-                          // Tea name with edit icon
-                          _teaNameEditor(),
-                        ],
+      child: ListTile(
+        horizontalTitleGap: layoutPortrait ? 4.0 : 24.0,
+        title: SizedBox(
+          height: layoutPortrait ? 88.0 : 64.0,
+          child: Flex(
+            // Determine layout by device size
+            direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
+            children: [
+              Flexible(
+                child: Container(
+                  height: 54.0,
+                  padding: noPadding,
+                  child: Row(
+                    children: [
+                      // Favorite status
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: _favoriteButton(context),
                       ),
-                    ),
-                  ),
-                  // Tea settings selection
-                  Flexible(
-                    child: Container(
-                      padding: noPadding,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Brew time
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: _teaBrewTimeSelector(),
-                            ),
-                          ),
-                          // Brew temperature
-                          Container(
-                            padding: rowPadding,
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: _teaBrewTempSelector(),
-                            ),
-                          ),
-                          // Settings separator
-                          ConstrainedBox(
-                            constraints: const BoxConstraints(
-                              minWidth: 12.0,
-                              maxWidth: double.infinity,
-                            ),
-                            child: Container(),
-                          ),
-                          // Tea color selection
-                          Container(
-                            padding: rowPadding,
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: _teaColorSelector(),
-                            ),
-                          ),
-                          // Icon selection
-                          Align(
+                      smallSpacerWidget,
+                      // Tea name with edit icon
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: _teaNameEditor(context),
+                        ),
+                      ),
+                      smallSpacerWidget,
+                      // Tea color selection - alternate layout
+                      Selector<AppProvider, bool>(
+                        selector: (_, provider) => provider.useBrewRatios,
+                        builder: (context, useBrewRatios, child) => Visibility(
+                          visible: useBrewRatios,
+                          child: Align(
                             alignment: Alignment.centerRight,
-                            child: _teaIconSelector(),
+                            child: _teaColorSelector(context),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                      Visibility(
+                        visible: !layoutPortrait,
+                        child: smallSpacerWidget,
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+              // Tea settings selection
+              Flexible(
+                child: Container(
+                  padding: noPadding,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Brew time
+                      Expanded(
+                        child: Align(
+                          alignment: layoutPortrait
+                              ? Alignment.centerLeft
+                              : Alignment.center,
+                          child: _teaBrewTimeSelector(context),
+                        ),
+                      ),
+                      smallSpacerWidget,
+                      // Brew temperature
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: _teaBrewTempSelector(context),
+                      ),
+                      // Brew ratio
+                      smallSpacerWidget,
+                      Selector<AppProvider, bool>(
+                        selector: (_, provider) => provider.useBrewRatios,
+                        builder: (context, useBrewRatios, child) => Visibility(
+                          visible: useBrewRatios,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: _teaBrewRatioSelector(context),
+                          ),
+                        ),
+                      ),
+                      smallSpacerWidget,
+                      // Tea color selection - default layout
+                      Selector<AppProvider, bool>(
+                        selector: (_, provider) => provider.useBrewRatios,
+                        builder: (context, useBrewRatios, child) => Visibility(
+                          visible: !useBrewRatios,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: _teaColorSelector(context),
+                          ),
+                        ),
+                      ),
+                      smallSpacerWidget,
+                      // Icon selection
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: _teaIconSelector(context),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          trailing: const SizedBox(height: double.infinity, child: dragHandle),
         ),
+        trailing: const SizedBox(height: double.infinity, child: dragHandle),
       ),
     );
   }
 
   // Button to change favorite status
-  Widget _favoriteButton() {
+  Widget _favoriteButton(BuildContext context) {
     return InkWell(
       customBorder: const CircleBorder(),
       // Toggle favorite status if enabled or max not reached
-      onTap: widget.tea.isFavorite ||
+      onTap: tea.isFavorite ||
               Provider.of<AppProvider>(context, listen: false)
                       .favoritesList
                       .length <
                   favoritesMaxCount
           ? () => Provider.of<AppProvider>(context, listen: false)
-              .updateTea(widget.tea, isFavorite: !widget.tea.isFavorite)
+              .updateTea(tea, isFavorite: !tea.isFavorite)
           : null,
       child: Container(
         padding: smallDefaultPadding,
-        child: widget.tea.isFavorite
+        child: tea.isFavorite
             ? favoriteStarIcon
             : Provider.of<AppProvider>(context, listen: false)
                         .favoritesList
@@ -207,22 +192,22 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   }
 
   // Tea name editor
-  Widget _teaNameEditor() {
+  Widget _teaNameEditor(BuildContext context) {
     return SizedBox(
       height: double.infinity,
       child: InkWell(
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Container(
-              padding: rowPadding,
+            Flexible(
               child: Text(
-                widget.tea.name,
+                tea.name,
                 textAlign: TextAlign.left,
                 maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: textStyleSetting.copyWith(
-                  color: widget.tea.getColor(),
+                  color: tea.getColor(),
                 ),
               ),
             ),
@@ -233,12 +218,26 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
           ],
         ),
         // Open tea name dialog
-        onTap: () =>
-            _openTeaNameDialog(context, widget.tea.name).then((newValue) {
+        onTap: () => _openTeaNameDialog(context, tea.name).then((newValue) {
           if (newValue != null) {
             // Save name to prefs
-            Provider.of<AppProvider>(context, listen: false)
-                .updateTea(widget.tea, name: newValue);
+            Provider.of<AppProvider>(
+              navigatorKey.currentContext!,
+              listen: false,
+            ).updateTea(tea, name: newValue);
+
+            // Edit notification for active timer
+            if (tea.isActive &&
+                tea.brewTimeRemaining > 0 &&
+                tea.timerNotifyID != null) {
+              sendNotification(
+                tea.brewTimeRemaining,
+                AppString.notification_title.translate(),
+                AppString.notification_text.translate(teaName: tea.name),
+                tea.timerNotifyID!,
+                silent: tea.isSilent,
+              );
+            }
           }
         }),
       ),
@@ -272,36 +271,95 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
     );
   }
 
-  // Tea brew time selection
-  Widget _teaBrewTimeSelector() {
+  // Tea color selection
+  Widget _teaColorSelector(BuildContext context) {
     return SizedBox(
       height: double.infinity,
       child: InkWell(
-        child: Container(
-          padding: noPadding,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                formatTimer(widget.tea.brewTime),
-                style: textStyleSettingSeconday,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 20.0,
+              height: 20.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4.0),
+                color: tea.getColor(),
               ),
-              dropdownArrow,
-            ],
-          ),
+            ),
+            dropdownArrow,
+          ],
+        ),
+        // Open tea color dialog
+        onTap: () => _openColorDialog(context, tea.color, tea.colorShade)
+            .then((newValues) {
+          if (newValues != null) {
+            // Save color data to prefs
+            Provider.of<AppProvider>(
+              navigatorKey.currentContext!,
+              listen: false,
+            ).updateTea(
+              tea,
+              color: newValues.teaColor,
+              colorShade: newValues.colorShade,
+            );
+          }
+        }),
+      ),
+    );
+  }
+
+  // Display a tea color selection dialog box
+  Future<({TeaColor teaColor, Color? colorShade})?> _openColorDialog(
+    BuildContext context,
+    TeaColor currentTeaColor,
+    Color? currentColorShade,
+  ) async {
+    return showAdaptiveDialog<({TeaColor teaColor, Color? colorShade})>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return TeaColorDialog(
+          initialTeaColor: currentTeaColor,
+          initialColorShade: currentColorShade,
+          previewIcon: tea.teaIcon,
+          buttonTextCancel: AppString.cancel_button.translate(),
+          buttonTextOK: AppString.ok_button.translate(),
+        );
+      },
+    );
+  }
+
+  // Tea brew time selection
+  Widget _teaBrewTimeSelector(BuildContext context) {
+    return SizedBox(
+      height: double.infinity,
+      child: InkWell(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              formatTimer(tea.brewTime),
+              style: textStyleSettingSeconday,
+            ),
+            dropdownArrow,
+          ],
         ),
         // Open tea brew time dialog
         onTap: () => _openTeaBrewTimeDialog(
           context,
-          widget.tea.brewTimeHours,
-          widget.tea.brewTimeMinutes,
-          widget.tea.brewTimeSeconds,
+          tea.brewTimeHours,
+          tea.brewTimeMinutes,
+          tea.brewTimeSeconds,
         ).then((newValue) {
           if (newValue != null) {
             // Save brew time to prefs
-            Provider.of<AppProvider>(context, listen: false)
-                .updateTea(widget.tea, brewTime: newValue);
+            Provider.of<AppProvider>(
+              navigatorKey.currentContext!,
+              listen: false,
+            ).updateTea(tea, brewTime: newValue);
           }
         }),
       ),
@@ -336,35 +394,34 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   }
 
   // Tea brew temp selection
-  Widget _teaBrewTempSelector() {
+  Widget _teaBrewTempSelector(BuildContext context) {
     return SizedBox(
       height: double.infinity,
       child: InkWell(
-        child: Container(
-          padding: rowPadding,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                formatTemp(
-                  widget.tea.brewTemp,
-                  useCelsius: Provider.of<AppProvider>(context, listen: false)
-                      .useCelsius,
-                ),
-                style: textStyleSettingSeconday,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              formatTemp(
+                tea.brewTemp,
+                useCelsius:
+                    Provider.of<AppProvider>(context, listen: false).useCelsius,
               ),
-              dropdownArrow,
-            ],
-          ),
+              style: textStyleSettingSeconday,
+            ),
+            dropdownArrow,
+          ],
         ),
         // Open tea brew temp dialog
-        onTap: () => _openTeaBrewTempDialog(context, widget.tea.brewTemp)
-            .then((newValue) {
+        onTap: () =>
+            _openTeaBrewTempDialog(context, tea.brewTemp).then((newValue) {
           if (newValue != null) {
             // Save brew temp to prefs
-            Provider.of<AppProvider>(context, listen: false)
-                .updateTea(widget.tea, brewTemp: newValue);
+            Provider.of<AppProvider>(
+              navigatorKey.currentContext!,
+              listen: false,
+            ).updateTea(tea, brewTemp: newValue);
           }
         }),
       ),
@@ -395,39 +452,33 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
     );
   }
 
-  // Tea color selection
-  Widget _teaColorSelector() {
+  // Tea brew ratio selection
+  Widget _teaBrewRatioSelector(BuildContext context) {
     return SizedBox(
       height: double.infinity,
       child: InkWell(
-        child: Container(
-          padding: rowPadding,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                width: 18.0,
-                height: 18.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.0),
-                  color: widget.tea.getColor(),
-                ),
-              ),
-              dropdownArrow,
-            ],
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              tea.brewRatio.numeratorString,
+              style: textStyleSettingSeconday,
+            ),
+            dropdownArrow,
+          ],
         ),
-        // Open tea color dialog
+        // Open tea brew ratio dialog
         onTap: () =>
-            _openColorDialog(context, widget.tea.color, widget.tea.colorShade)
-                .then((newValues) {
-          if (newValues != null) {
-            // Save color data to prefs
-            Provider.of<AppProvider>(context, listen: false).updateTea(
-              widget.tea,
-              color: newValues.teaColor,
-              colorShade: newValues.colorShade,
+            _openTeaBrewRatioDialog(context, tea.brewRatio).then((newValue) {
+          if (newValue != null) {
+            // Save brew ratio to prefs
+            Provider.of<AppProvider>(
+              navigatorKey.currentContext!,
+              listen: false,
+            ).updateTea(
+              tea,
+              brewRatio: newValue,
             );
           }
         }),
@@ -435,20 +486,17 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
     );
   }
 
-  // Display a tea color selection dialog box
-  Future<({TeaColor teaColor, Color? colorShade})?> _openColorDialog(
+  // Display a tea brew ratio entry dialog box
+  Future<BrewRatio?> _openTeaBrewRatioDialog(
     BuildContext context,
-    TeaColor currentTeaColor,
-    Color? currentColorShade,
+    BrewRatio currentRatio,
   ) async {
-    return showAdaptiveDialog<({TeaColor teaColor, Color? colorShade})>(
+    return showAdaptiveDialog<BrewRatio?>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return TeaColorDialog(
-          initialTeaColor: currentTeaColor,
-          initialColorShade: currentColorShade,
-          previewIcon: widget.tea.teaIcon,
+        return TeaBrewRatioDialog(
+          initialRatio: currentRatio,
           buttonTextCancel: AppString.cancel_button.translate(),
           buttonTextOK: AppString.ok_button.translate(),
         );
@@ -457,26 +505,24 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   }
 
   // Tea icon selection
-  Widget _teaIconSelector() {
+  Widget _teaIconSelector(BuildContext context) {
     return SizedBox(
       height: double.infinity,
       child: InkWell(
-        child: Container(
-          padding: noPadding,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Icon(
-                widget.tea.teaIcon,
-                color: widget.tea.getColor(),
-              ),
-              dropdownArrow,
-            ],
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              tea.teaIcon,
+              color: Theme.of(context).textTheme.bodySmall!.color!,
+              size: 22.0,
+            ),
+            dropdownArrow,
+          ],
         ),
         // Open tea icon dialog
-        onTap: () => _openIconDialog(context, widget.tea),
+        onTap: () => _openIconDialog(context, tea),
       ),
     );
   }
@@ -499,7 +545,7 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
                   // Tea icon buttons
                   children: List.generate(
                     TeaIcon.values.length,
-                    (index) => _iconButton(index),
+                    (index) => _iconButton(context, index),
                   ),
                 ),
               ],
@@ -517,15 +563,18 @@ class _TeaSettingsCardState extends State<TeaSettingsCard>
   }
 
   // Tea icon button
-  Widget _iconButton(int index) {
+  Widget _iconButton(BuildContext context, int index) {
     TeaIcon value = TeaIcon.values[index];
     return adaptiveLargeButton(
       icon: value.getIcon(),
+      iconColor: Theme.of(context).textTheme.bodySmall!.color!,
       // Set selected icon
       onPressed: () {
-        Provider.of<AppProvider>(context, listen: false)
-            .updateTea(widget.tea, icon: value);
-        Navigator.of(context).pop(true);
+        Provider.of<AppProvider>(
+          navigatorKey.currentContext!,
+          listen: false,
+        ).updateTea(tea, icon: value);
+        Navigator.of(navigatorKey.currentContext!).pop(true);
       },
     );
   }

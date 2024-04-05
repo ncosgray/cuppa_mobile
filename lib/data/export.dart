@@ -42,7 +42,9 @@ abstract class Export {
         settings: Settings(
           showExtra: provider.showExtra,
           hideIncrements: provider.hideIncrements,
+          silentDefault: provider.silentDefault,
           useCelsius: provider.useCelsius,
+          useBrewRatios: provider.useBrewRatios,
           appThemeValue: provider.appTheme.value,
           appLanguage: provider.appLanguage,
           collectStats: provider.collectStats,
@@ -100,8 +102,16 @@ abstract class Export {
             provider.hideIncrements = exportData.settings!.hideIncrements!;
           }
 
+          if (exportData.settings!.silentDefault != null) {
+            provider.silentDefault = exportData.settings!.silentDefault!;
+          }
+
           if (exportData.settings!.useCelsius != null) {
             provider.useCelsius = exportData.settings!.useCelsius!;
+          }
+
+          if (exportData.settings!.useBrewRatios != null) {
+            provider.useBrewRatios = exportData.settings!.useBrewRatios!;
           }
 
           // Look up appTheme from value
@@ -191,7 +201,9 @@ class ExportFile {
 class Settings {
   bool? showExtra;
   bool? hideIncrements;
+  bool? silentDefault;
   bool? useCelsius;
+  bool? useBrewRatios;
   int? appThemeValue;
   String? appLanguage;
   bool? collectStats;
@@ -201,7 +213,9 @@ class Settings {
   Settings({
     this.showExtra,
     this.hideIncrements,
+    this.silentDefault,
     this.useCelsius,
+    this.useBrewRatios,
     this.appThemeValue,
     this.appLanguage,
     this.collectStats,
@@ -213,7 +227,9 @@ class Settings {
     return Settings(
       showExtra: tryCast<bool>(json[jsonKeyShowExtra]),
       hideIncrements: tryCast<bool>(json[jsonKeyHideIncrements]),
+      silentDefault: tryCast<bool>(json[jsonKeySilentDefault]),
       useCelsius: tryCast<bool>(json[jsonKeyUseCelsius]),
+      useBrewRatios: tryCast<bool>(json[jsonKeyUseBrewRatios]),
       appThemeValue: tryCast<int>(json[jsonKeyAppTheme]),
       appLanguage: tryCast<String>(json[jsonKeyAppLanguage]),
       collectStats: tryCast<bool>(json[jsonKeyCollectStats]),
@@ -224,7 +240,9 @@ class Settings {
   Map<String, dynamic> toJson() => {
         jsonKeyShowExtra: showExtra,
         jsonKeyHideIncrements: hideIncrements,
+        jsonKeySilentDefault: silentDefault,
         jsonKeyUseCelsius: useCelsius,
+        jsonKeyUseBrewRatios: useBrewRatios,
         jsonKeyAppTheme: appThemeValue,
         jsonKeyAppLanguage: appLanguage,
         jsonKeyCollectStats: collectStats,

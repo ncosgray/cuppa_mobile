@@ -143,6 +143,7 @@ Widget adaptiveSmallButton({
 // Large button with styling appropriate to platform
 Widget adaptiveLargeButton({
   required IconData icon,
+  Color? iconColor,
   required Function()? onPressed,
 }) {
   if (appPlatform == TargetPlatform.iOS) {
@@ -150,7 +151,7 @@ Widget adaptiveLargeButton({
       minSize: 72.0,
       padding: noPadding,
       onPressed: onPressed,
-      child: Icon(icon, size: 36.0),
+      child: Icon(icon, size: 36.0, color: iconColor),
     );
   } else {
     return OutlinedButton(
@@ -163,7 +164,7 @@ Widget adaptiveLargeButton({
         padding: smallDefaultPadding,
       ),
       onPressed: onPressed,
-      child: Icon(icon, size: 36.0),
+      child: Icon(icon, size: 36.0, color: iconColor),
     );
   }
 }

@@ -11,15 +11,13 @@
 */
 
 // Cuppa constants
-// - App info, prefs keys, settings limits
+// - App info, defaults, prefs keys, settings limits
 
 // App info
 const appName = 'Cuppa';
 const appIcon = 'images/Cuppa_icon.png';
 const aboutCopyright = '\u00a9 Nathan Cosgray';
 const aboutURL = 'https://nathanatos.com';
-const unknownString = '?';
-const starSymbol = '\u2605';
 
 // About list item link URLs
 const versionsURL = 'https://github.com/ncosgray/cuppa_mobile/releases';
@@ -46,6 +44,30 @@ const teasMaxCount = 15;
 const timersMaxCount = 2;
 const stackedViewTeaCount = 3;
 
+// Defaults
+const unknownString = '?';
+const defaultBrewTime = 240;
+const defaultTeaColorValue = 0;
+const defaultTeaIconValue = 0;
+const double defaultBrewRatioNumeratorG = 3.0;
+const double defaultBrewRatioNumeratorTsp = 1.0;
+const defaultBrewRatioDenominatorMl = 250;
+const defaultBrewRatioDenominatorOz = 8;
+
+// Temperatures
+const boilDegreesC = 100;
+const boilDegreesF = 212;
+const minDegreesC = 45;
+const minDegreesF = 102;
+const roomTemp = 0;
+const roomTempDegreesC = 20;
+const roomTempDegreesF = 68;
+
+// Brewing ratios
+const double brewRatioNumeratorMin = 0.5;
+const double brewRatioNumeratorMax = 20.0;
+const double brewRatioNumeratorStep = 0.5;
+
 // UI sizing thresholds
 const largeDeviceSize = 550;
 
@@ -53,6 +75,7 @@ const largeDeviceSize = 550;
 const notifyID1 = 0;
 const notifyID2 = 1;
 const notifyChannel = 'Cuppa_timer_channel';
+const notifyChannelSilent = 'Cuppa_silent_channel';
 const notifyIcon = 'ic_stat_name';
 const notifySound = 'spoon';
 const notifySoundIOS = 'sound/spoon.aiff';
@@ -127,9 +150,11 @@ const prefTeaList = 'Cuppa_tea_list';
 const prefNextTeaID = 'Cuppa_next_tea_id';
 const prefShowExtra = 'Cuppa_show_extra';
 const prefHideIncrements = 'Cuppa_hide_increments';
+const prefSilentDefault = 'Cuppa_silent_default';
 const prefStackedView = 'Cuppa_stacked_view';
 const prefCollectStats = 'Cuppa_collect_stats';
 const prefUseCelsius = 'Cuppa_use_celsius';
+const prefUseBrewRatios = 'Cuppa_use_brew_ratios';
 const prefAppTheme = 'Cuppa_app_theme';
 const prefAppLanguage = 'Cuppa_app_language';
 const prefSkipTutorial = 'Cuppa_skip_tutorial';
@@ -138,8 +163,10 @@ const prefSkipTutorial = 'Cuppa_skip_tutorial';
 const jsonKeySettings = 'settings';
 const jsonKeyShowExtra = 'showExtra';
 const jsonKeyHideIncrements = 'hideIncrements';
+const jsonKeySilentDefault = 'silentDefault';
 const jsonKeyStackedView = 'stackedView';
 const jsonKeyUseCelsius = 'useCelsius';
+const jsonKeyUseBrewRatios = 'useBrewRatios';
 const jsonKeyAppTheme = 'appTheme';
 const jsonKeyAppLanguage = 'appLanguage';
 const jsonKeyCollectStats = 'collectStats';
@@ -148,6 +175,11 @@ const jsonKeyID = 'id';
 const jsonKeyName = 'name';
 const jsonKeyBrewTime = 'brewTime';
 const jsonKeyBrewTemp = 'brewTemp';
+const jsonKeyBrewRatio = 'brewRatio';
+const jsonKeyBrewRatioNumerator = 'brewRatioNumerator';
+const jsonKeyBrewRatioDenominator = 'brewRatioDenominator';
+const jsonKeyBrewRatioMetricNumerator = 'brewRatioMetricNumerator';
+const jsonKeyBrewRatioMetricDenominator = 'brewRatioMetricDenominator';
 const jsonKeyColor = 'color';
 const jsonKeyColorShadeRed = 'colorShadeRed';
 const jsonKeyColorShadeGreen = 'colorShadeGreen';
@@ -155,10 +187,13 @@ const jsonKeyColorShadeBlue = 'colorShadeBlue';
 const jsonKeyIcon = 'icon';
 const jsonKeyIsFavorite = 'isFavorite';
 const jsonKeyIsActive = 'isActive';
+const jsonKeyIsSilent = 'isSilent';
 const jsonKeyTimerEndTime = 'timerEndTime';
 const jsonKeyTimerNotifyID = 'timerNotifyID';
 const jsonKeyStats = 'stats';
 const jsonKeyTimerStartTime = 'timerStartTime';
+const jsonKeyBrewAmount = 'brewAmount';
+const jsonKeyBrewAmountMetric = 'brewAmountMetric';
 
 // Export file
 const exportFileName = 'CuppaData';
@@ -172,9 +207,9 @@ const followSystemLanguage = '';
 const shortAnimationDuration = Duration(milliseconds: 100);
 const longAnimationDuration = Duration(milliseconds: 200);
 
-// Timer increments
+// Timer adjustments
 const incrementSeconds = 10;
-const hideTimerIncrementsDelay = 5;
+const hideTimerAdjustmentsDelay = 5;
 
 // Temperature index increments
 const brewTempIncrement = 5;
@@ -186,6 +221,8 @@ const statsColumnId = 'id';
 const statsColumnName = 'name';
 const statsColumnBrewTime = 'brewTime';
 const statsColumnBrewTemp = 'brewTemp';
+const statsColumnBrewAmount = 'brewAmount';
+const statsColumnBrewAmountMetric = 'brewAmountMetric';
 const statsColumnColorShadeRed = 'colorShadeRed';
 const statsColumnColorShadeGreen = 'colorShadeGreen';
 const statsColumnColorShadeBlue = 'colorShadeBlue';
@@ -200,3 +237,9 @@ const statsColumnString = 'string';
 const noOpacity = 1.0;
 const fadeOpacity = 0.4;
 const fullOpacity = 0.0;
+
+// Symbols
+const starSymbol = '\u2605';
+const degreeSymbol = '\u00b0';
+const hairSpace = '\u200a';
+const emDash = '\u2014';

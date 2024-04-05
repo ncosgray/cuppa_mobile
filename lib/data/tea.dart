@@ -16,6 +16,7 @@
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
+import 'package:cuppa_mobile/data/brew_ratio.dart';
 
 import 'package:flutter/material.dart';
 
@@ -28,14 +29,15 @@ class Tea {
   late String name;
   late int brewTime;
   late int brewTemp;
+  late BrewRatio brewRatio;
   late TeaColor color;
   Color? colorShade;
   late TeaIcon icon;
   late bool isFavorite;
   late bool isActive;
+  late bool isSilent;
   late int timerEndTime;
   int? timerNotifyID;
-  late bool animate;
 
   // Constructor
   Tea({
@@ -43,16 +45,17 @@ class Tea {
     required this.name,
     required this.brewTime,
     required this.brewTemp,
+    required this.brewRatio,
     TeaColor? color,
-    int colorValue = 0,
+    int colorValue = defaultTeaColorValue,
     this.colorShade,
     TeaIcon? icon,
-    int iconValue = 0,
+    int iconValue = defaultTeaIconValue,
     required this.isFavorite,
     required this.isActive,
+    this.isSilent = false,
     this.timerEndTime = 0,
     this.timerNotifyID,
-    this.animate = false,
   }) {
     // Assign next tea ID if not given
     this.id = id ?? nextTeaID++;
@@ -71,8 +74,9 @@ class Tea {
   }
 
   // Activate brew timer
-  void activate(int notifyID) {
+  void activate(int notifyID, bool silentDefault) {
     isActive = true;
+    isSilent = silentDefault;
     timerEndTime = DateTime.now()
         .add(Duration(seconds: brewTime + 1))
         .millisecondsSinceEpoch;
@@ -82,6 +86,7 @@ class Tea {
   // Deactivate brew timer
   void deactivate() {
     isActive = false;
+    isSilent = false;
     timerEndTime = 0;
     timerNotifyID = null;
   }
@@ -100,7 +105,7 @@ class Tea {
   }
 
   // Tea display getters
-  get buttonName {
+  String get buttonName {
     return name.toUpperCase();
   }
 
@@ -298,9 +303,12 @@ class Tea {
     return Tea(
       id: tryCast<int>(json[jsonKeyID]),
       name: tryCast<String>(json[jsonKeyName]) ?? unknownString,
-      brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? 0,
-      brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? 0,
-      colorValue: tryCast<int>(json[jsonKeyColor]) ?? 0,
+      brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? defaultBrewTime,
+      brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? boilDegreesC,
+      brewRatio: json[jsonKeyBrewRatio] != null
+          ? BrewRatio.fromJson(json[jsonKeyBrewRatio])
+          : BrewRatio(),
+      colorValue: tryCast<int>(json[jsonKeyColor]) ?? defaultTeaColorValue,
       colorShade: tryCast<int>(json[jsonKeyColorShadeRed]) != null &&
               tryCast<int>(json[jsonKeyColorShadeGreen]) != null &&
               tryCast<int>(json[jsonKeyColorShadeBlue]) != null
@@ -311,9 +319,10 @@ class Tea {
               1.0,
             )
           : null,
-      iconValue: tryCast<int>(json[jsonKeyIcon]) ?? 0,
+      iconValue: tryCast<int>(json[jsonKeyIcon]) ?? defaultTeaIconValue,
       isFavorite: tryCast<bool>(json[jsonKeyIsFavorite]) ?? false,
       isActive: tryCast<bool>(json[jsonKeyIsActive]) ?? false,
+      isSilent: tryCast<bool>(json[jsonKeyIsSilent]) ?? false,
       timerEndTime: tryCast<int>(json[jsonKeyTimerEndTime]) ?? 0,
       timerNotifyID: tryCast<int>(json[jsonKeyTimerNotifyID]),
     );
@@ -325,6 +334,7 @@ class Tea {
       jsonKeyName: name,
       jsonKeyBrewTime: brewTime,
       jsonKeyBrewTemp: brewTemp,
+      jsonKeyBrewRatio: brewRatio,
       jsonKeyColor: color.value,
       jsonKeyColorShadeRed: colorShade?.red,
       jsonKeyColorShadeGreen: colorShade?.green,
@@ -332,6 +342,7 @@ class Tea {
       jsonKeyIcon: icon.value,
       jsonKeyIsFavorite: isFavorite,
       jsonKeyIsActive: isActive,
+      jsonKeyIsSilent: isSilent,
       jsonKeyTimerEndTime: timerEndTime,
       jsonKeyTimerNotifyID: timerNotifyID,
     };

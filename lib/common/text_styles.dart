@@ -75,7 +75,10 @@ const TextStyle textStyleSetting = TextStyle(
 );
 
 const TextStyle textStyleSettingSeconday = TextStyle(
-  fontSize: 18.0,
+  fontSize: 16.0,
+  fontFeatures: [
+    FontFeature.tabularFigures(),
+  ],
 );
 
 const TextStyle textStyleSettingTertiary = TextStyle(
@@ -98,4 +101,8 @@ const TextStyle textStyleStat = TextStyle(
 
 const TextStyle textStyleStatLabel = TextStyle(
   fontSize: 16.0,
+);
+
+const TextStyle textStyleStatOption = TextStyle(
+  fontSize: 14.0,
 );

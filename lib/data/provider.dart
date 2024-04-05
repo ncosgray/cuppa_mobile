@@ -16,6 +16,7 @@
 
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/presets.dart';
@@ -42,7 +43,6 @@ class AppProvider extends ChangeNotifier {
 
   // Add a new tea, optionally at a specific tea list position
   void addTea(Tea newTea, {int? atIndex}) {
-    newTea.animate = true;
     if (atIndex == null || atIndex < 0 || atIndex > teaCount) {
       atIndex = teaCount;
     }
@@ -59,10 +59,12 @@ class AppProvider extends ChangeNotifier {
     int? brewTimeMinutes,
     int? brewTimeSeconds,
     int? brewTemp,
+    BrewRatio? brewRatio,
     TeaColor? color,
     Color? colorShade,
     TeaIcon? icon,
     bool? isFavorite,
+    bool? isSilent,
   }) {
     int teaIndex = _teaList.indexOf(tea);
     if (teaIndex >= 0) {
@@ -84,6 +86,9 @@ class AppProvider extends ChangeNotifier {
       if (brewTemp != null) {
         _teaList[teaIndex].brewTemp = brewTemp;
       }
+      if (brewRatio != null) {
+        _teaList[teaIndex].brewRatio = brewRatio;
+      }
       if (color != null) {
         _teaList[teaIndex].color = color;
       }
@@ -95,6 +100,9 @@ class AppProvider extends ChangeNotifier {
       }
       if (isFavorite != null) {
         _teaList[teaIndex].isFavorite = isFavorite;
+      }
+      if (isSilent != null) {
+        _teaList[teaIndex].isSilent = isSilent;
       }
       saveTeas();
     }
@@ -251,10 +259,10 @@ class AppProvider extends ChangeNotifier {
   }
 
   // Activate a tea
-  void activateTea(Tea tea, int notifyID) {
+  void activateTea(Tea tea, int notifyID, silentDefault) {
     int teaIndex = _teaList.indexOf(tea);
     if (teaIndex >= 0) {
-      _teaList[teaIndex].activate(notifyID);
+      _teaList[teaIndex].activate(notifyID, silentDefault);
       Prefs.saveTeas(_teaList);
       notifyListeners();
     }
@@ -321,12 +329,30 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Setting: default to silent timer notifications
+  bool _silentDefault = false;
+  bool get silentDefault => _silentDefault;
+  set silentDefault(bool newValue) {
+    _silentDefault = newValue;
+    Prefs.saveSettings(silentDefault: _silentDefault);
+    notifyListeners();
+  }
+
   // Setting: use Celsius temperature for new teas
   bool _useCelsius = true;
   bool get useCelsius => _useCelsius;
   set useCelsius(bool newValue) {
     _useCelsius = newValue;
     Prefs.saveSettings(useCelsius: _useCelsius);
+    notifyListeners();
+  }
+
+  // Setting: use brew ratios
+  bool _useBrewRatios = false;
+  bool get useBrewRatios => _useBrewRatios;
+  set useBrewRatios(bool newValue) {
+    _useBrewRatios = newValue;
+    Prefs.saveSettings(useBrewRatios: _useBrewRatios);
     notifyListeners();
   }
 
@@ -376,6 +402,8 @@ class AppProvider extends ChangeNotifier {
     // Fetch app settings such as theme and language
     _showExtra = Prefs.loadShowExtra() ?? _showExtra;
     _hideIncrements = Prefs.loadHideIncrements() ?? _hideIncrements;
+    _silentDefault = Prefs.loadSilentDefault() ?? _silentDefault;
+    _useBrewRatios = Prefs.loadUseBrewRatios() ?? _useBrewRatios;
     _appTheme = Prefs.loadAppTheme() ?? _appTheme;
     _appLanguage = Prefs.loadAppLanguage() ?? _appLanguage;
     _collectStats = Prefs.loadCollectStats() ?? _collectStats;
