@@ -1,0 +1,5 @@
+* Ordena tu lista de té por una variedad de criterios con sólo un par de toques.
+* Se ha añadido una nueva opción para organizar los botones del temporizador de té verticalmente.
+* Más opciones de temperatura granular están disponibles utilizando el control deslizante.
+* Varios ajustes de usabilidad e interfaz.
+* Actualizaciones de traducción de idiomas: ¡contribuya a través de Weblate!
