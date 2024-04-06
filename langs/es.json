@@ -94,5 +94,16 @@
     "unit_minutes": "m",
     "unit_seconds": "s",
     "version_history": "Historial de versiones",
-    "yes_button": "Sí"
+    "yes_button": "Sí",
+    "stats_include_deleted": "Incluir tés eliminados en el gráfico",
+    "stats_tea_amount": "Cantidad total de té",
+    "unit_grams": "gr",
+    "unit_milliliters": "mL",
+    "unit_ounces": "oz",
+    "unit_teaspoons": "tsp",
+    "notification_channel_silent": "Notificaciones silenciosas",
+    "prefs_show_extra_ratios": "Muestra el tiempo de preparación, la temperatura y la proporción en los botones del temporizador",
+    "prefs_silent_default": "Inicie los temporizadores en modo silencioso",
+    "prefs_use_brew_ratios": "Use proporciones de preparación de té a agua",
+    "prefs_silent_default_info": "Toque un temporizador de cuenta regresiva activo para silenciarlo o reactivarlo"
 }
