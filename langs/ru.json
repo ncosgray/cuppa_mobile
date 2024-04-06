@@ -94,5 +94,8 @@
     "unit_minutes": "m",
     "unit_seconds": "s",
     "version_history": "История версий",
-    "yes_button": "Да"
+    "yes_button": "Да",
+    "prefs_show_extra_ratios": "Показывать время, температуру и соотношение на кнопках таймера",
+    "notification_channel_silent": "Тихие уведомления",
+    "prefs_silent_default": "Запускать таймеры в тихом режиме"
 }
