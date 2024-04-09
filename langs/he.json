@@ -30,14 +30,14 @@
     "ok_button": "אישור",
     "prefs_app_theme": "בחר בגוון ליישומון",
     "prefs_header": "הגדרת שמות תה, זמני חליטה, טמפרטורות וסגנונות כפתורים. אפשר גם למיין (בלחיצה ארוכה) או להחליק כדי למחוק תה. ניתן לסמן עד {{favorites_max}} סוגי תה מועדפים כדי להוסיף אותם כקיצורי דרך לסמל היישומון.",
-    "prefs_hide_increments": "הסתר לחצני התאמת טיימר",
-    "prefs_hide_increments_info": "הקש על טיימר ספירה לאחור פעיל כדי להתאים אותו",
+    "prefs_hide_increments": "הסתרת אפשרויות כיוון טיימר",
+    "prefs_hide_increments_info": "נגיעה בקוצב זמן פעיל תאפשר לכוון אותו",
     "prefs_language": "בחירת שפה ליישומון",
     "prefs_notifications": "יש לפתוח את הגדרות המערכת של המכשיר שלך כדי להגדיר התראות עבור {{app_name}}.",
     "prefs_show_extra": "הצגת זמן חליטה וטמפרטורה על לחצני קוצב הזמן",
     "prefs_stacked_view": "ערמו לחצני טיימר בשורות מרובות",
     "prefs_title": "העדפות",
-    "prefs_use_celsius": "השתמש בטמפרטורת צלזיוס עם סוגי תה חדשים",
+    "prefs_use_celsius": "להשתמש ביחידות מטריות כברירת מחדל",
     "privacy_policy": "מדיניות הפרטיות",
     "settings_title": "הגדרות",
     "sort_by_alpha": "שם תה (אלפביתי)",
@@ -94,5 +94,7 @@
     "unit_minutes": "דק",
     "unit_seconds": "s",
     "version_history": "היסטוריית גרסאות",
-    "yes_button": "כן"
+    "yes_button": "כן",
+    "prefs_silent_default": "התחלת קוצבי הזמן במצב שקט",
+    "prefs_show_extra_ratios": "הצגת זמן החליטה, הטמפרטורה והיחס על כפתורי קוצב הזמן"
 }
