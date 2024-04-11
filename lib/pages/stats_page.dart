@@ -285,7 +285,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                   Padding(
                     padding: rowPadding,
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: maxWidth),
+                      constraints: BoxConstraints(maxWidth: maxWidth / 1.8),
                       child: Text(
                         stat.name + (stat.isFavorite ? ' $starSymbol' : ''),
                         style: textStyleStat.copyWith(
