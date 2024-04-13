@@ -1,0 +1,5 @@
+* Çay listenizi sadece birkaç dokunuşla çeşitli ölçütlere göre sıralayın.
+* Çay zamanlayıcı düğmelerinizi dikey olarak düzenlemek için yeni bir seçenek eklendi.
+* Kaydırıcıyı kullanarak daha ayrıntılı sıcaklık seçenekleri kullanılabilir.
+* Çeşitli kullanılabilirlik ve arayüz düzenlemeleri.
+* Dil çeviri güncellemeleri - Weblate ile katkıda bulunun!
