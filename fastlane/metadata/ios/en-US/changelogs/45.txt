@@ -1,0 +1,5 @@
+* Enable brew ratios to help measure your tea accurately!
+* Mute button lets you silence a timer notification.
+* Edit details for a tea that's currently brewing.
+* Various usability tweaks and small bug fixes.
+* Language translation updates - contribute via Weblate!
