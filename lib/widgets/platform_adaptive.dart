@@ -62,18 +62,6 @@ Icon getPlatformSortIcon() {
       : const Icon(Icons.swap_vert);
 }
 
-Icon getPlatformExportIcon() {
-  return appPlatform == TargetPlatform.iOS
-      ? const Icon(CupertinoIcons.floppy_disk)
-      : const Icon(Icons.save);
-}
-
-Icon getPlatformImportIcon() {
-  return appPlatform == TargetPlatform.iOS
-      ? const Icon(CupertinoIcons.arrow_up)
-      : const Icon(Icons.upload);
-}
-
 // Nav bar action button with styling appropriate to platform
 Widget adaptiveNavBarActionButton({
   required Widget icon,

@@ -17,6 +17,7 @@
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/list_tiles.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/separators.dart';
@@ -203,7 +204,7 @@ class AboutWidget extends StatelessWidget {
     return Builder(
       builder: (BuildContext context) {
         return IconButton(
-          icon: getPlatformExportIcon(),
+          icon: exportIcon,
           onPressed: () {
             // Render location for share sheet on iPad
             RenderBox? renderBox = context.findRenderObject() as RenderBox?;
@@ -237,7 +238,7 @@ class AboutWidget extends StatelessWidget {
     AppProvider provider = Provider.of<AppProvider>(context);
 
     return IconButton(
-      icon: getPlatformImportIcon(),
+      icon: importIcon,
       onPressed: () async {
         // Show a prompt with more information
         if (await showConfirmDialog(
