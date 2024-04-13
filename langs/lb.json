@@ -33,8 +33,8 @@
     "prefs_use_celsius": "Grad Celsius fir néi Téie benotzen",
     "privacy_policy": "Dateschutz-Bestëmmung",
     "settings_title": "Astellungen",
-    "source_code": "Quellcode",
     "source_code_info": "Repository op GitHub",
+    "source_code": "Quellcode",
     "stats_begin": "Timer Daten zënter",
     "stats_confirm_disable": "Wann Dir d'Statistiksammlung ausschalt, läscht Är aktuell Donnéeën.",
     "stats_confirm_enable": "{{app_name}} späichert ni perséinlech Informatioun oder Standuertdaten, awer Är Téi Drénkgewunnechten ginn opgeholl.",
@@ -75,9 +75,13 @@
     "undo_message": "{{tea_name}} geläscht.",
     "unit_celsius": "C",
     "unit_fahrenheit": "F",
+    "unit_grams": "g",
     "unit_hours": "h",
+    "unit_milliliters": "mL",
     "unit_minutes": "m",
+    "unit_ounces": "oz",
     "unit_seconds": "s",
+    "unit_teaspoons": "tsp",
     "version_history": "Versiounsgeschicht",
     "yes_button": "Jo"
 }
