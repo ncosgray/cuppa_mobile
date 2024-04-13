@@ -78,6 +78,14 @@ const Icon infoIcon = Icon(
   size: 20.0,
 );
 
+const Icon exportIcon = Icon(
+  Icons.save,
+);
+
+const Icon importIcon = Icon(
+  Icons.upload_file,
+);
+
 // Variable color icons
 Icon customPresetIcon({required Color color}) {
   return Icon(
