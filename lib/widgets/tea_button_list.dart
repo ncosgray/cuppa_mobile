@@ -201,8 +201,11 @@ class _TeaButtonListState extends State<TeaButtonList> {
       clipBehavior: Clip.antiAlias,
       margin: largeDefaultPadding,
       child: InkWell(
-        onTap: () => Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => const PrefsWidget())),
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => const PrefsWidget(launchAddTea: true),
+          ),
+        ),
         child: Container(
           constraints: const BoxConstraints(
             minHeight: 106.0,
@@ -213,7 +216,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppString.teas_title.translate(),
+                AppString.add_tea_button.translate(),
                 style: textStyleButton.copyWith(
                   color: Theme.of(context).colorScheme.error,
                 ),

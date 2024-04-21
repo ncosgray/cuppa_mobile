@@ -31,12 +31,18 @@ import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 // MultiSliver containing a tea settings list
 class TeaSettingsList extends StatefulWidget {
-  const TeaSettingsList({super.key});
+  const TeaSettingsList({
+    super.key,
+    this.launchAddTea = false,
+  });
+
+  final bool launchAddTea;
 
   @override
   State<TeaSettingsList> createState() => _TeaSettingsListState();
@@ -45,10 +51,32 @@ class TeaSettingsList extends StatefulWidget {
 class _TeaSettingsListState extends State<TeaSettingsList> {
   // State variables
   bool _animateTeaList = false;
+  late bool _launchAddTea;
+
+  // Initialize widget state
+  @override
+  void initState() {
+    super.initState();
+
+    _launchAddTea = widget.launchAddTea;
+  }
 
   // Build tea settings list
   @override
   Widget build(BuildContext context) {
+    Future.delayed(
+      Duration.zero,
+      () {
+        AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
+        // Process request to show Add Tea dialog
+        if (_launchAddTea && provider.teaCount < teasMaxCount) {
+          _openAddTeaDialog();
+        }
+        _launchAddTea = false;
+      },
+    );
+
     return Selector<AppProvider, ({List<Tea> teaList, bool activeTeas})>(
       selector: (_, provider) => (
         teaList: provider.teaList,
@@ -276,20 +304,24 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                 ),
               ),
               // Disable adding teas if there are maximum teas
-              onPressed: teaCount < teasMaxCount
-                  ? () => openPlatformAdaptiveSelectList(
-                        context: context,
-                        titleText: AppString.add_tea_button.translate(),
-                        buttonTextCancel: AppString.cancel_button.translate(),
-                        itemList: Presets.presetList,
-                        itemBuilder: _teaPresetItem,
-                        separatorBuilder: separatorBuilder,
-                      )
-                  : null,
+              onPressed:
+                  teaCount < teasMaxCount ? () => _openAddTeaDialog() : null,
             ),
           ),
         ),
       ),
+    );
+  }
+
+  // Open Add Tea dialog
+  void _openAddTeaDialog() {
+    openPlatformAdaptiveSelectList(
+      context: context,
+      titleText: AppString.add_tea_button.translate(),
+      buttonTextCancel: AppString.cancel_button.translate(),
+      itemList: Presets.presetList,
+      itemBuilder: _teaPresetItem,
+      separatorBuilder: separatorBuilder,
     );
   }
 

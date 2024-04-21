@@ -38,7 +38,12 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 // Cuppa Preferences page
 class PrefsWidget extends StatelessWidget {
-  const PrefsWidget({super.key});
+  const PrefsWidget({
+    super.key,
+    this.launchAddTea = false,
+  });
+
+  final bool launchAddTea;
 
   // Build Prefs page
   @override
@@ -68,7 +73,7 @@ class PrefsWidget extends StatelessWidget {
               child: CustomScrollView(
                 slivers: [
                   // Tea settings
-                  const TeaSettingsList(),
+                  TeaSettingsList(launchAddTea: launchAddTea),
                   const SliverToBoxAdapter(child: smallSpacerWidget),
                   // Other settings inline
                   SliverOffstage(
