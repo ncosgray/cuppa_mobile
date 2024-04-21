@@ -175,7 +175,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
           tea: tea,
           fade: !(activeTimerCount < timersMaxCount || tea.isActive),
           onPressed: activeTimerCount < timersMaxCount && !tea.isActive
-              ? (_) => _setTimer(tea)
+              ? () => _setTimer(tea)
               : null,
         ),
         // Cancel brewing button
@@ -185,9 +185,9 @@ class _TeaButtonListState extends State<TeaButtonList> {
           ),
           child: Visibility(
             visible: tea.isActive,
-            child: CancelButton(
-              active: tea.isActive,
-              onPressed: (_) => _cancelTimerForTea(tea),
+            child: cancelButton(
+              color: Theme.of(context).colorScheme.error,
+              onPressed: () => _cancelTimerForTea(tea),
             ),
           ),
         ),

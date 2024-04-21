@@ -35,12 +35,12 @@ class TeaButton extends StatelessWidget {
 
   final Tea tea;
   final bool fade;
-  final ValueChanged<bool>? onPressed;
+  final Function()? onPressed;
 
   void _handleTap() {
     if (onPressed != null) {
       HapticFeedback.lightImpact();
-      onPressed!(!tea.isActive);
+      onPressed!();
     }
   }
 
