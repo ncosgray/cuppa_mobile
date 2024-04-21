@@ -71,6 +71,11 @@ const double brewRatioNumeratorStep = 0.5;
 // UI sizing thresholds
 const largeDeviceSize = 550;
 
+// Widget sizes
+const double teaButtonHeight = 106.0;
+const double teaButtonWidth = 88.0;
+const double cancelButtonHeight = 34.0;
+
 // Notifications
 const notifyID1 = 0;
 const notifyID2 = 1;
