@@ -21,6 +21,7 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 // Widget defining a tea brew start button
@@ -38,6 +39,7 @@ class TeaButton extends StatelessWidget {
 
   void _handleTap() {
     if (onPressed != null) {
+      HapticFeedback.lightImpact();
       onPressed!(!tea.isActive);
     }
   }

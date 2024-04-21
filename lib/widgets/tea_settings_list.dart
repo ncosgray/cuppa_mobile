@@ -185,6 +185,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
       itemBuilder: _animateTeaList ? separatorDummy : _teaSettingsListItem,
       itemCount: _animateTeaList ? 0 : provider.teaCount,
       proxyDecorator: _draggableFeedback,
+      onReorderStart: (_) => HapticFeedback.heavyImpact(),
       onReorder: (int oldIndex, int newIndex) {
         // Reorder the tea list
         provider.reorderTeas(oldIndex, newIndex);
