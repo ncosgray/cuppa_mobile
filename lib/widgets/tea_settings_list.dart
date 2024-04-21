@@ -294,7 +294,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
             child: TextButton.icon(
               label: Text(
                 AppString.add_tea_button.translate(),
-                style: textStyleButton,
+                style: textStyleButtonSecondary,
               ),
               icon: addIcon,
               style: ButtonStyle(
@@ -366,7 +366,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                     children: [
                       Text(
                         formatTimer(preset.brewTime),
-                        style: textStyleSettingSeconday.copyWith(
+                        style: textStyleSettingNumber.copyWith(
                           color: presetColor,
                         ),
                       ),
@@ -378,7 +378,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                         visible: preset.brewTempDegreesC > roomTemp,
                         child: Text(
                           preset.tempDisplay(provider.useCelsius),
-                          style: textStyleSettingSeconday.copyWith(
+                          style: textStyleSettingNumber.copyWith(
                             color: presetColor,
                           ),
                         ),
@@ -386,7 +386,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                       spacerWidget,
                       Text(
                         preset.ratioDisplay(provider.useCelsius),
-                        style: textStyleSettingSeconday.copyWith(
+                        style: textStyleSettingNumber.copyWith(
                           color: presetColor,
                         ),
                       ),

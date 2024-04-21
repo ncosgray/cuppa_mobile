@@ -342,7 +342,7 @@ class TeaSettingsCard extends StatelessWidget {
           children: <Widget>[
             Text(
               formatTimer(tea.brewTime),
-              style: textStyleSettingSeconday,
+              style: textStyleSettingNumber,
             ),
             dropdownArrow,
           ],
@@ -408,7 +408,7 @@ class TeaSettingsCard extends StatelessWidget {
                 useCelsius:
                     Provider.of<AppProvider>(context, listen: false).useCelsius,
               ),
-              style: textStyleSettingSeconday,
+              style: textStyleSettingNumber,
             ),
             dropdownArrow,
           ],
@@ -463,7 +463,7 @@ class TeaSettingsCard extends StatelessWidget {
           children: <Widget>[
             Text(
               tea.brewRatio.numeratorString,
-              style: textStyleSettingSeconday,
+              style: textStyleSettingNumber,
             ),
             dropdownArrow,
           ],

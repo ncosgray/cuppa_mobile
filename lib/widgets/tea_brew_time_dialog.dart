@@ -291,7 +291,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
                     padTime
                         ? timeValues[index].toString().padLeft(2, '0')
                         : timeValues[index].toString(),
-                    style: textStyleSettingSeconday,
+                    style: textStyleSettingNumber,
                   ),
                 );
               },

@@ -77,7 +77,7 @@ class TeaButton extends StatelessWidget {
                       size: 64.0,
                     ),
                     Text(
-                      tea.buttonName,
+                      tea.name,
                       style: textStyleButton.copyWith(
                         color: tea.isActive ? activeColor : tea.getColor(),
                       ),
@@ -99,7 +99,7 @@ class TeaButton extends StatelessWidget {
                                   padding: rowPadding,
                                   child: Text(
                                     formatTimer(tea.brewTime),
-                                    style: textStyleButtonSecondary.copyWith(
+                                    style: textStyleButtonTertiary.copyWith(
                                       color: tea.isActive
                                           ? activeColor
                                           : tea.getColor(),
@@ -118,7 +118,7 @@ class TeaButton extends StatelessWidget {
                                           listen: false,
                                         ).useCelsius,
                                       ),
-                                      style: textStyleButtonSecondary.copyWith(
+                                      style: textStyleButtonTertiary.copyWith(
                                         color: tea.isActive
                                             ? activeColor
                                             : tea.getColor(),
@@ -138,7 +138,7 @@ class TeaButton extends StatelessWidget {
                                   padding: rowPadding,
                                   child: Text(
                                     tea.brewRatio.ratioString,
-                                    style: textStyleButtonSecondary.copyWith(
+                                    style: textStyleButtonTertiary.copyWith(
                                       color: tea.isActive
                                           ? activeColor
                                           : tea.getColor(),

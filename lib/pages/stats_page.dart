@@ -147,7 +147,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                                       child: Text(
                                         AppString.stats_include_deleted
                                             .translate(),
-                                        style: textStyleStatOption,
+                                        style: textStyleSettingTertiary,
                                       ),
                                     ),
                                     Checkbox.adaptive(

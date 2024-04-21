@@ -148,7 +148,7 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
               // Display selected temperature
               Text(
                 formatTemp(_newTemp, useCelsius: _unitsCelsius),
-                style: textStyleSettingSeconday,
+                style: textStyleSettingNumber,
               ),
               // Increment up
               adaptiveSmallButton(
