@@ -35,6 +35,12 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 void main() async {
+  await initializeApp();
+  runApp(const CuppaApp());
+}
+
+// App initialization
+Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPrefs = await SharedPreferences.getInstance();
   packageInfo = await PackageInfo.fromPlatform();
@@ -52,8 +58,6 @@ void main() async {
 
   // Initialize notifications plugin
   await initializeNotifications();
-
-  runApp(const CuppaApp());
 }
 
 // Create the app

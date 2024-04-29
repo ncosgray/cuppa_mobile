@@ -44,13 +44,13 @@ Icon getPlatformStatsIcon() {
       : const Icon(Icons.pie_chart_outline);
 }
 
-Icon getPlatformRemoveIcon(Color color) {
+Icon getPlatformRemoveIcon([Color? color]) {
   return appPlatform == TargetPlatform.iOS
       ? Icon(CupertinoIcons.trash_fill, color: color)
       : Icon(Icons.delete_outline, color: color);
 }
 
-Icon getPlatformRemoveAllIcon(Color color) {
+Icon getPlatformRemoveAllIcon([Color? color]) {
   return appPlatform == TargetPlatform.iOS
       ? Icon(CupertinoIcons.square_stack_3d_up_slash_fill, color: color)
       : Icon(Icons.delete_sweep_outlined, color: color);

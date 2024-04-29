@@ -25,7 +25,7 @@ dependencies:
   app_settings: ^5.1.1
   cupertino_icons: ^1.0.8
   dynamic_color: ^1.7.0
-  file_picker: ^8.0.2
+  file_picker: ^8.0.3
   fl_chart: ^0.67.0
   flex_color_picker: ^3.4.1
   flutter:
@@ -49,15 +49,24 @@ dependencies:
   wakelock_plus: ^1.2.4
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.2
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  patrol: ^3.6.1
+
+patrol:
+  app_name: Cuppa
+  android:
+    package_name: com.nathanatos.Cuppa
+  ios:
+    bundle_id: com.nathanatos.Cuppa
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

@@ -133,10 +133,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: "45c70b43df893027e441a6fa0aacc8f484fb9f9c60c746dc8f1dc4f774cf55cd"
+      sha256: "29c90806ac5f5fb896547720b73b17ee9aed9bba540dc5d91fe29f8c5745b10a"
       url: "https://pub.dev"
     source: hosted
-    version: "8.0.2"
+    version: "8.0.3"
   fixnum:
     dependency: transitive
     description:
@@ -171,6 +171,11 @@ packages:
     version: "1.5.0"
   flutter:
     dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  flutter_driver:
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -237,6 +242,11 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fuchsia_remote_debug_protocol:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   http:
     dependency: transitive
     description:
@@ -253,6 +263,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  integration_test:
+    dependency: "direct dev"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   intl:
     dependency: "direct main"
     description:
@@ -269,6 +284,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.1"
+  json_annotation:
+    dependency: transitive
+    description:
+      name: json_annotation
+      sha256: "1ce844379ca14835a50d2f019a3099f419082cfdd231cd86a142af94dd5c6bb1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.9.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -413,6 +436,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+  patrol:
+    dependency: "direct dev"
+    description:
+      name: patrol
+      sha256: fefd5687993c4a8345666a8666f8d4c2135a8808a8767084156b4667c8634f15
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.6.1"
+  patrol_finders:
+    dependency: transitive
+    description:
+      name: patrol_finders
+      sha256: ac33527cc1b63e3aa131dbd7107cfda8ee2df0fb4a4a423c067174a2e60db77b
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   petitparser:
     dependency: transitive
     description:
@@ -437,6 +476,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  process:
+    dependency: transitive
+    description:
+      name: process
+      sha256: "21e54fd2faf1b5bdd5102afd25012184a6793927648ea81eea80552ac9405b32"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.2"
   provider:
     dependency: "direct main"
     description:
@@ -549,6 +596,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  shelf:
+    dependency: transitive
+    description:
+      name: shelf
+      sha256: ad29c505aee705f41a4d8963641f91ac4cee3c8fad5947e033390a7bd8180fa4
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.1"
   showcaseview:
     dependency: "direct main"
     description:
@@ -626,6 +681,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  sync_http:
+    dependency: transitive
+    description:
+      name: sync_http
+      sha256: "7f0cd72eca000d2e026bcd6f990b81d0ca06022ef4e32fb257b30d3d1014a961"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
   synchronized:
     dependency: transitive
     description:
@@ -778,6 +841,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+  webdriver:
+    dependency: transitive
+    description:
+      name: webdriver
+      sha256: "003d7da9519e1e5f329422b36c4dcdf18d7d2978d1ba099ea4e45ba490ed845e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.3"
   win32:
     dependency: transitive
     description:
