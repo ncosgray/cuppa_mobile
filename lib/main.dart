@@ -14,6 +14,7 @@
 
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/local_notifications.dart';
 import 'package:cuppa_mobile/common/themes.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -46,10 +47,9 @@ Future<void> initializeApp() async {
   packageInfo = await PackageInfo.fromPlatform();
 
   // Set metric locale based on country code
-  if ((WidgetsBinding.instance.platformDispatcher.locale.countryCode ?? '') ==
-      'US') {
-    isLocaleMetric = false;
-  }
+  isLocaleMetric = isCountryMetric(
+    WidgetsBinding.instance.platformDispatcher.locale.countryCode,
+  );
 
   // Get time zone
   tz.initializeTimeZones();

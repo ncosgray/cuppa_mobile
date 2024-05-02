@@ -27,6 +27,38 @@ extension Ex on double {
   double toPrecision([int n = 1]) => double.parse(toStringAsFixed(n));
 }
 
+// Localized temperature units
+String get degreesC {
+  return '$degreeSymbol${AppString.unit_celsius.translate()}';
+}
+
+String get degreesF {
+  return '$degreeSymbol${AppString.unit_fahrenheit.translate()}';
+}
+
+// Metric check based on country code
+bool isCountryMetric(String? countryCode) {
+  switch ((countryCode ?? '').toUpperCase()) {
+    case 'AS': // American Samoa (US)
+    case 'BS': // Bahamas
+    case 'BZ': // Belize
+    case 'FM': // Micronesia
+    case 'GU': // Guam (US)
+    case 'KY': // Cayman Islands
+    case 'LR': // Liberia
+    case 'MH': // Marshall Islands
+    case 'MP': // Northern Mariana Islands (US)
+    case 'PW': // Palau
+    case 'TC': // Turks and Caicos Islands
+    case 'UM': // US Minor Outlying Islands
+    case 'US': // United States
+    case 'VI': // US Virgin Islands
+      return false;
+    default:
+      return true;
+  }
+}
+
 // Room temp check based on locale
 bool isRoomTemp(i, {bool? useCelsius}) {
   return i == roomTemp ||
@@ -41,15 +73,6 @@ bool isCelsiusTemp(i, {bool? useCelsius}) {
   } else {
     return i <= boilDegreesC;
   }
-}
-
-// Localized temperature units
-String get degreesC {
-  return '$degreeSymbol${AppString.unit_celsius.translate()}';
-}
-
-String get degreesF {
-  return '$degreeSymbol${AppString.unit_fahrenheit.translate()}';
 }
 
 // Format brew temperature as number with optional units
