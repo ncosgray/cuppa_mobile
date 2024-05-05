@@ -18,6 +18,7 @@ import 'package:cuppa_mobile/data/localization.dart';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:region_settings/region_settings.dart';
 
 // Type conversion
 T? tryCast<T>(dynamic object) => object is T ? object : null;
@@ -36,40 +37,22 @@ String get degreesF {
   return '$degreeSymbol${AppString.unit_fahrenheit.translate()}';
 }
 
-// Metric check based on country code
-bool isCountryMetric(String? countryCode) {
-  switch ((countryCode ?? '').toUpperCase()) {
-    case 'AS': // American Samoa (US)
-    case 'BS': // Bahamas
-    case 'BZ': // Belize
-    case 'FM': // Micronesia
-    case 'GU': // Guam (US)
-    case 'KY': // Cayman Islands
-    case 'LR': // Liberia
-    case 'MH': // Marshall Islands
-    case 'MP': // Northern Mariana Islands (US)
-    case 'PW': // Palau
-    case 'TC': // Turks and Caicos Islands
-    case 'UM': // US Minor Outlying Islands
-    case 'US': // United States
-    case 'VI': // US Virgin Islands
-      return false;
-    default:
-      return true;
-  }
+// Check if device is set to use Celsius
+bool deviceUsesCelsius() {
+  return regionSettings.temperatureUnits == TemperatureUnit.celsius;
 }
 
 // Room temp check based on locale
 bool isRoomTemp(i, {bool? useCelsius}) {
   return i == roomTemp ||
       i == roomTempDegreesC ||
-      (i == roomTempDegreesF && !(useCelsius ?? isLocaleMetric));
+      (i == roomTempDegreesF && !(useCelsius ?? deviceUsesCelsius()));
 }
 
 // Infer C or F based on temp range and locale
 bool isCelsiusTemp(i, {bool? useCelsius}) {
   if (isRoomTemp(i, useCelsius: useCelsius)) {
-    return useCelsius ?? isLocaleMetric;
+    return useCelsius ?? deviceUsesCelsius();
   } else {
     return i <= boilDegreesC;
   }

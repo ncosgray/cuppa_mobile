@@ -60,7 +60,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
       AppProvider provider = Provider.of<AppProvider>(context, listen: false);
 
       // Set default brew temp units based on locale
-      provider.useCelsius = Prefs.loadUseCelsius() ?? isLocaleMetric;
+      provider.useCelsius = Prefs.loadUseCelsius() ?? deviceUsesCelsius();
 
       // Add default presets if no custom teas have been set
       if (provider.teaCount == 0 && !Prefs.teaPrefsExist()) {

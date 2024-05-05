@@ -14,7 +14,6 @@
 
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
-import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/local_notifications.dart';
 import 'package:cuppa_mobile/common/themes.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -28,6 +27,7 @@ import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:region_settings/region_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 // ignore: depend_on_referenced_packages
@@ -45,11 +45,7 @@ Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPrefs = await SharedPreferences.getInstance();
   packageInfo = await PackageInfo.fromPlatform();
-
-  // Set metric locale based on country code
-  isLocaleMetric = isCountryMetric(
-    WidgetsBinding.instance.platformDispatcher.locale.countryCode,
-  );
+  regionSettings = await RegionSettings.getSettings();
 
   // Get time zone
   tz.initializeTimeZones();

@@ -524,6 +524,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  region_settings:
+    dependency: "direct main"
+    description:
+      name: region_settings
+      sha256: "28f9e6bf98ff4e4f3f06b0ab40fe05c7a4340ad7d3b8c47896cd0add64f46417"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   share_plus:
     dependency: "direct main"
     description:
@@ -874,5 +882,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.3.0 <4.0.0"
+  dart: ">=3.3.4 <4.0.0"
   flutter: ">=3.19.0"

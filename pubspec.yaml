@@ -40,6 +40,7 @@ dependencies:
   path_provider: ^2.1.3
   provider: ^6.1.2
   quick_actions: ^1.0.7
+  region_settings: ^1.0.0
   share_plus: ^9.0.0
   shared_preferences: ^2.2.3
   showcaseview: ^2.1.0

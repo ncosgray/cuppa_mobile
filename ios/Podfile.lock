@@ -54,6 +54,8 @@ PODS:
     - FlutterMacOS
   - quick_actions_ios (0.0.1):
     - Flutter
+  - region_settings (0.0.1):
+    - Flutter
   - SDWebImage (5.18.11):
     - SDWebImage/Core (= 5.18.11)
   - SDWebImage/Core (5.18.11)
@@ -82,6 +84,7 @@ DEPENDENCIES:
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - patrol (from `.symlinks/plugins/patrol/darwin`)
   - quick_actions_ios (from `.symlinks/plugins/quick_actions_ios/ios`)
+  - region_settings (from `.symlinks/plugins/region_settings/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/darwin`)
@@ -117,6 +120,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/patrol/darwin"
   quick_actions_ios:
     :path: ".symlinks/plugins/quick_actions_ios/ios"
+  region_settings:
+    :path: ".symlinks/plugins/region_settings/ios"
   share_plus:
     :path: ".symlinks/plugins/share_plus/ios"
   shared_preferences_foundation:
@@ -142,6 +147,7 @@ SPEC CHECKSUMS:
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   patrol: 3e21d514020dbee24b3e3383caac9e8e051292ac
   quick_actions_ios: d24571db7345d2e48d094db8d077a015a568002d
+  region_settings: 551c3288dc03b91ad63070492671026e9c2ded84
   SDWebImage: a3ba0b8faac7228c3c8eadd1a55c9c9fe5e16457
   share_plus: 8875f4f2500512ea181eef553c3e27dba5135aad
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695

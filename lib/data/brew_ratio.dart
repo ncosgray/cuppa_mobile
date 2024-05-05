@@ -33,15 +33,15 @@ class BrewRatio {
     bool? metricDenominator,
   }) {
     _ratioNumerator = ratioNumerator?.toPrecision() ??
-        (isLocaleMetric
+        (regionSettings.usesMetricSystem
             ? defaultBrewRatioNumeratorG
             : defaultBrewRatioNumeratorTsp);
     _ratioDenominator = ratioDenominator ??
-        (isLocaleMetric
+        (regionSettings.usesMetricSystem
             ? defaultBrewRatioDenominatorMl
             : defaultBrewRatioDenominatorOz);
-    _metricNumerator = metricNumerator ?? isLocaleMetric;
-    _metricDenominator = metricDenominator ?? isLocaleMetric;
+    _metricNumerator = metricNumerator ?? regionSettings.usesMetricSystem;
+    _metricDenominator = metricDenominator ?? regionSettings.usesMetricSystem;
   }
 
   // Factories
@@ -90,23 +90,23 @@ class BrewRatio {
   // Setters
   set ratioNumerator(double? d) {
     _ratioNumerator = d?.toPrecision() ??
-        (isLocaleMetric
+        (regionSettings.usesMetricSystem
             ? defaultBrewRatioNumeratorG
             : defaultBrewRatioNumeratorTsp);
   }
 
   set ratioDenominator(int? i) {
     _ratioDenominator = i ??
-        (isLocaleMetric
+        (regionSettings.usesMetricSystem
             ? defaultBrewRatioDenominatorMl
             : defaultBrewRatioDenominatorOz);
   }
 
   set metricNumerator(bool? b) {
-    _metricNumerator = b ?? isLocaleMetric;
+    _metricNumerator = b ?? regionSettings.usesMetricSystem;
   }
 
   set metricDenominator(bool? b) {
-    _metricDenominator = b ?? isLocaleMetric;
+    _metricDenominator = b ?? regionSettings.usesMetricSystem;
   }
 }
