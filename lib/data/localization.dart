@@ -23,6 +23,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 // Supported locales and language names
 final Map<Locale, String> supportedLocales = {
@@ -245,6 +246,15 @@ class AppLocalizations {
   static String translate(String key) {
     return AppLocalizations.instance._localizedStrings[key] ??
         AppLocalizations.instance._defaultStrings[key]!;
+  }
+
+  // Localized decimal number formatting
+  static String formatDecimal(double i) {
+    String languageCode = AppLocalizations.instance.locale.languageCode;
+    return NumberFormat(
+      "0.0",
+      fallbackLanguages.contains(languageCode) ? null : languageCode,
+    ).format(i);
   }
 }
 

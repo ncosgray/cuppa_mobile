@@ -114,7 +114,7 @@ String formatNumeratorAmount(
   String unit = useMetric
       ? AppString.unit_grams.translate()
       : AppString.unit_teaspoons.translate();
-  return '${i.toPrecision()}$unit';
+  return '${AppLocalizations.formatDecimal(i)}$unit';
 }
 
 String formatDenominatorAmount(
