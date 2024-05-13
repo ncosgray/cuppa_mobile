@@ -13,6 +13,7 @@
 // Cuppa list tiles
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/separators.dart';
@@ -60,17 +61,26 @@ Widget settingList(
   required List<dynamic> itemList,
   required Widget Function(BuildContext, int) itemBuilder,
 }) {
+  double maxWidth = (getDeviceSize(context).width / 2.0) - 12.0;
+
   return AnimatedSize(
     duration: shortAnimationDuration,
     child: ListTile(
-      title: Text(
-        title,
-        style: textStyleTitle,
+      title: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth),
+        child: Text(
+          title,
+          style: textStyleTitle,
+        ),
       ),
-      trailing: Text(
-        selectedItem,
-        style: textStyleTitle.copyWith(
-          color: Theme.of(context).textTheme.bodySmall!.color!,
+      trailing: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth),
+        child: Text(
+          selectedItem,
+          textAlign: TextAlign.end,
+          style: textStyleTitle.copyWith(
+            color: Theme.of(context).textTheme.bodySmall!.color!,
+          ),
         ),
       ),
       onTap: () => openPlatformAdaptiveSelectList(

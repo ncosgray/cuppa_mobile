@@ -147,6 +147,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                                       child: Text(
                                         AppString.stats_include_deleted
                                             .translate(),
+                                        textAlign: TextAlign.end,
                                         style: textStyleSettingTertiary,
                                       ),
                                     ),
