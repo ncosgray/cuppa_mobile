@@ -90,15 +90,25 @@ String formatTimer(s) {
   }
 }
 
-// Format epoch time as date or datetime string
-String formatDate(ms, {bool dateTime = false}) {
-  return ms > 0
-      ? dateTime
-          ? DateFormat('yyyy-MM-dd HH:mm')
-              .format(DateTime.fromMillisecondsSinceEpoch(ms))
-          : DateFormat('yyyy-MM-dd')
-              .format(DateTime.fromMillisecondsSinceEpoch(ms))
-      : '';
+// Localized epoch time formatting as date or datetime string
+String formatDate(int ms, {bool dateTime = false}) {
+  String languageCode = AppLocalizations.instance.locale.languageCode;
+  DateFormat formatter = fallbackLanguages.contains(languageCode)
+      ? DateFormat('yyyy-MM-dd')
+      : DateFormat.yMMMd(languageCode);
+  if (dateTime) {
+    formatter = formatter.add_Hms();
+  }
+  return formatter.format(DateTime.fromMillisecondsSinceEpoch(ms));
+}
+
+// Localized decimal number formatting
+String formatDecimal(double i) {
+  String languageCode = AppLocalizations.instance.locale.languageCode;
+  return NumberFormat(
+    '0.0',
+    fallbackLanguages.contains(languageCode) ? null : languageCode,
+  ).format(i);
 }
 
 // Format number as percentage
@@ -114,7 +124,7 @@ String formatNumeratorAmount(
   String unit = useMetric
       ? AppString.unit_grams.translate()
       : AppString.unit_teaspoons.translate();
-  return '${AppLocalizations.formatDecimal(i)}$unit';
+  return '${formatDecimal(i)}$unit';
 }
 
 String formatDenominatorAmount(
