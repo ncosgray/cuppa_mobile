@@ -122,19 +122,24 @@ class TeaSettingsCard extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: _teaBrewTempSelector(context),
                       ),
+                      spacerWidget,
                       // Brew ratio
-                      smallSpacerWidget,
                       Selector<AppProvider, bool>(
                         selector: (_, provider) => provider.useBrewRatios,
                         builder: (context, useBrewRatios, child) => Visibility(
                           visible: useBrewRatios,
                           child: Align(
                             alignment: Alignment.centerRight,
-                            child: _teaBrewRatioSelector(context),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                _teaBrewRatioSelector(context),
+                                smallSpacerWidget,
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                      smallSpacerWidget,
                       // Tea color selection - default layout
                       Selector<AppProvider, bool>(
                         selector: (_, provider) => provider.useBrewRatios,
@@ -142,11 +147,16 @@ class TeaSettingsCard extends StatelessWidget {
                           visible: !useBrewRatios,
                           child: Align(
                             alignment: Alignment.centerRight,
-                            child: _teaColorSelector(context),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                _teaColorSelector(context),
+                                smallSpacerWidget,
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                      smallSpacerWidget,
                       // Icon selection
                       Align(
                         alignment: Alignment.centerRight,
