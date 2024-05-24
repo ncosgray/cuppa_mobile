@@ -289,6 +289,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
         child: Card(
           margin: noPadding,
           shadowColor: Colors.transparent,
+          surfaceTintColor: Theme.of(context).colorScheme.primary,
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             child: TextButton.icon(
