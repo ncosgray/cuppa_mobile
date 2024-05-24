@@ -29,7 +29,6 @@ late SharedPreferences sharedPrefs;
 int nextTeaID = 0;
 
 // Device info
-late TargetPlatform appPlatform;
 late RegionSettings regionSettings;
 
 // Package info

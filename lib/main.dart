@@ -62,9 +62,6 @@ class CuppaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get platform
-    appPlatform = Theme.of(context).platform;
-
     return ChangeNotifierProvider(
       create: (_) => AppProvider(),
       child: Selector<AppProvider, ({AppTheme appTheme, String appLanguage})>(

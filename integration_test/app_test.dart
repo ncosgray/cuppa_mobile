@@ -12,8 +12,6 @@
 
 // Cuppa integration tests
 
-import 'dart:io';
-
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -24,6 +22,7 @@ import 'package:cuppa_mobile/widgets/tea_brew_time_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_name_dialog.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
+import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

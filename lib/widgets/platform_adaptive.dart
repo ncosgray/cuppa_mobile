@@ -17,47 +17,47 @@
 // - PlatformAdaptiveNavBar creates page navigation for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
-import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 
+import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // Platform specific icons
 Icon getPlatformSettingsIcon() {
-  return appPlatform == TargetPlatform.iOS
+  return Platform.isIOS
       ? const Icon(CupertinoIcons.settings_solid)
       : const Icon(Icons.settings);
 }
 
 Icon getPlatformAboutIcon() {
-  return appPlatform == TargetPlatform.iOS
+  return Platform.isIOS
       ? const Icon(CupertinoIcons.question)
       : const Icon(Icons.help);
 }
 
 Icon getPlatformStatsIcon() {
-  return appPlatform == TargetPlatform.iOS
+  return Platform.isIOS
       ? const Icon(CupertinoIcons.chart_pie)
       : const Icon(Icons.pie_chart_outline);
 }
 
 Icon getPlatformRemoveIcon([Color? color]) {
-  return appPlatform == TargetPlatform.iOS
+  return Platform.isIOS
       ? Icon(CupertinoIcons.trash_fill, color: color)
       : Icon(Icons.delete_outline, color: color);
 }
 
 Icon getPlatformRemoveAllIcon([Color? color]) {
-  return appPlatform == TargetPlatform.iOS
+  return Platform.isIOS
       ? Icon(CupertinoIcons.square_stack_3d_up_slash_fill, color: color)
       : Icon(Icons.delete_sweep_outlined, color: color);
 }
 
 Icon getPlatformSortIcon() {
-  return appPlatform == TargetPlatform.iOS
+  return Platform.isIOS
       ? const Icon(CupertinoIcons.sort_down)
       : const Icon(Icons.swap_vert);
 }
@@ -67,7 +67,7 @@ Widget adaptiveNavBarActionButton({
   required Widget icon,
   required Function()? onPressed,
 }) {
-  if (appPlatform == TargetPlatform.iOS) {
+  if (Platform.isIOS) {
     return CupertinoButton(
       padding: noPadding,
       onPressed: onPressed,
@@ -88,7 +88,7 @@ Widget adaptiveDialogAction({
   required String text,
   required Function()? onPressed,
 }) {
-  if (appPlatform == TargetPlatform.iOS) {
+  if (Platform.isIOS) {
     return CupertinoDialogAction(
       isDefaultAction: isDefaultAction,
       isDestructiveAction: isDestructiveAction,
@@ -113,7 +113,7 @@ Widget adaptiveSmallButton({
   required IconData icon,
   required Function()? onPressed,
 }) {
-  if (appPlatform == TargetPlatform.iOS) {
+  if (Platform.isIOS) {
     return CupertinoButton(
       padding: noPadding,
       onPressed: onPressed,
@@ -134,7 +134,7 @@ Widget adaptiveLargeButton({
   Color? iconColor,
   required Function()? onPressed,
 }) {
-  if (appPlatform == TargetPlatform.iOS) {
+  if (Platform.isIOS) {
     return CupertinoButton(
       minSize: 72.0,
       padding: noPadding,
@@ -166,7 +166,7 @@ Widget adaptiveTextFormField({
   required Function()? onCleared,
   required Function(String)? onChanged,
 }) {
-  if (appPlatform == TargetPlatform.iOS) {
+  if (Platform.isIOS) {
     return CupertinoFormSection.insetGrouped(
       margin: noPadding,
       backgroundColor: Colors.transparent,
@@ -244,7 +244,7 @@ Widget adaptiveSegmentedControl({
   required bool groupValue,
   required Function(bool?) onValueChanged,
 }) {
-  if (appPlatform == TargetPlatform.iOS) {
+  if (Platform.isIOS) {
     return CupertinoSlidingSegmentedControl<bool>(
       groupValue: groupValue,
       onValueChanged: onValueChanged,
@@ -322,7 +322,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       );
     }
 
-    if (appPlatform == TargetPlatform.iOS) {
+    if (Platform.isIOS) {
       return CupertinoNavigationBar(
         transitionBetweenRoutes: false,
         backgroundColor: CupertinoDynamicColor.resolve(
@@ -371,7 +371,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
   required Widget Function(BuildContext, int) itemBuilder,
   required Widget Function(BuildContext, int) separatorBuilder,
 }) async {
-  if (appPlatform == TargetPlatform.iOS) {
+  if (Platform.isIOS) {
     // iOS style modal list
     return showCupertinoModalPopup<bool>(
       context: context,
