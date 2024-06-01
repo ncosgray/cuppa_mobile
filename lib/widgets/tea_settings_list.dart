@@ -170,7 +170,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
     );
   }
 
-  // Reoderable list of tea settings cards
+  // Reorderable list of tea settings cards
   Widget _teaSettingsList() {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
 
@@ -184,6 +184,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
     return SliverReorderableList(
       itemBuilder: _animateTeaList ? separatorDummy : _teaSettingsListItem,
       itemCount: _animateTeaList ? 0 : provider.teaCount,
+      prototypeItem: _animateTeaList ? null : TeaSettingsCard(tea: dummyTea),
       proxyDecorator: _draggableFeedback,
       onReorderStart: (_) => HapticFeedback.heavyImpact(),
       onReorder: (int oldIndex, int newIndex) {

@@ -422,3 +422,13 @@ enum TeaIcon {
     }
   }
 }
+
+// Dummy tea for prototype items
+final Tea dummyTea = Tea(
+  name: unknownString * teaNameMaxLength,
+  brewTime: defaultBrewTime,
+  brewTemp: boilDegreesC,
+  brewRatio: BrewRatio(),
+  isFavorite: false,
+  isActive: false,
+);
