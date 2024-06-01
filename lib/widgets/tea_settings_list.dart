@@ -299,7 +299,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
               ),
               icon: addIcon,
               style: ButtonStyle(
-                shape: MaterialStateProperty.all(
+                shape: WidgetStateProperty.all(
                   const RoundedRectangleBorder(
                     borderRadius: BorderRadius.zero,
                   ),
