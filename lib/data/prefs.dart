@@ -320,4 +320,4 @@ final List<int> brewRatioOzOptions = [
 
 // App language options
 final List<String> languageOptions =
-    [followSystemLanguage] + supportedLanguageCodes;
+    [followSystemLanguage] + supportedLocaleStrings;

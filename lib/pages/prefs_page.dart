@@ -334,11 +334,11 @@ class PrefsWidget extends StatelessWidget {
     return settingList(
       context,
       title: AppString.prefs_language.translate(),
-      selectedItem: provider.appLanguage != followSystemLanguage &&
-              supportedLocales
-                  .containsKey(parseLocaleString(provider.appLanguage))
-          ? supportedLocales[parseLocaleString(provider.appLanguage)]!
-          : AppString.theme_system.translate(),
+      selectedItem: provider.appLanguage == followSystemLanguage
+          ? AppString.theme_system.translate()
+          : supportedLocaleStrings.contains(provider.appLanguage)
+              ? supportedLocales[parseLocaleString(provider.appLanguage)]!
+              : provider.appLanguage,
       itemList: languageOptions,
       itemBuilder: _appLanguageItem,
     );
@@ -352,10 +352,11 @@ class PrefsWidget extends StatelessWidget {
     return settingListItem(
       context,
       // Language name
-      title: value != followSystemLanguage &&
-              supportedLocales.containsKey(parseLocaleString(value))
-          ? supportedLocales[parseLocaleString(value)]!
-          : AppString.theme_system.translate(),
+      title: value == followSystemLanguage
+          ? AppString.theme_system.translate()
+          : supportedLocaleStrings.contains(value)
+              ? supportedLocales[parseLocaleString(value)]!
+              : value,
       value: value,
       groupValue: provider.appLanguage,
       // Save appLanguage to prefs

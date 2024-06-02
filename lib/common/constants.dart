@@ -205,7 +205,6 @@ const exportFileName = 'CuppaData';
 const exportFileExtension = 'json';
 
 // Localization
-const defaultLanguage = 'en';
 const followSystemLanguage = '';
 
 // Animation durations

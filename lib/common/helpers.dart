@@ -92,10 +92,10 @@ String formatTimer(s) {
 
 // Localized epoch time formatting as date or datetime string
 String formatDate(int ms, {bool dateTime = false}) {
-  String languageCode = AppLocalizations.instance.locale.languageCode;
-  DateFormat formatter = fallbackLanguages.contains(languageCode)
+  Locale locale = AppLocalizations.instance.locale;
+  DateFormat formatter = fallbackLanguageCodes.contains(locale.languageCode)
       ? DateFormat('yyyy-MM-dd')
-      : DateFormat.yMMMd(languageCode);
+      : DateFormat.yMMMd(localeString(locale));
   if (dateTime) {
     formatter = formatter.add_Hms();
   }
@@ -104,10 +104,12 @@ String formatDate(int ms, {bool dateTime = false}) {
 
 // Localized decimal number formatting
 String formatDecimal(double i) {
-  String languageCode = AppLocalizations.instance.locale.languageCode;
+  Locale locale = AppLocalizations.instance.locale;
   return NumberFormat(
     '0.0',
-    fallbackLanguages.contains(languageCode) ? null : languageCode,
+    fallbackLanguageCodes.contains(locale.languageCode)
+        ? null
+        : localeString(locale),
   ).format(i);
 }
 

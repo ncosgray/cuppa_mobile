@@ -111,27 +111,7 @@ class CuppaApp extends StatelessWidget {
                   FallbackMaterialLocalizationsDelegate(),
                   FallbackCupertinoLocalizationsDelegate(),
                 ],
-                localeResolutionCallback: (locale, supportedLocales) {
-                  if (locale != null) {
-                    // Set locale if supported
-                    for (Locale supportedLocale in supportedLocales) {
-                      if (supportedLocale.languageCode == locale.languageCode &&
-                          supportedLocale.scriptCode == locale.scriptCode) {
-                        return supportedLocale;
-                      }
-                    }
-                    for (Locale supportedLocale in supportedLocales) {
-                      if (supportedLocale.languageCode == locale.languageCode) {
-                        return supportedLocale;
-                      }
-                    }
-                  }
-
-                  // Default if locale not supported
-                  return const Locale.fromSubtags(
-                    languageCode: defaultLanguage,
-                  );
-                },
+                localeResolutionCallback: localeResolutionCallback,
               );
             },
           );
