@@ -46,6 +46,7 @@ Future<void> initializeApp() async {
   sharedPrefs = await SharedPreferences.getInstance();
   packageInfo = await PackageInfo.fromPlatform();
   regionSettings = await RegionSettings.getSettings();
+  await loadLanguageOptions();
 
   // Get time zone
   tz.initializeTimeZones();
@@ -102,7 +103,7 @@ class CuppaApp extends StatelessWidget {
                 locale: appLanguage != followSystemLanguage
                     ? parseLocaleString(appLanguage)
                     : null,
-                supportedLocales: supportedLocales.keys,
+                supportedLocales: supportedLocales,
                 localizationsDelegates: const [
                   AppLocalizationsDelegate(),
                   GlobalMaterialLocalizations.delegate,

@@ -26,44 +26,40 @@ import 'package:flutter/services.dart';
 
 const defaultLocale = Locale.fromSubtags(languageCode: 'en', countryCode: 'GB');
 
-// Supported locales and language names
-final Map<Locale, String> supportedLocales = {
-  const Locale.fromSubtags(languageCode: 'ht'): 'Ayisyen',
-  const Locale.fromSubtags(languageCode: 'az'): 'Azərbaycanca',
-  const Locale.fromSubtags(languageCode: 'br'): 'Brezhoneg',
-  const Locale.fromSubtags(languageCode: 'cs'): 'Čeština',
-  const Locale.fromSubtags(languageCode: 'da'): 'Dansk',
-  const Locale.fromSubtags(languageCode: 'de'): 'Deutsch',
-  const Locale.fromSubtags(languageCode: 'et'): 'Eesti',
-  const Locale.fromSubtags(languageCode: 'en', countryCode: 'GB'): 'English',
-  const Locale.fromSubtags(languageCode: 'en', countryCode: 'US'):
-      'English (US)',
-  const Locale.fromSubtags(languageCode: 'es'): 'Español',
-  const Locale.fromSubtags(languageCode: 'eo'): 'Esperanto',
-  const Locale.fromSubtags(languageCode: 'eu'): 'Euskara',
-  const Locale.fromSubtags(languageCode: 'fr'): 'Français',
-  const Locale.fromSubtags(languageCode: 'ga'): 'Gaeilge',
-  const Locale.fromSubtags(languageCode: 'it'): 'Italiano',
-  const Locale.fromSubtags(languageCode: 'lb'): 'Lëtzebuergesch',
-  const Locale.fromSubtags(languageCode: 'nl'): 'Nederlands',
-  const Locale.fromSubtags(languageCode: 'nb'): 'Norsk Bokmål',
-  const Locale.fromSubtags(languageCode: 'pt'): 'Português',
-  const Locale.fromSubtags(languageCode: 'sl'): 'Slovenščina',
-  const Locale.fromSubtags(languageCode: 'fi'): 'Suomi',
-  const Locale.fromSubtags(languageCode: 'tr'): 'Türkçe',
-  const Locale.fromSubtags(languageCode: 'ru'): 'Русский',
-  const Locale.fromSubtags(languageCode: 'uk'): 'Українська',
-  const Locale.fromSubtags(languageCode: 'he'): 'עברית',
-  const Locale.fromSubtags(languageCode: 'ur'): 'اردو',
-  const Locale.fromSubtags(languageCode: 'ja'): '日本語',
-  const Locale.fromSubtags(languageCode: 'zh'): '简体中文',
-  const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'): '繁體中文',
-};
-final List<String> supportedLanguageCodes = supportedLocales.keys
+// Supported locales
+const List<Locale> supportedLocales = [
+  Locale.fromSubtags(languageCode: 'az'),
+  Locale.fromSubtags(languageCode: 'br'),
+  Locale.fromSubtags(languageCode: 'cs'),
+  Locale.fromSubtags(languageCode: 'da'),
+  Locale.fromSubtags(languageCode: 'de'),
+  Locale.fromSubtags(languageCode: 'en', countryCode: 'GB'),
+  Locale.fromSubtags(languageCode: 'en', countryCode: 'US'),
+  Locale.fromSubtags(languageCode: 'eo'),
+  Locale.fromSubtags(languageCode: 'es'),
+  Locale.fromSubtags(languageCode: 'et'),
+  Locale.fromSubtags(languageCode: 'eu'),
+  Locale.fromSubtags(languageCode: 'fi'),
+  Locale.fromSubtags(languageCode: 'fr'),
+  Locale.fromSubtags(languageCode: 'ga'),
+  Locale.fromSubtags(languageCode: 'he'),
+  Locale.fromSubtags(languageCode: 'ht'),
+  Locale.fromSubtags(languageCode: 'it'),
+  Locale.fromSubtags(languageCode: 'ja'),
+  Locale.fromSubtags(languageCode: 'lb'),
+  Locale.fromSubtags(languageCode: 'nb'),
+  Locale.fromSubtags(languageCode: 'nl'),
+  Locale.fromSubtags(languageCode: 'pt'),
+  Locale.fromSubtags(languageCode: 'ru'),
+  Locale.fromSubtags(languageCode: 'sl'),
+  Locale.fromSubtags(languageCode: 'tr'),
+  Locale.fromSubtags(languageCode: 'uk'),
+  Locale.fromSubtags(languageCode: 'ur'),
+  Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
+  Locale.fromSubtags(languageCode: 'zh'),
+];
+final List<String> supportedLanguageCodes = supportedLocales
     .map<String>((Locale locale) => locale.languageCode)
-    .toList();
-final List<String> supportedLocaleStrings = supportedLocales.keys
-    .map<String>((Locale locale) => localeString(locale))
     .toList();
 
 // Languages not supported by GlobalMaterialLocalizations
@@ -223,6 +219,38 @@ Locale parseLocaleString(String name) {
     languageCode: nameParts[0],
     scriptCode: scriptCode,
     countryCode: countryCode,
+  );
+}
+
+// Initialize app language options
+Map<String, String> languageOptions = {
+  followSystemLanguage: followSystemLanguage,
+};
+
+// Populate app language options
+Future<void> loadLanguageOptions() async {
+  Map<String, String> unsortedOptions = {};
+
+  for (Locale locale in supportedLocales) {
+    // Load strings map from JSON file in langs folder
+    String jsonString = await rootBundle.loadString(
+      'langs/${localeString(locale)}.json',
+    );
+    Map<String, dynamic> jsonMap = json.decode(jsonString);
+
+    // Add localized name to map
+    unsortedOptions.addAll({
+      localeString(locale):
+          jsonMap[AppString.language_name.name] ?? localeString(locale),
+    });
+  }
+
+  // Set language options, sorted by language name
+  languageOptions.addAll(
+    Map.fromEntries(
+      unsortedOptions.entries.toList()
+        ..sort((a, b) => a.value.compareTo(b.value)),
+    ),
   );
 }
 

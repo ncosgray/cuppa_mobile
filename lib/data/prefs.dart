@@ -317,7 +317,3 @@ final List<int> brewRatioOzOptions = [
   1,
   ...[for (var i = 2; i <= 18; i += 2) i],
 ];
-
-// App language options
-final List<String> languageOptions =
-    [followSystemLanguage] + supportedLocaleStrings;

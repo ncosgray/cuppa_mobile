@@ -336,10 +336,8 @@ class PrefsWidget extends StatelessWidget {
       title: AppString.prefs_language.translate(),
       selectedItem: provider.appLanguage == followSystemLanguage
           ? AppString.theme_system.translate()
-          : supportedLocaleStrings.contains(provider.appLanguage)
-              ? supportedLocales[parseLocaleString(provider.appLanguage)]!
-              : provider.appLanguage,
-      itemList: languageOptions,
+          : languageOptions[provider.appLanguage] ?? provider.appLanguage,
+      itemList: languageOptions.keys.toList(),
       itemBuilder: _appLanguageItem,
     );
   }
@@ -347,16 +345,14 @@ class PrefsWidget extends StatelessWidget {
   // App language option
   Widget _appLanguageItem(BuildContext context, int index) {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-    String value = languageOptions[index];
+    String value = languageOptions.keys.elementAt(index);
 
     return settingListItem(
       context,
       // Language name
       title: value == followSystemLanguage
           ? AppString.theme_system.translate()
-          : supportedLocaleStrings.contains(value)
-              ? supportedLocales[parseLocaleString(value)]!
-              : value,
+          : languageOptions[value] ?? value,
       value: value,
       groupValue: provider.appLanguage,
       // Save appLanguage to prefs
