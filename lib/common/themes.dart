@@ -27,6 +27,9 @@ final ThemeData lightThemeData = ThemeData(
   listTileTheme: const ListTileThemeData(
     iconColor: Colors.grey,
   ),
+  iconTheme: const IconThemeData(
+    color: Colors.grey,
+  ),
   cupertinoOverrideTheme: const CupertinoThemeData(
     primaryColor: CupertinoColors.systemBlue,
   ),
