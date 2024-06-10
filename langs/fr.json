@@ -32,7 +32,7 @@
     "prefs_app_theme": "Choisissez le thème des couleurs de l’appli",
     "prefs_header": "Définissez les noms de thé, les temps d'infusion, les températures et les styles de boutons. Changez l'ordre du thé ( appuyez sur un thé ou appuyez sur le bouton de tri ci-dessus), ou faites glisser pour supprimer les thés. Marquez jusqu'à {{favorites_max}} thés préférés pour les ajouter comme raccourcis d'icône d'application.",
     "prefs_hide_increments_info": "Appuyez sur un compte à rebours actif pour le régler",
-    "prefs_hide_increments": "Masquer les boutons de réglage du minuteur",
+    "prefs_hide_increments": "Masquer les options de réglage du minuteur",
     "prefs_language": "Choisissez la langue de l’appli",
     "prefs_notifications": "Ouvrez les paramètres système de votre appareil pour configurer les notifications pour {{app_name}}.",
     "prefs_show_extra_ratios": "Afficher le temps d'infusion, la température et le ratio sur les boutons de la minuterie",
