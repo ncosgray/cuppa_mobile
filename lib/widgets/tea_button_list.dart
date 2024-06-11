@@ -303,6 +303,9 @@ class _TeaButtonListState extends State<TeaButtonList> {
         Scrollable.ensureVisible(target);
       }
     }
+
+    // Check if we should prompt for a review
+    checkReviewPrompt();
   }
 
   // Cancel a timer

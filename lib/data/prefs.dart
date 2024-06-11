@@ -228,6 +228,16 @@ abstract class Prefs {
   static void setSkipTutorial() {
     sharedPrefs.setBool(prefSkipTutorial, true);
   }
+
+  // Get and increment review prompt counter
+  static int get reviewPromptCounter {
+    return (sharedPrefs.getInt(prefReviewPromptCounter) ?? 0);
+  }
+
+  static void incrementReviewPromptCounter() {
+    int count = reviewPromptCounter;
+    sharedPrefs.setInt(prefReviewPromptCounter, ++count);
+  }
 }
 
 // App themes

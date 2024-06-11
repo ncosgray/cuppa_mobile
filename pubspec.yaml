@@ -34,6 +34,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_timezone: ^1.0.8
+  in_app_review: ^2.0.9
   intl: ^0.19.0
   package_info_plus: ^8.0.0
   path: ^1.9.0
