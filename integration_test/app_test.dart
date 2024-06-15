@@ -132,11 +132,14 @@ void main() {
     // Check for notification after timer duration
     await Future.delayed(const Duration(seconds: timerSeconds));
     await $.native.openNotifications();
-    await $.native.tapOnNotificationBySelector(
-      Selector(textContains: timerName),
-      timeout: const Duration(seconds: 1),
-    );
-    await $.pumpAndSettle();
+    bool didNotify = false;
+    for (var notification in await $.native.getNotifications()) {
+      if (notification.content.contains(timerName)) {
+        didNotify = true;
+      }
+    }
+    expect(didNotify, true);
+    await $.native.closeNotifications();
     expect(find.text(timerName), findsOneWidget);
 
     // Navigate to Stats page and re-validate report
