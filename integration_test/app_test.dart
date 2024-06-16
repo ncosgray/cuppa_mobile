@@ -108,13 +108,13 @@ void main() {
         skipOffstage: false,
       ),
     );
-    expect(find.text(AppString.stats_title.translate()), findsOneWidget);
+    expect(find.text(AppString.stats_header.translate()), findsOneWidget);
     expect(find.text(formatTimer(0)), findsOneWidget);
 
     // Navigate back to Timer page
     if (Platform.isIOS) {
-      await $.tap(find.byIcon(CupertinoIcons.back));
-      await $.tap(find.byIcon(CupertinoIcons.back));
+      await $.tap(find.text(AppString.prefs_title.translate()));
+      await $.tap(find.text(AppString.done_button.translate()));
     } else {
       await $.native.pressBack();
       await $.native.pressBack();

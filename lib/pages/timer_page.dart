@@ -16,6 +16,7 @@
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/pages/prefs_page.dart';
 import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
@@ -41,6 +42,7 @@ class TimerWidget extends StatelessWidget {
       appBar: PlatformAdaptiveNavBar(
         isPoppable: false,
         title: appName,
+        buttonTextDone: AppString.done_button.translate(),
         // Button to navigate to Preferences page
         actionIcon: tutorialTooltip(
           context: context,

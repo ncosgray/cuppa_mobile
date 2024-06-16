@@ -46,6 +46,8 @@ class AboutWidget extends StatelessWidget {
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
         title: AppString.about_title.translate(),
+        buttonTextDone: AppString.done_button.translate(),
+        previousPageTitle: AppString.prefs_title.translate(),
       ),
       body: SafeArea(
         child: CustomScrollView(

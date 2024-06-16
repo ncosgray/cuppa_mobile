@@ -283,6 +283,8 @@ class PlatformAdaptiveNavBar extends StatelessWidget
     super.key,
     required this.isPoppable,
     required this.title,
+    required this.buttonTextDone,
+    this.previousPageTitle,
     this.actionRoute,
     this.actionIcon,
     this.secondaryActionRoute,
@@ -291,6 +293,8 @@ class PlatformAdaptiveNavBar extends StatelessWidget
 
   final bool isPoppable;
   final String title;
+  final String buttonTextDone;
+  final String? previousPageTitle;
   final Widget? actionRoute;
   final Widget? actionIcon;
   final Widget? secondaryActionRoute;
@@ -316,22 +320,34 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       actions.add(
         adaptiveNavBarActionButton(
           icon: actionIcon!,
-          onPressed: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => actionRoute!)),
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              fullscreenDialog: !isPoppable,
+              builder: (_) => actionRoute!,
+            ),
+          ),
         ),
       );
     }
 
     if (Platform.isIOS) {
       return CupertinoNavigationBar(
-        transitionBetweenRoutes: false,
-        backgroundColor: CupertinoDynamicColor.resolve(
-          CupertinoTheme.of(context).barBackgroundColor,
-          context,
-        ),
-        leading: isPoppable
-            ? adaptiveNavBarActionButton(
-                icon: const Icon(CupertinoIcons.back),
+        border: isPoppable
+            ? const Border(
+                bottom: BorderSide(color: Color(0x4D000000), width: 0.0),
+              ) // _kDefaultNavBarBorder
+            : null,
+        backgroundColor: isPoppable
+            ? CupertinoDynamicColor.resolve(
+                CupertinoTheme.of(context).barBackgroundColor,
+                context,
+              )
+            : Theme.of(context).scaffoldBackgroundColor,
+        previousPageTitle: previousPageTitle,
+        leading: isPoppable && previousPageTitle == null
+            ? CupertinoButton(
+                padding: noPadding,
+                child: Text(buttonTextDone),
                 onPressed: () => Navigator.of(context).pop(),
               )
             : null,
@@ -351,7 +367,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       );
     } else {
       return AppBar(
-        elevation: 4,
+        elevation: !isPoppable ? 4.0 : null,
         title: Text(
           title,
           style: textStyleNavBar,

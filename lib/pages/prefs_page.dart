@@ -57,6 +57,7 @@ class PrefsWidget extends StatelessWidget {
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
         title: AppString.prefs_title.translate(),
+        buttonTextDone: AppString.done_button.translate(),
         // Button to navigate to About page
         actionIcon: getPlatformAboutIcon(),
         actionRoute: const AboutWidget(),

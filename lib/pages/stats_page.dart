@@ -74,6 +74,8 @@ class _StatsWidgetState extends State<StatsWidget> {
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
         title: AppString.stats_title.translate(),
+        buttonTextDone: AppString.done_button.translate(),
+        previousPageTitle: AppString.prefs_title.translate(),
       ),
       body: SafeArea(
         child: FutureBuilder<bool>(

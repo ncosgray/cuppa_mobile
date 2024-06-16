@@ -81,6 +81,7 @@ enum AppString {
   confirm_message_line1('confirm_message_line1'),
   confirm_message_line2('confirm_message_line2'),
   confirm_title('confirm_title'),
+  done_button('done_button'),
   error_name_long('error_name_long'),
   error_name_missing('error_name_missing'),
   export_failure('export_failure'),
