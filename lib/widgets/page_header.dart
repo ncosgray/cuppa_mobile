@@ -36,10 +36,16 @@ Widget pageHeader(
     title: Container(
       margin: headerPadding,
       alignment: Alignment.centerLeft,
-      child: Text(
-        title,
-        style: textStyleHeader.copyWith(
-          color: Theme.of(context).textTheme.bodyLarge!.color!,
+      child: FittedBox(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width *
+              (action != null || leading != null ? 0.8 : 1.0),
+          child: Text(
+            title,
+            style: textStyleHeader.copyWith(
+              color: Theme.of(context).textTheme.bodyLarge!.color!,
+            ),
+          ),
         ),
       ),
     ),
