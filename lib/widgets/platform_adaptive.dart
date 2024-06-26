@@ -351,12 +351,15 @@ class PlatformAdaptiveNavBar extends StatelessWidget
                 onPressed: () => Navigator.of(context).pop(),
               )
             : null,
-        middle: Text(
-          title,
-          style: TextStyle(
-            color: CupertinoDynamicColor.resolve(
-              CupertinoTheme.of(context).textTheme.navTitleTextStyle.color!,
-              context,
+        middle: Padding(
+          padding: titlePadding,
+          child: Text(
+            title,
+            style: TextStyle(
+              color: CupertinoDynamicColor.resolve(
+                CupertinoTheme.of(context).textTheme.navTitleTextStyle.color!,
+                context,
+              ),
             ),
           ),
         ),

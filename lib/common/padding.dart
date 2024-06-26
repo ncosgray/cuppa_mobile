@@ -30,6 +30,10 @@ const EdgeInsetsGeometry smallDefaultPadding = EdgeInsets.all(4.0);
 const EdgeInsetsGeometry largeDefaultPadding = EdgeInsets.all(8.0);
 
 // Element specific padding
+const EdgeInsetsGeometry titlePadding = EdgeInsets.symmetric(
+  vertical: 0.0,
+  horizontal: 12.0,
+);
 const EdgeInsetsGeometry headerPadding = EdgeInsets.symmetric(
   vertical: 0.0,
   horizontal: 12.0,
