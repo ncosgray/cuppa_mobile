@@ -12,10 +12,10 @@
 
 // Cuppa tea color selection dialog
 
+import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/mini_tea_button.dart';
-import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';

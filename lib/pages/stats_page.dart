@@ -18,6 +18,7 @@ import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/provider.dart';
@@ -25,7 +26,6 @@ import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/mini_tea_button.dart';
 import 'package:cuppa_mobile/widgets/page_header.dart';
-import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';

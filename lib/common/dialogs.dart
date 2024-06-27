@@ -14,8 +14,8 @@
 // - Confirmation dialog, informational dialog
 
 import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/data/localization.dart';
-import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'package:flutter/material.dart';
 

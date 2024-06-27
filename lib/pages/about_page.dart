@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/list_tiles.dart';
 import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/export.dart';
@@ -27,7 +28,6 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/pages/stats_page.dart';
 import 'package:cuppa_mobile/widgets/page_header.dart';
-import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'package:flutter/material.dart';
