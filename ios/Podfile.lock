@@ -151,7 +151,7 @@ SPEC CHECKSUMS:
   integration_test: ce0a3ffa1de96d1a89ca0ac26fca7ea18a749ef4
   package_info_plus: 58f0028419748fad15bf008b270aaa8e54380b1c
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
-  patrol: 3e21d514020dbee24b3e3383caac9e8e051292ac
+  patrol: 0564cee315ff6c86fb802b3647db05cc2d3d0624
   quick_actions_ios: 56f3cbaa71e94f212838d1f9fe354bd0734779bf
   region_settings: 551c3288dc03b91ad63070492671026e9c2ded84
   SDWebImage: a3ba0b8faac7228c3c8eadd1a55c9c9fe5e16457

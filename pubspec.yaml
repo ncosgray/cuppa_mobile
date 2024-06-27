@@ -25,7 +25,7 @@ dependencies:
   app_settings: ^5.1.1
   cupertino_icons: ^1.0.8
   dynamic_color: ^1.7.0
-  file_picker: ^8.0.3
+  file_picker: ^8.0.5
   fl_chart: ^0.68.0
   flex_color_picker: ^3.5.0
   flutter:
@@ -61,7 +61,7 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  patrol: ^3.7.3
+  patrol: ^3.9.0
 
 patrol:
   app_name: Cuppa
