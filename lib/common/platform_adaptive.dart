@@ -333,6 +333,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
 
     if (Platform.isIOS) {
       return CupertinoNavigationBar(
+        transitionBetweenRoutes: false,
         border: isPoppable
             ? const Border(
                 bottom: BorderSide(color: Color(0x4D000000), width: 0.0),
