@@ -17,6 +17,7 @@
 // - PlatformAdaptiveNavBar creates page navigation for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
+import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
@@ -301,7 +302,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
   final Widget? secondaryActionIcon;
 
   @override
-  Size get preferredSize => const Size.fromHeight(56.0); // Android default
+  Size get preferredSize => const Size.fromHeight(navBarHeight);
 
   @override
   Widget build(BuildContext context) {
