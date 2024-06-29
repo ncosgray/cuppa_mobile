@@ -92,6 +92,9 @@ void main() {
     expect(find.text(formatTimer(timerSeconds)), findsOneWidget);
 
     // Enable stats collection
+    if ($(navBarSettingsIcon.icon!).exists) {
+      await $.tap($(navBarSettingsIcon.icon!));
+    }
     final Finder statsSwitch = find.text(AppString.stats_enable.translate());
     await $.scrollUntilVisible(finder: statsSwitch);
     await $.tap(statsSwitch);
