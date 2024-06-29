@@ -34,6 +34,7 @@ import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:transitioned_indexed_stack/transitioned_indexed_stack.dart';
 
 // Cuppa Preferences page
 class PrefsWidget extends StatefulWidget {
@@ -51,6 +52,8 @@ class PrefsWidget extends StatefulWidget {
 class _PrefsWidgetState extends State<PrefsWidget> {
   // Navigation state
   int _navIndex = 0;
+  bool _navInitial = true;
+  bool _navSlideBack = false;
 
   // Build Prefs page
   @override
@@ -88,7 +91,16 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                 ],
               )
             // Use bottom nav bar with widget stack on small screens
-            : IndexedStack(
+            : SlideIndexedStack(
+                duration: shortAnimationDuration,
+                beginSlideOffset: _navInitial
+                    // Do not transition on first build
+                    ? Offset.zero
+                    // Determine transition direction
+                    : _navSlideBack
+                        ? const Offset(-1.0, 0.0)
+                        : const Offset(1.0, 0.0),
+                endSlideOffset: Offset.zero,
                 index: _navIndex,
                 children: [
                   TeaSettingsList(launchAddTea: widget.launchAddTea),
@@ -101,7 +113,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
           // Navigate between Teas and Settings
           : PlatformAdaptiveBottomNavBar(
               currentIndex: _navIndex,
-              onTap: (index) => setState(() => _navIndex = index),
+              onTap: (index) => setState(() {
+                _navInitial = false;
+                _navSlideBack = index < _navIndex;
+                _navIndex = index;
+              }),
               items: [
                 BottomNavigationBarItem(
                   icon: navBarTeasIcon,

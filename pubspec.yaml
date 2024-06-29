@@ -47,6 +47,7 @@ dependencies:
   showcaseview: ^3.0.0
   sliver_tools: ^0.2.12
   sqflite: ^2.3.3
+  transitioned_indexed_stack: ^1.0.2
   url_launcher: ^6.3.0
   wakelock_plus: ^1.2.5
 
