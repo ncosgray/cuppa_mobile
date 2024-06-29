@@ -14,7 +14,7 @@
 // - Icons for Android and iOS
 // - Buttons and controls for Android and iOS
 // - Text form field for Android and iOS
-// - PlatformAdaptiveNavBar creates page navigation for context platform
+// - Create NavBar and BottomNavBar page navigation for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
 import 'package:cuppa_mobile/common/constants.dart';
@@ -378,6 +378,39 @@ class PlatformAdaptiveNavBar extends StatelessWidget
           style: textStyleNavBar,
         ),
         actions: actions,
+      );
+    }
+  }
+}
+
+// Bottom nav bar that is Material on Android and Cupertino on iOS
+class PlatformAdaptiveBottomNavBar extends StatelessWidget {
+  const PlatformAdaptiveBottomNavBar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+    required this.items,
+  });
+
+  final int currentIndex;
+  final Function(int)? onTap;
+  final List<BottomNavigationBarItem> items;
+
+  @override
+  Widget build(BuildContext context) {
+    if (Platform.isIOS) {
+      return CupertinoTabBar(
+        height: navBarHeight,
+        currentIndex: currentIndex,
+        onTap: onTap,
+        items: items,
+      );
+    } else {
+      return BottomNavigationBar(
+        useLegacyColorScheme: false,
+        currentIndex: currentIndex,
+        onTap: onTap,
+        items: items,
       );
     }
   }

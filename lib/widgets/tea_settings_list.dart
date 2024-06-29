@@ -82,9 +82,8 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
         teaList: provider.teaList,
         activeTeas: provider.activeTeas.isNotEmpty,
       ),
-      builder: (context, teaData, child) => MultiSliver(
-        pushPinnedChildren: true,
-        children: [
+      builder: (context, teaData, child) => CustomScrollView(
+        slivers: [
           // Teas section header
           pageHeader(
             context,
@@ -124,6 +123,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
               ),
             ),
           ),
+          const SliverToBoxAdapter(child: smallSpacerWidget),
         ],
       ),
     );

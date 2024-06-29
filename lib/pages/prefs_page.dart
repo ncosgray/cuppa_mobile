@@ -34,16 +34,23 @@ import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sliver_tools/sliver_tools.dart';
 
 // Cuppa Preferences page
-class PrefsWidget extends StatelessWidget {
+class PrefsWidget extends StatefulWidget {
   const PrefsWidget({
     super.key,
     this.launchAddTea = false,
   });
 
   final bool launchAddTea;
+
+  @override
+  State<PrefsWidget> createState() => _PrefsWidgetState();
+}
+
+class _PrefsWidgetState extends State<PrefsWidget> {
+  // Navigation state
+  int _navIndex = 0;
 
   // Build Prefs page
   @override
@@ -68,44 +75,51 @@ class PrefsWidget extends StatelessWidget {
             provider.collectStats ? const StatsWidget() : null,
       ),
       body: SafeArea(
-        child: Row(
-          children: [
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  // Tea settings
-                  TeaSettingsList(launchAddTea: launchAddTea),
-                  const SliverToBoxAdapter(child: smallSpacerWidget),
-                  // Other settings inline
-                  SliverOffstage(
-                    offstage: layoutColumns,
-                    sliver: _otherSettingsList(context),
+        child: layoutColumns
+            // Arrange Teas and Settings in two columns for large screens
+            ? Row(
+                children: [
+                  Expanded(
+                    child: TeaSettingsList(launchAddTea: widget.launchAddTea),
+                  ),
+                  Expanded(
+                    child: _otherSettingsList(context),
                   ),
                 ],
+              )
+            // Use bottom nav bar with widget stack on small screens
+            : IndexedStack(
+                index: _navIndex,
+                children: [
+                  TeaSettingsList(launchAddTea: widget.launchAddTea),
+                  _otherSettingsList(context),
+                ],
               ),
-            ),
-            // Other settings in second column
-            Visibility(
-              visible: layoutColumns,
-              child: Expanded(
-                child: CustomScrollView(
-                  slivers: [
-                    _otherSettingsList(context),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
+      bottomNavigationBar: layoutColumns
+          ? null
+          // Navigate between Teas and Settings
+          : PlatformAdaptiveBottomNavBar(
+              currentIndex: _navIndex,
+              onTap: (index) => setState(() => _navIndex = index),
+              items: [
+                BottomNavigationBarItem(
+                  icon: navBarTeasIcon,
+                  label: AppString.teas_title.translate(),
+                ),
+                BottomNavigationBarItem(
+                  icon: navBarSettingsIcon,
+                  label: AppString.settings_title.translate(),
+                ),
+              ],
+            ),
     );
   }
 
   // List of other settings with pinned header
   Widget _otherSettingsList(BuildContext context) {
-    return MultiSliver(
-      pushPinnedChildren: true,
-      children: [
+    return CustomScrollView(
+      slivers: [
         pageHeader(
           context,
           title: AppString.settings_title.translate(),
@@ -159,6 +173,7 @@ class PrefsWidget extends StatelessWidget {
             ],
           ),
         ),
+        const SliverToBoxAdapter(child: smallSpacerWidget),
       ],
     );
   }
