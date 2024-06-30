@@ -334,6 +334,11 @@ class PlatformAdaptiveNavBar extends StatelessWidget
     if (Platform.isIOS) {
       return CupertinoNavigationBar(
         transitionBetweenRoutes: false,
+        automaticallyImplyLeading: false,
+        automaticallyImplyMiddle: false,
+        padding: previousPageTitle != null
+            ? const EdgeInsetsDirectional.only(start: 4.0, end: 12.0)
+            : const EdgeInsetsDirectional.symmetric(horizontal: 12.0),
         border: isPoppable
             ? const Border(
                 bottom: BorderSide(color: Color(0x4D000000), width: 0.0),
@@ -345,14 +350,30 @@ class PlatformAdaptiveNavBar extends StatelessWidget
                 context,
               )
             : Theme.of(context).scaffoldBackgroundColor,
-        previousPageTitle: previousPageTitle,
-        leading: isPoppable && previousPageTitle == null
+        // Back navigation
+        leading: previousPageTitle != null
             ? CupertinoButton(
                 padding: noPadding,
-                child: Text(buttonTextDone),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      CupertinoIcons.chevron_back,
+                      size: 28.0,
+                    ),
+                    Text(previousPageTitle!),
+                  ],
+                ),
                 onPressed: () => Navigator.of(context).pop(),
               )
-            : null,
+            : isPoppable
+                ? CupertinoButton(
+                    padding: noPadding,
+                    child: Text(buttonTextDone),
+                    onPressed: () => Navigator.of(context).pop(),
+                  )
+                : null,
+        // Page title
         middle: Padding(
           padding: titlePadding,
           child: Text(
@@ -365,6 +386,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
             ),
           ),
         ),
+        // Action buttons
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: actions,
