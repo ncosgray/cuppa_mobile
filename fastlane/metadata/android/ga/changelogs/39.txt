@@ -1,0 +1,4 @@
+* Is féidir anois an t-am atá fágtha a choigeartú ar an lasc ama gníomhach tae.
+* Roghanna teochta brew breise.
+* Tweaks inúsáidteachta agus comhéadan éagsúla.
+* Nuashonruithe aistriúcháin teanga - rannchuidigh trí Weblate!

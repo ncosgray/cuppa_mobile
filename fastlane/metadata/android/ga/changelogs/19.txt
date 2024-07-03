@@ -1,0 +1,6 @@
+* Cuir réalta ar na taenna is fearr leat chun iad a chur leis mar aicearraí deilbhíní app.
+* Réamhshocrú go teocht Celsius dóibh siúd nach bhfuil i SAM.
+* Rogha nua: roghnaigh do théama (éadrom nó dorcha).
+* Tuilleadh roghanna datha cnaipe tae.
+* Tweaks Inúsáidteachta agus comhéadan.
+* Nuashonruithe aistriúcháin teanga - rannchuidigh trí Weblate!

@@ -1,0 +1,4 @@
+* Cuireadh cnaipe Cealaigh leis agus tae á scriosadh.
+* Deisigh fabht le aicearraí tar éis an liosta tae a athordú.
+* Tweaks inúsáidteachta agus comhéadan, lena n-áirítear beochan nua.
+* Aistriúcháin Urdais agus Sínis Thraidisiúnta - rannchuidigh níos mó teangacha trí Weblate!

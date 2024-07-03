@@ -1,0 +1,4 @@
+* Téama dorcha dubh íon nua.
+* Deisigh fabht a d’fhág gur thosaigh aicearraí gan choinne.
+* Tweaks Inúsáidteachta agus comhéadan.
+* Nuashonruithe aistriúcháin teanga - rannchuidigh trí Weblate!

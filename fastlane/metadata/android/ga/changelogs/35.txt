@@ -1,0 +1,4 @@
+* Cuir rang teagaisc leis d'úsáideoirí nua Cuppa.
+* Tacaigh le hamanna brewing níos faide.
+* Tweaks Inúsáidteachta agus comhéadan.
+* Aistriúchán Sínis Nua - rannchuidigh níos mó teangacha trí Weblate!

@@ -1,0 +1,5 @@
+* Éascaíonn réamhshocruithe de chineál tae taenna nua a chur leis!
+* Úsáid fógraí foláirimh chun d’aird a tharraingt.
+ (Nóta: Chun athrú go foláirimh, seans go mbeidh ort iad a athshuiteáil.)
+* Tweaks Inúsáidteachta agus comhéadan.
+* Nuashonruithe aistriúcháin teanga - rannchuidigh trí Weblate!

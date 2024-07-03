@@ -1,0 +1,5 @@
+* Tacaíocht iomlán do taenna fuar-ghrúdaithe (12+ uair an chloig ag géarú).
+* Leathanach Roghanna Athdheartha le haghaidh táibléad agus earraí fillte.
+* Fógraí lasc ama níos déine.
+* Tweaks Inúsáidteachta agus comhéadan.
+* Nuashonruithe aistriúcháin teanga - rannchuidigh trí Weblate!

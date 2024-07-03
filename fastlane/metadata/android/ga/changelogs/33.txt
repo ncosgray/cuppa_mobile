@@ -1,0 +1,3 @@
+* Amadóirí dé: Is féidir leat an dara lasc ama a thosú anois agus do chéad ghrúdlann tae.
+* Fógraí lasc ama níos iontaofa i gcásanna áirithe.
+* Cuireadh teanga, agus nuashonruithe aistriúcháin eile leis - rannchuidigh trí Weblate!

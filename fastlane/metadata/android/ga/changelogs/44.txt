@@ -1,0 +1,5 @@
+* Sórtáil do liosta tae de réir critéar éagsúla gan ach cúpla sconna.
+* Cuireadh rogha nua leis chun do chnaipí lasc ama tae a shocrú go hingearach.
+* Tá roghanna teochta níos gráinneach ar fáil ag baint úsáide as an sleamhnán.
+* Tweaks inúsáidteachta agus comhéadan éagsúla.
+* Nuashonruithe aistriúcháin teanga - rannchuidigh trí Weblate!

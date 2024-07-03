@@ -1,0 +1,6 @@
+* Rogha tae nua: Roghnaigh ó thrí dheilbhín éagsúla.
+* Rogha ama agus teocht brew níos éasca.
+* Ceadaigh chomh beag le cnaipe tae amháin a bheith agat.
+* Cuireadh nasc leis na socruithe fógra gléis.
+* Tweaks Inúsáidteachta agus comhéadan.
+* Nuashonruithe aistriúcháin teanga - rannchuidigh trí Weblate!
