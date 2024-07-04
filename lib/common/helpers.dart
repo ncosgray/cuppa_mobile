@@ -76,14 +76,18 @@ String formatTemp(i, {bool? useCelsius}) {
   return '$i$unit';
 }
 
-// Format brew remaining time as m:ss or hm
+// Format brew time as m:ss or hm or d
 String formatTimer(s) {
+  double days = s / 86400.0;
   int hrs = (s / 3600).floor();
   int mins = (s / 60).floor() - (hrs * 60);
   int secs = s - (mins * 60);
 
   // Build the localized time format string
-  if (hrs > 0) {
+  if (days >= 1.0) {
+    String unitD = AppString.unit_days.translate();
+    return '${formatDecimal(days, decimalPlaces: 2)} $unitD';
+  } else if (hrs > 0) {
     String unitH = AppString.unit_hours.translate();
     String unitM = AppString.unit_minutes.translate();
     return '$hrs$unitH$hairSpace$mins$unitM';
@@ -105,10 +109,10 @@ String formatDate(int ms, {bool dateTime = false}) {
 }
 
 // Localized decimal number formatting
-String formatDecimal(double i) {
+String formatDecimal(double i, {int decimalPlaces = 1}) {
   Locale locale = AppLocalizations.instance.locale;
   return NumberFormat(
-    '0.0',
+    '0.${'0' * decimalPlaces}',
     fallbackLanguageCodes.contains(locale.languageCode)
         ? null
         : localeString(locale),
@@ -121,20 +125,21 @@ String formatPercent(i) {
 }
 
 // Format ratio amounts with units
-String formatNumeratorAmount(
-  double i, {
-  required bool useMetric,
-}) {
+String formatNumeratorAmount(double i, {required bool useMetric}) {
+  int decimalPlaces = 1;
   String unit = useMetric
       ? AppString.unit_grams.translate()
       : AppString.unit_teaspoons.translate();
-  return '${formatDecimal(i)}$unit';
+  if (useMetric && i >= 1000.0) {
+    // Convert large amounts to kilograms
+    i = i / 1000.0;
+    decimalPlaces = 2;
+    unit = AppString.unit_kilograms.translate();
+  }
+  return '${formatDecimal(i, decimalPlaces: decimalPlaces)}$unit';
 }
 
-String formatDenominatorAmount(
-  int i, {
-  required bool useMetric,
-}) {
+String formatDenominatorAmount(int i, {required bool useMetric}) {
   String unit = useMetric
       ? AppString.unit_milliliters.translate()
       : AppString.unit_ounces.translate();
