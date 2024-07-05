@@ -46,7 +46,8 @@ class _StatsWidgetState extends State<StatsWidget> {
   int _totalCount = 0;
   int _starredCount = 0;
   int _totalTime = 0;
-  String _totalAmount = '';
+  double _totalAmountG = 0.0;
+  double _totalAmountTsp = 0.0;
   String _morningTea = '';
   String _afternoonTea = '';
   List<Stat> _summaryStats = [];
@@ -54,6 +55,7 @@ class _StatsWidgetState extends State<StatsWidget> {
   // Chart interaction
   bool _includeDeleted = false;
   int _selectedSection = -1;
+  bool _altMetrics = false;
 
   // Build Stats page
   @override
@@ -218,21 +220,30 @@ class _StatsWidgetState extends State<StatsWidget> {
     _morningTea = await Stats.getString(StringQuery.morningTea);
     _afternoonTea = await Stats.getString(StringQuery.afternoonTea);
     _summaryStats = await Stats.getTeaStats(ListQuery.summaryStats);
-
-    // Get total amounts for each unit and concatenate
-    double totalAmountG = await Stats.getDecimal(DecimalQuery.totalAmountG);
-    double totalAmountTsp = await Stats.getDecimal(DecimalQuery.totalAmountTsp);
-    _totalAmount = totalAmountG > 0.0
-        ? formatNumeratorAmount(totalAmountG, useMetric: true)
-        : '';
-    if (totalAmountG > 0.0 && totalAmountTsp > 0.0) {
-      _totalAmount += ' + ';
-    }
-    _totalAmount += totalAmountTsp > 0.0
-        ? formatNumeratorAmount(totalAmountTsp, useMetric: false)
-        : '';
+    _totalAmountG = await Stats.getDecimal(DecimalQuery.totalAmountG);
+    _totalAmountTsp = await Stats.getDecimal(DecimalQuery.totalAmountTsp);
 
     return true;
+  }
+
+  // Concatenate total amounts for each unit
+  String get _totalAmount {
+    String totalAmount = '';
+    totalAmount = _totalAmountG > 0.0
+        ? formatNumeratorAmount(
+            _totalAmountG,
+            useMetric: true,
+            inKilograms: !_altMetrics,
+          )
+        : '';
+    if (_totalAmountG > 0.0 && _totalAmountTsp > 0.0) {
+      totalAmount += ' + ';
+    }
+    totalAmount += _totalAmountTsp > 0.0
+        ? formatNumeratorAmount(_totalAmountTsp, useMetric: false)
+        : '';
+
+    return totalAmount;
   }
 
   // Apply deleted teas filter to stats
@@ -250,6 +261,11 @@ class _StatsWidgetState extends State<StatsWidget> {
       0,
       (total, stat) => total + stat.count,
     );
+  }
+
+  // Toggle alternative metrics display
+  void _toggleAltMetrics() {
+    setState(() => _altMetrics = !_altMetrics);
   }
 
   // Generate a stat widget
@@ -436,16 +452,25 @@ class _StatsWidgetState extends State<StatsWidget> {
             metric: formatPercent(_starredCount / _totalCount),
           ),
         ),
-        _metricWidget(
-          metricName: AppString.stats_timer_time.translate(),
-          metric: formatTimer(_totalTime),
+        GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: _toggleAltMetrics,
+          child: _metricWidget(
+            metricName: AppString.stats_timer_time.translate(),
+            metric: formatTimer(_totalTime, inDays: !_altMetrics),
+          ),
         ),
         Visibility(
           visible:
-              Provider.of<AppProvider>(context, listen: false).useBrewRatios,
-          child: _metricWidget(
-            metricName: AppString.stats_tea_amount.translate(),
-            metric: _totalAmount,
+              Provider.of<AppProvider>(context, listen: false).useBrewRatios &&
+                  _totalAmount.isNotEmpty,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: _totalAmountG > 0.0 ? _toggleAltMetrics : null,
+            child: _metricWidget(
+              metricName: AppString.stats_tea_amount.translate(),
+              metric: _totalAmount,
+            ),
           ),
         ),
         Visibility(

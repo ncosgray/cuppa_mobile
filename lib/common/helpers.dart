@@ -77,14 +77,14 @@ String formatTemp(i, {bool? useCelsius}) {
 }
 
 // Format brew time as m:ss or hm or d
-String formatTimer(s) {
+String formatTimer(s, {bool inDays = true}) {
   double days = s / 86400.0;
   int hrs = (s / 3600).floor();
   int mins = (s / 60).floor() - (hrs * 60);
   int secs = s - (mins * 60);
 
   // Build the localized time format string
-  if (days >= 1.0) {
+  if (days >= 1.0 && inDays) {
     String unitD = AppString.unit_days.translate();
     return '${formatDecimal(days, decimalPlaces: 2)} $unitD';
   } else if (hrs > 0) {
@@ -125,12 +125,16 @@ String formatPercent(i) {
 }
 
 // Format ratio amounts with units
-String formatNumeratorAmount(double i, {required bool useMetric}) {
+String formatNumeratorAmount(
+  double i, {
+  required bool useMetric,
+  bool inKilograms = true,
+}) {
   int decimalPlaces = 1;
   String unit = useMetric
       ? AppString.unit_grams.translate()
       : AppString.unit_teaspoons.translate();
-  if (useMetric && i >= 1000.0) {
+  if (useMetric && inKilograms && i >= 1000.0) {
     // Convert large amounts to kilograms
     i = i / 1000.0;
     decimalPlaces = 2;
