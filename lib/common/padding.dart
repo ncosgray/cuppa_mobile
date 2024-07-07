@@ -63,3 +63,5 @@ const EdgeInsetsGeometry rowPadding = EdgeInsets.symmetric(
   vertical: 0.0,
   horizontal: 4.0,
 );
+const EdgeInsetsGeometry bottomSliverPadding =
+    EdgeInsets.fromLTRB(12.0, 6.0, 12.0, 12.0);

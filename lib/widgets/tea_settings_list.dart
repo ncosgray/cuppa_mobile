@@ -112,7 +112,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
           // Add Tea and Remove All buttons
           SliverToBoxAdapter(
             child: Container(
-              margin: bodyPadding,
+              margin: bottomSliverPadding,
               child: Row(
                 children: [
                   Expanded(child: _addTeaButton()),
@@ -123,7 +123,6 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
               ),
             ),
           ),
-          const SliverToBoxAdapter(child: smallSpacerWidget),
         ],
       ),
     );

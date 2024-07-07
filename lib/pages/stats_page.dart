@@ -176,7 +176,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                     hasScrollBody: false,
                     fillOverscroll: true,
                     child: Container(
-                      margin: bodyPadding,
+                      margin: bottomSliverPadding,
                       child: Align(
                         alignment: Alignment.bottomCenter,
                         // General metrics

@@ -266,7 +266,7 @@ class AboutWidget extends StatelessWidget {
   Widget _aboutText() {
     return InkWell(
       child: Container(
-        padding: listTilePadding,
+        padding: bottomSliverPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
