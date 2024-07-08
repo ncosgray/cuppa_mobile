@@ -45,6 +45,7 @@ const List<Locale> supportedLocales = [
   Locale.fromSubtags(languageCode: 'ga'),
   Locale.fromSubtags(languageCode: 'he'),
   Locale.fromSubtags(languageCode: 'ht'),
+  Locale.fromSubtags(languageCode: 'ia'),
   Locale.fromSubtags(languageCode: 'it'),
   Locale.fromSubtags(languageCode: 'ja'),
   Locale.fromSubtags(languageCode: 'lb'),
