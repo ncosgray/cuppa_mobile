@@ -29,7 +29,7 @@
     "notification_text": "{{tea_name}} è pronto!",
     "notification_title": "Infusione completa…",
     "ok_button": "OK",
-    "prefs_app_theme": "Scegli il tema dell’app",
+    "prefs_app_theme": "Scegli il tema di colori dell’app",
     "prefs_header": "Imposta il nome dei tè, le durate di infusione, le temperature e gli stili di pulsante. Cambia l'ordine dei tè (Tenere premuto o clicca il bottone di ordinamento) o passare il dito per eliminare i tè. Metti una stella fino a {{favorites_max}} tè preferiti per aggiungerli come scorciatoie dell’icona dell’applicazione.",
     "prefs_hide_increments_info": "Tocca un conto alla rovescia attivo per regolarlo",
     "prefs_hide_increments": "Nascondi opzioni di regolazione timer",
