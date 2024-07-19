@@ -109,7 +109,7 @@ Future<void> sendNotification(
       channelShowBadge: true,
       showWhen: true,
       enableLights: true,
-      color: timerBackgroundColor,
+      color: notifyColor,
       enableVibration: true,
       vibrationPattern: notifyVibratePattern,
       playSound: !silent,

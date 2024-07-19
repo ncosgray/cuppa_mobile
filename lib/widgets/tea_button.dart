@@ -73,13 +73,13 @@ class TeaButton extends StatelessWidget {
                   children: [
                     Icon(
                       tea.teaIcon,
-                      color: tea.isActive ? activeColor : tea.getColor(),
+                      color: tea.isActive ? timerActiveColor : tea.getColor(),
                       size: 64.0,
                     ),
                     Text(
                       tea.name,
                       style: textStyleButton.copyWith(
-                        color: tea.isActive ? activeColor : tea.getColor(),
+                        color: tea.isActive ? timerActiveColor : tea.getColor(),
                       ),
                     ),
                     // Optional extra info: brew time, temp, and ratio display
@@ -101,7 +101,7 @@ class TeaButton extends StatelessWidget {
                                     formatTimer(tea.brewTime),
                                     style: textStyleButtonTertiary.copyWith(
                                       color: tea.isActive
-                                          ? activeColor
+                                          ? timerActiveColor
                                           : tea.getColor(),
                                     ),
                                   ),
@@ -120,7 +120,7 @@ class TeaButton extends StatelessWidget {
                                       ),
                                       style: textStyleButtonTertiary.copyWith(
                                         color: tea.isActive
-                                            ? activeColor
+                                            ? timerActiveColor
                                             : tea.getColor(),
                                       ),
                                     ),
@@ -140,7 +140,7 @@ class TeaButton extends StatelessWidget {
                                     tea.brewRatio.ratioString,
                                     style: textStyleButtonTertiary.copyWith(
                                       color: tea.isActive
-                                          ? activeColor
+                                          ? timerActiveColor
                                           : tea.getColor(),
                                     ),
                                   ),

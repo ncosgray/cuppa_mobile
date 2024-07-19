@@ -15,8 +15,8 @@
 import 'package:flutter/material.dart';
 
 // Timer colors
-const Color activeColor = Colors.white;
-const Color timerBackgroundColor = Colors.green;
+const Color timerActiveColor = Colors.white;
+const Color timerBackgroundColor = Colors.grey;
 const Color timerForegroundColor = Colors.white;
 
 // Icon colors
@@ -27,3 +27,5 @@ const Color favoriteIconColor = Colors.amber;
 const Color linkColor = Colors.blue;
 const Color invalidColor = Colors.red;
 const Color shadowColor = Colors.grey;
+const Color chartTextColor = Colors.white;
+const Color notifyColor = Colors.green;

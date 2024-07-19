@@ -423,7 +423,7 @@ class _StatsWidgetState extends State<StatsWidget> {
       showTitle: percent > 0.05,
       title: formatPercent(percent),
       titleStyle: textStyleSubtitle.copyWith(
-        color: activeColor,
+        color: chartTextColor,
         fontWeight: selected ? FontWeight.bold : null,
       ),
       titlePositionPercentageOffset: 0.7,
