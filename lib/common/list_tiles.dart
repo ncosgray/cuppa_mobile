@@ -13,12 +13,13 @@
 // Cuppa list tiles
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
-import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -60,17 +61,26 @@ Widget settingList(
   required List<dynamic> itemList,
   required Widget Function(BuildContext, int) itemBuilder,
 }) {
+  double maxWidth = (getDeviceSize(context).width / 2.0) - 12.0;
+
   return AnimatedSize(
     duration: shortAnimationDuration,
     child: ListTile(
-      title: Text(
-        title,
-        style: textStyleTitle,
+      title: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth),
+        child: Text(
+          title,
+          style: textStyleTitle,
+        ),
       ),
-      trailing: Text(
-        selectedItem,
-        style: textStyleTitle.copyWith(
-          color: Theme.of(context).textTheme.bodySmall!.color!,
+      trailing: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth),
+        child: Text(
+          selectedItem,
+          textAlign: TextAlign.end,
+          style: textStyleTitle.copyWith(
+            color: Theme.of(context).textTheme.bodySmall!.color!,
+          ),
         ),
       ),
       onTap: () => openPlatformAdaptiveSelectList(

@@ -71,6 +71,12 @@ const double brewRatioNumeratorStep = 0.5;
 // UI sizing thresholds
 const largeDeviceSize = 550;
 
+// Widget sizes
+const double navBarHeight = 56.0;
+const double teaButtonHeight = 106.0;
+const double teaButtonWidth = 88.0;
+const double cancelButtonHeight = 34.0;
+
 // Notifications
 const notifyID1 = 0;
 const notifyID2 = 1;
@@ -158,6 +164,7 @@ const prefUseBrewRatios = 'Cuppa_use_brew_ratios';
 const prefAppTheme = 'Cuppa_app_theme';
 const prefAppLanguage = 'Cuppa_app_language';
 const prefSkipTutorial = 'Cuppa_skip_tutorial';
+const prefReviewPromptCounter = 'Cuppa_review_prompt_counter';
 
 // JSON keys
 const jsonKeySettings = 'settings';
@@ -200,7 +207,6 @@ const exportFileName = 'CuppaData';
 const exportFileExtension = 'json';
 
 // Localization
-const defaultLanguage = 'en';
 const followSystemLanguage = '';
 
 // Animation durations
@@ -213,6 +219,12 @@ const hideTimerAdjustmentsDelay = 5;
 
 // Temperature index increments
 const brewTempIncrement = 5;
+
+// App store review prompt
+const reviewPromptAtCount = 30;
+const promptDelayDuration = Duration(milliseconds: 500);
+const installSourceAppleStore = 'com.apple';
+const installSourceGoogleStore = 'com.android.vending';
 
 // Stats data
 const statsDatabase = 'Cuppa_stats.db';

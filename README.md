@@ -18,7 +18,7 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 
 ### Install
 
-| Android (4.4+) | iOS (12+) |
+| Android (5+) | iOS (12+) |
 | :--: | :--: |
 | <a href="https://play.google.com/store/apps/details?id=com.nathanatos.Cuppa"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" width="206" height="80"/></a><br/><a href="https://f-droid.org/en/packages/com.nathanatos.Cuppa/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" width="206" height="80"/></a> | <a href="https://itunes.apple.com/us/app/cuppa-tea-timer/id1241458171"><img src="https://www.nathanatos.com/software/images/ios-app-store-badge.png" alt="Download on the App Store" width="168" height="50"/></a> |
 

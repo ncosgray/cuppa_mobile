@@ -15,11 +15,11 @@
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
-import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'package:flutter/material.dart';
 
@@ -130,7 +130,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
               // Display selected numerator
               Text(
                 _newRatio.numeratorString,
-                style: textStyleSettingSeconday,
+                style: textStyleSettingNumber,
               ),
               spacerWidget,
               // Increment numerator up
@@ -198,7 +198,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
               // Display selected denominator
               Text(
                 _newRatio.denominatorString,
-                style: textStyleSettingSeconday,
+                style: textStyleSettingNumber,
               ),
               spacerWidget,
               // Increment denominator up
@@ -229,8 +229,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
           // Display full selected ratio
           Text(
             _newRatio.ratioString,
-            style:
-                textStyleSettingSeconday.copyWith(fontWeight: FontWeight.bold),
+            style: textStyleSettingNumber.copyWith(fontWeight: FontWeight.bold),
           ),
         ],
       ),

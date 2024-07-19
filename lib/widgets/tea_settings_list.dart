@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -27,16 +28,21 @@ import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/page_header.dart';
-import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 // MultiSliver containing a tea settings list
 class TeaSettingsList extends StatefulWidget {
-  const TeaSettingsList({super.key});
+  const TeaSettingsList({
+    super.key,
+    this.launchAddTea = false,
+  });
+
+  final bool launchAddTea;
 
   @override
   State<TeaSettingsList> createState() => _TeaSettingsListState();
@@ -45,18 +51,39 @@ class TeaSettingsList extends StatefulWidget {
 class _TeaSettingsListState extends State<TeaSettingsList> {
   // State variables
   bool _animateTeaList = false;
+  late bool _launchAddTea;
+
+  // Initialize widget state
+  @override
+  void initState() {
+    super.initState();
+
+    _launchAddTea = widget.launchAddTea;
+  }
 
   // Build tea settings list
   @override
   Widget build(BuildContext context) {
+    Future.delayed(
+      Duration.zero,
+      () {
+        AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+
+        // Process request to show Add Tea dialog
+        if (_launchAddTea && provider.teaCount < teasMaxCount) {
+          _openAddTeaDialog();
+        }
+        _launchAddTea = false;
+      },
+    );
+
     return Selector<AppProvider, ({List<Tea> teaList, bool activeTeas})>(
       selector: (_, provider) => (
         teaList: provider.teaList,
         activeTeas: provider.activeTeas.isNotEmpty,
       ),
-      builder: (context, teaData, child) => MultiSliver(
-        pushPinnedChildren: true,
-        children: [
+      builder: (context, teaData, child) => CustomScrollView(
+        slivers: [
           // Teas section header
           pageHeader(
             context,
@@ -85,7 +112,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
           // Add Tea and Remove All buttons
           SliverToBoxAdapter(
             child: Container(
-              margin: bodyPadding,
+              margin: bottomSliverPadding,
               child: Row(
                 children: [
                   Expanded(child: _addTeaButton()),
@@ -142,7 +169,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
     );
   }
 
-  // Reoderable list of tea settings cards
+  // Reorderable list of tea settings cards
   Widget _teaSettingsList() {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
 
@@ -156,7 +183,9 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
     return SliverReorderableList(
       itemBuilder: _animateTeaList ? separatorDummy : _teaSettingsListItem,
       itemCount: _animateTeaList ? 0 : provider.teaCount,
+      prototypeItem: _animateTeaList ? null : TeaSettingsCard(tea: dummyTea),
       proxyDecorator: _draggableFeedback,
+      onReorderStart: (_) => HapticFeedback.heavyImpact(),
       onReorder: (int oldIndex, int newIndex) {
         // Reorder the tea list
         provider.reorderTeas(oldIndex, newIndex);
@@ -260,36 +289,41 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
         child: Card(
           margin: noPadding,
           shadowColor: Colors.transparent,
+          surfaceTintColor: Theme.of(context).colorScheme.primary,
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             child: TextButton.icon(
               label: Text(
                 AppString.add_tea_button.translate(),
-                style: textStyleButton,
+                style: textStyleButtonSecondary,
               ),
               icon: addIcon,
               style: ButtonStyle(
-                shape: MaterialStateProperty.all(
+                shape: WidgetStateProperty.all(
                   const RoundedRectangleBorder(
                     borderRadius: BorderRadius.zero,
                   ),
                 ),
               ),
               // Disable adding teas if there are maximum teas
-              onPressed: teaCount < teasMaxCount
-                  ? () => openPlatformAdaptiveSelectList(
-                        context: context,
-                        titleText: AppString.add_tea_button.translate(),
-                        buttonTextCancel: AppString.cancel_button.translate(),
-                        itemList: Presets.presetList,
-                        itemBuilder: _teaPresetItem,
-                        separatorBuilder: separatorBuilder,
-                      )
-                  : null,
+              onPressed:
+                  teaCount < teasMaxCount ? () => _openAddTeaDialog() : null,
             ),
           ),
         ),
       ),
+    );
+  }
+
+  // Open Add Tea dialog
+  void _openAddTeaDialog() {
+    openPlatformAdaptiveSelectList(
+      context: context,
+      titleText: AppString.add_tea_button.translate(),
+      buttonTextCancel: AppString.cancel_button.translate(),
+      itemList: Presets.presetList,
+      itemBuilder: _teaPresetItem,
+      separatorBuilder: separatorBuilder,
     );
   }
 
@@ -333,7 +367,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                     children: [
                       Text(
                         formatTimer(preset.brewTime),
-                        style: textStyleSettingSeconday.copyWith(
+                        style: textStyleSettingNumber.copyWith(
                           color: presetColor,
                         ),
                       ),
@@ -345,7 +379,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                         visible: preset.brewTempDegreesC > roomTemp,
                         child: Text(
                           preset.tempDisplay(provider.useCelsius),
-                          style: textStyleSettingSeconday.copyWith(
+                          style: textStyleSettingNumber.copyWith(
                             color: presetColor,
                           ),
                         ),
@@ -353,7 +387,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                       spacerWidget,
                       Text(
                         preset.ratioDisplay(provider.useCelsius),
-                        style: textStyleSettingSeconday.copyWith(
+                        style: textStyleSettingNumber.copyWith(
                           color: presetColor,
                         ),
                       ),

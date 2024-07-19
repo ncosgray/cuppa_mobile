@@ -228,6 +228,16 @@ abstract class Prefs {
   static void setSkipTutorial() {
     sharedPrefs.setBool(prefSkipTutorial, true);
   }
+
+  // Get and increment review prompt counter
+  static int get reviewPromptCounter {
+    return (sharedPrefs.getInt(prefReviewPromptCounter) ?? 0);
+  }
+
+  static void incrementReviewPromptCounter() {
+    int count = reviewPromptCounter;
+    sharedPrefs.setInt(prefReviewPromptCounter, ++count);
+  }
 }
 
 // App themes
@@ -317,7 +327,3 @@ final List<int> brewRatioOzOptions = [
   1,
   ...[for (var i = 2; i <= 18; i += 2) i],
 ];
-
-// App language options
-final List<String> languageOptions =
-    [followSystemLanguage] + supportedLanguageCodes;

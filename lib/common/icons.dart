@@ -17,6 +17,16 @@ import 'package:cuppa_mobile/common/colors.dart';
 import 'package:flutter/material.dart';
 
 // Icons
+const Icon navBarTeasIcon = Icon(
+  Icons.timer_outlined,
+  size: 28.0,
+);
+
+const Icon navBarSettingsIcon = Icon(
+  Icons.list_alt,
+  size: 28.0,
+);
+
 const Icon mutedIcon = Icon(
   Icons.volume_off,
   color: timerForegroundColor,
