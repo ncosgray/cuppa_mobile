@@ -24,39 +24,49 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// Supported locales and language names
-final Map<Locale, String> supportedLocales = {
-  const Locale.fromSubtags(languageCode: 'ht'): 'Ayisyen',
-  const Locale.fromSubtags(languageCode: 'az'): 'Azərbaycanca',
-  const Locale.fromSubtags(languageCode: 'br'): 'Brezhoneg',
-  const Locale.fromSubtags(languageCode: 'cs'): 'Čeština',
-  const Locale.fromSubtags(languageCode: 'da'): 'Dansk',
-  const Locale.fromSubtags(languageCode: 'de'): 'Deutsch',
-  const Locale.fromSubtags(languageCode: 'et'): 'Eesti',
-  const Locale.fromSubtags(languageCode: 'en'): 'English',
-  const Locale.fromSubtags(languageCode: 'es'): 'Español',
-  const Locale.fromSubtags(languageCode: 'eo'): 'Esperanto',
-  const Locale.fromSubtags(languageCode: 'eu'): 'Euskara',
-  const Locale.fromSubtags(languageCode: 'fr'): 'Français',
-  const Locale.fromSubtags(languageCode: 'ga'): 'Gaeilge',
-  const Locale.fromSubtags(languageCode: 'it'): 'Italiano',
-  const Locale.fromSubtags(languageCode: 'lb'): 'Lëtzebuergesch',
-  const Locale.fromSubtags(languageCode: 'nl'): 'Nederlands',
-  const Locale.fromSubtags(languageCode: 'nb'): 'Norsk Bokmål',
-  const Locale.fromSubtags(languageCode: 'pt'): 'Português',
-  const Locale.fromSubtags(languageCode: 'sl'): 'Slovenščina',
-  const Locale.fromSubtags(languageCode: 'fi'): 'Suomi',
-  const Locale.fromSubtags(languageCode: 'tr'): 'Türkçe',
-  const Locale.fromSubtags(languageCode: 'ru'): 'Русский',
-  const Locale.fromSubtags(languageCode: 'uk'): 'Українська',
-  const Locale.fromSubtags(languageCode: 'he'): 'עברית',
-  const Locale.fromSubtags(languageCode: 'ur'): 'اردو',
-  const Locale.fromSubtags(languageCode: 'ja'): '日本語',
-  const Locale.fromSubtags(languageCode: 'zh'): '简体中文',
-  const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'): '繁體中文',
-};
-final List<String> supportedLanguageCodes = supportedLocales.keys
-    .map<String>((Locale locale) => localeString(locale))
+const defaultLocale = Locale.fromSubtags(languageCode: 'en', countryCode: 'GB');
+
+// Supported locales
+const List<Locale> supportedLocales = [
+  Locale.fromSubtags(languageCode: 'az'),
+  Locale.fromSubtags(languageCode: 'br'),
+  Locale.fromSubtags(languageCode: 'cs'),
+  Locale.fromSubtags(languageCode: 'cv'),
+  Locale.fromSubtags(languageCode: 'da'),
+  Locale.fromSubtags(languageCode: 'de'),
+  Locale.fromSubtags(languageCode: 'en', countryCode: 'GB'),
+  Locale.fromSubtags(languageCode: 'en', countryCode: 'US'),
+  Locale.fromSubtags(languageCode: 'eo'),
+  Locale.fromSubtags(languageCode: 'es'),
+  Locale.fromSubtags(languageCode: 'et'),
+  Locale.fromSubtags(languageCode: 'eu'),
+  Locale.fromSubtags(languageCode: 'fi'),
+  Locale.fromSubtags(languageCode: 'fr'),
+  Locale.fromSubtags(languageCode: 'ga'),
+  Locale.fromSubtags(languageCode: 'he'),
+  Locale.fromSubtags(languageCode: 'ht'),
+  Locale.fromSubtags(languageCode: 'ia'),
+  Locale.fromSubtags(languageCode: 'it'),
+  Locale.fromSubtags(languageCode: 'ja'),
+  Locale.fromSubtags(languageCode: 'lb'),
+  Locale.fromSubtags(languageCode: 'nb'),
+  Locale.fromSubtags(languageCode: 'nl'),
+  Locale.fromSubtags(languageCode: 'pt'),
+  Locale.fromSubtags(languageCode: 'ru'),
+  Locale.fromSubtags(languageCode: 'sl'),
+  Locale.fromSubtags(languageCode: 'tr'),
+  Locale.fromSubtags(languageCode: 'uk'),
+  Locale.fromSubtags(languageCode: 'ur'),
+  Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
+  Locale.fromSubtags(languageCode: 'zh'),
+];
+final List<String> supportedLanguageCodes = supportedLocales
+    .map<String>((Locale locale) => locale.languageCode)
+    .toList();
+
+// Languages not supported by GlobalMaterialLocalizations
+final List<String> fallbackLanguageCodes = supportedLanguageCodes
+    .where((item) => !kMaterialSupportedLanguages.contains(item))
     .toList();
 
 // Localizable app strings
@@ -73,6 +83,7 @@ enum AppString {
   confirm_message_line1('confirm_message_line1'),
   confirm_message_line2('confirm_message_line2'),
   confirm_title('confirm_title'),
+  done_button('done_button'),
   error_name_long('error_name_long'),
   error_name_missing('error_name_missing'),
   export_failure('export_failure'),
@@ -159,9 +170,11 @@ enum AppString {
   undo_button('undo_button'),
   undo_message('undo_message'),
   unit_celsius('unit_celsius'),
+  unit_days('unit_days'),
   unit_fahrenheit('unit_fahrenheit'),
   unit_grams('unit_grams'),
   unit_hours('unit_hours'),
+  unit_kilograms('unit_kilograms'),
   unit_milliliters('unit_milliliters'),
   unit_minutes('unit_minutes'),
   unit_ounces('unit_ounces'),
@@ -186,26 +199,101 @@ enum AppString {
   }
 }
 
-// Languages not supported by GlobalMaterialLocalizations
-final List<String> fallbackLanguages = supportedLanguageCodes
-    .where((item) => !kMaterialSupportedLanguages.contains(item))
-    .toList();
-
 // Given a locale, return its flat string name in the expected format
 String localeString(Locale locale) {
   String name = locale.languageCode;
   if (locale.scriptCode != null) name += '_${locale.scriptCode!}';
+  if (locale.countryCode != null) name += '_${locale.countryCode!}';
   return name;
 }
 
 // Given a flat string, parse into a locale
 Locale parseLocaleString(String name) {
   List<String> nameParts = name.split('_');
-  Locale locale = Locale.fromSubtags(
+  String? scriptCode;
+  String? countryCode;
+  if (nameParts.length > 1) {
+    if (nameParts[1].length == 2 &&
+        nameParts[1] == nameParts[1].toUpperCase()) {
+      countryCode = nameParts[1];
+    } else {
+      scriptCode = nameParts[1];
+    }
+  }
+  return Locale.fromSubtags(
     languageCode: nameParts[0],
-    scriptCode: nameParts.length > 1 ? nameParts[1] : null,
+    scriptCode: scriptCode,
+    countryCode: countryCode,
   );
-  return locale;
+}
+
+// Initialize app language options
+Map<String, String> languageOptions = {
+  followSystemLanguage: followSystemLanguage,
+};
+
+// Populate app language options
+Future<void> loadLanguageOptions() async {
+  Map<String, String> unsortedOptions = {};
+
+  for (Locale locale in supportedLocales) {
+    // Load strings map from JSON file in langs folder
+    String jsonString = await rootBundle.loadString(
+      'langs/${localeString(locale)}.json',
+    );
+    Map<String, dynamic> jsonMap = json.decode(jsonString);
+
+    // Add localized name to map
+    unsortedOptions.addAll({
+      localeString(locale):
+          jsonMap[AppString.language_name.name] ?? localeString(locale),
+    });
+  }
+
+  // Set language options, sorted by language name
+  languageOptions.addAll(
+    Map.fromEntries(
+      unsortedOptions.entries.toList()
+        ..sort((a, b) => a.value.compareTo(b.value)),
+    ),
+  );
+}
+
+// Resolve app locale from the device locale
+Locale localeResolutionCallback(
+  Locale? deviceLocale,
+  Iterable<Locale> appLocales,
+) {
+  if (deviceLocale != null) {
+    // Set locale if supported
+    if (appLocales.contains(deviceLocale)) {
+      return deviceLocale;
+    }
+    if (deviceLocale.scriptCode != null) {
+      for (Locale appLocale in appLocales) {
+        if (appLocale.languageCode == deviceLocale.languageCode &&
+            appLocale.scriptCode == deviceLocale.scriptCode) {
+          return appLocale;
+        }
+      }
+    }
+    if (deviceLocale.countryCode != null) {
+      for (Locale appLocale in appLocales) {
+        if (appLocale.languageCode == deviceLocale.languageCode &&
+            appLocale.countryCode == deviceLocale.countryCode) {
+          return appLocale;
+        }
+      }
+    }
+    for (Locale appLocale in appLocales) {
+      if (appLocale.languageCode == deviceLocale.languageCode) {
+        return appLocale;
+      }
+    }
+  }
+
+  // Default if locale not supported
+  return defaultLocale;
 }
 
 class AppLocalizations {
@@ -224,19 +312,16 @@ class AppLocalizations {
     String jsonString =
         await rootBundle.loadString('langs/${localeString(locale)}.json');
     Map<String, dynamic> jsonMap = json.decode(jsonString);
-
-    _localizedStrings = jsonMap.map((key, value) {
-      return MapEntry(key, value.toString());
-    });
+    _localizedStrings =
+        jsonMap.map((key, value) => MapEntry(key, value.toString()));
 
     // Populate default (English) strings map
-    String jsonDefaultString =
-        await rootBundle.loadString('langs/$defaultLanguage.json');
+    String jsonDefaultString = await rootBundle.loadString(
+      'langs/${localeString(defaultLocale)}.json',
+    );
     Map<String, dynamic> jsonDefaultMap = json.decode(jsonDefaultString);
-
-    _defaultStrings = jsonDefaultMap.map((key, value) {
-      return MapEntry(key, value.toString());
-    });
+    _defaultStrings =
+        jsonDefaultMap.map((key, value) => MapEntry(key, value.toString()));
 
     return true;
   }
@@ -255,12 +340,6 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   // Determine if a language is supported
   @override
   bool isSupported(Locale locale) =>
-      supportedLocales.containsKey(
-        Locale.fromSubtags(
-          languageCode: locale.languageCode,
-          scriptCode: locale.scriptCode,
-        ),
-      ) ||
       supportedLanguageCodes.contains(locale.languageCode);
 
   // Load localizations
@@ -283,7 +362,7 @@ class FallbackMaterialLocalizationsDelegate
   // Force defaults for locales not supported by GlobalMaterialLocalizations
   @override
   bool isSupported(Locale locale) =>
-      fallbackLanguages.contains(locale.languageCode);
+      fallbackLanguageCodes.contains(locale.languageCode);
 
   @override
   Future<MaterialLocalizations> load(Locale locale) async =>
@@ -300,7 +379,7 @@ class FallbackCupertinoLocalizationsDelegate
   // Force defaults for locales not supported by CupertinoLocalizations
   @override
   bool isSupported(Locale locale) =>
-      fallbackLanguages.contains(locale.languageCode);
+      fallbackLanguageCodes.contains(locale.languageCode);
 
   @override
   Future<CupertinoLocalizations> load(Locale locale) async =>

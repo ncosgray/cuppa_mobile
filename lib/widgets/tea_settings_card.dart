@@ -19,13 +19,13 @@ import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/local_notifications.dart';
 import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/tea_brew_ratio_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_brew_temp_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_brew_time_dialog.dart';
@@ -53,113 +53,137 @@ class TeaSettingsCard extends StatelessWidget {
 
     return Card(
       margin: bodyPadding,
-      child: ListTile(
-        horizontalTitleGap: layoutPortrait ? 4.0 : 24.0,
-        title: SizedBox(
-          height: layoutPortrait ? 88.0 : 64.0,
-          child: Flex(
-            // Determine layout by device size
-            direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
+      child: SizedBox(
+        height: layoutPortrait ? 96.0 : 64.0,
+        child: Container(
+          padding: listTilePadding,
+          child: Row(
             children: [
-              Flexible(
-                child: Container(
-                  height: 54.0,
-                  padding: noPadding,
-                  child: Row(
-                    children: [
-                      // Favorite status
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: _favoriteButton(context),
-                      ),
-                      smallSpacerWidget,
-                      // Tea name with edit icon
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: _teaNameEditor(context),
+              Expanded(
+                child: Flex(
+                  // Determine layout by device size
+                  direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 54.0,
+                        padding: noPadding,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            // Favorite status
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: _favoriteButton(context),
+                            ),
+                            smallSpacerWidget,
+                            // Tea name with edit icon
+                            Expanded(
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: _teaNameEditor(context),
+                              ),
+                            ),
+                            smallSpacerWidget,
+                            // Tea color selection - alternate layout
+                            Selector<AppProvider, bool>(
+                              selector: (_, provider) => provider.useBrewRatios,
+                              builder: (context, useBrewRatios, child) =>
+                                  Visibility(
+                                visible: useBrewRatios,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: _teaColorSelector(context),
+                                ),
+                              ),
+                            ),
+                            // Extra space for horizontal layout
+                            SizedBox(
+                              width: layoutPortrait ? 0.0 : 24.0,
+                            ),
+                          ],
                         ),
                       ),
-                      smallSpacerWidget,
-                      // Tea color selection - alternate layout
-                      Selector<AppProvider, bool>(
-                        selector: (_, provider) => provider.useBrewRatios,
-                        builder: (context, useBrewRatios, child) => Visibility(
-                          visible: useBrewRatios,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: _teaColorSelector(context),
-                          ),
+                    ),
+                    // Tea settings selection
+                    Expanded(
+                      child: Container(
+                        padding: noPadding,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Brew time
+                            Align(
+                              alignment: layoutPortrait
+                                  ? Alignment.centerLeft
+                                  : Alignment.center,
+                              child: _teaBrewTimeSelector(context),
+                            ),
+                            smallSpacerWidget,
+                            // Brew temperature
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: _teaBrewTempSelector(context),
+                            ),
+                            spacerWidget,
+                            // Brew ratio
+                            Selector<AppProvider, bool>(
+                              selector: (_, provider) => provider.useBrewRatios,
+                              builder: (context, useBrewRatios, child) =>
+                                  Visibility(
+                                visible: useBrewRatios,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      _teaBrewRatioSelector(context),
+                                      smallSpacerWidget,
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // Tea color selection - default layout
+                            Selector<AppProvider, bool>(
+                              selector: (_, provider) => provider.useBrewRatios,
+                              builder: (context, useBrewRatios, child) =>
+                                  Visibility(
+                                visible: !useBrewRatios,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      _teaColorSelector(context),
+                                      smallSpacerWidget,
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // Icon selection
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: _teaIconSelector(context),
+                            ),
+                          ],
                         ),
                       ),
-                      Visibility(
-                        visible: !layoutPortrait,
-                        child: smallSpacerWidget,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              // Tea settings selection
-              Flexible(
-                child: Container(
-                  padding: noPadding,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Brew time
-                      Expanded(
-                        child: Align(
-                          alignment: layoutPortrait
-                              ? Alignment.centerLeft
-                              : Alignment.center,
-                          child: _teaBrewTimeSelector(context),
-                        ),
-                      ),
-                      smallSpacerWidget,
-                      // Brew temperature
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: _teaBrewTempSelector(context),
-                      ),
-                      // Brew ratio
-                      smallSpacerWidget,
-                      Selector<AppProvider, bool>(
-                        selector: (_, provider) => provider.useBrewRatios,
-                        builder: (context, useBrewRatios, child) => Visibility(
-                          visible: useBrewRatios,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: _teaBrewRatioSelector(context),
-                          ),
-                        ),
-                      ),
-                      smallSpacerWidget,
-                      // Tea color selection - default layout
-                      Selector<AppProvider, bool>(
-                        selector: (_, provider) => provider.useBrewRatios,
-                        builder: (context, useBrewRatios, child) => Visibility(
-                          visible: !useBrewRatios,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: _teaColorSelector(context),
-                          ),
-                        ),
-                      ),
-                      smallSpacerWidget,
-                      // Icon selection
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: _teaIconSelector(context),
-                      ),
-                    ],
-                  ),
-                ),
+              smallSpacerWidget,
+              // Extra space for horizontal layout
+              SizedBox(
+                width: layoutPortrait ? 0.0 : 24.0,
               ),
+              // Indicate reorderability
+              dragHandle,
             ],
           ),
         ),
-        trailing: const SizedBox(height: double.infinity, child: dragHandle),
       ),
     );
   }
@@ -342,7 +366,7 @@ class TeaSettingsCard extends StatelessWidget {
           children: <Widget>[
             Text(
               formatTimer(tea.brewTime),
-              style: textStyleSettingSeconday,
+              style: textStyleSettingNumber,
             ),
             dropdownArrow,
           ],
@@ -408,7 +432,7 @@ class TeaSettingsCard extends StatelessWidget {
                 useCelsius:
                     Provider.of<AppProvider>(context, listen: false).useCelsius,
               ),
-              style: textStyleSettingSeconday,
+              style: textStyleSettingNumber,
             ),
             dropdownArrow,
           ],
@@ -463,7 +487,7 @@ class TeaSettingsCard extends StatelessWidget {
           children: <Widget>[
             Text(
               tea.brewRatio.numeratorString,
-              style: textStyleSettingSeconday,
+              style: textStyleSettingNumber,
             ),
             dropdownArrow,
           ],

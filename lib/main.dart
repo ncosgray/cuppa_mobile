@@ -27,6 +27,7 @@ import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:region_settings/region_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 // ignore: depend_on_referenced_packages
@@ -35,15 +36,17 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 void main() async {
+  await initializeApp();
+  runApp(const CuppaApp());
+}
+
+// App initialization
+Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPrefs = await SharedPreferences.getInstance();
   packageInfo = await PackageInfo.fromPlatform();
-
-  // Set metric locale based on country code
-  if ((WidgetsBinding.instance.platformDispatcher.locale.countryCode ?? '') ==
-      'US') {
-    isLocaleMetric = false;
-  }
+  regionSettings = await RegionSettings.getSettings();
+  await loadLanguageOptions();
 
   // Get time zone
   tz.initializeTimeZones();
@@ -52,8 +55,6 @@ void main() async {
 
   // Initialize notifications plugin
   await initializeNotifications();
-
-  runApp(const CuppaApp());
 }
 
 // Create the app
@@ -62,9 +63,6 @@ class CuppaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get platform
-    appPlatform = Theme.of(context).platform;
-
     return ChangeNotifierProvider(
       create: (_) => AppProvider(),
       child: Selector<AppProvider, ({AppTheme appTheme, String appLanguage})>(
@@ -84,9 +82,7 @@ class CuppaApp extends StatelessWidget {
                 builder: (context, child) {
                   return ShowCaseWidget(
                     autoPlay: false,
-                    builder: Builder(
-                      builder: (context) => child!,
-                    ),
+                    builder: (context) => child!,
                   );
                 },
                 title: appName,
@@ -107,7 +103,7 @@ class CuppaApp extends StatelessWidget {
                 locale: appLanguage != followSystemLanguage
                     ? parseLocaleString(appLanguage)
                     : null,
-                supportedLocales: supportedLocales.keys,
+                supportedLocales: supportedLocales,
                 localizationsDelegates: const [
                   AppLocalizationsDelegate(),
                   GlobalMaterialLocalizations.delegate,
@@ -116,27 +112,7 @@ class CuppaApp extends StatelessWidget {
                   FallbackMaterialLocalizationsDelegate(),
                   FallbackCupertinoLocalizationsDelegate(),
                 ],
-                localeResolutionCallback: (locale, supportedLocales) {
-                  if (locale != null) {
-                    // Set locale if supported
-                    for (Locale supportedLocale in supportedLocales) {
-                      if (supportedLocale.languageCode == locale.languageCode &&
-                          supportedLocale.scriptCode == locale.scriptCode) {
-                        return supportedLocale;
-                      }
-                    }
-                    for (Locale supportedLocale in supportedLocales) {
-                      if (supportedLocale.languageCode == locale.languageCode) {
-                        return supportedLocale;
-                      }
-                    }
-                  }
-
-                  // Default if locale not supported
-                  return const Locale.fromSubtags(
-                    languageCode: defaultLanguage,
-                  );
-                },
+                localeResolutionCallback: localeResolutionCallback,
               );
             },
           );

@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/list_tiles.dart';
 import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/export.dart';
@@ -27,7 +28,6 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/pages/stats_page.dart';
 import 'package:cuppa_mobile/widgets/page_header.dart';
-import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'package:flutter/material.dart';
@@ -46,6 +46,8 @@ class AboutWidget extends StatelessWidget {
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
         title: AppString.about_title.translate(),
+        buttonTextDone: AppString.done_button.translate(),
+        previousPageTitle: AppString.prefs_title.translate(),
       ),
       body: SafeArea(
         child: CustomScrollView(
@@ -264,7 +266,7 @@ class AboutWidget extends StatelessWidget {
   Widget _aboutText() {
     return InkWell(
       child: Container(
-        padding: listTilePadding,
+        padding: bottomSliverPadding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,

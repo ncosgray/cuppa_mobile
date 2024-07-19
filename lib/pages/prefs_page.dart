@@ -19,6 +19,7 @@ import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/list_tiles.dart';
 import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -28,17 +29,31 @@ import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/pages/about_page.dart';
 import 'package:cuppa_mobile/pages/stats_page.dart';
 import 'package:cuppa_mobile/widgets/page_header.dart';
-import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
 
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sliver_tools/sliver_tools.dart';
+import 'package:transitioned_indexed_stack/transitioned_indexed_stack.dart';
 
 // Cuppa Preferences page
-class PrefsWidget extends StatelessWidget {
-  const PrefsWidget({super.key});
+class PrefsWidget extends StatefulWidget {
+  const PrefsWidget({
+    super.key,
+    this.launchAddTea = false,
+  });
+
+  final bool launchAddTea;
+
+  @override
+  State<PrefsWidget> createState() => _PrefsWidgetState();
+}
+
+class _PrefsWidgetState extends State<PrefsWidget> {
+  // Navigation state
+  int _navIndex = 0;
+  bool _navInitial = true;
+  bool _navSlideBack = false;
 
   // Build Prefs page
   @override
@@ -52,6 +67,7 @@ class PrefsWidget extends StatelessWidget {
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
         title: AppString.prefs_title.translate(),
+        buttonTextDone: AppString.done_button.translate(),
         // Button to navigate to About page
         actionIcon: getPlatformAboutIcon(),
         actionRoute: const AboutWidget(),
@@ -62,44 +78,64 @@ class PrefsWidget extends StatelessWidget {
             provider.collectStats ? const StatsWidget() : null,
       ),
       body: SafeArea(
-        child: Row(
-          children: [
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  // Tea settings
-                  const TeaSettingsList(),
-                  const SliverToBoxAdapter(child: smallSpacerWidget),
-                  // Other settings inline
-                  SliverOffstage(
-                    offstage: layoutColumns,
-                    sliver: _otherSettingsList(context),
+        child: layoutColumns
+            // Arrange Teas and Settings in two columns for large screens
+            ? Row(
+                children: [
+                  Expanded(
+                    child: TeaSettingsList(launchAddTea: widget.launchAddTea),
+                  ),
+                  Expanded(
+                    child: _otherSettingsList(context),
                   ),
                 ],
+              )
+            // Use bottom nav bar with widget stack on small screens
+            : SlideIndexedStack(
+                duration: shortAnimationDuration,
+                beginSlideOffset: _navInitial
+                    // Do not transition on first build
+                    ? Offset.zero
+                    // Determine transition direction
+                    : _navSlideBack
+                        ? const Offset(-1.0, 0.0)
+                        : const Offset(1.0, 0.0),
+                endSlideOffset: Offset.zero,
+                index: _navIndex,
+                children: [
+                  TeaSettingsList(launchAddTea: widget.launchAddTea),
+                  _otherSettingsList(context),
+                ],
               ),
-            ),
-            // Other settings in second column
-            Visibility(
-              visible: layoutColumns,
-              child: Expanded(
-                child: CustomScrollView(
-                  slivers: [
-                    _otherSettingsList(context),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
+      bottomNavigationBar: layoutColumns
+          ? null
+          // Navigate between Teas and Settings
+          : PlatformAdaptiveBottomNavBar(
+              currentIndex: _navIndex,
+              onTap: (index) => setState(() {
+                _navInitial = false;
+                _navSlideBack = index < _navIndex;
+                _navIndex = index;
+              }),
+              items: [
+                BottomNavigationBarItem(
+                  icon: navBarTeasIcon,
+                  label: AppString.teas_title.translate(),
+                ),
+                BottomNavigationBarItem(
+                  icon: navBarSettingsIcon,
+                  label: AppString.settings_title.translate(),
+                ),
+              ],
+            ),
     );
   }
 
   // List of other settings with pinned header
   Widget _otherSettingsList(BuildContext context) {
-    return MultiSliver(
-      pushPinnedChildren: true,
-      children: [
+    return CustomScrollView(
+      slivers: [
         pageHeader(
           context,
           title: AppString.settings_title.translate(),
@@ -153,6 +189,7 @@ class PrefsWidget extends StatelessWidget {
             ],
           ),
         ),
+        const SliverToBoxAdapter(child: smallSpacerWidget),
       ],
     );
   }
@@ -329,12 +366,10 @@ class PrefsWidget extends StatelessWidget {
     return settingList(
       context,
       title: AppString.prefs_language.translate(),
-      selectedItem: provider.appLanguage != followSystemLanguage &&
-              supportedLocales
-                  .containsKey(parseLocaleString(provider.appLanguage))
-          ? supportedLocales[parseLocaleString(provider.appLanguage)]!
-          : AppString.theme_system.translate(),
-      itemList: languageOptions,
+      selectedItem: provider.appLanguage == followSystemLanguage
+          ? AppString.theme_system.translate()
+          : languageOptions[provider.appLanguage] ?? provider.appLanguage,
+      itemList: languageOptions.keys.toList(),
       itemBuilder: _appLanguageItem,
     );
   }
@@ -342,15 +377,14 @@ class PrefsWidget extends StatelessWidget {
   // App language option
   Widget _appLanguageItem(BuildContext context, int index) {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-    String value = languageOptions[index];
+    String value = languageOptions.keys.elementAt(index);
 
     return settingListItem(
       context,
       // Language name
-      title: value != followSystemLanguage &&
-              supportedLocales.containsKey(parseLocaleString(value))
-          ? supportedLocales[parseLocaleString(value)]!
-          : AppString.theme_system.translate(),
+      title: value == followSystemLanguage
+          ? AppString.theme_system.translate()
+          : languageOptions[value] ?? value,
       value: value,
       groupValue: provider.appLanguage,
       // Save appLanguage to prefs

@@ -15,8 +15,8 @@
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
-import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
 
 import 'package:flutter/material.dart';
 
@@ -291,7 +291,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
                     padTime
                         ? timeValues[index].toString().padLeft(2, '0')
                         : timeValues[index].toString(),
-                    style: textStyleSettingSeconday,
+                    style: textStyleSettingNumber,
                   ),
                 );
               },

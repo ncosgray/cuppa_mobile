@@ -21,6 +21,7 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 // Widget defining a tea brew start button
@@ -34,11 +35,12 @@ class TeaButton extends StatelessWidget {
 
   final Tea tea;
   final bool fade;
-  final ValueChanged<bool>? onPressed;
+  final Function()? onPressed;
 
   void _handleTap() {
     if (onPressed != null) {
-      onPressed!(!tea.isActive);
+      HapticFeedback.lightImpact();
+      onPressed!();
     }
   }
 
@@ -61,8 +63,8 @@ class TeaButton extends StatelessWidget {
               duration: longAnimationDuration,
               child: Container(
                 constraints: const BoxConstraints(
-                  minHeight: 106.0,
-                  minWidth: 88.0,
+                  minHeight: teaButtonHeight,
+                  minWidth: teaButtonWidth,
                 ),
                 margin: largeDefaultPadding,
                 // Timer icon with tea name
@@ -71,13 +73,13 @@ class TeaButton extends StatelessWidget {
                   children: [
                     Icon(
                       tea.teaIcon,
-                      color: tea.isActive ? activeColor : tea.getColor(),
+                      color: tea.isActive ? timerActiveColor : tea.getColor(),
                       size: 64.0,
                     ),
                     Text(
-                      tea.buttonName,
+                      tea.name,
                       style: textStyleButton.copyWith(
-                        color: tea.isActive ? activeColor : tea.getColor(),
+                        color: tea.isActive ? timerActiveColor : tea.getColor(),
                       ),
                     ),
                     // Optional extra info: brew time, temp, and ratio display
@@ -97,9 +99,9 @@ class TeaButton extends StatelessWidget {
                                   padding: rowPadding,
                                   child: Text(
                                     formatTimer(tea.brewTime),
-                                    style: textStyleButtonSecondary.copyWith(
+                                    style: textStyleButtonTertiary.copyWith(
                                       color: tea.isActive
-                                          ? activeColor
+                                          ? timerActiveColor
                                           : tea.getColor(),
                                     ),
                                   ),
@@ -116,9 +118,9 @@ class TeaButton extends StatelessWidget {
                                           listen: false,
                                         ).useCelsius,
                                       ),
-                                      style: textStyleButtonSecondary.copyWith(
+                                      style: textStyleButtonTertiary.copyWith(
                                         color: tea.isActive
-                                            ? activeColor
+                                            ? timerActiveColor
                                             : tea.getColor(),
                                       ),
                                     ),
@@ -136,9 +138,9 @@ class TeaButton extends StatelessWidget {
                                   padding: rowPadding,
                                   child: Text(
                                     tea.brewRatio.ratioString,
-                                    style: textStyleButtonSecondary.copyWith(
+                                    style: textStyleButtonTertiary.copyWith(
                                       color: tea.isActive
-                                          ? activeColor
+                                          ? timerActiveColor
                                           : tea.getColor(),
                                     ),
                                   ),

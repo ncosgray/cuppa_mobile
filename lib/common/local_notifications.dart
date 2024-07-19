@@ -14,9 +14,9 @@
 
 import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
-import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 
+import 'dart:io' show Platform;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/foundation.dart';
 // ignore: depend_on_referenced_packages
@@ -65,7 +65,7 @@ Future<void> sendNotification(
       tz.TZDateTime.now(tz.local).add(Duration(seconds: secs));
 
   // Request notification permissions
-  if (appPlatform == TargetPlatform.iOS) {
+  if (Platform.isIOS) {
     await notify
         .resolvePlatformSpecificImplementation<
             IOSFlutterLocalNotificationsPlugin>()
@@ -82,7 +82,7 @@ Future<void> sendNotification(
   }
 
   // Cancel existing notification if channel needs to be changed (Android only)
-  if (appPlatform == TargetPlatform.android) {
+  if (Platform.isAndroid) {
     List<PendingNotificationRequest> pendingNotifications =
         await notify.pendingNotificationRequests();
     for (PendingNotificationRequest notification in pendingNotifications) {
@@ -109,7 +109,7 @@ Future<void> sendNotification(
       channelShowBadge: true,
       showWhen: true,
       enableLights: true,
-      color: timerBackgroundColor,
+      color: notifyColor,
       enableVibration: true,
       vibrationPattern: notifyVibratePattern,
       playSound: !silent,

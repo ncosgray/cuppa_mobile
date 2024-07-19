@@ -60,7 +60,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
       AppProvider provider = Provider.of<AppProvider>(context, listen: false);
 
       // Set default brew temp units based on locale
-      provider.useCelsius = Prefs.loadUseCelsius() ?? isLocaleMetric;
+      provider.useCelsius = Prefs.loadUseCelsius() ?? deviceUsesCelsius();
 
       // Add default presets if no custom teas have been set
       if (provider.teaCount == 0 && !Prefs.teaPrefsExist()) {
@@ -175,19 +175,19 @@ class _TeaButtonListState extends State<TeaButtonList> {
           tea: tea,
           fade: !(activeTimerCount < timersMaxCount || tea.isActive),
           onPressed: activeTimerCount < timersMaxCount && !tea.isActive
-              ? (_) => _setTimer(tea)
+              ? () => _setTimer(tea)
               : null,
         ),
         // Cancel brewing button
         Container(
           constraints: const BoxConstraints(
-            minHeight: 34.0,
+            minHeight: cancelButtonHeight,
           ),
           child: Visibility(
             visible: tea.isActive,
-            child: CancelButton(
-              active: tea.isActive,
-              onPressed: (_) => _cancelTimerForTea(tea),
+            child: cancelButton(
+              color: Theme.of(context).colorScheme.error,
+              onPressed: () => _cancelTimerForTea(tea),
             ),
           ),
         ),
@@ -197,32 +197,46 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
   // Add button linking to Prefs page
   Widget _addButton() {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      margin: largeDefaultPadding,
-      child: InkWell(
-        onTap: () => Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => const PrefsWidget())),
-        child: Container(
-          constraints: const BoxConstraints(
-            minHeight: 106.0,
-            minWidth: 88.0,
-          ),
+    return Column(
+      children: [
+        // Add tea button
+        Card(
+          clipBehavior: Clip.antiAlias,
           margin: largeDefaultPadding,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                AppString.teas_title.translate(),
-                style: textStyleButton.copyWith(
-                  color: Theme.of(context).colorScheme.error,
-                ),
+          child: InkWell(
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const PrefsWidget(launchAddTea: true),
               ),
-              navigateIcon(color: Theme.of(context).colorScheme.error),
-            ],
+            ),
+            child: Container(
+              constraints: const BoxConstraints(
+                minHeight: teaButtonHeight,
+                minWidth: teaButtonWidth,
+              ),
+              margin: largeDefaultPadding,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    AppString.add_tea_button.translate(),
+                    style: textStyleButton.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                  navigateIcon(color: Theme.of(context).colorScheme.error),
+                ],
+              ),
+            ),
           ),
         ),
-      ),
+        // Placeholder to align with tea button layout
+        Container(
+          constraints: const BoxConstraints(
+            minHeight: cancelButtonHeight,
+          ),
+        ),
+      ],
     );
   }
 
@@ -289,6 +303,9 @@ class _TeaButtonListState extends State<TeaButtonList> {
         Scrollable.ensureVisible(target);
       }
     }
+
+    // Check if we should prompt for a review
+    checkReviewPrompt();
   }
 
   // Cancel a timer

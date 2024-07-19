@@ -18,6 +18,7 @@ import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
 
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 
 // Tea definition
@@ -151,7 +152,7 @@ class Tea {
 
   // Quick action shortcut icons based on color and tea icon
   get shortcutIcon {
-    if (appPlatform == TargetPlatform.iOS) {
+    if (Platform.isIOS) {
       switch (icon) {
         case TeaIcon.cup:
           return shortcutIconIOSCup;
@@ -421,3 +422,13 @@ enum TeaIcon {
     }
   }
 }
+
+// Dummy tea for prototype items
+final Tea dummyTea = Tea(
+  name: unknownString * teaNameMaxLength,
+  brewTime: defaultBrewTime,
+  brewTemp: boilDegreesC,
+  brewRatio: BrewRatio(),
+  isFavorite: false,
+  isActive: false,
+);

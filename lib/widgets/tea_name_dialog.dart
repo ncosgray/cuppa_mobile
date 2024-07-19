@@ -13,7 +13,7 @@
 // Cuppa tea name entry dialog
 
 import 'package:cuppa_mobile/common/colors.dart';
-import 'package:cuppa_mobile/widgets/platform_adaptive.dart';
+import 'package:cuppa_mobile/common/platform_adaptive.dart';
 
 import 'package:flutter/material.dart';
 

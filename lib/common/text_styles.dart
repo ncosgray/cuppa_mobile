@@ -17,7 +17,7 @@ import 'package:cuppa_mobile/common/colors.dart';
 import 'package:flutter/material.dart';
 
 const TextStyle textStyleNavBar = TextStyle(
-  fontSize: 20.0,
+  fontSize: 18.0,
 );
 
 const TextStyle textStyleHeader = TextStyle(
@@ -46,12 +46,17 @@ const TextStyle textStyleFooterLink = TextStyle(
 );
 
 const TextStyle textStyleButton = TextStyle(
-  fontSize: 15.0,
+  fontSize: 18.0,
   fontWeight: FontWeight.bold,
 );
 
 const TextStyle textStyleButtonSecondary = TextStyle(
-  fontSize: 13.0,
+  fontSize: 16.0,
+  fontWeight: FontWeight.bold,
+);
+
+const TextStyle textStyleButtonTertiary = TextStyle(
+  fontSize: 14.0,
   fontWeight: FontWeight.bold,
 );
 
@@ -74,15 +79,19 @@ const TextStyle textStyleSetting = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
-const TextStyle textStyleSettingSeconday = TextStyle(
+const TextStyle textStyleSettingNumber = TextStyle(
   fontSize: 16.0,
   fontFeatures: [
     FontFeature.tabularFigures(),
   ],
 );
 
+const TextStyle textStyleSettingSecondary = TextStyle(
+  fontSize: 16.0,
+);
+
 const TextStyle textStyleSettingTertiary = TextStyle(
-  fontSize: 15.0,
+  fontSize: 14.0,
 );
 
 const TextStyle textStyleTutorial = TextStyle(
@@ -101,8 +110,4 @@ const TextStyle textStyleStat = TextStyle(
 
 const TextStyle textStyleStatLabel = TextStyle(
   fontSize: 16.0,
-);
-
-const TextStyle textStyleStatOption = TextStyle(
-  fontSize: 14.0,
 );

@@ -37,7 +37,7 @@ Widget miniTeaButton({
           margin: largeDefaultPadding,
           child: Icon(
             icon,
-            color: isActive ? activeColor : color,
+            color: isActive ? timerActiveColor : color,
             size: 28.0,
           ),
         ),
