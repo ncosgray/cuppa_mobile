@@ -1,0 +1,5 @@
+* Cumasaigh cóimheasa brew chun cabhrú le do thae a thomhas go cruinn!
+* Ligeann cnaipe balbhaithe duit fógra lasc ama a chur ina thost.
+* Cuir sonraí le haghaidh tae atá ag grúdaireacht faoi láthair in eagar.
+* Tweaks inúsáidteachta éagsúla agus ceartúcháin bheaga fabhtanna.
+* Nuashonruithe aistriúcháin teanga - rannchuidigh trí Weblate!
