@@ -1,0 +1,5 @@
+* Tá Téama Dorcha Dubh Pure roghnach anois.
+* Cuireadh cnaipe leis chun gach tae a bhaint.
+* Deisigh fabht a d’fhág gur thosaigh aicearraí gan choinne.
+* Tweaks Inúsáidteachta agus comhéadan.
+* Nuashonruithe aistriúcháin teanga - rannchuidigh trí Weblate!

@@ -1,0 +1,3 @@
+* Déanann Easpórtáil / allmhairiú sé simplí do shonraí Cuppa a chóipeáil ar ghléas eile.
+* Tweaks inúsáidteachta agus comhéadan éagsúla.
+* Nuashonruithe aistriúcháin teanga - rannchuidigh trí Weblate!

@@ -1,0 +1,5 @@
+* Glac le stats úsáide chun rochtain a fháil ar chairt spraoi a thaispeánann do nósanna óil tae!
+* Beartas príobháideachta nuashonraithe le haghaidh bailiú staitisticí.
+* Scálú níos fearr do chlómhéideanna córais mhóra.
+* Tweaks inúsáidteachta agus comhéadan éagsúla.
+* Cuireadh aistriúchán Lucsambuirgis leis, agus nuashonruithe aistriúcháin eile - rannchuidigh trí Weblate!

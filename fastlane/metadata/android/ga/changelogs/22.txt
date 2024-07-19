@@ -1,0 +1,5 @@
+* Áirítear stampa ama ar fhógraí lasc ama anois.
+* Cuireadh leathanach "About" leis.
+* Is féidir roinnt socruithe a athrú anois agus an t-amadóir gníomhach.
+* Tweaks Inúsáidteachta agus comhéadan.
+* Ar fáil i 7 dteanga nua - cuir tuilleadh le Weblate!

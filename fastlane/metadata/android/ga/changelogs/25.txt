@@ -1,0 +1,4 @@
+* Modh tírdhreacha nua le haghaidh fóin.
+* Scálú níos fearr le socruithe inrochtaineachta gléas.
+* Tweaks Inúsáidteachta agus comhéadan.
+* Nuashonruithe aistriúcháin teanga - rannchuidigh trí Weblate!

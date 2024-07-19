@@ -1,0 +1,4 @@
+* Fuaim fógra níos airde.
+* Rogha nua: roghnaigh do rogha teanga.
+* Tweaks Inúsáidteachta agus comhéadan.
+* Nuashonruithe aistriúcháin teanga - rannchuidigh trí Weblate!

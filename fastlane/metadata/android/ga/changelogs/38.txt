@@ -1,0 +1,5 @@
+* Tairgeann roghnóir dathanna nua-athdheartha an iliomad roghanna dathanna tae!
+* D’éirigh le fabht a d’fhág go raibh dialóg na n-ainmneacha tae dofheicthe i gcásanna áirithe.
+* Ag luí le ceadanna nua Android 14.
+* Tweaks inúsáidteachta agus comhéadan éagsúla.
+* Cuireadh aistriúchán Seapáinise, agus nuashonruithe aistriúcháin eile leis - rannchuidigh trí Weblate!
