@@ -19,7 +19,7 @@ version: 2.7.1+46
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
-  flutter: ^3.22.0
+  flutter: ^3.22.3
 
 dependencies:
   app_settings: ^5.1.1
