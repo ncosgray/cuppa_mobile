@@ -41,3 +41,6 @@ PackageInfo packageInfo = PackageInfo(
 
 // Quick actions
 const QuickActions quickActions = QuickActions();
+
+// App store review prompt
+Function checkReviewPrompt = () {};
