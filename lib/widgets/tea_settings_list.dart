@@ -64,13 +64,12 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   // Build tea settings list
   @override
   Widget build(BuildContext context) {
+    // Process request to show Add Tea dialog
+    int teaCount = Provider.of<AppProvider>(context, listen: false).teaCount;
     Future.delayed(
       Duration.zero,
       () {
-        AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-
-        // Process request to show Add Tea dialog
-        if (_launchAddTea && provider.teaCount < teasMaxCount) {
+        if (_launchAddTea && teaCount < teasMaxCount) {
           _openAddTeaDialog();
         }
         _launchAddTea = false;
