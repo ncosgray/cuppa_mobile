@@ -103,19 +103,29 @@ Widget settingListItem(
   required String title,
   required dynamic value,
   required dynamic groupValue,
-  required Function(dynamic)? onChanged,
+  required Function() onChanged,
 }) {
-  return RadioListTile.adaptive(
-    contentPadding: radioTilePadding,
-    dense: true,
-    useCupertinoCheckmarkStyle: true,
-    title: Text(
-      title,
-      style: textStyleTitle,
+  return adaptiveSelectListAction(
+    action: RadioListTile.adaptive(
+      contentPadding: radioTilePadding,
+      dense: true,
+      useCupertinoCheckmarkStyle: true,
+      fillColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.selected)
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).listTileTheme.iconColor,
+      ),
+      title: Text(
+        title,
+        style: textStyleTitle.copyWith(
+          color: Theme.of(context).textTheme.bodyLarge!.color!,
+        ),
+      ),
+      value: value,
+      groupValue: groupValue,
+      onChanged: null, // Handled by select list action tap
     ),
-    value: value,
-    groupValue: groupValue,
-    onChanged: onChanged,
+    onTap: onChanged,
   );
 }
 

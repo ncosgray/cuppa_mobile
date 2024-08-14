@@ -151,12 +151,14 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   Widget _sortByOption(BuildContext context, int index) {
     SortBy value = SortBy.values.elementAt(index);
 
-    return ListTile(
-      dense: true,
-      // Sorting type
-      title: Text(
-        value.localizedName,
-        style: textStyleTitle,
+    return adaptiveSelectListAction(
+      action: ListTile(
+        dense: true,
+        // Sorting type
+        title: Text(
+          value.localizedName,
+          style: textStyleTitle,
+        ),
       ),
       onTap: () {
         // Apply new sorting and animate the tea settings list
@@ -332,68 +334,70 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
     Preset preset = Presets.presetList[index];
     Color presetColor = preset.getColor();
 
-    return ListTile(
-      contentPadding: noPadding,
-      // Preset tea icon
-      leading: SizedBox.square(
-        dimension: 48.0,
-        child: preset.isCustom
-            ? customPresetIcon(color: presetColor)
-            : Icon(
-                preset.getIcon(),
+    return adaptiveSelectListAction(
+      action: ListTile(
+        contentPadding: noPadding,
+        // Preset tea icon
+        leading: SizedBox.square(
+          dimension: 48.0,
+          child: preset.isCustom
+              ? customPresetIcon(color: presetColor)
+              : Icon(
+                  preset.getIcon(),
+                  color: presetColor,
+                  size: 24.0,
+                ),
+        ),
+        // Preset tea brew time, temperature, and ratio
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              preset.localizedName,
+              style: textStyleSetting.copyWith(
                 color: presetColor,
-                size: 24.0,
               ),
-      ),
-      // Preset tea brew time, temperature, and ratio
-      title: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            preset.localizedName,
-            style: textStyleSetting.copyWith(
-              color: presetColor,
             ),
-          ),
-          Container(
-            child: preset.isCustom
-                ? null
-                : Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        formatTimer(preset.brewTime),
-                        style: textStyleSettingNumber.copyWith(
-                          color: presetColor,
-                        ),
-                      ),
-                      Visibility(
-                        visible: preset.brewTempDegreesC > roomTemp,
-                        child: spacerWidget,
-                      ),
-                      Visibility(
-                        visible: preset.brewTempDegreesC > roomTemp,
-                        child: Text(
-                          preset.tempDisplay(provider.useCelsius),
+            Container(
+              child: preset.isCustom
+                  ? null
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          formatTimer(preset.brewTime),
                           style: textStyleSettingNumber.copyWith(
                             color: presetColor,
                           ),
                         ),
-                      ),
-                      spacerWidget,
-                      Text(
-                        preset.ratioDisplay(provider.useCelsius),
-                        style: textStyleSettingNumber.copyWith(
-                          color: presetColor,
+                        Visibility(
+                          visible: preset.brewTempDegreesC > roomTemp,
+                          child: spacerWidget,
                         ),
-                      ),
-                    ],
-                  ),
-          ),
-        ],
+                        Visibility(
+                          visible: preset.brewTempDegreesC > roomTemp,
+                          child: Text(
+                            preset.tempDisplay(provider.useCelsius),
+                            style: textStyleSettingNumber.copyWith(
+                              color: presetColor,
+                            ),
+                          ),
+                        ),
+                        spacerWidget,
+                        Text(
+                          preset.ratioDisplay(provider.useCelsius),
+                          style: textStyleSettingNumber.copyWith(
+                            color: presetColor,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
+          ],
+        ),
       ),
       // Add selected tea
       onTap: () {

@@ -352,7 +352,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
       value: value,
       groupValue: provider.appTheme,
       // Save appTheme to prefs
-      onChanged: (_) {
+      onChanged: () {
         provider.appTheme = value;
         Navigator.of(context).pop(true);
       },
@@ -388,7 +388,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
       value: value,
       groupValue: provider.appLanguage,
       // Save appLanguage to prefs
-      onChanged: (_) {
+      onChanged: () {
         provider.appLanguage = value;
         Navigator.of(context).pop(true);
       },

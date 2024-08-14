@@ -82,6 +82,24 @@ Widget adaptiveNavBarActionButton({
   }
 }
 
+// Select list action appropriate to platform
+Widget adaptiveSelectListAction({
+  required Widget action,
+  required Function() onTap,
+}) {
+  if (Platform.isIOS) {
+    return CupertinoActionSheetAction(
+      onPressed: onTap,
+      child: action,
+    );
+  } else {
+    return GestureDetector(
+      onTap: onTap,
+      child: action,
+    );
+  }
+}
+
 // Dialog action button appropriate to platform
 Widget adaptiveDialogAction({
   bool isDefaultAction = false,
@@ -461,12 +479,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
             actions: itemList
                 .asMap()
                 .entries
-                .map(
-                  (item) => CupertinoActionSheetAction(
-                    child: itemBuilder(context, item.key),
-                    onPressed: () {}, // Tap handled by itemBuilder
-                  ),
-                )
+                .map((item) => itemBuilder(context, item.key))
                 .toList(),
             // Cancel button
             cancelButton: CupertinoActionSheetAction(
