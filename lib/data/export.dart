@@ -14,6 +14,7 @@
 // - Export and import tea list, settings, and usage stats
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -40,6 +41,7 @@ abstract class Export {
       // Create the export dataset
       String exportData = ExportFile(
         settings: Settings(
+          nextTeaID: nextTeaID,
           showExtra: provider.showExtra,
           hideIncrements: provider.hideIncrements,
           silentDefault: provider.silentDefault,
@@ -94,6 +96,10 @@ abstract class Export {
 
         // Apply imported settings, replacing existing
         if (exportData.settings != null) {
+          if (exportData.settings!.nextTeaID != null) {
+            nextTeaID = exportData.settings!.nextTeaID!;
+          }
+
           if (exportData.settings!.showExtra != null) {
             provider.showExtra = exportData.settings!.showExtra!;
           }
@@ -199,6 +205,7 @@ class ExportFile {
 
 // Settings export/import class
 class Settings {
+  int? nextTeaID;
   bool? showExtra;
   bool? hideIncrements;
   bool? silentDefault;
@@ -211,6 +218,7 @@ class Settings {
 
   // Constructor
   Settings({
+    this.nextTeaID,
     this.showExtra,
     this.hideIncrements,
     this.silentDefault,
@@ -225,6 +233,7 @@ class Settings {
   // Factories
   factory Settings.fromJson(Map<String, dynamic> json) {
     return Settings(
+      nextTeaID: tryCast<int>(json[jsonKeyNextTeaID]),
       showExtra: tryCast<bool>(json[jsonKeyShowExtra]),
       hideIncrements: tryCast<bool>(json[jsonKeyHideIncrements]),
       silentDefault: tryCast<bool>(json[jsonKeySilentDefault]),
@@ -238,6 +247,7 @@ class Settings {
   }
 
   Map<String, dynamic> toJson() => {
+        jsonKeyNextTeaID: nextTeaID,
         jsonKeyShowExtra: showExtra,
         jsonKeyHideIncrements: hideIncrements,
         jsonKeySilentDefault: silentDefault,

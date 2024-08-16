@@ -168,6 +168,7 @@ const prefReviewPromptCounter = 'Cuppa_review_prompt_counter';
 
 // JSON keys
 const jsonKeySettings = 'settings';
+const jsonKeyNextTeaID = 'nextTeaID';
 const jsonKeyShowExtra = 'showExtra';
 const jsonKeyHideIncrements = 'hideIncrements';
 const jsonKeySilentDefault = 'silentDefault';
