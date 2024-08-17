@@ -84,7 +84,7 @@ class BrewRatio {
   }
 
   String get ratioString {
-    return '$numeratorString / $denominatorString';
+    return _ratioNumerator == 0 ? '' : '$numeratorString / $denominatorString';
   }
 
   // Setters
