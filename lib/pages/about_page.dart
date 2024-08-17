@@ -221,7 +221,7 @@ class AboutWidget extends StatelessWidget {
               sharePositionOrigin: sharePositionOrigin,
             ).then(
               (exported) {
-                if (!exported) {
+                if (!exported && context.mounted) {
                   showInfoDialog(
                     context: context,
                     message: AppString.export_failure.translate(),
@@ -250,12 +250,16 @@ class AboutWidget extends StatelessWidget {
         )) {
           // Attempt to load an export file and report the result
           Export.load(provider).then(
-            (imported) => showInfoDialog(
-              context: context,
-              message: imported
-                  ? AppString.import_sucess.translate()
-                  : AppString.import_failure.translate(),
-            ),
+            (imported) {
+              if (context.mounted) {
+                showInfoDialog(
+                  context: context,
+                  message: imported
+                      ? AppString.import_sucess.translate()
+                      : AppString.import_failure.translate(),
+                );
+              }
+            },
           );
         }
       },

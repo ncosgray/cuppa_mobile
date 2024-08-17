@@ -72,12 +72,36 @@ Widget adaptiveNavBarActionButton({
     return CupertinoButton(
       padding: noPadding,
       onPressed: onPressed,
-      child: icon,
+      child: SizedBox(
+        height: 24.0,
+        width: 24.0,
+        child: FittedBox(
+          child: icon,
+        ),
+      ),
     );
   } else {
     return IconButton(
       icon: icon,
       onPressed: onPressed,
+    );
+  }
+}
+
+// Select list action appropriate to platform
+Widget adaptiveSelectListAction({
+  required Widget action,
+  required Function() onTap,
+}) {
+  if (Platform.isIOS) {
+    return CupertinoActionSheetAction(
+      onPressed: onTap,
+      child: action,
+    );
+  } else {
+    return GestureDetector(
+      onTap: onTap,
+      child: action,
     );
   }
 }
@@ -461,12 +485,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
             actions: itemList
                 .asMap()
                 .entries
-                .map(
-                  (item) => CupertinoActionSheetAction(
-                    child: itemBuilder(context, item.key),
-                    onPressed: () {}, // Tap handled by itemBuilder
-                  ),
-                )
+                .map((item) => itemBuilder(context, item.key))
                 .toList(),
             // Cancel button
             cancelButton: CupertinoActionSheetAction(

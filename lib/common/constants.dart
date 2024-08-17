@@ -64,7 +64,7 @@ const roomTempDegreesC = 20;
 const roomTempDegreesF = 68;
 
 // Brewing ratios
-const double brewRatioNumeratorMin = 0.5;
+const double brewRatioNumeratorMin = 0.0;
 const double brewRatioNumeratorMax = 20.0;
 const double brewRatioNumeratorStep = 0.5;
 
@@ -168,6 +168,7 @@ const prefReviewPromptCounter = 'Cuppa_review_prompt_counter';
 
 // JSON keys
 const jsonKeySettings = 'settings';
+const jsonKeyNextTeaID = 'nextTeaID';
 const jsonKeyShowExtra = 'showExtra';
 const jsonKeyHideIncrements = 'hideIncrements';
 const jsonKeySilentDefault = 'silentDefault';

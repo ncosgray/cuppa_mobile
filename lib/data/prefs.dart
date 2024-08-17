@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'dart:convert';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 // Shared prefs functionality
@@ -134,6 +135,12 @@ abstract class Prefs {
     List<String> teaListEncoded =
         teaList.map((tea) => jsonEncode(tea.toJson())).toList();
     sharedPrefs.setStringList(prefTeaList, teaListEncoded);
+
+    // Ensure next tea ID is valid
+    int maxTeaID = maxBy(teaList, (tea) => tea.id)?.id ?? -1;
+    if (nextTeaID <= maxTeaID) {
+      nextTeaID = maxTeaID + 1;
+    }
     sharedPrefs.setInt(prefNextTeaID, nextTeaID);
   }
 

@@ -151,8 +151,9 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
             value: _newRatio.ratioNumerator,
             min: brewRatioNumeratorMin,
             max: brewRatioNumeratorMax,
-            divisions:
-                (brewRatioNumeratorMax / brewRatioNumeratorMin).round() - 1,
+            divisions: ((brewRatioNumeratorMax - brewRatioNumeratorMin) /
+                    brewRatioNumeratorStep)
+                .round(),
             onChanged: (newValue) {
               setState(() => _newRatio.ratioNumerator = newValue);
             },
@@ -227,9 +228,14 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
           ),
           spacerWidget,
           // Display full selected ratio
-          Text(
-            _newRatio.ratioString,
-            style: textStyleSettingNumber.copyWith(fontWeight: FontWeight.bold),
+          AnimatedOpacity(
+            opacity: _newRatio.ratioString.isEmpty ? fullOpacity : noOpacity,
+            duration: shortAnimationDuration,
+            child: Text(
+              _newRatio.ratioString,
+              style:
+                  textStyleSettingNumber.copyWith(fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
