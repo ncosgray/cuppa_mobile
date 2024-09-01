@@ -143,6 +143,9 @@ class _PrefsWidgetState extends State<PrefsWidget> {
         SliverToBoxAdapter(
           child: Column(
             children: [
+              // Setting: teacup style selection
+              _cupStyleSetting(context),
+              listDivider,
               // Setting: collect timer usage stats
               _collectStatsSetting(context),
               listDivider,
@@ -323,6 +326,40 @@ class _PrefsWidgetState extends State<PrefsWidget> {
       // Save useCelsius setting to prefs
       onChanged: (bool newValue) {
         provider.useCelsius = newValue;
+      },
+    );
+  }
+
+  // Setting: teacup style selection
+  Widget _cupStyleSetting(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context);
+
+    return settingList(
+      context,
+      title: AppString.prefs_cup_style.translate(),
+      selectedItem: provider.cupStyle.localizedName,
+      selectedItemImage: provider.cupStyle.image,
+      itemList: CupStyle.values,
+      itemBuilder: _cupStyleItem,
+    );
+  }
+
+  // Teacup style option
+  Widget _cupStyleItem(BuildContext context, int index) {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+    CupStyle value = CupStyle.values.elementAt(index);
+
+    return settingListItem(
+      context,
+      // Cup style name
+      title: value.localizedName,
+      titleImage: value.image,
+      value: value,
+      groupValue: provider.cupStyle,
+      // Save cupStyle to prefs
+      onChanged: () {
+        provider.cupStyle = value;
+        Navigator.of(context).pop(true);
       },
     );
   }

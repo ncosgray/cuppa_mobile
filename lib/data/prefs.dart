@@ -165,6 +165,15 @@ abstract class Prefs {
     return sharedPrefs.getBool(prefUseBrewRatios);
   }
 
+  static CupStyle? loadCupStyle() {
+    int? cupStyleValue = sharedPrefs.getInt(prefCupStyle);
+    if (cupStyleValue != null && cupStyleValue < CupStyle.values.length) {
+      return CupStyle.values[cupStyleValue];
+    } else {
+      return null;
+    }
+  }
+
   static AppTheme? loadAppTheme() {
     int? appThemeValue = sharedPrefs.getInt(prefAppTheme);
     if (appThemeValue != null && appThemeValue < AppTheme.values.length) {
@@ -193,6 +202,7 @@ abstract class Prefs {
     bool? silentDefault,
     bool? useCelsius,
     bool? useBrewRatios,
+    CupStyle? cupStyle,
     AppTheme? appTheme,
     String? appLanguage,
     bool? collectStats,
@@ -212,6 +222,9 @@ abstract class Prefs {
     }
     if (useBrewRatios != null) {
       sharedPrefs.setBool(prefUseBrewRatios, useBrewRatios);
+    }
+    if (cupStyle != null) {
+      sharedPrefs.setInt(prefCupStyle, cupStyle.value);
     }
     if (appTheme != null) {
       sharedPrefs.setInt(prefAppTheme, appTheme.value);
@@ -244,6 +257,42 @@ abstract class Prefs {
   static void incrementReviewPromptCounter() {
     int count = reviewPromptCounter;
     sharedPrefs.setInt(prefReviewPromptCounter, ++count);
+  }
+}
+
+// Cup styles
+enum CupStyle {
+  classic(0),
+  mug(1),
+  floral(2);
+
+  final int value;
+
+  const CupStyle(this.value);
+
+  // Cup style images
+  get image {
+    return Image.asset(
+      value == 1
+          ? cupImageMug
+          : value == 2
+              ? cupImageFloral
+              : cupImageClassic,
+      fit: BoxFit.fitWidth,
+      gaplessPlayback: true,
+    );
+  }
+
+  // Localized style names
+  get localizedName {
+    switch (value) {
+      case 1:
+        return AppString.prefs_cup_style_mug.translate();
+      case 2:
+        return AppString.prefs_cup_style_floral.translate();
+      default:
+        return AppString.prefs_cup_style_classic.translate();
+    }
   }
 }
 

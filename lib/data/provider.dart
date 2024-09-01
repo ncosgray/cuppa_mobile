@@ -356,6 +356,15 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Setting: teacup style
+  CupStyle _cupStyle = CupStyle.classic;
+  CupStyle get cupStyle => _cupStyle;
+  set cupStyle(CupStyle newValue) {
+    _cupStyle = newValue;
+    Prefs.saveSettings(cupStyle: _cupStyle);
+    notifyListeners();
+  }
+
   // Setting: app color theme
   AppTheme _appTheme = AppTheme.system;
   AppTheme get appTheme => _appTheme;
@@ -404,6 +413,7 @@ class AppProvider extends ChangeNotifier {
     _hideIncrements = Prefs.loadHideIncrements() ?? _hideIncrements;
     _silentDefault = Prefs.loadSilentDefault() ?? _silentDefault;
     _useBrewRatios = Prefs.loadUseBrewRatios() ?? _useBrewRatios;
+    _cupStyle = Prefs.loadCupStyle() ?? _cupStyle;
     _appTheme = Prefs.loadAppTheme() ?? _appTheme;
     _appLanguage = Prefs.loadAppLanguage() ?? _appLanguage;
     _collectStats = Prefs.loadCollectStats() ?? _collectStats;
