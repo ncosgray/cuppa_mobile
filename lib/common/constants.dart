@@ -34,6 +34,7 @@ const supportURL =
 const cupImageClassic = 'images/Cuppa_hires_default.png';
 const cupImageMug = 'images/Cuppa_hires_mug.png';
 const cupImageFloral = 'images/Cuppa_hires_floral.png';
+const cupImageChinese = 'images/Cuppa_hires_chinese.png';
 const cupImageBag = 'images/Cuppa_hires_bag.png';
 const cupImageTea = 'images/Cuppa_hires_tea.png';
 

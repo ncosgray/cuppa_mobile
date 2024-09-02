@@ -105,6 +105,7 @@ enum AppString {
   ok_button('ok_button'),
   prefs_app_theme('prefs_app_theme'),
   prefs_cup_style('prefs_cup_style'),
+  prefs_cup_style_chinese('prefs_cup_style_chinese'),
   prefs_cup_style_classic('prefs_cup_style_classic'),
   prefs_cup_style_floral('prefs_cup_style_floral'),
   prefs_cup_style_mug('prefs_cup_style_mug'),

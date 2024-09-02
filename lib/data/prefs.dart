@@ -262,22 +262,21 @@ abstract class Prefs {
 
 // Cup styles
 enum CupStyle {
-  classic(0),
-  mug(1),
-  floral(2);
+  classic(0, AppString.prefs_cup_style_classic, cupImageClassic),
+  floral(1, AppString.prefs_cup_style_floral, cupImageFloral),
+  chinese(2, AppString.prefs_cup_style_chinese, cupImageChinese),
+  mug(3, AppString.prefs_cup_style_mug, cupImageMug);
 
   final int value;
+  final AppString nameString;
+  final String cupImage;
 
-  const CupStyle(this.value);
+  const CupStyle(this.value, this.nameString, this.cupImage);
 
   // Cup style images
   get image {
     return Image.asset(
-      value == 1
-          ? cupImageMug
-          : value == 2
-              ? cupImageFloral
-              : cupImageClassic,
+      cupImage,
       fit: BoxFit.fitWidth,
       gaplessPlayback: true,
     );
@@ -285,14 +284,7 @@ enum CupStyle {
 
   // Localized style names
   get localizedName {
-    switch (value) {
-      case 1:
-        return AppString.prefs_cup_style_mug.translate();
-      case 2:
-        return AppString.prefs_cup_style_floral.translate();
-      default:
-        return AppString.prefs_cup_style_classic.translate();
-    }
+    return nameString.translate();
   }
 }
 
