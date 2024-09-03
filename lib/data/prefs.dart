@@ -290,15 +290,16 @@ enum CupStyle {
 
 // App themes
 enum AppTheme {
-  system(0),
-  light(1),
-  dark(2),
-  black(3),
-  systemBlack(4);
+  system(0, AppString.theme_system),
+  light(1, AppString.theme_light),
+  dark(2, AppString.theme_dark),
+  black(3, AppString.theme_black),
+  systemBlack(4, AppString.theme_system_black);
 
   final int value;
+  final AppString nameString;
 
-  const AppTheme(this.value);
+  const AppTheme(this.value, this.nameString);
 
   // App theme modes
   get themeMode {
@@ -326,18 +327,7 @@ enum AppTheme {
 
   // Localized theme names
   get localizedName {
-    switch (value) {
-      case 1:
-        return AppString.theme_light.translate();
-      case 2:
-        return AppString.theme_dark.translate();
-      case 3:
-        return AppString.theme_black.translate();
-      case 4:
-        return AppString.theme_system_black.translate();
-      default:
-        return AppString.theme_system.translate();
-    }
+    return nameString.translate();
   }
 }
 
