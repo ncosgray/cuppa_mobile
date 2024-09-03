@@ -268,67 +268,41 @@ enum CupStyle {
   mug(3, AppString.prefs_cup_style_mug, cupImageMug);
 
   final int value;
-  final AppString nameString;
-  final String cupImage;
+  final AppString _nameString;
+  final String _cupImage;
 
-  const CupStyle(this.value, this.nameString, this.cupImage);
+  const CupStyle(this.value, this._nameString, this._cupImage);
 
   // Cup style images
-  get image {
+  Image get image {
     return Image.asset(
-      cupImage,
+      _cupImage,
       fit: BoxFit.fitWidth,
       gaplessPlayback: true,
     );
   }
 
   // Localized style names
-  get localizedName {
-    return nameString.translate();
-  }
+  String get localizedName => _nameString.translate();
 }
 
 // App themes
 enum AppTheme {
-  system(0, AppString.theme_system),
-  light(1, AppString.theme_light),
-  dark(2, AppString.theme_dark),
-  black(3, AppString.theme_black),
-  systemBlack(4, AppString.theme_system_black);
+  system(0, AppString.theme_system, ThemeMode.system, false),
+  light(1, AppString.theme_light, ThemeMode.light, false),
+  dark(2, AppString.theme_dark, ThemeMode.dark, false),
+  black(3, AppString.theme_black, ThemeMode.dark, true),
+  systemBlack(4, AppString.theme_system_black, ThemeMode.system, true);
 
   final int value;
-  final AppString nameString;
+  final AppString _nameString;
+  final ThemeMode themeMode;
+  final bool blackTheme;
 
-  const AppTheme(this.value, this.nameString);
-
-  // App theme modes
-  get themeMode {
-    switch (value) {
-      case 1:
-        return ThemeMode.light;
-      case 2:
-      case 3:
-        return ThemeMode.dark;
-      default:
-        return ThemeMode.system;
-    }
-  }
-
-  // Dark theme darkness
-  get blackTheme {
-    switch (value) {
-      case 3:
-      case 4:
-        return true;
-      default:
-        return false;
-    }
-  }
+  const AppTheme(this.value, this._nameString, this.themeMode, this.blackTheme);
 
   // Localized theme names
-  get localizedName {
-    return nameString.translate();
-  }
+  String get localizedName => _nameString.translate();
 }
 
 // Brewing time options
