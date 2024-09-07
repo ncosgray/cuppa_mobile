@@ -356,6 +356,15 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Setting: teacup style
+  CupStyle _cupStyle = CupStyle.classic;
+  CupStyle get cupStyle => _cupStyle;
+  set cupStyle(CupStyle newValue) {
+    _cupStyle = newValue;
+    Prefs.saveSettings(cupStyle: _cupStyle);
+    notifyListeners();
+  }
+
   // Setting: app color theme
   AppTheme _appTheme = AppTheme.system;
   AppTheme get appTheme => _appTheme;
@@ -404,6 +413,7 @@ class AppProvider extends ChangeNotifier {
     _hideIncrements = Prefs.loadHideIncrements() ?? _hideIncrements;
     _silentDefault = Prefs.loadSilentDefault() ?? _silentDefault;
     _useBrewRatios = Prefs.loadUseBrewRatios() ?? _useBrewRatios;
+    _cupStyle = Prefs.loadCupStyle() ?? _cupStyle;
     _appTheme = Prefs.loadAppTheme() ?? _appTheme;
     _appLanguage = Prefs.loadAppLanguage() ?? _appLanguage;
     _collectStats = Prefs.loadCollectStats() ?? _collectStats;
@@ -421,43 +431,18 @@ class AppProvider extends ChangeNotifier {
 
 // Sort criteria
 enum SortBy {
-  alpha(0),
-  favorite(1),
-  color(2),
-  brewTime(3),
-  usage(4),
-  recent(5);
+  alpha(AppString.sort_by_alpha, false),
+  favorite(AppString.sort_by_favorite, false),
+  color(AppString.sort_by_color, false),
+  brewTime(AppString.sort_by_brew_time, false),
+  usage(AppString.sort_by_usage, true),
+  recent(AppString.sort_by_recent, true);
 
-  final int value;
+  final AppString _nameString;
+  final bool statsRequired;
 
-  const SortBy(this.value);
-
-  // Flag if there is a stats dependency for sort criteria
-  bool get statsRequired {
-    switch (value) {
-      case 4:
-      case 5:
-        return true;
-      default:
-        return false;
-    }
-  }
+  const SortBy(this._nameString, this.statsRequired);
 
   // Localized sort criteria names
-  get localizedName {
-    switch (value) {
-      case 1:
-        return AppString.sort_by_favorite.translate();
-      case 2:
-        return AppString.sort_by_color.translate();
-      case 3:
-        return AppString.sort_by_brew_time.translate();
-      case 4:
-        return AppString.sort_by_usage.translate();
-      case 5:
-        return AppString.sort_by_recent.translate();
-      default:
-        return AppString.sort_by_alpha.translate();
-    }
-  }
+  String get localizedName => _nameString.translate();
 }

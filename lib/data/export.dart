@@ -47,6 +47,7 @@ abstract class Export {
           silentDefault: provider.silentDefault,
           useCelsius: provider.useCelsius,
           useBrewRatios: provider.useBrewRatios,
+          cupStyleValue: provider.cupStyle.value,
           appThemeValue: provider.appTheme.value,
           appLanguage: provider.appLanguage,
           collectStats: provider.collectStats,
@@ -118,6 +119,13 @@ abstract class Export {
 
           if (exportData.settings!.useBrewRatios != null) {
             provider.useBrewRatios = exportData.settings!.useBrewRatios!;
+          }
+
+          // Look up cupStyle from value
+          if (exportData.settings!.cupStyleValue != null &&
+              exportData.settings!.cupStyleValue! < CupStyle.values.length) {
+            provider.cupStyle =
+                CupStyle.values[exportData.settings!.cupStyleValue!];
           }
 
           // Look up appTheme from value
@@ -211,6 +219,7 @@ class Settings {
   bool? silentDefault;
   bool? useCelsius;
   bool? useBrewRatios;
+  int? cupStyleValue;
   int? appThemeValue;
   String? appLanguage;
   bool? collectStats;
@@ -224,6 +233,7 @@ class Settings {
     this.silentDefault,
     this.useCelsius,
     this.useBrewRatios,
+    this.cupStyleValue,
     this.appThemeValue,
     this.appLanguage,
     this.collectStats,
@@ -239,6 +249,7 @@ class Settings {
       silentDefault: tryCast<bool>(json[jsonKeySilentDefault]),
       useCelsius: tryCast<bool>(json[jsonKeyUseCelsius]),
       useBrewRatios: tryCast<bool>(json[jsonKeyUseBrewRatios]),
+      cupStyleValue: tryCast<int>(json[jsonKeyCupStyle]),
       appThemeValue: tryCast<int>(json[jsonKeyAppTheme]),
       appLanguage: tryCast<String>(json[jsonKeyAppLanguage]),
       collectStats: tryCast<bool>(json[jsonKeyCollectStats]),
@@ -253,6 +264,7 @@ class Settings {
         jsonKeySilentDefault: silentDefault,
         jsonKeyUseCelsius: useCelsius,
         jsonKeyUseBrewRatios: useBrewRatios,
+        jsonKeyCupStyle: cupStyleValue,
         jsonKeyAppTheme: appThemeValue,
         jsonKeyAppLanguage: appLanguage,
         jsonKeyCollectStats: collectStats,

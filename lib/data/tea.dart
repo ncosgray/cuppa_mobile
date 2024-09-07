@@ -352,75 +352,41 @@ class Tea {
 
 // Tea colors
 enum TeaColor {
-  red(1),
-  pink(7),
-  orange(2),
-  amber(8),
-  green(3),
-  teal(9),
-  blue(4),
-  cyan(10),
-  purple(5),
-  lavender(11),
-  black(0),
-  brown(6);
+  red(1, Color.fromARGB(255, 229, 57, 53)), // Colors.red.shade600
+  pink(7, Color.fromARGB(255, 236, 64, 122)), // Colors.pink.shade400
+  orange(2, Color.fromARGB(255, 255, 152, 0)), // Colors.orange.shade500
+  amber(8, Color.fromARGB(255, 255, 193, 7)), // Colors.amber.shade500
+  green(3, Color.fromARGB(255, 76, 175, 80)), // Colors.green.shade500
+  teal(9, Color.fromARGB(255, 0, 150, 136)), // Colors.teal.shade500
+  blue(4, Color.fromARGB(255, 30, 136, 229)), // Colors.blue.shade600
+  cyan(10, Color.fromARGB(255, 0, 188, 212)), // Colors.cyan.shade500
+  purple(5, Color.fromARGB(255, 171, 71, 188)), // Colors.purple.shade400
+  lavender(11, Color.fromARGB(255, 126, 87, 194)), // Colors.deepPurple.shade400
+  black(0, Color.fromARGB(255, 117, 117, 117)), // Colors.grey.shade600
+  brown(6, Color.fromARGB(255, 141, 110, 99)); // Colors.brown.shade400
 
   final int value;
+  final Color color;
 
-  const TeaColor(this.value);
+  const TeaColor(this.value, this.color);
 
   // Material color map
-  Color getColor() {
-    switch (value) {
-      case 1:
-        return Colors.red.shade600;
-      case 2:
-        return Colors.orange.shade500;
-      case 3:
-        return Colors.green.shade500;
-      case 4:
-        return Colors.blue.shade600;
-      case 5:
-        return Colors.purple.shade400;
-      case 6:
-        return Colors.brown.shade400;
-      case 7:
-        return Colors.pink.shade400;
-      case 8:
-        return Colors.amber.shade500;
-      case 9:
-        return Colors.teal.shade500;
-      case 10:
-        return Colors.cyan.shade500;
-      case 11:
-        return Colors.deepPurple.shade400;
-      default:
-        return Colors.grey.shade600;
-    }
-  }
+  Color getColor() => color;
 }
 
 // Tea icons
 enum TeaIcon {
-  timer(0),
-  cup(1),
-  flower(2);
+  timer(0, Icons.timer_outlined),
+  cup(1, Icons.local_cafe_outlined),
+  flower(2, Icons.local_florist_outlined);
 
   final int value;
+  final IconData icon;
 
-  const TeaIcon(this.value);
+  const TeaIcon(this.value, this.icon);
 
   // Material icon map
-  IconData getIcon() {
-    switch (value) {
-      case 1:
-        return Icons.local_cafe_outlined;
-      case 2:
-        return Icons.local_florist_outlined;
-      default:
-        return Icons.timer_outlined;
-    }
-  }
+  IconData getIcon() => icon;
 }
 
 // Dummy tea for prototype items

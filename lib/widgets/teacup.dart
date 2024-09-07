@@ -13,6 +13,7 @@
 // Cuppa teacup graphic
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea_timer.dart';
 
@@ -22,28 +23,12 @@ import 'package:provider/provider.dart';
 
 // Teacup with simple animations while a timer is active
 Widget teacup() {
-  return Selector<AppProvider, bool>(
-    selector: (_, provider) => provider.appTheme.blackTheme,
-    builder: (context, blackTheme, child) => Stack(
+  return Selector<AppProvider, CupStyle>(
+    selector: (_, provider) => provider.cupStyle,
+    builder: (context, cupStyle, child) => Stack(
       children: [
-        // Border color adjusted for theme darkness
-        ColorFiltered(
-          colorFilter: ColorFilter.mode(
-            blackTheme ? const Color(0xff323232) : Colors.black,
-            BlendMode.srcIn,
-          ),
-          child: Image.asset(
-            cupImageBorder,
-            fit: BoxFit.fitWidth,
-            gaplessPlayback: true,
-          ),
-        ),
         // Teacup image
-        Image.asset(
-          cupImageDefault,
-          fit: BoxFit.fitWidth,
-          gaplessPlayback: true,
-        ),
+        cupStyle.image,
         // Animate while timing
         Consumer<AppProvider>(
           builder: (context, provider, child) => Visibility(
