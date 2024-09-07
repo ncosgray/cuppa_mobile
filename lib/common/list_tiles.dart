@@ -58,6 +58,7 @@ Widget settingList(
   BuildContext context, {
   required String title,
   required String selectedItem,
+  Image? selectedItemImage,
   required List<dynamic> itemList,
   required Widget Function(BuildContext, int) itemBuilder,
 }) {
@@ -75,12 +76,11 @@ Widget settingList(
       ),
       trailing: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: maxWidth),
-        child: Text(
-          selectedItem,
-          textAlign: TextAlign.end,
-          style: textStyleTitle.copyWith(
-            color: Theme.of(context).textTheme.bodySmall!.color!,
-          ),
+        child: settingListTitle(
+          title: selectedItem,
+          color: Theme.of(context).textTheme.bodySmall!.color!,
+          image: selectedItemImage,
+          alignEnd: true,
         ),
       ),
       onTap: () => openPlatformAdaptiveSelectList(
@@ -101,6 +101,7 @@ Widget settingList(
 Widget settingListItem(
   BuildContext context, {
   required String title,
+  Image? titleImage,
   required dynamic value,
   required dynamic groupValue,
   required Function() onChanged,
@@ -115,17 +116,51 @@ Widget settingListItem(
             ? Theme.of(context).colorScheme.primary
             : Theme.of(context).listTileTheme.iconColor,
       ),
-      title: Text(
-        title,
-        style: textStyleTitle.copyWith(
-          color: Theme.of(context).textTheme.bodyLarge!.color!,
-        ),
+      title: settingListTitle(
+        title: title,
+        color: Theme.of(context).textTheme.bodyLarge!.color!,
+        image: titleImage,
       ),
       value: value,
       groupValue: groupValue,
       onChanged: null, // Handled by select list action tap
     ),
     onTap: onChanged,
+  );
+}
+
+// Setting list title with optional image
+Widget settingListTitle({
+  required String title,
+  required Color color,
+  Image? image,
+  bool alignEnd = false,
+}) {
+  // Build title row
+  List<Widget> titleWidgets = [
+    Flexible(
+      child: Text(
+        title,
+        textAlign: alignEnd ? TextAlign.end : TextAlign.start,
+        style: textStyleTitle.copyWith(color: color),
+      ),
+    ),
+  ];
+  if (image != null) {
+    titleWidgets.add(spacerWidget);
+    titleWidgets.add(
+      SizedBox(
+        width: 28.0,
+        height: 28.0,
+        child: image,
+      ),
+    );
+  }
+
+  return Row(
+    mainAxisAlignment:
+        alignEnd ? MainAxisAlignment.end : MainAxisAlignment.start,
+    children: titleWidgets,
   );
 }
 

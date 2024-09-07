@@ -165,6 +165,15 @@ abstract class Prefs {
     return sharedPrefs.getBool(prefUseBrewRatios);
   }
 
+  static CupStyle? loadCupStyle() {
+    int? cupStyleValue = sharedPrefs.getInt(prefCupStyle);
+    if (cupStyleValue != null && cupStyleValue < CupStyle.values.length) {
+      return CupStyle.values[cupStyleValue];
+    } else {
+      return null;
+    }
+  }
+
   static AppTheme? loadAppTheme() {
     int? appThemeValue = sharedPrefs.getInt(prefAppTheme);
     if (appThemeValue != null && appThemeValue < AppTheme.values.length) {
@@ -193,6 +202,7 @@ abstract class Prefs {
     bool? silentDefault,
     bool? useCelsius,
     bool? useBrewRatios,
+    CupStyle? cupStyle,
     AppTheme? appTheme,
     String? appLanguage,
     bool? collectStats,
@@ -212,6 +222,9 @@ abstract class Prefs {
     }
     if (useBrewRatios != null) {
       sharedPrefs.setBool(prefUseBrewRatios, useBrewRatios);
+    }
+    if (cupStyle != null) {
+      sharedPrefs.setInt(prefCupStyle, cupStyle.value);
     }
     if (appTheme != null) {
       sharedPrefs.setInt(prefAppTheme, appTheme.value);
@@ -247,57 +260,49 @@ abstract class Prefs {
   }
 }
 
-// App themes
-enum AppTheme {
-  system(0),
-  light(1),
-  dark(2),
-  black(3),
-  systemBlack(4);
+// Cup styles
+enum CupStyle {
+  classic(0, AppString.prefs_cup_style_classic, cupImageClassic),
+  floral(1, AppString.prefs_cup_style_floral, cupImageFloral),
+  chinese(2, AppString.prefs_cup_style_chinese, cupImageChinese),
+  mug(3, AppString.prefs_cup_style_mug, cupImageMug);
 
   final int value;
+  final AppString _nameString;
+  final String _cupImage;
 
-  const AppTheme(this.value);
+  const CupStyle(this.value, this._nameString, this._cupImage);
 
-  // App theme modes
-  get themeMode {
-    switch (value) {
-      case 1:
-        return ThemeMode.light;
-      case 2:
-      case 3:
-        return ThemeMode.dark;
-      default:
-        return ThemeMode.system;
-    }
+  // Cup style images
+  Image get image {
+    return Image.asset(
+      _cupImage,
+      fit: BoxFit.fitWidth,
+      gaplessPlayback: true,
+    );
   }
 
-  // Dark theme darkness
-  get blackTheme {
-    switch (value) {
-      case 3:
-      case 4:
-        return true;
-      default:
-        return false;
-    }
-  }
+  // Localized style names
+  String get localizedName => _nameString.translate();
+}
+
+// App themes
+enum AppTheme {
+  system(0, AppString.theme_system, ThemeMode.system, false),
+  light(1, AppString.theme_light, ThemeMode.light, false),
+  dark(2, AppString.theme_dark, ThemeMode.dark, false),
+  black(3, AppString.theme_black, ThemeMode.dark, true),
+  systemBlack(4, AppString.theme_system_black, ThemeMode.system, true);
+
+  final int value;
+  final AppString _nameString;
+  final ThemeMode themeMode;
+  final bool blackTheme;
+
+  const AppTheme(this.value, this._nameString, this.themeMode, this.blackTheme);
 
   // Localized theme names
-  get localizedName {
-    switch (value) {
-      case 1:
-        return AppString.theme_light.translate();
-      case 2:
-        return AppString.theme_dark.translate();
-      case 3:
-        return AppString.theme_black.translate();
-      case 4:
-        return AppString.theme_system_black.translate();
-      default:
-        return AppString.theme_system.translate();
-    }
-  }
+  String get localizedName => _nameString.translate();
 }
 
 // Brewing time options

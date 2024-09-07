@@ -295,80 +295,60 @@ abstract class Stats {
 
 // Metric queries
 enum MetricQuery {
-  beginDateTime(0),
-  totalCount(1),
-  totalTime(2),
-  starredCount(3);
+  beginDateTime(_beginDateTimeSQL),
+  totalCount(_totalCountSQL),
+  totalTime(_totalTimeSQL),
+  starredCount(_starredCountSQL);
 
-  final int value;
+  final String sql;
 
-  const MetricQuery(this.value);
-
-  // Stats queries
-  final beginDateTimeSQL = '''SELECT MIN($statsColumnTimerStartTime) AS metric
-    FROM $statsTable''';
-  final totalCountSQL = '''SELECT COUNT(*) AS metric
-    FROM $statsTable''';
-  final totalTimeSQL = '''SELECT SUM(IFNULL($statsColumnBrewTime, 0)) AS metric
-    FROM $statsTable''';
-  final starredCountSQL = '''SELECT COUNT(*) AS metric
-    FROM $statsTable
-    WHERE $statsColumnIsFavorite = 1''';
+  const MetricQuery(this.sql);
 
   // Query SQL
-  get sql {
-    switch (value) {
-      case 1:
-        return totalCountSQL;
-      case 2:
-        return totalTimeSQL;
-      case 3:
-        return starredCountSQL;
-      default:
-        return beginDateTimeSQL;
-    }
-  }
+  static const _beginDateTimeSQL =
+      '''SELECT MIN($statsColumnTimerStartTime) AS metric
+    FROM $statsTable''';
+  static const _totalCountSQL = '''SELECT COUNT(*) AS metric
+    FROM $statsTable''';
+  static const _totalTimeSQL =
+      '''SELECT SUM(IFNULL($statsColumnBrewTime, 0)) AS metric
+    FROM $statsTable''';
+  static const _starredCountSQL = '''SELECT COUNT(*) AS metric
+    FROM $statsTable
+    WHERE $statsColumnIsFavorite = 1''';
 }
 
 // Decimal queries
 enum DecimalQuery {
-  totalAmountG(0),
-  totalAmountTsp(1);
+  totalAmountG(_totalAmountGSQL),
+  totalAmountTsp(_totalAmountTspSQL);
 
-  final int value;
+  final String sql;
 
-  const DecimalQuery(this.value);
-
-  // Stats queries
-  final totalAmountGSQL = '''SELECT SUM($statsColumnBrewAmount)/10.0 AS metric
-    FROM $statsTable
-    WHERE $statsColumnBrewAmountMetric = 1''';
-  final totalAmountTspSQL = '''SELECT SUM($statsColumnBrewAmount)/10.0 AS metric
-    FROM $statsTable
-    WHERE $statsColumnBrewAmountMetric <> 1''';
+  const DecimalQuery(this.sql);
 
   // Query SQL
-  get sql {
-    switch (value) {
-      case 1:
-        return totalAmountTspSQL;
-      default:
-        return totalAmountGSQL;
-    }
-  }
+  static const _totalAmountGSQL =
+      '''SELECT SUM($statsColumnBrewAmount)/10.0 AS metric
+    FROM $statsTable
+    WHERE $statsColumnBrewAmountMetric = 1''';
+  static const _totalAmountTspSQL =
+      '''SELECT SUM($statsColumnBrewAmount)/10.0 AS metric
+    FROM $statsTable
+    WHERE $statsColumnBrewAmountMetric <> 1''';
 }
 
 // String queries
 enum StringQuery {
-  morningTea(0),
-  afternoonTea(1);
+  morningTea(_morningTeaSQL),
+  afternoonTea(_afternoonTeaSQL);
 
-  final int value;
+  final String sql;
 
-  const StringQuery(this.value);
+  const StringQuery(this.sql);
 
-  // Stats queries
-  final morningTeaSQL = '''SELECT (
+  // Query SQL
+  static const _morningTeaSQL = '''SELECT (
       SELECT $statsColumnName
       FROM $statsTable
       WHERE $statsColumnId = stat.$statsColumnId
@@ -380,7 +360,7 @@ enum StringQuery {
     GROUP BY stat.$statsColumnId
     ORDER BY COUNT(*) DESC
     LIMIT 1''';
-  final afternoonTeaSQL = '''SELECT (
+  static const _afternoonTeaSQL = '''SELECT (
       SELECT $statsColumnName
       FROM $statsTable
       WHERE $statsColumnId = stat.$statsColumnId
@@ -392,30 +372,20 @@ enum StringQuery {
     GROUP BY stat.$statsColumnId
     ORDER BY COUNT(*) DESC
     LIMIT 1''';
-
-  // Query SQL
-  get sql {
-    switch (value) {
-      case 1:
-        return afternoonTeaSQL;
-      default:
-        return morningTeaSQL;
-    }
-  }
 }
 
 // List queries
 enum ListQuery {
-  summaryStats(0),
-  mostUsed(1),
-  recentlyUsed(2);
+  summaryStats(_summaryStatsSQL),
+  mostUsed(_mostUsedSQL),
+  recentlyUsed(_recentlyUsedSQL);
 
-  final int value;
+  final String sql;
 
-  const ListQuery(this.value);
+  const ListQuery(this.sql);
 
-  // Stats queries
-  final summaryStatsSQL = '''SELECT $statsTable.$statsColumnId
+  // Query SQL
+  static const _summaryStatsSQL = '''SELECT $statsTable.$statsColumnId
     , tea.$statsColumnName
     , tea.$statsColumnColorShadeRed
     , tea.$statsColumnColorShadeGreen
@@ -449,26 +419,14 @@ enum ListQuery {
     , tea.$statsColumnIsFavorite
     ORDER BY COUNT(*) DESC
     , tea.$statsColumnName ASC''';
-  final mostUsedSQL = '''SELECT $statsTable.$statsColumnId
+  static const _mostUsedSQL = '''SELECT $statsTable.$statsColumnId
     , COUNT(*) AS count
     FROM $statsTable
     GROUP BY $statsTable.$statsColumnId
     ORDER BY COUNT(*) DESC''';
-  final recentlyUsedSQL = '''SELECT $statsTable.$statsColumnId
+  static const _recentlyUsedSQL = '''SELECT $statsTable.$statsColumnId
     , MAX($statsTable.$statsColumnTimerStartTime) AS count
     FROM $statsTable
     GROUP BY $statsTable.$statsColumnId
     ORDER BY MAX($statsTable.$statsColumnTimerStartTime) DESC''';
-
-  // Query SQL
-  get sql {
-    switch (value) {
-      case 1:
-        return mostUsedSQL;
-      case 2:
-        return recentlyUsedSQL;
-      default:
-        return summaryStatsSQL;
-    }
-  }
 }

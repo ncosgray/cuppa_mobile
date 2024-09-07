@@ -31,8 +31,10 @@ const supportURL =
     'https://github.com/ncosgray/cuppa_mobile?tab=readme-ov-file#support-the-project';
 
 // Cup images
-const cupImageDefault = 'images/Cuppa_hires_default.png';
-const cupImageBorder = 'images/Cuppa_hires_border.png';
+const cupImageClassic = 'images/Cuppa_hires_default.png';
+const cupImageMug = 'images/Cuppa_hires_mug.png';
+const cupImageFloral = 'images/Cuppa_hires_floral.png';
+const cupImageChinese = 'images/Cuppa_hires_chinese.png';
 const cupImageBag = 'images/Cuppa_hires_bag.png';
 const cupImageTea = 'images/Cuppa_hires_tea.png';
 
@@ -161,6 +163,7 @@ const prefStackedView = 'Cuppa_stacked_view';
 const prefCollectStats = 'Cuppa_collect_stats';
 const prefUseCelsius = 'Cuppa_use_celsius';
 const prefUseBrewRatios = 'Cuppa_use_brew_ratios';
+const prefCupStyle = 'Cuppa_cup_style';
 const prefAppTheme = 'Cuppa_app_theme';
 const prefAppLanguage = 'Cuppa_app_language';
 const prefSkipTutorial = 'Cuppa_skip_tutorial';
@@ -175,6 +178,7 @@ const jsonKeySilentDefault = 'silentDefault';
 const jsonKeyStackedView = 'stackedView';
 const jsonKeyUseCelsius = 'useCelsius';
 const jsonKeyUseBrewRatios = 'useBrewRatios';
+const jsonKeyCupStyle = 'cupStyle';
 const jsonKeyAppTheme = 'appTheme';
 const jsonKeyAppLanguage = 'appLanguage';
 const jsonKeyCollectStats = 'collectStats';
