@@ -89,7 +89,7 @@
     "theme_system": "Follow system",
     "tutorial_info": "How to use {{app_name}}",
     "tutorial_text1": "Welcome to {{app_name}}, a simple tea timer app.",
-    "tutorial_text2": "Add up to {{teas_max}} teas and customize them to your liking.",
+    "tutorial_text2": "Add up to {{teas_max}} teas and customise them to your liking.",
     "tutorial_text3": "Tap a button to start timing your tea as it steeps. Or, long-press the {{app_name}} icon on your home screen to time a favourite tea.",
     "tutorial_text4": "You can have {{timers_max}} timers running at once.",
     "tutorial_text5": "Enjoy your perfectly brewed cup of tea!",
