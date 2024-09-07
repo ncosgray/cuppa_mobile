@@ -1,0 +1,5 @@
+* Habilita las proporciones de infusión para medir el té con precisión.
+* El botón de silencio te permite silenciar una notificación del temporizador.
+* Editar los detalles de un té que se está preparando.
+* Varios ajustes de usabilidad y pequeñas correcciones de errores.
+* Actualizaciones de traducción - ¡contribuye a través de Weblate!

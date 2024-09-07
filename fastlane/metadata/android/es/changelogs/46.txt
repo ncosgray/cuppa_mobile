@@ -1,0 +1,1 @@
+* Corregido error de notificación en Android.

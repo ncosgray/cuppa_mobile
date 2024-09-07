@@ -1,0 +1,5 @@
+* Aktivieren Sie Brühverhältnisse, um Ihren Tee genauer abzumessen!
+* Mit der Stummschalttaste können Sie eine Timerbenachrichtigung stummschalten.
+* Bearbeiten Sie die Details für einen Tee, der gerade gebrüht wird.
+* Verschiedene Verbesserungen der Benutzerfreundlichkeit und kleine Fehlerbehebungen.
+* Aktualisierungen der Sprachübersetzung – tragen Sie über Weblate bei!

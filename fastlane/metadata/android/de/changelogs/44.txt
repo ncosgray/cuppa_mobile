@@ -1,0 +1,5 @@
+* Sortieren Sie Ihre Teeliste mit nur ein paar Fingertipps nach verschiedenen Kriterien.
+* Neue Option zum vertikalen Anordnen der Schaltflächen Ihrer Tee-Timer hinzugefügt.
+* Über den Schieberegler sind detailliertere Temperaturoptionen verfügbar.
+* Verschiedene Verbesserungen bei Benutzerfreundlichkeit und Benutzeroberfläche.
+* Aktualisierungen der Sprachübersetzung – tragen Sie über Weblate bei!
