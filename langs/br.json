@@ -108,5 +108,10 @@
     "sort_by_favorite": "Teoù steredennet da gentañ",
     "support_the_project": "Sikour ar raktres",
     "tutorial_text5": "Plijet gant ho banne te fardet mat-tre !",
-    "undo_message": "Dilamet {{tea_name}}."
+    "undo_message": "Dilamet {{tea_name}}.",
+    "prefs_cup_style_chinese": "Tasad te sinaat",
+    "prefs_cup_style_floral": "Tasad-te gant bleunioù",
+    "prefs_cup_style": "Dibab ur grafik amzer",
+    "prefs_cup_style_classic": "Tasad te",
+    "prefs_cup_style_mug": "Tasenn"
 }
