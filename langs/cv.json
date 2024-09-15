@@ -108,5 +108,10 @@
     "unit_seconds": "ҫ",
     "unit_teaspoons": "tsp",
     "version_history": "Пай кун-çулӗ",
-    "yes_button": "Ийя"
+    "yes_button": "Ийя",
+    "prefs_cup_style": "Таймер графикне суйлӑр",
+    "prefs_cup_style_chinese": "Китай чей курки",
+    "prefs_cup_style_classic": "Чей курки",
+    "prefs_cup_style_floral": "Чечеклӗ чей курки",
+    "prefs_cup_style_mug": "Чей чашӑкки"
 }
