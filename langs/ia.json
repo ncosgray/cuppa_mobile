@@ -31,6 +31,11 @@
     "notification_title": "Preparation completate...",
     "ok_button": "OK",
     "prefs_app_theme": "Selige le color de thema del application",
+    "prefs_cup_style": "Seliger le graphico del temporisator",
+    "prefs_cup_style_chinese": "Copa de tea chines",
+    "prefs_cup_style_classic": "Copa de tea",
+    "prefs_cup_style_floral": "Copa de tea florale",
+    "prefs_cup_style_mug": "Mug de tea",
     "prefs_header": "Define le nomines de the, tempores de infusion, temperaturas e stylos de button. Tu tamben pote ordinar (pulsation longe), o glissar pro deler le thes. Star up to {{favorites_max}} thes favorite pro adder los como accessos directe de application.",
     "prefs_hide_increments_info": "Tocca un chronometro de conto a rebursar activ pro ajustar lo",
     "prefs_hide_increments": "Celar le buttones de adjustamento del teporisator",
@@ -108,6 +113,5 @@
     "unit_seconds": "s",
     "unit_teaspoons": "tsp",
     "version_history": "Chronologia del versiones",
-    "yes_button": "Si",
-    "prefs_cup_style": "Seliger le graphico del temporisator"
-}
+    "yes_button": "Si"
+  }
