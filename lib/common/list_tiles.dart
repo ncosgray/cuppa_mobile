@@ -62,20 +62,23 @@ Widget settingList(
   required List<dynamic> itemList,
   required Widget Function(BuildContext, int) itemBuilder,
 }) {
-  double maxWidth = (getDeviceSize(context).width / 2.0) - 12.0;
+  double maxWidth = getDeviceSize(context).width - 24.0;
+  if (getDeviceSize(context).isLargeDevice) {
+    maxWidth /= 2.0;
+  }
 
   return AnimatedSize(
     duration: shortAnimationDuration,
     child: ListTile(
       title: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: maxWidth),
+        constraints: BoxConstraints(maxWidth: maxWidth * 0.6),
         child: Text(
           title,
           style: textStyleTitle,
         ),
       ),
       trailing: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: maxWidth),
+        constraints: BoxConstraints(maxWidth: maxWidth * 0.4),
         child: settingListTitle(
           title: selectedItem,
           color: Theme.of(context).textTheme.bodySmall!.color!,
