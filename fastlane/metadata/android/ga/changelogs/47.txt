@@ -1,0 +1,4 @@
+* Tacaíocht fheabhsaithe do shuíomhanna réigiúnacha.
+* Nascleanúint Socruithe níos éasca ar scáileáin níos lú.
+* Tweaks inúsáidteachta éagsúla agus ceartúcháin bheaga fabhtanna.
+* Cuireadh Béarla na Breataine, Suvaisis agus Interlingua leis, chomh maith le nuashonruithe aistriúcháin eile - rannchuidigh trí Weblate!

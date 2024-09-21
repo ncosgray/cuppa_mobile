@@ -108,5 +108,10 @@
     "unit_seconds": "s",
     "unit_teaspoons": "tsp",
     "version_history": "バージョン履歴",
-    "yes_button": "はい"
+    "yes_button": "はい",
+    "prefs_cup_style": "タイマーに使う絵を選んでください",
+    "prefs_cup_style_chinese": "中国茶器",
+    "prefs_cup_style_classic": "ティーカップ",
+    "prefs_cup_style_floral": "花柄のティーカップ",
+    "prefs_cup_style_mug": "マグカップ"
 }

@@ -1,0 +1,4 @@
+* Bölgesel ayarlar için destek iyileştirildi.
+* Küçük ekranlarda Ayarlarda daha kolay gezinme.
+* Çeşitli kullanılabilirlik düzenlemeleri ve küçük hata düzeltmeleri.
+* İngiliz İngilizcesi, Çuvaşça ve Interlingua dillerinin eklenmesinin yanı sıra diğer çeviri güncellemeleri - Weblate aracılığıyla katkıda bulunun!

@@ -108,5 +108,10 @@
     "unit_seconds": "s",
     "unit_teaspoons": "Cda",
     "version_history": "Historial de versiones",
-    "yes_button": "Sí"
+    "yes_button": "Sí",
+    "prefs_cup_style_classic": "Taza para té",
+    "prefs_cup_style_floral": "Taza de té con flores",
+    "prefs_cup_style_mug": "Taza de té",
+    "prefs_cup_style": "Elegir el gráfico del temporizador",
+    "prefs_cup_style_chinese": "Taza de té china"
 }

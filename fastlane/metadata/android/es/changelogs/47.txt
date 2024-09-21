@@ -1,0 +1,4 @@
+* Soporte mejorado para configuraciones regionales.
+* Navegación más sencilla por la configuración en pantallas más pequeñas.
+* Varios ajustes de usabilidad y pequeñas correcciones de errores.
+* Se agregaron inglés británico, chuvasio e interlingua, además de otras actualizaciones de traducción. ¡Contribuye a través de Weblate!

@@ -1,0 +1,5 @@
+* Çayınızı doğru ölçmenize yardımcı olmak için demleme oranlarını etkinleştirin!
+* Sessiz düğmesi bir zamanlayıcı bildirimini susturmanızı sağlar.
+* Demlenmekte olan bir çay için ayrıntıları düzenleyin.
+* Çeşitli kullanılabilirlik düzenlemeleri ve küçük hata düzeltmeleri.
+* Dil çeviri güncellemeleri - Weblate aracılığıyla katkıda bulunun!
