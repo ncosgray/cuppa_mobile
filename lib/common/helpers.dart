@@ -98,7 +98,7 @@ String formatTimer(s, {bool inDays = true}) {
 String formatDate(int ms, {bool dateTime = false}) {
   Locale locale = AppLocalizations.instance.locale;
   DateFormat formatter = fallbackLanguageCodes.contains(locale.languageCode)
-      ? DateFormat('yyyy-MM-dd')
+      ? DateFormat.yMd()
       : DateFormat.yMMMd(localeString(locale));
   if (dateTime) {
     formatter = formatter.add_Hms();
