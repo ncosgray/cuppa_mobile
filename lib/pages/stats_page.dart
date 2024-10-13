@@ -496,7 +496,7 @@ class _StatsWidgetState extends State<StatsWidget> {
     required String metricName,
     required String metric,
   }) {
-    double maxWidth = (getDeviceSize(context).width / 2.0) - 12.0;
+    double maxWidth = (getDeviceSize(context).width / 2.0) - 24.0;
 
     return Padding(
       padding: smallDefaultPadding,

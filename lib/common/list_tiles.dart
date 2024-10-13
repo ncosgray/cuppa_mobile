@@ -95,7 +95,6 @@ Widget settingList(
         separatorBuilder: separatorDummy,
       ),
       contentPadding: listTilePadding,
-      dense: true,
     ),
   );
 }
@@ -146,6 +145,8 @@ Widget settingListTitle({
         title,
         textAlign: alignEnd ? TextAlign.end : TextAlign.start,
         style: textStyleTitle.copyWith(color: color),
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
       ),
     ),
   ];
