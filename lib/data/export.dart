@@ -176,11 +176,6 @@ abstract class Export {
 
 // Export file definition
 class ExportFile {
-  Settings? settings;
-  List<Tea>? teaList;
-  List<Stat>? stats;
-
-  // Constructor
   ExportFile({
     required this.settings,
     required this.teaList,
@@ -209,23 +204,15 @@ class ExportFile {
       jsonKeyStats: stats,
     });
   }
+
+  // Fields
+  Settings? settings;
+  List<Tea>? teaList;
+  List<Stat>? stats;
 }
 
 // Settings export/import class
 class Settings {
-  int? nextTeaID;
-  bool? showExtra;
-  bool? hideIncrements;
-  bool? silentDefault;
-  bool? useCelsius;
-  bool? useBrewRatios;
-  int? cupStyleValue;
-  int? appThemeValue;
-  String? appLanguage;
-  bool? collectStats;
-  bool? stackedView;
-
-  // Constructor
   Settings({
     this.nextTeaID,
     this.showExtra,
@@ -270,4 +257,17 @@ class Settings {
         jsonKeyCollectStats: collectStats,
         jsonKeyStackedView: stackedView,
       };
+
+  // Fields
+  int? nextTeaID;
+  bool? showExtra;
+  bool? hideIncrements;
+  bool? silentDefault;
+  bool? useCelsius;
+  bool? useBrewRatios;
+  int? cupStyleValue;
+  int? appThemeValue;
+  String? appLanguage;
+  bool? collectStats;
+  bool? stackedView;
 }

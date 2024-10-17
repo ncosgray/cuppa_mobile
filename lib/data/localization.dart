@@ -188,9 +188,9 @@ enum AppString {
   version_history('version_history'),
   yes_button('yes_button');
 
-  final String key;
-
   const AppString(this.key);
+
+  final String key;
 
   // Lookup localized string and apply substitutions
   String translate({String teaName = ''}) {

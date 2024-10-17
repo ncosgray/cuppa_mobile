@@ -19,13 +19,6 @@ import 'package:cuppa_mobile/common/helpers.dart';
 
 // Brew ratio definition
 class BrewRatio {
-  // Fields
-  late double _ratioNumerator;
-  late int _ratioDenominator;
-  late bool _metricNumerator;
-  late bool _metricDenominator;
-
-  // Constructor
   BrewRatio({
     double? ratioNumerator,
     int? ratioDenominator,
@@ -62,6 +55,12 @@ class BrewRatio {
       jsonKeyBrewRatioMetricDenominator: _metricDenominator,
     };
   }
+
+  // Fields
+  late double _ratioNumerator;
+  late int _ratioDenominator;
+  late bool _metricNumerator;
+  late bool _metricDenominator;
 
   // Getters
   double get ratioNumerator => _ratioNumerator;

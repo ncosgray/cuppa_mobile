@@ -32,6 +32,7 @@ linter:
     prefer_null_aware_method_calls: true
     prefer_single_quotes: true
     require_trailing_commas: true
+    sort_constructors_first: true
     sort_pub_dependencies: true
     unawaited_futures: true
     unnecessary_breaks: true

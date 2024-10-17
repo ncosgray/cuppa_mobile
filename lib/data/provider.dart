@@ -28,6 +28,28 @@ import 'package:quick_actions/quick_actions.dart';
 
 // Provider for settings changes
 class AppProvider extends ChangeNotifier {
+  // Initialize provider
+  AppProvider() {
+    // Fetch app settings such as theme and language
+    _showExtra = Prefs.loadShowExtra() ?? _showExtra;
+    _hideIncrements = Prefs.loadHideIncrements() ?? _hideIncrements;
+    _silentDefault = Prefs.loadSilentDefault() ?? _silentDefault;
+    _useBrewRatios = Prefs.loadUseBrewRatios() ?? _useBrewRatios;
+    _cupStyle = Prefs.loadCupStyle() ?? _cupStyle;
+    _appTheme = Prefs.loadAppTheme() ?? _appTheme;
+    _appLanguage = Prefs.loadAppLanguage() ?? _appLanguage;
+    _collectStats = Prefs.loadCollectStats() ?? _collectStats;
+    _stackedView = Prefs.loadStackedView() ?? _stackedView;
+
+    // Load teas from prefs
+    if (Prefs.teaPrefsExist()) {
+      _teaList = Prefs.loadTeas();
+
+      // Manage quick actions
+      setQuickActions();
+    }
+  }
+
   // Teas
   List<Tea> _teaList = [];
   List<Tea> get teaList => [..._teaList];
@@ -406,28 +428,6 @@ class AppProvider extends ChangeNotifier {
   void notify() {
     notifyListeners();
   }
-
-  // Initialize provider
-  AppProvider() {
-    // Fetch app settings such as theme and language
-    _showExtra = Prefs.loadShowExtra() ?? _showExtra;
-    _hideIncrements = Prefs.loadHideIncrements() ?? _hideIncrements;
-    _silentDefault = Prefs.loadSilentDefault() ?? _silentDefault;
-    _useBrewRatios = Prefs.loadUseBrewRatios() ?? _useBrewRatios;
-    _cupStyle = Prefs.loadCupStyle() ?? _cupStyle;
-    _appTheme = Prefs.loadAppTheme() ?? _appTheme;
-    _appLanguage = Prefs.loadAppLanguage() ?? _appLanguage;
-    _collectStats = Prefs.loadCollectStats() ?? _collectStats;
-    _stackedView = Prefs.loadStackedView() ?? _stackedView;
-
-    // Load teas from prefs
-    if (Prefs.teaPrefsExist()) {
-      _teaList = Prefs.loadTeas();
-
-      // Manage quick actions
-      setQuickActions();
-    }
-  }
 }
 
 // Sort criteria
@@ -439,10 +439,10 @@ enum SortBy {
   usage(AppString.sort_by_usage, true),
   recent(AppString.sort_by_recent, true);
 
+  const SortBy(this._nameString, this.statsRequired);
+
   final AppString _nameString;
   final bool statsRequired;
-
-  const SortBy(this._nameString, this.statsRequired);
 
   // Localized sort criteria names
   String get localizedName => _nameString.translate();

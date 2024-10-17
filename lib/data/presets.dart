@@ -23,18 +23,6 @@ import 'package:flutter/material.dart';
 
 // Preset definition
 class Preset {
-  // Fields
-  AppString key;
-  int brewTime;
-  int brewTempDegreesC;
-  int brewTempDegreesF;
-  BrewRatio brewRatioG;
-  BrewRatio brewRatioTsp;
-  TeaColor color;
-  TeaIcon icon;
-  bool isCustom;
-
-  // Constructor
   Preset({
     required this.key,
     required this.brewTime,
@@ -46,6 +34,17 @@ class Preset {
     required this.icon,
     this.isCustom = false,
   });
+
+  // Fields
+  AppString key;
+  int brewTime;
+  int brewTempDegreesC;
+  int brewTempDegreesF;
+  BrewRatio brewRatioG;
+  BrewRatio brewRatioTsp;
+  TeaColor color;
+  TeaIcon icon;
+  bool isCustom;
 
   // Localized tea name
   get localizedName {

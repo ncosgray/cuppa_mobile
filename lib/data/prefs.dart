@@ -270,11 +270,11 @@ enum CupStyle {
   chinese(2, AppString.prefs_cup_style_chinese, cupImageChinese),
   mug(3, AppString.prefs_cup_style_mug, cupImageMug);
 
+  const CupStyle(this.value, this._nameString, this._cupImage);
+
   final int value;
   final AppString _nameString;
   final String _cupImage;
-
-  const CupStyle(this.value, this._nameString, this._cupImage);
 
   // Cup style images
   Image get image {
@@ -297,12 +297,12 @@ enum AppTheme {
   black(3, AppString.theme_black, ThemeMode.dark, true),
   systemBlack(4, AppString.theme_system_black, ThemeMode.system, true);
 
+  const AppTheme(this.value, this._nameString, this.themeMode, this.blackTheme);
+
   final int value;
   final AppString _nameString;
   final ThemeMode themeMode;
   final bool blackTheme;
-
-  const AppTheme(this.value, this._nameString, this.themeMode, this.blackTheme);
 
   // Localized theme names
   String get localizedName => _nameString.translate();

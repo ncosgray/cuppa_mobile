@@ -30,6 +30,8 @@ final List<TeaTimer> timerList = [timer1, timer2];
 
 // Tea timer definition
 class TeaTimer {
+  TeaTimer({required this.notifyID});
+
   // Fields
   late int notifyID;
   bool isActive = false;
@@ -37,9 +39,6 @@ class TeaTimer {
   int brewTime = 0;
   int timerSeconds = 0;
   Timer? ticker;
-
-  // Constructor
-  TeaTimer({required this.notifyID});
 
   // Start brewing
   void start(Tea newTea, void Function(Timer? timer) handleTick) {
