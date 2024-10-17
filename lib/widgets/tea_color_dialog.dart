@@ -99,7 +99,7 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
                 ColorPickerType.wheel: false,
               },
               customColorSwatchesAndNames: <ColorSwatch<Object>, String>{
-                for (TeaColor color in TeaColor.values)
+                for (final color in TeaColor.values)
                   ColorTools.createPrimarySwatch(
                     color.getColor(),
                   ): color.name,

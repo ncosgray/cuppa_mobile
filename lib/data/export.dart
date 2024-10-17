@@ -159,7 +159,7 @@ abstract class Export {
         // Load imported stats, replacing existing
         if (exportData.stats != null) {
           await Stats.clearStats();
-          for (Stat stat in exportData.stats!) {
+          for (final stat in exportData.stats!) {
             await Stats.insertStat(stat);
           }
           imported = true;

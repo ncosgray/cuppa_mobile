@@ -85,7 +85,7 @@ Future<void> sendNotification(
   if (Platform.isAndroid) {
     List<PendingNotificationRequest> pendingNotifications =
         await notify.pendingNotificationRequests();
-    for (PendingNotificationRequest notification in pendingNotifications) {
+    for (final notification in pendingNotifications) {
       // Check for mismatch between channel and silent status
       if (notification.payload != null && notification.id == notifyID) {
         if ((notification.payload == notifyChannel && silent) ||

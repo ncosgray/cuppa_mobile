@@ -39,7 +39,7 @@ void main() {
     await $.pumpWidgetAndSettle(const CuppaApp());
 
     // Tap through tutorials
-    for (var _ in tutorialSteps.keys) {
+    for (final _ in tutorialSteps.keys) {
       await $.native.tapAt(const Offset(0.5, 0.5));
       await $.pumpAndSettle();
     }
@@ -136,7 +136,7 @@ void main() {
     await Future.delayed(const Duration(seconds: timerSeconds));
     await $.native.openNotifications();
     bool didNotify = false;
-    for (var notification in await $.native.getNotifications()) {
+    for (final notification in await $.native.getNotifications()) {
       if (notification.content.contains(timerName)) {
         didNotify = true;
       }

@@ -77,7 +77,7 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
                           : 0.5,
                     ),
                     colors: [
-                      for (TeaTimer timer in timerList)
+                      for (final timer in timerList)
                         if (timer.tea != null) timer.tea!.getColor(),
                     ],
                   )

@@ -106,7 +106,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
             );
           } else if (buttonData.stackedView && layoutPortrait) {
             // Arrange into multiple rows for small screens
-            for (List<Tea> teaRow
+            for (final teaRow
                 in buttonData.teaList.slices(stackedViewTeaCount)) {
               teaButtonRows.add(_teaButtonRow(teaRow));
             }
@@ -316,7 +316,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
   // Cancel timer for a given tea
   void _cancelTimerForTea(Tea tea) {
-    for (TeaTimer timer in timerList) {
+    for (final timer in timerList) {
       if (timer.tea == tea) {
         _cancelTimer(timer);
       }
@@ -325,7 +325,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
   // Force cancel and reset all timers
   void _cancelAllTimers() {
-    for (TeaTimer timer in timerList) {
+    for (final timer in timerList) {
       _cancelTimer(timer);
     }
     Provider.of<AppProvider>(context, listen: false).clearActiveTea();
@@ -336,7 +336,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
 
     // Load saved brewing timer info from prefs
-    for (Tea tea in provider.activeTeas) {
+    for (final tea in provider.activeTeas) {
       if (tea.brewTimeRemaining > 0) {
         // Resume timer from stored prefs
         _setTimer(tea, resume: true, autoScroll: true);
