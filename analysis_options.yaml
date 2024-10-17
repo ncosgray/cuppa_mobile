@@ -22,7 +22,14 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
+    avoid_escaping_inner_quotes: true
+    prefer_null_aware_method_calls: true
+    prefer_single_quotes: true
     require_trailing_commas: true
+    sort_pub_dependencies: true
+    unnecessary_breaks: true
+    use_enums: true
+    use_named_constants: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
