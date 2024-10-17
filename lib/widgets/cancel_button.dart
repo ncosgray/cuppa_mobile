@@ -26,7 +26,7 @@ Widget cancelButton({
 }) {
   // Button with "X" icon
   return InkWell(
-    borderRadius: BorderRadius.circular(4.0),
+    borderRadius: BorderRadius.circular(4),
     onTap: onPressed,
     child: Container(
       padding: smallDefaultPadding,

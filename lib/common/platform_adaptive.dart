@@ -73,8 +73,8 @@ Widget adaptiveNavBarActionButton({
       padding: noPadding,
       onPressed: onPressed,
       child: SizedBox(
-        height: 24.0,
-        width: 24.0,
+        height: 24,
+        width: 24,
         child: FittedBox(
           child: icon,
         ),
@@ -161,23 +161,23 @@ Widget adaptiveLargeButton({
 }) {
   if (Platform.isIOS) {
     return CupertinoButton(
-      minSize: 72.0,
+      minSize: 72,
       padding: noPadding,
       onPressed: onPressed,
-      child: Icon(icon, size: 36.0, color: iconColor),
+      child: Icon(icon, size: 36, color: iconColor),
     );
   } else {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
         visualDensity: VisualDensity.comfortable,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(12),
         ),
-        minimumSize: const Size(60.0, 60.0),
+        minimumSize: const Size(60, 60),
         padding: smallDefaultPadding,
       ),
       onPressed: onPressed,
-      child: Icon(icon, size: 36.0, color: iconColor),
+      child: Icon(icon, size: 36, color: iconColor),
     );
   }
 }
@@ -199,7 +199,7 @@ Widget adaptiveTextFormField({
         Row(
           children: [
             SizedBox(
-              width: 186.0,
+              width: 186,
               child: CupertinoTextFormFieldRow(
                 controller: controller,
                 autofocus: true,
@@ -361,11 +361,11 @@ class PlatformAdaptiveNavBar extends StatelessWidget
         automaticallyImplyLeading: false,
         automaticallyImplyMiddle: false,
         padding: previousPageTitle != null
-            ? const EdgeInsetsDirectional.only(start: 4.0, end: 12.0)
-            : const EdgeInsetsDirectional.symmetric(horizontal: 12.0),
+            ? const EdgeInsetsDirectional.only(start: 4, end: 12)
+            : const EdgeInsetsDirectional.symmetric(horizontal: 12),
         border: isPoppable
             ? const Border(
-                bottom: BorderSide(color: Color(0x4D000000), width: 0.0),
+                bottom: BorderSide(color: Color(0x4D000000), width: 0),
               ) // _kDefaultNavBarBorder
             : null,
         backgroundColor: isPoppable
@@ -383,7 +383,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
                   children: [
                     const Icon(
                       CupertinoIcons.chevron_back,
-                      size: 28.0,
+                      size: 28,
                     ),
                     Text(previousPageTitle!),
                   ],

@@ -114,7 +114,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
   // Build a time picker
   Widget _timePicker() {
     return SizedBox(
-      height: 120.0,
+      height: 120,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         textDirection: TextDirection.ltr,
@@ -266,7 +266,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
     required List<int> timeValues,
     bool padTime = false,
   }) {
-    double itemWidth = MediaQuery.of(context).textScaler.scale(28.0);
+    double itemWidth = MediaQuery.of(context).textScaler.scale(28);
 
     return Row(
       children: [

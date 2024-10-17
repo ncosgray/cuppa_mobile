@@ -66,7 +66,7 @@ class TeaSettingsCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Container(
-                        height: 54.0,
+                        height: 54,
                         padding: noPadding,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -305,10 +305,10 @@ class TeaSettingsCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              width: 20.0,
-              height: 20.0,
+              width: 20,
+              height: 20,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4.0),
+                borderRadius: BorderRadius.circular(4),
                 color: tea.getColor(),
               ),
             ),
@@ -540,7 +540,7 @@ class TeaSettingsCard extends StatelessWidget {
             Icon(
               tea.teaIcon,
               color: Theme.of(context).textTheme.bodySmall!.color!,
-              size: 22.0,
+              size: 22,
             ),
             dropdownArrow,
           ],

@@ -205,7 +205,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: shadowColor,
-            blurRadius: 14.0,
+            blurRadius: 14,
           ),
         ],
       ),
@@ -270,7 +270,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
       color: Theme.of(context).colorScheme.error,
       margin: bodyPadding,
       child: Padding(
-        padding: const EdgeInsets.all(14.0),
+        padding: const EdgeInsets.all(14),
         child: Align(
           alignment: alignment,
           child: getPlatformRemoveIcon(
@@ -286,7 +286,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
     return Selector<AppProvider, int>(
       selector: (_, provider) => provider.teaCount,
       builder: (context, teaCount, child) => SizedBox(
-        height: 48.0,
+        height: 48,
         child: Card(
           margin: noPadding,
           shadowColor: Colors.transparent,
@@ -339,13 +339,13 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
         contentPadding: noPadding,
         // Preset tea icon
         leading: SizedBox.square(
-          dimension: 48.0,
+          dimension: 48,
           child: preset.isCustom
               ? customPresetIcon(color: presetColor)
               : Icon(
                   preset.getIcon(),
                   color: presetColor,
-                  size: 24.0,
+                  size: 24,
                 ),
         ),
         // Preset tea brew time, temperature, and ratio
@@ -413,8 +413,8 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
       children: [
         smallSpacerWidget,
         SizedBox(
-          width: 48.0,
-          height: 48.0,
+          width: 48,
+          height: 48,
           child: Card(
             margin: noPadding,
             shadowColor: Colors.transparent,

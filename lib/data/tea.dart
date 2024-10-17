@@ -317,7 +317,7 @@ class Tea {
               json[jsonKeyColorShadeRed],
               json[jsonKeyColorShadeGreen],
               json[jsonKeyColorShadeBlue],
-              1.0,
+              1,
             )
           : null,
       iconValue: tryCast<int>(json[jsonKeyIcon]) ?? defaultTeaIconValue,

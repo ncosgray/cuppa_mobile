@@ -82,7 +82,7 @@ class Stat {
       colorShadeRed,
       colorShadeGreen,
       colorShadeBlue,
-      1.0,
+      1,
     );
   }
 

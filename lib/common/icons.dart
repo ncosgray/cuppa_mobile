@@ -19,55 +19,55 @@ import 'package:flutter/material.dart';
 // Icons
 const Icon navBarTeasIcon = Icon(
   Icons.timer_outlined,
-  size: 28.0,
+  size: 28,
 );
 
 const Icon navBarSettingsIcon = Icon(
   Icons.list_alt,
-  size: 28.0,
+  size: 28,
 );
 
 const Icon mutedIcon = Icon(
   Icons.volume_off,
   color: timerForegroundColor,
-  size: 32.0,
+  size: 32,
 );
 
 const Icon unmutedIcon = Icon(
   Icons.volume_up,
   color: timerForegroundColor,
-  size: 32.0,
+  size: 32,
 );
 
 const Icon dropdownArrow = Icon(
   Icons.arrow_drop_down,
-  size: 24.0,
+  size: 24,
 );
 
 const Icon launchIcon = Icon(
   Icons.launch,
-  size: 16.0,
+  size: 16,
 );
 
 const Icon dragHandle = Icon(
   Icons.drag_handle,
-  size: 20.0,
+  size: 20,
 );
 
 const Icon clearIcon = Icon(
   Icons.cancel_outlined,
-  size: 14.0,
+  size: 14,
   color: clearIconColor,
 );
 
 const Icon addIcon = Icon(
   Icons.add_circle,
-  size: 20.0,
+  size: 20,
 );
 
 const Icon editIcon = Icon(
   Icons.edit,
-  size: 20.0,
+  size: 20,
 );
 
 const Icon favoriteStarIcon = Icon(
@@ -85,7 +85,7 @@ const Icon disabledStarIcon = Icon(
 
 const Icon infoIcon = Icon(
   Icons.info,
-  size: 20.0,
+  size: 20,
 );
 
 const Icon exportIcon = Icon(
@@ -101,7 +101,7 @@ Icon customPresetIcon({required Color color}) {
   return Icon(
     Icons.add_circle,
     color: color,
-    size: 20.0,
+    size: 20,
   );
 }
 
@@ -109,14 +109,14 @@ Icon cancelIcon({required Color color}) {
   return Icon(
     Icons.cancel,
     color: color,
-    size: 14.0,
+    size: 14,
   );
 }
 
 Icon navigateIcon({required Color color}) {
   return Icon(
     Icons.arrow_circle_right,
-    size: 28.0,
+    size: 28,
     color: color,
   );
 }

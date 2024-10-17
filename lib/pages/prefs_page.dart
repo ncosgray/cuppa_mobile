@@ -99,8 +99,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                     ? Offset.zero
                     // Determine transition direction
                     : _navSlideBack
-                        ? const Offset(-1.0, 0.0)
-                        : const Offset(1.0, 0.0),
+                        ? const Offset(-1, 0)
+                        : const Offset(1, 0),
                 endSlideOffset: Offset.zero,
                 index: _navIndex,
                 children: [
@@ -470,7 +470,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
             RenderBox? renderBox = context.findRenderObject() as RenderBox?;
             Rect sharePositionOrigin =
                 (renderBox?.localToGlobal(Offset.zero) ?? Offset.zero) &
-                    (renderBox?.size ?? const Size(4.0, 4.0));
+                    (renderBox?.size ?? const Size(4, 4));
 
             // Attempt to save an export file and report if failed
             Export.create(
@@ -528,12 +528,12 @@ class _PrefsWidgetState extends State<PrefsWidget> {
   Widget _notificationLink() {
     return InkWell(
       child: ListTile(
-        minLeadingWidth: 30.0,
+        minLeadingWidth: 30,
         leading: const SizedBox(
           height: double.infinity,
           child: infoIcon,
         ),
-        horizontalTitleGap: 0.0,
+        horizontalTitleGap: 0,
         title: Text(
           AppString.prefs_notifications.translate(),
           style: textStyleSubtitle,

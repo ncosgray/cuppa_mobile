@@ -74,7 +74,7 @@ class TeaButton extends StatelessWidget {
                     Icon(
                       tea.teaIcon,
                       color: tea.isActive ? timerActiveColor : tea.getColor(),
-                      size: 64.0,
+                      size: 64,
                     ),
                     Text(
                       tea.name,

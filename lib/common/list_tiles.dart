@@ -155,8 +155,8 @@ Widget settingListTitle({
       ..add(spacerWidget)
       ..add(
         SizedBox(
-          width: 28.0,
-          height: 28.0,
+          width: 28,
+          height: 28,
           child: image,
         ),
       );

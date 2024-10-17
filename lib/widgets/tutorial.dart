@@ -53,10 +53,10 @@ Widget tutorialTooltip({
       descTextStyle: textStyleTutorial.copyWith(
         color: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
-      tooltipPadding: const EdgeInsets.all(12.0),
+      tooltipPadding: const EdgeInsets.all(12),
       tooltipBackgroundColor: Theme.of(context).colorScheme.primaryContainer,
       showArrow: showArrow,
-      overlayOpacity: 0.0,
+      overlayOpacity: 0,
       blurValue: showArrow ? 2.5 : 0.0,
       disableMovingAnimation: true,
       disableScaleAnimation: false,

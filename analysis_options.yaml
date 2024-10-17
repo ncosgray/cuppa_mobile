@@ -26,6 +26,7 @@ linter:
     avoid_void_async: true
     cascade_invocations: true
     prefer_final_in_for_each: true
+    prefer_int_literals: true
     prefer_null_aware_method_calls: true
     prefer_single_quotes: true
     require_trailing_commas: true
