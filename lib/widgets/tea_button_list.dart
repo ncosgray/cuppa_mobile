@@ -60,6 +60,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
       AppProvider provider = Provider.of<AppProvider>(context, listen: false);
 
       // Set default brew temp units based on locale
+      // ignore: cascade_invocations
       provider.useCelsius = Prefs.loadUseCelsius() ?? deviceUsesCelsius();
 
       // Add default presets if no custom teas have been set
@@ -98,12 +99,13 @@ class _TeaButtonListState extends State<TeaButtonList> {
           if (buttonData.stackedView && getDeviceSize(context).isLargeDevice) {
             // Arrange into two rows of tea buttons for large screens
             int topRowLength = (buttonData.teaList.length / 2).floor();
-            teaButtonRows.add(
-              _teaButtonRow(buttonData.teaList.sublist(0, topRowLength)),
-            );
-            teaButtonRows.add(
-              _teaButtonRow(buttonData.teaList.sublist(topRowLength)),
-            );
+            teaButtonRows
+              ..add(
+                _teaButtonRow(buttonData.teaList.sublist(0, topRowLength)),
+              )
+              ..add(
+                _teaButtonRow(buttonData.teaList.sublist(topRowLength)),
+              );
           } else if (buttonData.stackedView && layoutPortrait) {
             // Arrange into multiple rows for small screens
             for (final teaRow

@@ -236,18 +236,19 @@ class AppProvider extends ChangeNotifier {
 
   // Load teas from default presets
   void loadDefaults() {
-    _teaList.add(
-      Presets.getPreset(AppString.tea_name_black)
-          .createTea(useCelsius: _useCelsius, isFavorite: true),
-    );
-    _teaList.add(
-      Presets.getPreset(AppString.tea_name_green)
-          .createTea(useCelsius: _useCelsius, isFavorite: true),
-    );
-    _teaList.add(
-      Presets.getPreset(AppString.tea_name_herbal)
-          .createTea(useCelsius: _useCelsius, isFavorite: true),
-    );
+    _teaList
+      ..add(
+        Presets.getPreset(AppString.tea_name_black)
+            .createTea(useCelsius: _useCelsius, isFavorite: true),
+      )
+      ..add(
+        Presets.getPreset(AppString.tea_name_green)
+            .createTea(useCelsius: _useCelsius, isFavorite: true),
+      )
+      ..add(
+        Presets.getPreset(AppString.tea_name_herbal)
+            .createTea(useCelsius: _useCelsius, isFavorite: true),
+      );
 
     // Manage quick actions
     setQuickActions();

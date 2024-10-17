@@ -54,12 +54,13 @@ abstract class Prefs {
           isActive: sharedPrefs.getBool(prefTea1IsActive) ?? false,
         ),
       );
-      sharedPrefs.remove(prefTea1Name);
-      sharedPrefs.remove(prefTea1BrewTime);
-      sharedPrefs.remove(prefTea1BrewTemp);
-      sharedPrefs.remove(prefTea1Color);
-      sharedPrefs.remove(prefTea1IsFavorite);
-      sharedPrefs.remove(prefTea1IsActive);
+      sharedPrefs
+        ..remove(prefTea1Name)
+        ..remove(prefTea1BrewTime)
+        ..remove(prefTea1BrewTemp)
+        ..remove(prefTea1Color)
+        ..remove(prefTea1IsFavorite)
+        ..remove(prefTea1IsActive);
       migrated = true;
     }
 
@@ -78,12 +79,13 @@ abstract class Prefs {
           isActive: sharedPrefs.getBool(prefTea2IsActive) ?? false,
         ),
       );
-      sharedPrefs.remove(prefTea2Name);
-      sharedPrefs.remove(prefTea2BrewTime);
-      sharedPrefs.remove(prefTea2BrewTemp);
-      sharedPrefs.remove(prefTea2Color);
-      sharedPrefs.remove(prefTea2IsFavorite);
-      sharedPrefs.remove(prefTea2IsActive);
+      sharedPrefs
+        ..remove(prefTea2Name)
+        ..remove(prefTea2BrewTime)
+        ..remove(prefTea2BrewTemp)
+        ..remove(prefTea2Color)
+        ..remove(prefTea2IsFavorite)
+        ..remove(prefTea2IsActive);
       migrated = true;
     }
 
@@ -102,12 +104,13 @@ abstract class Prefs {
           isActive: sharedPrefs.getBool(prefTea3IsActive) ?? false,
         ),
       );
-      sharedPrefs.remove(prefTea3Name);
-      sharedPrefs.remove(prefTea3BrewTime);
-      sharedPrefs.remove(prefTea3BrewTemp);
-      sharedPrefs.remove(prefTea3Color);
-      sharedPrefs.remove(prefTea3IsFavorite);
-      sharedPrefs.remove(prefTea3IsActive);
+      sharedPrefs
+        ..remove(prefTea3Name)
+        ..remove(prefTea3BrewTime)
+        ..remove(prefTea3BrewTemp)
+        ..remove(prefTea3Color)
+        ..remove(prefTea3IsFavorite)
+        ..remove(prefTea3IsActive);
       migrated = true;
     }
 

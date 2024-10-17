@@ -151,14 +151,15 @@ Widget settingListTitle({
     ),
   ];
   if (image != null) {
-    titleWidgets.add(spacerWidget);
-    titleWidgets.add(
-      SizedBox(
-        width: 28.0,
-        height: 28.0,
-        child: image,
-      ),
-    );
+    titleWidgets
+      ..add(spacerWidget)
+      ..add(
+        SizedBox(
+          width: 28.0,
+          height: 28.0,
+          child: image,
+        ),
+      );
   }
 
   return Row(
