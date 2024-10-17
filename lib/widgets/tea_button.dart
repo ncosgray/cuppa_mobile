@@ -50,7 +50,7 @@ class TeaButton extends StatelessWidget {
       margin: largeDefaultPadding,
       elevation: tea.isActive ? 0.0 : 1.0,
       clipBehavior: Clip.antiAlias,
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           color: tea.isActive ? tea.getColor() : null,
         ),

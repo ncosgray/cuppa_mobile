@@ -30,6 +30,8 @@ linter:
     sort_pub_dependencies: true
     unawaited_futures: true
     unnecessary_breaks: true
+    use_colored_box: true
+    use_decorated_box: true
     use_enums: true
     use_named_constants: true
 

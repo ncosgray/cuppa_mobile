@@ -56,7 +56,7 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
           }
         }
 
-        return Container(
+        return DecoratedBox(
           decoration: BoxDecoration(
             color: timerBackgroundColor,
             // Apply background colors to distinguish timers

@@ -31,7 +31,7 @@ Widget miniTeaButton({
       elevation: 1.0,
       margin: noPadding,
       clipBehavior: Clip.antiAlias,
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(color: isActive ? color : null),
         child: Container(
           margin: largeDefaultPadding,

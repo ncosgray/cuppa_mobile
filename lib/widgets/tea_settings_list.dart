@@ -200,7 +200,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
     int index,
     Animation<double> animation,
   ) {
-    return Container(
+    return DecoratedBox(
       decoration: const BoxDecoration(
         boxShadow: <BoxShadow>[
           BoxShadow(
