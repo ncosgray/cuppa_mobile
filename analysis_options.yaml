@@ -23,10 +23,12 @@ linter:
   # producing the lint.
   rules:
     avoid_escaping_inner_quotes: true
+    avoid_void_async: true
     prefer_null_aware_method_calls: true
     prefer_single_quotes: true
     require_trailing_commas: true
     sort_pub_dependencies: true
+    unawaited_futures: true
     unnecessary_breaks: true
     use_enums: true
     use_named_constants: true

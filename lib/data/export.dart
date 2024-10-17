@@ -158,9 +158,9 @@ abstract class Export {
 
         // Load imported stats, replacing existing
         if (exportData.stats != null) {
-          Stats.clearStats();
+          await Stats.clearStats();
           for (Stat stat in exportData.stats!) {
-            Stats.insertStat(stat);
+            await Stats.insertStat(stat);
           }
           imported = true;
         }

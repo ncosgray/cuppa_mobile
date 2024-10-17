@@ -217,7 +217,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
 
           // Clear usage data if collection gets disabled
           if (!provider.collectStats) {
-            Stats.clearStats();
+            await Stats.clearStats();
           }
         }
       },
@@ -507,7 +507,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
           bodyExtra: Text(AppString.confirm_continue.translate()),
         )) {
           // Attempt to load an export file and report the result
-          Export.load(provider).then(
+          await Export.load(provider).then(
             (imported) {
               if (context.mounted) {
                 showInfoDialog(

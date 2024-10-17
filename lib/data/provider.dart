@@ -109,7 +109,7 @@ class AppProvider extends ChangeNotifier {
   }
 
   // Sort the tea list
-  void sortTeas({SortBy? sortBy}) async {
+  Future<void> sortTeas({SortBy? sortBy}) async {
     switch (sortBy) {
       case SortBy.favorite:
         {
