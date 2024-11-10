@@ -163,7 +163,7 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
           // Temperature picker
           Slider.adaptive(
             value: _newTempIndex.toDouble(),
-            min: 0.0,
+            min: 0,
             max: maxTempIndex.toDouble(),
             divisions: maxTempIndex,
             onChanged: (newValue) {

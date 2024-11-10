@@ -95,7 +95,6 @@ Widget settingList(
         separatorBuilder: separatorDummy,
       ),
       contentPadding: listTilePadding,
-      dense: true,
     ),
   );
 }
@@ -146,18 +145,21 @@ Widget settingListTitle({
         title,
         textAlign: alignEnd ? TextAlign.end : TextAlign.start,
         style: textStyleTitle.copyWith(color: color),
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
       ),
     ),
   ];
   if (image != null) {
-    titleWidgets.add(spacerWidget);
-    titleWidgets.add(
-      SizedBox(
-        width: 28.0,
-        height: 28.0,
-        child: image,
-      ),
-    );
+    titleWidgets
+      ..add(spacerWidget)
+      ..add(
+        SizedBox(
+          width: 28,
+          height: 28,
+          child: image,
+        ),
+      );
   }
 
   return Row(

@@ -50,7 +50,7 @@ class TeaButton extends StatelessWidget {
       margin: largeDefaultPadding,
       elevation: tea.isActive ? 0.0 : 1.0,
       clipBehavior: Clip.antiAlias,
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           color: tea.isActive ? tea.getColor() : null,
         ),
@@ -74,7 +74,7 @@ class TeaButton extends StatelessWidget {
                     Icon(
                       tea.teaIcon,
                       color: tea.isActive ? timerActiveColor : tea.getColor(),
-                      size: 64.0,
+                      size: 64,
                     ),
                     Text(
                       tea.name,

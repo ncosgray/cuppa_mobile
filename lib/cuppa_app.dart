@@ -26,6 +26,9 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/find_locale.dart';
+import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:region_settings/region_settings.dart';
@@ -43,6 +46,10 @@ Future<void> initializeApp() async {
   packageInfo = await PackageInfo.fromPlatform();
   regionSettings = await RegionSettings.getSettings();
   await loadLanguageOptions();
+
+  // Get default locale for DateFormat and NumberFormat
+  await initializeDateFormatting();
+  Intl.defaultLocale = await findSystemLocale();
 
   // Get time zone
   tz.initializeTimeZones();

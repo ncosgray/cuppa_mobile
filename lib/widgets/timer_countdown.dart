@@ -56,7 +56,7 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
           }
         }
 
-        return Container(
+        return DecoratedBox(
           decoration: BoxDecoration(
             color: timerBackgroundColor,
             // Apply background colors to distinguish timers
@@ -77,12 +77,12 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
                           : 0.5,
                     ),
                     colors: [
-                      for (TeaTimer timer in timerList)
+                      for (final timer in timerList)
                         if (timer.tea != null) timer.tea!.getColor(),
                     ],
                   )
                 : null,
-            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
           ),
           child: AnimatedSize(
             duration: shortAnimationDuration,
@@ -110,7 +110,7 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
                             timer1.tea?.color == timer2.tea?.color &&
                             timer1.tea?.colorShade == timer2.tea?.colorShade,
                         child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                          margin: const EdgeInsets.symmetric(horizontal: 12),
                           width: layoutPortrait ? 420.0 : 12.0,
                           height: layoutPortrait ? 12.0 : 140.0,
                           color: timerForegroundColor,
@@ -255,7 +255,7 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
             Icon(
               secs > 0 ? incrementPlusIcon : incrementMinusIcon,
               color: timerForegroundColor,
-              size: 28.0,
+              size: 28,
             ),
             Text(
               '$buttonValue$buttonValueUnit',

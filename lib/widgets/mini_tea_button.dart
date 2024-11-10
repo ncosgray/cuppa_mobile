@@ -28,17 +28,17 @@ Widget miniTeaButton({
   return Theme(
     data: darkTheme ? darkThemeData : lightThemeData,
     child: Card(
-      elevation: 1.0,
+      elevation: 1,
       margin: noPadding,
       clipBehavior: Clip.antiAlias,
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(color: isActive ? color : null),
         child: Container(
           margin: largeDefaultPadding,
           child: Icon(
             icon,
             color: isActive ? timerActiveColor : color,
-            size: 28.0,
+            size: 28,
           ),
         ),
       ),

@@ -54,12 +54,13 @@ abstract class Prefs {
           isActive: sharedPrefs.getBool(prefTea1IsActive) ?? false,
         ),
       );
-      sharedPrefs.remove(prefTea1Name);
-      sharedPrefs.remove(prefTea1BrewTime);
-      sharedPrefs.remove(prefTea1BrewTemp);
-      sharedPrefs.remove(prefTea1Color);
-      sharedPrefs.remove(prefTea1IsFavorite);
-      sharedPrefs.remove(prefTea1IsActive);
+      sharedPrefs
+        ..remove(prefTea1Name)
+        ..remove(prefTea1BrewTime)
+        ..remove(prefTea1BrewTemp)
+        ..remove(prefTea1Color)
+        ..remove(prefTea1IsFavorite)
+        ..remove(prefTea1IsActive);
       migrated = true;
     }
 
@@ -78,12 +79,13 @@ abstract class Prefs {
           isActive: sharedPrefs.getBool(prefTea2IsActive) ?? false,
         ),
       );
-      sharedPrefs.remove(prefTea2Name);
-      sharedPrefs.remove(prefTea2BrewTime);
-      sharedPrefs.remove(prefTea2BrewTemp);
-      sharedPrefs.remove(prefTea2Color);
-      sharedPrefs.remove(prefTea2IsFavorite);
-      sharedPrefs.remove(prefTea2IsActive);
+      sharedPrefs
+        ..remove(prefTea2Name)
+        ..remove(prefTea2BrewTime)
+        ..remove(prefTea2BrewTemp)
+        ..remove(prefTea2Color)
+        ..remove(prefTea2IsFavorite)
+        ..remove(prefTea2IsActive);
       migrated = true;
     }
 
@@ -102,12 +104,13 @@ abstract class Prefs {
           isActive: sharedPrefs.getBool(prefTea3IsActive) ?? false,
         ),
       );
-      sharedPrefs.remove(prefTea3Name);
-      sharedPrefs.remove(prefTea3BrewTime);
-      sharedPrefs.remove(prefTea3BrewTemp);
-      sharedPrefs.remove(prefTea3Color);
-      sharedPrefs.remove(prefTea3IsFavorite);
-      sharedPrefs.remove(prefTea3IsActive);
+      sharedPrefs
+        ..remove(prefTea3Name)
+        ..remove(prefTea3BrewTime)
+        ..remove(prefTea3BrewTemp)
+        ..remove(prefTea3Color)
+        ..remove(prefTea3IsFavorite)
+        ..remove(prefTea3IsActive);
       migrated = true;
     }
 
@@ -267,11 +270,11 @@ enum CupStyle {
   chinese(2, AppString.prefs_cup_style_chinese, cupImageChinese),
   mug(3, AppString.prefs_cup_style_mug, cupImageMug);
 
+  const CupStyle(this.value, this._nameString, this._cupImage);
+
   final int value;
   final AppString _nameString;
   final String _cupImage;
-
-  const CupStyle(this.value, this._nameString, this._cupImage);
 
   // Cup style images
   Image get image {
@@ -294,12 +297,12 @@ enum AppTheme {
   black(3, AppString.theme_black, ThemeMode.dark, true),
   systemBlack(4, AppString.theme_system_black, ThemeMode.system, true);
 
+  const AppTheme(this.value, this._nameString, this.themeMode, this.blackTheme);
+
   final int value;
   final AppString _nameString;
   final ThemeMode themeMode;
   final bool blackTheme;
-
-  const AppTheme(this.value, this._nameString, this.themeMode, this.blackTheme);
 
   // Localized theme names
   String get localizedName => _nameString.translate();

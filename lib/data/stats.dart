@@ -25,22 +25,6 @@ import 'package:sqflite/sqflite.dart';
 
 // Stat entry definition
 class Stat {
-  // Fields
-  late int id;
-  late String name;
-  late int brewTime;
-  late int brewTemp;
-  late double brewAmount;
-  late bool brewAmountMetric;
-  late int colorShadeRed;
-  late int colorShadeGreen;
-  late int colorShadeBlue;
-  late int iconValue;
-  late bool isFavorite;
-  late int timerStartTime;
-  late int count;
-
-  // Constructor
   Stat({
     Tea? tea,
     int? id,
@@ -74,34 +58,6 @@ class Stat {
     this.timerStartTime =
         timerStartTime ?? DateTime.now().millisecondsSinceEpoch;
     this.count = count ?? 0;
-  }
-
-  // Getters
-  Color get color {
-    return Color.fromRGBO(
-      colorShadeRed,
-      colorShadeGreen,
-      colorShadeBlue,
-      1.0,
-    );
-  }
-
-  // Convert a stat to a map for inserting
-  Map<String, dynamic> toMap() {
-    return {
-      statsColumnId: id,
-      statsColumnName: name,
-      statsColumnBrewTime: brewTime,
-      statsColumnBrewTemp: brewTemp,
-      statsColumnBrewAmount: (brewAmount * 10.0).toInt(),
-      statsColumnBrewAmountMetric: brewAmountMetric ? 1 : 0,
-      statsColumnColorShadeRed: colorShadeRed,
-      statsColumnColorShadeGreen: colorShadeGreen,
-      statsColumnColorShadeBlue: colorShadeBlue,
-      statsColumnIconValue: iconValue,
-      statsColumnIsFavorite: isFavorite ? 1 : 0,
-      statsColumnTimerStartTime: timerStartTime,
-    };
   }
 
   // Factories
@@ -140,6 +96,49 @@ class Stat {
         jsonKeyIsFavorite: isFavorite,
         jsonKeyTimerStartTime: timerStartTime,
       };
+
+  // Convert a stat to a map for inserting
+  Map<String, dynamic> toMap() {
+    return {
+      statsColumnId: id,
+      statsColumnName: name,
+      statsColumnBrewTime: brewTime,
+      statsColumnBrewTemp: brewTemp,
+      statsColumnBrewAmount: (brewAmount * 10.0).toInt(),
+      statsColumnBrewAmountMetric: brewAmountMetric ? 1 : 0,
+      statsColumnColorShadeRed: colorShadeRed,
+      statsColumnColorShadeGreen: colorShadeGreen,
+      statsColumnColorShadeBlue: colorShadeBlue,
+      statsColumnIconValue: iconValue,
+      statsColumnIsFavorite: isFavorite ? 1 : 0,
+      statsColumnTimerStartTime: timerStartTime,
+    };
+  }
+
+  // Fields
+  late int id;
+  late String name;
+  late int brewTime;
+  late int brewTemp;
+  late double brewAmount;
+  late bool brewAmountMetric;
+  late int colorShadeRed;
+  late int colorShadeGreen;
+  late int colorShadeBlue;
+  late int iconValue;
+  late bool isFavorite;
+  late int timerStartTime;
+  late int count;
+
+  // Getters
+  Color get color {
+    return Color.fromRGBO(
+      colorShadeRed,
+      colorShadeGreen,
+      colorShadeBlue,
+      1,
+    );
+  }
 }
 
 // Stats methods
@@ -300,9 +299,9 @@ enum MetricQuery {
   totalTime(_totalTimeSQL),
   starredCount(_starredCountSQL);
 
-  final String sql;
-
   const MetricQuery(this.sql);
+
+  final String sql;
 
   // Query SQL
   static const _beginDateTimeSQL =
@@ -323,9 +322,9 @@ enum DecimalQuery {
   totalAmountG(_totalAmountGSQL),
   totalAmountTsp(_totalAmountTspSQL);
 
-  final String sql;
-
   const DecimalQuery(this.sql);
+
+  final String sql;
 
   // Query SQL
   static const _totalAmountGSQL =
@@ -343,9 +342,9 @@ enum StringQuery {
   morningTea(_morningTeaSQL),
   afternoonTea(_afternoonTeaSQL);
 
-  final String sql;
-
   const StringQuery(this.sql);
+
+  final String sql;
 
   // Query SQL
   static const _morningTeaSQL = '''SELECT (
@@ -380,9 +379,9 @@ enum ListQuery {
   mostUsed(_mostUsedSQL),
   recentlyUsed(_recentlyUsedSQL);
 
-  final String sql;
-
   const ListQuery(this.sql);
+
+  final String sql;
 
   // Query SQL
   static const _summaryStatsSQL = '''SELECT $statsTable.$statsColumnId

@@ -31,7 +31,7 @@ Widget pageHeader(
     surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
     shadowColor: Theme.of(context).shadowColor,
     automaticallyImplyLeading: false,
-    titleSpacing: 0.0,
+    titleSpacing: 0,
     leading: leading,
     title: Container(
       margin: headerPadding,

@@ -46,8 +46,8 @@ class _StatsWidgetState extends State<StatsWidget> {
   int _totalCount = 0;
   int _starredCount = 0;
   int _totalTime = 0;
-  double _totalAmountG = 0.0;
-  double _totalAmountTsp = 0.0;
+  double _totalAmountG = 0;
+  double _totalAmountTsp = 0;
   String _morningTea = '';
   String _afternoonTea = '';
   List<Stat> _summaryStats = [];
@@ -131,7 +131,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                               child: Align(
                                 alignment: Alignment.topCenter,
                                 child: Padding(
-                                  padding: const EdgeInsets.all(24.0),
+                                  padding: const EdgeInsets.all(24),
                                   child: _chart(chartSize: chartSize),
                                 ),
                               ),
@@ -182,7 +182,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                         // General metrics
                         child: IntrinsicHeight(
                           child: Card(
-                            elevation: 1.0,
+                            elevation: 1,
                             child: Container(
                               margin: largeDefaultPadding,
                               child: _metricsList(),
@@ -374,9 +374,9 @@ class _StatsWidgetState extends State<StatsWidget> {
       height: chartSize,
       child: PieChart(
         PieChartData(
-          sectionsSpace: 1.0,
-          startDegreeOffset: 270.0,
-          centerSpaceRadius: 0.0,
+          sectionsSpace: 1,
+          startDegreeOffset: 270,
+          centerSpaceRadius: 0,
           // Chart sections
           sections: [
             ..._filteredSummaryStats.map<PieChartSectionData>(
@@ -496,7 +496,7 @@ class _StatsWidgetState extends State<StatsWidget> {
     required String metricName,
     required String metric,
   }) {
-    double maxWidth = (getDeviceSize(context).width / 2.0) - 12.0;
+    double maxWidth = (getDeviceSize(context).width / 2.0) - 24.0;
 
     return Padding(
       padding: smallDefaultPadding,

@@ -15,15 +15,12 @@
 // - Links to GitHub, Weblate, etc.
 
 import 'package:cuppa_mobile/common/constants.dart';
-import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/globals.dart';
-import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/list_tiles.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
-import 'package:cuppa_mobile/data/export.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/pages/stats_page.dart';
@@ -100,9 +97,6 @@ class AboutWidget extends StatelessWidget {
                       child: listDivider,
                     ),
                   ),
-                  // Tools: export/import data
-                  _exportImportTools(context),
-                  listDivider,
                   // How to report issues
                   aboutLink(
                     title: AppString.issues.translate(),
@@ -163,106 +157,6 @@ class AboutWidget extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  // Tools: export/import data
-  Widget _exportImportTools(BuildContext context) {
-    AppProvider provider = Provider.of<AppProvider>(context);
-
-    return Align(
-      alignment: Alignment.topLeft,
-      child: IgnorePointer(
-        // Disable export/import while timer is active
-        ignoring: provider.activeTeas.isNotEmpty,
-        child: Opacity(
-          opacity: provider.activeTeas.isNotEmpty ? fadeOpacity : noOpacity,
-          child: ListTile(
-            iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
-            title: Text(
-              AppString.export_import.translate(),
-              style: textStyleTitle,
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _exportButton(context),
-                const VerticalDivider(),
-                _importButton(context),
-              ],
-            ),
-            contentPadding: listTilePadding,
-            dense: true,
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Export button
-  Widget _exportButton(BuildContext context) {
-    AppProvider provider = Provider.of<AppProvider>(context);
-
-    return Builder(
-      builder: (BuildContext context) {
-        return IconButton(
-          icon: exportIcon,
-          onPressed: () {
-            // Render location for share sheet on iPad
-            RenderBox? renderBox = context.findRenderObject() as RenderBox?;
-            Rect sharePositionOrigin =
-                (renderBox?.localToGlobal(Offset.zero) ?? Offset.zero) &
-                    (renderBox?.size ?? const Size(4.0, 4.0));
-
-            // Attempt to save an export file and report if failed
-            Export.create(
-              provider,
-              share: true,
-              sharePositionOrigin: sharePositionOrigin,
-            ).then(
-              (exported) {
-                if (!exported && context.mounted) {
-                  showInfoDialog(
-                    context: context,
-                    message: AppString.export_failure.translate(),
-                  );
-                }
-              },
-            );
-          },
-        );
-      },
-    );
-  }
-
-  // Import button
-  Widget _importButton(BuildContext context) {
-    AppProvider provider = Provider.of<AppProvider>(context);
-
-    return IconButton(
-      icon: importIcon,
-      onPressed: () async {
-        // Show a prompt with more information
-        if (await showConfirmDialog(
-          context: context,
-          body: Text(AppString.confirm_import.translate()),
-          bodyExtra: Text(AppString.confirm_continue.translate()),
-        )) {
-          // Attempt to load an export file and report the result
-          Export.load(provider).then(
-            (imported) {
-              if (context.mounted) {
-                showInfoDialog(
-                  context: context,
-                  message: imported
-                      ? AppString.import_sucess.translate()
-                      : AppString.import_failure.translate(),
-                );
-              }
-            },
-          );
-        }
-      },
     );
   }
 

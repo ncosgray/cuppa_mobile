@@ -23,24 +23,6 @@ import 'package:flutter/material.dart';
 
 // Tea definition
 class Tea {
-  // ID
-  late int id;
-
-  // Fields
-  late String name;
-  late int brewTime;
-  late int brewTemp;
-  late BrewRatio brewRatio;
-  late TeaColor color;
-  Color? colorShade;
-  late TeaIcon icon;
-  late bool isFavorite;
-  late bool isActive;
-  late bool isSilent;
-  late int timerEndTime;
-  int? timerNotifyID;
-
-  // Constructor
   Tea({
     int? id,
     required this.name,
@@ -73,6 +55,71 @@ class Tea {
           orElse: () => TeaIcon.values[0],
         );
   }
+
+  // Factories
+  factory Tea.fromJson(Map<String, dynamic> json) {
+    return Tea(
+      id: tryCast<int>(json[jsonKeyID]),
+      name: tryCast<String>(json[jsonKeyName]) ?? unknownString,
+      brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? defaultBrewTime,
+      brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? boilDegreesC,
+      brewRatio: json[jsonKeyBrewRatio] != null
+          ? BrewRatio.fromJson(json[jsonKeyBrewRatio])
+          : BrewRatio(),
+      colorValue: tryCast<int>(json[jsonKeyColor]) ?? defaultTeaColorValue,
+      colorShade: tryCast<int>(json[jsonKeyColorShadeRed]) != null &&
+              tryCast<int>(json[jsonKeyColorShadeGreen]) != null &&
+              tryCast<int>(json[jsonKeyColorShadeBlue]) != null
+          ? Color.fromRGBO(
+              json[jsonKeyColorShadeRed],
+              json[jsonKeyColorShadeGreen],
+              json[jsonKeyColorShadeBlue],
+              1,
+            )
+          : null,
+      iconValue: tryCast<int>(json[jsonKeyIcon]) ?? defaultTeaIconValue,
+      isFavorite: tryCast<bool>(json[jsonKeyIsFavorite]) ?? false,
+      isActive: tryCast<bool>(json[jsonKeyIsActive]) ?? false,
+      isSilent: tryCast<bool>(json[jsonKeyIsSilent]) ?? false,
+      timerEndTime: tryCast<int>(json[jsonKeyTimerEndTime]) ?? 0,
+      timerNotifyID: tryCast<int>(json[jsonKeyTimerNotifyID]),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      jsonKeyID: id,
+      jsonKeyName: name,
+      jsonKeyBrewTime: brewTime,
+      jsonKeyBrewTemp: brewTemp,
+      jsonKeyBrewRatio: brewRatio,
+      jsonKeyColor: color.value,
+      jsonKeyColorShadeRed: colorShade?.red,
+      jsonKeyColorShadeGreen: colorShade?.green,
+      jsonKeyColorShadeBlue: colorShade?.blue,
+      jsonKeyIcon: icon.value,
+      jsonKeyIsFavorite: isFavorite,
+      jsonKeyIsActive: isActive,
+      jsonKeyIsSilent: isSilent,
+      jsonKeyTimerEndTime: timerEndTime,
+      jsonKeyTimerNotifyID: timerNotifyID,
+    };
+  }
+
+  // Fields
+  late int id;
+  late String name;
+  late int brewTime;
+  late int brewTemp;
+  late BrewRatio brewRatio;
+  late TeaColor color;
+  Color? colorShade;
+  late TeaIcon icon;
+  late bool isFavorite;
+  late bool isActive;
+  late bool isSilent;
+  late int timerEndTime;
+  int? timerNotifyID;
 
   // Activate brew timer
   void activate(int notifyID, bool silentDefault) {
@@ -298,56 +345,6 @@ class Tea {
       }
     }
   }
-
-  // Factories
-  factory Tea.fromJson(Map<String, dynamic> json) {
-    return Tea(
-      id: tryCast<int>(json[jsonKeyID]),
-      name: tryCast<String>(json[jsonKeyName]) ?? unknownString,
-      brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? defaultBrewTime,
-      brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? boilDegreesC,
-      brewRatio: json[jsonKeyBrewRatio] != null
-          ? BrewRatio.fromJson(json[jsonKeyBrewRatio])
-          : BrewRatio(),
-      colorValue: tryCast<int>(json[jsonKeyColor]) ?? defaultTeaColorValue,
-      colorShade: tryCast<int>(json[jsonKeyColorShadeRed]) != null &&
-              tryCast<int>(json[jsonKeyColorShadeGreen]) != null &&
-              tryCast<int>(json[jsonKeyColorShadeBlue]) != null
-          ? Color.fromRGBO(
-              json[jsonKeyColorShadeRed],
-              json[jsonKeyColorShadeGreen],
-              json[jsonKeyColorShadeBlue],
-              1.0,
-            )
-          : null,
-      iconValue: tryCast<int>(json[jsonKeyIcon]) ?? defaultTeaIconValue,
-      isFavorite: tryCast<bool>(json[jsonKeyIsFavorite]) ?? false,
-      isActive: tryCast<bool>(json[jsonKeyIsActive]) ?? false,
-      isSilent: tryCast<bool>(json[jsonKeyIsSilent]) ?? false,
-      timerEndTime: tryCast<int>(json[jsonKeyTimerEndTime]) ?? 0,
-      timerNotifyID: tryCast<int>(json[jsonKeyTimerNotifyID]),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      jsonKeyID: id,
-      jsonKeyName: name,
-      jsonKeyBrewTime: brewTime,
-      jsonKeyBrewTemp: brewTemp,
-      jsonKeyBrewRatio: brewRatio,
-      jsonKeyColor: color.value,
-      jsonKeyColorShadeRed: colorShade?.red,
-      jsonKeyColorShadeGreen: colorShade?.green,
-      jsonKeyColorShadeBlue: colorShade?.blue,
-      jsonKeyIcon: icon.value,
-      jsonKeyIsFavorite: isFavorite,
-      jsonKeyIsActive: isActive,
-      jsonKeyIsSilent: isSilent,
-      jsonKeyTimerEndTime: timerEndTime,
-      jsonKeyTimerNotifyID: timerNotifyID,
-    };
-  }
 }
 
 // Tea colors
@@ -365,10 +362,10 @@ enum TeaColor {
   black(0, Color.fromARGB(255, 117, 117, 117)), // Colors.grey.shade600
   brown(6, Color.fromARGB(255, 141, 110, 99)); // Colors.brown.shade400
 
+  const TeaColor(this.value, this.color);
+
   final int value;
   final Color color;
-
-  const TeaColor(this.value, this.color);
 
   // Material color map
   Color getColor() => color;
@@ -380,10 +377,10 @@ enum TeaIcon {
   cup(1, Icons.local_cafe_outlined),
   flower(2, Icons.local_florist_outlined);
 
+  const TeaIcon(this.value, this.icon);
+
   final int value;
   final IconData icon;
-
-  const TeaIcon(this.value, this.icon);
 
   // Material icon map
   IconData getIcon() => icon;

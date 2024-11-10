@@ -51,8 +51,8 @@ const unknownString = '?';
 const defaultBrewTime = 240;
 const defaultTeaColorValue = 0;
 const defaultTeaIconValue = 0;
-const double defaultBrewRatioNumeratorG = 3.0;
-const double defaultBrewRatioNumeratorTsp = 1.0;
+const double defaultBrewRatioNumeratorG = 3;
+const double defaultBrewRatioNumeratorTsp = 1;
 const defaultBrewRatioDenominatorMl = 250;
 const defaultBrewRatioDenominatorOz = 8;
 
@@ -66,18 +66,18 @@ const roomTempDegreesC = 20;
 const roomTempDegreesF = 68;
 
 // Brewing ratios
-const double brewRatioNumeratorMin = 0.0;
-const double brewRatioNumeratorMax = 20.0;
+const double brewRatioNumeratorMin = 0;
+const double brewRatioNumeratorMax = 20;
 const double brewRatioNumeratorStep = 0.5;
 
 // UI sizing thresholds
 const largeDeviceSize = 550;
 
 // Widget sizes
-const double navBarHeight = 56.0;
-const double teaButtonHeight = 106.0;
-const double teaButtonWidth = 88.0;
-const double cancelButtonHeight = 34.0;
+const double navBarHeight = 56;
+const double teaButtonHeight = 106;
+const double teaButtonWidth = 88;
+const double cancelButtonHeight = 34;
 
 // Notifications
 const notifyID1 = 0;

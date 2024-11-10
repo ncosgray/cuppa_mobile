@@ -23,18 +23,6 @@ import 'package:flutter/material.dart';
 
 // Preset definition
 class Preset {
-  // Fields
-  AppString key;
-  int brewTime;
-  int brewTempDegreesC;
-  int brewTempDegreesF;
-  BrewRatio brewRatioG;
-  BrewRatio brewRatioTsp;
-  TeaColor color;
-  TeaIcon icon;
-  bool isCustom;
-
-  // Constructor
   Preset({
     required this.key,
     required this.brewTime,
@@ -46,6 +34,17 @@ class Preset {
     required this.icon,
     this.isCustom = false,
   });
+
+  // Fields
+  AppString key;
+  int brewTime;
+  int brewTempDegreesC;
+  int brewTempDegreesF;
+  BrewRatio brewRatioG;
+  BrewRatio brewRatioTsp;
+  TeaColor color;
+  TeaIcon icon;
+  bool isCustom;
 
   // Localized tea name
   get localizedName {
@@ -124,13 +123,13 @@ abstract class Presets {
       brewTempDegreesC: boilDegreesC,
       brewTempDegreesF: boilDegreesF,
       brewRatioG: BrewRatio(
-        ratioNumerator: 3.0,
+        ratioNumerator: 3,
         ratioDenominator: 250,
         metricNumerator: true,
         metricDenominator: true,
       ),
       brewRatioTsp: BrewRatio(
-        ratioNumerator: 1.0,
+        ratioNumerator: 1,
         ratioDenominator: 8,
         metricNumerator: false,
         metricDenominator: false,
@@ -145,13 +144,13 @@ abstract class Presets {
       brewTempDegreesC: 95,
       brewTempDegreesF: 200,
       brewRatioG: BrewRatio(
-        ratioNumerator: 3.0,
+        ratioNumerator: 3,
         ratioDenominator: 250,
         metricNumerator: true,
         metricDenominator: true,
       ),
       brewRatioTsp: BrewRatio(
-        ratioNumerator: 1.0,
+        ratioNumerator: 1,
         ratioDenominator: 8,
         metricNumerator: false,
         metricDenominator: false,
@@ -166,13 +165,13 @@ abstract class Presets {
       brewTempDegreesC: 95,
       brewTempDegreesF: 200,
       brewRatioG: BrewRatio(
-        ratioNumerator: 3.0,
+        ratioNumerator: 3,
         ratioDenominator: 250,
         metricNumerator: true,
         metricDenominator: true,
       ),
       brewRatioTsp: BrewRatio(
-        ratioNumerator: 1.0,
+        ratioNumerator: 1,
         ratioDenominator: 8,
         metricNumerator: false,
         metricDenominator: false,
@@ -187,13 +186,13 @@ abstract class Presets {
       brewTempDegreesC: 80,
       brewTempDegreesF: 180,
       brewRatioG: BrewRatio(
-        ratioNumerator: 3.0,
+        ratioNumerator: 3,
         ratioDenominator: 250,
         metricNumerator: true,
         metricDenominator: true,
       ),
       brewRatioTsp: BrewRatio(
-        ratioNumerator: 3.0,
+        ratioNumerator: 3,
         ratioDenominator: 8,
         metricNumerator: false,
         metricDenominator: false,
@@ -208,13 +207,13 @@ abstract class Presets {
       brewTempDegreesC: 80,
       brewTempDegreesF: 180,
       brewRatioG: BrewRatio(
-        ratioNumerator: 3.0,
+        ratioNumerator: 3,
         ratioDenominator: 250,
         metricNumerator: true,
         metricDenominator: true,
       ),
       brewRatioTsp: BrewRatio(
-        ratioNumerator: 3.0,
+        ratioNumerator: 3,
         ratioDenominator: 8,
         metricNumerator: false,
         metricDenominator: false,
@@ -229,13 +228,13 @@ abstract class Presets {
       brewTempDegreesC: boilDegreesC,
       brewTempDegreesF: boilDegreesF,
       brewRatioG: BrewRatio(
-        ratioNumerator: 6.0,
+        ratioNumerator: 6,
         ratioDenominator: 250,
         metricNumerator: true,
         metricDenominator: true,
       ),
       brewRatioTsp: BrewRatio(
-        ratioNumerator: 2.0,
+        ratioNumerator: 2,
         ratioDenominator: 8,
         metricNumerator: false,
         metricDenominator: false,
@@ -250,13 +249,13 @@ abstract class Presets {
       brewTempDegreesC: boilDegreesC,
       brewTempDegreesF: boilDegreesF,
       brewRatioG: BrewRatio(
-        ratioNumerator: 6.0,
+        ratioNumerator: 6,
         ratioDenominator: 250,
         metricNumerator: true,
         metricDenominator: true,
       ),
       brewRatioTsp: BrewRatio(
-        ratioNumerator: 2.0,
+        ratioNumerator: 2,
         ratioDenominator: 8,
         metricNumerator: false,
         metricDenominator: false,
@@ -271,13 +270,13 @@ abstract class Presets {
       brewTempDegreesC: boilDegreesC,
       brewTempDegreesF: boilDegreesF,
       brewRatioG: BrewRatio(
-        ratioNumerator: 6.0,
+        ratioNumerator: 6,
         ratioDenominator: 250,
         metricNumerator: true,
         metricDenominator: true,
       ),
       brewRatioTsp: BrewRatio(
-        ratioNumerator: 2.0,
+        ratioNumerator: 2,
         ratioDenominator: 8,
         metricNumerator: false,
         metricDenominator: false,
@@ -292,13 +291,13 @@ abstract class Presets {
       brewTempDegreesC: boilDegreesC,
       brewTempDegreesF: boilDegreesF,
       brewRatioG: BrewRatio(
-        ratioNumerator: 6.0,
+        ratioNumerator: 6,
         ratioDenominator: 250,
         metricNumerator: true,
         metricDenominator: true,
       ),
       brewRatioTsp: BrewRatio(
-        ratioNumerator: 2.0,
+        ratioNumerator: 2,
         ratioDenominator: 8,
         metricNumerator: false,
         metricDenominator: false,
@@ -355,13 +354,13 @@ abstract class Presets {
       brewTempDegreesC: roomTemp,
       brewTempDegreesF: roomTemp,
       brewRatioG: BrewRatio(
-        ratioNumerator: 3.0,
+        ratioNumerator: 3,
         ratioDenominator: 250,
         metricNumerator: true,
         metricDenominator: true,
       ),
       brewRatioTsp: BrewRatio(
-        ratioNumerator: 1.0,
+        ratioNumerator: 1,
         ratioDenominator: 8,
         metricNumerator: false,
         metricDenominator: false,

@@ -188,9 +188,9 @@ enum AppString {
   version_history('version_history'),
   yes_button('yes_button');
 
-  final String key;
-
   const AppString(this.key);
+
+  final String key;
 
   // Lookup localized string and apply substitutions
   String translate({String teaName = ''}) {
@@ -241,7 +241,7 @@ Map<String, String> languageOptions = {
 Future<void> loadLanguageOptions() async {
   Map<String, String> unsortedOptions = {};
 
-  for (Locale locale in supportedLocales) {
+  for (final locale in supportedLocales) {
     // Load strings map from JSON file in langs folder
     String jsonString = await rootBundle.loadString(
       'langs/${localeString(locale)}.json',
@@ -275,7 +275,7 @@ Locale localeResolutionCallback(
       return deviceLocale;
     }
     if (deviceLocale.scriptCode != null) {
-      for (Locale appLocale in appLocales) {
+      for (final appLocale in appLocales) {
         if (appLocale.languageCode == deviceLocale.languageCode &&
             appLocale.scriptCode == deviceLocale.scriptCode) {
           return appLocale;
@@ -283,14 +283,14 @@ Locale localeResolutionCallback(
       }
     }
     if (deviceLocale.countryCode != null) {
-      for (Locale appLocale in appLocales) {
+      for (final appLocale in appLocales) {
         if (appLocale.languageCode == deviceLocale.languageCode &&
             appLocale.countryCode == deviceLocale.countryCode) {
           return appLocale;
         }
       }
     }
-    for (Locale appLocale in appLocales) {
+    for (final appLocale in appLocales) {
       if (appLocale.languageCode == deviceLocale.languageCode) {
         return appLocale;
       }
