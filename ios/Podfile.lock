@@ -45,6 +45,9 @@ PODS:
     - Flutter
   - integration_test (0.0.1):
     - Flutter
+  - intelligence (0.0.1):
+    - Flutter
+    - SQLite.swift (~> 0.14.0)
   - package_info_plus (0.4.5):
     - Flutter
   - path_provider_foundation (0.0.1):
@@ -69,6 +72,9 @@ PODS:
   - sqflite_darwin (0.0.4):
     - Flutter
     - FlutterMacOS
+  - SQLite.swift (0.14.1):
+    - SQLite.swift/standard (= 0.14.1)
+  - SQLite.swift/standard (0.14.1)
   - SwiftyGif (5.4.4)
   - url_launcher_ios (0.0.1):
     - Flutter
@@ -83,6 +89,7 @@ DEPENDENCIES:
   - flutter_timezone (from `.symlinks/plugins/flutter_timezone/ios`)
   - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
+  - intelligence (from `.symlinks/plugins/intelligence/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - patrol (from `.symlinks/plugins/patrol/darwin`)
@@ -100,6 +107,7 @@ SPEC REPOS:
     - DKImagePickerController
     - DKPhotoGallery
     - SDWebImage
+    - SQLite.swift
     - SwiftyGif
 
 EXTERNAL SOURCES:
@@ -117,6 +125,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/in_app_review/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
+  intelligence:
+    :path: ".symlinks/plugins/intelligence/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
@@ -149,6 +159,7 @@ SPEC CHECKSUMS:
   flutter_timezone: ffb07bdad3c6276af8dada0f11978d8a1f8a20bb
   in_app_review: 318597b3a06c22bb46dc454d56828c85f444f99d
   integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
+  intelligence: 0035d18a90254f2079069dcb294ee599a90246d6
   package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   patrol: 0564cee315ff6c86fb802b3647db05cc2d3d0624
@@ -158,6 +169,7 @@ SPEC CHECKSUMS:
   share_plus: 8b6f8b3447e494cca5317c8c3073de39b3600d1f
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
+  SQLite.swift: 2992550ebf3c5b268bf4352603e3df87d2a4ed72
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
   wakelock_plus: 78ec7c5b202cab7761af8e2b2b3d0671be6c4ae1

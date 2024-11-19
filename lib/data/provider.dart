@@ -24,6 +24,7 @@ import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'package:flutter/material.dart';
+import 'package:intelligence/model/representable.dart';
 import 'package:quick_actions/quick_actions.dart';
 
 // Provider for settings changes
@@ -45,8 +46,8 @@ class AppProvider extends ChangeNotifier {
     if (Prefs.teaPrefsExist()) {
       _teaList = Prefs.loadTeas();
 
-      // Manage quick actions
-      setQuickActions();
+      // Manage shortcut options
+      setupShortcuts();
     }
   }
 
@@ -238,22 +239,30 @@ class AppProvider extends ChangeNotifier {
     Prefs.saveTeas(_teaList);
     notifyListeners();
 
-    // Manage quick actions
-    setQuickActions();
+    // Manage shortcut options
+    setupShortcuts();
   }
 
-  // Add quick action shortcuts
-  void setQuickActions() {
-    quickActions.setShortcutItems(
-      favoritesList.map<ShortcutItem>((tea) {
-        // Create a shortcut item for this favorite tea
-        return ShortcutItem(
+  // Set up shortcuts
+  Future<void> setupShortcuts() async {
+    // Create a quick action item for each favorite tea
+    await quickActions.setShortcutItems([
+      for (final Tea tea in favoritesList)
+        ShortcutItem(
           type: shortcutPrefixID + tea.id.toString(),
           localizedTitle: tea.name,
           icon: tea.shortcutIcon,
-        );
-      }).toList(),
-    );
+        ),
+    ]);
+
+    // Create an intelligence item for each tea
+    await intelligence.populate([
+      for (final Tea tea in teaList)
+        Representable(
+          representation: tea.name,
+          id: tea.id.toString(),
+        ),
+    ]);
   }
 
   // Load teas from default presets
@@ -272,8 +281,8 @@ class AppProvider extends ChangeNotifier {
             .createTea(useCelsius: _useCelsius, isFavorite: true),
       );
 
-    // Manage quick actions
-    setQuickActions();
+    // Manage shortcut options
+    setupShortcuts();
   }
 
   // Get favorite tea list

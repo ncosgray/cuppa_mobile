@@ -76,7 +76,8 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
       // Manage timers
       _checkNextTimer();
-      _checkShortcutTimer();
+      quickActions.initialize(_handleShortcut);
+      intelligence.selectionsStream().listen(_handleShortcut);
     });
   }
 
@@ -349,37 +350,35 @@ class _TeaButtonListState extends State<TeaButtonList> {
   }
 
   // Start a timer from shortcut selection
-  void _checkShortcutTimer() {
-    quickActions.initialize((String shortcutType) async {
-      AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-      int? teaID = int.tryParse(shortcutType.replaceAll(shortcutPrefixID, ''));
-      int? teaIndex = int.tryParse(shortcutType.replaceAll(shortcutPrefix, ''));
-      if (teaID != null) {
-        // Prefer lookup by tea ID
-        teaIndex = provider.teaList.indexWhere((tea) => tea.id == teaID);
-      }
-      if (teaIndex != null) {
-        if (teaIndex >= 0 && teaIndex < provider.teaCount) {
-          Tea tea = provider.teaList[teaIndex];
-          if (!tea.isActive) {
-            if (activeTimerCount >= timersMaxCount) {
-              // Ask to cancel and free a timer slot if needed
-              if (await showConfirmDialog(
-                context: context,
-                body: Text(AppString.confirm_message_line1.translate()),
-                bodyExtra: Text(AppString.confirm_message_line2.translate()),
-              )) {
-                _cancelAllTimers();
-              } else {
-                return;
-              }
+  Future<void> _handleShortcut(String shortcutType) async {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+    int? teaID = int.tryParse(shortcutType.replaceAll(shortcutPrefixID, ''));
+    int? teaIndex = int.tryParse(shortcutType.replaceAll(shortcutPrefix, ''));
+    if (teaID != null) {
+      // Prefer lookup by tea ID
+      teaIndex = provider.teaList.indexWhere((tea) => tea.id == teaID);
+    }
+    if (teaIndex != null) {
+      if (teaIndex >= 0 && teaIndex < provider.teaCount) {
+        Tea tea = provider.teaList[teaIndex];
+        if (!tea.isActive) {
+          if (activeTimerCount >= timersMaxCount) {
+            // Ask to cancel and free a timer slot if needed
+            if (await showConfirmDialog(
+              context: context,
+              body: Text(AppString.confirm_message_line1.translate()),
+              bodyExtra: Text(AppString.confirm_message_line2.translate()),
+            )) {
+              _cancelAllTimers();
+            } else {
+              return;
             }
-
-            // Start timer from shortcut
-            _setTimer(tea, autoScroll: true);
           }
+
+          // Start timer from shortcut
+          _setTimer(tea, autoScroll: true);
         }
       }
-    });
+    }
   }
 }
