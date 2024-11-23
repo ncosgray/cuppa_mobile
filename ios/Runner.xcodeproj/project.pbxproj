@@ -70,6 +70,12 @@
 		FE8298542CEEC5D7009BD81C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FE9362B52CEA99A2002EC994 /* TeaEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeaEntity.swift; sourceTree = "<group>"; };
 		FE9362B62CEA99A2002EC994 /* BrewTeaIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrewTeaIntent.swift; sourceTree = "<group>"; };
+		FE97C6EE2CF18D8300AFEA31 /* br */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = br; path = br.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FE97C6EF2CF18D8500AFEA31 /* cv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cv; path = cv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FE97C6F02CF18D8700AFEA31 /* ia */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ia; path = ia.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FE97C6F12CF18D8B00AFEA31 /* br */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = br; path = br.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		FE97C6F22CF18D8D00AFEA31 /* cv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cv; path = cv.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		FE97C6F32CF18D8E00AFEA31 /* ia */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ia; path = ia.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
 		FEA49BF42BDED66B00853D36 /* RunnerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA49BF62BDED66B00853D36 /* RunnerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RunnerUITests.m; sourceTree = "<group>"; };
 		FED7001B2CEDAC4700D6D252 /* az */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = az; path = az.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -333,6 +339,9 @@
 				zh,
 				zh_TW,
 				Base,
+				br,
+				cv,
+				ia,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
@@ -594,6 +603,9 @@
 				FED700322CEDAC7500D6D252 /* tr */,
 				FED700332CEDAC7700D6D252 /* uk */,
 				FED700342CEDAC7A00D6D252 /* ur */,
+				FE97C6EE2CF18D8300AFEA31 /* br */,
+				FE97C6EF2CF18D8500AFEA31 /* cv */,
+				FE97C6F02CF18D8700AFEA31 /* ia */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -628,6 +640,9 @@
 				FED7004C2CEDAC9B00D6D252 /* tr */,
 				FED7004D2CEDAC9C00D6D252 /* uk */,
 				FED7004E2CEDAC9D00D6D252 /* ur */,
+				FE97C6F12CF18D8B00AFEA31 /* br */,
+				FE97C6F22CF18D8D00AFEA31 /* cv */,
+				FE97C6F32CF18D8E00AFEA31 /* ia */,
 			);
 			name = AppShortcuts.strings;
 			sourceTree = "<group>";
