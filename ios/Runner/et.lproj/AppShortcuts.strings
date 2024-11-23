@@ -1,0 +1,6 @@
+"Start a timer for ${target} in ${applicationName}" = "Alusta taimerit ${target} jaoks ${applicationName}is.";
+
+"Start brewing ${target} in ${applicationName}" = "Alusta ${target} keetmist ${applicationName}";
+
+"Start timing ${target} in ${applicationName}" = "Alusta aja mõõtmist ${target} ${applicationName} sees.";
+

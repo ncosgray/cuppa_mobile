@@ -1,0 +1,6 @@
+"Start a timer for ${target} in ${applicationName}" = "Iniciar um temporizador para ${target} no ${applicationName}";
+
+"Start brewing ${target} in ${applicationName}" = "Comece a preparar ${target} no ${applicationName}";
+
+"Start timing ${target} in ${applicationName}" = "Comece a cronometrar ${target} no ${applicationName}";
+

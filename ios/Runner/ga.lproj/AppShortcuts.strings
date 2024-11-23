@@ -1,0 +1,6 @@
+"Start a timer for ${target} in ${applicationName}" = "Tosaigh comhoiriúnacht do ${target} i ${applicationName}";
+
+"Start brewing ${target} in ${applicationName}" = "Tosaigh ag bruite ${target} i ${applicationName}";
+
+"Start timing ${target} in ${applicationName}" = "Tosaigh ag uainiú ${target} i ${applicationName}";
+

@@ -1,0 +1,6 @@
+"Start a timer for ${target} in ${applicationName}" = "התחל טיימר ל-${target} ב-${applicationName}";
+
+"Start brewing ${target} in ${applicationName}" = "התחל לבשל ${target} ב-${applicationName}";
+
+"Start timing ${target} in ${applicationName}" = "התחל למדוד זמן ל-${target} ב-${applicationName}";
+

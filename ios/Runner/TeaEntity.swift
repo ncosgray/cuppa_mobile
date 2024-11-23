@@ -3,9 +3,9 @@ import AppIntents
 import intelligence
 
 // Setup for intelligence plugin
-struct RepresentableEntity: AppEntity {
-  static var defaultQuery: RepresentableQuery = RepresentableQuery()
-  static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Tea")
+struct TeaEntity: AppEntity {
+  static var defaultQuery: TeaQuery = TeaQuery()
+  static var typeDisplayRepresentation = TypeDisplayRepresentation(name: LocalizedStringResource("Teas"))
   
   var displayRepresentation: DisplayRepresentation {
     DisplayRepresentation(stringLiteral: representation)
@@ -15,7 +15,7 @@ struct RepresentableEntity: AppEntity {
   let representation: String
 }
 
-extension RepresentableEntity: IndexedEntity {
+extension TeaEntity: IndexedEntity {
   var attributeSet: CSSearchableItemAttributeSet {
     let attributes = CSSearchableItemAttributeSet()
     attributes.displayName = self.representation
@@ -23,19 +23,19 @@ extension RepresentableEntity: IndexedEntity {
   }
 }
 
-struct RepresentableQuery: EntityQuery {
-  func entities(for identifiers: [String]) async throws -> [RepresentableEntity] {
+struct TeaQuery: EntityQuery {
+  func entities(for identifiers: [String]) async throws -> [TeaEntity] {
     return IntelligencePlugin.storage.get(for: identifiers).map() { item in
-      return RepresentableEntity(
+      return TeaEntity(
         id: item.id,
         representation: item.representation
       )
     }
   }
   
-  func suggestedEntities() async throws -> [RepresentableEntity] {
+  func suggestedEntities() async throws -> [TeaEntity] {
     return IntelligencePlugin.storage.get().map() { item in
-      return RepresentableEntity(
+      return TeaEntity(
         id: item.id,
         representation: item.representation
       )
@@ -43,10 +43,10 @@ struct RepresentableQuery: EntityQuery {
   }
 }
 
-extension RepresentableQuery: EnumerableEntityQuery {
-  func allEntities() async throws -> [RepresentableEntity] {
+extension TeaQuery: EnumerableEntityQuery {
+  func allEntities() async throws -> [TeaEntity] {
     return IntelligencePlugin.storage.get().map() { item in
-      return RepresentableEntity(
+      return TeaEntity(
         id: item.id,
         representation: item.representation
       )

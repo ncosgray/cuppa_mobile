@@ -1,0 +1,6 @@
+"Start a timer for ${target} in ${applicationName}" = "${applicationName} proqramında ${target} üçün zamanlayıcı başlayın";
+
+"Start brewing ${target} in ${applicationName}" = "${target}ni ${applicationName}də dəmləməyə başlayın.";
+
+"Start timing ${target} in ${applicationName}" = "${target} üçün ${applicationName}də zamanlama başlamışdır.";
+

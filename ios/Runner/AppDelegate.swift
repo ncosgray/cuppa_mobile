@@ -20,7 +20,7 @@ import intelligence
     }
     if #available(iOS 18.0, *) {
       IntelligencePlugin.spotlightCore.attachEntityMapper() { item in
-        return RepresentableEntity(
+        return TeaEntity(
           id: item.id,
           representation: item.representation
         )
