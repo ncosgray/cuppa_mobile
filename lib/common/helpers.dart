@@ -112,7 +112,7 @@ String formatDecimal(double i, {int decimalPlaces = 1}) {
   return NumberFormat(
     '0.${'0' * decimalPlaces}',
     fallbackLanguageCodes.contains(locale.languageCode)
-        ? null
+        ? localeString(defaultLocale)
         : localeString(locale),
   ).format(i);
 }
