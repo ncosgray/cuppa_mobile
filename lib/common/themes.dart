@@ -12,6 +12,7 @@
 
 // Cuppa visual themes
 
+import 'dart:io' show Platform;
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +31,8 @@ final ThemeData lightThemeData = ThemeData(
   iconTheme: const IconThemeData(
     color: Colors.grey,
   ),
-  cupertinoOverrideTheme: const CupertinoThemeData(
-    primaryColor: CupertinoColors.systemBlue,
-  ),
+  splashFactory: splashFactory,
+  cupertinoOverrideTheme: cupertinoOverrideTheme,
 );
 final ThemeData darkThemeData = ThemeData(
   brightness: Brightness.dark,
@@ -41,17 +41,15 @@ final ThemeData darkThemeData = ThemeData(
   cardTheme: CardTheme(
     color: Colors.grey.shade800,
   ),
-  cupertinoOverrideTheme: const CupertinoThemeData(
-    primaryColor: CupertinoColors.systemBlue,
-  ),
+  splashFactory: splashFactory,
+  cupertinoOverrideTheme: cupertinoOverrideTheme,
 );
 final ThemeData blackThemeData = ThemeData(
   brightness: Brightness.dark,
   colorSchemeSeed: Colors.blue,
   scaffoldBackgroundColor: Colors.black,
-  cupertinoOverrideTheme: const CupertinoThemeData(
-    primaryColor: CupertinoColors.systemBlue,
-  ),
+  splashFactory: splashFactory,
+  cupertinoOverrideTheme: cupertinoOverrideTheme,
 );
 
 // Create a light theme
@@ -76,3 +74,10 @@ ThemeData createDarkTheme({
   }
   return theme;
 }
+
+// Common theme elements
+InteractiveInkFeatureFactory? get splashFactory =>
+    Platform.isIOS ? NoSplash.splashFactory : null;
+
+CupertinoThemeData get cupertinoOverrideTheme =>
+    const CupertinoThemeData(primaryColor: CupertinoColors.systemBlue);
