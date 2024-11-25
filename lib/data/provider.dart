@@ -16,6 +16,7 @@
 
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/intelligence_manager.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -256,7 +257,7 @@ class AppProvider extends ChangeNotifier {
     ]);
 
     // Create an intelligence item for each tea
-    await intelligence.populate([
+    await IntelligenceManager.populate([
       for (final Tea tea in teaList)
         Representable(
           representation: tea.name,

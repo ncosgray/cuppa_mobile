@@ -16,7 +16,6 @@
 import 'package:cuppa_mobile/common/constants.dart';
 
 import 'package:flutter/material.dart';
-import 'package:intelligence/intelligence.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:region_settings/region_settings.dart';
@@ -42,9 +41,6 @@ PackageInfo packageInfo = PackageInfo(
 
 // Quick actions
 const QuickActions quickActions = QuickActions();
-
-// Intelligence
-final Intelligence intelligence = Intelligence();
 
 // App store review prompt
 Function checkReviewPrompt = () {};
