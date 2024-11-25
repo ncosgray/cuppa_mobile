@@ -23,8 +23,6 @@ import 'package:cuppa_mobile/widgets/tea_name_dialog.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'dart:io' show Platform;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol/patrol.dart';
 
@@ -67,16 +65,12 @@ void main() {
     // Edit test tea name
     await $.tap(find.text(Presets.presetList[0].localizedName));
     expect(find.byType(TeaNameDialog), findsOneWidget);
-    await $.tap(find.byIcon(clearIcon.icon!));
-    await $(Platform.isIOS ? CupertinoTextFormFieldRow : TextFormField)
-        .at(0)
-        .enterText(timerName);
+    await $.native.enterTextByIndex(
+      timerName,
+      index: 0,
+      keyboardBehavior: KeyboardBehavior.showAndDismiss,
+    );
     await $.tap(find.text(AppString.ok_button.translate()));
-    if (Platform.isAndroid) {
-      // Dismiss soft keyboard
-      await $.native.pressBack();
-      await $.pumpAndSettle();
-    }
     expect(find.text(timerName), findsOneWidget);
 
     // Edit test tea brew time
