@@ -15,8 +15,7 @@
 // - Store current app settings
 
 import 'package:cuppa_mobile/common/constants.dart';
-import 'package:cuppa_mobile/common/globals.dart';
-import 'package:cuppa_mobile/common/intelligence_manager.dart';
+import 'package:cuppa_mobile/common/shortcut_handler.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -25,8 +24,6 @@ import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'package:flutter/material.dart';
-import 'package:intelligence/model/representable.dart';
-import 'package:quick_actions/quick_actions.dart';
 
 // Provider for settings changes
 class AppProvider extends ChangeNotifier {
@@ -246,24 +243,10 @@ class AppProvider extends ChangeNotifier {
 
   // Set up shortcuts
   Future<void> setupShortcuts() async {
-    // Create a quick action item for each favorite tea
-    await quickActions.setShortcutItems([
-      for (final Tea tea in favoritesList)
-        ShortcutItem(
-          type: shortcutPrefixID + tea.id.toString(),
-          localizedTitle: tea.name,
-          icon: tea.shortcutIcon,
-        ),
-    ]);
-
-    // Create an intelligence item for each tea
-    await IntelligenceManager.populate([
-      for (final Tea tea in teaList)
-        Representable(
-          representation: tea.name,
-          id: tea.id.toString(),
-        ),
-    ]);
+    await ShortcutHandler.populate(
+      teaList: teaList,
+      favoritesList: favoritesList,
+    );
   }
 
   // Load teas from default presets

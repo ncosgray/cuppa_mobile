@@ -18,9 +18,9 @@ import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
-import 'package:cuppa_mobile/common/intelligence_manager.dart';
 import 'package:cuppa_mobile/common/local_notifications.dart';
 import 'package:cuppa_mobile/common/padding.dart';
+import 'package:cuppa_mobile/common/shortcut_handler.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -77,8 +77,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
       // Manage timers
       _checkNextTimer();
-      quickActions.initialize(_handleShortcut);
-      IntelligenceManager.listen(_handleShortcut);
+      ShortcutHandler.listen(_handleShortcut);
     });
   }
 
