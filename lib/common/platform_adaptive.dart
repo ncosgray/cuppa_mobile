@@ -347,7 +347,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
           icon: actionIcon!,
           onPressed: () => Navigator.of(context).push(
             MaterialPageRoute(
-              fullscreenDialog: !isPoppable,
+              fullscreenDialog: Platform.isIOS ? !isPoppable : false,
               builder: (_) => actionRoute!,
             ),
           ),

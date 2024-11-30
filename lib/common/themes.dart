@@ -32,6 +32,7 @@ final ThemeData lightThemeData = ThemeData(
     color: Colors.grey,
   ),
   splashFactory: splashFactory,
+  pageTransitionsTheme: pageTransitionsTheme,
   cupertinoOverrideTheme: cupertinoOverrideTheme,
 );
 final ThemeData darkThemeData = ThemeData(
@@ -42,6 +43,7 @@ final ThemeData darkThemeData = ThemeData(
     color: Colors.grey.shade800,
   ),
   splashFactory: splashFactory,
+  pageTransitionsTheme: pageTransitionsTheme,
   cupertinoOverrideTheme: cupertinoOverrideTheme,
 );
 final ThemeData blackThemeData = ThemeData(
@@ -49,6 +51,7 @@ final ThemeData blackThemeData = ThemeData(
   colorSchemeSeed: Colors.blue,
   scaffoldBackgroundColor: Colors.black,
   splashFactory: splashFactory,
+  pageTransitionsTheme: pageTransitionsTheme,
   cupertinoOverrideTheme: cupertinoOverrideTheme,
 );
 
@@ -78,6 +81,13 @@ ThemeData createDarkTheme({
 // Common theme elements
 InteractiveInkFeatureFactory? get splashFactory =>
     Platform.isIOS ? NoSplash.splashFactory : null;
+
+PageTransitionsTheme get pageTransitionsTheme => const PageTransitionsTheme(
+      builders: <TargetPlatform, PageTransitionsBuilder>{
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+      },
+    );
 
 CupertinoThemeData get cupertinoOverrideTheme =>
     const CupertinoThemeData(primaryColor: CupertinoColors.systemBlue);
