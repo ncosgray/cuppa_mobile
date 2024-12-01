@@ -22,7 +22,7 @@ Widget pageHeader(
   BuildContext context, {
   Widget? leading,
   required String title,
-  Widget? action,
+  List<Widget>? actions,
 }) {
   return SliverAppBar(
     elevation: 1,
@@ -45,6 +45,6 @@ Widget pageHeader(
         ),
       ),
     ),
-    actions: action != null ? [action] : null,
+    actions: actions,
   );
 }

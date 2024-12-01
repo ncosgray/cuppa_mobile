@@ -50,6 +50,8 @@ class TeaSettingsList extends StatefulWidget {
 
 class _TeaSettingsListState extends State<TeaSettingsList> {
   // State variables
+  final ScrollController _scrollController = ScrollController();
+  bool _scrollToEnd = false;
   bool _animateTeaList = false;
   late bool _launchAddTea;
 
@@ -64,31 +66,48 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   // Build tea settings list
   @override
   Widget build(BuildContext context) {
-    // Process request to show Add Tea dialog
     int teaCount = Provider.of<AppProvider>(context, listen: false).teaCount;
+
     Future.delayed(
       Duration.zero,
       () {
+        // Process request to show Add Tea dialog
         if (_launchAddTea && teaCount < teasMaxCount) {
           _openAddTeaDialog();
         }
         _launchAddTea = false;
+
+        // Process request to scroll to end of tea list
+        if (_scrollToEnd && _scrollController.hasClients) {
+          Future.delayed(longAnimationDuration).then((_) {
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: shortAnimationDuration,
+              curve: Curves.fastOutSlowIn,
+            );
+          });
+        }
+        _scrollToEnd = false;
       },
     );
 
-    return Selector<AppProvider, ({List<Tea> teaList, bool activeTeas})>(
-      selector: (_, provider) => (
-        teaList: provider.teaList,
-        activeTeas: provider.activeTeas.isNotEmpty,
-      ),
+    return Selector<AppProvider, ({bool activeTeas})>(
+      selector: (_, provider) => (activeTeas: provider.activeTeas.isNotEmpty),
       builder: (context, teaData, child) => CustomScrollView(
+        controller: _scrollController,
+        cacheExtent: teasMaxCount * 48,
         slivers: [
           // Teas section header
           pageHeader(
             context,
             title: AppString.teas_title.translate(),
-            // Sort Teas button
-            action: teaData.teaList.isNotEmpty ? _sortTeasButton() : null,
+            // Add Tea and Sort Teas action buttons
+            actions: [
+              teaCount < teasMaxCount
+                  ? _addTeaAction()
+                  : const SizedBox.shrink(),
+              teaCount > 0 ? _sortTeasAction() : const SizedBox.shrink(),
+            ],
           ),
           // Tea settings info text
           SliverToBoxAdapter(
@@ -115,7 +134,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
               child: Row(
                 children: [
                   Expanded(child: _addTeaButton()),
-                  (teaData.teaList.isNotEmpty && !teaData.activeTeas)
+                  (teaCount > 0 && !teaData.activeTeas)
                       ? _removeAllButton()
                       : const SizedBox.shrink(),
                 ],
@@ -127,8 +146,16 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
     );
   }
 
-  // Sort teas button
-  Widget _sortTeasButton() {
+  // Add Tea action
+  Widget _addTeaAction() {
+    return IconButton(
+      icon: Icon(Icons.add),
+      onPressed: () => _openAddTeaDialog(),
+    );
+  }
+
+  // Sort Teas action
+  Widget _sortTeasAction() {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
 
     return IconButton(
@@ -402,6 +429,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
       // Add selected tea
       onTap: () {
         provider.addTea(preset.createTea(useCelsius: provider.useCelsius));
+        _scrollToEnd = true;
         Navigator.of(context).pop(true);
       },
     );
