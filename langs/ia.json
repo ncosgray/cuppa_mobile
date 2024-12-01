@@ -110,7 +110,8 @@
     "unit_milliliters": "mL",
     "unit_minutes": "m",
     "unit_ounces": "oz",
-    "unit_seconds": "s",
+    "unit_quarts": "qt",
+  "unit_seconds": "s",
     "unit_teaspoons": "tsp",
     "version_history": "Chronologia del versiones",
     "yes_button": "Si"

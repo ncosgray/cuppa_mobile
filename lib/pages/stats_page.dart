@@ -233,14 +233,18 @@ class _StatsWidgetState extends State<StatsWidget> {
         ? formatNumeratorAmount(
             _totalAmountG,
             useMetric: true,
-            inKilograms: !_altMetrics,
+            inLargeUnits: !_altMetrics,
           )
         : '';
     if (_totalAmountG > 0.0 && _totalAmountTsp > 0.0) {
       totalAmount += ' + ';
     }
     totalAmount += _totalAmountTsp > 0.0
-        ? formatNumeratorAmount(_totalAmountTsp, useMetric: false)
+        ? formatNumeratorAmount(
+            _totalAmountTsp,
+            useMetric: false,
+            inLargeUnits: !_altMetrics,
+          )
         : '';
 
     return totalAmount;
@@ -466,7 +470,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                   _totalAmount.isNotEmpty,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: _totalAmountG > 0.0 ? _toggleAltMetrics : null,
+            onTap: _toggleAltMetrics,
             child: _metricWidget(
               metricName: AppString.stats_tea_amount.translate(),
               metric: _totalAmount,
