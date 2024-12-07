@@ -15,7 +15,7 @@
 // - Store current app settings
 
 import 'package:cuppa_mobile/common/constants.dart';
-import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/shortcut_handler.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -24,7 +24,6 @@ import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'package:flutter/material.dart';
-import 'package:quick_actions/quick_actions.dart';
 
 // Provider for settings changes
 class AppProvider extends ChangeNotifier {
@@ -45,8 +44,8 @@ class AppProvider extends ChangeNotifier {
     if (Prefs.teaPrefsExist()) {
       _teaList = Prefs.loadTeas();
 
-      // Manage quick actions
-      setQuickActions();
+      // Manage shortcut options
+      setupShortcuts();
     }
   }
 
@@ -238,21 +237,15 @@ class AppProvider extends ChangeNotifier {
     Prefs.saveTeas(_teaList);
     notifyListeners();
 
-    // Manage quick actions
-    setQuickActions();
+    // Manage shortcut options
+    setupShortcuts();
   }
 
-  // Add quick action shortcuts
-  void setQuickActions() {
-    quickActions.setShortcutItems(
-      favoritesList.map<ShortcutItem>((tea) {
-        // Create a shortcut item for this favorite tea
-        return ShortcutItem(
-          type: shortcutPrefixID + tea.id.toString(),
-          localizedTitle: tea.name,
-          icon: tea.shortcutIcon,
-        );
-      }).toList(),
+  // Set up shortcuts
+  Future<void> setupShortcuts() async {
+    await ShortcutHandler.populate(
+      teaList: teaList,
+      favoritesList: favoritesList,
     );
   }
 
@@ -272,8 +265,8 @@ class AppProvider extends ChangeNotifier {
             .createTea(useCelsius: _useCelsius, isFavorite: true),
       );
 
-    // Manage quick actions
-    setQuickActions();
+    // Manage shortcut options
+    setupShortcuts();
   }
 
   // Get favorite tea list

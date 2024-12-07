@@ -12,6 +12,7 @@
 
 // Cuppa integration tests
 
+import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/platform_adaptive.dart';
@@ -23,8 +24,7 @@ import 'package:cuppa_mobile/widgets/tea_name_dialog.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'dart:io' show Platform;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol/patrol.dart';
 
@@ -67,16 +67,12 @@ void main() {
     // Edit test tea name
     await $.tap(find.text(Presets.presetList[0].localizedName));
     expect(find.byType(TeaNameDialog), findsOneWidget);
-    await $.tap(find.byIcon(clearIcon.icon!));
-    await $(Platform.isIOS ? CupertinoTextFormFieldRow : TextFormField)
-        .at(0)
-        .enterText(timerName);
+    await $.native.enterTextByIndex(
+      timerName,
+      index: 0,
+      keyboardBehavior: KeyboardBehavior.showAndDismiss,
+    );
     await $.tap(find.text(AppString.ok_button.translate()));
-    if (Platform.isAndroid) {
-      // Dismiss soft keyboard
-      await $.native.pressBack();
-      await $.pumpAndSettle();
-    }
     expect(find.text(timerName), findsOneWidget);
 
     // Edit test tea brew time
@@ -91,10 +87,24 @@ void main() {
     await $.tap(find.text(AppString.ok_button.translate()));
     expect(find.text(formatTimer(timerSeconds)), findsOneWidget);
 
-    // Enable stats collection
+    // Navigate to settings
     if ($(navBarSettingsIcon.icon!).exists) {
       await $.tap($(navBarSettingsIcon.icon!));
     }
+
+    // Change setting: set cup style to mug
+    final Finder cupSwitch = find.text(AppString.prefs_cup_style.translate());
+    await $.scrollUntilVisible(finder: cupSwitch);
+    await $.tap(cupSwitch);
+    await $.tap(find.text(AppString.prefs_cup_style_mug.translate()));
+
+    // Change setting: show extra timer info
+    final Finder extraSwitch =
+        find.text(AppString.prefs_show_extra.translate());
+    await $.scrollUntilVisible(finder: extraSwitch);
+    await $.tap(extraSwitch);
+
+    // Change setting: enable stats collection
     final Finder statsSwitch = find.text(AppString.stats_enable.translate());
     await $.scrollUntilVisible(finder: statsSwitch);
     await $.tap(statsSwitch);
@@ -124,6 +134,10 @@ void main() {
     }
     await $.pumpAndSettle();
     expect(find.text(formatTimer(0)), findsOneWidget);
+
+    // Validate settings changes
+    expect(find.image(const AssetImage(cupImageMug)), findsOneWidget);
+    expect(find.text(formatTimer(timerSeconds)), findsOneWidget);
 
     // Start timer and allow permission
     await $.tap(find.text(timerName));

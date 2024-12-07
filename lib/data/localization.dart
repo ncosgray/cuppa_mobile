@@ -183,6 +183,7 @@ enum AppString {
   unit_milliliters('unit_milliliters'),
   unit_minutes('unit_minutes'),
   unit_ounces('unit_ounces'),
+  unit_quarts('unit_quarts'),
   unit_seconds('unit_seconds'),
   unit_teaspoons('unit_teaspoons'),
   version_history('version_history'),

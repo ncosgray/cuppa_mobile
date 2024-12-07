@@ -75,6 +75,7 @@
     "unit_grams": "g",
     "unit_milliliters": "mL",
     "unit_ounces": "oz",
+    "unit_quarts": "qt",
     "unit_teaspoons": "tsp",
     "confirm_import": "Erlec'hiañ a raio an enporzhiañ ho holl arventennoù bremañ hag ho roadennoù implij.",
     "export_failure": "N'haller ket enrollañ ar restr roadennoù {{app_name}}.",

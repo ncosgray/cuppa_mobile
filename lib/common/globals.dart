@@ -11,13 +11,11 @@
 */
 
 // Cuppa globals
-// - Shared preferences, quick actions
 
 import 'package:cuppa_mobile/common/constants.dart';
 
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:quick_actions/quick_actions.dart';
 import 'package:region_settings/region_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,9 +36,6 @@ PackageInfo packageInfo = PackageInfo(
   version: unknownString,
   buildNumber: unknownString,
 );
-
-// Quick actions
-const QuickActions quickActions = QuickActions();
 
 // App store review prompt
 Function checkReviewPrompt = () {};

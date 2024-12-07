@@ -112,7 +112,7 @@ String formatDecimal(double i, {int decimalPlaces = 1}) {
   return NumberFormat(
     '0.${'0' * decimalPlaces}',
     fallbackLanguageCodes.contains(locale.languageCode)
-        ? null
+        ? localeString(defaultLocale)
         : localeString(locale),
   ).format(i);
 }
@@ -126,17 +126,24 @@ String formatPercent(i) {
 String formatNumeratorAmount(
   double i, {
   required bool useMetric,
-  bool inKilograms = true,
+  bool inLargeUnits = true,
 }) {
   int decimalPlaces = 1;
   String unit = useMetric
       ? AppString.unit_grams.translate()
       : AppString.unit_teaspoons.translate();
-  if (useMetric && inKilograms && i >= 1000.0) {
-    // Convert large amounts to kilograms
-    i = i / 1000.0;
-    decimalPlaces = 2;
-    unit = AppString.unit_kilograms.translate();
+  if (inLargeUnits) {
+    if (useMetric && i >= 1000.0) {
+      // Convert large metric amounts to kilograms
+      i = i / 1000.0;
+      decimalPlaces = 2;
+      unit = AppString.unit_kilograms.translate();
+    } else if (!useMetric && i >= 192.0) {
+      // Convert large non-metric amounts to quarts
+      i = i / 192.0;
+      decimalPlaces = 2;
+      unit = AppString.unit_quarts.translate();
+    }
   }
   return '${formatDecimal(i, decimalPlaces: decimalPlaces)}$unit';
 }

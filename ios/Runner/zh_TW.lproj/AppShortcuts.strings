@@ -1,0 +1,6 @@
+"Start a timer for ${target} in ${applicationName}" = "在${applicationName}中為${target}開始計時器";
+
+"Start brewing ${target} in ${applicationName}" = "開始在 ${applicationName} 中釀造 ${target}";
+
+"Start timing ${target} in ${applicationName}" = "開始計時 ${target} 在 ${applicationName}";
+
