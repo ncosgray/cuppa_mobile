@@ -31,7 +31,7 @@ dependencies:
   flex_color_picker: ^3.6.0
   flutter:
     sdk: flutter
-  flutter_local_notifications: ^17.2.4
+  flutter_local_notifications: ^18.0.1
   flutter_localizations:
     sdk: flutter
   flutter_timezone: ^3.0.1
@@ -64,7 +64,7 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  patrol: ^3.13.0
+  patrol: ^3.13.1
 
 patrol:
   app_name: Cuppa
