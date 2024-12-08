@@ -1,0 +1,2 @@
+* Added support for per-app languages and predictive back.
+* Various usability tweaks and small bug fixes.
