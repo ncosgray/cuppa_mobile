@@ -25,8 +25,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // Setting switch
-Widget settingSwitch(
-  BuildContext context, {
+Widget settingSwitch({
   required String title,
   String? subtitle,
   required bool value,

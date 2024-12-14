@@ -190,27 +190,24 @@ class TeaSettingsCard extends StatelessWidget {
 
   // Button to change favorite status
   Widget _favoriteButton(BuildContext context) {
-    return InkWell(
-      customBorder: const CircleBorder(),
-      // Toggle favorite status if enabled or max not reached
-      onTap: tea.isFavorite ||
-              Provider.of<AppProvider>(context, listen: false)
-                      .favoritesList
-                      .length <
-                  favoritesMaxCount
-          ? () => Provider.of<AppProvider>(context, listen: false)
-              .updateTea(tea, isFavorite: !tea.isFavorite)
-          : null,
-      child: Container(
-        padding: smallDefaultPadding,
-        child: tea.isFavorite
-            ? favoriteStarIcon
-            : Provider.of<AppProvider>(context, listen: false)
-                        .favoritesList
-                        .length <
-                    favoritesMaxCount
-                ? nonFavoriteStarIcon
-                : disabledStarIcon,
+    return Selector<AppProvider, bool>(
+      selector: (_, provider) =>
+          provider.favoritesList.length < favoritesMaxCount,
+      builder: (context, maxNotReached, child) => InkWell(
+        customBorder: const CircleBorder(),
+        // Toggle favorite status if enabled or max not reached
+        onTap: tea.isFavorite || maxNotReached
+            ? () => Provider.of<AppProvider>(context, listen: false)
+                .updateTea(tea, isFavorite: !tea.isFavorite)
+            : null,
+        child: Container(
+          padding: smallDefaultPadding,
+          child: tea.isFavorite
+              ? favoriteStarIcon
+              : maxNotReached
+                  ? nonFavoriteStarIcon
+                  : disabledStarIcon,
+        ),
       ),
     );
   }
