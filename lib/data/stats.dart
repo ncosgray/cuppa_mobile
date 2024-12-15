@@ -50,9 +50,12 @@ class Stat {
     this.brewAmountMetric = tea?.brewRatio.metricNumerator ??
         brewAmountMetric ??
         regionSettings.usesMetricSystem;
-    this.colorShadeRed = tea?.getColor().red ?? colorShadeRed ?? 0;
-    this.colorShadeGreen = tea?.getColor().green ?? colorShadeGreen ?? 0;
-    this.colorShadeBlue = tea?.getColor().blue ?? colorShadeBlue ?? 0;
+    this.colorShadeRed =
+        convertRGBToInt(tea?.getColor().r) ?? colorShadeRed ?? 0;
+    this.colorShadeGreen =
+        convertRGBToInt(tea?.getColor().g) ?? colorShadeGreen ?? 0;
+    this.colorShadeBlue =
+        convertRGBToInt(tea?.getColor().b) ?? colorShadeBlue ?? 0;
     this.iconValue = tea?.icon.value ?? iconValue ?? defaultTeaIconValue;
     this.isFavorite = tea?.isFavorite ?? isFavorite ?? false;
     this.timerStartTime =

@@ -28,6 +28,11 @@ extension Ex on double {
   double toPrecision([int n = 1]) => double.parse(toStringAsFixed(n));
 }
 
+// Convert RGB Color value to int
+int? convertRGBToInt(double? i) {
+  return i == null ? null : (i * 255).toInt();
+}
+
 // Localized temperature units
 String get degreesC {
   return '$degreeSymbol${AppString.unit_celsius.translate()}';
