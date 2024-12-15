@@ -70,13 +70,13 @@ class TeaSettingsCard extends StatelessWidget {
                         padding: noPadding,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
+                          spacing: smallSpacing,
                           children: [
                             // Favorite status
                             Align(
                               alignment: Alignment.centerLeft,
                               child: _favoriteButton(context),
                             ),
-                            smallSpacerWidget,
                             // Tea name with edit icon
                             Expanded(
                               child: Align(
@@ -84,22 +84,26 @@ class TeaSettingsCard extends StatelessWidget {
                                 child: _teaNameEditor(context),
                               ),
                             ),
-                            smallSpacerWidget,
-                            // Tea color selection - alternate layout
-                            Selector<AppProvider, bool>(
-                              selector: (_, provider) => provider.useBrewRatios,
-                              builder: (context, useBrewRatios, child) =>
-                                  Visibility(
-                                visible: useBrewRatios,
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: _teaColorSelector(context),
+                            Row(
+                              children: [
+                                // Tea color selection - alternate layout
+                                Selector<AppProvider, bool>(
+                                  selector: (_, provider) =>
+                                      provider.useBrewRatios,
+                                  builder: (context, useBrewRatios, child) =>
+                                      Visibility(
+                                    visible: useBrewRatios,
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: _teaColorSelector(context),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            // Extra space for horizontal layout
-                            SizedBox(
-                              width: layoutPortrait ? 0.0 : 24.0,
+                                // Extra space for horizontal layout
+                                SizedBox(
+                                  width: layoutPortrait ? 0.0 : 24.0,
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -111,6 +115,7 @@ class TeaSettingsCard extends StatelessWidget {
                         padding: noPadding,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          spacing: largeSpacing,
                           children: [
                             // Brew time
                             Align(
@@ -119,48 +124,40 @@ class TeaSettingsCard extends StatelessWidget {
                                   : Alignment.center,
                               child: _teaBrewTimeSelector(context),
                             ),
-                            smallSpacerWidget,
                             // Brew temperature
                             Align(
                               alignment: Alignment.centerLeft,
                               child: _teaBrewTempSelector(context),
                             ),
-                            spacerWidget,
-                            // Brew ratio
-                            Selector<AppProvider, bool>(
-                              selector: (_, provider) => provider.useBrewRatios,
-                              builder: (context, useBrewRatios, child) =>
-                                  Visibility(
-                                visible: useBrewRatios,
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      _teaBrewRatioSelector(context),
-                                      smallSpacerWidget,
-                                    ],
+                            Row(
+                              children: [
+                                // Brew ratio
+                                Selector<AppProvider, bool>(
+                                  selector: (_, provider) =>
+                                      provider.useBrewRatios,
+                                  builder: (context, useBrewRatios, child) =>
+                                      Visibility(
+                                    visible: useBrewRatios,
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: _teaBrewRatioSelector(context),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            // Tea color selection - default layout
-                            Selector<AppProvider, bool>(
-                              selector: (_, provider) => provider.useBrewRatios,
-                              builder: (context, useBrewRatios, child) =>
-                                  Visibility(
-                                visible: !useBrewRatios,
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      _teaColorSelector(context),
-                                      smallSpacerWidget,
-                                    ],
+                                // Tea color selection - default layout
+                                Selector<AppProvider, bool>(
+                                  selector: (_, provider) =>
+                                      provider.useBrewRatios,
+                                  builder: (context, useBrewRatios, child) =>
+                                      Visibility(
+                                    visible: !useBrewRatios,
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: _teaColorSelector(context),
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                             // Icon selection
                             Align(
@@ -174,7 +171,6 @@ class TeaSettingsCard extends StatelessWidget {
                   ],
                 ),
               ),
-              smallSpacerWidget,
               // Extra space for horizontal layout
               SizedBox(
                 width: layoutPortrait ? 0.0 : 24.0,

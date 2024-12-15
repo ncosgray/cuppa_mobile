@@ -30,7 +30,7 @@ Future showConfirmDialog({
   List<Widget> listBody = [body];
   if (bodyExtra != null) {
     listBody
-      ..add(smallSpacerWidget)
+      ..add(spacerWidget)
       ..add(bodyExtra);
   }
 

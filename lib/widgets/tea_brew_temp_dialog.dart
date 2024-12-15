@@ -105,6 +105,7 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
+        spacing: largeSpacing,
         children: [
           // Unit selector
           AnimatedOpacity(
@@ -135,7 +136,6 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
               ),
             ),
           ),
-          spacerWidget,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -159,7 +159,6 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
               ),
             ],
           ),
-          spacerWidget,
           // Temperature picker
           Slider.adaptive(
             value: _newTempIndex.toDouble(),

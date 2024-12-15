@@ -138,9 +138,9 @@ class _TeaButtonListState extends State<TeaButtonList> {
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    smallSpacerWidget,
+                    spacerWidget,
                     ...teaButtonRows,
-                    smallSpacerWidget,
+                    spacerWidget,
                   ],
                 ),
               ),
@@ -160,9 +160,9 @@ class _TeaButtonListState extends State<TeaButtonList> {
       controller: _scrollController,
       child: Row(
         children: [
-          smallSpacerWidget,
+          spacerWidget,
           ...teas.map<Widget>((Tea tea) => _teaButton(tea)),
-          smallSpacerWidget,
+          spacerWidget,
         ],
       ),
     );

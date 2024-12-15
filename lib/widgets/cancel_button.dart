@@ -32,9 +32,9 @@ Widget cancelButton({
       padding: smallDefaultPadding,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        spacing: smallSpacing,
         children: [
           cancelIcon(color: color),
-          smallSpacerWidget,
           Text(
             AppString.cancel_button.translate(),
             style: textStyleButtonSecondary.copyWith(color: color),

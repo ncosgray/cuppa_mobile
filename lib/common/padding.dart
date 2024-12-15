@@ -14,14 +14,12 @@
 
 import 'package:flutter/material.dart';
 
-// Spacers
+// Spacing and spacers
+const double smallSpacing = 8;
+const double largeSpacing = 14;
 const SizedBox spacerWidget = SizedBox(
-  width: 14,
-  height: 14,
-);
-const SizedBox smallSpacerWidget = SizedBox(
-  width: 8,
-  height: 8,
+  width: smallSpacing,
+  height: smallSpacing,
 );
 
 // General use padding

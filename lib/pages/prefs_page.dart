@@ -185,7 +185,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
               ],
             ),
           ),
-          const SliverToBoxAdapter(child: smallSpacerWidget),
+          const SliverToBoxAdapter(child: spacerWidget),
         ],
       );
 

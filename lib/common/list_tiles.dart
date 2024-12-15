@@ -150,20 +150,19 @@ Widget settingListTitle({
     ),
   ];
   if (image != null) {
-    titleWidgets
-      ..add(spacerWidget)
-      ..add(
-        SizedBox(
-          width: 28,
-          height: 28,
-          child: image,
-        ),
-      );
+    titleWidgets.add(
+      SizedBox(
+        width: 28,
+        height: 28,
+        child: image,
+      ),
+    );
   }
 
   return Row(
     mainAxisAlignment:
         alignEnd ? MainAxisAlignment.end : MainAxisAlignment.start,
+    spacing: smallSpacing,
     children: titleWidgets,
   );
 }

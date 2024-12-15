@@ -130,6 +130,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
             child: Container(
               margin: bottomSliverPadding,
               child: Row(
+                spacing: smallSpacing,
                 children: [
                   Expanded(child: _addTeaButton),
                   (teaCount > 0 && !teaData.activeTeas)
@@ -385,16 +386,13 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                   : Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
+                      spacing: largeSpacing,
                       children: [
                         Text(
                           formatTimer(preset.brewTime),
                           style: textStyleSettingNumber.copyWith(
                             color: presetColor,
                           ),
-                        ),
-                        Visibility(
-                          visible: preset.brewTempDegreesC > roomTemp,
-                          child: spacerWidget,
                         ),
                         Visibility(
                           visible: preset.brewTempDegreesC > roomTemp,
@@ -405,7 +403,6 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                             ),
                           ),
                         ),
-                        spacerWidget,
                         Text(
                           preset.ratioDisplay(provider.useCelsius),
                           style: textStyleSettingNumber.copyWith(
@@ -428,35 +425,30 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   }
 
   // Remove all teas button
-  Widget get _removeAllButton => Row(
-        children: [
-          smallSpacerWidget,
-          SizedBox(
-            width: 48,
-            height: 48,
-            child: Card(
-              margin: noPadding,
-              shadowColor: Colors.transparent,
-              surfaceTintColor: Theme.of(context).colorScheme.error,
-              clipBehavior: Clip.antiAlias,
-              child: InkWell(
-                child: getPlatformRemoveAllIcon(
-                  Theme.of(context).colorScheme.error,
-                ),
-                onTap: () async {
-                  AppProvider provider =
-                      Provider.of<AppProvider>(context, listen: false);
-                  if (await showConfirmDialog(
-                    context: context,
-                    body: Text(AppString.confirm_delete.translate()),
-                  )) {
-                    // Clear tea list
-                    provider.clearTeaList();
-                  }
-                },
-              ),
+  Widget get _removeAllButton => SizedBox(
+        width: 48,
+        height: 48,
+        child: Card(
+          margin: noPadding,
+          shadowColor: Colors.transparent,
+          surfaceTintColor: Theme.of(context).colorScheme.error,
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            child: getPlatformRemoveAllIcon(
+              Theme.of(context).colorScheme.error,
             ),
+            onTap: () async {
+              AppProvider provider =
+                  Provider.of<AppProvider>(context, listen: false);
+              if (await showConfirmDialog(
+                context: context,
+                body: Text(AppString.confirm_delete.translate()),
+              )) {
+                // Clear tea list
+                provider.clearTeaList();
+              }
+            },
           ),
-        ],
+        ),
       );
 }
