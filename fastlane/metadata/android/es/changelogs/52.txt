@@ -1,0 +1,2 @@
+* Se reorganizó la página de Configuración.
+* Varios ajustes de usabilidad y pequeñas correcciones de errores.
