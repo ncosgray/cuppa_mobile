@@ -1,0 +1,2 @@
+* Se agregó soporte para idiomas por aplicación y backend predictivo.
+* Varios ajustes de usabilidad y correcciones de errores menores.
