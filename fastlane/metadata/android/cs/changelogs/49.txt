@@ -1,0 +1,1 @@
+* Opravena chyba při exportu/importu.

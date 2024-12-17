@@ -1,0 +1,5 @@
+* Nově přepracovaný výběr barev nabízí desítky dalších možností barev čaje!
+* Opravena chyba, která způsobovala, že dialogové okno s názvem čaje bylo v některých situacích neviditelné.
+* Kompatibilní s novými oprávněními systému Android 14.
+* Různé úpravy použitelnosti a rozhraní.
+* Přidán japonský překlad a další aktualizace překladů - přispívejte přes Weblate!

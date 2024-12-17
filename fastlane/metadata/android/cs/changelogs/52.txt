@@ -1,0 +1,2 @@
+* Reorganizace stránky Nastavení.
+* Různé úpravy použitelnosti a opravy drobných chyb.

@@ -1,0 +1,1 @@
+* Opravena chyba upozornění v systému Android.

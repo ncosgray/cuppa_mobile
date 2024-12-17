@@ -1,0 +1,5 @@
+* Seřaďte seznam čajů podle různých kritérií pomocí několika klepnutí.
+* Přidána nová možnost uspořádat tlačítka časovače čaje vertikálně.
+* Pomocí posuvníku jsou k dispozici podrobnější možnosti nastavení teploty.
+* Různá vylepšení použitelnosti a rozhraní.
+* Aktualizace jazykových překladů - přispívejte prostřednictvím Weblate!

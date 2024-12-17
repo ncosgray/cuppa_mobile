@@ -1,0 +1,3 @@
+* Export/import umožňuje snadno zkopírovat data z aplikace do jiného zařízení.
+* Různá vylepšení použitelnosti a rozhraní.
+* Aktualizace jazykových překladů - přispívejte prostřednictvím Weblate!

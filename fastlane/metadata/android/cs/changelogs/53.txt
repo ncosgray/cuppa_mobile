@@ -1,0 +1,2 @@
+* Byla přidána podpora jazyků pro jednotlivé aplikace a prediktivní zpětná vazba.
+* Různá vylepšení použitelnosti a opravy drobných chyb.

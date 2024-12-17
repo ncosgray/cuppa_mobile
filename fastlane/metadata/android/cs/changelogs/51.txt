@@ -1,0 +1,2 @@
+* Vyberte si grafiku časovače, například hrnek s čajem nebo nové vzory šálků.
+* Aktualizace jazykových překladů - přispívejte přes Weblate!

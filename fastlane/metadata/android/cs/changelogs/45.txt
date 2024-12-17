@@ -1,0 +1,5 @@
+* Povolte poměry louhování, které vám pomohou přesně odměřit čaj!
+* Tlačítko Mute umožňuje ztišit oznámení časovače.
+* Upravte podrobnosti o právě vařeném čaji.
+* Různá vylepšení použitelnosti a opravy drobných chyb.
+* Aktualizace jazykových překladů - přispívejte prostřednictvím Weblate!
