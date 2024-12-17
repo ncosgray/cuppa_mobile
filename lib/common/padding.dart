@@ -10,22 +10,23 @@
  *******************************************************************************
 */
 
-// Cuppa padding, margins, and spacers
+// Cuppa padding, margins, and spacing
 
 import 'package:flutter/material.dart';
 
-// Spacing and spacers
+// Row and column spacing
 const double smallSpacing = 8;
 const double largeSpacing = 14;
-const SizedBox spacerWidget = SizedBox(
-  width: smallSpacing,
-  height: smallSpacing,
-);
 
 // General use padding
 const EdgeInsetsGeometry noPadding = EdgeInsets.zero;
 const EdgeInsetsGeometry smallDefaultPadding = EdgeInsets.all(4);
 const EdgeInsetsGeometry largeDefaultPadding = EdgeInsets.all(8);
+const EdgeInsetsGeometry rowPadding = EdgeInsets.symmetric(
+  vertical: 0,
+  horizontal: 4,
+);
+const EdgeInsetsGeometry columnPadding = EdgeInsets.only(bottom: 8);
 
 // Element specific padding
 const EdgeInsetsGeometry titlePadding = EdgeInsets.symmetric(
@@ -57,9 +58,13 @@ const EdgeInsetsGeometry radioTilePadding = EdgeInsets.symmetric(
   vertical: 0,
   horizontal: 6,
 );
-const EdgeInsetsGeometry rowPadding = EdgeInsets.symmetric(
+const EdgeInsetsGeometry buttonRowPadding = EdgeInsets.symmetric(
   vertical: 0,
-  horizontal: 4,
+  horizontal: 6,
+);
+const EdgeInsetsGeometry buttonColumnPadding = EdgeInsets.symmetric(
+  vertical: 6,
+  horizontal: 0,
 );
 const EdgeInsetsGeometry bottomSliverPadding =
     EdgeInsets.fromLTRB(12, 6, 12, 12);

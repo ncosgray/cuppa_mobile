@@ -143,49 +143,51 @@ class _PrefsWidgetState extends State<PrefsWidget> {
             title: AppString.settings_title.translate(),
           ),
           SliverToBoxAdapter(
-            child: Column(
-              children: [
-                // Setting: teacup style selection
-                _cupStyleSetting,
-                // Setting: app theme selection
-                _appThemeSetting,
-                // Setting: show extra info on buttons
-                _showExtraSetting,
-                // Setting: stacked timer button view
-                Selector<AppProvider, bool>(
-                  selector: (_, provider) =>
-                      provider.teaCount > stackedViewTeaCount,
-                  builder: (context, showStackedView, child) {
-                    return Visibility(
-                      visible: showStackedView,
-                      child: _stackedViewSetting,
-                    );
-                  },
-                ),
-                // Setting: hide timer increment buttons
-                _hideIncrementsSetting,
-                listDivider,
-                // Setting: use brew ratios
-                _useBrewRatiosSetting,
-                listDivider,
-                // Setting: default to silent timer notifications
-                _defaultSilentSetting,
-                // Notification info
-                _notificationLink,
-                listDivider,
-                // Setting: collect timer usage stats
-                _collectStatsSetting,
-                // Tools: export/import data
-                _exportImportTools,
-                listDivider,
-                // Setting: app language selection
-                _appLanguageSetting,
-                // Setting: default to Celsius or Fahrenheit
-                _useCelsiusSetting,
-              ],
+            child: Padding(
+              padding: columnPadding,
+              child: Column(
+                children: [
+                  // Setting: teacup style selection
+                  _cupStyleSetting,
+                  // Setting: app theme selection
+                  _appThemeSetting,
+                  // Setting: show extra info on buttons
+                  _showExtraSetting,
+                  // Setting: stacked timer button view
+                  Selector<AppProvider, bool>(
+                    selector: (_, provider) =>
+                        provider.teaCount > stackedViewTeaCount,
+                    builder: (context, showStackedView, child) {
+                      return Visibility(
+                        visible: showStackedView,
+                        child: _stackedViewSetting,
+                      );
+                    },
+                  ),
+                  // Setting: hide timer increment buttons
+                  _hideIncrementsSetting,
+                  listDivider,
+                  // Setting: use brew ratios
+                  _useBrewRatiosSetting,
+                  listDivider,
+                  // Setting: default to silent timer notifications
+                  _defaultSilentSetting,
+                  // Notification info
+                  _notificationLink,
+                  listDivider,
+                  // Setting: collect timer usage stats
+                  _collectStatsSetting,
+                  // Tools: export/import data
+                  _exportImportTools,
+                  listDivider,
+                  // Setting: app language selection
+                  _appLanguageSetting,
+                  // Setting: default to Celsius or Fahrenheit
+                  _useCelsiusSetting,
+                ],
+              ),
             ),
           ),
-          const SliverToBoxAdapter(child: spacerWidget),
         ],
       );
 

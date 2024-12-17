@@ -29,9 +29,7 @@ Future showConfirmDialog({
   // Build the dialog text
   List<Widget> listBody = [body];
   if (bodyExtra != null) {
-    listBody
-      ..add(spacerWidget)
-      ..add(bodyExtra);
+    listBody.add(bodyExtra);
   }
 
   return showAdaptiveDialog<bool>(
@@ -41,7 +39,11 @@ Future showConfirmDialog({
       return AlertDialog.adaptive(
         title: Text(AppString.confirm_title.translate()),
         content: SingleChildScrollView(
-          child: ListBody(children: listBody),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: smallSpacing,
+            children: listBody,
+          ),
         ),
         actions: [
           adaptiveDialogAction(
