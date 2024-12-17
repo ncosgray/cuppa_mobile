@@ -1,0 +1,6 @@
+"Start a timer for ${target} in ${applicationName}" = "${target} க்கு ${applicationName} இல் ஒரு டைமர் தொடங்கு";
+
+"Start brewing ${target} in ${applicationName}" = "${target} ஐ ${applicationName} இல் தயாரிக்க தொடங்குங்கள்.";
+
+"Start timing ${target} in ${applicationName}" = "${target} ஐ ${applicationName} ல் தொடங்கவும்.";
+
