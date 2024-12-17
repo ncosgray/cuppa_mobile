@@ -265,6 +265,13 @@ Future<void> loadLanguageOptions() async {
   );
 }
 
+// Given a language code or follow system, create a translated label
+String languageLabel(String languageCode) {
+  return languageCode == followSystemLanguage
+      ? AppString.theme_system.translate()
+      : languageOptions[languageCode] ?? languageCode;
+}
+
 // Resolve app locale from the device locale
 Locale localeResolutionCallback(
   Locale? deviceLocale,

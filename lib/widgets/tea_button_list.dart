@@ -136,12 +136,9 @@ class _TeaButtonListState extends State<TeaButtonList> {
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    smallSpacerWidget,
-                    ...teaButtonRows,
-                    smallSpacerWidget,
-                  ],
+                child: Padding(
+                  padding: buttonColumnPadding,
+                  child: Column(children: [...teaButtonRows]),
                 ),
               ),
             ),
@@ -158,12 +155,11 @@ class _TeaButtonListState extends State<TeaButtonList> {
       physics: const BouncingScrollPhysics(),
       clipBehavior: Clip.none,
       controller: _scrollController,
-      child: Row(
-        children: [
-          smallSpacerWidget,
-          ...teas.map<Widget>((Tea tea) => _teaButton(tea)),
-          smallSpacerWidget,
-        ],
+      child: Padding(
+        padding: buttonRowPadding,
+        child: Row(
+          children: [...teas.map<Widget>((Tea tea) => _teaButton(tea))],
+        ),
       ),
     );
   }

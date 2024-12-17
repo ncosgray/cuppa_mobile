@@ -21,10 +21,10 @@ import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:file_picker/file_picker.dart';
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -40,7 +40,7 @@ abstract class Export {
     try {
       // Create the export dataset
       String exportData = ExportFile(
-        settings: Settings(
+        settings: ExportSettings(
           nextTeaID: nextTeaID,
           showExtra: provider.showExtra,
           hideIncrements: provider.hideIncrements,
@@ -186,7 +186,7 @@ class ExportFile {
   factory ExportFile.fromJson(Map<String, dynamic> json) {
     try {
       return ExportFile(
-        settings: Settings.fromJson(json[jsonKeySettings]),
+        settings: ExportSettings.fromJson(json[jsonKeySettings]),
         teaList:
             (json[jsonKeyTeas].map<Tea>((tea) => Tea.fromJson(tea))).toList(),
         stats: (json[jsonKeyStats].map<Stat>((stat) => Stat.fromJson(stat)))
@@ -206,14 +206,14 @@ class ExportFile {
   }
 
   // Fields
-  Settings? settings;
+  ExportSettings? settings;
   List<Tea>? teaList;
   List<Stat>? stats;
 }
 
 // Settings export/import class
-class Settings {
-  Settings({
+class ExportSettings {
+  ExportSettings({
     this.nextTeaID,
     this.showExtra,
     this.hideIncrements,
@@ -228,8 +228,8 @@ class Settings {
   });
 
   // Factories
-  factory Settings.fromJson(Map<String, dynamic> json) {
-    return Settings(
+  factory ExportSettings.fromJson(Map<String, dynamic> json) {
+    return ExportSettings(
       nextTeaID: tryCast<int>(json[jsonKeyNextTeaID]),
       showExtra: tryCast<bool>(json[jsonKeyShowExtra]),
       hideIncrements: tryCast<bool>(json[jsonKeyHideIncrements]),

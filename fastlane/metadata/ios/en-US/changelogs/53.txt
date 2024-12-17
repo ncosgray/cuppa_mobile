@@ -1,0 +1,2 @@
+* Added support for Shortcuts and Siri actions - ask Siri to start a timer in Cuppa!
+* Various usability tweaks and small bug fixes.

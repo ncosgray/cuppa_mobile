@@ -25,8 +25,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // Setting switch
-Widget settingSwitch(
-  BuildContext context, {
+Widget settingSwitch({
   required String title,
   String? subtitle,
   required bool value,
@@ -151,20 +150,19 @@ Widget settingListTitle({
     ),
   ];
   if (image != null) {
-    titleWidgets
-      ..add(spacerWidget)
-      ..add(
-        SizedBox(
-          width: 28,
-          height: 28,
-          child: image,
-        ),
-      );
+    titleWidgets.add(
+      SizedBox(
+        width: 28,
+        height: 28,
+        child: image,
+      ),
+    );
   }
 
   return Row(
     mainAxisAlignment:
         alignEnd ? MainAxisAlignment.end : MainAxisAlignment.start,
+    spacing: smallSpacing,
     children: titleWidgets,
   );
 }
