@@ -12,6 +12,7 @@
 
 // Cuppa cancel timer button
 
+import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
@@ -30,11 +31,12 @@ Widget cancelButton({
     onTap: onPressed,
     child: Container(
       padding: smallDefaultPadding,
+      height: cancelButtonHeight,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        spacing: smallSpacing,
         children: [
           cancelIcon(color: color),
-          smallSpacerWidget,
           Text(
             AppString.cancel_button.translate(),
             style: textStyleButtonSecondary.copyWith(color: color),

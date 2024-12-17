@@ -98,6 +98,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
+        spacing: largeSpacing,
         children: [
           // Numerator unit selector
           adaptiveSegmentedControl(
@@ -112,9 +113,9 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
               }
             },
           ),
-          spacerWidget,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            spacing: largeSpacing,
             children: [
               // Increment numerator down
               adaptiveSmallButton(
@@ -126,13 +127,11 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
                         )
                     : null,
               ),
-              spacerWidget,
               // Display selected numerator
               Text(
                 _newRatio.numeratorString,
                 style: textStyleSettingNumber,
               ),
-              spacerWidget,
               // Increment numerator up
               adaptiveSmallButton(
                 icon: incrementUpIcon,
@@ -145,7 +144,6 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
               ),
             ],
           ),
-          spacerWidget,
           // Numerator slider
           Slider.adaptive(
             value: _newRatio.ratioNumerator,
@@ -158,7 +156,6 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
               setState(() => _newRatio.ratioNumerator = newValue);
             },
           ),
-          spacerWidget,
           // Denominator unit selector
           adaptiveSegmentedControl(
             // Milliliters
@@ -181,9 +178,9 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
               }
             },
           ),
-          spacerWidget,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            spacing: largeSpacing,
             children: [
               // Increment denominator down
               adaptiveSmallButton(
@@ -195,13 +192,11 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
                       }
                     : null,
               ),
-              spacerWidget,
               // Display selected denominator
               Text(
                 _newRatio.denominatorString,
                 style: textStyleSettingNumber,
               ),
-              spacerWidget,
               // Increment denominator up
               adaptiveSmallButton(
                 icon: incrementUpIcon,
@@ -214,7 +209,6 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
               ),
             ],
           ),
-          spacerWidget,
           // Denominator slider
           Slider.adaptive(
             value: _newDenominatorIndex.toDouble(),
@@ -226,7 +220,6 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
               _updateDenominatorSlider();
             },
           ),
-          spacerWidget,
           // Display full selected ratio
           AnimatedOpacity(
             opacity: _newRatio.ratioString.isEmpty ? fullOpacity : noOpacity,

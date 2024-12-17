@@ -103,10 +103,8 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
             title: AppString.teas_title.translate(),
             // Add Tea and Sort Teas action buttons
             actions: [
-              teaCount < teasMaxCount
-                  ? _addTeaAction()
-                  : const SizedBox.shrink(),
-              teaCount > 0 ? _sortTeasAction() : const SizedBox.shrink(),
+              teaCount < teasMaxCount ? _addTeaAction : const SizedBox.shrink(),
+              teaCount > 0 ? _sortTeasAction : const SizedBox.shrink(),
             ],
           ),
           // Tea settings info text
@@ -132,10 +130,11 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
             child: Container(
               margin: bottomSliverPadding,
               child: Row(
+                spacing: smallSpacing,
                 children: [
-                  Expanded(child: _addTeaButton()),
+                  Expanded(child: _addTeaButton),
                   (teaCount > 0 && !teaData.activeTeas)
-                      ? _removeAllButton()
+                      ? _removeAllButton
                       : const SizedBox.shrink(),
                 ],
               ),
@@ -147,35 +146,33 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   }
 
   // Add Tea action
-  Widget _addTeaAction() {
-    return IconButton(
-      icon: Icon(Icons.add),
-      onPressed: () => _openAddTeaDialog(),
-    );
-  }
+  Widget get _addTeaAction => IconButton(
+        icon: Icon(Icons.add),
+        onPressed: () => _openAddTeaDialog(),
+      );
 
   // Sort Teas action
-  Widget _sortTeasAction() {
-    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-
-    return IconButton(
-      icon: getPlatformSortIcon(),
-      onPressed: () => openPlatformAdaptiveSelectList(
-        context: context,
-        titleText: AppString.sort_title.translate(),
-        buttonTextCancel: AppString.cancel_button.translate(),
-        // Don't offer to sort with stats data unless stats are available
-        itemList: SortBy.values
-            .where((item) => provider.collectStats || !item.statsRequired)
-            .toList(),
-        itemBuilder: _sortByOption,
-        separatorBuilder: separatorDummy,
-      ),
-    );
-  }
+  Widget get _sortTeasAction => Selector<AppProvider, bool>(
+        selector: (_, provider) => provider.collectStats,
+        builder: (context, collectStats, child) => IconButton(
+          icon: getPlatformSortIcon(),
+          onPressed: () => openPlatformAdaptiveSelectList(
+            context: context,
+            titleText: AppString.sort_title.translate(),
+            buttonTextCancel: AppString.cancel_button.translate(),
+            // Don't offer to sort with stats data unless stats are available
+            itemList: SortBy.values
+                .where((item) => collectStats || !item.statsRequired)
+                .toList(),
+            itemBuilder: _sortByOption,
+            separatorBuilder: separatorDummy,
+          ),
+        ),
+      );
 
   // Sort by option
   Widget _sortByOption(BuildContext context, int index) {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     SortBy value = SortBy.values.elementAt(index);
 
     return adaptiveSelectListAction(
@@ -190,8 +187,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
       onTap: () {
         // Apply new sorting and animate the tea settings list
         _animateTeaList = true;
-        Provider.of<AppProvider>(context, listen: false)
-            .sortTeas(sortBy: value);
+        provider.sortTeas(sortBy: value);
         Navigator.of(context).pop(true);
       },
     );
@@ -309,39 +305,36 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   }
 
   // Add tea button
-  Widget _addTeaButton() {
-    return Selector<AppProvider, int>(
-      selector: (_, provider) => provider.teaCount,
-      builder: (context, teaCount, child) => SizedBox(
-        height: 48,
-        child: Card(
-          margin: noPadding,
-          shadowColor: Colors.transparent,
-          surfaceTintColor: Theme.of(context).colorScheme.primary,
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            child: TextButton.icon(
-              label: Text(
-                AppString.add_tea_button.translate(),
-                style: textStyleButtonSecondary,
-              ),
-              icon: addIcon,
-              style: ButtonStyle(
-                shape: WidgetStateProperty.all(
-                  const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
+  Widget get _addTeaButton => Selector<AppProvider, bool>(
+        selector: (_, provider) => provider.teaCount < teasMaxCount,
+        builder: (context, maxNotReached, child) => SizedBox(
+          height: 48,
+          child: Card(
+            margin: noPadding,
+            shadowColor: Colors.transparent,
+            surfaceTintColor: Theme.of(context).colorScheme.primary,
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              child: TextButton.icon(
+                label: Text(
+                  AppString.add_tea_button.translate(),
+                  style: textStyleButtonSecondary,
+                ),
+                icon: addIcon,
+                style: ButtonStyle(
+                  shape: WidgetStateProperty.all(
+                    const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    ),
                   ),
                 ),
+                // Disable adding teas if there are maximum teas
+                onPressed: maxNotReached ? () => _openAddTeaDialog() : null,
               ),
-              // Disable adding teas if there are maximum teas
-              onPressed:
-                  teaCount < teasMaxCount ? () => _openAddTeaDialog() : null,
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
 
   // Open Add Tea dialog
   void _openAddTeaDialog() {
@@ -393,16 +386,13 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                   : Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
+                      spacing: largeSpacing,
                       children: [
                         Text(
                           formatTimer(preset.brewTime),
                           style: textStyleSettingNumber.copyWith(
                             color: presetColor,
                           ),
-                        ),
-                        Visibility(
-                          visible: preset.brewTempDegreesC > roomTemp,
-                          child: spacerWidget,
                         ),
                         Visibility(
                           visible: preset.brewTempDegreesC > roomTemp,
@@ -413,7 +403,6 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                             ),
                           ),
                         ),
-                        spacerWidget,
                         Text(
                           preset.ratioDisplay(provider.useCelsius),
                           style: textStyleSettingNumber.copyWith(
@@ -436,37 +425,30 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   }
 
   // Remove all teas button
-  Widget _removeAllButton() {
-    return Row(
-      children: [
-        smallSpacerWidget,
-        SizedBox(
-          width: 48,
-          height: 48,
-          child: Card(
-            margin: noPadding,
-            shadowColor: Colors.transparent,
-            surfaceTintColor: Theme.of(context).colorScheme.error,
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              child: getPlatformRemoveAllIcon(
-                Theme.of(context).colorScheme.error,
-              ),
-              onTap: () async {
-                AppProvider provider =
-                    Provider.of<AppProvider>(context, listen: false);
-                if (await showConfirmDialog(
-                  context: context,
-                  body: Text(AppString.confirm_delete.translate()),
-                )) {
-                  // Clear tea list
-                  provider.clearTeaList();
-                }
-              },
+  Widget get _removeAllButton => SizedBox(
+        width: 48,
+        height: 48,
+        child: Card(
+          margin: noPadding,
+          shadowColor: Colors.transparent,
+          surfaceTintColor: Theme.of(context).colorScheme.error,
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            child: getPlatformRemoveAllIcon(
+              Theme.of(context).colorScheme.error,
             ),
+            onTap: () async {
+              AppProvider provider =
+                  Provider.of<AppProvider>(context, listen: false);
+              if (await showConfirmDialog(
+                context: context,
+                body: Text(AppString.confirm_delete.translate()),
+              )) {
+                // Clear tea list
+                provider.clearTeaList();
+              }
+            },
           ),
         ),
-      ],
-    );
-  }
+      );
 }

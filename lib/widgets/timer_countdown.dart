@@ -142,11 +142,13 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
     return Selector<AppProvider, bool>(
       selector: (_, provider) => provider.hideIncrements,
       builder: (context, hideIncrements, child) => Row(
+        spacing: smallSpacing,
         children: [
           // Silence button
-          timer != null && (_showTimerAdjustments || !hideIncrements)
-              ? _silenceButton(timer)
-              : spacerWidget,
+          Visibility(
+            visible: _showTimerAdjustments || !hideIncrements,
+            child: timer != null ? _silenceButton(timer) : SizedBox.shrink(),
+          ),
           IgnorePointer(
             ignoring: timer == null || !hideIncrements,
             child: GestureDetector(
@@ -179,14 +181,17 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
             ),
           ),
           // Increment +/- buttons
-          timer != null && (_showTimerAdjustments || !hideIncrements)
-              ? Column(
-                  children: [
-                    _incrementButton(timer, secs),
-                    _incrementButton(timer, -secs),
-                  ],
-                )
-              : spacerWidget,
+          Visibility(
+            visible: _showTimerAdjustments || !hideIncrements,
+            child: timer != null
+                ? Column(
+                    children: [
+                      _incrementButton(timer, secs),
+                      _incrementButton(timer, -secs),
+                    ],
+                  )
+                : SizedBox.shrink(),
+          ),
         ],
       ),
     );

@@ -28,6 +28,9 @@ final ThemeData lightThemeData = ThemeData(
   listTileTheme: const ListTileThemeData(
     iconColor: Colors.grey,
   ),
+  sliderTheme: SliderThemeData(
+    inactiveTrackColor: Colors.grey.shade300,
+  ),
   iconTheme: const IconThemeData(
     color: Colors.grey,
   ),
@@ -42,6 +45,9 @@ final ThemeData darkThemeData = ThemeData(
   cardTheme: CardTheme(
     color: Colors.grey.shade800,
   ),
+  sliderTheme: SliderThemeData(
+    inactiveTrackColor: Colors.grey.shade800,
+  ),
   splashFactory: splashFactory,
   pageTransitionsTheme: pageTransitionsTheme,
   cupertinoOverrideTheme: cupertinoOverrideTheme,
@@ -50,6 +56,9 @@ final ThemeData blackThemeData = ThemeData(
   brightness: Brightness.dark,
   colorSchemeSeed: Colors.blue,
   scaffoldBackgroundColor: Colors.black,
+  sliderTheme: SliderThemeData(
+    inactiveTrackColor: Colors.grey.shade800,
+  ),
   splashFactory: splashFactory,
   pageTransitionsTheme: pageTransitionsTheme,
   cupertinoOverrideTheme: cupertinoOverrideTheme,
