@@ -1,0 +1,4 @@
+* Nyní je možné nastavit zbývající čas na aktivním časovači čaje.
+* Další možnosti teploty louhování.
+* Různá vylepšení použitelnosti a rozhraní.
+* Aktualizace jazykových překladů - přispívejte prostřednictvím Weblate!

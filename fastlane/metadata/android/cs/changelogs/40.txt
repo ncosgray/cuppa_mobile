@@ -1,0 +1,5 @@
+* Přihlaste se ke statistikám používání a získejte přístup k zábavnému grafu, který ukazuje vaše zvyky při pití čaje!
+* Zásady ochrany osobních údajů aktualizovány pro shromažďování statistik.
+* Lepší škálování pro velké velikosti systémového písma.
+* Různá vylepšení použitelnosti a rozhraní.
+* Přidán lucemburský překlad a další aktualizace překladů - přispívejte prostřednictvím Weblate!

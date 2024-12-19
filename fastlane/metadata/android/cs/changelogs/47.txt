@@ -1,0 +1,4 @@
+* Vylepšená podpora regionálních nastavení.
+* Snadnější navigace v nastavení na menších obrazovkách.
+* Různá vylepšení použitelnosti a opravy drobných chyb.
+* Přidána britská angličtina, čuvaština a interlingva a další aktualizace překladů - přispívejte prostřednictvím Weblate!
