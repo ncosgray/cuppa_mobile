@@ -45,7 +45,7 @@ dependencies:
   quick_actions: ^1.1.0
   region_settings: ^1.1.0
   share_plus: ^10.1.3
-  shared_preferences: ^2.3.3
+  shared_preferences: ^2.3.4
   showcaseview: ^3.0.0
   sliver_tools: ^0.2.12
   sqflite: ^2.4.1
