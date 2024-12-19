@@ -1,0 +1,2 @@
+* Tweaks inúsáidteachta éagsúla agus ceartúcháin bheaga fabhtanna.
+* Cuireadh aistriúchán Tamailis, agus nuashonruithe aistriúcháin eile leis - rannchuidigh trí Weblate!
