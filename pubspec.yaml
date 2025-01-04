@@ -26,9 +26,9 @@ dependencies:
   collection: ^1.19.0
   cupertino_icons: ^1.0.8
   dynamic_color: ^1.7.0
-  file_picker: ^8.1.6
-  fl_chart: ^0.69.2
-  flex_color_picker: ^3.6.0
+  file_picker: ^8.1.7
+  fl_chart: ^0.70.0
+  flex_color_picker: ^3.7.0
   flutter:
     sdk: flutter
   flutter_local_notifications: ^18.0.1
@@ -43,15 +43,15 @@ dependencies:
   path_provider: ^2.1.5
   provider: ^6.1.2
   quick_actions: ^1.1.0
-  region_settings: ^1.1.0
+  region_settings: ^1.2.1
   share_plus: ^10.1.3
-  shared_preferences: ^2.3.4
+  shared_preferences: ^2.3.5
   showcaseview: ^3.0.0
   sliver_tools: ^0.2.12
   sqflite: ^2.4.1
   transitioned_indexed_stack: ^1.0.2
   url_launcher: ^6.3.1
-  wakelock_plus: ^1.2.8
+  wakelock_plus: ^1.2.10
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -64,7 +64,7 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  patrol: ^3.13.1
+  patrol: ^3.13.2
 
 patrol:
   app_name: Cuppa
