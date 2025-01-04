@@ -355,8 +355,12 @@ class _StatsWidgetState extends State<StatsWidget> {
                   // Details: Timer start date and time
                   Visibility(
                     visible: details,
-                    child:
-                        Text(formatDate(stat.timerStartTime, dateTime: true)),
+                    child: Text(
+                      AppLocalizations.dateString(
+                        stat.timerStartTime,
+                        dateTime: true,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -442,7 +446,7 @@ class _StatsWidgetState extends State<StatsWidget> {
           visible: _beginDateTime > 0,
           child: _metricWidget(
             metricName: AppString.stats_begin.translate(),
-            metric: formatDate(_beginDateTime),
+            metric: AppLocalizations.dateString(_beginDateTime),
           ),
         ),
         _metricWidget(

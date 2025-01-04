@@ -78,6 +78,7 @@ class CuppaApp extends StatelessWidget {
           ThemeMode appThemeMode = settings.appTheme.themeMode;
           bool appThemeBlack = settings.appTheme.blackTheme;
           String appLanguage = settings.appLanguage;
+          bool isSystemLanguage = appLanguage == followSystemLanguage;
 
           return DynamicColorBuilder(
             builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
@@ -103,12 +104,11 @@ class CuppaApp extends StatelessWidget {
                 // Initial route
                 home: const TimerWidget(),
                 // Localization
-                locale: appLanguage != followSystemLanguage
-                    ? parseLocaleString(appLanguage)
-                    : null,
+                locale:
+                    isSystemLanguage ? null : parseLocaleString(appLanguage),
                 supportedLocales: supportedLocales,
-                localizationsDelegates: const [
-                  AppLocalizationsDelegate(),
+                localizationsDelegates: [
+                  AppLocalizationsDelegate(isSystemLanguage: isSystemLanguage),
                   GlobalMaterialLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
