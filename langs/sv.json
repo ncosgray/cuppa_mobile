@@ -1,1 +1,25 @@
-{}
+{
+    "confirm_delete": "Är du säker på att du vill ta bodt alla teer?",
+    "add_tea_button": "Lägg till ett Te",
+    "cancel_button": "Avbryt",
+    "confirm_continue": "Vill du fortsätta?",
+    "done_button": "Klart",
+    "error_name_long": "* Namnet för teet är för långt.",
+    "help_translate": "Hjälp till att översätta {{app_name}}",
+    "language_name": "Svenska",
+    "new_tea_default_name": "Nytt Te",
+    "no_button": "Nej",
+    "notification_text": "{{tea_name}} är nu färdigt!",
+    "ok_button": "OK",
+    "prefs_cup_style_classic": "Tekopp",
+    "prefs_title": "Inställningar",
+    "source_code": "Källkod",
+    "stats_tea_amount": "Total mängd te",
+    "theme_dark": "Mörkt",
+    "theme_light": "Ljust",
+    "theme_system_black": "Följ systemet (Mörkt)",
+    "theme_system": "Följ systemet",
+    "tutorial_info": "Hur använder man {{app_name}}",
+    "about_title": "Om {{app_name}}",
+    "about_license": "Öppen källkodslicens"
+}
