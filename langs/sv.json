@@ -21,5 +21,7 @@
     "theme_system": "Följ systemet",
     "tutorial_info": "Hur använder man {{app_name}}",
     "about_title": "Om {{app_name}}",
-    "about_license": "Öppen källkodslicens"
+    "about_license": "Öppen källkodslicens",
+    "about_app": "{{app_name}} är ett gratis och öppet program.",
+    "confirm_import": "Importering kommer ersätta alla dina nuvarande inställningar och statistik."
 }
