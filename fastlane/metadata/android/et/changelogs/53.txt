@@ -1,0 +1,2 @@
+* Lisasime rakenduskohaste keelte toe ja ennustatava tausta.
+* Erinevad kasutatavuse kohendused ja veaparandused.

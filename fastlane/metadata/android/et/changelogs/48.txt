@@ -1,0 +1,5 @@
+* Piirkondlike seadistuste parem tugi.
+* Seadistuste parem kasutatavus väikestel ekraanidel.
+* Erinevad kasutatavuse kohendused ja veaparandused.
+* Lisasime Briti inglise, tšuvašši ja interlingua keelte tõlked ja täiendasime muid tõlkeid - kaastööd saab teha Weblate'is!
+* Eemaldades mittesoovitud sõltuvused, lisasime uue kompileerimisvariandi F-Droidi jaoks.
