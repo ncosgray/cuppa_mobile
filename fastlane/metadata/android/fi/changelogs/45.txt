@@ -1,0 +1,5 @@
+* Ota haudutussuhteet käyttöön, jotta voit mitata teesi tarkasti!
+* Mykistyspainikkeella voit hiljentää ajastinilmoituksen.
+* Muokkaa parhaillaan valmistettavan teen tietoja.
+* Erilaisia käytettävyyden parannuksia ja pieniä virheenkorjauksia.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

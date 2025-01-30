@@ -1,0 +1,5 @@
+* Ajastinilmoitukset sisältävät nyt aikaleiman.
+* Lisätty "Tietoja"-sivu.
+* Joitakin asetuksia voidaan nyt muuttaa ajastimen ollessa aktiivinen.
+* Käytettävyys ja käyttöliittymän parannukset.
+* Saatavilla seitsemällä uudella kielellä - osallistu lisää Weblate-palvelun kautta!

@@ -1,0 +1,6 @@
+* Uusi teevaihtoehto: Valitse kolmesta eri kuvakkeesta.
+* Helpompi haudutusajan ja lämpötilan valinta.
+* Anna olla vain yksi teepainike.
+* Lisätty linkki laitteen ilmoitusasetuksiin.
+* Käytettävyys ja käyttöliittymän parannukset.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

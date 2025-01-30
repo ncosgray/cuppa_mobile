@@ -1,0 +1,5 @@
+* Puhdas musta tumma teema on nyt valinnainen.
+* Lisätty painike kaikkien teiden poistamiseksi.
+* Korjattu virhe, joka sai pikakuvakkeet käynnistymään odottamatta.
+* Käytettävyys ja käyttöliittymän parannukset.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

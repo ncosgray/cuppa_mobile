@@ -1,0 +1,7 @@
+Cuppa mobiililaitteille on vihdoin täällä! Oletko kyllästynyt jättämään teesi liian pitkäksi, muuttumaan katkeraksi ja kylmäksi tai juomaan sitä liian aikaisin etkä arvosta sen kaikkia mahdollisuuksia? Sitten tämä apuohjelma on sinua varten!
+
+Jotta sovellus olisi niin nopea ja helppo, että voit todella käyttää sitä, olemme rakentaneet sen yksinkertaisuutta ajatellen. Avaa vain sovellus ja napauta keittämäsi teetyypin painiketta. Siinä se. Sinun ei tarvitse selata monimutkaisia valikoita tietyn teen löytämiseksi tai selata asetuksia... ellet halua mukauttaa haudutusaikoja tai lisätä omia suosikkiteetäsi.
+
+Kun napautat, Cuppa alkaa ajastaa haudutuksen ja näet teepussin ilmestyvän kuppiin ja tummuvan vähitellen teen jähmettyessä. Ajastin näyttää jäljellä olevan jyrkän ajan. Voit valmistaa kerralla jopa kaksi erillistä teetä, joista jokaisella on oma ajastin. Kun tee on valmista, Cuppa ilmoittaa sinulle ilmoituksella – laitteesi asetuksista riippuen tähän voi liittyä ääntä ja/tai värinää.
+
+Toivomme, että Cuppa mobiililaitteellesi on sinulle hyödyllinen!

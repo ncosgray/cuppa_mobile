@@ -1,0 +1,5 @@
+* Parannettu tuki alueellisille asetuksille.
+* Helpompi asetusten navigointi pienemmillä näytöillä.
+* Erilaisia käytettävyyden parannuksia ja pieniä virheenkorjauksia.
+* Lisätty brittiläinen englanti, chuvash ja interlingua sekä muita käännöspäivityksiä - osallistu Weblate-palvelun kautta!
+* Uusi F-Droid-rakennelma ei-toivottujen riippuvuuksien poistamiseksi.

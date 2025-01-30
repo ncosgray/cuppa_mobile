@@ -1,0 +1,4 @@
+* Lisää yli kolme mukautettua teelajia Cuppa Preferences -kohtaan.
+* Muuta teepainikkeiden järjestystä.
+* Parempi grafiikan laatu.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

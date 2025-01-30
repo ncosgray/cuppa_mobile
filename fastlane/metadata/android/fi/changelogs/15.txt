@@ -1,0 +1,3 @@
+* Uusi Asetukset-sivu!
+* Aseta omat teen nimet, valmistusajat ja värit.
+* Tallenna asetukset kolmelle eri teelahjille.

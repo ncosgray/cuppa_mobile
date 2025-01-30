@@ -1,0 +1,6 @@
+* Merkitse suosikkiteetäsi tähdellä lisätäksesi ne sovelluskuvakkeen pikanäppäimiksi.
+* Oletusarvona Celsius-lämpötila niille, jotka eivät ole Yhdysvalloissa.
+* Uusi vaihtoehto: valitse teema (vaalea tai tumma).
+* Lisää teenapin värivaihtoehtoja.
+* Käytettävyys ja käyttöliittymän parannukset.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

@@ -1,0 +1,4 @@
+* Lisätty Kumoa-painike teetä poistettaessa.
+* Korjattu virhe pikanäppäimillä teelistan uudelleenjärjestämisen jälkeen.
+* Käytettävyyden ja käyttöliittymän parannukset, mukaan lukien uudet animaatiot.
+* Urdu- ja perinteisen kiinan käännökset – lisää kieliä Weblate-palvelun kautta!

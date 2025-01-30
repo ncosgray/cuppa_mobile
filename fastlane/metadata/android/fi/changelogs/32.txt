@@ -1,0 +1,2 @@
+* Uusi "Material you" ulkoasu ja tuntuma.
+* Dynaaminen värimaailma vastaa laitteen asetuksia.

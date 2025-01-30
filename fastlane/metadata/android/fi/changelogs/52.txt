@@ -1,0 +1,2 @@
+* Asetukset-sivu järjestettiin uudelleen.
+* Erilaisia käytettävyyden parannuksia ja pieniä viankorjauksia.

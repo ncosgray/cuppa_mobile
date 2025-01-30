@@ -1,0 +1,3 @@
+* Kaksoisajastimet: Voit nyt käynnistää toisen ajastimen, kun ensimmäinen teesi valmistuu.
+* Luotettavammat ajastinilmoitukset joissakin tilanteissa.
+* Lisätty kieli ja muut käännöspäivitykset - osallistu Weblaten kautta!

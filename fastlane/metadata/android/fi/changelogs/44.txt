@@ -1,0 +1,5 @@
+* Lajittele teelistasi useiden kriteerien mukaan vain muutamalla napautuksella.
+* Lisätty uusi mahdollisuus järjestää teeajastimen painikkeet pystysuoraan.
+* Lisää rakeisia lämpötilavaihtoehtoja on saatavilla liukusäätimen avulla.
+* Erilaisia käytettävyyden ja käyttöliittymän parannuksia.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

@@ -1,0 +1,5 @@
+* Teetyyppien esiasetukset tekevät uusien teiden lisäämisestä entistä helpompaa!
+* Käytä hälytysilmoituksia saadaksesi huomiosi.
+ (Huomaa: Jos haluat vaihtaa hälytyksiin, sinun on ehkä asennettava uudelleen.)
+* Käytettävyys ja käyttöliittymän parannukset.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!
