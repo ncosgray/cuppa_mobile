@@ -49,6 +49,7 @@ Widget tutorialTooltip({
       titleTextStyle: textStyleTutorialTitle.copyWith(
         color: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
+      titleAlignment: Alignment.centerLeft,
       description: tutorialSteps[key]![0].translate(),
       descTextStyle: textStyleTutorial.copyWith(
         color: Theme.of(context).colorScheme.onPrimaryContainer,
