@@ -168,6 +168,7 @@ const prefAppTheme = 'Cuppa_app_theme';
 const prefAppLanguage = 'Cuppa_app_language';
 const prefSkipTutorial = 'Cuppa_skip_tutorial';
 const prefReviewPromptCounter = 'Cuppa_review_prompt_counter';
+const prefMigratedPrefs = 'Cuppa_migrated_prefs';
 
 // JSON keys
 const jsonKeySettings = 'settings';

@@ -32,7 +32,6 @@ import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:region_settings/region_settings.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 // ignore: depend_on_referenced_packages
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -42,7 +41,7 @@ import 'package:timezone/timezone.dart' as tz;
 // App initialization
 Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
-  sharedPrefs = await SharedPreferences.getInstance();
+  await Prefs.init();
   packageInfo = await PackageInfo.fromPlatform();
   regionSettings = await RegionSettings.getSettings();
   await loadLanguageOptions();

@@ -14,7 +14,6 @@
 // - Handle shared prefs
 
 import 'package:cuppa_mobile/common/constants.dart';
-import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/tea.dart';
@@ -22,9 +21,34 @@ import 'package:cuppa_mobile/data/tea.dart';
 import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/util/legacy_to_async_migration_util.dart';
 
 // Shared prefs functionality
 abstract class Prefs {
+  static late SharedPreferencesWithCache sharedPrefs;
+  static int nextTeaID = 0;
+
+  // Initialize shared preferences instance
+  static init() async {
+    const SharedPreferencesOptions sharedPreferencesOptions =
+        SharedPreferencesOptions();
+
+    // Migrate legacy prefs
+    final legacyPrefs = await SharedPreferences.getInstance();
+    await migrateLegacySharedPreferencesToSharedPreferencesAsyncIfNecessary(
+      legacySharedPreferencesInstance: legacyPrefs,
+      sharedPreferencesAsyncOptions: sharedPreferencesOptions,
+      migrationCompletedKey: prefMigratedPrefs,
+    );
+
+    // Instantiate shared prefs with caching
+    sharedPrefs = await SharedPreferencesWithCache.create(
+      cacheOptions: SharedPreferencesWithCacheOptions(),
+      sharedPreferencesOptions: sharedPreferencesOptions,
+    );
+  }
+
   // Determine if tea settings exist in shared prefs
   static bool teaPrefsExist() {
     return sharedPrefs.containsKey(prefTeaList);

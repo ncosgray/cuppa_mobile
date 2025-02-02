@@ -14,9 +14,9 @@
 // - Tea definition class
 
 import 'package:cuppa_mobile/common/constants.dart';
-import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
+import 'package:cuppa_mobile/data/prefs.dart';
 
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
@@ -41,7 +41,7 @@ class Tea {
     this.timerNotifyID,
   }) {
     // Assign next tea ID if not given
-    this.id = id ?? nextTeaID++;
+    this.id = id ?? Prefs.nextTeaID++;
     // Prefer TeaColor or lookup from value if color not given
     this.color = color ??
         TeaColor.values.firstWhere(

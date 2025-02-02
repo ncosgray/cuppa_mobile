@@ -14,7 +14,6 @@
 // - Export and import tea list, settings, and usage stats
 
 import 'package:cuppa_mobile/common/constants.dart';
-import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -41,7 +40,7 @@ abstract class Export {
       // Create the export dataset
       String exportData = ExportFile(
         settings: ExportSettings(
-          nextTeaID: nextTeaID,
+          nextTeaID: Prefs.nextTeaID,
           showExtra: provider.showExtra,
           hideIncrements: provider.hideIncrements,
           silentDefault: provider.silentDefault,
@@ -98,7 +97,7 @@ abstract class Export {
         // Apply imported settings, replacing existing
         if (exportData.settings != null) {
           if (exportData.settings!.nextTeaID != null) {
-            nextTeaID = exportData.settings!.nextTeaID!;
+            Prefs.nextTeaID = exportData.settings!.nextTeaID!;
           }
 
           if (exportData.settings!.showExtra != null) {
