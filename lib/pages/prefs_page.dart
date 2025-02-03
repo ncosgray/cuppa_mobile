@@ -71,10 +71,10 @@ class _PrefsWidgetState extends State<PrefsWidget> {
             title: AppString.prefs_title.translate(),
             buttonTextDone: AppString.done_button.translate(),
             // Button to navigate to About page
-            actionIcon: getPlatformAboutIcon(),
+            actionIcon: platformAboutIcon,
             actionRoute: const AboutWidget(),
             // Button to navigate to Stats page
-            secondaryActionIcon: collectStats ? getPlatformStatsIcon() : null,
+            secondaryActionIcon: collectStats ? platformStatsIcon : null,
             secondaryActionRoute: collectStats ? const StatsWidget() : null,
           ),
           body: SafeArea(
@@ -431,7 +431,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
   Widget get _exportButton => Builder(
         builder: (BuildContext context) {
           return IconButton(
-            icon: exportIcon,
+            icon: platformExportIcon,
             onPressed: () {
               // Render location for share sheet on iPad
               RenderBox? renderBox = context.findRenderObject() as RenderBox?;
@@ -461,7 +461,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
 
   // Import button
   Widget get _importButton => IconButton(
-        icon: importIcon,
+        icon: platformImportIcon,
         onPressed: () async {
           // Show a prompt with more information
           if (await showConfirmDialog(

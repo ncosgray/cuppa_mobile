@@ -27,22 +27,34 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // Platform specific icons
-Icon getPlatformSettingsIcon() {
-  return Platform.isIOS
-      ? const Icon(CupertinoIcons.settings_solid)
-      : const Icon(Icons.settings);
-}
+Icon get platformSettingsIcon => Platform.isIOS
+    ? const Icon(CupertinoIcons.settings_solid)
+    : const Icon(Icons.settings);
 
-Icon getPlatformAboutIcon() {
-  return Platform.isIOS
-      ? const Icon(CupertinoIcons.question)
-      : const Icon(Icons.help);
-}
+Icon get platformAboutIcon => Platform.isIOS
+    ? const Icon(CupertinoIcons.question)
+    : const Icon(Icons.help);
 
-Icon getPlatformStatsIcon() {
+Icon get platformStatsIcon => Platform.isIOS
+    ? const Icon(CupertinoIcons.chart_pie)
+    : const Icon(Icons.pie_chart_outline);
+
+Icon get platformSortIcon => Platform.isIOS
+    ? const Icon(CupertinoIcons.sort_down)
+    : const Icon(Icons.swap_vert);
+
+Icon get platformExportIcon => Platform.isIOS
+    ? const Icon(CupertinoIcons.floppy_disk)
+    : const Icon(Icons.save);
+
+Icon get platformImportIcon => Platform.isIOS
+    ? const Icon(CupertinoIcons.arrow_up_doc)
+    : const Icon(Icons.upload_file);
+
+Icon getPlatformEditIcon({double? size}) {
   return Platform.isIOS
-      ? const Icon(CupertinoIcons.chart_pie)
-      : const Icon(Icons.pie_chart_outline);
+      ? Icon(CupertinoIcons.pencil_ellipsis_rectangle, size: size)
+      : Icon(Icons.edit, size: size);
 }
 
 Icon getPlatformRemoveIcon([Color? color]) {
@@ -55,12 +67,6 @@ Icon getPlatformRemoveAllIcon([Color? color]) {
   return Platform.isIOS
       ? Icon(CupertinoIcons.square_stack_3d_up_slash_fill, color: color)
       : Icon(Icons.delete_sweep_outlined, color: color);
-}
-
-Icon getPlatformSortIcon() {
-  return Platform.isIOS
-      ? const Icon(CupertinoIcons.sort_down)
-      : const Icon(Icons.swap_vert);
 }
 
 // Nav bar action button with styling appropriate to platform

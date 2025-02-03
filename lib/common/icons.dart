@@ -65,11 +65,6 @@ const Icon addIcon = Icon(
   size: 20,
 );
 
-const Icon editIcon = Icon(
-  Icons.edit,
-  size: 20,
-);
-
 const Icon favoriteStarIcon = Icon(
   Icons.star,
   color: favoriteIconColor,
@@ -86,14 +81,6 @@ const Icon disabledStarIcon = Icon(
 const Icon infoIcon = Icon(
   Icons.info,
   size: 20,
-);
-
-const Icon exportIcon = Icon(
-  Icons.save,
-);
-
-const Icon importIcon = Icon(
-  Icons.upload_file,
 );
 
 // Variable color icons

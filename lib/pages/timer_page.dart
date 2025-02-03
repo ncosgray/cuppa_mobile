@@ -47,7 +47,7 @@ class TimerWidget extends StatelessWidget {
         actionIcon: tutorialTooltip(
           context: context,
           key: tutorialKey2,
-          child: getPlatformSettingsIcon(),
+          child: platformSettingsIcon,
         ),
         actionRoute: const PrefsWidget(),
       ),

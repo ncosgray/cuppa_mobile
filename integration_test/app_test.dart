@@ -47,7 +47,7 @@ void main() {
     // Navigate to Prefs page
     await $.tap(
       find.byIcon(
-        getPlatformSettingsIcon().icon!,
+        platformSettingsIcon.icon!,
         skipOffstage: false,
       ),
     );
@@ -117,7 +117,7 @@ void main() {
     // Navigate to Stats page and validate report
     await $.tap(
       find.byIcon(
-        getPlatformStatsIcon().icon!,
+        platformStatsIcon.icon!,
         skipOffstage: false,
       ),
     );
@@ -162,13 +162,13 @@ void main() {
     // Navigate to Stats page and re-validate report
     await $.tap(
       find.byIcon(
-        getPlatformSettingsIcon().icon!,
+        platformSettingsIcon.icon!,
         skipOffstage: false,
       ),
     );
     await $.tap(
       find.byIcon(
-        getPlatformStatsIcon().icon!,
+        platformStatsIcon.icon!,
         skipOffstage: false,
       ),
     );

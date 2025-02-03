@@ -229,8 +229,8 @@ class TeaSettingsCard extends StatelessWidget {
               ),
             ),
             Container(
-              padding: smallDefaultPadding,
-              child: editIcon,
+              padding: largeDefaultPadding,
+              child: getPlatformEditIcon(size: 20),
             ),
           ],
         ),

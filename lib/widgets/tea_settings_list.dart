@@ -155,7 +155,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   Widget get _sortTeasAction => Selector<AppProvider, bool>(
         selector: (_, provider) => provider.collectStats,
         builder: (context, collectStats, child) => IconButton(
-          icon: getPlatformSortIcon(),
+          icon: platformSortIcon,
           onPressed: () => openPlatformAdaptiveSelectList(
             context: context,
             titleText: AppString.sort_title.translate(),
