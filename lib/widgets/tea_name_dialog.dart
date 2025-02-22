@@ -81,11 +81,12 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
                   }
                 });
               },
-              onCleared: () => setState(() {
-                // Invalidate an empty value
-                _isValid = false;
-                _controller.clear();
-              }),
+              onCleared:
+                  () => setState(() {
+                    // Invalidate an empty value
+                    _isValid = false;
+                    _controller.clear();
+                  }),
             ),
           ),
           actions: <Widget>[

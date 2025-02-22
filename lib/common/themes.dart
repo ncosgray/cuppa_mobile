@@ -22,18 +22,10 @@ final ThemeData lightThemeData = ThemeData(
   brightness: Brightness.light,
   colorSchemeSeed: Colors.blue,
   scaffoldBackgroundColor: Colors.white,
-  cardTheme: CardTheme(
-    color: Colors.grey.shade100,
-  ),
-  listTileTheme: const ListTileThemeData(
-    iconColor: Colors.grey,
-  ),
-  sliderTheme: SliderThemeData(
-    inactiveTrackColor: Colors.grey.shade300,
-  ),
-  iconTheme: const IconThemeData(
-    color: Colors.grey,
-  ),
+  cardTheme: CardTheme(color: Colors.grey.shade100),
+  listTileTheme: const ListTileThemeData(iconColor: Colors.grey),
+  sliderTheme: SliderThemeData(inactiveTrackColor: Colors.grey.shade300),
+  iconTheme: const IconThemeData(color: Colors.grey),
   splashFactory: splashFactory,
   pageTransitionsTheme: pageTransitionsTheme,
   cupertinoOverrideTheme: cupertinoOverrideTheme,
@@ -42,12 +34,8 @@ final ThemeData darkThemeData = ThemeData(
   brightness: Brightness.dark,
   colorSchemeSeed: Colors.blue,
   scaffoldBackgroundColor: const Color(0xff323232),
-  cardTheme: CardTheme(
-    color: Colors.grey.shade800,
-  ),
-  sliderTheme: SliderThemeData(
-    inactiveTrackColor: Colors.grey.shade800,
-  ),
+  cardTheme: CardTheme(color: Colors.grey.shade800),
+  sliderTheme: SliderThemeData(inactiveTrackColor: Colors.grey.shade800),
   splashFactory: splashFactory,
   pageTransitionsTheme: pageTransitionsTheme,
   cupertinoOverrideTheme: cupertinoOverrideTheme,
@@ -56,9 +44,7 @@ final ThemeData blackThemeData = ThemeData(
   brightness: Brightness.dark,
   colorSchemeSeed: Colors.blue,
   scaffoldBackgroundColor: Colors.black,
-  sliderTheme: SliderThemeData(
-    inactiveTrackColor: Colors.grey.shade800,
-  ),
+  sliderTheme: SliderThemeData(inactiveTrackColor: Colors.grey.shade800),
   splashFactory: splashFactory,
   pageTransitionsTheme: pageTransitionsTheme,
   cupertinoOverrideTheme: cupertinoOverrideTheme,
@@ -92,11 +78,11 @@ InteractiveInkFeatureFactory? get splashFactory =>
     Platform.isIOS ? NoSplash.splashFactory : null;
 
 PageTransitionsTheme get pageTransitionsTheme => const PageTransitionsTheme(
-      builders: <TargetPlatform, PageTransitionsBuilder>{
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-        TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
-      },
-    );
+  builders: <TargetPlatform, PageTransitionsBuilder>{
+    TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+    TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+  },
+);
 
 CupertinoThemeData get cupertinoOverrideTheme =>
     const CupertinoThemeData(primaryColor: CupertinoColors.systemBlue);

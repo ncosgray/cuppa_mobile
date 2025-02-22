@@ -25,8 +25,4 @@ Widget separatorDummy(BuildContext context, int index) {
 }
 
 // List divider
-const Divider listDivider = Divider(
-  thickness: 1,
-  indent: 12,
-  endIndent: 12,
-);
+const Divider listDivider = Divider(thickness: 1, indent: 12, endIndent: 12);

@@ -142,8 +142,10 @@ abstract class Prefs {
     List<String>? teaListJson = sharedPrefs.getStringList(prefTeaList);
     if (teaListJson != null) {
       try {
-        teaList += (teaListJson
-            .map<Tea>((tea) => Tea.fromJson(jsonDecode(tea)))).toList();
+        teaList +=
+            (teaListJson.map<Tea>(
+              (tea) => Tea.fromJson(jsonDecode(tea)),
+            )).toList();
       } catch (e) {
         // Something went wrong
       }
@@ -302,11 +304,7 @@ enum CupStyle {
 
   // Cup style images
   Image get image {
-    return Image.asset(
-      _cupImage,
-      fit: BoxFit.fitWidth,
-      gaplessPlayback: true,
-    );
+    return Image.asset(_cupImage, fit: BoxFit.fitWidth, gaplessPlayback: true);
   }
 
   // Localized style names
@@ -333,10 +331,14 @@ enum AppTheme {
 }
 
 // Brewing time options
-final List<int> brewTimeHourOptions =
-    List.generate(teaBrewTimeMaxHours, (i) => i);
-final List<int> brewTimeMinuteOptions =
-    List.generate(teaBrewTimeMaxMinutes, (i) => i);
+final List<int> brewTimeHourOptions = List.generate(
+  teaBrewTimeMaxHours,
+  (i) => i,
+);
+final List<int> brewTimeMinuteOptions = List.generate(
+  teaBrewTimeMaxMinutes,
+  (i) => i,
+);
 final List<int> brewTimeSecondOptions = [0, 15, 30, 45];
 
 // Brewing temperature options

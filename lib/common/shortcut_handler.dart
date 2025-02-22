@@ -46,10 +46,7 @@ abstract class ShortcutHandler {
     if (Platform.isIOS) {
       await intelligence.populate([
         for (final Tea tea in teaList)
-          Representable(
-            representation: tea.name,
-            id: tea.id.toString(),
-          ),
+          Representable(representation: tea.name, id: tea.id.toString()),
       ]);
     }
   }

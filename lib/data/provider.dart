@@ -136,8 +136,9 @@ class AppProvider extends ChangeNotifier {
         {
           // Sort favorites first, then alpha
           _teaList.sort((a, b) {
-            int compare =
-                (a.isFavorite ? 0 : 1).compareTo(b.isFavorite ? 0 : 1);
+            int compare = (a.isFavorite ? 0 : 1).compareTo(
+              b.isFavorite ? 0 : 1,
+            );
             if (compare != 0) {
               return compare;
             }
@@ -148,10 +149,12 @@ class AppProvider extends ChangeNotifier {
         {
           // Sort by hue/lightness, then alpha
           _teaList.sort((a, b) {
-            HSLColor aColor =
-                HSLColor.fromColor(a.colorShade ?? a.color.getColor());
-            HSLColor bColor =
-                HSLColor.fromColor(b.colorShade ?? b.color.getColor());
+            HSLColor aColor = HSLColor.fromColor(
+              a.colorShade ?? a.color.getColor(),
+            );
+            HSLColor bColor = HSLColor.fromColor(
+              b.colorShade ?? b.color.getColor(),
+            );
             int compare = aColor.hue.compareTo(bColor.hue);
             if (compare != 0) {
               return compare;
@@ -186,14 +189,16 @@ class AppProvider extends ChangeNotifier {
 
           // Sort most used/recent first, then alpha
           _teaList.sort((a, b) {
-            int aUsage = (stats.firstWhere(
-              (stat) => stat.id == a.id,
-              orElse: () => Stat(count: 0),
-            )).count;
-            int bUsage = (stats.firstWhere(
-              (stat) => stat.id == b.id,
-              orElse: () => Stat(count: 0),
-            )).count;
+            int aUsage =
+                (stats.firstWhere(
+                  (stat) => stat.id == a.id,
+                  orElse: () => Stat(count: 0),
+                )).count;
+            int bUsage =
+                (stats.firstWhere(
+                  (stat) => stat.id == b.id,
+                  orElse: () => Stat(count: 0),
+                )).count;
             int compare = bUsage.compareTo(aUsage);
             if (compare != 0) {
               return compare;
@@ -253,16 +258,19 @@ class AppProvider extends ChangeNotifier {
   void loadDefaults() {
     _teaList
       ..add(
-        Presets.getPreset(AppString.tea_name_black)
-            .createTea(useCelsius: _useCelsius, isFavorite: true),
+        Presets.getPreset(
+          AppString.tea_name_black,
+        ).createTea(useCelsius: _useCelsius, isFavorite: true),
       )
       ..add(
-        Presets.getPreset(AppString.tea_name_green)
-            .createTea(useCelsius: _useCelsius, isFavorite: true),
+        Presets.getPreset(
+          AppString.tea_name_green,
+        ).createTea(useCelsius: _useCelsius, isFavorite: true),
       )
       ..add(
-        Presets.getPreset(AppString.tea_name_herbal)
-            .createTea(useCelsius: _useCelsius, isFavorite: true),
+        Presets.getPreset(
+          AppString.tea_name_herbal,
+        ).createTea(useCelsius: _useCelsius, isFavorite: true),
       );
 
     // Manage shortcut options

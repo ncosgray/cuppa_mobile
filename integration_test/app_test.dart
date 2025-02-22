@@ -45,12 +45,7 @@ void main() {
     }
 
     // Navigate to Prefs page
-    await $.tap(
-      find.byIcon(
-        platformSettingsIcon.icon!,
-        skipOffstage: false,
-      ),
-    );
+    await $.tap(find.byIcon(platformSettingsIcon.icon!, skipOffstage: false));
     expect(find.text(AppString.prefs_title.translate()), findsOneWidget);
 
     // Delete all teas
@@ -99,8 +94,9 @@ void main() {
     await $.tap(find.text(AppString.prefs_cup_style_mug.translate()));
 
     // Change setting: show extra timer info
-    final Finder extraSwitch =
-        find.text(AppString.prefs_show_extra.translate());
+    final Finder extraSwitch = find.text(
+      AppString.prefs_show_extra.translate(),
+    );
     await $.scrollUntilVisible(finder: extraSwitch);
     await $.tap(extraSwitch);
 
@@ -115,12 +111,7 @@ void main() {
     await $.tap(find.text(AppString.yes_button.translate()));
 
     // Navigate to Stats page and validate report
-    await $.tap(
-      find.byIcon(
-        platformStatsIcon.icon!,
-        skipOffstage: false,
-      ),
-    );
+    await $.tap(find.byIcon(platformStatsIcon.icon!, skipOffstage: false));
     expect(find.text(AppString.stats_header.translate()), findsOneWidget);
     expect(find.text(formatTimer(0)), findsOneWidget);
 
@@ -160,18 +151,8 @@ void main() {
     expect(find.text(timerName), findsOneWidget);
 
     // Navigate to Stats page and re-validate report
-    await $.tap(
-      find.byIcon(
-        platformSettingsIcon.icon!,
-        skipOffstage: false,
-      ),
-    );
-    await $.tap(
-      find.byIcon(
-        platformStatsIcon.icon!,
-        skipOffstage: false,
-      ),
-    );
+    await $.tap(find.byIcon(platformSettingsIcon.icon!, skipOffstage: false));
+    await $.tap(find.byIcon(platformStatsIcon.icon!, skipOffstage: false));
     expect(find.text(AppString.stats_title.translate()), findsOneWidget);
     expect(find.text(timerName), findsNWidgets(2));
     expect(find.text(formatTimer(timerSeconds)), findsOneWidget);

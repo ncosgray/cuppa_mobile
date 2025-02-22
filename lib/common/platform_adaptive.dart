@@ -27,29 +27,35 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // Platform specific icons
-Icon get platformSettingsIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.settings_solid)
-    : const Icon(Icons.settings);
+Icon get platformSettingsIcon =>
+    Platform.isIOS
+        ? const Icon(CupertinoIcons.settings_solid)
+        : const Icon(Icons.settings);
 
-Icon get platformAboutIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.question)
-    : const Icon(Icons.help);
+Icon get platformAboutIcon =>
+    Platform.isIOS
+        ? const Icon(CupertinoIcons.question)
+        : const Icon(Icons.help);
 
-Icon get platformStatsIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.chart_pie)
-    : const Icon(Icons.pie_chart_outline);
+Icon get platformStatsIcon =>
+    Platform.isIOS
+        ? const Icon(CupertinoIcons.chart_pie)
+        : const Icon(Icons.pie_chart_outline);
 
-Icon get platformSortIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.sort_down)
-    : const Icon(Icons.swap_vert);
+Icon get platformSortIcon =>
+    Platform.isIOS
+        ? const Icon(CupertinoIcons.sort_down)
+        : const Icon(Icons.swap_vert);
 
-Icon get platformExportIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.floppy_disk)
-    : const Icon(Icons.save);
+Icon get platformExportIcon =>
+    Platform.isIOS
+        ? const Icon(CupertinoIcons.floppy_disk)
+        : const Icon(Icons.save);
 
-Icon get platformImportIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.arrow_up_doc)
-    : const Icon(Icons.upload_file);
+Icon get platformImportIcon =>
+    Platform.isIOS
+        ? const Icon(CupertinoIcons.arrow_up_doc)
+        : const Icon(Icons.upload_file);
 
 Icon getPlatformEditIcon({double? size}) {
   return Platform.isIOS
@@ -78,19 +84,10 @@ Widget adaptiveNavBarActionButton({
     return CupertinoButton(
       padding: noPadding,
       onPressed: onPressed,
-      child: SizedBox(
-        height: 24,
-        width: 24,
-        child: FittedBox(
-          child: icon,
-        ),
-      ),
+      child: SizedBox(height: 24, width: 24, child: FittedBox(child: icon)),
     );
   } else {
-    return IconButton(
-      icon: icon,
-      onPressed: onPressed,
-    );
+    return IconButton(icon: icon, onPressed: onPressed);
   }
 }
 
@@ -100,15 +97,9 @@ Widget adaptiveSelectListAction({
   required Function() onTap,
 }) {
   if (Platform.isIOS) {
-    return CupertinoActionSheetAction(
-      onPressed: onTap,
-      child: action,
-    );
+    return CupertinoActionSheetAction(onPressed: onTap, child: action);
   } else {
-    return GestureDetector(
-      onTap: onTap,
-      child: action,
-    );
+    return GestureDetector(onTap: onTap, child: action);
   }
 }
 
@@ -128,14 +119,8 @@ Widget adaptiveDialogAction({
     );
   } else {
     return isDestructiveAction
-        ? TextButton(
-            onPressed: onPressed,
-            child: Text(text),
-          )
-        : FilledButton.tonal(
-            onPressed: onPressed,
-            child: Text(text),
-          );
+        ? TextButton(onPressed: onPressed, child: Text(text))
+        : FilledButton.tonal(onPressed: onPressed, child: Text(text));
   }
 }
 
@@ -176,9 +161,7 @@ Widget adaptiveLargeButton({
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
         visualDensity: VisualDensity.comfortable,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         minimumSize: const Size(60, 60),
         padding: smallDefaultPadding,
       ),
@@ -250,14 +233,15 @@ Widget adaptiveTextFormField({
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
           counter: const Offstage(),
-          suffixIcon: controller.text.isNotEmpty
-              // Clear field button
-              ? IconButton(
-                  padding: noPadding,
-                  onPressed: onCleared,
-                  icon: clearIcon,
-                )
-              : null,
+          suffixIcon:
+              controller.text.isNotEmpty
+                  // Clear field button
+                  ? IconButton(
+                    padding: noPadding,
+                    onPressed: onCleared,
+                    icon: clearIcon,
+                  )
+                  : null,
         ),
         style: TextStyle(color: textColor),
         cursorColor: cursorColor,
@@ -294,14 +278,8 @@ Widget adaptiveSegmentedControl({
       selected: <bool>{groupValue},
       onSelectionChanged: onValueSetChanged,
       segments: <ButtonSegment<bool>>[
-        ButtonSegment<bool>(
-          value: true,
-          label: Text(buttonTextTrue),
-        ),
-        ButtonSegment<bool>(
-          value: false,
-          label: Text(buttonTextFalse),
-        ),
+        ButtonSegment<bool>(value: true, label: Text(buttonTextTrue)),
+        ButtonSegment<bool>(value: false, label: Text(buttonTextFalse)),
       ],
     );
   }
@@ -342,8 +320,10 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       actions.add(
         adaptiveNavBarActionButton(
           icon: secondaryActionIcon!,
-          onPressed: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => secondaryActionRoute!)),
+          onPressed:
+              () => Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (_) => secondaryActionRoute!)),
         ),
       );
     }
@@ -351,12 +331,13 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       actions.add(
         adaptiveNavBarActionButton(
           icon: actionIcon!,
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              fullscreenDialog: Platform.isIOS ? !isPoppable : false,
-              builder: (_) => actionRoute!,
-            ),
-          ),
+          onPressed:
+              () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  fullscreenDialog: Platform.isIOS ? !isPoppable : false,
+                  builder: (_) => actionRoute!,
+                ),
+              ),
         ),
       );
     }
@@ -366,42 +347,43 @@ class PlatformAdaptiveNavBar extends StatelessWidget
         transitionBetweenRoutes: false,
         automaticallyImplyLeading: false,
         automaticallyImplyMiddle: false,
-        padding: previousPageTitle != null
-            ? const EdgeInsetsDirectional.only(start: 4, end: 12)
-            : const EdgeInsetsDirectional.symmetric(horizontal: 12),
-        border: isPoppable
-            ? const Border(
-                bottom: BorderSide(color: Color(0x4D000000), width: 0),
-              ) // _kDefaultNavBarBorder
-            : null,
-        backgroundColor: isPoppable
-            ? CupertinoDynamicColor.resolve(
-                CupertinoTheme.of(context).barBackgroundColor,
-                context,
-              )
-            : Theme.of(context).scaffoldBackgroundColor,
+        padding:
+            previousPageTitle != null
+                ? const EdgeInsetsDirectional.only(start: 4, end: 12)
+                : const EdgeInsetsDirectional.symmetric(horizontal: 12),
+        border:
+            isPoppable
+                ? const Border(
+                  bottom: BorderSide(color: Color(0x4D000000), width: 0),
+                ) // _kDefaultNavBarBorder
+                : null,
+        backgroundColor:
+            isPoppable
+                ? CupertinoDynamicColor.resolve(
+                  CupertinoTheme.of(context).barBackgroundColor,
+                  context,
+                )
+                : Theme.of(context).scaffoldBackgroundColor,
         // Back navigation
-        leading: previousPageTitle != null
-            ? CupertinoButton(
-                padding: noPadding,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      CupertinoIcons.chevron_back,
-                      size: 28,
-                    ),
-                    Text(previousPageTitle!),
-                  ],
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            : isPoppable
+        leading:
+            previousPageTitle != null
                 ? CupertinoButton(
-                    padding: noPadding,
-                    child: Text(buttonTextDone),
-                    onPressed: () => Navigator.of(context).pop(),
-                  )
+                  padding: noPadding,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(CupertinoIcons.chevron_back, size: 28),
+                      Text(previousPageTitle!),
+                    ],
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                )
+                : isPoppable
+                ? CupertinoButton(
+                  padding: noPadding,
+                  child: Text(buttonTextDone),
+                  onPressed: () => Navigator.of(context).pop(),
+                )
                 : null,
         // Page title
         middle: Padding(
@@ -417,18 +399,12 @@ class PlatformAdaptiveNavBar extends StatelessWidget
           ),
         ),
         // Action buttons
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: actions,
-        ),
+        trailing: Row(mainAxisSize: MainAxisSize.min, children: actions),
       );
     } else {
       return AppBar(
         elevation: !isPoppable ? 4.0 : null,
-        title: Text(
-          title,
-          style: textStyleNavBar,
-        ),
+        title: Text(title, style: textStyleNavBar),
         actions: actions,
       );
     }
@@ -488,11 +464,12 @@ Future<bool?> openPlatformAdaptiveSelectList({
           child: CupertinoActionSheet(
             title: Text(titleText),
             // Item options
-            actions: itemList
-                .asMap()
-                .entries
-                .map((item) => itemBuilder(context, item.key))
-                .toList(),
+            actions:
+                itemList
+                    .asMap()
+                    .entries
+                    .map((item) => itemBuilder(context, item.key))
+                    .toList(),
             // Cancel button
             cancelButton: CupertinoActionSheetAction(
               isDefaultAction: true,

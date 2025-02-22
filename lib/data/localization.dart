@@ -64,14 +64,16 @@ const List<Locale> supportedLocales = [
   Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
   Locale.fromSubtags(languageCode: 'zh'),
 ];
-final List<String> supportedLanguageCodes = supportedLocales
-    .map<String>((Locale locale) => locale.languageCode)
-    .toList();
+final List<String> supportedLanguageCodes =
+    supportedLocales
+        .map<String>((Locale locale) => locale.languageCode)
+        .toList();
 
 // Languages not supported by GlobalMaterialLocalizations
-final List<String> fallbackLanguageCodes = supportedLanguageCodes
-    .where((item) => !kMaterialSupportedLanguages.contains(item))
-    .toList();
+final List<String> fallbackLanguageCodes =
+    supportedLanguageCodes
+        .where((item) => !kMaterialSupportedLanguages.contains(item))
+        .toList();
 
 // Localizable app strings
 // ignore_for_file: constant_identifier_names
@@ -328,19 +330,22 @@ class AppLocalizations {
   // Populate strings
   Future<bool> load({required bool isSystemLanguage}) async {
     // Populate strings map from JSON file in langs folder
-    String jsonString =
-        await rootBundle.loadString('langs/${localeString(locale)}.json');
+    String jsonString = await rootBundle.loadString(
+      'langs/${localeString(locale)}.json',
+    );
     Map<String, dynamic> jsonMap = json.decode(jsonString);
-    _localizedStrings =
-        jsonMap.map((key, value) => MapEntry(key, value.toString()));
+    _localizedStrings = jsonMap.map(
+      (key, value) => MapEntry(key, value.toString()),
+    );
 
     // Populate default (English) strings map
     String jsonDefaultString = await rootBundle.loadString(
       'langs/${localeString(defaultLocale)}.json',
     );
     Map<String, dynamic> jsonDefaultMap = json.decode(jsonDefaultString);
-    _defaultStrings =
-        jsonDefaultMap.map((key, value) => MapEntry(key, value.toString()));
+    _defaultStrings = jsonDefaultMap.map(
+      (key, value) => MapEntry(key, value.toString()),
+    );
 
     // Set system language flag
     _isSystemLanguage = isSystemLanguage;
@@ -355,9 +360,10 @@ class AppLocalizations {
 
   // Localized epoch time formatting as date or datetime string
   static String dateString(int ms, {bool dateTime = false}) {
-    DateFormat formatter = instance.isFallbackLanguage
-        ? DateFormat.yMd()
-        : instance.isSystemLanguage
+    DateFormat formatter =
+        instance.isFallbackLanguage
+            ? DateFormat.yMd()
+            : instance.isSystemLanguage
             ? DateFormat(regionSettings.dateFormat.medium)
             : DateFormat.yMMMd(instance.appLocaleString);
     if (dateTime) {

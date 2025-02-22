@@ -69,13 +69,14 @@ String formatTemp(i, {bool? useCelsius}) {
     // Room temperature
     return '$emDash$degreeSymbol';
   }
-  String unit = useCelsius == null
-      ? degreeSymbol
-      : isCelsiusTemp(i, useCelsius: useCelsius) && !useCelsius
+  String unit =
+      useCelsius == null
+          ? degreeSymbol
+          : isCelsiusTemp(i, useCelsius: useCelsius) && !useCelsius
           ? degreesC
           : !isCelsiusTemp(i, useCelsius: useCelsius) && useCelsius
-              ? degreesF
-              : degreeSymbol;
+          ? degreesF
+          : degreeSymbol;
   return '$i$unit';
 }
 
@@ -111,9 +112,10 @@ String formatNumeratorAmount(
   bool inLargeUnits = true,
 }) {
   int decimalPlaces = 1;
-  String unit = useMetric
-      ? AppString.unit_grams.translate()
-      : AppString.unit_teaspoons.translate();
+  String unit =
+      useMetric
+          ? AppString.unit_grams.translate()
+          : AppString.unit_teaspoons.translate();
   if (inLargeUnits) {
     if (useMetric && i >= 1000.0) {
       // Convert large metric amounts to kilograms
@@ -131,15 +133,16 @@ String formatNumeratorAmount(
 }
 
 String formatDenominatorAmount(int i, {required bool useMetric}) {
-  String unit = useMetric
-      ? AppString.unit_milliliters.translate()
-      : AppString.unit_ounces.translate();
+  String unit =
+      useMetric
+          ? AppString.unit_milliliters.translate()
+          : AppString.unit_ounces.translate();
   return '${AppLocalizations.numberString(i.toDouble())}$unit';
 }
 
 // Fetch details about the device size and orientation
 ({double width, double height, bool isPortrait, bool isLargeDevice})
-    getDeviceSize(BuildContext context) {
+getDeviceSize(BuildContext context) {
   double deviceWidth = MediaQuery.of(context).size.width;
   double deviceHeight = MediaQuery.of(context).size.height;
 

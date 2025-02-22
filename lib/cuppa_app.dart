@@ -68,10 +68,11 @@ class CuppaApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => AppProvider(),
       child: Selector<AppProvider, ({AppTheme appTheme, String appLanguage})>(
-        selector: (_, provider) => (
-          appTheme: provider.appTheme,
-          appLanguage: provider.appLanguage,
-        ),
+        selector:
+            (_, provider) => (
+              appTheme: provider.appTheme,
+              appLanguage: provider.appLanguage,
+            ),
         builder: (context, settings, child) {
           // Settings from provider
           ThemeMode appThemeMode = settings.appTheme.themeMode;
@@ -92,9 +93,7 @@ class CuppaApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 navigatorKey: navigatorKey,
                 // Configure app theme including dynamic colors if supported
-                theme: createLightTheme(
-                  dynamicColors: lightDynamic,
-                ),
+                theme: createLightTheme(dynamicColors: lightDynamic),
                 darkTheme: createDarkTheme(
                   dynamicColors: darkDynamic,
                   blackTheme: appThemeBlack,

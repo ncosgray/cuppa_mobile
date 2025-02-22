@@ -66,5 +66,9 @@ const EdgeInsetsGeometry buttonColumnPadding = EdgeInsets.symmetric(
   vertical: 6,
   horizontal: 0,
 );
-const EdgeInsetsGeometry bottomSliverPadding =
-    EdgeInsets.fromLTRB(12, 6, 12, 12);
+const EdgeInsetsGeometry bottomSliverPadding = EdgeInsets.fromLTRB(
+  12,
+  6,
+  12,
+  12,
+);

@@ -63,9 +63,7 @@ class Preset {
 
   // Brew temp display
   String tempDisplay(bool useCelsius) {
-    return formatTemp(
-      useCelsius ? brewTempDegreesC : brewTempDegreesF,
-    );
+    return formatTemp(useCelsius ? brewTempDegreesC : brewTempDegreesF);
   }
 
   // Brew ratio display

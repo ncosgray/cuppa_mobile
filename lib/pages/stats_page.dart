@@ -61,16 +61,18 @@ class _StatsWidgetState extends State<StatsWidget> {
   @override
   Widget build(BuildContext context) {
     // Determine layout and widget sizes based on device size
-    bool layoutPortrait = getDeviceSize(context).isPortrait &&
+    bool layoutPortrait =
+        getDeviceSize(context).isPortrait &&
         !getDeviceSize(context).isLargeDevice;
     double summaryWidth =
         (getDeviceSize(context).width / (layoutPortrait ? 1.0 : 2.0));
-    double chartSize = layoutPortrait
-        ? getDeviceSize(context).width * 0.6
-        : min(
-            getDeviceSize(context).width * 0.4,
-            getDeviceSize(context).height * 0.4,
-          );
+    double chartSize =
+        layoutPortrait
+            ? getDeviceSize(context).width * 0.6
+            : min(
+              getDeviceSize(context).width * 0.4,
+              getDeviceSize(context).height * 0.4,
+            );
 
     return Scaffold(
       appBar: PlatformAdaptiveNavBar(
@@ -138,7 +140,8 @@ class _StatsWidgetState extends State<StatsWidget> {
                             ),
                             // Chart option: Include deleted teas
                             Visibility(
-                              visible: _includeDeleted ||
+                              visible:
+                                  _includeDeleted ||
                                   _totalCount != _filteredTotalCount,
                               child: Padding(
                                 padding: smallDefaultPadding,
@@ -146,8 +149,9 @@ class _StatsWidgetState extends State<StatsWidget> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     ConstrainedBox(
-                                      constraints:
-                                          BoxConstraints(maxWidth: chartSize),
+                                      constraints: BoxConstraints(
+                                        maxWidth: chartSize,
+                                      ),
                                       child: Text(
                                         AppString.stats_include_deleted
                                             .translate(),
@@ -157,10 +161,12 @@ class _StatsWidgetState extends State<StatsWidget> {
                                     ),
                                     Checkbox.adaptive(
                                       value: _includeDeleted,
-                                      onChanged: (newValue) => setState(
-                                        () =>
-                                            _includeDeleted = newValue ?? false,
-                                      ),
+                                      onChanged:
+                                          (newValue) => setState(
+                                            () =>
+                                                _includeDeleted =
+                                                    newValue ?? false,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -199,9 +205,7 @@ class _StatsWidgetState extends State<StatsWidget> {
               return const Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(),
-                  ],
+                  children: [CircularProgressIndicator()],
                 ),
               );
             }
@@ -229,23 +233,25 @@ class _StatsWidgetState extends State<StatsWidget> {
   // Concatenate total amounts for each unit
   String get _totalAmount {
     String totalAmount = '';
-    totalAmount = _totalAmountG > 0.0
-        ? formatNumeratorAmount(
-            _totalAmountG,
-            useMetric: true,
-            inLargeUnits: !_altMetrics,
-          )
-        : '';
+    totalAmount =
+        _totalAmountG > 0.0
+            ? formatNumeratorAmount(
+              _totalAmountG,
+              useMetric: true,
+              inLargeUnits: !_altMetrics,
+            )
+            : '';
     if (_totalAmountG > 0.0 && _totalAmountTsp > 0.0) {
       totalAmount += ' + ';
     }
-    totalAmount += _totalAmountTsp > 0.0
-        ? formatNumeratorAmount(
-            _totalAmountTsp,
-            useMetric: false,
-            inLargeUnits: !_altMetrics,
-          )
-        : '';
+    totalAmount +=
+        _totalAmountTsp > 0.0
+            ? formatNumeratorAmount(
+              _totalAmountTsp,
+              useMetric: false,
+              inLargeUnits: !_altMetrics,
+            )
+            : '';
 
     return totalAmount;
   }
@@ -279,9 +285,10 @@ class _StatsWidgetState extends State<StatsWidget> {
     required double maxWidth,
     bool details = false,
   }) {
-    String percent = _filteredTotalCount > 0
-        ? '(${formatPercent(stat.count / _filteredTotalCount)})'
-        : '';
+    String percent =
+        _filteredTotalCount > 0
+            ? '(${formatPercent(stat.count / _filteredTotalCount)})'
+            : '';
     bool fade = _selectedSection > -1 && statIndex != _selectedSection;
 
     return AnimatedOpacity(
@@ -311,9 +318,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                       constraints: BoxConstraints(maxWidth: maxWidth / 1.8),
                       child: Text(
                         stat.name + (stat.isFavorite ? ' $starSymbol' : ''),
-                        style: textStyleStat.copyWith(
-                          color: stat.color,
-                        ),
+                        style: textStyleStat.copyWith(color: stat.color),
                       ),
                     ),
                   ),
@@ -343,10 +348,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                                 style: textStyleStat,
                               ),
                             ),
-                            Text(
-                              percent,
-                              style: textStyleStatLabel,
-                            ),
+                            Text(percent, style: textStyleStatLabel),
                           ],
                         ),
                       ),
@@ -471,7 +473,7 @@ class _StatsWidgetState extends State<StatsWidget> {
         Visibility(
           visible:
               Provider.of<AppProvider>(context, listen: false).useBrewRatios &&
-                  _totalAmount.isNotEmpty,
+              _totalAmount.isNotEmpty,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: _toggleAltMetrics,
@@ -500,10 +502,7 @@ class _StatsWidgetState extends State<StatsWidget> {
   }
 
   // Generate a metric list item widget
-  Widget _metricWidget({
-    required String metricName,
-    required String metric,
-  }) {
+  Widget _metricWidget({required String metricName, required String metric}) {
     double maxWidth = (getDeviceSize(context).width / 2.0) - 24.0;
 
     return Padding(
@@ -514,18 +513,12 @@ class _StatsWidgetState extends State<StatsWidget> {
           // Metric name
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: maxWidth),
-            child: Text(
-              metricName,
-              style: textStyleStatLabel,
-            ),
+            child: Text(metricName, style: textStyleStatLabel),
           ),
           // Formatted metric value
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: maxWidth),
-            child: Text(
-              metric,
-              style: textStyleStat,
-            ),
+            child: Text(metric, style: textStyleStat),
           ),
         ],
       ),

@@ -47,7 +47,8 @@ class Stat {
     this.brewTime = tea?.brewTime ?? brewTime ?? defaultBrewTime;
     this.brewTemp = tea?.brewTemp ?? brewTemp ?? boilDegreesC;
     this.brewAmount = tea?.brewRatio.ratioNumerator ?? brewAmount ?? 0.0;
-    this.brewAmountMetric = tea?.brewRatio.metricNumerator ??
+    this.brewAmountMetric =
+        tea?.brewRatio.metricNumerator ??
         brewAmountMetric ??
         regionSettings.usesMetricSystem;
     this.colorShadeRed =
@@ -71,7 +72,8 @@ class Stat {
       brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? defaultBrewTime,
       brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? boilDegreesC,
       brewAmount: tryCast<double>(json[jsonKeyBrewAmount]) ?? 0.0,
-      brewAmountMetric: tryCast<bool>(json[jsonKeyBrewAmountMetric]) ??
+      brewAmountMetric:
+          tryCast<bool>(json[jsonKeyBrewAmountMetric]) ??
           regionSettings.usesMetricSystem,
       colorShadeRed:
           tryCast<int>(json[jsonKeyColorShadeRed]) ?? defaultTeaColorValue,
@@ -86,19 +88,19 @@ class Stat {
   }
 
   Map<String, dynamic> toJson() => {
-        jsonKeyID: id,
-        jsonKeyName: name,
-        jsonKeyBrewTime: brewTime,
-        jsonKeyBrewTemp: brewTemp,
-        jsonKeyBrewAmount: brewAmount,
-        jsonKeyBrewAmountMetric: brewAmountMetric,
-        jsonKeyColorShadeRed: colorShadeRed,
-        jsonKeyColorShadeGreen: colorShadeGreen,
-        jsonKeyColorShadeBlue: colorShadeBlue,
-        jsonKeyIcon: iconValue,
-        jsonKeyIsFavorite: isFavorite,
-        jsonKeyTimerStartTime: timerStartTime,
-      };
+    jsonKeyID: id,
+    jsonKeyName: name,
+    jsonKeyBrewTime: brewTime,
+    jsonKeyBrewTemp: brewTemp,
+    jsonKeyBrewAmount: brewAmount,
+    jsonKeyBrewAmountMetric: brewAmountMetric,
+    jsonKeyColorShadeRed: colorShadeRed,
+    jsonKeyColorShadeGreen: colorShadeGreen,
+    jsonKeyColorShadeBlue: colorShadeBlue,
+    jsonKeyIcon: iconValue,
+    jsonKeyIsFavorite: isFavorite,
+    jsonKeyTimerStartTime: timerStartTime,
+  };
 
   // Convert a stat to a map for inserting
   Map<String, dynamic> toMap() {
@@ -135,12 +137,7 @@ class Stat {
 
   // Getters
   Color get color {
-    return Color.fromRGBO(
-      colorShadeRed,
-      colorShadeGreen,
-      colorShadeBlue,
-      1,
-    );
+    return Color.fromRGBO(colorShadeRed, colorShadeGreen, colorShadeBlue, 1);
   }
 }
 
@@ -234,22 +231,26 @@ abstract class Stats {
         brewTemp: int.tryParse(results[i][statsColumnBrewTemp].toString()),
         brewAmount:
             (num.tryParse(results[i][statsColumnBrewAmount].toString()) ??
-                    0.0) /
-                10.0,
+                0.0) /
+            10.0,
         brewAmountMetric:
             int.tryParse(results[i][statsColumnBrewAmountMetric].toString()) ==
-                1,
-        colorShadeRed:
-            int.tryParse(results[i][statsColumnColorShadeRed].toString()),
-        colorShadeGreen:
-            int.tryParse(results[i][statsColumnColorShadeGreen].toString()),
-        colorShadeBlue:
-            int.tryParse(results[i][statsColumnColorShadeBlue].toString()),
+            1,
+        colorShadeRed: int.tryParse(
+          results[i][statsColumnColorShadeRed].toString(),
+        ),
+        colorShadeGreen: int.tryParse(
+          results[i][statsColumnColorShadeGreen].toString(),
+        ),
+        colorShadeBlue: int.tryParse(
+          results[i][statsColumnColorShadeBlue].toString(),
+        ),
         iconValue: int.tryParse(results[i][statsColumnIconValue].toString()),
         isFavorite:
             int.tryParse(results[i][statsColumnIsFavorite].toString()) == 1,
-        timerStartTime:
-            int.tryParse(results[i][statsColumnTimerStartTime].toString()),
+        timerStartTime: int.tryParse(
+          results[i][statsColumnTimerStartTime].toString(),
+        ),
         count: int.tryParse(results[i][statsColumnCount].toString()),
       );
     });

@@ -38,28 +38,30 @@ abstract class Export {
   }) async {
     try {
       // Create the export dataset
-      String exportData = ExportFile(
-        settings: ExportSettings(
-          nextTeaID: Prefs.nextTeaID,
-          showExtra: provider.showExtra,
-          hideIncrements: provider.hideIncrements,
-          silentDefault: provider.silentDefault,
-          useCelsius: provider.useCelsius,
-          useBrewRatios: provider.useBrewRatios,
-          cupStyleValue: provider.cupStyle.value,
-          appThemeValue: provider.appTheme.value,
-          appLanguage: provider.appLanguage,
-          collectStats: provider.collectStats,
-          stackedView: provider.stackedView,
-        ),
-        teaList: provider.teaList,
-        stats: await Stats.getTeaStats(),
-      ).toJson();
+      String exportData =
+          ExportFile(
+            settings: ExportSettings(
+              nextTeaID: Prefs.nextTeaID,
+              showExtra: provider.showExtra,
+              hideIncrements: provider.hideIncrements,
+              silentDefault: provider.silentDefault,
+              useCelsius: provider.useCelsius,
+              useBrewRatios: provider.useBrewRatios,
+              cupStyleValue: provider.cupStyle.value,
+              appThemeValue: provider.appTheme.value,
+              appLanguage: provider.appLanguage,
+              collectStats: provider.collectStats,
+              stackedView: provider.stackedView,
+            ),
+            teaList: provider.teaList,
+            stats: await Stats.getTeaStats(),
+          ).toJson();
 
       // Save to a temp file
       final Directory dir = await getApplicationDocumentsDirectory();
-      final File file =
-          File('${dir.path}/$exportFileName.$exportFileExtension');
+      final File file = File(
+        '${dir.path}/$exportFileName.$exportFileExtension',
+      );
       File exportFile = await file.writeAsString(exportData);
 
       // Share via OS
@@ -91,8 +93,9 @@ abstract class Export {
       try {
         // Read file contents
         final File file = File(result.files.single.path!);
-        ExportFile exportData =
-            ExportFile.fromJson(jsonDecode(file.readAsStringSync()));
+        ExportFile exportData = ExportFile.fromJson(
+          jsonDecode(file.readAsStringSync()),
+        );
 
         // Apply imported settings, replacing existing
         if (exportData.settings != null) {
@@ -188,8 +191,10 @@ class ExportFile {
         settings: ExportSettings.fromJson(json[jsonKeySettings]),
         teaList:
             (json[jsonKeyTeas].map<Tea>((tea) => Tea.fromJson(tea))).toList(),
-        stats: (json[jsonKeyStats].map<Stat>((stat) => Stat.fromJson(stat)))
-            .toList(),
+        stats:
+            (json[jsonKeyStats].map<Stat>(
+              (stat) => Stat.fromJson(stat),
+            )).toList(),
       );
     } catch (e) {
       return ExportFile(settings: null, teaList: null, stats: null);
@@ -244,18 +249,18 @@ class ExportSettings {
   }
 
   Map<String, dynamic> toJson() => {
-        jsonKeyNextTeaID: nextTeaID,
-        jsonKeyShowExtra: showExtra,
-        jsonKeyHideIncrements: hideIncrements,
-        jsonKeySilentDefault: silentDefault,
-        jsonKeyUseCelsius: useCelsius,
-        jsonKeyUseBrewRatios: useBrewRatios,
-        jsonKeyCupStyle: cupStyleValue,
-        jsonKeyAppTheme: appThemeValue,
-        jsonKeyAppLanguage: appLanguage,
-        jsonKeyCollectStats: collectStats,
-        jsonKeyStackedView: stackedView,
-      };
+    jsonKeyNextTeaID: nextTeaID,
+    jsonKeyShowExtra: showExtra,
+    jsonKeyHideIncrements: hideIncrements,
+    jsonKeySilentDefault: silentDefault,
+    jsonKeyUseCelsius: useCelsius,
+    jsonKeyUseBrewRatios: useBrewRatios,
+    jsonKeyCupStyle: cupStyleValue,
+    jsonKeyAppTheme: appThemeValue,
+    jsonKeyAppLanguage: appLanguage,
+    jsonKeyCollectStats: collectStats,
+    jsonKeyStackedView: stackedView,
+  };
 
   // Fields
   int? nextTeaID;

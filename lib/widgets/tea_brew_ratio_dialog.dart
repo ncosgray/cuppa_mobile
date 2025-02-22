@@ -58,12 +58,14 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
       metricDenominator: widget.initialRatio.metricDenominator,
     );
     if (brewRatioMlOptions.contains(_newRatio.ratioDenominator)) {
-      _newDenominatorIndex =
-          brewRatioMlOptions.indexOf(_newRatio.ratioDenominator);
+      _newDenominatorIndex = brewRatioMlOptions.indexOf(
+        _newRatio.ratioDenominator,
+      );
     }
     if (brewRatioOzOptions.contains(_newRatio.ratioDenominator)) {
-      _newDenominatorIndex =
-          brewRatioOzOptions.indexOf(_newRatio.ratioDenominator);
+      _newDenominatorIndex = brewRatioOzOptions.indexOf(
+        _newRatio.ratioDenominator,
+      );
     }
   }
 
@@ -72,9 +74,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
   Widget build(BuildContext context) {
     return AlertDialog.adaptive(
       // Ratio entry
-      content: SingleChildScrollView(
-        child: _ratioPicker(),
-      ),
+      content: SingleChildScrollView(child: _ratioPicker()),
       actions: <Widget>[
         // Cancel and close dialog
         adaptiveDialogAction(
@@ -120,27 +120,28 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
               // Increment numerator down
               adaptiveSmallButton(
                 icon: incrementDownIcon,
-                onPressed: _newRatio.ratioNumerator > brewRatioNumeratorMin
-                    ? () => setState(
-                          () => _newRatio.ratioNumerator -=
-                              brewRatioNumeratorStep,
+                onPressed:
+                    _newRatio.ratioNumerator > brewRatioNumeratorMin
+                        ? () => setState(
+                          () =>
+                              _newRatio.ratioNumerator -=
+                                  brewRatioNumeratorStep,
                         )
-                    : null,
+                        : null,
               ),
               // Display selected numerator
-              Text(
-                _newRatio.numeratorString,
-                style: textStyleSettingNumber,
-              ),
+              Text(_newRatio.numeratorString, style: textStyleSettingNumber),
               // Increment numerator up
               adaptiveSmallButton(
                 icon: incrementUpIcon,
-                onPressed: _newRatio.ratioNumerator < brewRatioNumeratorMax
-                    ? () => setState(
-                          () => _newRatio.ratioNumerator +=
-                              brewRatioNumeratorStep,
+                onPressed:
+                    _newRatio.ratioNumerator < brewRatioNumeratorMax
+                        ? () => setState(
+                          () =>
+                              _newRatio.ratioNumerator +=
+                                  brewRatioNumeratorStep,
                         )
-                    : null,
+                        : null,
               ),
             ],
           ),
@@ -149,9 +150,10 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
             value: _newRatio.ratioNumerator,
             min: brewRatioNumeratorMin,
             max: brewRatioNumeratorMax,
-            divisions: ((brewRatioNumeratorMax - brewRatioNumeratorMin) /
-                    brewRatioNumeratorStep)
-                .round(),
+            divisions:
+                ((brewRatioNumeratorMax - brewRatioNumeratorMin) /
+                        brewRatioNumeratorStep)
+                    .round(),
             onChanged: (newValue) {
               setState(() => _newRatio.ratioNumerator = newValue);
             },
@@ -185,27 +187,26 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
               // Increment denominator down
               adaptiveSmallButton(
                 icon: incrementDownIcon,
-                onPressed: _newDenominatorIndex > 0
-                    ? () {
-                        _newDenominatorIndex--;
-                        _updateDenominatorSlider();
-                      }
-                    : null,
+                onPressed:
+                    _newDenominatorIndex > 0
+                        ? () {
+                          _newDenominatorIndex--;
+                          _updateDenominatorSlider();
+                        }
+                        : null,
               ),
               // Display selected denominator
-              Text(
-                _newRatio.denominatorString,
-                style: textStyleSettingNumber,
-              ),
+              Text(_newRatio.denominatorString, style: textStyleSettingNumber),
               // Increment denominator up
               adaptiveSmallButton(
                 icon: incrementUpIcon,
-                onPressed: _newDenominatorIndex < brewRatioMlOptions.length - 1
-                    ? () {
-                        _newDenominatorIndex++;
-                        _updateDenominatorSlider();
-                      }
-                    : null,
+                onPressed:
+                    _newDenominatorIndex < brewRatioMlOptions.length - 1
+                        ? () {
+                          _newDenominatorIndex++;
+                          _updateDenominatorSlider();
+                        }
+                        : null,
               ),
             ],
           ),
@@ -226,8 +227,9 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
             duration: shortAnimationDuration,
             child: Text(
               _newRatio.ratioString,
-              style:
-                  textStyleSettingNumber.copyWith(fontWeight: FontWeight.bold),
+              style: textStyleSettingNumber.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
@@ -238,9 +240,10 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
   // Update denominator slider position
   void _updateDenominatorSlider() {
     setState(() {
-      _newRatio.ratioDenominator = _newRatio.metricDenominator
-          ? brewRatioMlOptions[_newDenominatorIndex]
-          : brewRatioOzOptions[_newDenominatorIndex];
+      _newRatio.ratioDenominator =
+          _newRatio.metricDenominator
+              ? brewRatioMlOptions[_newDenominatorIndex]
+              : brewRatioOzOptions[_newDenominatorIndex];
     });
   }
 }

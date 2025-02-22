@@ -21,10 +21,7 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:flutter/material.dart';
 
 // Widget defining a cancel brewing button
-Widget cancelButton({
-  required Color color,
-  required Function()? onPressed,
-}) {
+Widget cancelButton({required Color color, required Function()? onPressed}) {
   // Button with "X" icon
   return InkWell(
     borderRadius: BorderRadius.circular(4),
