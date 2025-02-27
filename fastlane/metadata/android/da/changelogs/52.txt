@@ -1,0 +1,2 @@
+* Reorganiserede Indstillinger-siden.
+* Forskellige optimeringer af brugervenlighed og små fejlrettelser.
