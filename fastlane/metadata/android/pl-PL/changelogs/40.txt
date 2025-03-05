@@ -1,0 +1,5 @@
+* Możliwość zgody na statystyki użycia w celu uzyskania fajnego wykresu o Twoich zwyczajach picia herbat!
+* Polityka prywatności dostosowana do zbierania statystyk.
+* Lepsze skalowanie przy dużych rozmiarach tekstu.
+* Usprawnienia interfejsu i użytkowania.
+* Nowe tłumaczenie na język luksemburski i uaktualnienia innych tłumaczeń — przyłącz się poprzez Weblate!

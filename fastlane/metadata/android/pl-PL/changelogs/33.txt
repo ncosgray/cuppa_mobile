@@ -1,0 +1,3 @@
+* Podwójne minutniki: możesz teraz włączyć drugi minutnik, gdy pierwsza herbata wciąż się zaparza.
+* Pewniejsze powiadomienia w niektórych przypadkach.
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!

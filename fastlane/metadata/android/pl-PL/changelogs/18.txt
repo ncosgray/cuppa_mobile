@@ -1,0 +1,4 @@
+* Dodano więcej niż trzy herbaty użytkownika w ustawieniach Cuppa.
+* Zmień kolejność przycisków herbat.
+* Ulepszona jakość grafik.
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!

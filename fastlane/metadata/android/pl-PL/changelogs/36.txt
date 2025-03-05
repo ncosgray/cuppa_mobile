@@ -1,0 +1,5 @@
+* Pełne wsparcie dla herbat zaparzanych na zimno (ponad 12 godzin zaparzania).
+* Zaprojektowane od nowa ustawienia dla tabletów i urządzeń składanych.
+* Bardziej natarczywy powiadomienia minutnika.
+* Usprawnienia interfejsu i użytkowania.
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!

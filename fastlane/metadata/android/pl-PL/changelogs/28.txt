@@ -1,0 +1,6 @@
+* Nowe ustawienie herbaty: wybierz spośród różnych ikon.
+* Łatwiejszy wybór czasu i temperatury zaparzania.
+* Możliwość włączenia minutnika dla kilku herbat jednym przyciskiem.
+* Dodano odsyłacz do ustawień powiadomień.
+* Usprawnienia interfejsu i użytkowania.
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!

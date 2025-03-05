@@ -1,0 +1,4 @@
+* Dodaj temperaturę zaparzania dla każdej z herbat.
+* Możliwość pokazania dodatkowych informacji o zaparzaniu na przyciskach minutnika.
+* Zezwól na czasy zaparzania powyżej dziesięciu minut.
+* Więcej języków i usprawnień tłumaczeń — przyłącz się poprzez Weblate!

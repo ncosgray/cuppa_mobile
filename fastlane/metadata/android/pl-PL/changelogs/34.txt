@@ -1,0 +1,3 @@
+* Rozpoznaj herbatę za pomocą koloru.
+* Możliwość dłuższych nazw herbat.
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!

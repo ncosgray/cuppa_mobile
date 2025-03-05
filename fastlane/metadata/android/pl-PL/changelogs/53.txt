@@ -1,0 +1,2 @@
+* Dodano obsługę języków aplikacji oraz przewidywalnego przycisku wstecz.
+* Usprawnienia użytkowania i poprawki drobnych błędów.

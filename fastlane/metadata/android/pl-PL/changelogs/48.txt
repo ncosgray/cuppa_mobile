@@ -1,0 +1,5 @@
+* Ulepszone wsparcie dla ustawień regionalnych.
+* Łatwiejsza obsługa ustawień na małych ekranach.
+* Usprawnienia interfejsu i użytkowania.
+* Dodano tłumaczenia dla brytyjskiego angielskiego, czuwaskiego, Interlingua oraz uaktualnienia innych tłumaczeń — przyłącz się poprzez Weblate!
+* Nowa kompilacja dla F-Droid w celu usunięcia niechcianych zależności.

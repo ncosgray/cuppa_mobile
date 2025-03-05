@@ -1,0 +1,4 @@
+* Możliwość zmiany czasu minutnika podczas jego działania.
+* Dodano ustawienia temperatury zaparzania.
+* Usprawnienia interfejsu i użytkowania.
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!

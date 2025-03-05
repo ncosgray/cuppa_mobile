@@ -1,0 +1,2 @@
+* Reorganizacja ustawień.
+* Usprawnienia użytkowania i poprawki drobnych błędów.

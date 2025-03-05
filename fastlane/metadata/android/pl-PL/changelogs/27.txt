@@ -1,0 +1,2 @@
+* Obsługa powiadomień dla Android 13.
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!

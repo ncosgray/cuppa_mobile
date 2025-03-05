@@ -1,0 +1,5 @@
+* Możliwość dodania proporcji herbaty, aby pomóc Ci w dokładniejszym zaparzaniu!
+* Przycisk wyciszenia pozwalający na wyciszenie powiadomień.
+* Edytuj szczegóły herbaty, która jest obecnie zaparzana.
+* Usprawnienia interfejsu i użytkowania.
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!

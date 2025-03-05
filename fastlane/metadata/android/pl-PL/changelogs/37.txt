@@ -1,0 +1,4 @@
+* Dodano przycisk "Cofnij" przy usuwaniu herbat.
+* Poprawiono błąd ze skrótami po zmianie sortowania listy.
+* Usprawnienia interfejsu i użytkowania, w tym nowe animacje.
+* Tłumaczenia na urdu i tradycyjny chiński — przyłącz się poprzez Weblate!

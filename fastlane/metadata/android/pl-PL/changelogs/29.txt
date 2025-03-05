@@ -1,0 +1,2 @@
+* poprawiono błąd krytyczny powodujący zamykanie aplikacji na urządzeniach składanych
+* ulepszone monochromatyczne ikony

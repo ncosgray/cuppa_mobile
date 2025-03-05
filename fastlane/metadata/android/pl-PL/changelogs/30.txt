@@ -1,0 +1,4 @@
+* Nowa ciemna skórka — Czysta czerń
+* Poprawiono błąd, który sprawiał, że skróty uruchamiały się nieoczekiwanie
+* Usprawnienia interfejsu i użytkowania.
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!
