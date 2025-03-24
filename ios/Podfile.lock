@@ -1,8 +1,6 @@
 PODS:
   - CocoaAsyncSocket (7.6.5)
   - Flutter (1.0.0)
-  - flutter_local_notifications (0.0.1):
-    - Flutter
   - intelligence (0.0.1):
     - Flutter
     - SQLite.swift (~> 0.14.0)
@@ -18,7 +16,6 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - intelligence (from `.symlinks/plugins/intelligence/ios`)
   - patrol (from `.symlinks/plugins/patrol/darwin`)
   - wakelock_plus (from `.symlinks/plugins/wakelock_plus/ios`)
@@ -31,8 +28,6 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  flutter_local_notifications:
-    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   intelligence:
     :path: ".symlinks/plugins/intelligence/ios"
   patrol:
@@ -43,9 +38,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_local_notifications: df98d66e515e1ca797af436137b4459b160ad8c9
   intelligence: 0035d18a90254f2079069dcb294ee599a90246d6
-  patrol: 0564cee315ff6c86fb802b3647db05cc2d3d0624
+  patrol: cf2cd48c7f3e5171610111994f7b466cd76d1f57
   SQLite.swift: 2992550ebf3c5b268bf4352603e3df87d2a4ed72
   wakelock_plus: 373cfe59b235a6dd5837d0fb88791d2f13a90d56
 
