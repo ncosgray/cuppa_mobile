@@ -136,7 +136,5 @@ Future<void> sendNotification(
     notifyDetails,
     payload: silent ? notifyChannelSilent : notifyChannel,
     androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-    uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime,
   );
 }
