@@ -1,0 +1,1 @@
+* Naprawiono błąd związany z powiadomieniem na Androidzie.

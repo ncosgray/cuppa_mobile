@@ -1,0 +1,5 @@
+* Zaprojektowany na nowo wybór koloru pozwalający na wiele więcej kolorów herbat!
+* Poprawiono błąd powodujący, że nazwa herbaty może być czasem niewidoczna.
+* Kompatybilność z uprawnieniami Androida 14.
+* Usprawnienia interfejsu i użytkowania.
+* Nowe, japońskie tłumaczenie i uaktualnienie innych tłumaczeń — przyłącz się poprzez Weblate!

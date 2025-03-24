@@ -1,0 +1,5 @@
+* Äskettäin uusittu värinvalitsin tarjoaa kymmeniä lisää teevärivaihtoehtoja!
+* Korjattu virhe, joka aiheutti teen nimen valintaikkunan näkymättömän joissakin tilanteissa.
+* Yhteensopiva uusien Android 14 -käyttöoikeuksien kanssa.
+* Erilaisia käytettävyyden ja käyttöliittymän parannuksia.
+* Lisätty japaninkielinen käännös ja muut käännöspäivitykset - osallistu Weblaten kautta!

@@ -1,0 +1,4 @@
+* Dodaj samouczek dla nowych użytkowników Cuppa.
+* Zezwól na dłuższe czasy zaparzania.
+* Usprawnienia interfejsu i użytkowania.
+* Nowe, chińskie tłumaczenie — dodaj więcej poprzez Weblate!

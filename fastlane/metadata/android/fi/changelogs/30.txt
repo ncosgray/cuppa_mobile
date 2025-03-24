@@ -1,0 +1,4 @@
+* Uusi puhdas musta tumma teema.
+* Korjattu vika, joka sai pikakuvakkeet käynnistymään odottamatta.
+* Käytettävyys ja käyttöliittymän parannukset.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

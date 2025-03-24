@@ -1,0 +1,2 @@
+* Nüüd saad valida taimeri kõrval kuvatavat pilti, näiteks teekuusi erinevate kujundustega
+* Täiendasime tõlkeid - kaastööd saab teha Weblate'is!

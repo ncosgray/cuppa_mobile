@@ -1,0 +1,2 @@
+* Erinevad kasutatavuse kohendused ja veaparandused.
+* Lisasime tamili keele tõlke ja täiendasime muid tõlkeid - kaastööd saab teha Weblate'is!

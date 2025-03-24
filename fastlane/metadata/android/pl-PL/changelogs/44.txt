@@ -1,0 +1,5 @@
+* Sortuj herbaty według różnych kryteriów za pomocą zaledwie kilku naciśnięć.
+* Dodano opcję ustawienia przycisków minutnika pionowo.
+* Możliwość dokładniejszego ustawienia temperatury przy używaniu slidera
+* Usprawnienia interfejsu i użytkowania.
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!

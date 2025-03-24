@@ -1,0 +1,2 @@
+* Forskellige optimeringer af brugervenlighed og små fejlrettelser.
+* Tilføjede tamilsk oversættelse og andre oversættelsesopdateringer - bidrag via Weblate!

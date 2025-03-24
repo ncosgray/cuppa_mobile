@@ -1,0 +1,4 @@
+* Voimakkaampi ilmoitusääni.
+* Uusi vaihtoehto: valitse haluamasi kieli.
+* Käytettävyys ja käyttöliittymän parannukset.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

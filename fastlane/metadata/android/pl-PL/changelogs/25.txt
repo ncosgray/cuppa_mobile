@@ -1,0 +1,4 @@
+* Nowy tryb dla telefonów: poziomy
+* Lepsze skalowanie dla telefonów z ustawieniami dostępności
+* Usprawnienia interfejsu i użytkowania.
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!

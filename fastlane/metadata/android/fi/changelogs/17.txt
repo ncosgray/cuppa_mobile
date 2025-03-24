@@ -1,0 +1,4 @@
+* Sisällytä veden lämpötila-asetus jokaiselle teelle.
+* Mahdollisuus näyttää ylimääräisiä haudutustietoja ajastimen painikkeissa.
+* Aika-teet, jotka ovat jyrkkiä yli 10 minuuttia.
+* Lisää kieliä ja käännösparannuksia – osallistu Weblaten kautta!

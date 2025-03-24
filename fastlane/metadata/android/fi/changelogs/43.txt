@@ -1,0 +1,3 @@
+* Vienti/tuonti helpottaa Cuppa-tietojen kopioimista toiseen laitteeseen.
+* Erilaisia käytettävyyden ja käyttöliittymän parannuksia.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

@@ -1,0 +1,4 @@
+* Nyt on mahdollista säätää aktiivisen teeajastimen jäljellä olevaa aikaa.
+* Muut haudutuslämpötilavaihtoehdot.
+* Erilaisia käytettävyyden ja käyttöliittymän parannuksia.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

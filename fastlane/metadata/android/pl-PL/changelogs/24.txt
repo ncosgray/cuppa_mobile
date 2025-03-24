@@ -1,0 +1,5 @@
+* Predefiniowane herbaty dla łatwiejszego zarządzania!
+* Możliwość użycia alarmu, aby łatwiej zwrócić Twoją uwagę!
+  (Aby zmienić powiadomienia na alarm, może być wymagana reinstalacja)
+* Usprawnienia interfejsu i użytkowania.
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!

@@ -1,0 +1,2 @@
+* Wybierz grafikę minutnika, jak np. kubek lub nowy wygląd filiżanki
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!

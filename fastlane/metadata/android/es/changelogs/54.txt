@@ -1,0 +1,2 @@
+* Varios ajustes de usabilidad y pequeñas correcciones de errores.
+* Se agregó traducción al tamil y otras actualizaciones de traducción: ¡contribuya a través de Weblate!

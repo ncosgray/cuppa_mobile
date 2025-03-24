@@ -1,0 +1,5 @@
+* Ota käyttöön käyttötilastot saadaksesi pääsyn hauskaan kaavioon, joka näyttää teen juontitottumuksesi!
+* Tietosuojakäytäntö päivitetty tilastojen keräämistä varten.
+* Parempi skaalaus suurille järjestelmän fonttikoille.
+* Erilaisia käytettävyyden ja käyttöliittymän parannuksia.
+* Lisätty luxemburginkielinen käännös ja muut käännöspäivitykset - osallistu Weblaten kautta!

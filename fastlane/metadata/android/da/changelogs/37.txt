@@ -1,0 +1,4 @@
+* Tilføjede en Fortryd-knap ved sletning af teer.
+* Rettede en fejl i genveje efter omsortering af telisten.
+* Optimering af brugervenlighed og brugerfladen, inkl. nye animationer.
+* Oversættelser for urdu og traditionelt kinesisk - bidrag med flere sprog via Weblate!

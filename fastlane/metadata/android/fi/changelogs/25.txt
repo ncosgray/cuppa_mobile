@@ -1,0 +1,4 @@
+* Uusi maisematila puhelimille.
+* Parempi skaalaus laitteen esteettömyysasetusten avulla.
+* Käytettävyys ja käyttöliittymän parannukset.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

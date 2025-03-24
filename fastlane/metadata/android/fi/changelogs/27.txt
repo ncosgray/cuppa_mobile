@@ -1,0 +1,2 @@
+* Tue Android 13:n ilmoituslupaa.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

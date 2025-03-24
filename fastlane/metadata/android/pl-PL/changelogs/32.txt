@@ -1,0 +1,2 @@
+* Nowy wygląd i zachowanie zgodne z "Material You".
+* Dynamiczny zestaw kolorów dopasowujący się do ustawień urządzenia.

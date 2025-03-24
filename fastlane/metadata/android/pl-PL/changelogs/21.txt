@@ -1,0 +1,4 @@
+* Głośniejszy dźwięk powiadomienia.
+* Nowe ustawienie: wybierz język
+* Usprawnienia interfejsu i użytkowania.
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!

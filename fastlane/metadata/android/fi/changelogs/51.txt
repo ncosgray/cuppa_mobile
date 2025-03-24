@@ -1,0 +1,2 @@
+* Valitse ajastingrafiikka, kuten teekuppi tai uudet teekuppimallit.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

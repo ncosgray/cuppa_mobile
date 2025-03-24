@@ -1,0 +1,5 @@
+* Täysi tuki kylmävalmisteille (yli 12 tunnin liotus).
+* Uudelleen suunniteltu Asetukset-sivu tableteille ja taitettaville laitteille.
+* Enemmän vaativia ajastinilmoituksia.
+* Käytettävyys ja käyttöliittymän parannukset.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

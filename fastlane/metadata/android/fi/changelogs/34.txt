@@ -1,0 +1,3 @@
+* Tunnista jokainen aktiivinen teeajastin helposti värin perusteella.
+* Salli pidemmät teen nimet.
+* Kielikäännöspäivitykset - osallistu Weblate-palvelun kautta!

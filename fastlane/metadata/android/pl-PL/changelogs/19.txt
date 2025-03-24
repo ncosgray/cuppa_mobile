@@ -1,0 +1,6 @@
+* Oznacz swoje ulubione herbaty i dodaj je jako skróty w ikonie aplikacji.
+* Celsjusz jest domyślną jednostką temperatury dla użytkowników spoza USA.
+* Nowe ustawienie: wybierz skórkę (ciemna lub jasna)
+* Więcej możliwych kolorów przycisków.
+* Usprawnienia interfejsu i użytkowania.
+* Uaktualnienia tłumaczeń — przyłącz się poprzez Weblate!

@@ -1,0 +1,2 @@
+* Usprawnienia użytkowania i poprawki drobnych błędów.
+* Dodano tłumaczenia dla tamilskiego oraz uaktualnienia innych tłumaczeń — przyłącz się poprzez Weblate!

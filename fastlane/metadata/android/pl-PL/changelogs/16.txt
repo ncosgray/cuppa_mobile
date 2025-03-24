@@ -1,0 +1,3 @@
+* Cuppa została przetłumaczona na 9 nowych języków — przyłącz się poprzez Weblate!
+* Zezwól na czasy zaparzania poniżej minuty.
+* Różne niewielkie udoskonalenia interfejsu i poprawki błędów.

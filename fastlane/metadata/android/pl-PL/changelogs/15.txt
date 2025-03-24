@@ -1,0 +1,3 @@
+* Nowa zakładka ustawień!
+* Ustaw własne nazwy herbat, czas zaparzania i kolory.
+* Zapisz ustawienia dla trzech różnych herbat.

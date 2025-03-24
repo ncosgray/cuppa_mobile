@@ -1,0 +1,2 @@
+* Korraldasime ümber seadistuste lehe.
+* Erinevad kasutatavuse kohendused ja veaparandused.

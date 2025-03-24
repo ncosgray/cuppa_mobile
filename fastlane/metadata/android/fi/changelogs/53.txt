@@ -1,0 +1,2 @@
+* Lisätty tuki sovelluskohtaisille kielille ja ennakoivalle takaisin.
+* Erilaisia käytettävyyden parannuksia ja pieniä viankorjauksia.

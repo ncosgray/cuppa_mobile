@@ -1,0 +1,5 @@
+* Możliwość dodania znacznika czasu w powiadomieniu minutnika.
+* Dodano stronę "O aplikacji"
+* Niektóre z ustawień mogą być teraz zmienione, gdy minutnik jest aktywny
+* Usprawnienia interfejsu i użytkowania.
+* Dodano 7 nowych języków — przyłącz się poprzez Weblate!

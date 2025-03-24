@@ -1,0 +1,4 @@
+* Lisää opastus uusille Cuppa-käyttäjille.
+* Tukee pidempiä haudutusaikoja.
+* Käytettävyys ja käyttöliittymän parannukset.
+* Uusi kiinalainen käännös – lisää kieliä Weblate-palvelun kautta!

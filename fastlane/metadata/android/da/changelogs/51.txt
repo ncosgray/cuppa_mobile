@@ -1,0 +1,2 @@
+* Vælg din timergrafik, f.eks. et tekrus eller nye tekopdesigns.
+* Oversættelsesopdateringer - bidrag via Weblate!
