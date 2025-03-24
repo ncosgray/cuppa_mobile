@@ -4,7 +4,7 @@
  Class:    cancel_button.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -21,10 +21,7 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:flutter/material.dart';
 
 // Widget defining a cancel brewing button
-Widget cancelButton({
-  required Color color,
-  required Function()? onPressed,
-}) {
+Widget cancelButton({required Color color, required Function()? onPressed}) {
   // Button with "X" icon
   return InkWell(
     borderRadius: BorderRadius.circular(4),

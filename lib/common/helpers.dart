@@ -4,7 +4,7 @@
  Class:    helpers.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -69,13 +69,14 @@ String formatTemp(i, {bool? useCelsius}) {
     // Room temperature
     return '$emDash$degreeSymbol';
   }
-  String unit = useCelsius == null
-      ? degreeSymbol
-      : isCelsiusTemp(i, useCelsius: useCelsius) && !useCelsius
+  String unit =
+      useCelsius == null
+          ? degreeSymbol
+          : isCelsiusTemp(i, useCelsius: useCelsius) && !useCelsius
           ? degreesC
           : !isCelsiusTemp(i, useCelsius: useCelsius) && useCelsius
-              ? degreesF
-              : degreeSymbol;
+          ? degreesF
+          : degreeSymbol;
   return '$i$unit';
 }
 
@@ -89,7 +90,7 @@ String formatTimer(s, {bool inDays = true}) {
   // Build the localized time format string
   if (days >= 1.0 && inDays) {
     String unitD = AppString.unit_days.translate();
-    return '${formatDecimal(days, decimalPlaces: 2)} $unitD';
+    return '${AppLocalizations.numberString(days, decimalPlaces: 2)} $unitD';
   } else if (hrs > 0) {
     String unitH = AppString.unit_hours.translate();
     String unitM = AppString.unit_minutes.translate();
@@ -97,29 +98,6 @@ String formatTimer(s, {bool inDays = true}) {
   } else {
     return '$mins:${secs.toString().padLeft(2, '0')}';
   }
-}
-
-// Localized epoch time formatting as date or datetime string
-String formatDate(int ms, {bool dateTime = false}) {
-  Locale locale = AppLocalizations.instance.locale;
-  DateFormat formatter = fallbackLanguageCodes.contains(locale.languageCode)
-      ? DateFormat.yMd()
-      : DateFormat.yMMMd(localeString(locale));
-  if (dateTime) {
-    formatter = formatter.add_Hms();
-  }
-  return formatter.format(DateTime.fromMillisecondsSinceEpoch(ms));
-}
-
-// Localized decimal number formatting
-String formatDecimal(double i, {int decimalPlaces = 1}) {
-  Locale locale = AppLocalizations.instance.locale;
-  return NumberFormat(
-    '0.${'0' * decimalPlaces}',
-    fallbackLanguageCodes.contains(locale.languageCode)
-        ? localeString(defaultLocale)
-        : localeString(locale),
-  ).format(i);
 }
 
 // Format number as percentage
@@ -134,9 +112,10 @@ String formatNumeratorAmount(
   bool inLargeUnits = true,
 }) {
   int decimalPlaces = 1;
-  String unit = useMetric
-      ? AppString.unit_grams.translate()
-      : AppString.unit_teaspoons.translate();
+  String unit =
+      useMetric
+          ? AppString.unit_grams.translate()
+          : AppString.unit_teaspoons.translate();
   if (inLargeUnits) {
     if (useMetric && i >= 1000.0) {
       // Convert large metric amounts to kilograms
@@ -150,19 +129,20 @@ String formatNumeratorAmount(
       unit = AppString.unit_quarts.translate();
     }
   }
-  return '${formatDecimal(i, decimalPlaces: decimalPlaces)}$unit';
+  return '${AppLocalizations.numberString(i, decimalPlaces: decimalPlaces)}$unit';
 }
 
 String formatDenominatorAmount(int i, {required bool useMetric}) {
-  String unit = useMetric
-      ? AppString.unit_milliliters.translate()
-      : AppString.unit_ounces.translate();
-  return '$i$unit';
+  String unit =
+      useMetric
+          ? AppString.unit_milliliters.translate()
+          : AppString.unit_ounces.translate();
+  return '${AppLocalizations.numberString(i.toDouble())}$unit';
 }
 
 // Fetch details about the device size and orientation
 ({double width, double height, bool isPortrait, bool isLargeDevice})
-    getDeviceSize(BuildContext context) {
+getDeviceSize(BuildContext context) {
   double deviceWidth = MediaQuery.of(context).size.width;
   double deviceHeight = MediaQuery.of(context).size.height;
 

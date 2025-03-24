@@ -4,7 +4,7 @@
  Class:    localization.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -13,9 +13,11 @@
 // Cuppa localizations
 // - Populate strings from language files
 // - Get translated strings
+// - Localized dates and numbers
 // - String keys
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
 
 import 'dart:async';
 import 'dart:convert';
@@ -23,6 +25,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 const defaultLocale = Locale.fromSubtags(languageCode: 'en', countryCode: 'GB');
 
@@ -61,14 +64,16 @@ const List<Locale> supportedLocales = [
   Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
   Locale.fromSubtags(languageCode: 'zh'),
 ];
-final List<String> supportedLanguageCodes = supportedLocales
-    .map<String>((Locale locale) => locale.languageCode)
-    .toList();
+final List<String> supportedLanguageCodes =
+    supportedLocales
+        .map<String>((Locale locale) => locale.languageCode)
+        .toList();
 
 // Languages not supported by GlobalMaterialLocalizations
-final List<String> fallbackLanguageCodes = supportedLanguageCodes
-    .where((item) => !kMaterialSupportedLanguages.contains(item))
-    .toList();
+final List<String> fallbackLanguageCodes =
+    supportedLanguageCodes
+        .where((item) => !kMaterialSupportedLanguages.contains(item))
+        .toList();
 
 // Localizable app strings
 // ignore_for_file: constant_identifier_names
@@ -318,37 +323,78 @@ class AppLocalizations {
   // Localizations instance
   static AppLocalizations get instance => AppLocalizationsDelegate.instance!;
 
-  // Populate strings
   Map<String, String> _localizedStrings = {};
   Map<String, String> _defaultStrings = {};
-  Future<bool> load() async {
+  bool _isSystemLanguage = true;
+
+  // Populate strings
+  Future<bool> load({required bool isSystemLanguage}) async {
     // Populate strings map from JSON file in langs folder
-    String jsonString =
-        await rootBundle.loadString('langs/${localeString(locale)}.json');
+    String jsonString = await rootBundle.loadString(
+      'langs/${localeString(locale)}.json',
+    );
     Map<String, dynamic> jsonMap = json.decode(jsonString);
-    _localizedStrings =
-        jsonMap.map((key, value) => MapEntry(key, value.toString()));
+    _localizedStrings = jsonMap.map(
+      (key, value) => MapEntry(key, value.toString()),
+    );
 
     // Populate default (English) strings map
     String jsonDefaultString = await rootBundle.loadString(
       'langs/${localeString(defaultLocale)}.json',
     );
     Map<String, dynamic> jsonDefaultMap = json.decode(jsonDefaultString);
-    _defaultStrings =
-        jsonDefaultMap.map((key, value) => MapEntry(key, value.toString()));
+    _defaultStrings = jsonDefaultMap.map(
+      (key, value) => MapEntry(key, value.toString()),
+    );
+
+    // Set system language flag
+    _isSystemLanguage = isSystemLanguage;
 
     return true;
   }
 
   // Get translated string (or use default string if unavailable)
   static String translate(String key) {
-    return AppLocalizations.instance._localizedStrings[key] ??
-        AppLocalizations.instance._defaultStrings[key]!;
+    return instance._localizedStrings[key] ?? instance._defaultStrings[key]!;
   }
+
+  // Localized epoch time formatting as date or datetime string
+  static String dateString(int ms, {bool dateTime = false}) {
+    DateFormat formatter =
+        instance.isFallbackLanguage
+            ? DateFormat.yMd()
+            : instance.isSystemLanguage
+            ? DateFormat(regionSettings.dateFormat.medium)
+            : DateFormat.yMMMd(instance.appLocaleString);
+    if (dateTime) {
+      formatter = formatter.add_Hms();
+    }
+    return formatter.format(DateTime.fromMillisecondsSinceEpoch(ms));
+  }
+
+  // Localized number formatting
+  static String numberString(double i, {int decimalPlaces = 0}) {
+    NumberFormat formatter = NumberFormat(
+      '#,##0${decimalPlaces > 0 ? '.${'0' * decimalPlaces}' : ''}',
+      instance.isFallbackLanguage || instance.isSystemLanguage
+          ? null
+          : instance.appLocaleString,
+    );
+    return formatter.format(i);
+  }
+
+  // Locale info
+  get appLocaleString => localeString(instance.locale);
+  get isSystemLanguage => _isSystemLanguage;
+  get isFallbackLanguage =>
+      fallbackLanguageCodes.contains(instance.locale.languageCode);
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
-  const AppLocalizationsDelegate();
+  const AppLocalizationsDelegate({required this.isSystemLanguage});
+
+  final bool isSystemLanguage;
+
   static AppLocalizations? instance;
 
   // Determine if a language is supported
@@ -360,7 +406,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   @override
   Future<AppLocalizations> load(Locale locale) async {
     AppLocalizations localizations = AppLocalizations(locale);
-    await localizations.load();
+    await localizations.load(isSystemLanguage: isSystemLanguage);
     instance = localizations;
     return localizations;
   }

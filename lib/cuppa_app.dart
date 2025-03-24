@@ -4,7 +4,7 @@
  Class:    cuppa_app.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -32,7 +32,6 @@ import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:region_settings/region_settings.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 // ignore: depend_on_referenced_packages
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -42,7 +41,7 @@ import 'package:timezone/timezone.dart' as tz;
 // App initialization
 Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
-  sharedPrefs = await SharedPreferences.getInstance();
+  await Prefs.init();
   packageInfo = await PackageInfo.fromPlatform();
   regionSettings = await RegionSettings.getSettings();
   await loadLanguageOptions();
@@ -69,15 +68,17 @@ class CuppaApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => AppProvider(),
       child: Selector<AppProvider, ({AppTheme appTheme, String appLanguage})>(
-        selector: (_, provider) => (
-          appTheme: provider.appTheme,
-          appLanguage: provider.appLanguage,
-        ),
+        selector:
+            (_, provider) => (
+              appTheme: provider.appTheme,
+              appLanguage: provider.appLanguage,
+            ),
         builder: (context, settings, child) {
           // Settings from provider
           ThemeMode appThemeMode = settings.appTheme.themeMode;
           bool appThemeBlack = settings.appTheme.blackTheme;
           String appLanguage = settings.appLanguage;
+          bool isSystemLanguage = appLanguage == followSystemLanguage;
 
           return DynamicColorBuilder(
             builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
@@ -92,9 +93,7 @@ class CuppaApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 navigatorKey: navigatorKey,
                 // Configure app theme including dynamic colors if supported
-                theme: createLightTheme(
-                  dynamicColors: lightDynamic,
-                ),
+                theme: createLightTheme(dynamicColors: lightDynamic),
                 darkTheme: createDarkTheme(
                   dynamicColors: darkDynamic,
                   blackTheme: appThemeBlack,
@@ -103,12 +102,11 @@ class CuppaApp extends StatelessWidget {
                 // Initial route
                 home: const TimerWidget(),
                 // Localization
-                locale: appLanguage != followSystemLanguage
-                    ? parseLocaleString(appLanguage)
-                    : null,
+                locale:
+                    isSystemLanguage ? null : parseLocaleString(appLanguage),
                 supportedLocales: supportedLocales,
-                localizationsDelegates: const [
-                  AppLocalizationsDelegate(),
+                localizationsDelegates: [
+                  AppLocalizationsDelegate(isSystemLanguage: isSystemLanguage),
                   GlobalMaterialLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,

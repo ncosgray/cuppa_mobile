@@ -4,7 +4,7 @@
  Class:    brew_ratio.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -25,11 +25,13 @@ class BrewRatio {
     bool? metricNumerator,
     bool? metricDenominator,
   }) {
-    _ratioNumerator = ratioNumerator?.toPrecision() ??
+    _ratioNumerator =
+        ratioNumerator?.toPrecision() ??
         (regionSettings.usesMetricSystem
             ? defaultBrewRatioNumeratorG
             : defaultBrewRatioNumeratorTsp);
-    _ratioDenominator = ratioDenominator ??
+    _ratioDenominator =
+        ratioDenominator ??
         (regionSettings.usesMetricSystem
             ? defaultBrewRatioDenominatorMl
             : defaultBrewRatioDenominatorOz);
@@ -69,10 +71,7 @@ class BrewRatio {
   bool get metricDenominator => _metricDenominator;
 
   String get numeratorString {
-    return formatNumeratorAmount(
-      _ratioNumerator,
-      useMetric: _metricNumerator,
-    );
+    return formatNumeratorAmount(_ratioNumerator, useMetric: _metricNumerator);
   }
 
   String get denominatorString {
@@ -88,14 +87,16 @@ class BrewRatio {
 
   // Setters
   set ratioNumerator(double? d) {
-    _ratioNumerator = d?.toPrecision() ??
+    _ratioNumerator =
+        d?.toPrecision() ??
         (regionSettings.usesMetricSystem
             ? defaultBrewRatioNumeratorG
             : defaultBrewRatioNumeratorTsp);
   }
 
   set ratioDenominator(int? i) {
-    _ratioDenominator = i ??
+    _ratioDenominator =
+        i ??
         (regionSettings.usesMetricSystem
             ? defaultBrewRatioDenominatorMl
             : defaultBrewRatioDenominatorOz);

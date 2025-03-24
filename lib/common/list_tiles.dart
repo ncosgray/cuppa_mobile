@@ -4,7 +4,7 @@
  Class:    list_tiles.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -34,16 +34,9 @@ Widget settingSwitch({
   return AnimatedSize(
     duration: shortAnimationDuration,
     child: SwitchListTile.adaptive(
-      title: Text(
-        title,
-        style: textStyleTitle,
-      ),
-      subtitle: subtitle != null
-          ? Text(
-              subtitle,
-              style: textStyleSubtitle,
-            )
-          : null,
+      title: Text(title, style: textStyleTitle),
+      subtitle:
+          subtitle != null ? Text(subtitle, style: textStyleSubtitle) : null,
       value: value,
       onChanged: onChanged,
       contentPadding: listTilePadding,
@@ -71,10 +64,7 @@ Widget settingList(
     child: ListTile(
       title: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: maxWidth * 0.6),
-        child: Text(
-          title,
-          style: textStyleTitle,
-        ),
+        child: Text(title, style: textStyleTitle),
       ),
       trailing: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: maxWidth * 0.4),
@@ -85,14 +75,15 @@ Widget settingList(
           alignEnd: true,
         ),
       ),
-      onTap: () => openPlatformAdaptiveSelectList(
-        context: context,
-        titleText: title,
-        buttonTextCancel: AppString.cancel_button.translate(),
-        itemList: itemList,
-        itemBuilder: itemBuilder,
-        separatorBuilder: separatorDummy,
-      ),
+      onTap:
+          () => openPlatformAdaptiveSelectList(
+            context: context,
+            titleText: title,
+            buttonTextCancel: AppString.cancel_button.translate(),
+            itemList: itemList,
+            itemBuilder: itemBuilder,
+            separatorBuilder: separatorDummy,
+          ),
       contentPadding: listTilePadding,
     ),
   );
@@ -113,9 +104,10 @@ Widget settingListItem(
       dense: true,
       useCupertinoCheckmarkStyle: true,
       fillColor: WidgetStateProperty.resolveWith(
-        (states) => states.contains(WidgetState.selected)
-            ? Theme.of(context).colorScheme.primary
-            : Theme.of(context).listTileTheme.iconColor,
+        (states) =>
+            states.contains(WidgetState.selected)
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).listTileTheme.iconColor,
       ),
       title: settingListTitle(
         title: title,
@@ -150,13 +142,7 @@ Widget settingListTitle({
     ),
   ];
   if (image != null) {
-    titleWidgets.add(
-      SizedBox(
-        width: 28,
-        height: 28,
-        child: image,
-      ),
-    );
+    titleWidgets.add(SizedBox(width: 28, height: 28, child: image));
   }
 
   return Row(
@@ -180,10 +166,13 @@ Widget aboutLink({
       subtitle:
           subtitle != null ? Text(subtitle, style: textStyleSubtitle) : null,
       trailing: url != null ? launchIcon : null,
-      onTap: url != null
-          ? () =>
-              launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)
-          : onTap,
+      onTap:
+          url != null
+              ? () => launchUrl(
+                Uri.parse(url),
+                mode: LaunchMode.externalApplication,
+              )
+              : onTap,
       contentPadding: listTilePadding,
       dense: true,
     ),

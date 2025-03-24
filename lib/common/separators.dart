@@ -4,7 +4,7 @@
  Class:    separators.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -25,8 +25,4 @@ Widget separatorDummy(BuildContext context, int index) {
 }
 
 // List divider
-const Divider listDivider = Divider(
-  thickness: 1,
-  indent: 12,
-  endIndent: 12,
-);
+const Divider listDivider = Divider(thickness: 1, indent: 12, endIndent: 12);

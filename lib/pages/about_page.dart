@@ -4,7 +4,7 @@
  Class:    about_page.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -70,32 +70,36 @@ class AboutWidget extends StatelessWidget {
                     onTap: () {
                       // Restart tutorial on Timer page
                       Navigator.of(context).popUntil((route) => route.isFirst);
-                      ShowCaseWidget.of(context)
-                          .startShowCase(tutorialSteps.keys.toList());
+                      ShowCaseWidget.of(
+                        context,
+                      ).startShowCase(tutorialSteps.keys.toList());
                     },
                   ),
                   listDivider,
                   // Display timer usage stats, if enabled
                   Selector<AppProvider, bool>(
                     selector: (_, provider) => provider.collectStats,
-                    builder: (context, collectStats, child) => Visibility(
-                      visible: collectStats,
-                      child: aboutLink(
-                        title: AppString.stats_header.translate(),
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const StatsWidget(),
+                    builder:
+                        (context, collectStats, child) => Visibility(
+                          visible: collectStats,
+                          child: aboutLink(
+                            title: AppString.stats_header.translate(),
+                            onTap:
+                                () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => const StatsWidget(),
+                                  ),
+                                ),
                           ),
                         ),
-                      ),
-                    ),
                   ),
                   Selector<AppProvider, bool>(
                     selector: (_, provider) => provider.collectStats,
-                    builder: (context, collectStats, child) => Visibility(
-                      visible: collectStats,
-                      child: listDivider,
-                    ),
+                    builder:
+                        (context, collectStats, child) => Visibility(
+                          visible: collectStats,
+                          child: listDivider,
+                        ),
                   ),
                   // How to report issues
                   aboutLink(
@@ -180,8 +184,11 @@ class AboutWidget extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () =>
-          launchUrl(Uri.parse(aboutURL), mode: LaunchMode.externalApplication),
+      onTap:
+          () => launchUrl(
+            Uri.parse(aboutURL),
+            mode: LaunchMode.externalApplication,
+          ),
     );
   }
 }
