@@ -4,7 +4,7 @@
  Class:    prefs.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -14,7 +14,6 @@
 // - Handle shared prefs
 
 import 'package:cuppa_mobile/common/constants.dart';
-import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/tea.dart';
@@ -22,9 +21,34 @@ import 'package:cuppa_mobile/data/tea.dart';
 import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/util/legacy_to_async_migration_util.dart';
 
 // Shared prefs functionality
 abstract class Prefs {
+  static late SharedPreferencesWithCache sharedPrefs;
+  static int nextTeaID = 0;
+
+  // Initialize shared preferences instance
+  static init() async {
+    const SharedPreferencesOptions sharedPreferencesOptions =
+        SharedPreferencesOptions();
+
+    // Migrate legacy prefs
+    final legacyPrefs = await SharedPreferences.getInstance();
+    await migrateLegacySharedPreferencesToSharedPreferencesAsyncIfNecessary(
+      legacySharedPreferencesInstance: legacyPrefs,
+      sharedPreferencesAsyncOptions: sharedPreferencesOptions,
+      migrationCompletedKey: prefMigratedPrefs,
+    );
+
+    // Instantiate shared prefs with caching
+    sharedPrefs = await SharedPreferencesWithCache.create(
+      cacheOptions: SharedPreferencesWithCacheOptions(),
+      sharedPreferencesOptions: sharedPreferencesOptions,
+    );
+  }
+
   // Determine if tea settings exist in shared prefs
   static bool teaPrefsExist() {
     return sharedPrefs.containsKey(prefTeaList);
@@ -118,8 +142,10 @@ abstract class Prefs {
     List<String>? teaListJson = sharedPrefs.getStringList(prefTeaList);
     if (teaListJson != null) {
       try {
-        teaList += (teaListJson
-            .map<Tea>((tea) => Tea.fromJson(jsonDecode(tea)))).toList();
+        teaList +=
+            (teaListJson.map<Tea>(
+              (tea) => Tea.fromJson(jsonDecode(tea)),
+            )).toList();
       } catch (e) {
         // Something went wrong
       }
@@ -278,11 +304,7 @@ enum CupStyle {
 
   // Cup style images
   Image get image {
-    return Image.asset(
-      _cupImage,
-      fit: BoxFit.fitWidth,
-      gaplessPlayback: true,
-    );
+    return Image.asset(_cupImage, fit: BoxFit.fitWidth, gaplessPlayback: true);
   }
 
   // Localized style names
@@ -309,10 +331,14 @@ enum AppTheme {
 }
 
 // Brewing time options
-final List<int> brewTimeHourOptions =
-    List.generate(teaBrewTimeMaxHours, (i) => i);
-final List<int> brewTimeMinuteOptions =
-    List.generate(teaBrewTimeMaxMinutes, (i) => i);
+final List<int> brewTimeHourOptions = List.generate(
+  teaBrewTimeMaxHours,
+  (i) => i,
+);
+final List<int> brewTimeMinuteOptions = List.generate(
+  teaBrewTimeMaxMinutes,
+  (i) => i,
+);
 final List<int> brewTimeSecondOptions = [0, 15, 30, 45];
 
 // Brewing temperature options

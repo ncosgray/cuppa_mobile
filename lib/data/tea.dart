@@ -4,7 +4,7 @@
  Class:    tea.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -14,9 +14,9 @@
 // - Tea definition class
 
 import 'package:cuppa_mobile/common/constants.dart';
-import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
+import 'package:cuppa_mobile/data/prefs.dart';
 
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
@@ -41,15 +41,17 @@ class Tea {
     this.timerNotifyID,
   }) {
     // Assign next tea ID if not given
-    this.id = id ?? nextTeaID++;
+    this.id = id ?? Prefs.nextTeaID++;
     // Prefer TeaColor or lookup from value if color not given
-    this.color = color ??
+    this.color =
+        color ??
         TeaColor.values.firstWhere(
           (color) => color.value == colorValue,
           orElse: () => TeaColor.values[0],
         );
     // Prefer TeaIcon or lookup from value if icon not given
-    this.icon = icon ??
+    this.icon =
+        icon ??
         TeaIcon.values.firstWhere(
           (icon) => icon.value == iconValue,
           orElse: () => TeaIcon.values[0],
@@ -63,20 +65,22 @@ class Tea {
       name: tryCast<String>(json[jsonKeyName]) ?? unknownString,
       brewTime: tryCast<int>(json[jsonKeyBrewTime]) ?? defaultBrewTime,
       brewTemp: tryCast<int>(json[jsonKeyBrewTemp]) ?? boilDegreesC,
-      brewRatio: json[jsonKeyBrewRatio] != null
-          ? BrewRatio.fromJson(json[jsonKeyBrewRatio])
-          : BrewRatio(),
+      brewRatio:
+          json[jsonKeyBrewRatio] != null
+              ? BrewRatio.fromJson(json[jsonKeyBrewRatio])
+              : BrewRatio(),
       colorValue: tryCast<int>(json[jsonKeyColor]) ?? defaultTeaColorValue,
-      colorShade: tryCast<int>(json[jsonKeyColorShadeRed]) != null &&
-              tryCast<int>(json[jsonKeyColorShadeGreen]) != null &&
-              tryCast<int>(json[jsonKeyColorShadeBlue]) != null
-          ? Color.fromRGBO(
-              json[jsonKeyColorShadeRed],
-              json[jsonKeyColorShadeGreen],
-              json[jsonKeyColorShadeBlue],
-              1,
-            )
-          : null,
+      colorShade:
+          tryCast<int>(json[jsonKeyColorShadeRed]) != null &&
+                  tryCast<int>(json[jsonKeyColorShadeGreen]) != null &&
+                  tryCast<int>(json[jsonKeyColorShadeBlue]) != null
+              ? Color.fromRGBO(
+                json[jsonKeyColorShadeRed],
+                json[jsonKeyColorShadeGreen],
+                json[jsonKeyColorShadeBlue],
+                1,
+              )
+              : null,
       iconValue: tryCast<int>(json[jsonKeyIcon]) ?? defaultTeaIconValue,
       isFavorite: tryCast<bool>(json[jsonKeyIsFavorite]) ?? false,
       isActive: tryCast<bool>(json[jsonKeyIsActive]) ?? false,
@@ -125,9 +129,10 @@ class Tea {
   void activate(int notifyID, bool silentDefault) {
     isActive = true;
     isSilent = silentDefault;
-    timerEndTime = DateTime.now()
-        .add(Duration(seconds: brewTime + 1))
-        .millisecondsSinceEpoch;
+    timerEndTime =
+        DateTime.now()
+            .add(Duration(seconds: brewTime + 1))
+            .millisecondsSinceEpoch;
     timerNotifyID = notifyID;
   }
 
@@ -146,9 +151,10 @@ class Tea {
 
   // Get brew time remaining
   int get brewTimeRemaining {
-    int secs = DateTime.fromMillisecondsSinceEpoch(timerEndTime)
-        .difference(DateTime.now())
-        .inSeconds;
+    int secs =
+        DateTime.fromMillisecondsSinceEpoch(
+          timerEndTime,
+        ).difference(DateTime.now()).inSeconds;
     return secs < 0 ? 0 : secs;
   }
 

@@ -4,7 +4,7 @@
  Class:    tea_button_list.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -89,10 +89,11 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
     // List/grid of available tea buttons
     return Selector<AppProvider, ({List<Tea> teaList, bool stackedView})>(
-      selector: (_, provider) => (
-        teaList: provider.teaList,
-        stackedView: provider.stackedView,
-      ),
+      selector:
+          (_, provider) => (
+            teaList: provider.teaList,
+            stackedView: provider.stackedView,
+          ),
       builder: (context, buttonData, child) {
         List<Widget> teaButtonRows = [];
 
@@ -101,16 +102,13 @@ class _TeaButtonListState extends State<TeaButtonList> {
             // Arrange into two rows of tea buttons for large screens
             int topRowLength = (buttonData.teaList.length / 2).floor();
             teaButtonRows
-              ..add(
-                _teaButtonRow(buttonData.teaList.sublist(0, topRowLength)),
-              )
-              ..add(
-                _teaButtonRow(buttonData.teaList.sublist(topRowLength)),
-              );
+              ..add(_teaButtonRow(buttonData.teaList.sublist(0, topRowLength)))
+              ..add(_teaButtonRow(buttonData.teaList.sublist(topRowLength)));
           } else if (buttonData.stackedView && layoutPortrait) {
             // Arrange into multiple rows for small screens
-            for (final teaRow
-                in buttonData.teaList.slices(stackedViewTeaCount)) {
+            for (final teaRow in buttonData.teaList.slices(
+              stackedViewTeaCount,
+            )) {
               teaButtonRows.add(_teaButtonRow(teaRow));
             }
           } else {
@@ -173,15 +171,14 @@ class _TeaButtonListState extends State<TeaButtonList> {
           key: GlobalObjectKey(tea.id),
           tea: tea,
           fade: !(activeTimerCount < timersMaxCount || tea.isActive),
-          onPressed: activeTimerCount < timersMaxCount && !tea.isActive
-              ? () => _setTimer(tea)
-              : null,
+          onPressed:
+              activeTimerCount < timersMaxCount && !tea.isActive
+                  ? () => _setTimer(tea)
+                  : null,
         ),
         // Cancel brewing button
         Container(
-          constraints: const BoxConstraints(
-            minHeight: cancelButtonHeight,
-          ),
+          constraints: const BoxConstraints(minHeight: cancelButtonHeight),
           child: Visibility(
             visible: tea.isActive,
             child: cancelButton(
@@ -203,11 +200,12 @@ class _TeaButtonListState extends State<TeaButtonList> {
           clipBehavior: Clip.antiAlias,
           margin: largeDefaultPadding,
           child: InkWell(
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => const PrefsWidget(launchAddTea: true),
-              ),
-            ),
+            onTap:
+                () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const PrefsWidget(launchAddTea: true),
+                  ),
+                ),
             child: Container(
               constraints: const BoxConstraints(
                 minHeight: teaButtonHeight,
@@ -231,9 +229,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
         ),
         // Placeholder to align with tea button layout
         Container(
-          constraints: const BoxConstraints(
-            minHeight: cancelButtonHeight,
-          ),
+          constraints: const BoxConstraints(minHeight: cancelButtonHeight),
         ),
       ],
     );
@@ -253,8 +249,10 @@ class _TeaButtonListState extends State<TeaButtonList> {
         } else {
           // Brewing complete
           if (timer.tea != null) {
-            Provider.of<AppProvider>(context, listen: false)
-                .deactivateTea(timer.tea!);
+            Provider.of<AppProvider>(
+              context,
+              listen: false,
+            ).deactivateTea(timer.tea!);
           }
           timer.stop();
         }

@@ -4,7 +4,7 @@
  Class:    tea_settings_list.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -37,10 +37,7 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 // MultiSliver containing a tea settings list
 class TeaSettingsList extends StatefulWidget {
-  const TeaSettingsList({
-    super.key,
-    this.launchAddTea = false,
-  });
+  const TeaSettingsList({super.key, this.launchAddTea = false});
 
   final bool launchAddTea;
 
@@ -68,107 +65,108 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   Widget build(BuildContext context) {
     int teaCount = Provider.of<AppProvider>(context, listen: false).teaCount;
 
-    Future.delayed(
-      Duration.zero,
-      () {
-        // Process request to show Add Tea dialog
-        if (_launchAddTea && teaCount < teasMaxCount) {
-          _openAddTeaDialog();
-        }
-        _launchAddTea = false;
+    Future.delayed(Duration.zero, () {
+      // Process request to show Add Tea dialog
+      if (_launchAddTea && teaCount < teasMaxCount) {
+        _openAddTeaDialog();
+      }
+      _launchAddTea = false;
 
-        // Process request to scroll to end of tea list
-        if (_scrollToEnd && _scrollController.hasClients) {
-          Future.delayed(longAnimationDuration).then((_) {
-            _scrollController.animateTo(
-              _scrollController.position.maxScrollExtent,
-              duration: shortAnimationDuration,
-              curve: Curves.fastOutSlowIn,
-            );
-          });
-        }
-        _scrollToEnd = false;
-      },
-    );
+      // Process request to scroll to end of tea list
+      if (_scrollToEnd && _scrollController.hasClients) {
+        Future.delayed(longAnimationDuration).then((_) {
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: shortAnimationDuration,
+            curve: Curves.fastOutSlowIn,
+          );
+        });
+      }
+      _scrollToEnd = false;
+    });
 
     return Selector<AppProvider, ({bool activeTeas})>(
       selector: (_, provider) => (activeTeas: provider.activeTeas.isNotEmpty),
-      builder: (context, teaData, child) => CustomScrollView(
-        controller: _scrollController,
-        cacheExtent: teasMaxCount * 48,
-        slivers: [
-          // Teas section header
-          pageHeader(
-            context,
-            title: AppString.teas_title.translate(),
-            // Add Tea and Sort Teas action buttons
-            actions: [
-              teaCount < teasMaxCount ? _addTeaAction : const SizedBox.shrink(),
-              teaCount > 0 ? _sortTeasAction : const SizedBox.shrink(),
-            ],
-          ),
-          // Tea settings info text
-          SliverToBoxAdapter(
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                margin: bodyPadding,
-                child: Text(
-                  AppString.prefs_header.translate(),
-                  style: textStyleSubtitle,
-                ),
-              ),
-            ),
-          ),
-          // Tea settings cards
-          SliverAnimatedPaintExtent(
-            duration: longAnimationDuration,
-            child: _teaSettingsList(),
-          ),
-          // Add Tea and Remove All buttons
-          SliverToBoxAdapter(
-            child: Container(
-              margin: bottomSliverPadding,
-              child: Row(
-                spacing: smallSpacing,
-                children: [
-                  Expanded(child: _addTeaButton),
-                  (teaCount > 0 && !teaData.activeTeas)
-                      ? _removeAllButton
+      builder:
+          (context, teaData, child) => CustomScrollView(
+            controller: _scrollController,
+            cacheExtent: teasMaxCount * 48,
+            slivers: [
+              // Teas section header
+              pageHeader(
+                context,
+                title: AppString.teas_title.translate(),
+                // Add Tea and Sort Teas action buttons
+                actions: [
+                  teaCount < teasMaxCount
+                      ? _addTeaAction
                       : const SizedBox.shrink(),
+                  teaCount > 0 ? _sortTeasAction : const SizedBox.shrink(),
                 ],
               ),
-            ),
+              // Tea settings info text
+              SliverToBoxAdapter(
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    margin: bodyPadding,
+                    child: Text(
+                      AppString.prefs_header.translate(),
+                      style: textStyleSubtitle,
+                    ),
+                  ),
+                ),
+              ),
+              // Tea settings cards
+              SliverAnimatedPaintExtent(
+                duration: longAnimationDuration,
+                child: _teaSettingsList(),
+              ),
+              // Add Tea and Remove All buttons
+              SliverToBoxAdapter(
+                child: Container(
+                  margin: bottomSliverPadding,
+                  child: Row(
+                    spacing: smallSpacing,
+                    children: [
+                      Expanded(child: _addTeaButton),
+                      (teaCount > 0 && !teaData.activeTeas)
+                          ? _removeAllButton
+                          : const SizedBox.shrink(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
   // Add Tea action
-  Widget get _addTeaAction => IconButton(
-        icon: Icon(Icons.add),
-        onPressed: () => _openAddTeaDialog(),
-      );
+  Widget get _addTeaAction =>
+      IconButton(icon: Icon(Icons.add), onPressed: () => _openAddTeaDialog());
 
   // Sort Teas action
   Widget get _sortTeasAction => Selector<AppProvider, bool>(
-        selector: (_, provider) => provider.collectStats,
-        builder: (context, collectStats, child) => IconButton(
-          icon: getPlatformSortIcon(),
-          onPressed: () => openPlatformAdaptiveSelectList(
-            context: context,
-            titleText: AppString.sort_title.translate(),
-            buttonTextCancel: AppString.cancel_button.translate(),
-            // Don't offer to sort with stats data unless stats are available
-            itemList: SortBy.values
-                .where((item) => collectStats || !item.statsRequired)
-                .toList(),
-            itemBuilder: _sortByOption,
-            separatorBuilder: separatorDummy,
-          ),
+    selector: (_, provider) => provider.collectStats,
+    builder:
+        (context, collectStats, child) => IconButton(
+          icon: platformSortIcon,
+          onPressed:
+              () => openPlatformAdaptiveSelectList(
+                context: context,
+                titleText: AppString.sort_title.translate(),
+                buttonTextCancel: AppString.cancel_button.translate(),
+                // Don't offer to sort with stats data unless stats are available
+                itemList:
+                    SortBy.values
+                        .where((item) => collectStats || !item.statsRequired)
+                        .toList(),
+                itemBuilder: _sortByOption,
+                separatorBuilder: separatorDummy,
+              ),
         ),
-      );
+  );
 
   // Sort by option
   Widget _sortByOption(BuildContext context, int index) {
@@ -179,10 +177,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
       action: ListTile(
         dense: true,
         // Sorting type
-        title: Text(
-          value.localizedName,
-          style: textStyleTitle,
-        ),
+        title: Text(value.localizedName, style: textStyleTitle),
       ),
       onTap: () {
         // Apply new sorting and animate the tea settings list
@@ -225,12 +220,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   ) {
     return DecoratedBox(
       decoration: const BoxDecoration(
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: shadowColor,
-            blurRadius: 14,
-          ),
-        ],
+        boxShadow: <BoxShadow>[BoxShadow(color: shadowColor, blurRadius: 14)],
       ),
       child: child,
     );
@@ -244,46 +234,50 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
     return ReorderableDelayedDragStartListener(
       key: Key('reorder${tea.name}${tea.id}'),
       index: index,
-      child: tea.isActive
-          ?
-          // Don't allow deleting if timer is active
-          TeaSettingsCard(
-              tea: tea,
-            )
-          :
-          // Deleteable
-          Dismissible(
-              key: Key('dismiss${tea.name}${tea.id}'),
-              onDismissed: (direction) {
-                // Provide an undo option
-                int? teaIndex =
-                    provider.teaList.indexWhere((item) => item.id == tea.id);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    duration: const Duration(milliseconds: 1500),
-                    content: Text(
-                      AppString.undo_message.translate(teaName: tea.name),
+      child:
+          tea.isActive
+              ?
+              // Don't allow deleting if timer is active
+              TeaSettingsCard(tea: tea)
+              :
+              // Deleteable
+              Dismissible(
+                key: Key('dismiss${tea.name}${tea.id}'),
+                onDismissed: (direction) {
+                  // Provide an undo option
+                  int? teaIndex = provider.teaList.indexWhere(
+                    (item) => item.id == tea.id,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      duration: const Duration(milliseconds: 1500),
+                      content: Text(
+                        AppString.undo_message.translate(teaName: tea.name),
+                      ),
+                      action: SnackBarAction(
+                        label: AppString.undo_button.translate(),
+                        // Re-add deleted tea in its former position
+                        onPressed:
+                            () => provider.addTea(tea, atIndex: teaIndex),
+                      ),
                     ),
-                    action: SnackBarAction(
-                      label: AppString.undo_button.translate(),
-                      // Re-add deleted tea in its former position
-                      onPressed: () => provider.addTea(tea, atIndex: teaIndex),
-                    ),
-                  ),
-                );
+                  );
 
-                // Delete this from the tea list
-                provider.deleteTea(tea);
-              },
-              // Dismissible delete warning background
-              background: _dismissibleBackground(context, Alignment.centerLeft),
-              secondaryBackground:
-                  _dismissibleBackground(context, Alignment.centerRight),
-              resizeDuration: longAnimationDuration,
-              child: TeaSettingsCard(
-                tea: tea,
+                  // Delete this from the tea list
+                  provider.deleteTea(tea);
+                },
+                // Dismissible delete warning background
+                background: _dismissibleBackground(
+                  context,
+                  Alignment.centerLeft,
+                ),
+                secondaryBackground: _dismissibleBackground(
+                  context,
+                  Alignment.centerRight,
+                ),
+                resizeDuration: longAnimationDuration,
+                child: TeaSettingsCard(tea: tea),
               ),
-            ),
     );
   }
 
@@ -296,9 +290,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
         padding: const EdgeInsets.all(14),
         child: Align(
           alignment: alignment,
-          child: getPlatformRemoveIcon(
-            Theme.of(context).colorScheme.onError,
-          ),
+          child: getPlatformRemoveIcon(Theme.of(context).colorScheme.onError),
         ),
       ),
     );
@@ -306,8 +298,9 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
 
   // Add tea button
   Widget get _addTeaButton => Selector<AppProvider, bool>(
-        selector: (_, provider) => provider.teaCount < teasMaxCount,
-        builder: (context, maxNotReached, child) => SizedBox(
+    selector: (_, provider) => provider.teaCount < teasMaxCount,
+    builder:
+        (context, maxNotReached, child) => SizedBox(
           height: 48,
           child: Card(
             margin: noPadding,
@@ -334,7 +327,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
             ),
           ),
         ),
-      );
+  );
 
   // Open Add Tea dialog
   void _openAddTeaDialog() {
@@ -360,13 +353,10 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
         // Preset tea icon
         leading: SizedBox.square(
           dimension: 48,
-          child: preset.isCustom
-              ? customPresetIcon(color: presetColor)
-              : Icon(
-                  preset.getIcon(),
-                  color: presetColor,
-                  size: 24,
-                ),
+          child:
+              preset.isCustom
+                  ? customPresetIcon(color: presetColor)
+                  : Icon(preset.getIcon(), color: presetColor, size: 24),
         ),
         // Preset tea brew time, temperature, and ratio
         title: Column(
@@ -376,41 +366,40 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
           children: [
             Text(
               preset.localizedName,
-              style: textStyleSetting.copyWith(
-                color: presetColor,
-              ),
+              style: textStyleSetting.copyWith(color: presetColor),
             ),
             Container(
-              child: preset.isCustom
-                  ? null
-                  : Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      spacing: largeSpacing,
-                      children: [
-                        Text(
-                          formatTimer(preset.brewTime),
-                          style: textStyleSettingNumber.copyWith(
-                            color: presetColor,
-                          ),
-                        ),
-                        Visibility(
-                          visible: preset.brewTempDegreesC > roomTemp,
-                          child: Text(
-                            preset.tempDisplay(provider.useCelsius),
+              child:
+                  preset.isCustom
+                      ? null
+                      : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        spacing: largeSpacing,
+                        children: [
+                          Text(
+                            formatTimer(preset.brewTime),
                             style: textStyleSettingNumber.copyWith(
                               color: presetColor,
                             ),
                           ),
-                        ),
-                        Text(
-                          preset.ratioDisplay(provider.useCelsius),
-                          style: textStyleSettingNumber.copyWith(
-                            color: presetColor,
+                          Visibility(
+                            visible: preset.brewTempDegreesC > roomTemp,
+                            child: Text(
+                              preset.tempDisplay(provider.useCelsius),
+                              style: textStyleSettingNumber.copyWith(
+                                color: presetColor,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                          Text(
+                            preset.ratioDisplay(provider.useCelsius),
+                            style: textStyleSettingNumber.copyWith(
+                              color: presetColor,
+                            ),
+                          ),
+                        ],
+                      ),
             ),
           ],
         ),
@@ -426,29 +415,29 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
 
   // Remove all teas button
   Widget get _removeAllButton => SizedBox(
-        width: 48,
-        height: 48,
-        child: Card(
-          margin: noPadding,
-          shadowColor: Colors.transparent,
-          surfaceTintColor: Theme.of(context).colorScheme.error,
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            child: getPlatformRemoveAllIcon(
-              Theme.of(context).colorScheme.error,
-            ),
-            onTap: () async {
-              AppProvider provider =
-                  Provider.of<AppProvider>(context, listen: false);
-              if (await showConfirmDialog(
-                context: context,
-                body: Text(AppString.confirm_delete.translate()),
-              )) {
-                // Clear tea list
-                provider.clearTeaList();
-              }
-            },
-          ),
-        ),
-      );
+    width: 48,
+    height: 48,
+    child: Card(
+      margin: noPadding,
+      shadowColor: Colors.transparent,
+      surfaceTintColor: Theme.of(context).colorScheme.error,
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        child: getPlatformRemoveAllIcon(Theme.of(context).colorScheme.error),
+        onTap: () async {
+          AppProvider provider = Provider.of<AppProvider>(
+            context,
+            listen: false,
+          );
+          if (await showConfirmDialog(
+            context: context,
+            body: Text(AppString.confirm_delete.translate()),
+          )) {
+            // Clear tea list
+            provider.clearTeaList();
+          }
+        },
+      ),
+    ),
+  );
 }

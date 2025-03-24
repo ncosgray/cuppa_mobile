@@ -4,7 +4,7 @@
  Class:    tea_color_dialog.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -71,10 +71,7 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                miniTeaButton(
-                  icon: widget.previewIcon,
-                  color: _newColorShade,
-                ),
+                miniTeaButton(icon: widget.previewIcon, color: _newColorShade),
                 miniTeaButton(
                   icon: widget.previewIcon,
                   color: _newColorShade,
@@ -100,9 +97,7 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
               },
               customColorSwatchesAndNames: <ColorSwatch<Object>, String>{
                 for (final color in TeaColor.values)
-                  ColorTools.createPrimarySwatch(
-                    color.getColor(),
-                  ): color.name,
+                  ColorTools.createPrimarySwatch(color.getColor()): color.name,
               },
               enableShadesSelection: true,
               heading: listDivider,
@@ -131,9 +126,10 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
         adaptiveDialogAction(
           isDefaultAction: true,
           text: widget.buttonTextOK,
-          onPressed: () => Navigator.of(context).pop(
-            (teaColor: _newTeaColor, colorShade: _newColorShade),
-          ),
+          onPressed:
+              () => Navigator.of(
+                context,
+              ).pop((teaColor: _newTeaColor, colorShade: _newColorShade)),
         ),
       ],
     );

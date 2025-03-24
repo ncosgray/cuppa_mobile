@@ -4,7 +4,7 @@
  Class:    teacup.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -25,36 +25,41 @@ import 'package:provider/provider.dart';
 Widget teacup() {
   return Selector<AppProvider, CupStyle>(
     selector: (_, provider) => provider.cupStyle,
-    builder: (context, cupStyle, child) => Stack(
-      children: [
-        // Teacup image
-        cupStyle.image,
-        // Animate while timing
-        Consumer<AppProvider>(
-          builder: (context, provider, child) => Visibility(
-            visible: activeTimerCount > 0,
-            child: Stack(
-              children: [
-                // Gradually darken the tea in the cup
-                Opacity(
-                  opacity: min(timer1.timerPercent, timer2.timerPercent),
-                  child: Image.asset(
-                    cupImageTea,
-                    fit: BoxFit.fitWidth,
-                    gaplessPlayback: true,
+    builder:
+        (context, cupStyle, child) => Stack(
+          children: [
+            // Teacup image
+            cupStyle.image,
+            // Animate while timing
+            Consumer<AppProvider>(
+              builder:
+                  (context, provider, child) => Visibility(
+                    visible: activeTimerCount > 0,
+                    child: Stack(
+                      children: [
+                        // Gradually darken the tea in the cup
+                        Opacity(
+                          opacity: min(
+                            timer1.timerPercent,
+                            timer2.timerPercent,
+                          ),
+                          child: Image.asset(
+                            cupImageTea,
+                            fit: BoxFit.fitWidth,
+                            gaplessPlayback: true,
+                          ),
+                        ),
+                        // Put a teabag in the cup
+                        Image.asset(
+                          cupImageBag,
+                          fit: BoxFit.fitWidth,
+                          gaplessPlayback: true,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                // Put a teabag in the cup
-                Image.asset(
-                  cupImageBag,
-                  fit: BoxFit.fitWidth,
-                  gaplessPlayback: true,
-                ),
-              ],
             ),
-          ),
+          ],
         ),
-      ],
-    ),
   );
 }

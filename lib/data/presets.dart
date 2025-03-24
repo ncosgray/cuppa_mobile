@@ -4,7 +4,7 @@
  Class:    presets.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -63,9 +63,7 @@ class Preset {
 
   // Brew temp display
   String tempDisplay(bool useCelsius) {
-    return formatTemp(
-      useCelsius ? brewTempDegreesC : brewTempDegreesF,
-    );
+    return formatTemp(useCelsius ? brewTempDegreesC : brewTempDegreesF);
   }
 
   // Brew ratio display

@@ -4,7 +4,7 @@
  Class:    tutorial.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -43,12 +43,14 @@ Widget tutorialTooltip({
   if (tutorialSteps.containsKey(key)) {
     return Showcase(
       key: key,
-      title: tutorialSteps[key]!.length == 2
-          ? tutorialSteps[key]![1].translate()
-          : null,
+      title:
+          tutorialSteps[key]!.length == 2
+              ? tutorialSteps[key]![1].translate()
+              : null,
       titleTextStyle: textStyleTutorialTitle.copyWith(
         color: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
+      titleAlignment: Alignment.centerLeft,
       description: tutorialSteps[key]![0].translate(),
       descTextStyle: textStyleTutorial.copyWith(
         color: Theme.of(context).colorScheme.onPrimaryContainer,

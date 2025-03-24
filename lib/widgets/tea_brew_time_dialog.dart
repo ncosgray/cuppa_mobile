@@ -4,7 +4,7 @@
  Class:    tea_brew_time_dialog.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -74,13 +74,15 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
     if (widget.minuteOptions.contains(widget.initialMinutes)) {
       _minutesIndex = widget.minuteOptions.indexOf(widget.initialMinutes);
     }
-    _minutesController =
-        FixedExtentScrollController(initialItem: _minutesIndex);
+    _minutesController = FixedExtentScrollController(
+      initialItem: _minutesIndex,
+    );
     if (widget.secondOptions.contains(widget.initialSeconds)) {
       _secondsIndex = widget.secondOptions.indexOf(widget.initialSeconds);
     }
-    _secondsController =
-        FixedExtentScrollController(initialItem: _secondsIndex);
+    _secondsController = FixedExtentScrollController(
+      initialItem: _secondsIndex,
+    );
     _hoursSelectionMode = _hoursIndex > 0;
   }
 
@@ -100,12 +102,13 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
         adaptiveDialogAction(
           isDefaultAction: true,
           text: widget.buttonTextOK,
-          onPressed: () => Navigator.pop(
-            context,
-            widget.hourOptions[_hoursIndex] * 3600 +
-                widget.minuteOptions[_minutesIndex] * 60 +
-                widget.secondOptions[_secondsIndex],
-          ),
+          onPressed:
+              () => Navigator.pop(
+                context,
+                widget.hourOptions[_hoursIndex] * 3600 +
+                    widget.minuteOptions[_minutesIndex] * 60 +
+                    widget.secondOptions[_secondsIndex],
+              ),
         ),
       ],
     );
@@ -113,186 +116,175 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
 
   // Build a time picker
   Widget get _timePicker => SizedBox(
-        height: 120,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          spacing: smallSpacing,
+    height: 120,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      spacing: smallSpacing,
+      children: [
+        // Increment down
+        adaptiveSmallButton(
+          icon: incrementDownIcon,
+          onPressed: () {
+            if (_hoursSelectionMode) {
+              _minutesIndex--;
+            } else {
+              _secondsIndex--;
+            }
+            if (_secondsIndex < 0) {
+              _minutesIndex--;
+              _secondsIndex = widget.secondOptions.length - 1;
+            }
+            if (_minutesIndex < 0) {
+              _hoursIndex--;
+              _minutesIndex = widget.minuteOptions.length - 1;
+            }
+            if (_hoursIndex <= 0) {
+              _hoursIndex = 0;
+              if (_hoursSelectionMode) {
+                // Change to minutes selection mode at 0 hours
+                _hoursSelectionMode = false;
+                _minutesIndex = widget.minuteOptions.length - 1;
+                _secondsIndex = widget.secondOptions.length - 1;
+              }
+            }
+            _updateTimePicker(doScroll: true);
+          },
+        ),
+        // Time pickers
+        Row(
           children: [
-            // Increment down
-            adaptiveSmallButton(
-              icon: incrementDownIcon,
-              onPressed: () {
-                if (_hoursSelectionMode) {
-                  _minutesIndex--;
-                } else {
-                  _secondsIndex--;
-                }
-                if (_secondsIndex < 0) {
-                  _minutesIndex--;
-                  _secondsIndex = widget.secondOptions.length - 1;
-                }
-                if (_minutesIndex < 0) {
-                  _hoursIndex--;
-                  _minutesIndex = widget.minuteOptions.length - 1;
-                }
-                if (_hoursIndex <= 0) {
-                  _hoursIndex = 0;
-                  if (_hoursSelectionMode) {
-                    // Change to minutes selection mode at 0 hours
-                    _hoursSelectionMode = false;
-                    _minutesIndex = widget.minuteOptions.length - 1;
-                    _secondsIndex = widget.secondOptions.length - 1;
-                  }
-                }
-                _updateTimePicker(doScroll: true);
-              },
+            // Hours and minutes
+            Visibility(
+              visible: _hoursSelectionMode,
+              maintainState: true,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                spacing: largeSpacing,
+                children: [
+                  _hoursPicker,
+                  Text('', style: textStyleSettingTertiary),
+                  _minutesPicker,
+                ],
+              ),
             ),
-            // Time pickers
-            Row(
-              children: [
-                // Hours and minutes
-                Visibility(
-                  visible: _hoursSelectionMode,
-                  maintainState: true,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    spacing: largeSpacing,
-                    children: [
-                      _hoursPicker,
-                      Text(
-                        '',
-                        style: textStyleSettingTertiary,
-                      ),
-                      _minutesPicker,
-                    ],
-                  ),
-                ),
-                // Minutes and seconds
-                Visibility(
-                  visible: !_hoursSelectionMode,
-                  maintainState: true,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    textDirection: TextDirection.ltr,
-                    spacing: largeSpacing,
-                    children: [
-                      _minutesPicker,
-                      Text(
-                        ':',
-                        style: textStyleSettingTertiary,
-                      ),
-                      _secondsPicker,
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            // Increment up
-            adaptiveSmallButton(
-              icon: incrementUpIcon,
-              onPressed: () {
-                if (_hoursSelectionMode) {
-                  _minutesIndex++;
-                } else {
-                  _secondsIndex++;
-                }
-                if (_secondsIndex >= widget.secondOptions.length) {
-                  _minutesIndex++;
-                  _secondsIndex = 0;
-                }
-                if (_minutesIndex >= widget.minuteOptions.length) {
-                  _minutesIndex = 0;
-                  _hoursIndex++;
-                  if (!_hoursSelectionMode) {
-                    // Change to hours selection mode at 60 minutes
-                    _hoursSelectionMode = true;
-                  }
-                }
-                if (_hoursIndex >= widget.hourOptions.length) {
-                  _hoursIndex = widget.hourOptions.length - 1;
-                }
-                _updateTimePicker(doScroll: true);
-              },
+            // Minutes and seconds
+            Visibility(
+              visible: !_hoursSelectionMode,
+              maintainState: true,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                textDirection: TextDirection.ltr,
+                spacing: largeSpacing,
+                children: [
+                  _minutesPicker,
+                  Text(':', style: textStyleSettingTertiary),
+                  _secondsPicker,
+                ],
+              ),
             ),
           ],
         ),
-      );
+        // Increment up
+        adaptiveSmallButton(
+          icon: incrementUpIcon,
+          onPressed: () {
+            if (_hoursSelectionMode) {
+              _minutesIndex++;
+            } else {
+              _secondsIndex++;
+            }
+            if (_secondsIndex >= widget.secondOptions.length) {
+              _minutesIndex++;
+              _secondsIndex = 0;
+            }
+            if (_minutesIndex >= widget.minuteOptions.length) {
+              _minutesIndex = 0;
+              _hoursIndex++;
+              if (!_hoursSelectionMode) {
+                // Change to hours selection mode at 60 minutes
+                _hoursSelectionMode = true;
+              }
+            }
+            if (_hoursIndex >= widget.hourOptions.length) {
+              _hoursIndex = widget.hourOptions.length - 1;
+            }
+            _updateTimePicker(doScroll: true);
+          },
+        ),
+      ],
+    ),
+  );
 
   // Hours picker
   Widget get _hoursPicker => Row(
-        children: [
-          _timePickerScrollWheel(
-            controller: _hoursController,
-            initialValue: widget.initialHours,
-            timeValues: widget.hourOptions,
-            onChanged: (newValue) {
-              if (newValue <= 0) {
-                _hoursIndex = 0;
-                if (_hoursSelectionMode) {
-                  // Change to minutes selection mode at 0 hours
-                  _hoursSelectionMode = false;
-                  _minutesIndex = widget.minuteOptions.length - 1;
-                  _secondsIndex = widget.secondOptions.length - 1;
-                }
-                _updateTimePicker(doScroll: true);
-              } else {
-                _hoursIndex = newValue;
-                _updateTimePicker();
-              }
-            },
-          ),
-          // Unit
-          Text(
-            widget.hourLabel,
-            style: textStyleSettingTertiary,
-          ),
-        ],
-      );
+    children: [
+      _timePickerScrollWheel(
+        controller: _hoursController,
+        initialValue: widget.initialHours,
+        timeValues: widget.hourOptions,
+        onChanged: (newValue) {
+          if (newValue <= 0) {
+            _hoursIndex = 0;
+            if (_hoursSelectionMode) {
+              // Change to minutes selection mode at 0 hours
+              _hoursSelectionMode = false;
+              _minutesIndex = widget.minuteOptions.length - 1;
+              _secondsIndex = widget.secondOptions.length - 1;
+            }
+            _updateTimePicker(doScroll: true);
+          } else {
+            _hoursIndex = newValue;
+            _updateTimePicker();
+          }
+        },
+      ),
+      // Unit
+      Text(widget.hourLabel, style: textStyleSettingTertiary),
+    ],
+  );
 
   // Minutes picker
   Widget get _minutesPicker => Row(
-        children: [
-          _timePickerScrollWheel(
-            controller: _minutesController,
-            initialValue: widget.initialMinutes,
-            timeValues: _hoursSelectionMode
+    children: [
+      _timePickerScrollWheel(
+        controller: _minutesController,
+        initialValue: widget.initialMinutes,
+        timeValues:
+            _hoursSelectionMode
                 ? widget.minuteOptions
                 : widget.minuteOptions + [60],
-            onChanged: (newValue) {
-              if (newValue >= widget.minuteOptions.length) {
-                // Change to hours selection mode at 60 minutes
-                _hoursSelectionMode = true;
-                _hoursIndex++;
-                _minutesIndex = 0;
-                _updateTimePicker(doScroll: true);
-              } else {
-                _minutesIndex = newValue;
-                _updateTimePicker();
-              }
-            },
-          ),
-          // Unit
-          Visibility(
-            visible: _hoursSelectionMode,
-            child: Text(
-              widget.minuteLabel,
-              style: textStyleSettingTertiary,
-            ),
-          ),
-        ],
-      );
+        onChanged: (newValue) {
+          if (newValue >= widget.minuteOptions.length) {
+            // Change to hours selection mode at 60 minutes
+            _hoursSelectionMode = true;
+            _hoursIndex++;
+            _minutesIndex = 0;
+            _updateTimePicker(doScroll: true);
+          } else {
+            _minutesIndex = newValue;
+            _updateTimePicker();
+          }
+        },
+      ),
+      // Unit
+      Visibility(
+        visible: _hoursSelectionMode,
+        child: Text(widget.minuteLabel, style: textStyleSettingTertiary),
+      ),
+    ],
+  );
 
   // Seconds picker
   Widget get _secondsPicker => _timePickerScrollWheel(
-        controller: _secondsController,
-        initialValue: widget.initialSeconds,
-        timeValues: widget.secondOptions,
-        onChanged: (newValue) {
-          _secondsIndex = newValue;
-          _updateTimePicker();
-        },
-        padTime: true,
-      );
+    controller: _secondsController,
+    initialValue: widget.initialSeconds,
+    timeValues: widget.secondOptions,
+    onChanged: (newValue) {
+      _secondsIndex = newValue;
+      _updateTimePicker();
+    },
+    padTime: true,
+  );
 
   // Build a time picker scroll wheel
   Widget _timePickerScrollWheel({
@@ -318,20 +310,17 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
             overAndUnderCenterOpacity: 0.2,
             onSelectedItemChanged: onChanged,
             // Time values menu
-            children: List<Widget>.generate(
-              timeValues.length,
-              (int index) {
-                return Center(
-                  child: Text(
-                    // Format time with or without zero padding
-                    padTime
-                        ? timeValues[index].toString().padLeft(2, '0')
-                        : timeValues[index].toString(),
-                    style: textStyleSettingNumber,
-                  ),
-                );
-              },
-            ),
+            children: List<Widget>.generate(timeValues.length, (int index) {
+              return Center(
+                child: Text(
+                  // Format time with or without zero padding
+                  padTime
+                      ? timeValues[index].toString().padLeft(2, '0')
+                      : timeValues[index].toString(),
+                  style: textStyleSettingNumber,
+                ),
+              );
+            }),
           ),
         ),
       ],

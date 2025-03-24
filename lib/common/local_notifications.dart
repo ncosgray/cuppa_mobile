@@ -4,7 +4,7 @@
  Class:    local_notifications.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2024 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -61,23 +61,22 @@ Future<void> sendNotification(
   int notifyID, {
   bool silent = false,
 }) async {
-  tz.TZDateTime notifyTime =
-      tz.TZDateTime.now(tz.local).add(Duration(seconds: secs));
+  tz.TZDateTime notifyTime = tz.TZDateTime.now(
+    tz.local,
+  ).add(Duration(seconds: secs));
 
   // Request notification permissions
   if (Platform.isIOS) {
     await notify
         .resolvePlatformSpecificImplementation<
-            IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
+          IOSFlutterLocalNotificationsPlugin
+        >()
+        ?.requestPermissions(alert: true, badge: true, sound: true);
   } else {
     await notify
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.requestNotificationsPermission();
   }
 
@@ -113,9 +112,10 @@ Future<void> sendNotification(
       enableVibration: true,
       vibrationPattern: notifyVibratePattern,
       playSound: !silent,
-      sound: silent
-          ? null
-          : const RawResourceAndroidNotificationSound(notifySound),
+      sound:
+          silent
+              ? null
+              : const RawResourceAndroidNotificationSound(notifySound),
       audioAttributesUsage: AudioAttributesUsage.alarm,
     ),
     iOS: DarwinNotificationDetails(
@@ -136,7 +136,5 @@ Future<void> sendNotification(
     notifyDetails,
     payload: silent ? notifyChannelSilent : notifyChannel,
     androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-    uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime,
   );
 }
