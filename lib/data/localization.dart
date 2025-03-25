@@ -54,6 +54,7 @@ const List<Locale> supportedLocales = [
   Locale.fromSubtags(languageCode: 'lb'),
   Locale.fromSubtags(languageCode: 'nb'),
   Locale.fromSubtags(languageCode: 'nl'),
+  Locale.fromSubtags(languageCode: 'pl'),
   Locale.fromSubtags(languageCode: 'pt'),
   Locale.fromSubtags(languageCode: 'ru'),
   Locale.fromSubtags(languageCode: 'sl'),
@@ -265,8 +266,9 @@ Future<void> loadLanguageOptions() async {
   // Set language options, sorted by language name
   languageOptions.addAll(
     Map.fromEntries(
-      unsortedOptions.entries.toList()
-        ..sort((a, b) => a.value.compareTo(b.value)),
+      unsortedOptions.entries.toList()..sort(
+        (a, b) => a.value.toUpperCase().compareTo(b.value.toUpperCase()),
+      ),
     ),
   );
 }
