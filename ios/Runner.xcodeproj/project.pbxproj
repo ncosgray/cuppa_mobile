@@ -85,6 +85,8 @@
 		FE97C6F32CF18D8E00AFEA31 /* ia */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ia; path = ia.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
 		FEA49BF42BDED66B00853D36 /* RunnerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA49BF62BDED66B00853D36 /* RunnerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RunnerUITests.m; sourceTree = "<group>"; };
+		FEA956C52D93862300C3300A /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FEA956C62D93862300C3300A /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
 		FED7001B2CEDAC4700D6D252 /* az */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = az; path = az.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FED7001C2CEDAC4900D6D252 /* eu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = eu; path = eu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FED7001D2CEDAC4B00D6D252 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 				ta,
 				pl,
 				sk,
+				sv,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			packageReferences = (
@@ -626,6 +629,7 @@
 				FE5F818C2D11254E00C45CBD /* ta */,
 				FE7367352D90EDB600FCD1C4 /* pl */,
 				FE49DA832D9383AF00ADD794 /* sk */,
+				FEA956C52D93862300C3300A /* sv */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -666,6 +670,7 @@
 				FE5F818D2D11255300C45CBD /* ta */,
 				FE7367362D90EDB700FCD1C4 /* pl */,
 				FE49DA842D9383AF00ADD794 /* sk */,
+				FEA956C62D93862300C3300A /* sv */,
 			);
 			name = AppShortcuts.strings;
 			sourceTree = "<group>";
