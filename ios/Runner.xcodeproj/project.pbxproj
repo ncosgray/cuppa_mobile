@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -67,6 +67,8 @@
 		C8E20614537BE47B4BEF18E6 /* Pods_Runner_RunnerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner_RunnerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D83ACD747148C335D2D2F5FF /* Pods-Runner-RunnerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner-RunnerUITests.release.xcconfig"; path = "Target Support Files/Pods-Runner-RunnerUITests/Pods-Runner-RunnerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		DCBE280E542ED7CC75D24D9C /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE49DA832D9383AF00ADD794 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FE49DA842D9383AF00ADD794 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
 		FE5F818C2D11254E00C45CBD /* ta */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ta; path = ta.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FE5F818D2D11255300C45CBD /* ta */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ta; path = ta.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
 		FE7367352D90EDB600FCD1C4 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -353,6 +355,7 @@
 				ia,
 				ta,
 				pl,
+				sk,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			packageReferences = (
@@ -622,6 +625,7 @@
 				FE97C6F02CF18D8700AFEA31 /* ia */,
 				FE5F818C2D11254E00C45CBD /* ta */,
 				FE7367352D90EDB600FCD1C4 /* pl */,
+				FE49DA832D9383AF00ADD794 /* sk */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -661,6 +665,7 @@
 				FE97C6F32CF18D8E00AFEA31 /* ia */,
 				FE5F818D2D11255300C45CBD /* ta */,
 				FE7367362D90EDB700FCD1C4 /* pl */,
+				FE49DA842D9383AF00ADD794 /* sk */,
 			);
 			name = AppShortcuts.strings;
 			sourceTree = "<group>";
