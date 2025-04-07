@@ -1,0 +1,2 @@
+* Ayarlar sayfası yeniden düzenlendi.
+* Çeşitli kullanılabilirlik iyileştirmeleri ve küçük hata düzeltmeleri yapıldı.

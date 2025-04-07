@@ -1,0 +1,2 @@
+* Çeşitli kullanılabilirlik iyileştirmeleri ve küçük hata düzeltmeleri yapıldı.
+* Tamilce eklendi, diğer çeviriler güncellendi – katkı için Weblate’i kullanabilirsiniz!
