@@ -141,10 +141,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: "8d938fd5c11dc81bf1acd4f7f0486c683fe9e79a0b13419e27730f9ce4d8a25b"
+      sha256: "8986dec4581b4bcd4b6df5d75a2ea0bede3db802f500635d05fa8be298f9467f"
       url: "https://pub.dev"
     source: hosted
-    version: "9.2.1"
+    version: "10.1.2"
   fixnum:
     dependency: transitive
     description:
@@ -480,18 +480,18 @@ packages:
     dependency: "direct dev"
     description:
       name: patrol
-      sha256: "1002a9748d32aa8659062c1d403c5f90092b568b1771b7956608604a97935a20"
+      sha256: "958cf719a4121a4cd85697dc2f6687126e73592f68f72acfe9f92b9a3d1a73e4"
       url: "https://pub.dev"
     source: hosted
-    version: "3.14.1"
+    version: "3.15.1"
   patrol_finders:
     dependency: transitive
     description:
       name: patrol_finders
-      sha256: "4c6d78e00362fd15d7c21cfac110e501d08ada7d77000bad139b0c3c2e27ccaf"
+      sha256: "8787f9d5c3417b72e8959a55ad51c024cc0594d15e5db85bc179c4d8faa0c493"
       url: "https://pub.dev"
     source: hosted
-    version: "2.7.0"
+    version: "2.7.2"
   patrol_log:
     dependency: transitive
     description:
@@ -536,10 +536,10 @@ packages:
     dependency: "direct main"
     description:
       name: provider
-      sha256: c8a055ee5ce3fd98d6fc872478b03823ffdb448699c6ebdbbc71d59b596fd48c
+      sha256: "489024f942069c2920c844ee18bb3d467c69e48955a4f32d1677f71be103e310"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.2"
+    version: "6.1.4"
   quick_actions:
     dependency: "direct main"
     description:
@@ -600,18 +600,18 @@ packages:
     dependency: "direct main"
     description:
       name: shared_preferences
-      sha256: "846849e3e9b68f3ef4b60c60cf4b3e02e9321bc7f4d8c4692cf87ffa82fc8a3a"
+      sha256: "6e8bf70b7fef813df4e9a36f658ac46d107db4b4cfe1048b477d4e453a8159f5"
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.2"
+    version: "2.5.3"
   shared_preferences_android:
     dependency: transitive
     description:
       name: shared_preferences_android
-      sha256: "3ec7210872c4ba945e3244982918e502fa2bfb5230dff6832459ca0e1879b7ad"
+      sha256: c2c8c46297b5d6a80bed7741ec1f2759742c77d272f1a1698176ae828f8e1a18
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.8"
+    version: "2.4.9"
   shared_preferences_foundation:
     dependency: transitive
     description:
@@ -837,10 +837,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_ios
-      sha256: "16a513b6c12bb419304e72ea0ae2ab4fed569920d1c7cb850263fe3acc824626"
+      sha256: "7f2022359d4c099eea7df3fdf739f7d3d3b9faf3166fb1dd390775176e0b76cb"
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.2"
+    version: "6.3.3"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -909,10 +909,10 @@ packages:
     dependency: "direct main"
     description:
       name: wakelock_plus
-      sha256: "36c88af0b930121941345306d259ec4cc4ecca3b151c02e3a9e71aede83c615e"
+      sha256: b90fbcc8d7bdf3b883ea9706d9d76b9978cb1dfa4351fcc8014d6ec31a493354
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.10"
+    version: "1.2.11"
   wakelock_plus_platform_interface:
     dependency: transitive
     description:
