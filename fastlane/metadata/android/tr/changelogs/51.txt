@@ -1,0 +1,2 @@
+* Zamanlayıcı görselinizi seçin; örneğin bir çay bardağı ya da yeni çay fincanı tasarımları.
+* Dil çeviri güncellemelerine katkıda bulunun – Weblate üzerinden!
