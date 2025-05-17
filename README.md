@@ -20,7 +20,7 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 
 | Android (5+) | iOS (16+) |
 | :--: | :--: |
-| <a href="https://play.google.com/store/apps/details?id=com.nathanatos.Cuppa"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" width="206" height="80"/></a><br/><a href="https://f-droid.org/en/packages/com.nathanatos.Cuppa/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" width="206" height="80"/></a> | <a href="https://itunes.apple.com/us/app/cuppa-tea-timer/id1241458171"><img src="https://www.nathanatos.com/software/images/ios-app-store-badge.png" alt="Download on the App Store" width="168" height="50"/></a> |
+| <a href="https://play.google.com/store/apps/details?id=com.nathanatos.Cuppa"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" width="206" height="80"/></a><br/><a href="https://f-droid.org/en/packages/com.nathanatos.Cuppa/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" width="206" height="80"/></a> | <a href="https://itunes.apple.com/us/app/cuppa-tea-timer/id1241458171"><img src="https://www.nathanatos.com/images/ios-app-store-badge.png" alt="Download on the App Store" width="168" height="50"/></a> |
 
 ### Join the Team
 
@@ -46,9 +46,9 @@ Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in
 
 Buy us a cup of tea to support active development of Cuppa.
 
-<a href="https://paypal.me/ncosgray"><img src="https://www.nathanatos.com/software/images/paypal-badge.png" alt="Donate with PayPal" width="185" height="50"/></a><br/>
-<a href="https://venmo.com/nathancosgray"><img src="https://www.nathanatos.com/software/images/venmo-badge.png" alt="Donate with Venmo" width="185" height="50"/></a><br/>
-<img src="https://www.nathanatos.com/software/images/ethereum-logo.png" alt="Ethereum Logo" width="15" height="25"/> <a href="ethereum:0xc5be97ea75ad15854ed09529139e672fae2f63c0">Ethereum: 0xc5be97ea75ad15854ed09529139e672fae2f63c0</a><br/>
+<a href="https://paypal.me/ncosgray"><img src="https://www.nathanatos.com/images/paypal-badge.png" alt="Donate with PayPal" width="185" height="50"/></a><br/>
+<a href="https://venmo.com/nathancosgray"><img src="https://www.nathanatos.com/images/venmo-badge.png" alt="Donate with Venmo" width="185" height="50"/></a><br/>
+<img src="https://www.nathanatos.com/images/ethereum-logo.png" alt="Ethereum Logo" width="15" height="25"/> <a href="ethereum:0xc5be97ea75ad15854ed09529139e672fae2f63c0">Ethereum: 0xc5be97ea75ad15854ed09529139e672fae2f63c0</a><br/>
 
 ### About
 
