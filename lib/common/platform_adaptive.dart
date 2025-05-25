@@ -152,7 +152,7 @@ Widget adaptiveLargeButton({
 }) {
   if (Platform.isIOS) {
     return CupertinoButton(
-      minSize: 72,
+      minimumSize: Size(72, 72),
       padding: noPadding,
       onPressed: onPressed,
       child: Icon(icon, size: 36, color: iconColor),
