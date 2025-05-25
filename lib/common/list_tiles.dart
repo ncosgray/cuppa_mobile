@@ -12,6 +12,8 @@
 
 // Cuppa list tiles
 
+import 'dart:io' show Platform;
+
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
@@ -98,6 +100,9 @@ Widget settingListItem(
   required dynamic groupValue,
   required Function() onChanged,
 }) {
+  // onChanged must be non-null on iOS to enable the list tile
+  Function(dynamic)? radioPassThrough = Platform.isIOS ? (_) => {} : null;
+
   return adaptiveSelectListAction(
     action: RadioListTile.adaptive(
       contentPadding: radioTilePadding,
@@ -116,7 +121,7 @@ Widget settingListItem(
       ),
       value: value,
       groupValue: groupValue,
-      onChanged: null, // Handled by select list action tap
+      onChanged: radioPassThrough, // Handled by select list action tap
     ),
     onTap: onChanged,
   );
