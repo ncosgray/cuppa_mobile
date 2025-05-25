@@ -82,8 +82,8 @@ Future<void> sendNotification(
 
   // Cancel existing notification if channel needs to be changed (Android only)
   if (Platform.isAndroid) {
-    List<PendingNotificationRequest> pendingNotifications =
-        await notify.pendingNotificationRequests();
+    List<PendingNotificationRequest> pendingNotifications = await notify
+        .pendingNotificationRequests();
     for (final notification in pendingNotifications) {
       // Check for mismatch between channel and silent status
       if (notification.payload != null && notification.id == notifyID) {
@@ -112,10 +112,9 @@ Future<void> sendNotification(
       enableVibration: true,
       vibrationPattern: notifyVibratePattern,
       playSound: !silent,
-      sound:
-          silent
-              ? null
-              : const RawResourceAndroidNotificationSound(notifySound),
+      sound: silent
+          ? null
+          : const RawResourceAndroidNotificationSound(notifySound),
       audioAttributesUsage: AudioAttributesUsage.alarm,
     ),
     iOS: DarwinNotificationDetails(

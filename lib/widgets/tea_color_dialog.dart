@@ -126,10 +126,9 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
         adaptiveDialogAction(
           isDefaultAction: true,
           text: widget.buttonTextOK,
-          onPressed:
-              () => Navigator.of(
-                context,
-              ).pop((teaColor: _newTeaColor, colorShade: _newColorShade)),
+          onPressed: () => Navigator.of(
+            context,
+          ).pop((teaColor: _newTeaColor, colorShade: _newColorShade)),
         ),
       ],
     );

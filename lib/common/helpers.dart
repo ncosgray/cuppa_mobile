@@ -69,14 +69,13 @@ String formatTemp(i, {bool? useCelsius}) {
     // Room temperature
     return '$emDash$degreeSymbol';
   }
-  String unit =
-      useCelsius == null
-          ? degreeSymbol
-          : isCelsiusTemp(i, useCelsius: useCelsius) && !useCelsius
-          ? degreesC
-          : !isCelsiusTemp(i, useCelsius: useCelsius) && useCelsius
-          ? degreesF
-          : degreeSymbol;
+  String unit = useCelsius == null
+      ? degreeSymbol
+      : isCelsiusTemp(i, useCelsius: useCelsius) && !useCelsius
+      ? degreesC
+      : !isCelsiusTemp(i, useCelsius: useCelsius) && useCelsius
+      ? degreesF
+      : degreeSymbol;
   return '$i$unit';
 }
 
@@ -112,10 +111,9 @@ String formatNumeratorAmount(
   bool inLargeUnits = true,
 }) {
   int decimalPlaces = 1;
-  String unit =
-      useMetric
-          ? AppString.unit_grams.translate()
-          : AppString.unit_teaspoons.translate();
+  String unit = useMetric
+      ? AppString.unit_grams.translate()
+      : AppString.unit_teaspoons.translate();
   if (inLargeUnits) {
     if (useMetric && i >= 1000.0) {
       // Convert large metric amounts to kilograms
@@ -133,10 +131,9 @@ String formatNumeratorAmount(
 }
 
 String formatDenominatorAmount(int i, {required bool useMetric}) {
-  String unit =
-      useMetric
-          ? AppString.unit_milliliters.translate()
-          : AppString.unit_ounces.translate();
+  String unit = useMetric
+      ? AppString.unit_milliliters.translate()
+      : AppString.unit_ounces.translate();
   return '${AppLocalizations.numberString(i.toDouble())}$unit';
 }
 

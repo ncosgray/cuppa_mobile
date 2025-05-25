@@ -81,12 +81,11 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
                   }
                 });
               },
-              onCleared:
-                  () => setState(() {
-                    // Invalidate an empty value
-                    _isValid = false;
-                    _controller.clear();
-                  }),
+              onCleared: () => setState(() {
+                // Invalidate an empty value
+                _isValid = false;
+                _controller.clear();
+              }),
             ),
           ),
           actions: <Widget>[
@@ -98,8 +97,9 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
             // Save and close dialog, if valid
             adaptiveDialogAction(
               isDefaultAction: true,
-              onPressed:
-                  _isValid ? () => Navigator.of(context).pop(_newValue) : null,
+              onPressed: _isValid
+                  ? () => Navigator.of(context).pop(_newValue)
+                  : null,
               text: widget.buttonTextOK,
             ),
           ],

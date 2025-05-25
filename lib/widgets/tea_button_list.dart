@@ -89,11 +89,8 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
     // List/grid of available tea buttons
     return Selector<AppProvider, ({List<Tea> teaList, bool stackedView})>(
-      selector:
-          (_, provider) => (
-            teaList: provider.teaList,
-            stackedView: provider.stackedView,
-          ),
+      selector: (_, provider) =>
+          (teaList: provider.teaList, stackedView: provider.stackedView),
       builder: (context, buttonData, child) {
         List<Widget> teaButtonRows = [];
 
@@ -171,10 +168,9 @@ class _TeaButtonListState extends State<TeaButtonList> {
           key: GlobalObjectKey(tea.id),
           tea: tea,
           fade: !(activeTimerCount < timersMaxCount || tea.isActive),
-          onPressed:
-              activeTimerCount < timersMaxCount && !tea.isActive
-                  ? () => _setTimer(tea)
-                  : null,
+          onPressed: activeTimerCount < timersMaxCount && !tea.isActive
+              ? () => _setTimer(tea)
+              : null,
         ),
         // Cancel brewing button
         Container(
@@ -200,12 +196,11 @@ class _TeaButtonListState extends State<TeaButtonList> {
           clipBehavior: Clip.antiAlias,
           margin: largeDefaultPadding,
           child: InkWell(
-            onTap:
-                () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const PrefsWidget(launchAddTea: true),
-                  ),
-                ),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const PrefsWidget(launchAddTea: true),
+              ),
+            ),
             child: Container(
               constraints: const BoxConstraints(
                 minHeight: teaButtonHeight,

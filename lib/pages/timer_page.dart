@@ -63,14 +63,12 @@ class TimerWidget extends StatelessWidget {
                   Expanded(
                     flex: layoutPortrait ? 4 : 3,
                     child: Container(
-                      padding:
-                          layoutPortrait
-                              ? wideTimerLayoutPadding
-                              : narrowTimerLayoutPadding,
-                      alignment:
-                          layoutPortrait
-                              ? Alignment.center
-                              : Alignment.centerRight,
+                      padding: layoutPortrait
+                          ? wideTimerLayoutPadding
+                          : narrowTimerLayoutPadding,
+                      alignment: layoutPortrait
+                          ? Alignment.center
+                          : Alignment.centerRight,
                       child: tutorialTooltip(
                         context: context,
                         key: tutorialKey1,
@@ -98,14 +96,12 @@ class TimerWidget extends StatelessWidget {
                           constraints: BoxConstraints(
                             maxWidth: getDeviceSize(context).height * 0.45,
                           ),
-                          padding:
-                              layoutPortrait
-                                  ? narrowTimerLayoutPadding
-                                  : wideTimerLayoutPadding,
-                          alignment:
-                              layoutPortrait
-                                  ? Alignment.center
-                                  : Alignment.centerLeft,
+                          padding: layoutPortrait
+                              ? narrowTimerLayoutPadding
+                              : wideTimerLayoutPadding,
+                          alignment: layoutPortrait
+                              ? Alignment.center
+                              : Alignment.centerLeft,
                           child: teacup(),
                         ),
                       );
