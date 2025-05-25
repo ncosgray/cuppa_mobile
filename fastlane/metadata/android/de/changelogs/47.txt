@@ -1,0 +1,4 @@
+* Verbesserte Unterstützung für regionale Einstellungen.
+* Einfachere Navigation in den Einstellungen auf kleineren Bildschirmen.
+* Verschiedene Verbesserungen der Benutzerfreundlichkeit und kleine Fehlerbehebungen.
+* Britisches Englisch, Tschuwaschisch und Interlingua hinzugefügt, sowie weitere Übersetzungsaktualisierungen – mitmachen über Weblate!
