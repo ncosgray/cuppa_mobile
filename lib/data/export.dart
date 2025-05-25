@@ -66,10 +66,12 @@ abstract class Export {
 
       // Share via OS
       if (share) {
-        await Share.shareXFiles(
-          [XFile(exportFile.path)],
-          subject: AppString.export_label.translate(),
-          sharePositionOrigin: sharePositionOrigin,
+        await SharePlus.instance.share(
+          ShareParams(
+            files: [XFile(exportFile.path)],
+            subject: AppString.export_label.translate(),
+            sharePositionOrigin: sharePositionOrigin,
+          ),
         );
       }
     } catch (e) {
