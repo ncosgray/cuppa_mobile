@@ -201,7 +201,7 @@ class Tea {
   }
 
   // Quick action shortcut icons based on color and tea icon
-  get shortcutIcon {
+  String get shortcutIcon {
     if (Platform.isIOS) {
       switch (icon) {
         case TeaIcon.cup:

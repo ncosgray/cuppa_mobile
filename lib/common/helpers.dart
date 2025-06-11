@@ -48,14 +48,14 @@ bool deviceUsesCelsius() {
 }
 
 // Room temp check based on locale
-bool isRoomTemp(i, {bool? useCelsius}) {
+bool isRoomTemp(int i, {bool? useCelsius}) {
   return i == roomTemp ||
       i == roomTempDegreesC ||
       (i == roomTempDegreesF && !(useCelsius ?? deviceUsesCelsius()));
 }
 
 // Infer C or F based on temp range and locale
-bool isCelsiusTemp(i, {bool? useCelsius}) {
+bool isCelsiusTemp(int i, {bool? useCelsius}) {
   if (isRoomTemp(i, useCelsius: useCelsius)) {
     return useCelsius ?? deviceUsesCelsius();
   } else {
@@ -64,7 +64,7 @@ bool isCelsiusTemp(i, {bool? useCelsius}) {
 }
 
 // Format brew temperature as number with optional units
-String formatTemp(i, {bool? useCelsius}) {
+String formatTemp(int i, {bool? useCelsius}) {
   if (isRoomTemp(i, useCelsius: useCelsius)) {
     // Room temperature
     return '$emDash$degreeSymbol';
@@ -80,7 +80,7 @@ String formatTemp(i, {bool? useCelsius}) {
 }
 
 // Format brew time as m:ss or hm or d
-String formatTimer(s, {bool inDays = true}) {
+String formatTimer(int s, {bool inDays = true}) {
   double days = s / 86400.0;
   int hrs = (s / 3600).floor();
   int mins = (s / 60).floor() - (hrs * 60);
@@ -100,7 +100,7 @@ String formatTimer(s, {bool inDays = true}) {
 }
 
 // Format number as percentage
-String formatPercent(i) {
+String formatPercent(double i) {
   return NumberFormat('#%').format(i);
 }
 

@@ -385,9 +385,9 @@ class AppLocalizations {
   }
 
   // Locale info
-  get appLocaleString => localeString(instance.locale);
-  get isSystemLanguage => _isSystemLanguage;
-  get isFallbackLanguage =>
+  String get appLocaleString => localeString(instance.locale);
+  bool get isSystemLanguage => _isSystemLanguage;
+  bool get isFallbackLanguage =>
       fallbackLanguageCodes.contains(instance.locale.languageCode);
 }
 

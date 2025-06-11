@@ -30,7 +30,7 @@ abstract class Prefs {
   static int nextTeaID = 0;
 
   // Initialize shared preferences instance
-  static init() async {
+  static Future<void> init() async {
     const SharedPreferencesOptions sharedPreferencesOptions =
         SharedPreferencesOptions();
 
