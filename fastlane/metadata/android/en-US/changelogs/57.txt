@@ -1,0 +1,2 @@
+* Fixed a data import bug.
+* Language translation updates - contribute via Weblate!

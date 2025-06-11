@@ -12,6 +12,8 @@
 
 // Cuppa list tiles
 
+import 'dart:io' show Platform;
+
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
@@ -35,8 +37,9 @@ Widget settingSwitch({
     duration: shortAnimationDuration,
     child: SwitchListTile.adaptive(
       title: Text(title, style: textStyleTitle),
-      subtitle:
-          subtitle != null ? Text(subtitle, style: textStyleSubtitle) : null,
+      subtitle: subtitle != null
+          ? Text(subtitle, style: textStyleSubtitle)
+          : null,
       value: value,
       onChanged: onChanged,
       contentPadding: listTilePadding,
@@ -75,15 +78,14 @@ Widget settingList(
           alignEnd: true,
         ),
       ),
-      onTap:
-          () => openPlatformAdaptiveSelectList(
-            context: context,
-            titleText: title,
-            buttonTextCancel: AppString.cancel_button.translate(),
-            itemList: itemList,
-            itemBuilder: itemBuilder,
-            separatorBuilder: separatorDummy,
-          ),
+      onTap: () => openPlatformAdaptiveSelectList(
+        context: context,
+        titleText: title,
+        buttonTextCancel: AppString.cancel_button.translate(),
+        itemList: itemList,
+        itemBuilder: itemBuilder,
+        separatorBuilder: separatorDummy,
+      ),
       contentPadding: listTilePadding,
     ),
   );
@@ -98,16 +100,18 @@ Widget settingListItem(
   required dynamic groupValue,
   required Function() onChanged,
 }) {
+  // onChanged must be non-null on iOS to enable the list tile
+  Function(dynamic)? radioPassThrough = Platform.isIOS ? (_) => {} : null;
+
   return adaptiveSelectListAction(
     action: RadioListTile.adaptive(
       contentPadding: radioTilePadding,
       dense: true,
       useCupertinoCheckmarkStyle: true,
       fillColor: WidgetStateProperty.resolveWith(
-        (states) =>
-            states.contains(WidgetState.selected)
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).listTileTheme.iconColor,
+        (states) => states.contains(WidgetState.selected)
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).listTileTheme.iconColor,
       ),
       title: settingListTitle(
         title: title,
@@ -116,7 +120,7 @@ Widget settingListItem(
       ),
       value: value,
       groupValue: groupValue,
-      onChanged: null, // Handled by select list action tap
+      onChanged: radioPassThrough, // Handled by select list action tap
     ),
     onTap: onChanged,
   );
@@ -146,8 +150,9 @@ Widget settingListTitle({
   }
 
   return Row(
-    mainAxisAlignment:
-        alignEnd ? MainAxisAlignment.end : MainAxisAlignment.start,
+    mainAxisAlignment: alignEnd
+        ? MainAxisAlignment.end
+        : MainAxisAlignment.start,
     spacing: smallSpacing,
     children: titleWidgets,
   );
@@ -163,16 +168,14 @@ Widget aboutLink({
   return InkWell(
     child: ListTile(
       title: Text(title, style: textStyleTitle),
-      subtitle:
-          subtitle != null ? Text(subtitle, style: textStyleSubtitle) : null,
+      subtitle: subtitle != null
+          ? Text(subtitle, style: textStyleSubtitle)
+          : null,
       trailing: url != null ? launchIcon : null,
-      onTap:
-          url != null
-              ? () => launchUrl(
-                Uri.parse(url),
-                mode: LaunchMode.externalApplication,
-              )
-              : onTap,
+      onTap: url != null
+          ? () =>
+                launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)
+          : onTap,
       contentPadding: listTilePadding,
       dense: true,
     ),

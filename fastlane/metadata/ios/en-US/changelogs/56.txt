@@ -1,0 +1,2 @@
+* Various usability tweaks and small bug fixes.
+* Added Polish, Slovak, and Swedish translations - contribute via Weblate!

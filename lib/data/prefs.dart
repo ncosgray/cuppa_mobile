@@ -30,7 +30,7 @@ abstract class Prefs {
   static int nextTeaID = 0;
 
   // Initialize shared preferences instance
-  static init() async {
+  static Future<void> init() async {
     const SharedPreferencesOptions sharedPreferencesOptions =
         SharedPreferencesOptions();
 
@@ -142,10 +142,9 @@ abstract class Prefs {
     List<String>? teaListJson = sharedPrefs.getStringList(prefTeaList);
     if (teaListJson != null) {
       try {
-        teaList +=
-            (teaListJson.map<Tea>(
-              (tea) => Tea.fromJson(jsonDecode(tea)),
-            )).toList();
+        teaList += (teaListJson.map<Tea>(
+          (tea) => Tea.fromJson(jsonDecode(tea)),
+        )).toList();
       } catch (e) {
         // Something went wrong
       }
@@ -161,8 +160,9 @@ abstract class Prefs {
 
   // Store teas in shared prefs
   static void saveTeas(List<Tea> teaList) {
-    List<String> teaListEncoded =
-        teaList.map((tea) => jsonEncode(tea.toJson())).toList();
+    List<String> teaListEncoded = teaList
+        .map((tea) => jsonEncode(tea.toJson()))
+        .toList();
     sharedPrefs.setStringList(prefTeaList, teaListEncoded);
 
     // Ensure next tea ID is valid

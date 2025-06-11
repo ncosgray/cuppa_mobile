@@ -38,24 +38,23 @@ abstract class Export {
   }) async {
     try {
       // Create the export dataset
-      String exportData =
-          ExportFile(
-            settings: ExportSettings(
-              nextTeaID: Prefs.nextTeaID,
-              showExtra: provider.showExtra,
-              hideIncrements: provider.hideIncrements,
-              silentDefault: provider.silentDefault,
-              useCelsius: provider.useCelsius,
-              useBrewRatios: provider.useBrewRatios,
-              cupStyleValue: provider.cupStyle.value,
-              appThemeValue: provider.appTheme.value,
-              appLanguage: provider.appLanguage,
-              collectStats: provider.collectStats,
-              stackedView: provider.stackedView,
-            ),
-            teaList: provider.teaList,
-            stats: await Stats.getTeaStats(),
-          ).toJson();
+      String exportData = ExportFile(
+        settings: ExportSettings(
+          nextTeaID: Prefs.nextTeaID,
+          showExtra: provider.showExtra,
+          hideIncrements: provider.hideIncrements,
+          silentDefault: provider.silentDefault,
+          useCelsius: provider.useCelsius,
+          useBrewRatios: provider.useBrewRatios,
+          cupStyleValue: provider.cupStyle.value,
+          appThemeValue: provider.appTheme.value,
+          appLanguage: provider.appLanguage,
+          collectStats: provider.collectStats,
+          stackedView: provider.stackedView,
+        ),
+        teaList: provider.teaList,
+        stats: await Stats.getTeaStats(),
+      ).toJson();
 
       // Save to a temp file
       final Directory dir = await getApplicationDocumentsDirectory();
@@ -66,10 +65,12 @@ abstract class Export {
 
       // Share via OS
       if (share) {
-        await Share.shareXFiles(
-          [XFile(exportFile.path)],
-          subject: AppString.export_label.translate(),
-          sharePositionOrigin: sharePositionOrigin,
+        await SharePlus.instance.share(
+          ShareParams(
+            files: [XFile(exportFile.path)],
+            subject: AppString.export_label.translate(),
+            sharePositionOrigin: sharePositionOrigin,
+          ),
         );
       }
     } catch (e) {
@@ -189,12 +190,12 @@ class ExportFile {
     try {
       return ExportFile(
         settings: ExportSettings.fromJson(json[jsonKeySettings]),
-        teaList:
-            (json[jsonKeyTeas].map<Tea>((tea) => Tea.fromJson(tea))).toList(),
-        stats:
-            (json[jsonKeyStats].map<Stat>(
-              (stat) => Stat.fromJson(stat),
-            )).toList(),
+        teaList: (json[jsonKeyTeas].map<Tea>(
+          (tea) => Tea.fromJson(tea),
+        )).toList(),
+        stats: (json[jsonKeyStats].map<Stat>(
+          (stat) => Stat.fromJson(stat),
+        )).toList(),
       );
     } catch (e) {
       return ExportFile(settings: null, teaList: null, stats: null);

@@ -11,14 +11,11 @@ PODS:
   - SQLite.swift (0.14.1):
     - SQLite.swift/standard (= 0.14.1)
   - SQLite.swift/standard (0.14.1)
-  - wakelock_plus (0.0.1):
-    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - intelligence (from `.symlinks/plugins/intelligence/ios`)
   - patrol (from `.symlinks/plugins/patrol/darwin`)
-  - wakelock_plus (from `.symlinks/plugins/wakelock_plus/ios`)
 
 SPEC REPOS:
   trunk:
@@ -32,8 +29,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/intelligence/ios"
   patrol:
     :path: ".symlinks/plugins/patrol/darwin"
-  wakelock_plus:
-    :path: ".symlinks/plugins/wakelock_plus/ios"
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
@@ -41,7 +36,6 @@ SPEC CHECKSUMS:
   intelligence: 0035d18a90254f2079069dcb294ee599a90246d6
   patrol: cf2cd48c7f3e5171610111994f7b466cd76d1f57
   SQLite.swift: 2992550ebf3c5b268bf4352603e3df87d2a4ed72
-  wakelock_plus: 373cfe59b235a6dd5837d0fb88791d2f13a90d56
 
 PODFILE CHECKSUM: 37f2e40bb976d3665dcfe10a7bd490b7706a59f0
 

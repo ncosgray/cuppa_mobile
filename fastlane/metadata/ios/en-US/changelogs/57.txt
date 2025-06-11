@@ -1,0 +1,2 @@
+* Fixed a couple of display glitches.
+* Language translation updates - contribute via Weblate!

@@ -43,10 +43,9 @@ Widget tutorialTooltip({
   if (tutorialSteps.containsKey(key)) {
     return Showcase(
       key: key,
-      title:
-          tutorialSteps[key]!.length == 2
-              ? tutorialSteps[key]![1].translate()
-              : null,
+      title: tutorialSteps[key]!.length == 2
+          ? tutorialSteps[key]![1].translate()
+          : null,
       titleTextStyle: textStyleTutorialTitle.copyWith(
         color: Theme.of(context).colorScheme.onPrimaryContainer,
       ),

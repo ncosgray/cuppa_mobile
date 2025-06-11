@@ -66,13 +66,12 @@ class _StatsWidgetState extends State<StatsWidget> {
         !getDeviceSize(context).isLargeDevice;
     double summaryWidth =
         (getDeviceSize(context).width / (layoutPortrait ? 1.0 : 2.0));
-    double chartSize =
-        layoutPortrait
-            ? getDeviceSize(context).width * 0.6
-            : min(
-              getDeviceSize(context).width * 0.4,
-              getDeviceSize(context).height * 0.4,
-            );
+    double chartSize = layoutPortrait
+        ? getDeviceSize(context).width * 0.6
+        : min(
+            getDeviceSize(context).width * 0.4,
+            getDeviceSize(context).height * 0.4,
+          );
 
     return Scaffold(
       appBar: PlatformAdaptiveNavBar(
@@ -98,8 +97,9 @@ class _StatsWidgetState extends State<StatsWidget> {
                   SliverToBoxAdapter(
                     child: Flex(
                       // Determine layout by device size
-                      direction:
-                          layoutPortrait ? Axis.vertical : Axis.horizontal,
+                      direction: layoutPortrait
+                          ? Axis.vertical
+                          : Axis.horizontal,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -161,12 +161,10 @@ class _StatsWidgetState extends State<StatsWidget> {
                                     ),
                                     Checkbox.adaptive(
                                       value: _includeDeleted,
-                                      onChanged:
-                                          (newValue) => setState(
-                                            () =>
-                                                _includeDeleted =
-                                                    newValue ?? false,
-                                          ),
+                                      onChanged: (newValue) => setState(
+                                        () =>
+                                            _includeDeleted = newValue ?? false,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -233,25 +231,23 @@ class _StatsWidgetState extends State<StatsWidget> {
   // Concatenate total amounts for each unit
   String get _totalAmount {
     String totalAmount = '';
-    totalAmount =
-        _totalAmountG > 0.0
-            ? formatNumeratorAmount(
-              _totalAmountG,
-              useMetric: true,
-              inLargeUnits: !_altMetrics,
-            )
-            : '';
+    totalAmount = _totalAmountG > 0.0
+        ? formatNumeratorAmount(
+            _totalAmountG,
+            useMetric: true,
+            inLargeUnits: !_altMetrics,
+          )
+        : '';
     if (_totalAmountG > 0.0 && _totalAmountTsp > 0.0) {
       totalAmount += ' + ';
     }
-    totalAmount +=
-        _totalAmountTsp > 0.0
-            ? formatNumeratorAmount(
-              _totalAmountTsp,
-              useMetric: false,
-              inLargeUnits: !_altMetrics,
-            )
-            : '';
+    totalAmount += _totalAmountTsp > 0.0
+        ? formatNumeratorAmount(
+            _totalAmountTsp,
+            useMetric: false,
+            inLargeUnits: !_altMetrics,
+          )
+        : '';
 
     return totalAmount;
   }
@@ -285,10 +281,9 @@ class _StatsWidgetState extends State<StatsWidget> {
     required double maxWidth,
     bool details = false,
   }) {
-    String percent =
-        _filteredTotalCount > 0
-            ? '(${formatPercent(stat.count / _filteredTotalCount)})'
-            : '';
+    String percent = _filteredTotalCount > 0
+        ? '(${formatPercent(stat.count / _filteredTotalCount)})'
+        : '';
     bool fade = _selectedSection > -1 && statIndex != _selectedSection;
 
     return AnimatedOpacity(
@@ -423,8 +418,9 @@ class _StatsWidgetState extends State<StatsWidget> {
     required double radius,
     bool selected = false,
   }) {
-    double percent =
-        _filteredTotalCount > 0 ? stat.count / _filteredTotalCount : 0.0;
+    double percent = _filteredTotalCount > 0
+        ? stat.count / _filteredTotalCount
+        : 0.0;
 
     return PieChartSectionData(
       value: stat.count.toDouble(),

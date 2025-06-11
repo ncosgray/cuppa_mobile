@@ -47,7 +47,7 @@ class Preset {
   bool isCustom;
 
   // Localized tea name
-  get localizedName {
+  String get localizedName {
     return key.translate();
   }
 

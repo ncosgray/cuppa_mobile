@@ -3,7 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This allows you to find exported Cuppa data files on your device.</string>
+	<string>This helps you find exported Cuppa data. Cuppa won't access your photos unless you choose to.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This helps you find find exported Cuppa data. Cuppa won't access your camera unless you choose to.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This allows you to share exported Cuppa data with nearby devices.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

@@ -189,16 +189,14 @@ class AppProvider extends ChangeNotifier {
 
           // Sort most used/recent first, then alpha
           _teaList.sort((a, b) {
-            int aUsage =
-                (stats.firstWhere(
-                  (stat) => stat.id == a.id,
-                  orElse: () => Stat(count: 0),
-                )).count;
-            int bUsage =
-                (stats.firstWhere(
-                  (stat) => stat.id == b.id,
-                  orElse: () => Stat(count: 0),
-                )).count;
+            int aUsage = (stats.firstWhere(
+              (stat) => stat.id == a.id,
+              orElse: () => Stat(count: 0),
+            )).count;
+            int bUsage = (stats.firstWhere(
+              (stat) => stat.id == b.id,
+              orElse: () => Stat(count: 0),
+            )).count;
             int compare = bUsage.compareTo(aUsage);
             if (compare != 0) {
               return compare;
