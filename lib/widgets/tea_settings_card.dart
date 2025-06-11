@@ -86,17 +86,16 @@ class TeaSettingsCard extends StatelessWidget {
                               children: [
                                 // Tea color selection - alternate layout
                                 Selector<AppProvider, bool>(
-                                  selector:
-                                      (_, provider) => provider.useBrewRatios,
-                                  builder:
-                                      (context, useBrewRatios, child) =>
-                                          Visibility(
-                                            visible: useBrewRatios,
-                                            child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: _teaColorSelector(context),
-                                            ),
-                                          ),
+                                  selector: (_, provider) =>
+                                      provider.useBrewRatios,
+                                  builder: (context, useBrewRatios, child) =>
+                                      Visibility(
+                                        visible: useBrewRatios,
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: _teaColorSelector(context),
+                                        ),
+                                      ),
                                 ),
                                 // Extra space for horizontal layout
                                 SizedBox(width: layoutPortrait ? 0.0 : 24.0),
@@ -116,10 +115,9 @@ class TeaSettingsCard extends StatelessWidget {
                           children: [
                             // Brew time
                             Align(
-                              alignment:
-                                  layoutPortrait
-                                      ? Alignment.centerLeft
-                                      : Alignment.center,
+                              alignment: layoutPortrait
+                                  ? Alignment.centerLeft
+                                  : Alignment.center,
                               child: _teaBrewTimeSelector(context),
                             ),
                             // Brew temperature
@@ -131,33 +129,29 @@ class TeaSettingsCard extends StatelessWidget {
                               children: [
                                 // Brew ratio
                                 Selector<AppProvider, bool>(
-                                  selector:
-                                      (_, provider) => provider.useBrewRatios,
-                                  builder:
-                                      (context, useBrewRatios, child) =>
-                                          Visibility(
-                                            visible: useBrewRatios,
-                                            child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: _teaBrewRatioSelector(
-                                                context,
-                                              ),
-                                            ),
-                                          ),
+                                  selector: (_, provider) =>
+                                      provider.useBrewRatios,
+                                  builder: (context, useBrewRatios, child) =>
+                                      Visibility(
+                                        visible: useBrewRatios,
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: _teaBrewRatioSelector(context),
+                                        ),
+                                      ),
                                 ),
                                 // Tea color selection - default layout
                                 Selector<AppProvider, bool>(
-                                  selector:
-                                      (_, provider) => provider.useBrewRatios,
-                                  builder:
-                                      (context, useBrewRatios, child) =>
-                                          Visibility(
-                                            visible: !useBrewRatios,
-                                            child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: _teaColorSelector(context),
-                                            ),
-                                          ),
+                                  selector: (_, provider) =>
+                                      provider.useBrewRatios,
+                                  builder: (context, useBrewRatios, child) =>
+                                      Visibility(
+                                        visible: !useBrewRatios,
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: _teaColorSelector(context),
+                                        ),
+                                      ),
                                 ),
                               ],
                             ),
@@ -187,29 +181,26 @@ class TeaSettingsCard extends StatelessWidget {
   // Button to change favorite status
   Widget _favoriteButton(BuildContext context) {
     return Selector<AppProvider, bool>(
-      selector:
-          (_, provider) => provider.favoritesList.length < favoritesMaxCount,
-      builder:
-          (context, maxNotReached, child) => InkWell(
-            customBorder: const CircleBorder(),
-            // Toggle favorite status if enabled or max not reached
-            onTap:
-                tea.isFavorite || maxNotReached
-                    ? () => Provider.of<AppProvider>(
-                      context,
-                      listen: false,
-                    ).updateTea(tea, isFavorite: !tea.isFavorite)
-                    : null,
-            child: Container(
-              padding: smallDefaultPadding,
-              child:
-                  tea.isFavorite
-                      ? favoriteStarIcon
-                      : maxNotReached
-                      ? nonFavoriteStarIcon
-                      : disabledStarIcon,
-            ),
-          ),
+      selector: (_, provider) =>
+          provider.favoritesList.length < favoritesMaxCount,
+      builder: (context, maxNotReached, child) => InkWell(
+        customBorder: const CircleBorder(),
+        // Toggle favorite status if enabled or max not reached
+        onTap: tea.isFavorite || maxNotReached
+            ? () => Provider.of<AppProvider>(
+                context,
+                listen: false,
+              ).updateTea(tea, isFavorite: !tea.isFavorite)
+            : null,
+        child: Container(
+          padding: smallDefaultPadding,
+          child: tea.isFavorite
+              ? favoriteStarIcon
+              : maxNotReached
+              ? nonFavoriteStarIcon
+              : disabledStarIcon,
+        ),
+      ),
     );
   }
 
@@ -238,29 +229,28 @@ class TeaSettingsCard extends StatelessWidget {
           ],
         ),
         // Open tea name dialog
-        onTap:
-            () => _openTeaNameDialog(context, tea.name).then((newValue) {
-              if (newValue != null) {
-                // Save name to prefs
-                Provider.of<AppProvider>(
-                  navigatorKey.currentContext!,
-                  listen: false,
-                ).updateTea(tea, name: newValue);
+        onTap: () => _openTeaNameDialog(context, tea.name).then((newValue) {
+          if (newValue != null) {
+            // Save name to prefs
+            Provider.of<AppProvider>(
+              navigatorKey.currentContext!,
+              listen: false,
+            ).updateTea(tea, name: newValue);
 
-                // Edit notification for active timer
-                if (tea.isActive &&
-                    tea.brewTimeRemaining > 0 &&
-                    tea.timerNotifyID != null) {
-                  sendNotification(
-                    tea.brewTimeRemaining,
-                    AppString.notification_title.translate(),
-                    AppString.notification_text.translate(teaName: tea.name),
-                    tea.timerNotifyID!,
-                    silent: tea.isSilent,
-                  );
-                }
-              }
-            }),
+            // Edit notification for active timer
+            if (tea.isActive &&
+                tea.brewTimeRemaining > 0 &&
+                tea.timerNotifyID != null) {
+              sendNotification(
+                tea.brewTimeRemaining,
+                AppString.notification_title.translate(),
+                AppString.notification_text.translate(teaName: tea.name),
+                tea.timerNotifyID!,
+                silent: tea.isSilent,
+              );
+            }
+          }
+        }),
       ),
     );
   }
@@ -313,22 +303,21 @@ class TeaSettingsCard extends StatelessWidget {
           ],
         ),
         // Open tea color dialog
-        onTap:
-            () => _openColorDialog(context, tea.color, tea.colorShade).then((
-              newValues,
-            ) {
-              if (newValues != null) {
-                // Save color data to prefs
-                Provider.of<AppProvider>(
-                  navigatorKey.currentContext!,
-                  listen: false,
-                ).updateTea(
-                  tea,
-                  color: newValues.teaColor,
-                  colorShade: newValues.colorShade,
-                );
-              }
-            }),
+        onTap: () => _openColorDialog(context, tea.color, tea.colorShade).then((
+          newValues,
+        ) {
+          if (newValues != null) {
+            // Save color data to prefs
+            Provider.of<AppProvider>(
+              navigatorKey.currentContext!,
+              listen: false,
+            ).updateTea(
+              tea,
+              color: newValues.teaColor,
+              colorShade: newValues.colorShade,
+            );
+          }
+        }),
       ),
     );
   }
@@ -368,8 +357,8 @@ class TeaSettingsCard extends StatelessWidget {
           ],
         ),
         // Open tea brew time dialog
-        onTap:
-            () => _openTeaBrewTimeDialog(
+        onTap: () =>
+            _openTeaBrewTimeDialog(
               context,
               tea.brewTimeHours,
               tea.brewTimeMinutes,
@@ -426,8 +415,10 @@ class TeaSettingsCard extends StatelessWidget {
             Text(
               formatTemp(
                 tea.brewTemp,
-                useCelsius:
-                    Provider.of<AppProvider>(context, listen: false).useCelsius,
+                useCelsius: Provider.of<AppProvider>(
+                  context,
+                  listen: false,
+                ).useCelsius,
               ),
               style: textStyleSettingNumber,
             ),
@@ -435,17 +426,16 @@ class TeaSettingsCard extends StatelessWidget {
           ],
         ),
         // Open tea brew temp dialog
-        onTap:
-            () =>
-                _openTeaBrewTempDialog(context, tea.brewTemp).then((newValue) {
-                  if (newValue != null) {
-                    // Save brew temp to prefs
-                    Provider.of<AppProvider>(
-                      navigatorKey.currentContext!,
-                      listen: false,
-                    ).updateTea(tea, brewTemp: newValue);
-                  }
-                }),
+        onTap: () =>
+            _openTeaBrewTempDialog(context, tea.brewTemp).then((newValue) {
+              if (newValue != null) {
+                // Save brew temp to prefs
+                Provider.of<AppProvider>(
+                  navigatorKey.currentContext!,
+                  listen: false,
+                ).updateTea(tea, brewTemp: newValue);
+              }
+            }),
       ),
     );
   }
@@ -461,8 +451,10 @@ class TeaSettingsCard extends StatelessWidget {
       builder: (BuildContext context) {
         return TeaBrewTempDialog(
           initialTemp: currentTemp,
-          useCelsius:
-              Provider.of<AppProvider>(context, listen: false).useCelsius,
+          useCelsius: Provider.of<AppProvider>(
+            context,
+            listen: false,
+          ).useCelsius,
           tempCOptions: brewTempCOptions,
           tempFOptions: brewTempFOptions,
           tempCIncrements: brewTempCIncrements,
@@ -488,10 +480,8 @@ class TeaSettingsCard extends StatelessWidget {
           ],
         ),
         // Open tea brew ratio dialog
-        onTap:
-            () => _openTeaBrewRatioDialog(context, tea.brewRatio).then((
-              newValue,
-            ) {
+        onTap: () =>
+            _openTeaBrewRatioDialog(context, tea.brewRatio).then((newValue) {
               if (newValue != null) {
                 // Save brew ratio to prefs
                 Provider.of<AppProvider>(

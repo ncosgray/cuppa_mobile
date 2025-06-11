@@ -68,11 +68,8 @@ class CuppaApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => AppProvider(),
       child: Selector<AppProvider, ({AppTheme appTheme, String appLanguage})>(
-        selector:
-            (_, provider) => (
-              appTheme: provider.appTheme,
-              appLanguage: provider.appLanguage,
-            ),
+        selector: (_, provider) =>
+            (appTheme: provider.appTheme, appLanguage: provider.appLanguage),
         builder: (context, settings, child) {
           // Settings from provider
           ThemeMode appThemeMode = settings.appTheme.themeMode;
@@ -102,8 +99,9 @@ class CuppaApp extends StatelessWidget {
                 // Initial route
                 home: const TimerWidget(),
                 // Localization
-                locale:
-                    isSystemLanguage ? null : parseLocaleString(appLanguage),
+                locale: isSystemLanguage
+                    ? null
+                    : parseLocaleString(appLanguage),
                 supportedLocales: supportedLocales,
                 localizationsDelegates: [
                   AppLocalizationsDelegate(isSystemLanguage: isSystemLanguage),

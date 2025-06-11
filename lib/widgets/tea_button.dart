@@ -83,81 +83,71 @@ class TeaButton extends StatelessWidget {
                     // Optional extra info: brew time, temp, and ratio display
                     Selector<AppProvider, bool>(
                       selector: (_, provider) => provider.showExtra,
-                      builder:
-                          (context, showExtra, child) => Visibility(
-                            visible: showExtra,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
+                      builder: (context, showExtra, child) => Visibility(
+                        visible: showExtra,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    // Brew time
-                                    Container(
-                                      padding: rowPadding,
-                                      child: Text(
-                                        formatTimer(tea.brewTime),
-                                        style: textStyleButtonTertiary.copyWith(
-                                          color:
-                                              tea.isActive
-                                                  ? timerActiveColor
-                                                  : tea.getColor(),
-                                        ),
-                                      ),
+                                // Brew time
+                                Container(
+                                  padding: rowPadding,
+                                  child: Text(
+                                    formatTimer(tea.brewTime),
+                                    style: textStyleButtonTertiary.copyWith(
+                                      color: tea.isActive
+                                          ? timerActiveColor
+                                          : tea.getColor(),
                                     ),
-                                    // Brew temperature
-                                    Visibility(
-                                      visible: tea.brewTemp > roomTemp,
-                                      child: Container(
-                                        padding: rowPadding,
-                                        child: Text(
-                                          tea.getTempDisplay(
-                                            useCelsius:
-                                                Provider.of<AppProvider>(
-                                                  context,
-                                                  listen: false,
-                                                ).useCelsius,
-                                          ),
-                                          style: textStyleButtonTertiary
-                                              .copyWith(
-                                                color:
-                                                    tea.isActive
-                                                        ? timerActiveColor
-                                                        : tea.getColor(),
-                                              ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                                // Brew ratio
-                                Selector<AppProvider, bool>(
-                                  selector:
-                                      (_, provider) => provider.useBrewRatios,
-                                  builder:
-                                      (context, useBrewRatios, child) =>
-                                          Visibility(
-                                            visible: useBrewRatios,
-                                            child: Container(
-                                              padding: rowPadding,
-                                              child: Text(
-                                                tea.brewRatio.ratioString,
-                                                style: textStyleButtonTertiary
-                                                    .copyWith(
-                                                      color:
-                                                          tea.isActive
-                                                              ? timerActiveColor
-                                                              : tea.getColor(),
-                                                    ),
-                                              ),
-                                            ),
-                                          ),
+                                // Brew temperature
+                                Visibility(
+                                  visible: tea.brewTemp > roomTemp,
+                                  child: Container(
+                                    padding: rowPadding,
+                                    child: Text(
+                                      tea.getTempDisplay(
+                                        useCelsius: Provider.of<AppProvider>(
+                                          context,
+                                          listen: false,
+                                        ).useCelsius,
+                                      ),
+                                      style: textStyleButtonTertiary.copyWith(
+                                        color: tea.isActive
+                                            ? timerActiveColor
+                                            : tea.getColor(),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
+                            // Brew ratio
+                            Selector<AppProvider, bool>(
+                              selector: (_, provider) => provider.useBrewRatios,
+                              builder: (context, useBrewRatios, child) =>
+                                  Visibility(
+                                    visible: useBrewRatios,
+                                    child: Container(
+                                      padding: rowPadding,
+                                      child: Text(
+                                        tea.brewRatio.ratioString,
+                                        style: textStyleButtonTertiary.copyWith(
+                                          color: tea.isActive
+                                              ? timerActiveColor
+                                              : tea.getColor(),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),

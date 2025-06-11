@@ -102,13 +102,12 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
         adaptiveDialogAction(
           isDefaultAction: true,
           text: widget.buttonTextOK,
-          onPressed:
-              () => Navigator.pop(
-                context,
-                widget.hourOptions[_hoursIndex] * 3600 +
-                    widget.minuteOptions[_minutesIndex] * 60 +
-                    widget.secondOptions[_secondsIndex],
-              ),
+          onPressed: () => Navigator.pop(
+            context,
+            widget.hourOptions[_hoursIndex] * 3600 +
+                widget.minuteOptions[_minutesIndex] * 60 +
+                widget.secondOptions[_secondsIndex],
+          ),
         ),
       ],
     );
@@ -249,10 +248,9 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
       _timePickerScrollWheel(
         controller: _minutesController,
         initialValue: widget.initialMinutes,
-        timeValues:
-            _hoursSelectionMode
-                ? widget.minuteOptions
-                : widget.minuteOptions + [60],
+        timeValues: _hoursSelectionMode
+            ? widget.minuteOptions
+            : widget.minuteOptions + [60],
         onChanged: (newValue) {
           if (newValue >= widget.minuteOptions.length) {
             // Change to hours selection mode at 60 minutes

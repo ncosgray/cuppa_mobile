@@ -27,35 +27,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // Platform specific icons
-Icon get platformSettingsIcon =>
-    Platform.isIOS
-        ? const Icon(CupertinoIcons.settings_solid)
-        : const Icon(Icons.settings);
+Icon get platformSettingsIcon => Platform.isIOS
+    ? const Icon(CupertinoIcons.settings_solid)
+    : const Icon(Icons.settings);
 
-Icon get platformAboutIcon =>
-    Platform.isIOS
-        ? const Icon(CupertinoIcons.question)
-        : const Icon(Icons.help);
+Icon get platformAboutIcon => Platform.isIOS
+    ? const Icon(CupertinoIcons.question)
+    : const Icon(Icons.help);
 
-Icon get platformStatsIcon =>
-    Platform.isIOS
-        ? const Icon(CupertinoIcons.chart_pie)
-        : const Icon(Icons.pie_chart_outline);
+Icon get platformStatsIcon => Platform.isIOS
+    ? const Icon(CupertinoIcons.chart_pie)
+    : const Icon(Icons.pie_chart_outline);
 
-Icon get platformSortIcon =>
-    Platform.isIOS
-        ? const Icon(CupertinoIcons.sort_down)
-        : const Icon(Icons.swap_vert);
+Icon get platformSortIcon => Platform.isIOS
+    ? const Icon(CupertinoIcons.sort_down)
+    : const Icon(Icons.swap_vert);
 
-Icon get platformExportIcon =>
-    Platform.isIOS
-        ? const Icon(CupertinoIcons.floppy_disk)
-        : const Icon(Icons.save);
+Icon get platformExportIcon => Platform.isIOS
+    ? const Icon(CupertinoIcons.floppy_disk)
+    : const Icon(Icons.save);
 
-Icon get platformImportIcon =>
-    Platform.isIOS
-        ? const Icon(CupertinoIcons.arrow_up_doc)
-        : const Icon(Icons.upload_file);
+Icon get platformImportIcon => Platform.isIOS
+    ? const Icon(CupertinoIcons.arrow_up_doc)
+    : const Icon(Icons.upload_file);
 
 Icon getPlatformEditIcon({double? size}) {
   return Platform.isIOS
@@ -152,7 +146,7 @@ Widget adaptiveLargeButton({
 }) {
   if (Platform.isIOS) {
     return CupertinoButton(
-      minSize: 72,
+      minimumSize: Size(72, 72),
       padding: noPadding,
       onPressed: onPressed,
       child: Icon(icon, size: 36, color: iconColor),
@@ -233,15 +227,14 @@ Widget adaptiveTextFormField({
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
           counter: const Offstage(),
-          suffixIcon:
-              controller.text.isNotEmpty
-                  // Clear field button
-                  ? IconButton(
-                    padding: noPadding,
-                    onPressed: onCleared,
-                    icon: clearIcon,
-                  )
-                  : null,
+          suffixIcon: controller.text.isNotEmpty
+              // Clear field button
+              ? IconButton(
+                  padding: noPadding,
+                  onPressed: onCleared,
+                  icon: clearIcon,
+                )
+              : null,
         ),
         style: TextStyle(color: textColor),
         cursorColor: cursorColor,
@@ -320,10 +313,9 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       actions.add(
         adaptiveNavBarActionButton(
           icon: secondaryActionIcon!,
-          onPressed:
-              () => Navigator.of(
-                context,
-              ).push(MaterialPageRoute(builder: (_) => secondaryActionRoute!)),
+          onPressed: () => Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => secondaryActionRoute!)),
         ),
       );
     }
@@ -331,13 +323,12 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       actions.add(
         adaptiveNavBarActionButton(
           icon: actionIcon!,
-          onPressed:
-              () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  fullscreenDialog: Platform.isIOS ? !isPoppable : false,
-                  builder: (_) => actionRoute!,
-                ),
-              ),
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              fullscreenDialog: Platform.isIOS ? !isPoppable : false,
+              builder: (_) => actionRoute!,
+            ),
+          ),
         ),
       );
     }
@@ -347,44 +338,40 @@ class PlatformAdaptiveNavBar extends StatelessWidget
         transitionBetweenRoutes: false,
         automaticallyImplyLeading: false,
         automaticallyImplyMiddle: false,
-        padding:
-            previousPageTitle != null
-                ? const EdgeInsetsDirectional.only(start: 4, end: 12)
-                : const EdgeInsetsDirectional.symmetric(horizontal: 12),
-        border:
-            isPoppable
-                ? const Border(
-                  bottom: BorderSide(color: Color(0x4D000000), width: 0),
-                ) // _kDefaultNavBarBorder
-                : null,
-        backgroundColor:
-            isPoppable
-                ? CupertinoDynamicColor.resolve(
-                  CupertinoTheme.of(context).barBackgroundColor,
-                  context,
-                )
-                : Theme.of(context).scaffoldBackgroundColor,
+        padding: previousPageTitle != null
+            ? const EdgeInsetsDirectional.only(start: 4, end: 12)
+            : const EdgeInsetsDirectional.symmetric(horizontal: 12),
+        border: isPoppable
+            ? const Border(
+                bottom: BorderSide(color: Color(0x4D000000), width: 0),
+              ) // _kDefaultNavBarBorder
+            : null,
+        backgroundColor: isPoppable
+            ? CupertinoDynamicColor.resolve(
+                CupertinoTheme.of(context).barBackgroundColor,
+                context,
+              )
+            : Theme.of(context).scaffoldBackgroundColor,
         // Back navigation
-        leading:
-            previousPageTitle != null
-                ? CupertinoButton(
-                  padding: noPadding,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(CupertinoIcons.chevron_back, size: 28),
-                      Text(previousPageTitle!),
-                    ],
-                  ),
-                  onPressed: () => Navigator.of(context).pop(),
-                )
-                : isPoppable
-                ? CupertinoButton(
-                  padding: noPadding,
-                  child: Text(buttonTextDone),
-                  onPressed: () => Navigator.of(context).pop(),
-                )
-                : null,
+        leading: previousPageTitle != null
+            ? CupertinoButton(
+                padding: noPadding,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(CupertinoIcons.chevron_back, size: 28),
+                    Text(previousPageTitle!),
+                  ],
+                ),
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            : isPoppable
+            ? CupertinoButton(
+                padding: noPadding,
+                child: Text(buttonTextDone),
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            : null,
         // Page title
         middle: Padding(
           padding: titlePadding,
@@ -464,12 +451,11 @@ Future<bool?> openPlatformAdaptiveSelectList({
           child: CupertinoActionSheet(
             title: Text(titleText),
             // Item options
-            actions:
-                itemList
-                    .asMap()
-                    .entries
-                    .map((item) => itemBuilder(context, item.key))
-                    .toList(),
+            actions: itemList
+                .asMap()
+                .entries
+                .map((item) => itemBuilder(context, item.key))
+                .toList(),
             // Cancel button
             cancelButton: CupertinoActionSheetAction(
               isDefaultAction: true,

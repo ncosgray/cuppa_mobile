@@ -144,7 +144,8 @@ class Stat {
 // Stats methods
 abstract class Stats {
   // Data management queries
-  static const createSQL = '''CREATE TABLE IF NOT EXISTS $statsTable (
+  static const createSQL =
+      '''CREATE TABLE IF NOT EXISTS $statsTable (
       $statsColumnId INTEGER
       , $statsColumnName TEXT
       , $statsColumnBrewTime INTEGER
@@ -316,7 +317,8 @@ enum MetricQuery {
   static const _totalTimeSQL =
       '''SELECT SUM(IFNULL($statsColumnBrewTime, 0)) AS metric
     FROM $statsTable''';
-  static const _starredCountSQL = '''SELECT COUNT(*) AS metric
+  static const _starredCountSQL =
+      '''SELECT COUNT(*) AS metric
     FROM $statsTable
     WHERE $statsColumnIsFavorite = 1''';
 }
@@ -351,7 +353,8 @@ enum StringQuery {
   final String sql;
 
   // Query SQL
-  static const _morningTeaSQL = '''SELECT (
+  static const _morningTeaSQL =
+      '''SELECT (
       SELECT $statsColumnName
       FROM $statsTable
       WHERE $statsColumnId = stat.$statsColumnId
@@ -363,7 +366,8 @@ enum StringQuery {
     GROUP BY stat.$statsColumnId
     ORDER BY COUNT(*) DESC
     LIMIT 1''';
-  static const _afternoonTeaSQL = '''SELECT (
+  static const _afternoonTeaSQL =
+      '''SELECT (
       SELECT $statsColumnName
       FROM $statsTable
       WHERE $statsColumnId = stat.$statsColumnId
@@ -388,7 +392,8 @@ enum ListQuery {
   final String sql;
 
   // Query SQL
-  static const _summaryStatsSQL = '''SELECT $statsTable.$statsColumnId
+  static const _summaryStatsSQL =
+      '''SELECT $statsTable.$statsColumnId
     , tea.$statsColumnName
     , tea.$statsColumnColorShadeRed
     , tea.$statsColumnColorShadeGreen
@@ -422,12 +427,14 @@ enum ListQuery {
     , tea.$statsColumnIsFavorite
     ORDER BY COUNT(*) DESC
     , tea.$statsColumnName ASC''';
-  static const _mostUsedSQL = '''SELECT $statsTable.$statsColumnId
+  static const _mostUsedSQL =
+      '''SELECT $statsTable.$statsColumnId
     , COUNT(*) AS count
     FROM $statsTable
     GROUP BY $statsTable.$statsColumnId
     ORDER BY COUNT(*) DESC''';
-  static const _recentlyUsedSQL = '''SELECT $statsTable.$statsColumnId
+  static const _recentlyUsedSQL =
+      '''SELECT $statsTable.$statsColumnId
     , MAX($statsTable.$statsColumnTimerStartTime) AS count
     FROM $statsTable
     GROUP BY $statsTable.$statsColumnId

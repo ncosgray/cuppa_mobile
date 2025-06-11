@@ -67,16 +67,14 @@ const List<Locale> supportedLocales = [
   Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
   Locale.fromSubtags(languageCode: 'zh'),
 ];
-final List<String> supportedLanguageCodes =
-    supportedLocales
-        .map<String>((Locale locale) => locale.languageCode)
-        .toList();
+final List<String> supportedLanguageCodes = supportedLocales
+    .map<String>((Locale locale) => locale.languageCode)
+    .toList();
 
 // Languages not supported by GlobalMaterialLocalizations
-final List<String> fallbackLanguageCodes =
-    supportedLanguageCodes
-        .where((item) => !kMaterialSupportedLanguages.contains(item))
-        .toList();
+final List<String> fallbackLanguageCodes = supportedLanguageCodes
+    .where((item) => !kMaterialSupportedLanguages.contains(item))
+    .toList();
 
 // Localizable app strings
 // ignore_for_file: constant_identifier_names
@@ -364,12 +362,11 @@ class AppLocalizations {
 
   // Localized epoch time formatting as date or datetime string
   static String dateString(int ms, {bool dateTime = false}) {
-    DateFormat formatter =
-        instance.isFallbackLanguage
-            ? DateFormat.yMd()
-            : instance.isSystemLanguage
-            ? DateFormat(regionSettings.dateFormat.medium)
-            : DateFormat.yMMMd(instance.appLocaleString);
+    DateFormat formatter = instance.isFallbackLanguage
+        ? DateFormat.yMd()
+        : instance.isSystemLanguage
+        ? DateFormat(regionSettings.dateFormat.medium)
+        : DateFormat.yMMMd(instance.appLocaleString);
     if (dateTime) {
       formatter = formatter.add_Hms();
     }
@@ -388,9 +385,9 @@ class AppLocalizations {
   }
 
   // Locale info
-  get appLocaleString => localeString(instance.locale);
-  get isSystemLanguage => _isSystemLanguage;
-  get isFallbackLanguage =>
+  String get appLocaleString => localeString(instance.locale);
+  bool get isSystemLanguage => _isSystemLanguage;
+  bool get isFallbackLanguage =>
       fallbackLanguageCodes.contains(instance.locale.languageCode);
 }
 

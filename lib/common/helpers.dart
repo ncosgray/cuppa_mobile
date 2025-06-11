@@ -48,14 +48,14 @@ bool deviceUsesCelsius() {
 }
 
 // Room temp check based on locale
-bool isRoomTemp(i, {bool? useCelsius}) {
+bool isRoomTemp(int i, {bool? useCelsius}) {
   return i == roomTemp ||
       i == roomTempDegreesC ||
       (i == roomTempDegreesF && !(useCelsius ?? deviceUsesCelsius()));
 }
 
 // Infer C or F based on temp range and locale
-bool isCelsiusTemp(i, {bool? useCelsius}) {
+bool isCelsiusTemp(int i, {bool? useCelsius}) {
   if (isRoomTemp(i, useCelsius: useCelsius)) {
     return useCelsius ?? deviceUsesCelsius();
   } else {
@@ -64,24 +64,23 @@ bool isCelsiusTemp(i, {bool? useCelsius}) {
 }
 
 // Format brew temperature as number with optional units
-String formatTemp(i, {bool? useCelsius}) {
+String formatTemp(int i, {bool? useCelsius}) {
   if (isRoomTemp(i, useCelsius: useCelsius)) {
     // Room temperature
     return '$emDash$degreeSymbol';
   }
-  String unit =
-      useCelsius == null
-          ? degreeSymbol
-          : isCelsiusTemp(i, useCelsius: useCelsius) && !useCelsius
-          ? degreesC
-          : !isCelsiusTemp(i, useCelsius: useCelsius) && useCelsius
-          ? degreesF
-          : degreeSymbol;
+  String unit = useCelsius == null
+      ? degreeSymbol
+      : isCelsiusTemp(i, useCelsius: useCelsius) && !useCelsius
+      ? degreesC
+      : !isCelsiusTemp(i, useCelsius: useCelsius) && useCelsius
+      ? degreesF
+      : degreeSymbol;
   return '$i$unit';
 }
 
 // Format brew time as m:ss or hm or d
-String formatTimer(s, {bool inDays = true}) {
+String formatTimer(int s, {bool inDays = true}) {
   double days = s / 86400.0;
   int hrs = (s / 3600).floor();
   int mins = (s / 60).floor() - (hrs * 60);
@@ -101,7 +100,7 @@ String formatTimer(s, {bool inDays = true}) {
 }
 
 // Format number as percentage
-String formatPercent(i) {
+String formatPercent(double i) {
   return NumberFormat('#%').format(i);
 }
 
@@ -112,10 +111,9 @@ String formatNumeratorAmount(
   bool inLargeUnits = true,
 }) {
   int decimalPlaces = 1;
-  String unit =
-      useMetric
-          ? AppString.unit_grams.translate()
-          : AppString.unit_teaspoons.translate();
+  String unit = useMetric
+      ? AppString.unit_grams.translate()
+      : AppString.unit_teaspoons.translate();
   if (inLargeUnits) {
     if (useMetric && i >= 1000.0) {
       // Convert large metric amounts to kilograms
@@ -133,10 +131,9 @@ String formatNumeratorAmount(
 }
 
 String formatDenominatorAmount(int i, {required bool useMetric}) {
-  String unit =
-      useMetric
-          ? AppString.unit_milliliters.translate()
-          : AppString.unit_ounces.translate();
+  String unit = useMetric
+      ? AppString.unit_milliliters.translate()
+      : AppString.unit_ounces.translate();
   return '${AppLocalizations.numberString(i.toDouble())}$unit';
 }
 

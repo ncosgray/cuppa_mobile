@@ -75,61 +75,57 @@ class _PrefsWidgetState extends State<PrefsWidget> {
             secondaryActionRoute: collectStats ? const StatsWidget() : null,
           ),
           body: SafeArea(
-            child:
-                layoutColumns
-                    // Arrange Teas and Settings in two columns for large screens
-                    ? Row(
-                      children: [
-                        Expanded(
-                          child: TeaSettingsList(
-                            launchAddTea: widget.launchAddTea,
-                          ),
+            child: layoutColumns
+                // Arrange Teas and Settings in two columns for large screens
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: TeaSettingsList(
+                          launchAddTea: widget.launchAddTea,
                         ),
-                        Expanded(child: _otherSettingsList),
-                      ],
-                    )
-                    // Use bottom nav bar with widget stack on small screens
-                    : SlideIndexedStack(
-                      duration: shortAnimationDuration,
-                      beginSlideOffset:
-                          _navInitial
-                              // Do not transition on first build
-                              ? Offset.zero
-                              // Determine transition direction
-                              : _navSlideBack
-                              ? const Offset(-1, 0)
-                              : const Offset(1, 0),
-                      endSlideOffset: Offset.zero,
-                      index: _navIndex,
-                      children: [
-                        TeaSettingsList(launchAddTea: widget.launchAddTea),
-                        _otherSettingsList,
-                      ],
-                    ),
-          ),
-          bottomNavigationBar:
-              layoutColumns
-                  ? null
-                  // Navigate between Teas and Settings
-                  : PlatformAdaptiveBottomNavBar(
-                    currentIndex: _navIndex,
-                    onTap:
-                        (index) => setState(() {
-                          _navInitial = false;
-                          _navSlideBack = index < _navIndex;
-                          _navIndex = index;
-                        }),
-                    items: [
-                      BottomNavigationBarItem(
-                        icon: navBarTeasIcon,
-                        label: AppString.teas_title.translate(),
                       ),
-                      BottomNavigationBarItem(
-                        icon: navBarSettingsIcon,
-                        label: AppString.settings_title.translate(),
-                      ),
+                      Expanded(child: _otherSettingsList),
+                    ],
+                  )
+                // Use bottom nav bar with widget stack on small screens
+                : SlideIndexedStack(
+                    duration: shortAnimationDuration,
+                    beginSlideOffset: _navInitial
+                        // Do not transition on first build
+                        ? Offset.zero
+                        // Determine transition direction
+                        : _navSlideBack
+                        ? const Offset(-1, 0)
+                        : const Offset(1, 0),
+                    endSlideOffset: Offset.zero,
+                    index: _navIndex,
+                    children: [
+                      TeaSettingsList(launchAddTea: widget.launchAddTea),
+                      _otherSettingsList,
                     ],
                   ),
+          ),
+          bottomNavigationBar: layoutColumns
+              ? null
+              // Navigate between Teas and Settings
+              : PlatformAdaptiveBottomNavBar(
+                  currentIndex: _navIndex,
+                  onTap: (index) => setState(() {
+                    _navInitial = false;
+                    _navSlideBack = index < _navIndex;
+                    _navIndex = index;
+                  }),
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: navBarTeasIcon,
+                      label: AppString.teas_title.translate(),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: navBarSettingsIcon,
+                      label: AppString.settings_title.translate(),
+                    ),
+                  ],
+                ),
         );
       },
     );
@@ -152,8 +148,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
               _showExtraSetting,
               // Setting: stacked timer button view
               Selector<AppProvider, bool>(
-                selector:
-                    (_, provider) => provider.teaCount > stackedViewTeaCount,
+                selector: (_, provider) =>
+                    provider.teaCount > stackedViewTeaCount,
                 builder: (context, showStackedView, child) {
                   return Visibility(
                     visible: showStackedView,
@@ -233,10 +229,9 @@ class _PrefsWidgetState extends State<PrefsWidget> {
     selector: (_, provider) => provider.useBrewRatios,
     builder: (context, useBrewRatios, child) {
       return settingSwitch(
-        title:
-            useBrewRatios
-                ? AppString.prefs_show_extra_ratios.translate()
-                : AppString.prefs_show_extra.translate(),
+        title: useBrewRatios
+            ? AppString.prefs_show_extra_ratios.translate()
+            : AppString.prefs_show_extra.translate(),
         value: Provider.of<AppProvider>(context).showExtra,
         // Save showExtra setting to prefs
         onChanged: (bool newValue) {
@@ -249,10 +244,9 @@ class _PrefsWidgetState extends State<PrefsWidget> {
   // Setting: hide timer increment buttons
   Widget get _hideIncrementsSetting => settingSwitch(
     title: AppString.prefs_hide_increments.translate(),
-    subtitle:
-        Provider.of<AppProvider>(context).hideIncrements
-            ? AppString.prefs_hide_increments_info.translate()
-            : null,
+    subtitle: Provider.of<AppProvider>(context).hideIncrements
+        ? AppString.prefs_hide_increments_info.translate()
+        : null,
     value: Provider.of<AppProvider>(context).hideIncrements,
     // Save hideIncrements setting to prefs
     onChanged: (bool newValue) {
@@ -267,10 +261,9 @@ class _PrefsWidgetState extends State<PrefsWidget> {
     builder: (context, hideIncrements, child) {
       return settingSwitch(
         title: AppString.prefs_silent_default.translate(),
-        subtitle:
-            hideIncrements
-                ? AppString.prefs_silent_default_info.translate()
-                : null,
+        subtitle: hideIncrements
+            ? AppString.prefs_silent_default_info.translate()
+            : null,
         value: Provider.of<AppProvider>(context).silentDefault,
         // Save silentDefault setting to prefs
         onChanged: (bool newValue) {
@@ -469,10 +462,9 @@ class _PrefsWidgetState extends State<PrefsWidget> {
             if (mounted) {
               showInfoDialog(
                 context: context,
-                message:
-                    imported
-                        ? AppString.import_sucess.translate()
-                        : AppString.import_failure.translate(),
+                message: imported
+                    ? AppString.import_sucess.translate()
+                    : AppString.import_failure.translate(),
               );
             }
           });
@@ -492,8 +484,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
         style: textStyleSubtitle,
       ),
       trailing: const SizedBox(height: double.infinity, child: launchIcon),
-      onTap:
-          () => AppSettings.openAppSettings(type: AppSettingsType.notification),
+      onTap: () =>
+          AppSettings.openAppSettings(type: AppSettingsType.notification),
       contentPadding: listTilePadding,
       dense: true,
     ),
