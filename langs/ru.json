@@ -108,11 +108,11 @@
     "unit_hours": "ч",
     "unit_kilograms": "кг",
     "unit_milliliters": "мл",
-    "unit_minutes": "м",
-    "unit_ounces": "oz",
-    "unit_quarts": "qt",
-    "unit_seconds": "s",
-    "unit_teaspoons": "tsp",
+    "unit_minutes": "мин",
+    "unit_ounces": "унц",
+    "unit_quarts": "квт",
+    "unit_seconds": "сек",
+    "unit_teaspoons": "ч. л.",
     "version_history": "История версий",
     "yes_button": "Да"
 }
