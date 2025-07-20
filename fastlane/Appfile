@@ -1,0 +1,5 @@
+# Android
+package_name("com.nathanatos.Biorhythmmm")
+
+# iOS
+app_identifier("com.nathanatos.Biorhythmmm")

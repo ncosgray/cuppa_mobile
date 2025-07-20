@@ -1,0 +1,161 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+update_fastlane
+
+# General parameters
+app_name = 'Cuppa'
+repo_name = 'ncosgray/cuppa_mobile'
+
+# Load version details from the Flutter build configuration
+require 'yaml'
+pubspec = YAML.load_file('../pubspec.yaml')
+version_string = pubspec['version']
+version, build_number = version_string.split('+')
+
+# Android lane definitions
+platform :android do
+  aab_path = 'build/app/outputs/bundle/release'
+  apk_path = 'build/app/outputs/flutter-apk'
+
+  desc 'Build and upload to Play Store Alpha track'
+  lane :alpha do
+    sh('flutter build appbundle')
+    upload_to_play_store(
+      json_key: ENV['GOOGLE_PLAY_JSON_KEY_PATH'],
+      aab: "#{aab_path}/app-release.aab",
+      track: 'alpha',
+    )
+  end
+
+  desc 'Promote Play Store Alpha to Prod'
+  lane :alphapro do
+    upload_to_play_store(
+      json_key: ENV['GOOGLE_PLAY_JSON_KEY_PATH'],
+      version_code: build_number,
+      skip_upload_aab: true,
+      skip_upload_apk: true,
+      track: 'alpha',
+      track_promote_to: 'production',
+    )
+  end
+
+  desc 'Build and release to Play Store'
+  lane :playstore do
+    sh('flutter build appbundle')
+    upload_to_play_store(
+      json_key: ENV['GOOGLE_PLAY_JSON_KEY_PATH'],
+      aab: "#{aab_path}/app-release.aab",
+    )
+  end
+
+  desc 'Build an APK and release to GitHub'
+  lane :github do
+    sh('flutter build apk')
+    sh("cp ../#{apk_path}/app-release.apk ../#{apk_path}/#{app_name}-#{version}.apk")
+    set_github_release(
+      repository_name: repo_name,
+      api_token: ENV['GITHUB_API_TOKEN'],
+      tag_name: version,
+      name: "#{app_name} #{version}",
+      description: File.read("metadata/android/en-US/changelogs/#{build_number}.txt"),
+      upload_assets: ["#{apk_path}/#{app_name}-#{version}.apk"],
+    )
+    sh("rm ../#{apk_path}/#{app_name}-#{version}.apk")
+  end
+end
+
+# iOS lane definitions
+platform :ios do
+  ipa_path = 'build/ios/ipa'
+
+  desc 'Build and upload to TestFlight'
+  lane :test do
+    build_app(
+      workspace: 'ios/Runner.xcworkspace',
+      scheme: 'Runner',
+      output_directory: ipa_path,
+    )
+    upload_to_testflight(
+      api_key_path: ENV['APPSTORE_API_KEY_PATH'],
+      ipa: "#{ipa_path}/Runner.ipa",
+    )
+  end
+
+  desc 'Promote TestFlight to Prod'
+  lane :testpro do
+    upload_to_app_store(
+      api_key_path: ENV['APPSTORE_API_KEY_PATH'],
+      build_number: build_number,
+      app_version: version,
+      skip_binary_upload: true,
+      metadata_path: 'fastlane/metadata/ios/metadata',
+      screenshots_path: 'fastlane/metadata/ios/screenshots',
+      release_notes: {
+        "en-US" => File.read("metadata/ios/en-US/changelogs/#{build_number}.txt")
+      },
+      precheck_include_in_app_purchases: false,
+      submission_information: {
+        add_id_info_uses_idfa: false,
+        export_compliance_encryption_updated: false,
+        export_compliance_uses_encryption: false
+      },
+      force: true,
+      submit_for_review: true,
+      automatic_release: true,
+    )
+  end
+
+  desc 'Build and release to App Store'
+  lane :applestore do
+    build_app(
+      workspace: 'ios/Runner.xcworkspace',
+      scheme: 'Runner',
+      output_directory: ipa_path,
+    )
+    upload_to_app_store(
+      api_key_path: ENV['APPSTORE_API_KEY_PATH'],
+      ipa: "#{ipa_path}/Runner.ipa",
+      app_version: version,
+      metadata_path: 'fastlane/metadata/ios/metadata',
+      screenshots_path: 'fastlane/metadata/ios/screenshots',
+      release_notes: {
+        "en-US" => File.read("metadata/ios/en-US/changelogs/#{build_number}.txt")
+      },
+      precheck_include_in_app_purchases: false,
+      submission_information: {
+        add_id_info_uses_idfa: false,
+        export_compliance_encryption_updated: false,
+        export_compliance_uses_encryption: false
+      },
+      submit_for_review: true,
+      automatic_release: true,
+    )
+  end
+end
+
+# Build and release to production everywhere
+desc 'Publish to Play Store, App Store, GitHub'
+lane :release do
+  playstore
+  applestore
+  github
+end
+
+# Promote test versions everywhere
+desc 'Promote on Play Store, App Store, GitHub'
+lane :promote do
+  alphapro
+  testpro
+  github
+end

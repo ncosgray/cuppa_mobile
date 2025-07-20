@@ -1,1 +1,1 @@
-Time your tea as it steeps
+Cuppa is a small application to time your cup of tea as it steeps.
