@@ -51,6 +51,10 @@ Icon get platformImportIcon => Platform.isIOS
     ? const Icon(CupertinoIcons.arrow_up_doc)
     : const Icon(Icons.upload_file);
 
+Icon get platformChevronIcon => Platform.isIOS
+    ? Icon(CupertinoIcons.chevron_right, color: CupertinoColors.systemBlue)
+    : Icon(Icons.chevron_right);
+
 Icon getPlatformEditIcon({double? size}) {
   return Platform.isIOS
       ? Icon(CupertinoIcons.pencil_ellipsis_rectangle, size: size)

@@ -41,7 +41,9 @@ abstract class Export {
       String exportData = ExportFile(
         settings: ExportSettings(
           nextTeaID: Prefs.nextTeaID,
-          showExtra: provider.showExtra,
+          showExtraList: provider.showExtraList
+              .map((infoType) => infoType.value)
+              .toList(),
           hideIncrements: provider.hideIncrements,
           silentDefault: provider.silentDefault,
           useCelsius: provider.useCelsius,
@@ -104,8 +106,25 @@ abstract class Export {
             Prefs.nextTeaID = exportData.settings!.nextTeaID!;
           }
 
-          if (exportData.settings!.showExtra != null) {
-            provider.showExtra = exportData.settings!.showExtra!;
+          if (exportData.settings!.showExtraList != null) {
+            provider.showExtraList = exportData.settings!.showExtraList!
+                .map(
+                  (element) => ExtraInfo.values.cast<ExtraInfo?>().firstWhere(
+                    (infoType) => infoType?.value == element,
+                    orElse: () => null,
+                  ),
+                )
+                .where((infoType) => infoType != null)
+                .cast<ExtraInfo>()
+                .toList();
+          }
+
+          if (exportData.settings!.showExtraList == null &&
+              exportData.settings!.showExtra != null) {
+            // Migrate from legacy setting
+            provider.showExtraList = exportData.settings!.showExtra!
+                ? ExtraInfo.values
+                : defaultShowExtraList;
           }
 
           if (exportData.settings!.hideIncrements != null) {
@@ -221,6 +240,7 @@ class ExportSettings {
   ExportSettings({
     this.nextTeaID,
     this.showExtra,
+    this.showExtraList,
     this.hideIncrements,
     this.silentDefault,
     this.useCelsius,
@@ -237,6 +257,7 @@ class ExportSettings {
     return ExportSettings(
       nextTeaID: tryCast<int>(json[jsonKeyNextTeaID]),
       showExtra: tryCast<bool>(json[jsonKeyShowExtra]),
+      showExtraList: (json[jsonKeyShowExtraList] as List?)?.cast<int>(),
       hideIncrements: tryCast<bool>(json[jsonKeyHideIncrements]),
       silentDefault: tryCast<bool>(json[jsonKeySilentDefault]),
       useCelsius: tryCast<bool>(json[jsonKeyUseCelsius]),
@@ -251,7 +272,7 @@ class ExportSettings {
 
   Map<String, dynamic> toJson() => {
     jsonKeyNextTeaID: nextTeaID,
-    jsonKeyShowExtra: showExtra,
+    jsonKeyShowExtraList: showExtraList, // Do not export legacy showExtra
     jsonKeyHideIncrements: hideIncrements,
     jsonKeySilentDefault: silentDefault,
     jsonKeyUseCelsius: useCelsius,
@@ -266,6 +287,7 @@ class ExportSettings {
   // Fields
   int? nextTeaID;
   bool? showExtra;
+  List<int>? showExtraList;
   bool? hideIncrements;
   bool? silentDefault;
   bool? useCelsius;

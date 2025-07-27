@@ -30,7 +30,7 @@ class AppProvider extends ChangeNotifier {
   // Initialize provider
   AppProvider() {
     // Fetch app settings such as theme and language
-    _showExtra = Prefs.loadShowExtra() ?? _showExtra;
+    _showExtraList = Prefs.loadShowExtraList() ?? _showExtraList;
     _hideIncrements = Prefs.loadHideIncrements() ?? _hideIncrements;
     _silentDefault = Prefs.loadSilentDefault() ?? _silentDefault;
     _useBrewRatios = Prefs.loadUseBrewRatios() ?? _useBrewRatios;
@@ -333,13 +333,30 @@ class AppProvider extends ChangeNotifier {
     return _teaList.where((tea) => tea.isActive == true).toList();
   }
 
-  // Setting: show brew time and temperature on timer buttons
-  bool _showExtra = false;
-  bool get showExtra => _showExtra;
-  set showExtra(bool newValue) {
-    _showExtra = newValue;
-    Prefs.saveSettings(showExtra: _showExtra);
+  // Setting: show brew time, temperature, and ratio on timer buttons
+  List<ExtraInfo> _showExtraList = defaultShowExtraList;
+  List<ExtraInfo> get showExtraList => _showExtraList;
+  set showExtraList(List<ExtraInfo> newList) {
+    _showExtraList = newList;
+    Prefs.saveSettings(showExtraList: _showExtraList);
     notifyListeners();
+  }
+
+  void toggleExtraInfo(ExtraInfo infoType, bool enabled) {
+    bool updated = false;
+
+    if (enabled && !_showExtraList.contains(infoType)) {
+      _showExtraList.add(infoType);
+      updated = true;
+    } else if (!enabled && _showExtraList.contains(infoType)) {
+      _showExtraList.remove(infoType);
+      updated = true;
+    }
+
+    if (updated) {
+      Prefs.saveSettings(showExtraList: _showExtraList);
+      notifyListeners();
+    }
   }
 
   // Setting: hide timer increment buttons

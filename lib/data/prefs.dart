@@ -174,8 +174,29 @@ abstract class Prefs {
   }
 
   // Get settings from shared prefs
-  static bool? loadShowExtra() {
-    return sharedPrefs.getBool(prefShowExtra);
+  static List<ExtraInfo>? loadShowExtraList() {
+    if (sharedPrefs.containsKey(prefShowExtraList)) {
+      return (sharedPrefs.getStringList(prefShowExtraList) ?? [])
+          .map(
+            (element) => ExtraInfo.values.cast<ExtraInfo?>().firstWhere(
+              (infoType) => infoType?.value.toString() == element,
+              orElse: () => null,
+            ),
+          )
+          .where((infoType) => infoType != null)
+          .cast<ExtraInfo>()
+          .toList();
+    } else if (sharedPrefs.containsKey(prefShowExtra)) {
+      // Migrate from legacy setting
+      List<ExtraInfo> list = (sharedPrefs.getBool(prefShowExtra) ?? false)
+          ? ExtraInfo.values
+          : defaultShowExtraList;
+      saveSettings(showExtraList: list);
+      sharedPrefs.remove(prefShowExtra);
+      return list;
+    } else {
+      return null;
+    }
   }
 
   static bool? loadHideIncrements() {
@@ -226,7 +247,7 @@ abstract class Prefs {
 
   // Store setting(s) in shared prefs
   static void saveSettings({
-    bool? showExtra,
+    List<ExtraInfo>? showExtraList,
     bool? hideIncrements,
     bool? silentDefault,
     bool? useCelsius,
@@ -237,8 +258,11 @@ abstract class Prefs {
     bool? collectStats,
     bool? stackedView,
   }) {
-    if (showExtra != null) {
-      sharedPrefs.setBool(prefShowExtra, showExtra);
+    if (showExtraList != null) {
+      sharedPrefs.setStringList(
+        prefShowExtraList,
+        showExtraList.map((infoType) => infoType.value.toString()).toList(),
+      );
     }
     if (hideIncrements != null) {
       sharedPrefs.setBool(prefHideIncrements, hideIncrements);
@@ -329,6 +353,23 @@ enum AppTheme {
   // Localized theme names
   String get localizedName => _nameString.translate();
 }
+
+// Extra info options
+enum ExtraInfo {
+  brewTime(0, AppString.prefs_extra_brew_time),
+  brewTemp(1, AppString.prefs_extra_brew_temp),
+  brewRatio(2, AppString.prefs_extra_brew_ratio);
+
+  const ExtraInfo(this.value, this._nameString);
+
+  final int value;
+  final AppString _nameString;
+
+  // Localized extra info names
+  String get localizedName => _nameString.translate();
+}
+
+List<ExtraInfo> defaultShowExtraList = List<ExtraInfo>.empty(growable: true);
 
 // Brewing time options
 final List<int> brewTimeHourOptions = List.generate(

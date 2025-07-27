@@ -145,7 +145,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
               // Setting: app theme selection
               _appThemeSetting,
               // Setting: show extra info on buttons
-              _showExtraSetting,
+              _selectExtraInfo,
               // Setting: stacked timer button view
               Selector<AppProvider, bool>(
                 selector: (_, provider) =>
@@ -225,21 +225,45 @@ class _PrefsWidgetState extends State<PrefsWidget> {
   );
 
   // Setting: show extra info on buttons
-  Widget get _showExtraSetting => Selector<AppProvider, bool>(
+  Widget get _selectExtraInfo => Selector<AppProvider, bool>(
     selector: (_, provider) => provider.useBrewRatios,
-    builder: (context, useBrewRatios, child) {
-      return settingSwitch(
-        title: useBrewRatios
-            ? AppString.prefs_show_extra_ratios.translate()
-            : AppString.prefs_show_extra.translate(),
-        value: Provider.of<AppProvider>(context).showExtra,
-        // Save showExtra setting to prefs
-        onChanged: (bool newValue) {
-          Provider.of<AppProvider>(context, listen: false).showExtra = newValue;
-        },
-      );
-    },
+    builder: (context, useBrewRatios, child) => settingChevron(
+      title: useBrewRatios
+          ? AppString.prefs_show_extra_ratios.translate()
+          : AppString.prefs_show_extra.translate(),
+      onTap: () => openPlatformAdaptiveSelectList(
+        context: context,
+        titleText: AppString.prefs_extra_select.translate(),
+        buttonTextCancel: AppString.done_button.translate(),
+        itemList: ExtraInfo.values
+            .where((value) => value != ExtraInfo.brewRatio || useBrewRatios)
+            .toList(),
+        itemBuilder: _extraInfoItem,
+        separatorBuilder: separatorDummy,
+      ),
+    ),
   );
+
+  // Extra info option
+  Widget _extraInfoItem(BuildContext context, int index) {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+    ExtraInfo value = ExtraInfo.values.elementAt(index);
+
+    return Selector<AppProvider, bool>(
+      selector: (_, provider) => provider.showExtraList.contains(value),
+      builder: (context, isEnabled, child) => settingListCheckbox(
+        context,
+        // Extra info
+        title: value.localizedName,
+        value: isEnabled,
+        // Save selection to prefs
+        onChanged: (bool? newValue) {
+          if (newValue == null) return;
+          provider.toggleExtraInfo(value, newValue);
+        },
+      ),
+    );
+  }
 
   // Setting: hide timer increment buttons
   Widget get _hideIncrementsSetting => settingSwitch(
