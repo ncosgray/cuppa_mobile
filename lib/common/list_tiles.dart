@@ -156,7 +156,6 @@ Widget settingListCheckbox(
   return adaptiveSelectListAction(
     action: CheckboxListTile.adaptive(
       contentPadding: radioTilePadding,
-      //dense: true,
       title: settingListTitle(
         title: title,
         color: Theme.of(context).textTheme.bodyLarge!.color!,

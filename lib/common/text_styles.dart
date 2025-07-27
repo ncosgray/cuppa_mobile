@@ -40,7 +40,7 @@ const TextStyle textStyleFooterLink = TextStyle(
 );
 
 const TextStyle textStyleButton = TextStyle(
-  fontSize: 17,
+  fontSize: 18,
   fontWeight: FontWeight.bold,
 );
 
