@@ -51,7 +51,7 @@ android {
 
     defaultConfig {
         applicationId "com.nathanatos.Cuppa"
-        minSdkVersion 21
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
