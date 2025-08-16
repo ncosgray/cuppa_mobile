@@ -317,9 +317,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       actions.add(
         adaptiveNavBarActionButton(
           icon: secondaryActionIcon!,
-          onPressed: () => Navigator.of(
-            context,
-          ).push(MaterialPageRoute(builder: (_) => secondaryActionRoute!)),
+          onPressed: _adaptiveOnPressed(context, route: secondaryActionRoute!),
         ),
       );
     }
@@ -327,12 +325,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       actions.add(
         adaptiveNavBarActionButton(
           icon: actionIcon!,
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              fullscreenDialog: Platform.isIOS ? !isPoppable : false,
-              builder: (_) => actionRoute!,
-            ),
-          ),
+          onPressed: _adaptiveOnPressed(context, route: actionRoute!),
         ),
       );
     }
@@ -342,14 +335,17 @@ class PlatformAdaptiveNavBar extends StatelessWidget
         transitionBetweenRoutes: false,
         automaticallyImplyLeading: false,
         automaticallyImplyMiddle: false,
+        automaticBackgroundVisibility: false,
+        enableBackgroundFilterBlur: false,
         padding: previousPageTitle != null
             ? const EdgeInsetsDirectional.only(start: 4, end: 12)
             : const EdgeInsetsDirectional.symmetric(horizontal: 12),
-        border: isPoppable
-            ? const Border(
-                bottom: BorderSide(color: Color(0x4D000000), width: 0),
-              ) // _kDefaultNavBarBorder
-            : null,
+        border: Border(
+          bottom: BorderSide(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            width: 0,
+          ),
+        ),
         backgroundColor: isPoppable
             ? CupertinoDynamicColor.resolve(
                 CupertinoTheme.of(context).barBackgroundColor,
@@ -372,7 +368,10 @@ class PlatformAdaptiveNavBar extends StatelessWidget
             : isPoppable
             ? CupertinoButton(
                 padding: noPadding,
-                child: Text(buttonTextDone),
+                child: Text(
+                  buttonTextDone,
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
                 onPressed: () => Navigator.of(context).pop(),
               )
             : null,
@@ -399,6 +398,24 @@ class PlatformAdaptiveNavBar extends StatelessWidget
         actions: actions,
       );
     }
+  }
+
+  // Navigation action handler that adapts to platform
+  Function()? _adaptiveOnPressed(
+    BuildContext context, {
+    required Widget route,
+  }) {
+    return () {
+      if (Platform.isIOS) {
+        Navigator.of(
+          context,
+        ).push(CupertinoSheetRoute<void>(builder: (_) => route));
+      } else {
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute<void>(builder: (_) => route));
+      }
+    };
   }
 }
 
