@@ -279,7 +279,6 @@ class _StatsWidgetState extends State<StatsWidget> {
     required Stat stat,
     required int statIndex,
     required double maxWidth,
-    bool details = false,
   }) {
     String percent = _filteredTotalCount > 0
         ? '(${formatPercent(stat.count / _filteredTotalCount)})'
@@ -324,13 +323,6 @@ class _StatsWidgetState extends State<StatsWidget> {
                 children: [
                   Row(
                     children: [
-                      // Details: Brew time and temperature
-                      Visibility(
-                        visible: details,
-                        child: Text(
-                          '${formatTimer(stat.brewTime)} @ ${formatTemp(stat.brewTemp)}',
-                        ),
-                      ),
                       // Tea timer usage
                       Visibility(
                         visible: stat.count > 0,
@@ -348,16 +340,6 @@ class _StatsWidgetState extends State<StatsWidget> {
                         ),
                       ),
                     ],
-                  ),
-                  // Details: Timer start date and time
-                  Visibility(
-                    visible: details,
-                    child: Text(
-                      AppLocalizations.dateString(
-                        stat.timerStartTime,
-                        dateTime: true,
-                      ),
-                    ),
                   ),
                 ],
               ),
