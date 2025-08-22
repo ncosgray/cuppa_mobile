@@ -99,6 +99,8 @@ void main() {
     );
     await $.scrollUntilVisible(finder: extraSwitch);
     await $.tap(extraSwitch);
+    await $.tap(find.text(AppString.prefs_extra_brew_time.translate()));
+    await $.tap(find.text(AppString.done_button.translate()));
 
     // Change setting: enable stats collection
     final Finder statsSwitch = find.text(AppString.stats_enable.translate());
