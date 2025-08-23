@@ -26,7 +26,7 @@ dependencies:
   collection: ^1.19.1
   cupertino_icons: ^1.0.8
   dynamic_color: ^1.8.1
-  file_picker: ^10.3.1
+  file_picker: ^10.3.2
   fl_chart: ^1.0.0
   flex_color_picker: ^3.7.1
   flutter:
@@ -41,9 +41,9 @@ dependencies:
   package_info_plus: ^8.3.1
   path: ^1.9.1
   path_provider: ^2.1.5
-  provider: ^6.1.5
+  provider: ^6.1.5+1
   quick_actions: ^1.1.0
-  region_settings: ^1.2.1
+  region_settings: ^1.4.1
   share_plus: ^11.1.0
   shared_preferences: ^2.5.3
   showcaseview: ^4.0.1

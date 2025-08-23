@@ -281,7 +281,7 @@ class _StatsWidgetState extends State<StatsWidget> {
     required double maxWidth,
   }) {
     String percent = _filteredTotalCount > 0
-        ? '(${formatPercent(stat.count / _filteredTotalCount)})'
+        ? '(${AppLocalizations.numberString(stat.count / _filteredTotalCount, asPercentage: true)})'
         : '';
     bool fade = _selectedSection > -1 && statIndex != _selectedSection;
 
@@ -409,7 +409,7 @@ class _StatsWidgetState extends State<StatsWidget> {
       color: stat.color,
       radius: selected ? radius * 1.05 : radius,
       showTitle: percent > 0.05,
-      title: formatPercent(percent),
+      title: AppLocalizations.numberString(percent, asPercentage: true),
       titleStyle: textStyleSubtitle.copyWith(
         color: chartTextColor,
         fontWeight: selected ? FontWeight.bold : null,
@@ -437,7 +437,10 @@ class _StatsWidgetState extends State<StatsWidget> {
           visible: _totalCount > 0,
           child: _metricWidget(
             metricName: AppString.stats_starred.translate(),
-            metric: formatPercent(_starredCount / _totalCount),
+            metric: AppLocalizations.numberString(
+              _starredCount / _totalCount,
+              asPercentage: true,
+            ),
           ),
         ),
         GestureDetector(
