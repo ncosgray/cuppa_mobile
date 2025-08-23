@@ -84,7 +84,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                           launchAddTea: widget.launchAddTea,
                         ),
                       ),
-                      Expanded(child: _otherSettingsList),
+                      Expanded(child: _otherSettingsList(pinnedHeader: true)),
                     ],
                   )
                 // Use bottom nav bar with widget stack on small screens
@@ -101,7 +101,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                     index: _navIndex,
                     children: [
                       TeaSettingsList(launchAddTea: widget.launchAddTea),
-                      _otherSettingsList,
+                      _otherSettingsList(),
                     ],
                   ),
           ),
@@ -132,9 +132,13 @@ class _PrefsWidgetState extends State<PrefsWidget> {
   }
 
   // List of other settings with pinned header
-  Widget get _otherSettingsList => CustomScrollView(
+  Widget _otherSettingsList({bool pinnedHeader = false}) => CustomScrollView(
     slivers: [
-      pageHeader(context, title: AppString.settings_title.translate()),
+      pageHeader(
+        context,
+        pinned: pinnedHeader,
+        title: AppString.settings_title.translate(),
+      ),
       SliverToBoxAdapter(
         child: Padding(
           padding: columnPadding,

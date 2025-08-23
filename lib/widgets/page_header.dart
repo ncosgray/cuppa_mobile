@@ -12,6 +12,7 @@
 
 // Cuppa page header widget
 
+import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 
@@ -20,13 +21,17 @@ import 'package:flutter/material.dart';
 // Sliver app bar page header
 Widget pageHeader(
   BuildContext context, {
+  bool pinned = false,
   Widget? leading,
   required String title,
   List<Widget>? actions,
 }) {
   return SliverAppBar(
-    elevation: 1,
-    pinned: true,
+    elevation: pinned ? 1 : 0,
+    pinned: pinned,
+    floating: !pinned,
+    snap: !pinned,
+    toolbarHeight: navBarHeight,
     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
     shadowColor: Theme.of(context).shadowColor,

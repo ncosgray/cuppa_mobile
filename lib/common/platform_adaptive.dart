@@ -340,12 +340,11 @@ class PlatformAdaptiveNavBar extends StatelessWidget
         padding: previousPageTitle != null
             ? const EdgeInsetsDirectional.only(start: 4, end: 12)
             : const EdgeInsetsDirectional.symmetric(horizontal: 12),
-        border: Border(
-          bottom: BorderSide(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            width: 0,
-          ),
-        ),
+        border: isPoppable
+            ? const Border(
+                bottom: BorderSide(color: Color(0x4D000000), width: 0.5),
+              ) // _kDefaultNavBarBorder
+            : null,
         backgroundColor: isPoppable
             ? CupertinoDynamicColor.resolve(
                 CupertinoTheme.of(context).barBackgroundColor,
