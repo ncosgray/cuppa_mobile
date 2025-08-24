@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Favorit nach Mittag",
   "stats_header": "Nutzungsbericht für den Tea Timer",
   "stats_include_deleted": "Gelöschte Tees in das Diagramm aufnehmen",
+  "stats_no_data_1": "Noch keine Daten!",
+  "stats_no_data_2": "Starten Sie einen Timer, um mit der Erfassung von Statistiken zu beginnen.",
   "stats_starred": "Sternetees {{star_symbol}}",
   "stats_tea_amount": "Gesamtmenge an Tee",
   "stats_timer_count": "Die Timer wurden gestartet",

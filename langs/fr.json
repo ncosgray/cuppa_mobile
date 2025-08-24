@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Mon préféré après midi",
   "stats_header": "Rapport d'utilisation du minuteur à thé",
   "stats_include_deleted": "Inclure les thés supprimés dans le graphique",
+  "stats_no_data_1": "Aucune donnée pour le moment !",
+  "stats_no_data_2": "Démarrez un chronomètre pour commencer à collecter des statistiques.",
   "stats_starred": "Thés étoilés {{star_symbol}}",
   "stats_tea_amount": "Quantité totale de thé",
   "stats_timer_count": "Les chronomètres ont commencé",

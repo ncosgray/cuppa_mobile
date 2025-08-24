@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Obľúbený po poludni",
   "stats_header": "Správa o používaní časovača čaju",
   "stats_include_deleted": "Zahrnúť zmazané čaje do grafu",
+  "stats_no_data_1": "Zatiaľ žiadne údaje!",
+  "stats_no_data_2": "Spustite časovač a začnite zhromažďovať štatistiky.",
   "stats_starred": "Hviezdičkové čaje {{star_symbol}}",
   "stats_tea_amount": "Celkové množstvo čaju",
   "stats_timer_count": "Začali časovače",

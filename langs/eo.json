@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Plej ŝatata post tagmezo",
   "stats_header": "Raporto pri uzado de tetempigilo",
   "stats_include_deleted": "Enmetu forigitajn teojn en diagramo",
+  "stats_no_data_1": "Ankoraŭ neniuj datumoj!",
+  "stats_no_data_2": "Komencu tempmezurilon por komenci kolekti statistikojn.",
   "stats_starred": "Steligitaj teoj {{star_symbol}}",
   "stats_tea_amount": "Tuta kvanto da teo",
   "stats_timer_count": "Temporiziloj komenciĝis",

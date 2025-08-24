@@ -72,6 +72,8 @@
   "stats_favorite_pm": "お昼以降のお気に入り",
   "stats_header": "ティータイマー使用レポート",
   "stats_include_deleted": "削除したお茶をグラフに含める",
+  "stats_no_data_1": "まだデータがありません!",
+  "stats_no_data_2": "タイマーを開始して統計の収集を開始します。",
   "stats_starred": "スター付きティー {{star_symbol}}",
   "stats_tea_amount": "お茶の合計量",
   "stats_timer_count": "タイマーが開始されました",

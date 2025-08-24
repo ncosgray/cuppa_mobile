@@ -72,6 +72,8 @@
   "stats_favorite_pm": "دوپہر کے بعد پسندیدہ",
   "stats_header": "چائے ٹائمر استعمال کی رپورٹ",
   "stats_include_deleted": "چارٹ میں حذف شدہ چائے شامل کریں",
+  "stats_no_data_1": "ابھی تک کوئی ڈیٹا نہیں ہے!",
+  "stats_no_data_2": "اعدادوشمار جمع کرنا شروع کرنے کے لیے ٹائمر شروع کریں۔",
   "stats_starred": "ستارہ دار چائے {{star_symbol}}",
   "stats_tea_amount": "چائے کی کل مقدار",
   "stats_timer_count": "ٹائمرز شروع ہوگئے",

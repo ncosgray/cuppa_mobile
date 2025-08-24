@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Ar muiañ karet goude kreisteiz",
   "stats_header": "Danevell implij an amzer te",
   "stats_include_deleted": "Lakaat an teoù dilamet er gartenn",
+  "stats_no_data_1": "Roadenn ebet c'hoazh !",
+  "stats_no_data_2": "Lakaat un amzer da grogiñ da zastum stadegoù.",
   "stats_starred": "Teoù steredennet {{star_symbol}}",
   "stats_tea_amount": "Kementad hollek an te",
   "stats_timer_count": "Kroget eo an amzerioù",

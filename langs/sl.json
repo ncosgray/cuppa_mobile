@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Najljubši po poldnevu",
   "stats_header": "Poročilo o uporabi časovnika čaja",
   "stats_include_deleted": "V grafikon vključite izbrisane čaje",
+  "stats_no_data_1": "Še ni podatkov!",
+  "stats_no_data_2": "Začnite s časovnikom, da začnete zbirati statistične podatke.",
   "stats_starred": "Čaji z zvezdicami {{star_symbol}}",
   "stats_tea_amount": "Skupna količina čaja",
   "stats_timer_count": "Začeli so se časovniki",

@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Фаворит після полудня",
   "stats_header": "Звіт про використання таймера чаю",
   "stats_include_deleted": "Включіть видалені чаї в діаграму",
+  "stats_no_data_1": "Поки що немає даних!",
+  "stats_no_data_2": "Запустіть таймер, щоб розпочати збір статистики.",
   "stats_starred": "Зіркові чаї {{star_symbol}}",
   "stats_tea_amount": "Загальна кількість чаю",
   "stats_timer_count": "Таймери запущені",

@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Favorito después del mediodía",
   "stats_header": "Informe del uso del temporizador de té",
   "stats_include_deleted": "Incluir tés eliminados en el gráfico",
+  "stats_no_data_1": "¡Aún no hay datos!",
+  "stats_no_data_2": "Inicia el cronómetro para empezar a recopilar estadísticas.",
   "stats_starred": "Estrellas para el té {{star_symbol}}",
   "stats_tea_amount": "Cantidad total de té",
   "stats_timer_count": "Temporizadores iniciados",

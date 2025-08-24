@@ -153,6 +153,8 @@ enum AppString {
   stats_favorite_pm('stats_favorite_pm'),
   stats_header('stats_header'),
   stats_include_deleted('stats_include_deleted'),
+  stats_no_data_1('stats_no_data_1'),
+  stats_no_data_2('stats_no_data_2'),
   stats_starred('stats_starred'),
   stats_tea_amount('stats_tea_amount'),
   stats_timer_count('stats_timer_count'),

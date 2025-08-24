@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Lemmik pärast keskpäeva",
   "stats_header": "Teetaimeri kasutamise aruanne",
   "stats_include_deleted": "Lisa graafikusse ka kustutatud teed",
+  "stats_no_data_1": "Andmeid veel pole!",
+  "stats_no_data_2": "Statistika kogumise alustamiseks käivita taimer.",
   "stats_starred": "Tärnidega teed {{star_symbol}}",
   "stats_tea_amount": "Teede arv kokku",
   "stats_timer_count": "Taimerid algasid",

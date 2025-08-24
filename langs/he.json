@@ -72,6 +72,8 @@
   "stats_favorite_pm": "מועדף אחרי הצהריים",
   "stats_header": "דוח שימוש בטיימר תה",
   "stats_include_deleted": "כלול תה שנמחק בתרשים",
+  "stats_no_data_1": "אין עדיין נתונים!",
+  "stats_no_data_2": "הפעל טיימר כדי להתחיל לאסוף נתונים סטטיסטיים.",
   "stats_starred": "תה עם כוכבים {{star_symbol}}",
   "stats_tea_amount": "כמות התה הכוללת",
   "stats_timer_count": "טיימרים התחילו",

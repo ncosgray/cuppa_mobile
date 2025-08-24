@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Günortadan sonra sevimli",
   "stats_header": "Çay taymeri istifadəsi məlumatı",
   "stats_include_deleted": "Silinmiş çayları qrafikə daxil edin",
+  "stats_no_data_1": "Hələ məlumat yoxdur!",
+  "stats_no_data_2": "Statistikanı toplamağa başlamaq üçün taymerə başlayın.",
   "stats_starred": "Ulduzlu çaylar {{star_symbol}}",
   "stats_tea_amount": "Çayın ümumi miqdarı",
   "stats_timer_count": "Taymerlər başladıldı",

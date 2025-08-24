@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Favorit efter middagstid",
   "stats_header": "Rapport om användning av tetimer",
   "stats_include_deleted": "Inkludera borttagna teer i diagrammet",
+  "stats_no_data_1": "Ingen data ännu!",
+  "stats_no_data_2": "Starta en timer för att börja samla in statistik.",
   "stats_starred": "Stjärnade teer {{star_symbol}}",
   "stats_tea_amount": "Total mängd te",
   "stats_timer_count": "Tidtagare startade",

@@ -72,6 +72,8 @@
     "stats_favorite_pm": "中午後的最愛",
     "stats_header": "茶計時器使用報告",
     "stats_include_deleted": "在圖表中包括已刪除的茶",
+    "stats_no_data_1": "尚無數據！",
+    "stats_no_data_2": "啟動計時器以開始收集統計資料。",
     "stats_starred": "星級茶 {{star_symbol}}",
     "stats_tea_amount": "茶總量",
     "stats_timer_count": "計時器啟動",

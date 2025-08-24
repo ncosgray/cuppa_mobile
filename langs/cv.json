@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Кӑнтӑрла иртсен савни",
   "stats_header": "Чей таймерӗпе усӑ курмалли отчет",
   "stats_include_deleted": "Пӗтернӗ чейсене таблицӑна кӗртӗр",
+  "stats_no_data_1": "Хальлӗхе даннӑйсем ҫук-ха!",
+  "stats_no_data_2": "Статистика пухма пуҫлама таймер пуҫла.",
   "stats_starred": "Суйласа илнӗ чейсем {{star_symbol}}",
   "stats_tea_amount": "Пӗтӗмӗшле чей виҫи",
   "stats_timer_count": "Юхӑнса кайнӑ таймерсем",

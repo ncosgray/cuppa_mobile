@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Öğleden sonra favori",
   "stats_header": "Çay zamanlayıcı kullanım raporu",
   "stats_include_deleted": "Grafikte silinen çayları göster",
+  "stats_no_data_1": "Henüz veri yok!",
+  "stats_no_data_2": "İstatistikleri toplamaya başlamak için bir zamanlayıcı başlatın.",
   "stats_starred": "Yıldızlı çaylar {{star_symbol}}",
   "stats_tea_amount": "Toplam çay miktarı",
   "stats_timer_count": "Zamanlayıcılar başladı",

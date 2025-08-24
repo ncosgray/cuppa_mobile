@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Is fearr leat tar éis meán lae",
   "stats_header": "Tuarascáil úsáide ama tae",
   "stats_include_deleted": "Cuir tae scriosta san áireamh sa chairt",
+  "stats_no_data_1": "Gan aon sonraí fós!",
+  "stats_no_data_2": "Tosaigh lasc ama chun tús a chur le staitisticí a bhailiú.",
   "stats_starred": "Tae réalta {{star_symbol}}",
   "stats_tea_amount": "Méid iomlán tae",
   "stats_timer_count": "Thosaigh Timers",

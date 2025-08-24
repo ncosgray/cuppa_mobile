@@ -72,6 +72,8 @@
   "stats_favorite_pm": "Preferito dopo mezzogiorno",
   "stats_header": "Rapporto sull'utilizzo del timer da tè",
   "stats_include_deleted": "Includi i tè eliminati nel grafico",
+  "stats_no_data_1": "Nessun dato ancora!",
+  "stats_no_data_2": "Avvia un timer per iniziare a raccogliere statistiche.",
   "stats_starred": "Tè stellati {{star_symbol}}",
   "stats_tea_amount": "Quantità totale di tè",
   "stats_timer_count": "I timer sono iniziati",
