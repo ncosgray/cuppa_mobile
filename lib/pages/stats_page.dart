@@ -72,7 +72,7 @@ class _StatsWidgetState extends State<StatsWidget> {
             getDeviceSize(context).height * 0.4,
           );
 
-    return Scaffold(
+    return adaptiveScaffold(
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
         title: AppString.stats_title.translate(),

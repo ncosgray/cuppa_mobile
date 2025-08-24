@@ -39,7 +39,7 @@ class AboutWidget extends StatelessWidget {
   // Build About page
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return adaptiveScaffold(
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
         title: AppString.about_title.translate(),

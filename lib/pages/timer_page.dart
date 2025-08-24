@@ -38,7 +38,7 @@ class TimerWidget extends StatelessWidget {
     // Determine layout based on device orientation
     bool layoutPortrait = getDeviceSize(context).isPortrait;
 
-    return Scaffold(
+    return adaptiveScaffold(
       appBar: PlatformAdaptiveNavBar(
         isPoppable: false,
         title: appName,

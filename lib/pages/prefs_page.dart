@@ -62,7 +62,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
         // Determine layout based on device size
         bool layoutColumns = getDeviceSize(context).isLargeDevice;
 
-        return Scaffold(
+        return adaptiveScaffold(
           appBar: PlatformAdaptiveNavBar(
             isPoppable: true,
             title: AppString.prefs_title.translate(),

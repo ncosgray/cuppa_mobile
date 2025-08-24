@@ -74,7 +74,6 @@ const double brewRatioNumeratorStep = 0.5;
 const largeDeviceSize = 550;
 
 // Widget sizes
-const double navBarHeight = 56;
 const double teaButtonHeight = 106;
 const double teaButtonWidth = 88;
 const double cancelButtonHeight = 34;
