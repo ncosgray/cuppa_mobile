@@ -29,8 +29,6 @@ Widget pageHeader(
   return SliverAppBar(
     elevation: pinned ? 1 : 0,
     pinned: pinned,
-    floating: !pinned,
-    snap: !pinned,
     toolbarHeight: navBarHeight,
     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
     surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
