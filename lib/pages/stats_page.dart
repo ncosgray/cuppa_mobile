@@ -80,21 +80,20 @@ class _StatsWidgetState extends State<StatsWidget> {
         buttonTextDone: AppString.done_button.translate(),
         previousPageTitle: AppString.prefs_title.translate(),
       ),
-      body: SafeArea(
-        child: FutureBuilder<bool>(
-          future: _fetchTimerStats(),
-          builder: (_, AsyncSnapshot<bool> snapshot) {
-            if (snapshot.hasData) {
-              // Usage report
-              return CustomScrollView(
-                slivers: [
-                  // Report header
-                  pageHeader(
-                    context,
-                    title: AppString.stats_header.translate(),
-                  ),
-                  // Summary section
-                  SliverToBoxAdapter(
+      body: FutureBuilder<bool>(
+        future: _fetchTimerStats(),
+        builder: (_, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.hasData) {
+            // Usage report
+            return CustomScrollView(
+              slivers: [
+                // Report header
+                pageHeader(context, title: AppString.stats_header.translate()),
+                // Summary section
+                SliverToBoxAdapter(
+                  child: SafeArea(
+                    top: false,
+                    bottom: false,
                     child: Flex(
                       // Determine layout by device size
                       direction: layoutPortrait
@@ -175,10 +174,13 @@ class _StatsWidgetState extends State<StatsWidget> {
                       ],
                     ),
                   ),
-                  // Metrics section
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    fillOverscroll: true,
+                ),
+                // Metrics section
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  fillOverscroll: true,
+                  child: SafeArea(
+                    top: false,
                     child: Container(
                       margin: bottomSliverPadding,
                       child: Align(
@@ -196,19 +198,19 @@ class _StatsWidgetState extends State<StatsWidget> {
                       ),
                     ),
                   ),
-                ],
-              );
-            } else {
-              // Progress indicator while fetching stats
-              return const Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [CircularProgressIndicator()],
                 ),
-              );
-            }
-          },
-        ),
+              ],
+            );
+          } else {
+            // Progress indicator while fetching stats
+            return const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [CircularProgressIndicator()],
+              ),
+            );
+          }
+        },
       ),
     );
   }

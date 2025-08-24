@@ -74,37 +74,33 @@ class _PrefsWidgetState extends State<PrefsWidget> {
             secondaryActionIcon: collectStats ? platformStatsIcon : null,
             secondaryActionRoute: collectStats ? const StatsWidget() : null,
           ),
-          body: SafeArea(
-            child: layoutColumns
-                // Arrange Teas and Settings in two columns for large screens
-                ? Row(
-                    children: [
-                      Expanded(
-                        child: TeaSettingsList(
-                          launchAddTea: widget.launchAddTea,
-                        ),
-                      ),
-                      Expanded(child: _otherSettingsList(pinnedHeader: true)),
-                    ],
-                  )
-                // Use bottom nav bar with widget stack on small screens
-                : SlideIndexedStack(
-                    duration: shortAnimationDuration,
-                    beginSlideOffset: _navInitial
-                        // Do not transition on first build
-                        ? Offset.zero
-                        // Determine transition direction
-                        : _navSlideBack
-                        ? const Offset(-1, 0)
-                        : const Offset(1, 0),
-                    endSlideOffset: Offset.zero,
-                    index: _navIndex,
-                    children: [
-                      TeaSettingsList(launchAddTea: widget.launchAddTea),
-                      _otherSettingsList(),
-                    ],
-                  ),
-          ),
+          body: layoutColumns
+              // Arrange Teas and Settings in two columns for large screens
+              ? Row(
+                  children: [
+                    Expanded(
+                      child: TeaSettingsList(launchAddTea: widget.launchAddTea),
+                    ),
+                    Expanded(child: _otherSettingsList(pinnedHeader: true)),
+                  ],
+                )
+              // Use bottom nav bar with widget stack on small screens
+              : SlideIndexedStack(
+                  duration: shortAnimationDuration,
+                  beginSlideOffset: _navInitial
+                      // Do not transition on first build
+                      ? Offset.zero
+                      // Determine transition direction
+                      : _navSlideBack
+                      ? const Offset(-1, 0)
+                      : const Offset(1, 0),
+                  endSlideOffset: Offset.zero,
+                  index: _navIndex,
+                  children: [
+                    TeaSettingsList(launchAddTea: widget.launchAddTea),
+                    _otherSettingsList(),
+                  ],
+                ),
           bottomNavigationBar: layoutColumns
               ? null
               // Navigate between Teas and Settings
@@ -140,48 +136,52 @@ class _PrefsWidgetState extends State<PrefsWidget> {
         title: AppString.settings_title.translate(),
       ),
       SliverToBoxAdapter(
-        child: Padding(
-          padding: columnPadding,
-          child: Column(
-            children: [
-              // Setting: teacup style selection
-              _cupStyleSetting,
-              // Setting: app theme selection
-              _appThemeSetting,
-              // Setting: show extra info on buttons
-              _selectExtraInfo,
-              // Setting: stacked timer button view
-              Selector<AppProvider, bool>(
-                selector: (_, provider) =>
-                    provider.teaCount > stackedViewTeaCount,
-                builder: (context, showStackedView, child) {
-                  return Visibility(
-                    visible: showStackedView,
-                    child: _stackedViewSetting,
-                  );
-                },
-              ),
-              // Setting: hide timer increment buttons
-              _hideIncrementsSetting,
-              listDivider,
-              // Setting: use brew ratios
-              _useBrewRatiosSetting,
-              listDivider,
-              // Setting: default to silent timer notifications
-              _defaultSilentSetting,
-              // Notification info
-              _notificationLink,
-              listDivider,
-              // Setting: collect timer usage stats
-              _collectStatsSetting,
-              // Tools: export/import data
-              _exportImportTools,
-              listDivider,
-              // Setting: app language selection
-              _appLanguageSetting,
-              // Setting: default to Celsius or Fahrenheit
-              _useCelsiusSetting,
-            ],
+        child: SafeArea(
+          top: false,
+          bottom: false,
+          child: Padding(
+            padding: columnPadding,
+            child: Column(
+              children: [
+                // Setting: teacup style selection
+                _cupStyleSetting,
+                // Setting: app theme selection
+                _appThemeSetting,
+                // Setting: show extra info on buttons
+                _selectExtraInfo,
+                // Setting: stacked timer button view
+                Selector<AppProvider, bool>(
+                  selector: (_, provider) =>
+                      provider.teaCount > stackedViewTeaCount,
+                  builder: (context, showStackedView, child) {
+                    return Visibility(
+                      visible: showStackedView,
+                      child: _stackedViewSetting,
+                    );
+                  },
+                ),
+                // Setting: hide timer increment buttons
+                _hideIncrementsSetting,
+                listDivider,
+                // Setting: use brew ratios
+                _useBrewRatiosSetting,
+                listDivider,
+                // Setting: default to silent timer notifications
+                _defaultSilentSetting,
+                // Notification info
+                _notificationLink,
+                listDivider,
+                // Setting: collect timer usage stats
+                _collectStatsSetting,
+                // Tools: export/import data
+                _exportImportTools,
+                listDivider,
+                // Setting: app language selection
+                _appLanguageSetting,
+                // Setting: default to Celsius or Fahrenheit
+                _useCelsiusSetting,
+              ],
+            ),
           ),
         ),
       ),

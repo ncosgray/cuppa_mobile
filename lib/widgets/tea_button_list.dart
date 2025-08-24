@@ -133,7 +133,12 @@ class _TeaButtonListState extends State<TeaButtonList> {
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
                   padding: buttonColumnPadding,
-                  child: Column(children: [...teaButtonRows]),
+                  child: SafeArea(
+                    left: false,
+                    top: false,
+                    right: false,
+                    child: Column(children: [...teaButtonRows]),
+                  ),
                 ),
               ),
             ),

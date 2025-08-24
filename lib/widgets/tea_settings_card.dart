@@ -49,129 +49,135 @@ class TeaSettingsCard extends StatelessWidget {
         getDeviceSize(context).isPortrait ||
         getDeviceSize(context).isLargeDevice;
 
-    return Card(
-      margin: bodyPadding,
-      child: SizedBox(
-        height: layoutPortrait ? 96.0 : 64.0,
-        child: Container(
-          padding: listTilePadding,
-          child: Row(
-            children: [
-              Expanded(
-                child: Flex(
-                  // Determine layout by device size
-                  direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        height: 54,
-                        padding: noPadding,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          spacing: smallSpacing,
-                          children: [
-                            // Favorite status
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: _favoriteButton(context),
-                            ),
-                            // Tea name with edit icon
-                            Expanded(
-                              child: Align(
+    return SafeArea(
+      top: false,
+      bottom: false,
+      child: Card(
+        margin: bodyPadding,
+        child: SizedBox(
+          height: layoutPortrait ? 96.0 : 64.0,
+          child: Container(
+            padding: listTilePadding,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Flex(
+                    // Determine layout by device size
+                    direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 54,
+                          padding: noPadding,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            spacing: smallSpacing,
+                            children: [
+                              // Favorite status
+                              Align(
                                 alignment: Alignment.centerLeft,
-                                child: _teaNameEditor(context),
+                                child: _favoriteButton(context),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                // Tea color selection - alternate layout
-                                Selector<AppProvider, bool>(
-                                  selector: (_, provider) =>
-                                      provider.useBrewRatios,
-                                  builder: (context, useBrewRatios, child) =>
-                                      Visibility(
-                                        visible: useBrewRatios,
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: _teaColorSelector(context),
-                                        ),
-                                      ),
+                              // Tea name with edit icon
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: _teaNameEditor(context),
                                 ),
-                                // Extra space for horizontal layout
-                                SizedBox(width: layoutPortrait ? 0.0 : 24.0),
-                              ],
-                            ),
-                          ],
+                              ),
+                              Row(
+                                children: [
+                                  // Tea color selection - alternate layout
+                                  Selector<AppProvider, bool>(
+                                    selector: (_, provider) =>
+                                        provider.useBrewRatios,
+                                    builder: (context, useBrewRatios, child) =>
+                                        Visibility(
+                                          visible: useBrewRatios,
+                                          child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: _teaColorSelector(context),
+                                          ),
+                                        ),
+                                  ),
+                                  // Extra space for horizontal layout
+                                  SizedBox(width: layoutPortrait ? 0.0 : 24.0),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    // Tea settings selection
-                    Expanded(
-                      child: Container(
-                        padding: noPadding,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          spacing: largeSpacing,
-                          children: [
-                            // Brew time
-                            Align(
-                              alignment: layoutPortrait
-                                  ? Alignment.centerLeft
-                                  : Alignment.center,
-                              child: _teaBrewTimeSelector(context),
-                            ),
-                            // Brew temperature
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: _teaBrewTempSelector(context),
-                            ),
-                            Row(
-                              children: [
-                                // Brew ratio
-                                Selector<AppProvider, bool>(
-                                  selector: (_, provider) =>
-                                      provider.useBrewRatios,
-                                  builder: (context, useBrewRatios, child) =>
-                                      Visibility(
-                                        visible: useBrewRatios,
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: _teaBrewRatioSelector(context),
+                      // Tea settings selection
+                      Expanded(
+                        child: Container(
+                          padding: noPadding,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            spacing: largeSpacing,
+                            children: [
+                              // Brew time
+                              Align(
+                                alignment: layoutPortrait
+                                    ? Alignment.centerLeft
+                                    : Alignment.center,
+                                child: _teaBrewTimeSelector(context),
+                              ),
+                              // Brew temperature
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: _teaBrewTempSelector(context),
+                              ),
+                              Row(
+                                children: [
+                                  // Brew ratio
+                                  Selector<AppProvider, bool>(
+                                    selector: (_, provider) =>
+                                        provider.useBrewRatios,
+                                    builder: (context, useBrewRatios, child) =>
+                                        Visibility(
+                                          visible: useBrewRatios,
+                                          child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: _teaBrewRatioSelector(
+                                              context,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                ),
-                                // Tea color selection - default layout
-                                Selector<AppProvider, bool>(
-                                  selector: (_, provider) =>
-                                      provider.useBrewRatios,
-                                  builder: (context, useBrewRatios, child) =>
-                                      Visibility(
-                                        visible: !useBrewRatios,
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: _teaColorSelector(context),
+                                  ),
+                                  // Tea color selection - default layout
+                                  Selector<AppProvider, bool>(
+                                    selector: (_, provider) =>
+                                        provider.useBrewRatios,
+                                    builder: (context, useBrewRatios, child) =>
+                                        Visibility(
+                                          visible: !useBrewRatios,
+                                          child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: _teaColorSelector(context),
+                                          ),
                                         ),
-                                      ),
-                                ),
-                              ],
-                            ),
-                            // Icon selection
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: _teaIconSelector(context),
-                            ),
-                          ],
+                                  ),
+                                ],
+                              ),
+                              // Icon selection
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: _teaIconSelector(context),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              // Extra space for horizontal layout
-              SizedBox(width: layoutPortrait ? 0.0 : 24.0),
-              // Indicate reorderability
-              dragHandle,
-            ],
+                // Extra space for horizontal layout
+                SizedBox(width: layoutPortrait ? 0.0 : 24.0),
+                // Indicate reorderability
+                dragHandle,
+              ],
+            ),
           ),
         ),
       ),

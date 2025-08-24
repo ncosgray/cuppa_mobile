@@ -46,21 +46,23 @@ class AboutWidget extends StatelessWidget {
         buttonTextDone: AppString.done_button.translate(),
         previousPageTitle: AppString.prefs_title.translate(),
       ),
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            pageHeader(
-              context,
-              // Teacup icon
-              leading: Container(
-                padding: largeDefaultPadding,
-                child: Image.asset(appIcon, fit: BoxFit.scaleDown),
-              ),
-              // Cuppa version and build
-              title:
-                  '$appName ${packageInfo.version} (${packageInfo.buildNumber})',
+      body: CustomScrollView(
+        slivers: [
+          pageHeader(
+            context,
+            // Teacup icon
+            leading: Container(
+              padding: largeDefaultPadding,
+              child: Image.asset(appIcon, fit: BoxFit.scaleDown),
             ),
-            SliverToBoxAdapter(
+            // Cuppa version and build
+            title:
+                '$appName ${packageInfo.version} (${packageInfo.buildNumber})',
+          ),
+          SliverToBoxAdapter(
+            child: SafeArea(
+              top: false,
+              bottom: false,
               child: Column(
                 children: [
                   // Tutorial
@@ -144,17 +146,22 @@ class AboutWidget extends StatelessWidget {
                 ],
               ),
             ),
-            SliverFillRemaining(
-              hasScrollBody: false,
-              fillOverscroll: true,
+          ),
+          SliverFillRemaining(
+            hasScrollBody: false,
+            fillOverscroll: true,
+            child: SafeArea(
+              left: false,
+              top: false,
+              right: false,
               child: Align(
                 alignment: Alignment.bottomLeft,
                 // About text linking to app website
                 child: _aboutText(),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -165,11 +172,12 @@ class AboutWidget extends StatelessWidget {
       child: Container(
         padding: bottomSliverPadding,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(AppString.about_app.translate(), style: textStyleFooter),
             const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(aboutCopyright, style: textStyleFooter),
                 VerticalDivider(),

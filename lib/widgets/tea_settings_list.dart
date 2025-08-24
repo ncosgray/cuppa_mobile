@@ -135,11 +135,15 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                 duration: shortAnimationDuration,
                 opacity: _showInfoText ? 1.0 : 0.0,
                 child: _showInfoText
-                    ? Container(
-                        padding: bodyPadding,
-                        child: Text(
-                          AppString.prefs_header.translate(),
-                          style: textStyleSubtitle,
+                    ? SafeArea(
+                        top: false,
+                        bottom: false,
+                        child: Container(
+                          padding: bodyPadding,
+                          child: Text(
+                            AppString.prefs_header.translate(),
+                            style: textStyleSubtitle,
+                          ),
                         ),
                       )
                     : SizedBox.shrink(),
@@ -153,16 +157,19 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
           ),
           // Add Tea and Remove All buttons
           SliverToBoxAdapter(
-            child: Container(
-              margin: bottomSliverPadding,
-              child: Row(
-                spacing: smallSpacing,
-                children: [
-                  Expanded(child: _addTeaButton),
-                  (teaCount > 0 && !teaData.activeTeas)
-                      ? _removeAllButton
-                      : const SizedBox.shrink(),
-                ],
+            child: SafeArea(
+              top: false,
+              child: Container(
+                margin: bottomSliverPadding,
+                child: Row(
+                  spacing: smallSpacing,
+                  children: [
+                    Expanded(child: _addTeaButton),
+                    (teaCount > 0 && !teaData.activeTeas)
+                        ? _removeAllButton
+                        : const SizedBox.shrink(),
+                  ],
+                ),
               ),
             ),
           ),
