@@ -22,6 +22,7 @@ import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 
 import 'dart:io' show Platform;
+import 'dart:ui' show ImageFilter;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -319,6 +320,61 @@ Widget adaptiveSegmentedControl({
       ],
     );
   }
+}
+
+// Sliver app bar page header with effects appropriate to platform
+Widget adaptivePageHeader(
+  BuildContext context, {
+  bool pinned = false,
+  Widget? leading,
+  required String title,
+  List<Widget>? actions,
+}) {
+  return SliverAppBar(
+    elevation: Platform.isIOS ? 0 : (pinned ? 1 : 0),
+    pinned: pinned,
+    floating: !pinned,
+    snap: !pinned,
+    backgroundColor: Platform.isIOS
+        ? Colors.transparent
+        : Theme.of(context).scaffoldBackgroundColor,
+    surfaceTintColor: Platform.isIOS
+        ? null
+        : Theme.of(context).scaffoldBackgroundColor,
+    shadowColor: Platform.isIOS
+        ? Colors.transparent
+        : Theme.of(context).shadowColor,
+    flexibleSpace: Platform.isIOS
+        ? FlexibleSpaceBar(
+            background: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  color: Theme.of(
+                    context,
+                  ).scaffoldBackgroundColor.withValues(alpha: 0.7),
+                ),
+              ),
+            ),
+          )
+        : null,
+    automaticallyImplyLeading: false,
+    leading: leading,
+    titleSpacing: 0,
+    title: Container(
+      margin: headerPadding,
+      alignment: Alignment.centerLeft,
+      child: FittedBox(
+        child: Text(
+          title,
+          style: textStyleHeader.copyWith(
+            color: Theme.of(context).textTheme.bodyLarge!.color!,
+          ),
+        ),
+      ),
+    ),
+    actions: actions,
+  );
 }
 
 // Navigation bar that is Material on Android and Cupertino on iOS

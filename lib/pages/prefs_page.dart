@@ -29,7 +29,6 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/pages/about_page.dart';
 import 'package:cuppa_mobile/pages/stats_page.dart';
-import 'package:cuppa_mobile/widgets/page_header.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
 
 import 'package:app_settings/app_settings.dart';
@@ -130,7 +129,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
   // List of other settings with pinned header
   Widget _otherSettingsList({bool pinnedHeader = false}) => CustomScrollView(
     slivers: [
-      pageHeader(
+      adaptivePageHeader(
         context,
         pinned: pinnedHeader,
         title: AppString.settings_title.translate(),

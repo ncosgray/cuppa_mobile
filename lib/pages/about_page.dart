@@ -24,7 +24,6 @@ import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/pages/stats_page.dart';
-import 'package:cuppa_mobile/widgets/page_header.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'package:flutter/material.dart';
@@ -48,7 +47,7 @@ class AboutWidget extends StatelessWidget {
       ),
       body: CustomScrollView(
         slivers: [
-          pageHeader(
+          adaptivePageHeader(
             context,
             // Teacup icon
             leading: Container(
