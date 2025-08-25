@@ -137,7 +137,6 @@ class _PrefsWidgetState extends State<PrefsWidget> {
       SliverToBoxAdapter(
         child: SafeArea(
           top: false,
-          bottom: false,
           child: Padding(
             padding: columnPadding,
             child: Column(
