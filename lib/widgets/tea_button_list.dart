@@ -118,31 +118,59 @@ class _TeaButtonListState extends State<TeaButtonList> {
         }
 
         // Build tea button list/grid container
-        return Container(
-          padding: noPadding,
-          height: teaButtonRows.length > 1 ? 376.0 : null,
-          alignment: Alignment.center,
-          child: tutorialTooltip(
-            context: context,
-            key: tutorialKey3,
-            child: tutorialTooltip(
-              context: context,
-              key: tutorialKey4,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                physics: const BouncingScrollPhysics(),
-                child: Padding(
-                  padding: buttonColumnPadding,
-                  child: SafeArea(
-                    left: false,
-                    top: false,
-                    right: false,
-                    child: Column(children: [...teaButtonRows]),
+        return Stack(
+          children: [
+            // Tea buttons
+            Container(
+              padding: noPadding,
+              height: teaButtonRows.length > 1 ? 376.0 : null,
+              alignment: Alignment.center,
+              child: tutorialTooltip(
+                context: context,
+                key: tutorialKey3,
+                child: tutorialTooltip(
+                  context: context,
+                  key: tutorialKey4,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    physics: const BouncingScrollPhysics(),
+                    child: Padding(
+                      padding: buttonColumnPadding,
+                      child: SafeArea(
+                        left: false,
+                        top: false,
+                        right: false,
+                        child: Column(children: [...teaButtonRows]),
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
+            // Blur effect at top of stacked button list
+            teaButtonRows.length > 1
+                ? Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: largeSpacing,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Theme.of(context).scaffoldBackgroundColor,
+                            Theme.of(
+                              context,
+                            ).scaffoldBackgroundColor.withValues(alpha: 0),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
+          ],
         );
       },
     );
