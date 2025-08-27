@@ -1,0 +1,4 @@
+* Choose which brewing details to show on timer buttons.
+* Visual improvements to make Cuppa look better on iOS.
+* Various usability tweaks and small bug fixes.
+* Language translation updates - contribute via Weblate!
