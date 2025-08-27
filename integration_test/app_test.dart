@@ -114,8 +114,7 @@ void main() {
 
     // Navigate to Stats page and validate report
     await $.tap(find.byIcon(platformStatsIcon.icon!, skipOffstage: false));
-    expect(find.text(AppString.stats_header.translate()), findsOneWidget);
-    expect(find.text(formatTimer(0)), findsOneWidget);
+    expect(find.text(AppString.stats_no_data_1.translate()), findsOneWidget);
 
     // Navigate back to Timer page
     if (Platform.isIOS) {
@@ -155,7 +154,7 @@ void main() {
     // Navigate to Stats page and re-validate report
     await $.tap(find.byIcon(platformSettingsIcon.icon!, skipOffstage: false));
     await $.tap(find.byIcon(platformStatsIcon.icon!, skipOffstage: false));
-    expect(find.text(AppString.stats_title.translate()), findsOneWidget);
+    expect(find.text(AppString.stats_begin.translate()), findsOneWidget);
     expect(find.text(timerName), findsNWidgets(2));
     expect(find.text(formatTimer(timerSeconds)), findsOneWidget);
   });
