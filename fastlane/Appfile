@@ -1,0 +1,5 @@
+# Android
+package_name("com.nathanatos.Cuppa")
+
+# iOS
+app_identifier("com.nathanatos.Cuppa")

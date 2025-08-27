@@ -50,3 +50,7 @@ app.*.map.json
 
 # Patrol
 /integration_test/test_bundle.dart
+
+# Fastlane related
+fastlane/Preview.html
+fastlane/report.xml
