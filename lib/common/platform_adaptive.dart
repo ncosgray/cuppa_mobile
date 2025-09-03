@@ -122,7 +122,7 @@ Widget adaptiveNavBarActionButton({
     return CupertinoButton(
       padding: noPadding,
       onPressed: onPressed,
-      child: SizedBox(height: 24, width: 24, child: FittedBox(child: icon)),
+      child: icon,
     );
   } else {
     return IconButton(icon: icon, onPressed: onPressed);
