@@ -1,0 +1,1 @@
+* Fixade aviseringsbugg på Android.

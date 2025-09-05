@@ -1,0 +1,4 @@
+* Stöd för fler än tre egna teer i inställningarna.
+* Ändra ordningen på dina teknappar.
+* Förbättrad grafikkvalitet.
+* Uppdaterade översättningar - bidra via Weblate!
