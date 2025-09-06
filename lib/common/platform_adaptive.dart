@@ -28,15 +28,15 @@ import 'package:flutter/material.dart';
 
 // Platform specific icons
 Icon get platformSettingsIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.settings_solid)
+    ? const Icon(CupertinoIcons.settings_solid, size: 24)
     : const Icon(Icons.settings);
 
 Icon get platformAboutIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.question)
+    ? const Icon(CupertinoIcons.question, size: 24)
     : const Icon(Icons.help);
 
 Icon get platformStatsIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.chart_pie)
+    ? const Icon(CupertinoIcons.chart_pie, size: 24)
     : const Icon(Icons.pie_chart_outline);
 
 Icon get platformSortIcon => Platform.isIOS
