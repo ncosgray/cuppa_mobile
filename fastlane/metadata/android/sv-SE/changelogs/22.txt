@@ -1,0 +1,5 @@
+* Aviseringar för timers har nu en tidsstämpel.
+* Lade till en "Om"-sida..
+* Nu går det att ändra vissa inställningar samtidigt som en timer är igång.
+* Förbättringar av gränssnitt och användbarhet.
+* Nu tillgänglig på 7 språk - bidra fler via Weblate!

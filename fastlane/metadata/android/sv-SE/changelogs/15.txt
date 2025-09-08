@@ -1,0 +1,3 @@
+* En ny inställningssida!
+* Ställ in dina egna tenamn, dragningstider, och färger.
+* Spara inställningar för tre olika teer.

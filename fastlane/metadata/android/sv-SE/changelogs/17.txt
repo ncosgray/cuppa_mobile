@@ -1,0 +1,4 @@
+* Inställning för vattentemperatur för varje tesort.
+* Möjlighet att visa extra brygginformation på timerknapparna.
+* Ta tid på teer som drar längre än 10 minuter.
+* Fler språk och översättningsförbättringar - bidra via Weblate!
