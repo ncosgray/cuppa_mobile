@@ -1,0 +1,4 @@
+* Högre volym på aviseringsljudet.
+* Ny inställning: välj språk.
+* Förbättringar av gränssnitt och användbarhet.
+* Uppdaterade översättningar - bidra via Weblate!

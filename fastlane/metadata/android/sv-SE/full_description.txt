@@ -1,0 +1,7 @@
+Cuppa för Android är äntligen här! Är du trött på att låta teet dra för länge så att det blir beskt och kallt, eller på att dricka det för tidigt och gå miste om dess fulla potential? Då är den här appen för dig!
+
+För att appen ska vara så snabb och enkel att du faktiskt använder den, har vi byggt den med fokus på enkelhet. Öppna bara appen och tryck på knappen för den tesort du brygger. Så enkelt är det. Du behöver inte navigera i krångliga menyer för att hitta ett visst te, eller pilla med inställningar... om du inte vill anpassa dragningstider eller lägga till dina egna favoritteer.
+
+När du trycker på knappen startar Cuppa tidtagningen. Du ser en tepåse dyka upp i koppen som gradvis mörknar medan teet drar. En nedräkning visar återstående tid. Du kan brygga upp till två olika teer samtidigt, var och en med sin egen timer. När teet är klart meddelar Cuppa dig med en avisering -- som beroende på din enhets inställningar kan följas av ljud och/eller vibration.
+
+Vi hoppas du får stor nytta av Cuppa i din mobil!

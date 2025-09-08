@@ -1,0 +1,6 @@
+* Favoritmarkera dina teer för att för att skapa genvägar i appikonen.
+* Celsius är nu standardtemperatur för användare utanför USA.
+* Ny inställning: välj tema (ljust eller mörkt).
+* Fler teknappsfärger.
+* Förbättringar av gränssnitt och användbarhet.
+* Uppdaterade översättningar - bidra via Weblate!

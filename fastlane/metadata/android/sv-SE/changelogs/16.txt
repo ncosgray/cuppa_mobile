@@ -1,0 +1,3 @@
+* Cuppa har översätts till 9 nya språk - bidra via Weblate!
+* Ta tid på teer som drar kortare än en minut.
+* Olika små gränssnittsförbättringar och buggfixar.
