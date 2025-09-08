@@ -14,6 +14,7 @@
 
 import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 
 import 'dart:io' show Platform;
@@ -61,6 +62,10 @@ Future<void> sendNotification(
   int notifyID, {
   bool silent = false,
 }) async {
+  if (skipNotify) {
+    return;
+  }
+
   tz.TZDateTime notifyTime = tz.TZDateTime.now(
     tz.local,
   ).add(Duration(seconds: secs));

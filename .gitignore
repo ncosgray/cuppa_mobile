@@ -54,3 +54,4 @@ app.*.map.json
 # Fastlane related
 fastlane/Preview.html
 fastlane/report.xml
+screenshots-output/
