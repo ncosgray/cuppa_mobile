@@ -1,0 +1,3 @@
+* Roghnaigh cé na sonraí grúdaireachta le taispeáint ar chnaipí an lasc ama.
+* Feabhsuithe éagsúla ar úsáideacht agus ceartúcháin bheaga ar fhabhtanna.
+* Nuashonruithe aistriúcháin teanga - cuir leis trí Weblate!
