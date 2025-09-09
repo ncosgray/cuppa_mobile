@@ -28,18 +28,21 @@ platform :android do
   aab_path = 'build/app/outputs/bundle/release'
   apk_path = 'build/app/outputs/flutter-apk'
 
-  desc 'Build and upload to Play Store Alpha track'
-  lane :alpha do
+  desc 'Build and upload to Play Store Alpha'
+  lane :playalpha do
+    sh('mkdir -p /tmp/fastlane/android')
+    sh('cp -r metadata/android/en-US /tmp/fastlane/android')
     sh('flutter build appbundle')
     upload_to_play_store(
       json_key: ENV['GOOGLE_PLAY_JSON_KEY_PATH'],
       aab: "#{aab_path}/app-release.aab",
+      metadata_path: '/tmp/fastlane/android',
       track: 'alpha',
     )
   end
 
-  desc 'Promote Play Store Alpha to Prod'
-  lane :alphapro do
+  desc 'Release Play Store Alpha to Prod'
+  lane :playprod do
     upload_to_play_store(
       json_key: ENV['GOOGLE_PLAY_JSON_KEY_PATH'],
       version_code: build_number,
@@ -47,15 +50,6 @@ platform :android do
       skip_upload_apk: true,
       track: 'alpha',
       track_promote_to: 'production',
-    )
-  end
-
-  desc 'Build and release to Play Store'
-  lane :playstore do
-    sh('flutter build appbundle')
-    upload_to_play_store(
-      json_key: ENV['GOOGLE_PLAY_JSON_KEY_PATH'],
-      aab: "#{aab_path}/app-release.aab",
     )
   end
 
@@ -79,8 +73,9 @@ end
 platform :ios do
   ipa_path = 'build/ios/ipa'
 
-  desc 'Build and upload to TestFlight'
-  lane :test do
+  desc 'Build and upload to Apple TestFlight'
+  lane :appletest do
+    sh('flutter build ipa')
     build_app(
       workspace: 'ios/Runner.xcworkspace',
       scheme: 'Runner',
@@ -92,14 +87,17 @@ platform :ios do
     )
   end
 
-  desc 'Promote TestFlight to Prod'
-  lane :testpro do
+  desc 'Release Apple TestFlight to Prod'
+  lane :appleprod do
+    sh('mkdir -p /tmp/fastlane/ios')
+    sh('cp -r metadata/ios/metadata/*.txt /tmp/fastlane/ios')
+    sh('cp -r metadata/ios/metadata/en-US /tmp/fastlane/ios')
     upload_to_app_store(
       api_key_path: ENV['APPSTORE_API_KEY_PATH'],
       build_number: build_number,
       app_version: version,
       skip_binary_upload: true,
-      metadata_path: 'fastlane/metadata/ios/metadata',
+      metadata_path: '/tmp/fastlane/ios',
       screenshots_path: 'fastlane/metadata/ios/screenshots',
       release_notes: {
         "en-US" => File.read("metadata/ios/en-US/changelogs/#{build_number}.txt")
@@ -115,47 +113,4 @@ platform :ios do
       automatic_release: true,
     )
   end
-
-  desc 'Build and release to App Store'
-  lane :applestore do
-    build_app(
-      workspace: 'ios/Runner.xcworkspace',
-      scheme: 'Runner',
-      output_directory: ipa_path,
-    )
-    upload_to_app_store(
-      api_key_path: ENV['APPSTORE_API_KEY_PATH'],
-      ipa: "#{ipa_path}/Runner.ipa",
-      app_version: version,
-      metadata_path: 'fastlane/metadata/ios/metadata',
-      screenshots_path: 'fastlane/metadata/ios/screenshots',
-      release_notes: {
-        "en-US" => File.read("metadata/ios/en-US/changelogs/#{build_number}.txt")
-      },
-      precheck_include_in_app_purchases: false,
-      submission_information: {
-        add_id_info_uses_idfa: false,
-        export_compliance_encryption_updated: false,
-        export_compliance_uses_encryption: false
-      },
-      submit_for_review: true,
-      automatic_release: true,
-    )
-  end
-end
-
-# Build and release to production everywhere
-desc 'Publish to Play Store, App Store, GitHub'
-lane :release do
-  playstore
-  applestore
-  github
-end
-
-# Promote test versions everywhere
-desc 'Promote on Play Store, App Store, GitHub'
-lane :promote do
-  alphapro
-  testpro
-  github
 end

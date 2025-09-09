@@ -30,7 +30,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.nathanatos.Cuppa"
-    compileSdkVersion 35
+    compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -51,7 +51,7 @@ android {
 
     defaultConfig {
         applicationId "com.nathanatos.Cuppa"
-        minSdkVersion 21
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

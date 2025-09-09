@@ -68,6 +68,14 @@ Icon navigateIcon({required Color color}) {
   return Icon(Icons.arrow_circle_right, size: 28, color: color);
 }
 
+Icon forwardIcon({required Color color}) {
+  return Icon(Icons.arrow_forward, color: color);
+}
+
+Icon doneIcon({required Color color}) {
+  return Icon(Icons.check, color: color);
+}
+
 // Icon data for increment buttons
 const IconData incrementUpIcon = Icons.keyboard_arrow_up;
 const IconData incrementDownIcon = Icons.keyboard_arrow_down;

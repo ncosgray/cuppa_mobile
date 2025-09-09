@@ -17,6 +17,7 @@ import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
+import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
@@ -46,6 +47,9 @@ class TeaButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+    Color textColor = tea.isActive ? timerActiveColor : tea.getColor();
+
     return Card(
       margin: largeDefaultPadding,
       elevation: tea.isActive ? 0.0 : 1.0,
@@ -69,90 +73,73 @@ class TeaButton extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      tea.teaIcon,
-                      color: tea.isActive ? timerActiveColor : tea.getColor(),
-                      size: 64,
-                    ),
+                    Icon(tea.teaIcon, color: textColor, size: 64),
                     Text(
                       tea.name,
-                      style: textStyleButton.copyWith(
-                        color: tea.isActive ? timerActiveColor : tea.getColor(),
-                      ),
+                      style: textStyleButton.copyWith(color: textColor),
                     ),
                     // Optional extra info: brew time, temp, and ratio display
-                    Selector<AppProvider, bool>(
-                      selector: (_, provider) => provider.showExtra,
-                      builder: (context, showExtra, child) => Visibility(
-                        visible: showExtra,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Brew time
-                                Container(
-                                  padding: rowPadding,
-                                  child: Text(
-                                    formatTimer(tea.brewTime),
-                                    style: textStyleButtonTertiary.copyWith(
-                                      color: tea.isActive
-                                          ? timerActiveColor
-                                          : tea.getColor(),
-                                    ),
-                                  ),
-                                ),
-                                // Brew temperature
-                                Visibility(
-                                  visible: tea.brewTemp > roomTemp,
-                                  child: Container(
-                                    padding: rowPadding,
-                                    child: Text(
-                                      tea.getTempDisplay(
-                                        useCelsius: Provider.of<AppProvider>(
-                                          context,
-                                          listen: false,
-                                        ).useCelsius,
-                                      ),
-                                      style: textStyleButtonTertiary.copyWith(
-                                        color: tea.isActive
-                                            ? timerActiveColor
-                                            : tea.getColor(),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            // Brew time
+                            _extraInfoItem(
+                              infoType: ExtraInfo.brewTime,
+                              text: formatTimer(tea.brewTime),
+                              color: textColor,
                             ),
-                            // Brew ratio
-                            Selector<AppProvider, bool>(
-                              selector: (_, provider) => provider.useBrewRatios,
-                              builder: (context, useBrewRatios, child) =>
-                                  Visibility(
-                                    visible: useBrewRatios,
-                                    child: Container(
-                                      padding: rowPadding,
-                                      child: Text(
-                                        tea.brewRatio.ratioString,
-                                        style: textStyleButtonTertiary.copyWith(
-                                          color: tea.isActive
-                                              ? timerActiveColor
-                                              : tea.getColor(),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                            // Brew temperature
+                            _extraInfoItem(
+                              infoType: ExtraInfo.brewTemp,
+                              text: tea.brewTemp > roomTemp
+                                  ? tea.getTempDisplay(
+                                      useCelsius: provider.useCelsius,
+                                    )
+                                  : '',
+                              color: textColor,
                             ),
                           ],
                         ),
-                      ),
+                        // Brew ratio
+                        _extraInfoItem(
+                          infoType: ExtraInfo.brewRatio,
+                          text: tea.brewRatio.ratioString,
+                          color: textColor,
+                          isEnabled: provider.useBrewRatios,
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Text widget for extra info item
+  Widget _extraInfoItem({
+    required ExtraInfo infoType,
+    required String text,
+    required Color color,
+    bool isEnabled = true,
+  }) {
+    return Selector<AppProvider, bool>(
+      selector: (_, provider) =>
+          isEnabled && provider.showExtraList.contains(infoType),
+      builder: (context, isVisible, child) => Visibility(
+        visible: isVisible,
+        child: Container(
+          padding: rowPadding,
+          child: Text(
+            text,
+            style: textStyleButtonTertiary.copyWith(color: color),
           ),
         ),
       ),

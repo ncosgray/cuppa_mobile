@@ -26,6 +26,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:region_settings/region_settings.dart';
 
 const defaultLocale = Locale.fromSubtags(languageCode: 'en', countryCode: 'GB');
 
@@ -116,7 +117,10 @@ enum AppString {
   prefs_cup_style_classic('prefs_cup_style_classic'),
   prefs_cup_style_floral('prefs_cup_style_floral'),
   prefs_cup_style_mug('prefs_cup_style_mug'),
-  prefs_stacked_view('prefs_stacked_view'),
+  prefs_extra_brew_temp('prefs_extra_brew_temp'),
+  prefs_extra_brew_time('prefs_extra_brew_time'),
+  prefs_extra_brew_ratio('prefs_extra_brew_ratio'),
+  prefs_extra_select('prefs_extra_select'),
   prefs_header('prefs_header'),
   prefs_hide_increments('prefs_hide_increments'),
   prefs_hide_increments_info('prefs_hide_increments_info'),
@@ -126,6 +130,7 @@ enum AppString {
   prefs_show_extra_ratios('prefs_show_extra_ratios'),
   prefs_silent_default('prefs_silent_default'),
   prefs_silent_default_info('prefs_silent_default_info'),
+  prefs_stacked_view('prefs_stacked_view'),
   prefs_title('prefs_title'),
   prefs_use_brew_ratios('prefs_use_brew_ratios'),
   prefs_use_celsius('prefs_use_celsius'),
@@ -148,6 +153,8 @@ enum AppString {
   stats_favorite_pm('stats_favorite_pm'),
   stats_header('stats_header'),
   stats_include_deleted('stats_include_deleted'),
+  stats_no_data_1('stats_no_data_1'),
+  stats_no_data_2('stats_no_data_2'),
   stats_starred('stats_starred'),
   stats_tea_amount('stats_tea_amount'),
   stats_timer_count('stats_timer_count'),
@@ -360,28 +367,36 @@ class AppLocalizations {
     return instance._localizedStrings[key] ?? instance._defaultStrings[key]!;
   }
 
-  // Localized epoch time formatting as date or datetime string
-  static String dateString(int ms, {bool dateTime = false}) {
-    DateFormat formatter = instance.isFallbackLanguage
-        ? DateFormat.yMd()
-        : instance.isSystemLanguage
-        ? DateFormat(regionSettings.dateFormat.medium)
-        : DateFormat.yMMMd(instance.appLocaleString);
-    if (dateTime) {
-      formatter = formatter.add_Hms();
+  // Localized epoch time formatting as date string
+  static String dateString(int ms) {
+    DateTime d = DateTime.fromMillisecondsSinceEpoch(ms);
+    if (instance.isFallbackLanguage || instance.isSystemLanguage) {
+      return regionSettings.formatDate(d, dateStyle: DateStyle.medium);
+    } else {
+      DateFormat formatter = DateFormat.yMMMd(instance.appLocaleString);
+      return formatter.format(d);
     }
-    return formatter.format(DateTime.fromMillisecondsSinceEpoch(ms));
   }
 
   // Localized number formatting
-  static String numberString(double i, {int decimalPlaces = 0}) {
-    NumberFormat formatter = NumberFormat(
-      '#,##0${decimalPlaces > 0 ? '.${'0' * decimalPlaces}' : ''}',
-      instance.isFallbackLanguage || instance.isSystemLanguage
-          ? null
-          : instance.appLocaleString,
-    );
-    return formatter.format(i);
+  static String numberString(
+    double i, {
+    int decimalPlaces = 0,
+    bool asPercentage = false,
+  }) {
+    if (instance.isFallbackLanguage || instance.isSystemLanguage) {
+      return regionSettings.formatNumber(
+        i,
+        decimalPlaces: decimalPlaces,
+        asPercentage: asPercentage,
+      );
+    } else {
+      NumberFormat formatter = NumberFormat(
+        '#,##0${decimalPlaces > 0 ? '.${'0' * decimalPlaces}' : ''}${asPercentage ? '%' : ''}',
+        instance.appLocaleString,
+      );
+      return formatter.format(i);
+    }
   }
 
   // Locale info

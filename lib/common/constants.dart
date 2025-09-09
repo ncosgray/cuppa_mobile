@@ -74,7 +74,6 @@ const double brewRatioNumeratorStep = 0.5;
 const largeDeviceSize = 550;
 
 // Widget sizes
-const double navBarHeight = 56;
 const double teaButtonHeight = 106;
 const double teaButtonWidth = 88;
 const double cancelButtonHeight = 34;
@@ -157,6 +156,7 @@ const prefTeaList = 'Cuppa_tea_list';
 // Shared prefs keys for other settings
 const prefNextTeaID = 'Cuppa_next_tea_id';
 const prefShowExtra = 'Cuppa_show_extra';
+const prefShowExtraList = 'Cuppa_show_extra_list';
 const prefHideIncrements = 'Cuppa_hide_increments';
 const prefSilentDefault = 'Cuppa_silent_default';
 const prefStackedView = 'Cuppa_stacked_view';
@@ -174,6 +174,7 @@ const prefMigratedPrefs = 'Cuppa_migrated_prefs';
 const jsonKeySettings = 'settings';
 const jsonKeyNextTeaID = 'nextTeaID';
 const jsonKeyShowExtra = 'showExtra';
+const jsonKeyShowExtraList = 'showExtraList';
 const jsonKeyHideIncrements = 'hideIncrements';
 const jsonKeySilentDefault = 'silentDefault';
 const jsonKeyStackedView = 'stackedView';

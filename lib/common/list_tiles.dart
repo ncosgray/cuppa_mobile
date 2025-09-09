@@ -12,8 +12,6 @@
 
 // Cuppa list tiles
 
-import 'dart:io' show Platform;
-
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
@@ -23,6 +21,7 @@ import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -42,6 +41,27 @@ Widget settingSwitch({
           : null,
       value: value,
       onChanged: onChanged,
+      contentPadding: listTilePadding,
+      dense: true,
+    ),
+  );
+}
+
+// Setting chevron tile
+Widget settingChevron({
+  required String title,
+  String? subtitle,
+  required Function() onTap,
+}) {
+  return AnimatedSize(
+    duration: shortAnimationDuration,
+    child: ListTile(
+      title: Text(title, style: textStyleTitle),
+      subtitle: subtitle != null
+          ? Text(subtitle, style: textStyleSubtitle)
+          : null,
+      trailing: platformChevronIcon,
+      onTap: onTap,
       contentPadding: listTilePadding,
       dense: true,
     ),
@@ -123,6 +143,27 @@ Widget settingListItem(
       onChanged: radioPassThrough, // Handled by select list action tap
     ),
     onTap: onChanged,
+  );
+}
+
+// Setting list checkbox
+Widget settingListCheckbox(
+  BuildContext context, {
+  required String title,
+  required dynamic value,
+  required Function(bool?) onChanged,
+}) {
+  return adaptiveSelectListAction(
+    action: CheckboxListTile.adaptive(
+      contentPadding: radioTilePadding,
+      title: settingListTitle(
+        title: title,
+        color: Theme.of(context).textTheme.bodyLarge!.color!,
+      ),
+      value: value,
+      onChanged: onChanged,
+    ),
+    onTap: () => true,
   );
 }
 

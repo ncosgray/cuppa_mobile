@@ -38,7 +38,7 @@ class TimerWidget extends StatelessWidget {
     // Determine layout based on device orientation
     bool layoutPortrait = getDeviceSize(context).isPortrait;
 
-    return Scaffold(
+    return adaptiveScaffold(
       appBar: PlatformAdaptiveNavBar(
         isPoppable: false,
         title: appName,
@@ -47,73 +47,72 @@ class TimerWidget extends StatelessWidget {
         actionIcon: tutorialTooltip(
           context: context,
           key: tutorialKey2,
+          showBorder: true,
           child: platformSettingsIcon,
         ),
         actionRoute: const PrefsWidget(),
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Flex(
-                direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Countdown timers
-                  Expanded(
-                    flex: layoutPortrait ? 4 : 3,
-                    child: Container(
-                      padding: layoutPortrait
-                          ? wideTimerLayoutPadding
-                          : narrowTimerLayoutPadding,
-                      alignment: layoutPortrait
-                          ? Alignment.center
-                          : Alignment.centerRight,
+      body: Column(
+        children: [
+          Expanded(
+            child: Flex(
+              direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Countdown timers
+                Expanded(
+                  flex: layoutPortrait ? 4 : 3,
+                  child: Container(
+                    padding: layoutPortrait
+                        ? wideTimerLayoutPadding
+                        : narrowTimerLayoutPadding,
+                    alignment: layoutPortrait
+                        ? Alignment.center
+                        : Alignment.centerRight,
+                    child: tutorialTooltip(
+                      context: context,
+                      key: tutorialKey1,
+                      showArrow: false,
                       child: tutorialTooltip(
                         context: context,
-                        key: tutorialKey1,
+                        key: tutorialKey5,
                         showArrow: false,
-                        child: tutorialTooltip(
-                          context: context,
-                          key: tutorialKey5,
-                          showArrow: false,
-                          child: const FittedBox(
-                            fit: BoxFit.fitHeight,
-                            alignment: Alignment.center,
-                            child: TimerCountdownWidget(),
-                          ),
+                        child: const FittedBox(
+                          fit: BoxFit.fitHeight,
+                          alignment: Alignment.center,
+                          child: TimerCountdownWidget(),
                         ),
                       ),
                     ),
                   ),
-                  // Teacup
-                  Selector<AppProvider, bool>(
-                    selector: (_, provider) => provider.stackedView,
-                    builder: (context, stackedView, child) {
-                      return Expanded(
-                        flex: layoutPortrait && !stackedView ? 5 : 3,
-                        child: Container(
-                          constraints: BoxConstraints(
-                            maxWidth: getDeviceSize(context).height * 0.45,
-                          ),
-                          padding: layoutPortrait
-                              ? narrowTimerLayoutPadding
-                              : wideTimerLayoutPadding,
-                          alignment: layoutPortrait
-                              ? Alignment.center
-                              : Alignment.centerLeft,
-                          child: teacup(),
+                ),
+                // Teacup
+                Selector<AppProvider, bool>(
+                  selector: (_, provider) => provider.stackedView,
+                  builder: (context, stackedView, child) {
+                    return Expanded(
+                      flex: layoutPortrait && !stackedView ? 5 : 3,
+                      child: Container(
+                        constraints: BoxConstraints(
+                          maxWidth: getDeviceSize(context).height * 0.45,
                         ),
-                      );
-                    },
-                  ),
-                ],
-              ),
+                        padding: layoutPortrait
+                            ? narrowTimerLayoutPadding
+                            : wideTimerLayoutPadding,
+                        alignment: layoutPortrait
+                            ? Alignment.center
+                            : Alignment.centerLeft,
+                        child: teacup(),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-            // Tea brew start buttons
-            const TeaButtonList(),
-          ],
-        ),
+          ),
+          // Tea brew start buttons
+          const TeaButtonList(),
+        ],
       ),
     );
   }

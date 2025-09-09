@@ -13,50 +13,23 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
-### release
-
-```sh
-[bundle exec] fastlane release
-```
-
-Publish to Play Store, App Store, GitHub
-
-### promote
-
-```sh
-[bundle exec] fastlane promote
-```
-
-Promote on Play Store, App Store, GitHub
-
-----
-
-
 ## Android
 
-### android alpha
+### android playalpha
 
 ```sh
-[bundle exec] fastlane android alpha
+[bundle exec] fastlane android playalpha
 ```
 
-Build and upload to Play Store Alpha track
+Build and upload to Play Store Alpha
 
-### android alphapro
+### android playprod
 
 ```sh
-[bundle exec] fastlane android alphapro
+[bundle exec] fastlane android playprod
 ```
 
-Promote Play Store Alpha to Prod
-
-### android playstore
-
-```sh
-[bundle exec] fastlane android playstore
-```
-
-Build and release to Play Store
+Release Play Store Alpha to Prod
 
 ### android github
 
@@ -71,29 +44,21 @@ Build an APK and release to GitHub
 
 ## iOS
 
-### ios test
+### ios appletest
 
 ```sh
-[bundle exec] fastlane ios test
+[bundle exec] fastlane ios appletest
 ```
 
-Build and upload to TestFlight
+Build and upload to Apple TestFlight
 
-### ios testpro
+### ios appleprod
 
 ```sh
-[bundle exec] fastlane ios testpro
+[bundle exec] fastlane ios appleprod
 ```
 
-Promote TestFlight to Prod
-
-### ios applestore
-
-```sh
-[bundle exec] fastlane ios applestore
-```
-
-Build and release to App Store
+Release Apple TestFlight to Prod
 
 ----
 

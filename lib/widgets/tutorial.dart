@@ -13,6 +13,7 @@
 // Cuppa tutorial
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 
@@ -38,31 +39,59 @@ Widget tutorialTooltip({
   required BuildContext context,
   required GlobalKey key,
   bool showArrow = true,
+  bool showBorder = false,
   required Widget child,
 }) {
   if (tutorialSteps.containsKey(key)) {
+    Color backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+    Color foregroundColor = Theme.of(context).colorScheme.onPrimaryContainer;
+    Color highlightColor = Theme.of(context).colorScheme.error;
     return Showcase(
       key: key,
       title: tutorialSteps[key]!.length == 2
           ? tutorialSteps[key]![1].translate()
           : null,
-      titleTextStyle: textStyleTutorialTitle.copyWith(
-        color: Theme.of(context).colorScheme.onPrimaryContainer,
-      ),
+      titleTextStyle: textStyleTutorialTitle.copyWith(color: foregroundColor),
       titleAlignment: Alignment.centerLeft,
       description: tutorialSteps[key]![0].translate(),
-      descTextStyle: textStyleTutorial.copyWith(
-        color: Theme.of(context).colorScheme.onPrimaryContainer,
-      ),
+      descTextStyle: textStyleTutorial.copyWith(color: foregroundColor),
+      descriptionAlignment: Alignment.centerLeft,
       tooltipPadding: const EdgeInsets.all(12),
-      tooltipBackgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      tooltipBackgroundColor: backgroundColor,
       showArrow: showArrow,
       overlayOpacity: 0,
-      blurValue: showArrow ? 2.5 : 0.0,
+      blurValue: showArrow && !showBorder ? 2.5 : 0.0,
+      targetShapeBorder: RoundedRectangleBorder(
+        side: BorderSide(
+          color: showBorder ? highlightColor : Colors.transparent,
+          width: 4,
+          strokeAlign: BorderSide.strokeAlignOutside,
+        ),
+      ),
+      tooltipActionConfig: const TooltipActionConfig(
+        alignment: MainAxisAlignment.end,
+        position: TooltipActionPosition.inside,
+        gapBetweenContentAndAction: 0,
+      ),
+      tooltipActions: [
+        TooltipActionButton(
+          type: TooltipDefaultActionType.next,
+          name: '',
+          tailIcon: ActionButtonIcon(
+            icon: key == tutorialSteps.keys.toList().last
+                ? doneIcon(color: foregroundColor)
+                : forwardIcon(color: foregroundColor),
+          ),
+          backgroundColor: Colors.transparent,
+          padding: EdgeInsets.zero,
+        ),
+      ],
       disableMovingAnimation: true,
       disableScaleAnimation: false,
       scaleAnimationDuration: longAnimationDuration,
       scaleAnimationAlignment: Alignment.center,
+      disposeOnTap: false,
+      onTargetClick: () => ShowCaseWidget.of(context).next(),
       onToolTipClick: () => ShowCaseWidget.of(context).next(),
       child: child,
     );

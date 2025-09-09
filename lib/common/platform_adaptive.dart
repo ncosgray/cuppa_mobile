@@ -17,26 +17,26 @@
 // - Create NavBar and BottomNavBar page navigation for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
-import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 
 import 'dart:io' show Platform;
+import 'dart:ui' show ImageFilter;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // Platform specific icons
 Icon get platformSettingsIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.settings_solid)
+    ? const Icon(CupertinoIcons.settings_solid, size: 24)
     : const Icon(Icons.settings);
 
 Icon get platformAboutIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.question)
+    ? const Icon(CupertinoIcons.question, size: 24)
     : const Icon(Icons.help);
 
 Icon get platformStatsIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.chart_pie)
+    ? const Icon(CupertinoIcons.chart_pie, size: 24)
     : const Icon(Icons.pie_chart_outline);
 
 Icon get platformSortIcon => Platform.isIOS
@@ -50,6 +50,10 @@ Icon get platformExportIcon => Platform.isIOS
 Icon get platformImportIcon => Platform.isIOS
     ? const Icon(CupertinoIcons.arrow_up_doc)
     : const Icon(Icons.upload_file);
+
+Icon get platformChevronIcon => Platform.isIOS
+    ? Icon(CupertinoIcons.chevron_right, color: CupertinoColors.systemBlue)
+    : Icon(Icons.chevron_right);
 
 Icon getPlatformEditIcon({double? size}) {
   return Platform.isIOS
@@ -69,6 +73,46 @@ Icon getPlatformRemoveAllIcon([Color? color]) {
       : Icon(Icons.delete_sweep_outlined, color: color);
 }
 
+// Platform adaptive page scaffold
+Widget adaptiveScaffold({
+  required Widget body,
+  PreferredSizeWidget? appBar,
+  Widget? bottomNavigationBar,
+  Color? backgroundColor,
+}) {
+  if (Platform.isIOS) {
+    if (bottomNavigationBar != null &&
+        bottomNavigationBar is PlatformAdaptiveBottomNavBar) {
+      // For iOS with bottom navigation, use CupertinoTabScaffold
+      return CupertinoTabScaffold(
+        backgroundColor: backgroundColor,
+        tabBar: (bottomNavigationBar).iosTabBar,
+        tabBuilder: (BuildContext context, int index) {
+          return CupertinoPageScaffold(
+            navigationBar: appBar as PlatformAdaptiveNavBar,
+            backgroundColor: backgroundColor,
+            child: Material(type: MaterialType.transparency, child: body),
+          );
+        },
+      );
+    } else {
+      // Regular iOS page without bottom navigation
+      return CupertinoPageScaffold(
+        navigationBar: appBar as PlatformAdaptiveNavBar,
+        backgroundColor: backgroundColor,
+        child: Material(type: MaterialType.transparency, child: body),
+      );
+    }
+  } else {
+    return Scaffold(
+      appBar: appBar,
+      body: body,
+      bottomNavigationBar: bottomNavigationBar,
+      backgroundColor: backgroundColor,
+    );
+  }
+}
+
 // Nav bar action button with styling appropriate to platform
 Widget adaptiveNavBarActionButton({
   required Widget icon,
@@ -78,7 +122,7 @@ Widget adaptiveNavBarActionButton({
     return CupertinoButton(
       padding: noPadding,
       onPressed: onPressed,
-      child: SizedBox(height: 24, width: 24, child: FittedBox(child: icon)),
+      child: icon,
     );
   } else {
     return IconButton(icon: icon, onPressed: onPressed);
@@ -278,9 +322,64 @@ Widget adaptiveSegmentedControl({
   }
 }
 
+// Sliver app bar page header with effects appropriate to platform
+Widget adaptivePageHeader(
+  BuildContext context, {
+  bool pinned = false,
+  Widget? leading,
+  required String title,
+  List<Widget>? actions,
+}) {
+  return SliverAppBar(
+    elevation: Platform.isIOS ? 0 : (pinned ? 1 : 0),
+    pinned: pinned,
+    floating: !pinned,
+    snap: !pinned,
+    backgroundColor: Platform.isIOS
+        ? Colors.transparent
+        : Theme.of(context).scaffoldBackgroundColor,
+    surfaceTintColor: Platform.isIOS
+        ? null
+        : Theme.of(context).scaffoldBackgroundColor,
+    shadowColor: Platform.isIOS
+        ? Colors.transparent
+        : Theme.of(context).shadowColor,
+    flexibleSpace: Platform.isIOS
+        ? FlexibleSpaceBar(
+            background: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  color: Theme.of(
+                    context,
+                  ).scaffoldBackgroundColor.withValues(alpha: 0.7),
+                ),
+              ),
+            ),
+          )
+        : null,
+    automaticallyImplyLeading: false,
+    leading: leading,
+    titleSpacing: 0,
+    title: Container(
+      margin: headerPadding,
+      alignment: Alignment.centerLeft,
+      child: FittedBox(
+        child: Text(
+          title,
+          style: textStyleHeader.copyWith(
+            color: Theme.of(context).textTheme.bodyLarge!.color!,
+          ),
+        ),
+      ),
+    ),
+    actions: actions,
+  );
+}
+
 // Navigation bar that is Material on Android and Cupertino on iOS
 class PlatformAdaptiveNavBar extends StatelessWidget
-    implements PreferredSizeWidget {
+    implements PreferredSizeWidget, ObstructingPreferredSizeWidget {
   const PlatformAdaptiveNavBar({
     super.key,
     required this.isPoppable,
@@ -303,7 +402,11 @@ class PlatformAdaptiveNavBar extends StatelessWidget
   final Widget? secondaryActionIcon;
 
   @override
-  Size get preferredSize => const Size.fromHeight(navBarHeight);
+  bool shouldFullyObstruct(BuildContext context) => true;
+
+  @override
+  Size get preferredSize =>
+      Size.fromHeight(Platform.isIOS ? 44 : kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -313,9 +416,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       actions.add(
         adaptiveNavBarActionButton(
           icon: secondaryActionIcon!,
-          onPressed: () => Navigator.of(
-            context,
-          ).push(MaterialPageRoute(builder: (_) => secondaryActionRoute!)),
+          onPressed: _adaptiveOnPressed(context, route: secondaryActionRoute!),
         ),
       );
     }
@@ -323,12 +424,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       actions.add(
         adaptiveNavBarActionButton(
           icon: actionIcon!,
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              fullscreenDialog: Platform.isIOS ? !isPoppable : false,
-              builder: (_) => actionRoute!,
-            ),
-          ),
+          onPressed: _adaptiveOnPressed(context, route: actionRoute!),
         ),
       );
     }
@@ -338,12 +434,14 @@ class PlatformAdaptiveNavBar extends StatelessWidget
         transitionBetweenRoutes: false,
         automaticallyImplyLeading: false,
         automaticallyImplyMiddle: false,
+        automaticBackgroundVisibility: false,
+        enableBackgroundFilterBlur: false,
         padding: previousPageTitle != null
             ? const EdgeInsetsDirectional.only(start: 4, end: 12)
             : const EdgeInsetsDirectional.symmetric(horizontal: 12),
         border: isPoppable
             ? const Border(
-                bottom: BorderSide(color: Color(0x4D000000), width: 0),
+                bottom: BorderSide(color: Color(0x4D000000), width: 0.5),
               ) // _kDefaultNavBarBorder
             : null,
         backgroundColor: isPoppable
@@ -368,7 +466,10 @@ class PlatformAdaptiveNavBar extends StatelessWidget
             : isPoppable
             ? CupertinoButton(
                 padding: noPadding,
-                child: Text(buttonTextDone),
+                child: Text(
+                  buttonTextDone,
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
                 onPressed: () => Navigator.of(context).pop(),
               )
             : null,
@@ -396,6 +497,24 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       );
     }
   }
+
+  // Navigation action handler that adapts to platform
+  Function()? _adaptiveOnPressed(
+    BuildContext context, {
+    required Widget route,
+  }) {
+    return () {
+      if (Platform.isIOS) {
+        Navigator.of(
+          context,
+        ).push(CupertinoSheetRoute<void>(builder: (_) => route));
+      } else {
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute<void>(builder: (_) => route));
+      }
+    };
+  }
 }
 
 // Bottom nav bar that is Material on Android and Cupertino on iOS
@@ -411,15 +530,13 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
   final Function(int)? onTap;
   final List<BottomNavigationBarItem> items;
 
+  CupertinoTabBar get iosTabBar =>
+      CupertinoTabBar(currentIndex: currentIndex, onTap: onTap, items: items);
+
   @override
   Widget build(BuildContext context) {
     if (Platform.isIOS) {
-      return CupertinoTabBar(
-        height: navBarHeight,
-        currentIndex: currentIndex,
-        onTap: onTap,
-        items: items,
-      );
+      return iosTabBar;
     } else {
       return BottomNavigationBar(
         useLegacyColorScheme: false,

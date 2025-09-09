@@ -36,7 +36,7 @@ Widget cancelButton({required Color color, required Function()? onPressed}) {
           cancelIcon(color: color),
           Text(
             AppString.cancel_button.translate(),
-            style: textStyleButtonSecondary.copyWith(color: color),
+            style: textStyleButtonTertiary.copyWith(color: color),
           ),
         ],
       ),

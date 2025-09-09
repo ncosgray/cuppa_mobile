@@ -28,6 +28,7 @@ final ThemeData lightThemeData = ThemeData(
   iconTheme: const IconThemeData(color: Colors.grey),
   splashFactory: splashFactory,
   pageTransitionsTheme: pageTransitionsTheme,
+  fontFamily: fontFamily,
   cupertinoOverrideTheme: cupertinoOverrideTheme,
 );
 final ThemeData darkThemeData = ThemeData(
@@ -38,6 +39,7 @@ final ThemeData darkThemeData = ThemeData(
   sliderTheme: SliderThemeData(inactiveTrackColor: Colors.grey.shade800),
   splashFactory: splashFactory,
   pageTransitionsTheme: pageTransitionsTheme,
+  fontFamily: fontFamily,
   cupertinoOverrideTheme: cupertinoOverrideTheme,
 );
 final ThemeData blackThemeData = ThemeData(
@@ -47,6 +49,7 @@ final ThemeData blackThemeData = ThemeData(
   sliderTheme: SliderThemeData(inactiveTrackColor: Colors.grey.shade800),
   splashFactory: splashFactory,
   pageTransitionsTheme: pageTransitionsTheme,
+  fontFamily: fontFamily,
   cupertinoOverrideTheme: cupertinoOverrideTheme,
 );
 
@@ -83,6 +86,8 @@ PageTransitionsTheme get pageTransitionsTheme => const PageTransitionsTheme(
     TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
   },
 );
+
+String? get fontFamily => Platform.isIOS ? 'CupertinoSystemDisplay' : null;
 
 CupertinoThemeData get cupertinoOverrideTheme =>
     const CupertinoThemeData(primaryColor: CupertinoColors.systemBlue);

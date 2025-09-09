@@ -17,7 +17,6 @@ import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:region_settings/region_settings.dart';
 
 // Type conversion
@@ -97,11 +96,6 @@ String formatTimer(int s, {bool inDays = true}) {
   } else {
     return '$mins:${secs.toString().padLeft(2, '0')}';
   }
-}
-
-// Format number as percentage
-String formatPercent(double i) {
-  return NumberFormat('#%').format(i);
 }
 
 // Format ratio amounts with units

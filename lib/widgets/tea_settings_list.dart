@@ -27,7 +27,6 @@ import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:cuppa_mobile/widgets/page_header.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
 
 import 'package:flutter/material.dart';
@@ -48,6 +47,7 @@ class TeaSettingsList extends StatefulWidget {
 class _TeaSettingsListState extends State<TeaSettingsList> {
   // State variables
   final ScrollController _scrollController = ScrollController();
+  bool _showInfoText = false;
   bool _scrollToEnd = false;
   bool _animateTeaList = false;
   late bool _launchAddTea;
@@ -56,8 +56,31 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   @override
   void initState() {
     super.initState();
-
+    _scrollController.addListener(_scrollListener);
     _launchAddTea = widget.launchAddTea;
+  }
+
+  // Scroll listener for info text
+  void _scrollListener() {
+    if (_scrollController.offset <= -20) {
+      // Threshold for showing info
+      if (!_showInfoText) {
+        setState(() => _showInfoText = true);
+      }
+    } else if (_scrollController.offset > 0) {
+      // Hide info text when scrolling up through content
+      if (_showInfoText) {
+        setState(() => _showInfoText = false);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_scrollListener)
+      ..dispose();
+    super.dispose();
   }
 
   // Build tea settings list
@@ -89,11 +112,13 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
       selector: (_, provider) => (activeTeas: provider.activeTeas.isNotEmpty),
       builder: (context, teaData, child) => CustomScrollView(
         controller: _scrollController,
+        physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
         cacheExtent: teasMaxCount * 48,
         slivers: [
           // Teas section header
-          pageHeader(
+          adaptivePageHeader(
             context,
+            pinned: true,
             title: AppString.teas_title.translate(),
             // Add Tea and Sort Teas action buttons
             actions: [
@@ -101,16 +126,26 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
               teaCount > 0 ? _sortTeasAction : const SizedBox.shrink(),
             ],
           ),
-          // Tea settings info text
+          // Tea settings info text that is revealed by pulling down
           SliverToBoxAdapter(
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                margin: bodyPadding,
-                child: Text(
-                  AppString.prefs_header.translate(),
-                  style: textStyleSubtitle,
-                ),
+            child: AnimatedSize(
+              duration: longAnimationDuration,
+              child: AnimatedOpacity(
+                duration: shortAnimationDuration,
+                opacity: _showInfoText ? 1.0 : 0.0,
+                child: _showInfoText
+                    ? SafeArea(
+                        top: false,
+                        bottom: false,
+                        child: Container(
+                          padding: bodyPadding,
+                          child: Text(
+                            AppString.prefs_header.translate(),
+                            style: textStyleSubtitle,
+                          ),
+                        ),
+                      )
+                    : SizedBox.shrink(),
               ),
             ),
           ),
@@ -121,19 +156,23 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
           ),
           // Add Tea and Remove All buttons
           SliverToBoxAdapter(
-            child: Container(
-              margin: bottomSliverPadding,
-              child: Row(
-                spacing: smallSpacing,
-                children: [
-                  Expanded(child: _addTeaButton),
-                  (teaCount > 0 && !teaData.activeTeas)
-                      ? _removeAllButton
-                      : const SizedBox.shrink(),
-                ],
+            child: SafeArea(
+              top: false,
+              child: Container(
+                margin: bottomSliverPadding,
+                child: Row(
+                  spacing: smallSpacing,
+                  children: [
+                    Expanded(child: _addTeaButton),
+                    (teaCount > 0 && !teaData.activeTeas)
+                        ? _removeAllButton
+                        : const SizedBox.shrink(),
+                  ],
+                ),
               ),
             ),
           ),
+          SliverFillRemaining(hasScrollBody: false, child: Container()),
         ],
       ),
     );

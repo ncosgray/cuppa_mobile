@@ -18,6 +18,9 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:region_settings/region_settings.dart';
 
+// Test mode
+bool skipNotify = false;
+
 // Global navigator
 final navigatorKey = GlobalKey<NavigatorState>();
 

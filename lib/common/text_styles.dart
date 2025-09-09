@@ -45,7 +45,7 @@ const TextStyle textStyleButton = TextStyle(
 );
 
 const TextStyle textStyleButtonSecondary = TextStyle(
-  fontSize: 16,
+  fontSize: 15,
   fontWeight: FontWeight.bold,
 );
 
@@ -67,7 +67,7 @@ const TextStyle textStyleTimerIncrement = TextStyle(
 );
 
 const TextStyle textStyleSetting = TextStyle(
-  fontSize: 18,
+  fontSize: 17,
   fontWeight: FontWeight.bold,
 );
 
@@ -76,9 +76,9 @@ const TextStyle textStyleSettingNumber = TextStyle(
   fontFeatures: [FontFeature.tabularFigures()],
 );
 
-const TextStyle textStyleSettingSecondary = TextStyle(fontSize: 16);
+const TextStyle textStyleSettingSecondary = TextStyle(fontSize: 15);
 
-const TextStyle textStyleSettingTertiary = TextStyle(fontSize: 14);
+const TextStyle textStyleSettingTertiary = TextStyle(fontSize: 13);
 
 const TextStyle textStyleTutorial = TextStyle(fontSize: 16);
 

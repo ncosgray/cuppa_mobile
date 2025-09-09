@@ -39,9 +39,8 @@ void main() {
     await $.pumpWidgetAndSettle(const CuppaApp());
 
     // Tap through tutorials
-    for (final _ in tutorialSteps.keys) {
-      await $.native.tapAt(const Offset(0.5, 0.5));
-      await $.pumpAndSettle();
+    for (final key in tutorialSteps.keys) {
+      await $.tap(find.text(tutorialSteps[key]![0].translate()));
     }
 
     // Navigate to Prefs page
@@ -68,7 +67,7 @@ void main() {
       keyboardBehavior: KeyboardBehavior.showAndDismiss,
     );
     await $.tap(find.text(AppString.ok_button.translate()));
-    expect(find.text(timerName), findsOneWidget);
+    expect(find.text(timerName), findsAny);
 
     // Edit test tea brew time
     await $.tap(find.text(formatTimer(Presets.presetList[0].brewTime)));
@@ -99,6 +98,8 @@ void main() {
     );
     await $.scrollUntilVisible(finder: extraSwitch);
     await $.tap(extraSwitch);
+    await $.tap(find.text(AppString.prefs_extra_brew_time.translate()));
+    await $.tap(find.text(AppString.done_button.translate()));
 
     // Change setting: enable stats collection
     final Finder statsSwitch = find.text(AppString.stats_enable.translate());
@@ -112,8 +113,7 @@ void main() {
 
     // Navigate to Stats page and validate report
     await $.tap(find.byIcon(platformStatsIcon.icon!, skipOffstage: false));
-    expect(find.text(AppString.stats_header.translate()), findsOneWidget);
-    expect(find.text(formatTimer(0)), findsOneWidget);
+    expect(find.text(AppString.stats_no_data_1.translate()), findsOneWidget);
 
     // Navigate back to Timer page
     if (Platform.isIOS) {
@@ -139,22 +139,29 @@ void main() {
 
     // Check for notification after timer duration
     await Future.delayed(const Duration(seconds: timerSeconds));
-    await $.native.openNotifications();
-    bool didNotify = false;
-    for (final notification in await $.native.getNotifications()) {
-      if (notification.content.contains(timerName)) {
-        didNotify = true;
+    if (Platform.isIOS) {
+      await $.native.tap(
+        Selector(text: AppString.notification_title.translate()),
+        appId: 'com.apple.springboard',
+      );
+    } else {
+      await $.native.openNotifications();
+      bool didNotify = false;
+      for (final notification in await $.native.getNotifications()) {
+        if (notification.content.contains(timerName)) {
+          didNotify = true;
+        }
       }
+      expect(didNotify, true);
+      await $.native.closeNotifications();
     }
-    expect(didNotify, true);
-    await $.native.closeNotifications();
     expect(find.text(timerName), findsOneWidget);
 
     // Navigate to Stats page and re-validate report
     await $.tap(find.byIcon(platformSettingsIcon.icon!, skipOffstage: false));
     await $.tap(find.byIcon(platformStatsIcon.icon!, skipOffstage: false));
-    expect(find.text(AppString.stats_title.translate()), findsOneWidget);
-    expect(find.text(timerName), findsNWidgets(2));
-    expect(find.text(formatTimer(timerSeconds)), findsOneWidget);
+    expect(find.text(AppString.stats_begin.translate()), findsOneWidget);
+    expect(find.text(timerName), findsAtLeastNWidgets(2));
+    expect(find.text(formatTimer(timerSeconds)), findsAny);
   });
 }

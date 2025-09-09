@@ -39,7 +39,8 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 // App initialization
-Future<void> initializeApp() async {
+Future<void> initializeApp({bool testing = false}) async {
+  skipNotify = testing;
   WidgetsFlutterBinding.ensureInitialized();
   await Prefs.init();
   packageInfo = await PackageInfo.fromPlatform();
