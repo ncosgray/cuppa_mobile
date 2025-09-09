@@ -13,17 +13,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
-### release
-
-```sh
-[bundle exec] fastlane release
-```
-
-Release on Play Store, App Store, GitHub
-
-----
-
-
 ## Android
 
 ### android playalpha
@@ -34,10 +23,10 @@ Release on Play Store, App Store, GitHub
 
 Build and upload to Play Store Alpha
 
-### android playstore
+### android playprod
 
 ```sh
-[bundle exec] fastlane android playstore
+[bundle exec] fastlane android playprod
 ```
 
 Release Play Store Alpha to Prod
@@ -63,10 +52,10 @@ Build an APK and release to GitHub
 
 Build and upload to Apple TestFlight
 
-### ios applestore
+### ios appleprod
 
 ```sh
-[bundle exec] fastlane ios applestore
+[bundle exec] fastlane ios appleprod
 ```
 
 Release Apple TestFlight to Prod
