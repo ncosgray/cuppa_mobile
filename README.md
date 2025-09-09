@@ -13,8 +13,8 @@ To make the app so quick and easy that you'll actually use it, we have built it 
 
 Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in the cup and gradually darken as the tea steeps. A countdown timer shows the steep time remaining. You can have up to two separate teas brewing at once, each with its own countdown timer. When the tea is done Cuppa will let you know with a notification -- depending on your device settings, this may be accompanied by a sound and/or vibration.
 
-<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="200"/>
--|-|-|-|-
+<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/5_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/6_en-US.png" width="200"/>
+-|-|-|-|-|-
 
 ### Install
 
