@@ -53,8 +53,8 @@ Future<void> initializeApp({bool testing = false}) async {
 
   // Get time zone
   tz.initializeTimeZones();
-  final String timeZoneName = await FlutterTimezone.getLocalTimezone();
-  tz.setLocalLocation(tz.getLocation(timeZoneName));
+  final TimezoneInfo timeZone = await FlutterTimezone.getLocalTimezone();
+  tz.setLocalLocation(tz.getLocation(timeZone.identifier));
 
   // Initialize notifications plugin
   await initializeNotifications();
