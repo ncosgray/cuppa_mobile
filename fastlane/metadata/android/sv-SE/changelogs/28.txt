@@ -1,0 +1,6 @@
+* Nytt te-tillval: Välj mellan tre olika ikoner.
+* Lättare att välja dragningstid och temperatur.
+* Nu kan du ha en enda te-knapp.
+* Länk till enhetens notisinställningar tillagd.
+* Förbättrat gränssnitt.
+* Fler översättningar – bidra du också, via Weblate!

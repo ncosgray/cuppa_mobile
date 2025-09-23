@@ -1,0 +1,5 @@
+* Lättare att lägga till drycker med en ny dryckes-lista!!
+* Notiser kan användas när du behöver göra något.
+  (OBS: Vill du ändra det, kan du behöva ominstallera appen.)
+* Justeringar av gränssnittet.
+* Fler översättningar – bidra du också, via Weblate!

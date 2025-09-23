@@ -1,0 +1,2 @@
+* fixat krascher på vikbara enheter
+* förbättrad enfärgsikon

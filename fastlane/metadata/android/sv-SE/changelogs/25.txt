@@ -1,0 +1,4 @@
+* Nu med liggande läge för telefoner.
+* Bättre storleksinställningar i enhetens hjälpmedelsinställningar.
+* Förbättrat gränssnitt.
+* Bättre översättningar – bidra du också, via Weblate!

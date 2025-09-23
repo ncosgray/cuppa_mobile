@@ -1,0 +1,5 @@
+* Helsvart, mörkt tema kan nu väljas.
+* Lagt till en knapp för att ta bort samtliga drycker.
+* Bugg som startade kortkommandon har fixats.
+* Förbättrat gränssnitt.
+* Fler översättningar – bidra du också, via Weblate!
