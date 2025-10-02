@@ -131,6 +131,7 @@ Widget settingListItem(
           value: value,
           useCupertinoCheckmarkStyle: true,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          activeColor: getAdaptiveActiveColor(context),
           fillColor: WidgetStateProperty.resolveWith(
             (states) => states.contains(WidgetState.selected)
                 ? Theme.of(context).colorScheme.primary
@@ -162,6 +163,7 @@ Widget settingListCheckbox(
         title: title,
         color: Theme.of(context).textTheme.bodyLarge!.color!,
       ),
+      activeColor: getAdaptiveActiveColor(context),
       value: value,
       onChanged: onChanged,
     ),
