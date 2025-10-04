@@ -53,8 +53,8 @@ Future<void> initializeApp({bool testing = false}) async {
 
   // Get time zone
   tz.initializeTimeZones();
-  final String timeZoneName = await FlutterTimezone.getLocalTimezone();
-  tz.setLocalLocation(tz.getLocation(timeZoneName));
+  final TimezoneInfo timeZone = await FlutterTimezone.getLocalTimezone();
+  tz.setLocalLocation(tz.getLocation(timeZone.identifier));
 
   // Initialize notifications plugin
   await initializeNotifications();
@@ -92,9 +92,18 @@ class CuppaApp extends StatelessWidget {
                 navigatorKey: navigatorKey,
                 // Configure app theme including dynamic colors if supported
                 theme: createLightTheme(dynamicColors: lightDynamic),
+                highContrastTheme: createLightTheme(
+                  dynamicColors: lightDynamic,
+                  highContrast: true,
+                ),
                 darkTheme: createDarkTheme(
                   dynamicColors: darkDynamic,
                   blackTheme: appThemeBlack,
+                ),
+                highContrastDarkTheme: createDarkTheme(
+                  dynamicColors: darkDynamic,
+                  blackTheme: appThemeBlack,
+                  highContrast: true,
                 ),
                 themeMode: appThemeMode,
                 // Initial route

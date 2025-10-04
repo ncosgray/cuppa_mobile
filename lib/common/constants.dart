@@ -230,8 +230,6 @@ const brewTempIncrement = 5;
 // App store review prompt
 const reviewPromptAtCount = 30;
 const promptDelayDuration = Duration(milliseconds: 500);
-const installSourceAppleStore = 'com.apple';
-const installSourceGoogleStore = 'com.android.vending';
 
 // Stats data
 const statsDatabase = 'Cuppa_stats.db';

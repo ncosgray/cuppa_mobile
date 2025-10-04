@@ -52,7 +52,7 @@ Icon get platformImportIcon => Platform.isIOS
     : const Icon(Icons.upload_file);
 
 Icon get platformChevronIcon => Platform.isIOS
-    ? Icon(CupertinoIcons.chevron_right, color: CupertinoColors.systemBlue)
+    ? Icon(CupertinoIcons.chevron_right)
     : Icon(Icons.chevron_right);
 
 Icon getPlatformEditIcon({double? size}) {
@@ -71,6 +71,13 @@ Icon getPlatformRemoveAllIcon([Color? color]) {
   return Platform.isIOS
       ? Icon(CupertinoIcons.square_stack_3d_up_slash_fill, color: color)
       : Icon(Icons.delete_sweep_outlined, color: color);
+}
+
+// Active color for checkboxes and other widgets
+Color? getAdaptiveActiveColor(BuildContext context) {
+  return Platform.isIOS
+      ? CupertinoColors.systemBlue.resolveFrom(context)
+      : null;
 }
 
 // Platform adaptive page scaffold

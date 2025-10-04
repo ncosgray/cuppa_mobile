@@ -30,22 +30,18 @@ void main() async {
 void enableCheckReviewPrompt() {
   // Check if we should ask user to submit an app store review
   checkReviewPrompt = () async {
-    // Only consider prompting if installed from an app store
-    if (packageInfo.installerStore == installSourceAppleStore ||
-        packageInfo.installerStore == installSourceGoogleStore) {
-      // Activity count determines when to prompt
-      int counter = Prefs.reviewPromptCounter;
-      if (counter <= reviewPromptAtCount) {
-        Prefs.incrementReviewPromptCounter();
+    // Activity count determines when to prompt
+    int counter = Prefs.reviewPromptCounter;
+    if (counter <= reviewPromptAtCount) {
+      Prefs.incrementReviewPromptCounter();
 
-        // Prompt for review
-        if (counter == reviewPromptAtCount) {
-          final InAppReview inAppReview = InAppReview.instance;
-          if (await inAppReview.isAvailable()) {
-            Future.delayed(promptDelayDuration, () {
-              inAppReview.requestReview();
-            });
-          }
+      // Prompt for review
+      if (counter == reviewPromptAtCount) {
+        final InAppReview inAppReview = InAppReview.instance;
+        if (await inAppReview.isAvailable()) {
+          Future.delayed(promptDelayDuration, () {
+            inAppReview.requestReview();
+          });
         }
       }
     }

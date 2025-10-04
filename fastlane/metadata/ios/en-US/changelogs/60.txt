@@ -1,0 +1,2 @@
+* iOS 26 compatibility, including refreshed icons.
+* Better support for high contrast mode.
