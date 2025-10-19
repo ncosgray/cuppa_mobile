@@ -70,7 +70,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
         // Start a tutorial for new users
         if (Prefs.showTutorial) {
-          ShowCaseWidget.of(context).startShowCase(tutorialSteps.keys.toList());
+          ShowcaseView.get().startShowCase(tutorialSteps.keys.toList());
           Prefs.setSkipTutorial();
         }
       }

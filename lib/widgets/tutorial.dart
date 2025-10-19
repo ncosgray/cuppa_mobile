@@ -91,8 +91,8 @@ Widget tutorialTooltip({
       scaleAnimationDuration: longAnimationDuration,
       scaleAnimationAlignment: Alignment.center,
       disposeOnTap: false,
-      onTargetClick: () => ShowCaseWidget.of(context).next(),
-      onToolTipClick: () => ShowCaseWidget.of(context).next(),
+      onTargetClick: () => ShowcaseView.get().next(),
+      onToolTipClick: () => ShowcaseView.get().next(),
       child: child,
     );
   } else {

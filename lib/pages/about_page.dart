@@ -71,9 +71,10 @@ class AboutWidget extends StatelessWidget {
                     onTap: () {
                       // Restart tutorial on Timer page
                       Navigator.of(context).popUntil((route) => route.isFirst);
-                      ShowCaseWidget.of(
-                        context,
-                      ).startShowCase(tutorialSteps.keys.toList());
+                      ShowcaseView.get().startShowCase(
+                        tutorialSteps.keys.toList(),
+                        delay: longAnimationDuration,
+                      );
                     },
                   ),
                   listDivider,
