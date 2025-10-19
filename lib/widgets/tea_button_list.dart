@@ -38,7 +38,6 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:showcaseview/showcaseview.dart';
 
 // List or grid of TeaButtons
 class TeaButtonList extends StatefulWidget {
@@ -70,7 +69,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
         // Start a tutorial for new users
         if (Prefs.showTutorial) {
-          ShowcaseView.get().startShowCase(tutorialSteps.keys.toList());
+          startTutorial();
           Prefs.setSkipTutorial();
         }
       }

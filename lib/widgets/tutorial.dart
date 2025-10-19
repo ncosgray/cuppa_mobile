@@ -34,6 +34,14 @@ Map<GlobalKey, List<AppString>> tutorialSteps = {
   tutorialKey5: [AppString.tutorial_text5],
 };
 
+// Start the tutorial
+void startTutorial() {
+  ShowcaseView.get().startShowCase(
+    tutorialSteps.keys.toList(),
+    delay: Duration(milliseconds: 250),
+  );
+}
+
 // Define a tutorial tooltip
 Widget tutorialTooltip({
   required BuildContext context,
