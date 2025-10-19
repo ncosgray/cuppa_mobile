@@ -55,6 +55,8 @@ const Icon disabledStarIcon = Icon(Icons.star_border_outlined);
 
 const Icon infoIcon = Icon(Icons.info, size: 20);
 
+const IconData undoIcon = Icons.undo;
+
 // Variable color icons
 Icon customPresetIcon({required Color color}) {
   return Icon(Icons.add_circle, color: color, size: 20);

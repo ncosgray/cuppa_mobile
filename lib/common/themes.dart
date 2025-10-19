@@ -26,6 +26,7 @@ final ThemeData lightThemeData = ThemeData(
   listTileTheme: const ListTileThemeData(iconColor: Colors.grey),
   sliderTheme: SliderThemeData(inactiveTrackColor: Colors.grey.shade300),
   iconTheme: const IconThemeData(color: Colors.grey),
+  snackBarTheme: SnackBarThemeData(backgroundColor: Colors.grey.shade700),
   splashFactory: splashFactory,
   pageTransitionsTheme: pageTransitionsTheme,
   fontFamily: fontFamily,
