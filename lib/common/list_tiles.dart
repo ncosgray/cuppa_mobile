@@ -124,18 +124,23 @@ Widget settingListItem(
       contentPadding: radioTilePadding,
       dense: true,
       selected: value == groupValue,
-      leading: RadioGroup<dynamic>(
-        groupValue: groupValue,
-        onChanged: (_) => {}, // Handled by select list action tap
-        child: Radio<dynamic>.adaptive(
-          value: value,
-          useCupertinoCheckmarkStyle: true,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          activeColor: getAdaptiveActiveColor(context),
-          fillColor: WidgetStateProperty.resolveWith(
-            (states) => states.contains(WidgetState.selected)
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).listTileTheme.iconColor,
+      leading: GestureDetector(
+        onTap: onChanged,
+        child: IgnorePointer(
+          child: RadioGroup<dynamic>(
+            groupValue: groupValue,
+            onChanged: (_) => {}, // Handled by outer widget tap
+            child: Radio<dynamic>.adaptive(
+              value: value,
+              useCupertinoCheckmarkStyle: true,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              activeColor: getAdaptiveActiveColor(context),
+              fillColor: WidgetStateProperty.resolveWith(
+                (states) => states.contains(WidgetState.selected)
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).listTileTheme.iconColor,
+              ),
+            ),
           ),
         ),
       ),
