@@ -224,6 +224,15 @@ abstract class Prefs {
     }
   }
 
+  static ButtonSize? loadButtonSize() {
+    int? buttonSizeValue = sharedPrefs.getInt(prefButtonSize);
+    if (buttonSizeValue != null && buttonSizeValue < ButtonSize.values.length) {
+      return ButtonSize.values[buttonSizeValue];
+    } else {
+      return null;
+    }
+  }
+
   static AppTheme? loadAppTheme() {
     int? appThemeValue = sharedPrefs.getInt(prefAppTheme);
     if (appThemeValue != null && appThemeValue < AppTheme.values.length) {
@@ -253,6 +262,7 @@ abstract class Prefs {
     bool? useCelsius,
     bool? useBrewRatios,
     CupStyle? cupStyle,
+    ButtonSize? buttonSize,
     AppTheme? appTheme,
     String? appLanguage,
     bool? collectStats,
@@ -278,6 +288,9 @@ abstract class Prefs {
     }
     if (cupStyle != null) {
       sharedPrefs.setInt(prefCupStyle, cupStyle.value);
+    }
+    if (buttonSize != null) {
+      sharedPrefs.setInt(prefButtonSize, buttonSize.value);
     }
     if (appTheme != null) {
       sharedPrefs.setInt(prefAppTheme, appTheme.value);
@@ -332,6 +345,22 @@ enum CupStyle {
   }
 
   // Localized style names
+  String get localizedName => _nameString.translate();
+}
+
+// Timer button size options
+enum ButtonSize {
+  small(0, AppString.prefs_button_size_small, 0.9),
+  medium(1, AppString.prefs_button_size_medium, 1),
+  large(2, AppString.prefs_button_size_large, 1.1);
+
+  const ButtonSize(this.value, this._nameString, this.scale);
+
+  final int value;
+  final AppString _nameString;
+  final double scale;
+
+  // Localized button size names
   String get localizedName => _nameString.translate();
 }
 

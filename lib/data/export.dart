@@ -49,6 +49,7 @@ abstract class Export {
           useCelsius: provider.useCelsius,
           useBrewRatios: provider.useBrewRatios,
           cupStyleValue: provider.cupStyle.value,
+          buttonSizeValue: provider.buttonSize.value,
           appThemeValue: provider.appTheme.value,
           appLanguage: provider.appLanguage,
           collectStats: provider.collectStats,
@@ -150,6 +151,14 @@ abstract class Export {
                 CupStyle.values[exportData.settings!.cupStyleValue!];
           }
 
+          // Look up buttonSize from value
+          if (exportData.settings!.buttonSizeValue != null &&
+              exportData.settings!.buttonSizeValue! <
+                  ButtonSize.values.length) {
+            provider.buttonSize =
+                ButtonSize.values[exportData.settings!.buttonSizeValue!];
+          }
+
           // Look up appTheme from value
           if (exportData.settings!.appThemeValue != null &&
               exportData.settings!.appThemeValue! < AppTheme.values.length) {
@@ -246,6 +255,7 @@ class ExportSettings {
     this.useCelsius,
     this.useBrewRatios,
     this.cupStyleValue,
+    this.buttonSizeValue,
     this.appThemeValue,
     this.appLanguage,
     this.collectStats,
@@ -263,6 +273,7 @@ class ExportSettings {
       useCelsius: tryCast<bool>(json[jsonKeyUseCelsius]),
       useBrewRatios: tryCast<bool>(json[jsonKeyUseBrewRatios]),
       cupStyleValue: tryCast<int>(json[jsonKeyCupStyle]),
+      buttonSizeValue: tryCast<int>(json[jsonKeyButtonSize]),
       appThemeValue: tryCast<int>(json[jsonKeyAppTheme]),
       appLanguage: tryCast<String>(json[jsonKeyAppLanguage]),
       collectStats: tryCast<bool>(json[jsonKeyCollectStats]),
@@ -278,6 +289,7 @@ class ExportSettings {
     jsonKeyUseCelsius: useCelsius,
     jsonKeyUseBrewRatios: useBrewRatios,
     jsonKeyCupStyle: cupStyleValue,
+    jsonKeyButtonSize: buttonSizeValue,
     jsonKeyAppTheme: appThemeValue,
     jsonKeyAppLanguage: appLanguage,
     jsonKeyCollectStats: collectStats,
@@ -293,6 +305,7 @@ class ExportSettings {
   bool? useCelsius;
   bool? useBrewRatios;
   int? cupStyleValue;
+  int? buttonSizeValue;
   int? appThemeValue;
   String? appLanguage;
   bool? collectStats;

@@ -74,6 +74,7 @@ const double brewRatioNumeratorStep = 0.5;
 const largeDeviceSize = 550;
 
 // Widget sizes
+const double teaIconSize = 64;
 const double teaButtonHeight = 106;
 const double teaButtonWidth = 88;
 const double cancelButtonHeight = 34;
@@ -164,6 +165,7 @@ const prefCollectStats = 'Cuppa_collect_stats';
 const prefUseCelsius = 'Cuppa_use_celsius';
 const prefUseBrewRatios = 'Cuppa_use_brew_ratios';
 const prefCupStyle = 'Cuppa_cup_style';
+const prefButtonSize = 'Cuppa_button_size';
 const prefAppTheme = 'Cuppa_app_theme';
 const prefAppLanguage = 'Cuppa_app_language';
 const prefSkipTutorial = 'Cuppa_skip_tutorial';
@@ -181,6 +183,7 @@ const jsonKeyStackedView = 'stackedView';
 const jsonKeyUseCelsius = 'useCelsius';
 const jsonKeyUseBrewRatios = 'useBrewRatios';
 const jsonKeyCupStyle = 'cupStyle';
+const jsonKeyButtonSize = 'buttonSize';
 const jsonKeyAppTheme = 'appTheme';
 const jsonKeyAppLanguage = 'appLanguage';
 const jsonKeyCollectStats = 'collectStats';
