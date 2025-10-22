@@ -192,6 +192,9 @@ class _TeaButtonListState extends State<TeaButtonList> {
     );
   }
 
+  // Generate unique key for a tea button
+  Key _teaKey(Tea tea) => ValueKey('tea_${tea.id}_${tea.hashCode}');
+
   // Horizontally scrollable list of tea buttons
   Widget _teaButtonRow(List<Tea> teas, double buttonScale) {
     return SingleChildScrollView(
@@ -216,7 +219,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
       children: [
         // Start brewing button
         TeaButton(
-          key: GlobalObjectKey(tea.id),
+          key: _teaKey(tea),
           tea: tea,
           fade: !(activeTimerCount < timersMaxCount || tea.isActive),
           scale: scale,
@@ -339,13 +342,18 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
     if (autoScroll) {
       // Ensure we are on the home screen (timer page)
+      if (!mounted) return;
       Navigator.of(context).popUntil((route) => route.isFirst);
 
-      // Autoscroll tea button list to this tea
-      BuildContext? target = GlobalObjectKey(tea.id).currentContext;
-      if (target != null) {
-        Scrollable.ensureVisible(target);
-      }
+      // Scroll to the tea button after the next frame
+      final teaKey = _teaKey(tea);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        final BuildContext? target = findWidgetWithKey(context, teaKey);
+        if (target != null) {
+          Scrollable.ensureVisible(target);
+        }
+      });
     }
 
     // Check if we should prompt for a review

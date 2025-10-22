@@ -145,3 +145,19 @@ getDeviceSize(BuildContext context) {
         deviceWidth >= largeDeviceSize && deviceHeight >= largeDeviceSize,
   );
 }
+
+// Helper method to find a widget's context by key
+BuildContext? findWidgetWithKey(BuildContext context, Key key) {
+  BuildContext? result;
+
+  void visitor(Element element) {
+    if (element.widget.key == key) {
+      result = element;
+    } else {
+      element.visitChildren(visitor);
+    }
+  }
+
+  context.visitChildElements(visitor);
+  return result;
+}
