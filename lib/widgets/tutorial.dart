@@ -38,7 +38,7 @@ Map<GlobalKey, List<AppString>> tutorialSteps = {
 void startTutorial() {
   ShowcaseView.get().startShowCase(
     tutorialSteps.keys.toList(),
-    delay: Duration(milliseconds: 250),
+    delay: Duration(milliseconds: 400),
   );
 }
 
@@ -98,8 +98,6 @@ Widget tutorialTooltip({
       disableScaleAnimation: false,
       scaleAnimationDuration: longAnimationDuration,
       scaleAnimationAlignment: Alignment.center,
-      disposeOnTap: false,
-      onTargetClick: () => ShowcaseView.get().next(),
       onToolTipClick: () => ShowcaseView.get().next(),
       child: child,
     );
