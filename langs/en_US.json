@@ -40,6 +40,7 @@
   "prefs_cup_style_classic": "Teacup",
   "prefs_cup_style_floral": "Floral teacup",
   "prefs_cup_style_mug": "Mug of tea",
+  "prefs_cup_style_none": "None",
   "prefs_header": "Set tea names, brew times, temperatures, and button styles. Change tea order (long-press a tea or tap the sort button above), or swipe to delete teas. Star up to {{favorites_max}} favorite teas to add them as app icon shortcuts.",
   "prefs_hide_increments_info": "Tap an active countdown timer to adjust it",
   "prefs_hide_increments": "Auto-hide timer adjustment options",

@@ -121,6 +121,7 @@ enum AppString {
   prefs_cup_style_classic('prefs_cup_style_classic'),
   prefs_cup_style_floral('prefs_cup_style_floral'),
   prefs_cup_style_mug('prefs_cup_style_mug'),
+  prefs_cup_style_none('prefs_cup_style_none'),
   prefs_extra_brew_temp('prefs_extra_brew_temp'),
   prefs_extra_brew_time('prefs_extra_brew_time'),
   prefs_extra_brew_ratio('prefs_extra_brew_ratio'),

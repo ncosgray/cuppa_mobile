@@ -145,10 +145,9 @@ abstract class Export {
           }
 
           // Look up cupStyle from value
-          if (exportData.settings!.cupStyleValue != null &&
-              exportData.settings!.cupStyleValue! < CupStyle.values.length) {
-            provider.cupStyle =
-                CupStyle.values[exportData.settings!.cupStyleValue!];
+          int? cupStyleValue = exportData.settings!.cupStyleValue;
+          if (cupStyleValue != null && CupStyle.isValid(cupStyleValue)) {
+            provider.cupStyle = CupStyle.fromValue(cupStyleValue)!;
           }
 
           // Look up buttonSize from value

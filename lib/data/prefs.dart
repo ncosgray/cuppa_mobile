@@ -217,8 +217,8 @@ abstract class Prefs {
 
   static CupStyle? loadCupStyle() {
     int? cupStyleValue = sharedPrefs.getInt(prefCupStyle);
-    if (cupStyleValue != null && cupStyleValue < CupStyle.values.length) {
-      return CupStyle.values[cupStyleValue];
+    if (cupStyleValue != null && CupStyle.isValid(cupStyleValue)) {
+      return CupStyle.fromValue(cupStyleValue)!;
     } else {
       return null;
     }
@@ -331,7 +331,8 @@ enum CupStyle {
   classic(0, AppString.prefs_cup_style_classic, cupImageClassic),
   floral(1, AppString.prefs_cup_style_floral, cupImageFloral),
   chinese(2, AppString.prefs_cup_style_chinese, cupImageChinese),
-  mug(3, AppString.prefs_cup_style_mug, cupImageMug);
+  mug(3, AppString.prefs_cup_style_mug, cupImageMug),
+  none(99, AppString.prefs_cup_style_none, cupImageNone);
 
   const CupStyle(this.value, this._nameString, this._cupImage);
 
@@ -346,6 +347,11 @@ enum CupStyle {
 
   // Localized style names
   String get localizedName => _nameString.translate();
+
+  // Value lookups
+  static final _valueMap = {for (var item in CupStyle.values) item.value: item};
+  static bool isValid(int value) => _valueMap.containsKey(value);
+  static CupStyle? fromValue(int value) => _valueMap[value];
 }
 
 // Timer button size options
