@@ -226,8 +226,8 @@ abstract class Prefs {
 
   static ButtonSize? loadButtonSize() {
     int? buttonSizeValue = sharedPrefs.getInt(prefButtonSize);
-    if (buttonSizeValue != null && buttonSizeValue < ButtonSize.values.length) {
-      return ButtonSize.values[buttonSizeValue];
+    if (buttonSizeValue != null && ButtonSize.isValid(buttonSizeValue)) {
+      return ButtonSize.fromValue(buttonSizeValue)!;
     } else {
       return null;
     }
@@ -235,8 +235,8 @@ abstract class Prefs {
 
   static AppTheme? loadAppTheme() {
     int? appThemeValue = sharedPrefs.getInt(prefAppTheme);
-    if (appThemeValue != null && appThemeValue < AppTheme.values.length) {
-      return AppTheme.values[appThemeValue];
+    if (appThemeValue != null && AppTheme.isValid(appThemeValue)) {
+      return AppTheme.fromValue(appThemeValue)!;
     } else {
       return null;
     }
@@ -368,6 +368,13 @@ enum ButtonSize {
 
   // Localized button size names
   String get localizedName => _nameString.translate();
+
+  // Value lookups
+  static final _valueMap = {
+    for (var item in ButtonSize.values) item.value: item,
+  };
+  static bool isValid(int value) => _valueMap.containsKey(value);
+  static ButtonSize? fromValue(int value) => _valueMap[value];
 }
 
 // App themes
@@ -387,6 +394,11 @@ enum AppTheme {
 
   // Localized theme names
   String get localizedName => _nameString.translate();
+
+  // Value lookups
+  static final _valueMap = {for (var item in AppTheme.values) item.value: item};
+  static bool isValid(int value) => _valueMap.containsKey(value);
+  static AppTheme? fromValue(int value) => _valueMap[value];
 }
 
 // Extra info options

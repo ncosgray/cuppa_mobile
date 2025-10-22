@@ -151,18 +151,15 @@ abstract class Export {
           }
 
           // Look up buttonSize from value
-          if (exportData.settings!.buttonSizeValue != null &&
-              exportData.settings!.buttonSizeValue! <
-                  ButtonSize.values.length) {
-            provider.buttonSize =
-                ButtonSize.values[exportData.settings!.buttonSizeValue!];
+          int? buttonSizeValue = exportData.settings!.buttonSizeValue;
+          if (buttonSizeValue != null && ButtonSize.isValid(buttonSizeValue)) {
+            provider.buttonSize = ButtonSize.fromValue(buttonSizeValue)!;
           }
 
           // Look up appTheme from value
-          if (exportData.settings!.appThemeValue != null &&
-              exportData.settings!.appThemeValue! < AppTheme.values.length) {
-            provider.appTheme =
-                AppTheme.values[exportData.settings!.appThemeValue!];
+          int? appThemeValue = exportData.settings!.appThemeValue;
+          if (appThemeValue != null && AppTheme.isValid(appThemeValue)) {
+            provider.appTheme = AppTheme.fromValue(appThemeValue)!;
           }
 
           if (exportData.settings!.appLanguage != null) {
