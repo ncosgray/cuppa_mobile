@@ -18,7 +18,6 @@ import 'package:cuppa_mobile/cuppa_app.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'dart:io';
 import 'package:flex_color_picker/flex_color_picker.dart'
