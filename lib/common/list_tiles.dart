@@ -72,7 +72,7 @@ Widget settingList(
   BuildContext context, {
   required String title,
   required String selectedItem,
-  Image? selectedItemImage,
+  Widget? selectedItemImage,
   required List<dynamic> itemList,
   required Widget Function(BuildContext, int) itemBuilder,
 }) {
@@ -114,7 +114,7 @@ Widget settingList(
 Widget settingListItem(
   BuildContext context, {
   required String title,
-  Image? titleImage,
+  Widget? titleImage,
   required dynamic value,
   required dynamic groupValue,
   required Function() onChanged,
@@ -180,7 +180,7 @@ Widget settingListCheckbox(
 Widget settingListTitle({
   required String title,
   required Color color,
-  Image? image,
+  Widget? image,
   bool alignEnd = false,
 }) {
   // Build title row

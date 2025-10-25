@@ -14,6 +14,7 @@
 // - Handle shared prefs
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/tea.dart';
@@ -332,17 +333,25 @@ enum CupStyle {
   floral(1, AppString.prefs_cup_style_floral, cupImageFloral),
   chinese(2, AppString.prefs_cup_style_chinese, cupImageChinese),
   mug(3, AppString.prefs_cup_style_mug, cupImageMug),
-  none(99, AppString.prefs_cup_style_none, cupImageNone);
+  none(99, AppString.prefs_cup_style_none, null);
 
   const CupStyle(this.value, this._nameString, this._cupImage);
 
   final int value;
   final AppString _nameString;
-  final String _cupImage;
+  final String? _cupImage;
 
   // Cup style images
-  Image get image {
-    return Image.asset(_cupImage, fit: BoxFit.fitWidth, gaplessPlayback: true);
+  Widget get image {
+    if (_cupImage == null) {
+      return noneIcon;
+    } else {
+      return Image.asset(
+        _cupImage,
+        fit: BoxFit.fitWidth,
+        gaplessPlayback: true,
+      );
+    }
   }
 
   // Localized style names

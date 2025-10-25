@@ -42,7 +42,7 @@ const Icon dragHandle = Icon(Icons.drag_handle, size: 20);
 const Icon clearIcon = Icon(
   Icons.cancel_outlined,
   size: 14,
-  color: clearIconColor,
+  color: defaultIconColor,
 );
 
 const Icon addIcon = Icon(Icons.add_circle, size: 20);
@@ -54,6 +54,8 @@ const Icon nonFavoriteStarIcon = Icon(Icons.star);
 const Icon disabledStarIcon = Icon(Icons.star_border_outlined);
 
 const Icon infoIcon = Icon(Icons.info, size: 20);
+
+const Icon noneIcon = Icon(Icons.block, size: 20, color: defaultIconColor);
 
 const IconData undoIcon = Icons.undo;
 
