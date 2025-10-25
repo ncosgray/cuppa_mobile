@@ -19,7 +19,7 @@ version: 2.9.2+60
 
 environment:
   sdk: '>=3.8.0 <4.0.0'
-  flutter: ^3.35.2
+  flutter: ^3.35.7
 
 dependencies:
   app_settings: ^5.2.0
@@ -44,7 +44,7 @@ dependencies:
   provider: ^6.1.5+1
   quick_actions: ^1.1.0
   region_settings: ^1.4.1
-  share_plus: ^12.0.0
+  share_plus: ^12.0.1
   shared_preferences: ^2.5.3
   showcaseview: ^5.0.1
   sliver_tools: ^0.2.12
