@@ -62,6 +62,7 @@ Future<void> initializeApp({bool testing = false}) async {
   await initializeNotifications();
 
   // Register showcase for tutorial
+  skipTutorial = testing;
   ShowcaseView.register();
 }
 

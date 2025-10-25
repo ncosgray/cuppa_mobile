@@ -13,6 +13,7 @@
 // Cuppa tutorial
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -36,10 +37,12 @@ Map<GlobalKey, List<AppString>> tutorialSteps = {
 
 // Start the tutorial
 void startTutorial() {
-  ShowcaseView.get().startShowCase(
-    tutorialSteps.keys.toList(),
-    delay: Duration(milliseconds: 400),
-  );
+  if (!skipTutorial) {
+    ShowcaseView.get().startShowCase(
+      tutorialSteps.keys.toList(),
+      delay: Duration(milliseconds: 400),
+    );
+  }
 }
 
 // Define a tutorial tooltip

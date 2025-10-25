@@ -73,12 +73,6 @@ Future<void> main() async {
     await $.pumpWidget(const CuppaApp());
     await $.pumpAndSettle();
 
-    // Tap through tutorials
-    for (final key in tutorialSteps.keys) {
-      await $.tap(find.text(tutorialSteps[key]![0].translate()));
-      await $.pumpAndSettle();
-    }
-
     // Screenshot 1: Timing in progress
     await $.tap(find.text(AppString.tea_name_black.translate()));
     await $.pumpAndSettle();
