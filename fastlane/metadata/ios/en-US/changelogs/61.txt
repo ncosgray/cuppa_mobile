@@ -1,0 +1,4 @@
+* Add as many as 50 teas!
+* New options to change timer button size or hide the teacup graphic.
+* Various usability tweaks and small bug fixes.
+* Language translation updates - contribute via Weblate!
