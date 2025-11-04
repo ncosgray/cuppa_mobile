@@ -49,6 +49,7 @@ abstract class Export {
           useCelsius: provider.useCelsius,
           useBrewRatios: provider.useBrewRatios,
           cupStyleValue: provider.cupStyle.value,
+          buttonSizeValue: provider.buttonSize.value,
           appThemeValue: provider.appTheme.value,
           appLanguage: provider.appLanguage,
           collectStats: provider.collectStats,
@@ -144,17 +145,21 @@ abstract class Export {
           }
 
           // Look up cupStyle from value
-          if (exportData.settings!.cupStyleValue != null &&
-              exportData.settings!.cupStyleValue! < CupStyle.values.length) {
-            provider.cupStyle =
-                CupStyle.values[exportData.settings!.cupStyleValue!];
+          int? cupStyleValue = exportData.settings!.cupStyleValue;
+          if (cupStyleValue != null && CupStyle.isValid(cupStyleValue)) {
+            provider.cupStyle = CupStyle.fromValue(cupStyleValue)!;
+          }
+
+          // Look up buttonSize from value
+          int? buttonSizeValue = exportData.settings!.buttonSizeValue;
+          if (buttonSizeValue != null && ButtonSize.isValid(buttonSizeValue)) {
+            provider.buttonSize = ButtonSize.fromValue(buttonSizeValue)!;
           }
 
           // Look up appTheme from value
-          if (exportData.settings!.appThemeValue != null &&
-              exportData.settings!.appThemeValue! < AppTheme.values.length) {
-            provider.appTheme =
-                AppTheme.values[exportData.settings!.appThemeValue!];
+          int? appThemeValue = exportData.settings!.appThemeValue;
+          if (appThemeValue != null && AppTheme.isValid(appThemeValue)) {
+            provider.appTheme = AppTheme.fromValue(appThemeValue)!;
           }
 
           if (exportData.settings!.appLanguage != null) {
@@ -246,6 +251,7 @@ class ExportSettings {
     this.useCelsius,
     this.useBrewRatios,
     this.cupStyleValue,
+    this.buttonSizeValue,
     this.appThemeValue,
     this.appLanguage,
     this.collectStats,
@@ -263,6 +269,7 @@ class ExportSettings {
       useCelsius: tryCast<bool>(json[jsonKeyUseCelsius]),
       useBrewRatios: tryCast<bool>(json[jsonKeyUseBrewRatios]),
       cupStyleValue: tryCast<int>(json[jsonKeyCupStyle]),
+      buttonSizeValue: tryCast<int>(json[jsonKeyButtonSize]),
       appThemeValue: tryCast<int>(json[jsonKeyAppTheme]),
       appLanguage: tryCast<String>(json[jsonKeyAppLanguage]),
       collectStats: tryCast<bool>(json[jsonKeyCollectStats]),
@@ -278,6 +285,7 @@ class ExportSettings {
     jsonKeyUseCelsius: useCelsius,
     jsonKeyUseBrewRatios: useBrewRatios,
     jsonKeyCupStyle: cupStyleValue,
+    jsonKeyButtonSize: buttonSizeValue,
     jsonKeyAppTheme: appThemeValue,
     jsonKeyAppLanguage: appLanguage,
     jsonKeyCollectStats: collectStats,
@@ -293,6 +301,7 @@ class ExportSettings {
   bool? useCelsius;
   bool? useBrewRatios;
   int? cupStyleValue;
+  int? buttonSizeValue;
   int? appThemeValue;
   String? appLanguage;
   bool? collectStats;

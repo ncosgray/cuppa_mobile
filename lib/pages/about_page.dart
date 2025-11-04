@@ -28,7 +28,6 @@ import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:showcaseview/showcaseview.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // About Cuppa page
@@ -71,9 +70,7 @@ class AboutWidget extends StatelessWidget {
                     onTap: () {
                       // Restart tutorial on Timer page
                       Navigator.of(context).popUntil((route) => route.isFirst);
-                      ShowCaseWidget.of(
-                        context,
-                      ).startShowCase(tutorialSteps.keys.toList());
+                      startTutorial();
                     },
                   ),
                   listDivider,

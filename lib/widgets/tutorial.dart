@@ -13,6 +13,7 @@
 // Cuppa tutorial
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -33,6 +34,16 @@ Map<GlobalKey, List<AppString>> tutorialSteps = {
   tutorialKey4: [AppString.tutorial_text4],
   tutorialKey5: [AppString.tutorial_text5],
 };
+
+// Start the tutorial
+void startTutorial() {
+  if (!skipTutorial) {
+    ShowcaseView.get().startShowCase(
+      tutorialSteps.keys.toList(),
+      delay: Duration(milliseconds: 400),
+    );
+  }
+}
 
 // Define a tutorial tooltip
 Widget tutorialTooltip({
@@ -90,9 +101,7 @@ Widget tutorialTooltip({
       disableScaleAnimation: false,
       scaleAnimationDuration: longAnimationDuration,
       scaleAnimationAlignment: Alignment.center,
-      disposeOnTap: false,
-      onTargetClick: () => ShowCaseWidget.of(context).next(),
-      onToolTipClick: () => ShowCaseWidget.of(context).next(),
+      onToolTipClick: () => ShowcaseView.get().next(),
       child: child,
     );
   } else {

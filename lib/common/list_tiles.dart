@@ -72,7 +72,7 @@ Widget settingList(
   BuildContext context, {
   required String title,
   required String selectedItem,
-  Image? selectedItemImage,
+  Widget? selectedItemImage,
   required List<dynamic> itemList,
   required Widget Function(BuildContext, int) itemBuilder,
 }) {
@@ -114,7 +114,7 @@ Widget settingList(
 Widget settingListItem(
   BuildContext context, {
   required String title,
-  Image? titleImage,
+  Widget? titleImage,
   required dynamic value,
   required dynamic groupValue,
   required Function() onChanged,
@@ -124,18 +124,23 @@ Widget settingListItem(
       contentPadding: radioTilePadding,
       dense: true,
       selected: value == groupValue,
-      leading: RadioGroup<dynamic>(
-        groupValue: groupValue,
-        onChanged: (_) => {}, // Handled by select list action tap
-        child: Radio<dynamic>.adaptive(
-          value: value,
-          useCupertinoCheckmarkStyle: true,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          activeColor: getAdaptiveActiveColor(context),
-          fillColor: WidgetStateProperty.resolveWith(
-            (states) => states.contains(WidgetState.selected)
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).listTileTheme.iconColor,
+      leading: GestureDetector(
+        onTap: onChanged,
+        child: IgnorePointer(
+          child: RadioGroup<dynamic>(
+            groupValue: groupValue,
+            onChanged: (_) => {}, // Handled by outer widget tap
+            child: Radio<dynamic>.adaptive(
+              value: value,
+              useCupertinoCheckmarkStyle: true,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              activeColor: getAdaptiveActiveColor(context),
+              fillColor: WidgetStateProperty.resolveWith(
+                (states) => states.contains(WidgetState.selected)
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).listTileTheme.iconColor,
+              ),
+            ),
           ),
         ),
       ),
@@ -175,7 +180,7 @@ Widget settingListCheckbox(
 Widget settingListTitle({
   required String title,
   required Color color,
-  Image? image,
+  Widget? image,
   bool alignEnd = false,
 }) {
   // Build title row

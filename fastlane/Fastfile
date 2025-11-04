@@ -36,6 +36,9 @@ platform :android do
       json_key: ENV['GOOGLE_PLAY_JSON_KEY_PATH'],
       aab: "#{aab_path}/app-release.aab",
       skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
       track: 'alpha',
     )
   end

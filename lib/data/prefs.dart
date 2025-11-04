@@ -14,6 +14,7 @@
 // - Handle shared prefs
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/tea.dart';
@@ -217,8 +218,17 @@ abstract class Prefs {
 
   static CupStyle? loadCupStyle() {
     int? cupStyleValue = sharedPrefs.getInt(prefCupStyle);
-    if (cupStyleValue != null && cupStyleValue < CupStyle.values.length) {
-      return CupStyle.values[cupStyleValue];
+    if (cupStyleValue != null && CupStyle.isValid(cupStyleValue)) {
+      return CupStyle.fromValue(cupStyleValue)!;
+    } else {
+      return null;
+    }
+  }
+
+  static ButtonSize? loadButtonSize() {
+    int? buttonSizeValue = sharedPrefs.getInt(prefButtonSize);
+    if (buttonSizeValue != null && ButtonSize.isValid(buttonSizeValue)) {
+      return ButtonSize.fromValue(buttonSizeValue)!;
     } else {
       return null;
     }
@@ -226,8 +236,8 @@ abstract class Prefs {
 
   static AppTheme? loadAppTheme() {
     int? appThemeValue = sharedPrefs.getInt(prefAppTheme);
-    if (appThemeValue != null && appThemeValue < AppTheme.values.length) {
-      return AppTheme.values[appThemeValue];
+    if (appThemeValue != null && AppTheme.isValid(appThemeValue)) {
+      return AppTheme.fromValue(appThemeValue)!;
     } else {
       return null;
     }
@@ -253,6 +263,7 @@ abstract class Prefs {
     bool? useCelsius,
     bool? useBrewRatios,
     CupStyle? cupStyle,
+    ButtonSize? buttonSize,
     AppTheme? appTheme,
     String? appLanguage,
     bool? collectStats,
@@ -278,6 +289,9 @@ abstract class Prefs {
     }
     if (cupStyle != null) {
       sharedPrefs.setInt(prefCupStyle, cupStyle.value);
+    }
+    if (buttonSize != null) {
+      sharedPrefs.setInt(prefButtonSize, buttonSize.value);
     }
     if (appTheme != null) {
       sharedPrefs.setInt(prefAppTheme, appTheme.value);
@@ -318,21 +332,58 @@ enum CupStyle {
   classic(0, AppString.prefs_cup_style_classic, cupImageClassic),
   floral(1, AppString.prefs_cup_style_floral, cupImageFloral),
   chinese(2, AppString.prefs_cup_style_chinese, cupImageChinese),
-  mug(3, AppString.prefs_cup_style_mug, cupImageMug);
+  mug(3, AppString.prefs_cup_style_mug, cupImageMug),
+  none(99, AppString.prefs_cup_style_none, null);
 
   const CupStyle(this.value, this._nameString, this._cupImage);
 
   final int value;
   final AppString _nameString;
-  final String _cupImage;
+  final String? _cupImage;
 
   // Cup style images
-  Image get image {
-    return Image.asset(_cupImage, fit: BoxFit.fitWidth, gaplessPlayback: true);
+  Widget get image {
+    if (_cupImage == null) {
+      return noneIcon;
+    } else {
+      return Image.asset(
+        _cupImage,
+        fit: BoxFit.fitWidth,
+        gaplessPlayback: true,
+      );
+    }
   }
 
   // Localized style names
   String get localizedName => _nameString.translate();
+
+  // Value lookups
+  static final _valueMap = {for (var item in CupStyle.values) item.value: item};
+  static bool isValid(int value) => _valueMap.containsKey(value);
+  static CupStyle? fromValue(int value) => _valueMap[value];
+}
+
+// Timer button size options
+enum ButtonSize {
+  small(0, AppString.prefs_button_size_small, 0.9),
+  medium(1, AppString.prefs_button_size_medium, 1),
+  large(2, AppString.prefs_button_size_large, 1.1);
+
+  const ButtonSize(this.value, this._nameString, this.scale);
+
+  final int value;
+  final AppString _nameString;
+  final double scale;
+
+  // Localized button size names
+  String get localizedName => _nameString.translate();
+
+  // Value lookups
+  static final _valueMap = {
+    for (var item in ButtonSize.values) item.value: item,
+  };
+  static bool isValid(int value) => _valueMap.containsKey(value);
+  static ButtonSize? fromValue(int value) => _valueMap[value];
 }
 
 // App themes
@@ -352,6 +403,11 @@ enum AppTheme {
 
   // Localized theme names
   String get localizedName => _nameString.translate();
+
+  // Value lookups
+  static final _valueMap = {for (var item in AppTheme.values) item.value: item};
+  static bool isValid(int value) => _valueMap.containsKey(value);
+  static AppTheme? fromValue(int value) => _valueMap[value];
 }
 
 // Extra info options

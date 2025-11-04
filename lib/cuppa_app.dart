@@ -40,8 +40,9 @@ import 'package:timezone/timezone.dart' as tz;
 
 // App initialization
 Future<void> initializeApp({bool testing = false}) async {
-  skipNotify = testing;
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Settings initialization
   await Prefs.init();
   packageInfo = await PackageInfo.fromPlatform();
   regionSettings = await RegionSettings.getSettings();
@@ -57,7 +58,12 @@ Future<void> initializeApp({bool testing = false}) async {
   tz.setLocalLocation(tz.getLocation(timeZone.identifier));
 
   // Initialize notifications plugin
+  skipNotify = testing;
   await initializeNotifications();
+
+  // Register showcase for tutorial
+  skipTutorial = testing;
+  ShowcaseView.register();
 }
 
 // Create the app
@@ -81,12 +87,6 @@ class CuppaApp extends StatelessWidget {
           return DynamicColorBuilder(
             builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
               return MaterialApp(
-                builder: (context, child) {
-                  return ShowCaseWidget(
-                    autoPlay: false,
-                    builder: (context) => child!,
-                  );
-                },
                 title: appName,
                 debugShowCheckedModeBanner: false,
                 navigatorKey: navigatorKey,

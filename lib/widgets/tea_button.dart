@@ -31,11 +31,13 @@ class TeaButton extends StatelessWidget {
     super.key,
     required this.tea,
     required this.fade,
+    required this.scale,
     this.onPressed,
   });
 
   final Tea tea;
   final bool fade;
+  final double scale;
   final Function()? onPressed;
 
   void _handleTap() {
@@ -49,6 +51,7 @@ class TeaButton extends StatelessWidget {
   Widget build(BuildContext context) {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     Color textColor = tea.isActive ? timerActiveColor : tea.getColor();
+    double extraInfoSize = textStyleButtonTertiary.fontSize! * scale;
 
     return Card(
       margin: largeDefaultPadding,
@@ -64,19 +67,26 @@ class TeaButton extends StatelessWidget {
               opacity: fade ? fadeOpacity : noOpacity,
               duration: longAnimationDuration,
               child: Container(
-                constraints: const BoxConstraints(
-                  minHeight: teaButtonHeight,
-                  minWidth: teaButtonWidth,
+                constraints: BoxConstraints(
+                  minHeight: teaButtonHeight * scale,
+                  minWidth: teaButtonWidth * scale,
                 ),
                 margin: largeDefaultPadding,
                 // Timer icon with tea name
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(tea.teaIcon, color: textColor, size: 64),
+                    Icon(
+                      tea.teaIcon,
+                      color: textColor,
+                      size: teaIconSize * scale,
+                    ),
                     Text(
                       tea.name,
-                      style: textStyleButton.copyWith(color: textColor),
+                      style: textStyleButton.copyWith(
+                        color: textColor,
+                        fontSize: textStyleButton.fontSize! * scale,
+                      ),
                     ),
                     // Optional extra info: brew time, temp, and ratio display
                     Column(
@@ -91,6 +101,7 @@ class TeaButton extends StatelessWidget {
                               infoType: ExtraInfo.brewTime,
                               text: formatTimer(tea.brewTime),
                               color: textColor,
+                              fontSize: extraInfoSize,
                             ),
                             // Brew temperature
                             _extraInfoItem(
@@ -101,6 +112,7 @@ class TeaButton extends StatelessWidget {
                                     )
                                   : '',
                               color: textColor,
+                              fontSize: extraInfoSize,
                             ),
                           ],
                         ),
@@ -109,6 +121,7 @@ class TeaButton extends StatelessWidget {
                           infoType: ExtraInfo.brewRatio,
                           text: tea.brewRatio.ratioString,
                           color: textColor,
+                          fontSize: extraInfoSize,
                           isEnabled: provider.useBrewRatios,
                         ),
                       ],
@@ -128,6 +141,7 @@ class TeaButton extends StatelessWidget {
     required ExtraInfo infoType,
     required String text,
     required Color color,
+    required double fontSize,
     bool isEnabled = true,
   }) {
     return Selector<AppProvider, bool>(
@@ -139,7 +153,10 @@ class TeaButton extends StatelessWidget {
           padding: rowPadding,
           child: Text(
             text,
-            style: textStyleButtonTertiary.copyWith(color: color),
+            style: textStyleButtonTertiary.copyWith(
+              color: color,
+              fontSize: fontSize,
+            ),
           ),
         ),
       ),

@@ -35,6 +35,7 @@ class AppProvider extends ChangeNotifier {
     _silentDefault = Prefs.loadSilentDefault() ?? _silentDefault;
     _useBrewRatios = Prefs.loadUseBrewRatios() ?? _useBrewRatios;
     _cupStyle = Prefs.loadCupStyle() ?? _cupStyle;
+    _buttonSize = Prefs.loadButtonSize() ?? _buttonSize;
     _appTheme = Prefs.loadAppTheme() ?? _appTheme;
     _appLanguage = Prefs.loadAppLanguage() ?? _appLanguage;
     _collectStats = Prefs.loadCollectStats() ?? _collectStats;
@@ -401,6 +402,15 @@ class AppProvider extends ChangeNotifier {
   set cupStyle(CupStyle newValue) {
     _cupStyle = newValue;
     Prefs.saveSettings(cupStyle: _cupStyle);
+    notifyListeners();
+  }
+
+  // Setting: tea button size
+  ButtonSize _buttonSize = ButtonSize.medium;
+  ButtonSize get buttonSize => _buttonSize;
+  set buttonSize(ButtonSize newValue) {
+    _buttonSize = newValue;
+    Prefs.saveSettings(buttonSize: _buttonSize);
     notifyListeners();
   }
 
