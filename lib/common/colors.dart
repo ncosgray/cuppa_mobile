@@ -20,7 +20,7 @@ const Color timerBackgroundColor = Colors.grey;
 const Color timerForegroundColor = Colors.white;
 
 // Icon colors
-const Color clearIconColor = Colors.grey;
+const Color defaultIconColor = Colors.grey;
 const Color favoriteIconColor = Colors.amber;
 
 // Miscellaneous colors

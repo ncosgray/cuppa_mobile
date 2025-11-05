@@ -27,27 +27,32 @@ version, build_number = version_string.split('+')
 platform :android do
   aab_path = 'build/app/outputs/bundle/release'
   apk_path = 'build/app/outputs/flutter-apk'
+  tmp_path = '/tmp/fastlane/android'
 
   desc 'Build and upload to Play Store Alpha'
   lane :playalpha do
-    sh('mkdir -p /tmp/fastlane/android')
-    sh('cp -r metadata/android/en-US /tmp/fastlane/android')
     sh('flutter build appbundle')
     upload_to_play_store(
       json_key: ENV['GOOGLE_PLAY_JSON_KEY_PATH'],
       aab: "#{aab_path}/app-release.aab",
-      metadata_path: '/tmp/fastlane/android',
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
       track: 'alpha',
     )
   end
 
   desc 'Release Play Store Alpha to Prod'
   lane :playprod do
+    sh("mkdir -p #{tmp_path}")
+    sh("cp -r metadata/android/en-US #{tmp_path}")
     upload_to_play_store(
       json_key: ENV['GOOGLE_PLAY_JSON_KEY_PATH'],
       version_code: build_number,
       skip_upload_aab: true,
       skip_upload_apk: true,
+      metadata_path: tmp_path,
       track: 'alpha',
       track_promote_to: 'production',
     )
@@ -55,7 +60,7 @@ platform :android do
 
   desc 'Build an APK and release to GitHub'
   lane :github do
-    sh('flutter build apk')
+    sh('../build_fdroid.sh')
     sh("cp ../#{apk_path}/app-release.apk ../#{apk_path}/#{app_name}-#{version}.apk")
     set_github_release(
       repository_name: repo_name,
@@ -72,6 +77,7 @@ end
 # iOS lane definitions
 platform :ios do
   ipa_path = 'build/ios/ipa'
+  tmp_path = '/tmp/fastlane/ios'
 
   desc 'Build and upload to Apple TestFlight'
   lane :appletest do
@@ -89,16 +95,17 @@ platform :ios do
 
   desc 'Release Apple TestFlight to Prod'
   lane :appleprod do
-    sh('mkdir -p /tmp/fastlane/ios')
-    sh('cp -r metadata/ios/metadata/*.txt /tmp/fastlane/ios')
-    sh('cp -r metadata/ios/metadata/en-US /tmp/fastlane/ios')
+    sh("mkdir -p #{tmp_path}")
+    sh("cp -r metadata/ios/metadata/*.txt #{tmp_path}")
+    sh("cp -r metadata/ios/metadata/en-US #{tmp_path}")
     upload_to_app_store(
       api_key_path: ENV['APPSTORE_API_KEY_PATH'],
       build_number: build_number,
       app_version: version,
       skip_binary_upload: true,
-      metadata_path: '/tmp/fastlane/ios',
+      metadata_path: tmp_path,
       screenshots_path: 'fastlane/metadata/ios/screenshots',
+      overwrite_screenshots: true,
       release_notes: {
         "en-US" => File.read("metadata/ios/en-US/changelogs/#{build_number}.txt")
       },

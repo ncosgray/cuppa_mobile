@@ -23,6 +23,7 @@ import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
+import 'package:cuppa_mobile/common/toast.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/provider.dart';
@@ -280,18 +281,16 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                 int? teaIndex = provider.teaList.indexWhere(
                   (item) => item.id == tea.id,
                 );
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    duration: const Duration(milliseconds: 1500),
-                    content: Text(
-                      AppString.undo_message.translate(teaName: tea.name),
-                    ),
-                    action: SnackBarAction(
-                      label: AppString.undo_button.translate(),
-                      // Re-add deleted tea in its former position
-                      onPressed: () => provider.addTea(tea, atIndex: teaIndex),
-                    ),
-                  ),
+                Toast.show(
+                  context,
+                  message: AppString.undo_message.translate(teaName: tea.name),
+                  actionLabel: AppString.undo_button.translate(),
+                  actionIcon: undoIcon,
+                  onActionPressed: () {
+                    // Re-add deleted tea in its former position
+                    provider.addTea(tea, atIndex: teaIndex);
+                  },
+                  duration: const Duration(milliseconds: 1500),
                 );
 
                 // Delete this from the tea list

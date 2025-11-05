@@ -147,6 +147,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                 _appThemeSetting,
                 // Setting: show extra info on buttons
                 _selectExtraInfo,
+                // Setting: tea button size selection
+                _buttonSizeSetting,
                 // Setting: stacked timer button view
                 Selector<AppProvider, bool>(
                   selector: (_, provider) =>
@@ -345,6 +347,34 @@ class _PrefsWidgetState extends State<PrefsWidget> {
       // Save cupStyle to prefs
       onChanged: () {
         provider.cupStyle = value;
+        Navigator.of(context).pop(true);
+      },
+    );
+  }
+
+  // Setting: tea button size selection
+  Widget get _buttonSizeSetting => settingList(
+    context,
+    title: AppString.prefs_button_size.translate(),
+    selectedItem: Provider.of<AppProvider>(context).buttonSize.localizedName,
+    itemList: ButtonSize.values,
+    itemBuilder: _buttonSizeItem,
+  );
+
+  // Button size option
+  Widget _buttonSizeItem(BuildContext context, int index) {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+    ButtonSize value = ButtonSize.values.elementAt(index);
+
+    return settingListItem(
+      context,
+      // Button size name
+      title: value.localizedName,
+      value: value,
+      groupValue: provider.buttonSize,
+      // Save buttonSize to prefs
+      onChanged: () {
+        provider.buttonSize = value;
         Navigator.of(context).pop(true);
       },
     );

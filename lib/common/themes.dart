@@ -26,6 +26,7 @@ final ThemeData lightThemeData = ThemeData(
   listTileTheme: const ListTileThemeData(iconColor: Colors.grey),
   sliderTheme: SliderThemeData(inactiveTrackColor: Colors.grey.shade300),
   iconTheme: const IconThemeData(color: Colors.grey),
+  snackBarTheme: SnackBarThemeData(backgroundColor: Colors.grey.shade700),
   splashFactory: splashFactory,
   pageTransitionsTheme: pageTransitionsTheme,
   fontFamily: fontFamily,
@@ -54,11 +55,22 @@ final ThemeData blackThemeData = ThemeData(
 );
 
 // Create a light theme
-ThemeData createLightTheme({ColorScheme? dynamicColors}) {
+ThemeData createLightTheme({
+  ColorScheme? dynamicColors,
+  bool highContrast = false,
+}) {
   ThemeData theme = lightThemeData;
   if (dynamicColors != null) {
     // Use dynamic colors if provided
     theme = theme.copyWith(colorScheme: dynamicColors.harmonized());
+  }
+  if (highContrast) {
+    // Apply high contrast adjustments
+    theme = theme.copyWith(
+      cupertinoOverrideTheme: CupertinoThemeData(
+        primaryColor: CupertinoColors.systemBlue.highContrastColor,
+      ),
+    );
   }
   return theme;
 }
@@ -67,11 +79,20 @@ ThemeData createLightTheme({ColorScheme? dynamicColors}) {
 ThemeData createDarkTheme({
   ColorScheme? dynamicColors,
   bool blackTheme = true,
+  bool highContrast = false,
 }) {
   ThemeData theme = blackTheme ? blackThemeData : darkThemeData;
   if (dynamicColors != null) {
     // Use dynamic colors if provided
     theme = theme.copyWith(colorScheme: dynamicColors.harmonized());
+  }
+  if (highContrast) {
+    // Apply high contrast adjustments
+    theme = theme.copyWith(
+      cupertinoOverrideTheme: CupertinoThemeData(
+        primaryColor: CupertinoColors.systemBlue.darkHighContrastColor,
+      ),
+    );
   }
   return theme;
 }

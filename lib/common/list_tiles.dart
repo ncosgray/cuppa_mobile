@@ -21,7 +21,6 @@ import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 
-import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -73,7 +72,7 @@ Widget settingList(
   BuildContext context, {
   required String title,
   required String selectedItem,
-  Image? selectedItemImage,
+  Widget? selectedItemImage,
   required List<dynamic> itemList,
   required Widget Function(BuildContext, int) itemBuilder,
 }) {
@@ -115,32 +114,41 @@ Widget settingList(
 Widget settingListItem(
   BuildContext context, {
   required String title,
-  Image? titleImage,
+  Widget? titleImage,
   required dynamic value,
   required dynamic groupValue,
   required Function() onChanged,
 }) {
-  // onChanged must be non-null on iOS to enable the list tile
-  Function(dynamic)? radioPassThrough = Platform.isIOS ? (_) => {} : null;
-
   return adaptiveSelectListAction(
-    action: RadioListTile.adaptive(
+    action: ListTile(
       contentPadding: radioTilePadding,
       dense: true,
-      useCupertinoCheckmarkStyle: true,
-      fillColor: WidgetStateProperty.resolveWith(
-        (states) => states.contains(WidgetState.selected)
-            ? Theme.of(context).colorScheme.primary
-            : Theme.of(context).listTileTheme.iconColor,
+      selected: value == groupValue,
+      leading: GestureDetector(
+        onTap: onChanged,
+        child: IgnorePointer(
+          child: RadioGroup<dynamic>(
+            groupValue: groupValue,
+            onChanged: (_) => {}, // Handled by outer widget tap
+            child: Radio<dynamic>.adaptive(
+              value: value,
+              useCupertinoCheckmarkStyle: true,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              activeColor: getAdaptiveActiveColor(context),
+              fillColor: WidgetStateProperty.resolveWith(
+                (states) => states.contains(WidgetState.selected)
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).listTileTheme.iconColor,
+              ),
+            ),
+          ),
+        ),
       ),
       title: settingListTitle(
         title: title,
         color: Theme.of(context).textTheme.bodyLarge!.color!,
         image: titleImage,
       ),
-      value: value,
-      groupValue: groupValue,
-      onChanged: radioPassThrough, // Handled by select list action tap
     ),
     onTap: onChanged,
   );
@@ -160,6 +168,7 @@ Widget settingListCheckbox(
         title: title,
         color: Theme.of(context).textTheme.bodyLarge!.color!,
       ),
+      activeColor: getAdaptiveActiveColor(context),
       value: value,
       onChanged: onChanged,
     ),
@@ -171,7 +180,7 @@ Widget settingListCheckbox(
 Widget settingListTitle({
   required String title,
   required Color color,
-  Image? image,
+  Widget? image,
   bool alignEnd = false,
 }) {
   // Build title row

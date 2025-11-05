@@ -38,7 +38,6 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:showcaseview/showcaseview.dart';
 
 // List or grid of TeaButtons
 class TeaButtonList extends StatefulWidget {
@@ -70,7 +69,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
         // Start a tutorial for new users
         if (Prefs.showTutorial) {
-          ShowCaseWidget.of(context).startShowCase(tutorialSteps.keys.toList());
+          startTutorial();
           Prefs.setSkipTutorial();
         }
       }
@@ -88,29 +87,46 @@ class _TeaButtonListState extends State<TeaButtonList> {
     bool layoutPortrait = getDeviceSize(context).isPortrait;
 
     // List/grid of available tea buttons
-    return Selector<AppProvider, ({List<Tea> teaList, bool stackedView})>(
-      selector: (_, provider) =>
-          (teaList: provider.teaList, stackedView: provider.stackedView),
+    return Selector<
+      AppProvider,
+      ({List<Tea> teaList, bool stackedView, ButtonSize buttonSize})
+    >(
+      selector: (_, provider) => (
+        teaList: provider.teaList,
+        stackedView: provider.stackedView,
+        buttonSize: provider.buttonSize,
+      ),
       builder: (context, buttonData, child) {
         List<Widget> teaButtonRows = [];
+        double buttonScale = buttonData.buttonSize.scale;
 
         if (buttonData.teaList.isNotEmpty) {
           if (buttonData.stackedView && getDeviceSize(context).isLargeDevice) {
             // Arrange into two rows of tea buttons for large screens
             int topRowLength = (buttonData.teaList.length / 2).floor();
             teaButtonRows
-              ..add(_teaButtonRow(buttonData.teaList.sublist(0, topRowLength)))
-              ..add(_teaButtonRow(buttonData.teaList.sublist(topRowLength)));
+              ..add(
+                _teaButtonRow(
+                  buttonData.teaList.sublist(0, topRowLength),
+                  buttonScale,
+                ),
+              )
+              ..add(
+                _teaButtonRow(
+                  buttonData.teaList.sublist(topRowLength),
+                  buttonScale,
+                ),
+              );
           } else if (buttonData.stackedView && layoutPortrait) {
             // Arrange into multiple rows for small screens
             for (final teaRow in buttonData.teaList.slices(
               stackedViewTeaCount,
             )) {
-              teaButtonRows.add(_teaButtonRow(teaRow));
+              teaButtonRows.add(_teaButtonRow(teaRow, buttonScale));
             }
           } else {
             // Single row of tea buttons
-            teaButtonRows.add(_teaButtonRow(buttonData.teaList));
+            teaButtonRows.add(_teaButtonRow(buttonData.teaList, buttonScale));
           }
         } else {
           // Add button if tea list is empty
@@ -176,8 +192,11 @@ class _TeaButtonListState extends State<TeaButtonList> {
     );
   }
 
+  // Generate unique key for a tea button
+  Key _teaKey(Tea tea) => ValueKey('tea_${tea.id}_${tea.hashCode}');
+
   // Horizontally scrollable list of tea buttons
-  Widget _teaButtonRow(List<Tea> teas) {
+  Widget _teaButtonRow(List<Tea> teas, double buttonScale) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
@@ -186,21 +205,24 @@ class _TeaButtonListState extends State<TeaButtonList> {
       child: Padding(
         padding: buttonRowPadding,
         child: Row(
-          children: [...teas.map<Widget>((Tea tea) => _teaButton(tea))],
+          children: [
+            ...teas.map<Widget>((Tea tea) => _teaButton(tea, buttonScale)),
+          ],
         ),
       ),
     );
   }
 
   // Tea button paired with cancel button
-  Widget _teaButton(Tea tea) {
+  Widget _teaButton(Tea tea, double scale) {
     return Column(
       children: [
         // Start brewing button
         TeaButton(
-          key: GlobalObjectKey(tea.id),
+          key: _teaKey(tea),
           tea: tea,
           fade: !(activeTimerCount < timersMaxCount || tea.isActive),
+          scale: scale,
           onPressed: activeTimerCount < timersMaxCount && !tea.isActive
               ? () => _setTimer(tea)
               : null,
@@ -320,13 +342,18 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
     if (autoScroll) {
       // Ensure we are on the home screen (timer page)
+      if (!mounted) return;
       Navigator.of(context).popUntil((route) => route.isFirst);
 
-      // Autoscroll tea button list to this tea
-      BuildContext? target = GlobalObjectKey(tea.id).currentContext;
-      if (target != null) {
-        Scrollable.ensureVisible(target);
-      }
+      // Scroll to the tea button after the next frame
+      final teaKey = _teaKey(tea);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        final BuildContext? target = findWidgetWithKey(context, teaKey);
+        if (target != null) {
+          Scrollable.ensureVisible(target);
+        }
+      });
     }
 
     // Check if we should prompt for a review

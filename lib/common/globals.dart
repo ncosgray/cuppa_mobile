@@ -20,6 +20,7 @@ import 'package:region_settings/region_settings.dart';
 
 // Test mode
 bool skipNotify = false;
+bool skipTutorial = false;
 
 // Global navigator
 final navigatorKey = GlobalKey<NavigatorState>();

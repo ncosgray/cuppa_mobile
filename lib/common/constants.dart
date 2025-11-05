@@ -42,7 +42,7 @@ const cupImageTea = 'images/Cuppa_hires_tea.png';
 const teaNameMaxLength = 20;
 const teaBrewTimeMaxMinutes = 60;
 const teaBrewTimeMaxHours = 24;
-const teasMaxCount = 15;
+const teasMaxCount = 50;
 const timersMaxCount = 2;
 const stackedViewTeaCount = 3;
 
@@ -74,6 +74,7 @@ const double brewRatioNumeratorStep = 0.5;
 const largeDeviceSize = 550;
 
 // Widget sizes
+const double teaIconSize = 64;
 const double teaButtonHeight = 106;
 const double teaButtonWidth = 88;
 const double cancelButtonHeight = 34;
@@ -164,6 +165,7 @@ const prefCollectStats = 'Cuppa_collect_stats';
 const prefUseCelsius = 'Cuppa_use_celsius';
 const prefUseBrewRatios = 'Cuppa_use_brew_ratios';
 const prefCupStyle = 'Cuppa_cup_style';
+const prefButtonSize = 'Cuppa_button_size';
 const prefAppTheme = 'Cuppa_app_theme';
 const prefAppLanguage = 'Cuppa_app_language';
 const prefSkipTutorial = 'Cuppa_skip_tutorial';
@@ -181,6 +183,7 @@ const jsonKeyStackedView = 'stackedView';
 const jsonKeyUseCelsius = 'useCelsius';
 const jsonKeyUseBrewRatios = 'useBrewRatios';
 const jsonKeyCupStyle = 'cupStyle';
+const jsonKeyButtonSize = 'buttonSize';
 const jsonKeyAppTheme = 'appTheme';
 const jsonKeyAppLanguage = 'appLanguage';
 const jsonKeyCollectStats = 'collectStats';
@@ -230,8 +233,6 @@ const brewTempIncrement = 5;
 // App store review prompt
 const reviewPromptAtCount = 30;
 const promptDelayDuration = Duration(milliseconds: 500);
-const installSourceAppleStore = 'com.apple';
-const installSourceGoogleStore = 'com.android.vending';
 
 // Stats data
 const statsDatabase = 'Cuppa_stats.db';
