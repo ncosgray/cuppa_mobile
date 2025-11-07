@@ -1,1 +1,1 @@
-Die perfekte Ziehzeit für ihren Tee
+Cuppa ist eine kleine Anwendung, mit der Du die Ziehzeit deiner Tasse Tee messen kannst.
