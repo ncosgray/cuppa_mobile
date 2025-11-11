@@ -1,0 +1,2 @@
+* Die Seite „Einstellungen“ wurde neu organisiert.
+* Verschiedene Verbesserungen der Benutzerfreundlichkeit und kleinere Fehlerbehebungen.

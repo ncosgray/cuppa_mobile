@@ -1,0 +1,2 @@
+* Verschiedene Verbesserungen der Benutzerfreundlichkeit und kleinere Fehlerbehebungen.
+* Tamilische Übersetzung hinzugefügt und weitere Übersetzungsaktualisierungen – tragen Sie über Weblate dazu bei!

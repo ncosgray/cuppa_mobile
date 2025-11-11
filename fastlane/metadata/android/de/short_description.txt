@@ -1,1 +1,1 @@
-Cuppa ist eine kleine Anwendung, mit der Du die Ziehzeit deiner Tasse Tee messen kannst.
+Cuppa ist eine kleine Anwendung, mit der Sie die Ziehzeit Ihrer Tasse Tee messen können.

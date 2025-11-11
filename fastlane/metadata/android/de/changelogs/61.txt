@@ -1,0 +1,4 @@
+* Fügen Sie bis zu 50 Teesorten hinzu!
+* Neue Optionen zum Ändern der Größe der Timer-Schaltfläche oder zum Ausblenden der Teetassen-Grafik.
+* Verschiedene Verbesserungen der Benutzerfreundlichkeit und kleinere Fehlerbehebungen.
+* Aktualisierungen der Sprachübersetzungen – tragen Sie über Weblate dazu bei!

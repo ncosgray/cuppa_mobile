@@ -1,0 +1,2 @@
+* Verschiedene Verbesserungen der Benutzerfreundlichkeit und kleinere Fehlerbehebungen.
+* Polnische, slowakische und schwedische Übersetzungen hinzugefügt – tragen Sie über Weblate dazu bei!

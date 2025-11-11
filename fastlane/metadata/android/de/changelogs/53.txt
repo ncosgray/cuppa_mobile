@@ -1,0 +1,2 @@
+* Unterstützung für Sprachen pro App und predictive back hinzugefügt.
+* Verschiedene Verbesserungen der Benutzerfreundlichkeit und kleinere Fehlerbehebungen.
