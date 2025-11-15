@@ -1,1 +1,1 @@
-Izmeri čas, ko se čaj pripravlja
+Cuppa je majhna aplikacija, ki omogoča merjenje časa namakanja skodelice čaja.
