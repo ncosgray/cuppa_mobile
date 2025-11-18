@@ -1,0 +1,5 @@
+* Na novo oblikovan izbirnik barv ponuja na ducate novih barv čajev!
+* Odpravljen hrošč, zaradi katerega je bilo pogovorno okno za ime čaja v nekaterih primerih nevidno.
+* Združljivo z novimi dovoljenji v Androidu 14.
+* Različne izboljšave uporabnosti in vmesnika.
+* Dodan japonski prevod in druge posodobitve prevodov – prispevaj preko Weblate!

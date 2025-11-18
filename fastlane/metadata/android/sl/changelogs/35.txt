@@ -1,0 +1,4 @@
+* Dodan je vodič za nove uporabnike Cuppa.
+* Podpora za daljše čase namakanja.
+* Izboljšave uporabnosti in vmesnika.
+* Nova kitajska prevod — prispevaj še več jezikov preko Weblate!

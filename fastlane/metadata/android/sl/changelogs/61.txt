@@ -1,0 +1,4 @@
+* Dodaj lahko kar do 50 različnih čajev!
+* Nove možnosti za spreminjanje velikosti gumbov časovnika ali skrivanje grafike čajne skodelice.
+* Različne izboljšave uporabnosti in majhni popravki hroščev.
+* Posodobitve prevodov – prispevaj preko Weblate!

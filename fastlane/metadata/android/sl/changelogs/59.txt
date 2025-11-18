@@ -1,0 +1,3 @@
+* Izberi, katere podrobnosti namakanja naj bodo prikazane na gumbih časovnika.
+* Različne izboljšave uporabnosti in majhni popravki hroščev.
+* Posodobitve prevodov – prispevaj preko Weblate!

@@ -1,0 +1,3 @@
+* Z lahkoto prepoznaš vsak aktivni čajni časovnik po njegovi barvi.
+* Omogoča daljša imena čajev.
+* Posodobitve prevodov – prispevaj preko Weblate!

@@ -1,0 +1,6 @@
+* Označi svoje najljubše čaje z zvezdico, da jih dodaš kot bližnjice na ikono aplikacije.
+* Privzeto uporabi °C za vse, ki niso v ZDA.
+* Nova možnost: izberi svojo temo (svetla ali temna).
+* Več možnosti barv za gumb za čaj.
+* Izboljšave uporabnosti in vmesnika.
+* Posodobitve prevodov – prispevaj preko Weblate!

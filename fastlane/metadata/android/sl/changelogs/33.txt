@@ -1,0 +1,3 @@
+* Dvojni časovniki: zdaj lahko zaženeš drugi časovnik, medtem ko se tvoj prvi čaj pripravlja.
+* Zanesljivejša obvestila časovnika v določenih primerih.
+* Dodan nov jezik in druge posodobitve prevodov – prispevaj preko Weblate!

@@ -1,0 +1,2 @@
+* Odpravljen hrošč pri uvozu podatkov.
+* Posodobitve prevodov – prispevaj preko Weblate!

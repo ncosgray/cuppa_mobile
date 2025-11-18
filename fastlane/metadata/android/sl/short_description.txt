@@ -1,1 +1,1 @@
-Cuppa je majhna aplikacija, ki omogoča merjenje časa namakanja skodelice čaja.
+Cuppa je majhna aplikacija, ki meri časa namakanja skodelice čaja.
