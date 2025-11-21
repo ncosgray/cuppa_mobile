@@ -60,8 +60,8 @@ class TimerWidget extends StatelessWidget {
               selector: (_, provider) => provider.cupStyle == CupStyle.none,
               builder: (context, hideCup, child) {
                 return Flex(
-                  direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  direction: layoutPortrait ? .vertical : .horizontal,
+                  mainAxisAlignment: .center,
                   children: [
                     // Countdown timers
                     Expanded(
@@ -71,8 +71,8 @@ class TimerWidget extends StatelessWidget {
                             ? wideTimerLayoutPadding
                             : narrowTimerLayoutPadding,
                         alignment: layoutPortrait || hideCup
-                            ? Alignment.center
-                            : Alignment.centerRight,
+                            ? .center
+                            : .centerRight,
                         child: tutorialTooltip(
                           context: context,
                           key: tutorialKey1,
@@ -82,8 +82,8 @@ class TimerWidget extends StatelessWidget {
                             key: tutorialKey5,
                             showArrow: false,
                             child: const FittedBox(
-                              fit: BoxFit.fitHeight,
-                              alignment: Alignment.center,
+                              fit: .fitHeight,
+                              alignment: .center,
                               child: TimerCountdownWidget(),
                             ),
                           ),
@@ -105,9 +105,7 @@ class TimerWidget extends StatelessWidget {
                               padding: layoutPortrait
                                   ? narrowTimerLayoutPadding
                                   : wideTimerLayoutPadding,
-                              alignment: layoutPortrait
-                                  ? Alignment.center
-                                  : Alignment.centerLeft,
+                              alignment: layoutPortrait ? .center : .centerLeft,
                               child: teacup(),
                             ),
                           );

@@ -40,16 +40,12 @@ Widget teacup() {
                   opacity: min(timer1.timerPercent, timer2.timerPercent),
                   child: Image.asset(
                     cupImageTea,
-                    fit: BoxFit.fitWidth,
+                    fit: .fitWidth,
                     gaplessPlayback: true,
                   ),
                 ),
                 // Put a teabag in the cup
-                Image.asset(
-                  cupImageBag,
-                  fit: BoxFit.fitWidth,
-                  gaplessPlayback: true,
-                ),
+                Image.asset(cupImageBag, fit: .fitWidth, gaplessPlayback: true),
               ],
             ),
           ),

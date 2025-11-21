@@ -56,7 +56,7 @@ class TeaButton extends StatelessWidget {
     return Card(
       margin: largeDefaultPadding,
       elevation: tea.isActive ? 0.0 : 1.0,
-      clipBehavior: Clip.antiAlias,
+      clipBehavior: .antiAlias,
       child: DecoratedBox(
         decoration: BoxDecoration(color: tea.isActive ? tea.getColor() : null),
         child: IgnorePointer(
@@ -74,7 +74,7 @@ class TeaButton extends StatelessWidget {
                 margin: largeDefaultPadding,
                 // Timer icon with tea name
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: .center,
                   children: [
                     Icon(
                       tea.teaIcon,
@@ -90,11 +90,11 @@ class TeaButton extends StatelessWidget {
                     ),
                     // Optional extra info: brew time, temp, and ratio display
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: .center,
+                      mainAxisSize: .min,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: .spaceBetween,
                           children: [
                             // Brew time
                             _extraInfoItem(

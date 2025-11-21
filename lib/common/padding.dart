@@ -19,56 +19,39 @@ const double smallSpacing = 8;
 const double largeSpacing = 14;
 
 // General use padding
-const EdgeInsetsGeometry noPadding = EdgeInsets.zero;
-const EdgeInsetsGeometry smallDefaultPadding = EdgeInsets.all(4);
-const EdgeInsetsGeometry largeDefaultPadding = EdgeInsets.all(8);
-const EdgeInsetsGeometry rowPadding = EdgeInsets.symmetric(
-  vertical: 0,
-  horizontal: 4,
-);
-const EdgeInsetsGeometry columnPadding = EdgeInsets.only(bottom: 8);
+const EdgeInsetsGeometry noPadding = .zero;
+const EdgeInsetsGeometry smallDefaultPadding = .all(4);
+const EdgeInsetsGeometry largeDefaultPadding = .all(8);
+const EdgeInsetsGeometry rowPadding = .symmetric(vertical: 0, horizontal: 4);
+const EdgeInsetsGeometry columnPadding = .only(bottom: 8);
 
 // Element specific padding
-const EdgeInsetsGeometry titlePadding = EdgeInsets.symmetric(
+const EdgeInsetsGeometry titlePadding = .symmetric(vertical: 0, horizontal: 12);
+const EdgeInsetsGeometry headerPadding = .symmetric(
   vertical: 0,
   horizontal: 12,
 );
-const EdgeInsetsGeometry headerPadding = EdgeInsets.symmetric(
-  vertical: 0,
-  horizontal: 12,
-);
-const EdgeInsetsGeometry bodyPadding = EdgeInsets.symmetric(
-  vertical: 4,
-  horizontal: 12,
-);
-const EdgeInsetsGeometry narrowTimerLayoutPadding = EdgeInsets.all(12);
-const EdgeInsetsGeometry wideTimerLayoutPadding = EdgeInsets.symmetric(
+const EdgeInsetsGeometry bodyPadding = .symmetric(vertical: 4, horizontal: 12);
+const EdgeInsetsGeometry narrowTimerLayoutPadding = .all(12);
+const EdgeInsetsGeometry wideTimerLayoutPadding = .symmetric(
   vertical: 12,
   horizontal: 48,
 );
-const EdgeInsetsGeometry timerPadding = EdgeInsets.symmetric(
-  vertical: 2,
-  horizontal: 12,
-);
-const EdgeInsetsGeometry listTilePadding = EdgeInsets.symmetric(
+const EdgeInsetsGeometry timerPadding = .symmetric(vertical: 2, horizontal: 12);
+const EdgeInsetsGeometry listTilePadding = .symmetric(
   vertical: 6,
   horizontal: 12,
 );
-const EdgeInsetsGeometry radioTilePadding = EdgeInsets.symmetric(
+const EdgeInsetsGeometry radioTilePadding = .symmetric(
   vertical: 0,
   horizontal: 6,
 );
-const EdgeInsetsGeometry buttonRowPadding = EdgeInsets.symmetric(
+const EdgeInsetsGeometry buttonRowPadding = .symmetric(
   vertical: 0,
   horizontal: 6,
 );
-const EdgeInsetsGeometry buttonColumnPadding = EdgeInsets.symmetric(
+const EdgeInsetsGeometry buttonColumnPadding = .symmetric(
   vertical: 6,
   horizontal: 0,
 );
-const EdgeInsetsGeometry bottomSliverPadding = EdgeInsets.fromLTRB(
-  12,
-  6,
-  12,
-  12,
-);
+const EdgeInsetsGeometry bottomSliverPadding = .fromLTRB(12, 6, 12, 12);

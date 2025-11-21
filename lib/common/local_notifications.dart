@@ -23,8 +23,7 @@ import 'package:flutter/foundation.dart';
 // ignore: depend_on_referenced_packages
 import 'package:timezone/timezone.dart' as tz;
 
-final FlutterLocalNotificationsPlugin notify =
-    FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin notify = .new();
 
 // Initialize notifications plugin
 Future<void> initializeNotifications() async {
@@ -45,7 +44,7 @@ Future<void> initializeNotifications() async {
 const List<int> notifyVibrateDelay = [0];
 const List<int> notifyVibrateSubpattern = [400, 200, 400];
 const List<int> notifyVibratePause = [1000];
-final Int64List notifyVibratePattern = Int64List.fromList(
+final Int64List notifyVibratePattern = .fromList(
   notifyVibrateDelay +
       notifyVibrateSubpattern +
       notifyVibratePause +
@@ -101,15 +100,15 @@ Future<void> sendNotification(
   }
 
   // Configure and schedule the alarm
-  NotificationDetails notifyDetails = NotificationDetails(
+  NotificationDetails notifyDetails = .new(
     android: AndroidNotificationDetails(
       silent ? notifyChannelSilent : notifyChannel,
       silent
           ? AppString.notification_channel_silent.translate()
           : AppString.notification_channel_name.translate(),
-      importance: Importance.high,
-      priority: Priority.high,
-      visibility: NotificationVisibility.public,
+      importance: .high,
+      priority: .high,
+      visibility: .public,
       channelShowBadge: true,
       showWhen: true,
       enableLights: true,
@@ -120,7 +119,7 @@ Future<void> sendNotification(
       sound: silent
           ? null
           : const RawResourceAndroidNotificationSound(notifySound),
-      audioAttributesUsage: AudioAttributesUsage.alarm,
+      audioAttributesUsage: .alarm,
     ),
     iOS: DarwinNotificationDetails(
       presentAlert: true,
@@ -129,7 +128,7 @@ Future<void> sendNotification(
       presentBanner: true,
       presentList: true,
       sound: silent ? null : notifySoundIOS,
-      interruptionLevel: InterruptionLevel.timeSensitive,
+      interruptionLevel: .timeSensitive,
     ),
   );
   await notify.zonedSchedule(
@@ -139,6 +138,6 @@ Future<void> sendNotification(
     notifyTime,
     notifyDetails,
     payload: silent ? notifyChannelSilent : notifyChannel,
-    androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+    androidScheduleMode: .exactAllowWhileIdle,
   );
 }

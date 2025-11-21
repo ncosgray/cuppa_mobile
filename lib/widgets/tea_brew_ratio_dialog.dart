@@ -94,10 +94,10 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
   // Build a brewing ratio picker
   Widget _ratioPicker() {
     return Material(
-      type: MaterialType.transparency,
+      type: .transparency,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: .center,
+        mainAxisSize: .min,
         spacing: largeSpacing,
         children: [
           // Numerator unit selector
@@ -114,7 +114,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
             },
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: .spaceBetween,
             spacing: largeSpacing,
             children: [
               // Increment numerator down
@@ -177,7 +177,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
             },
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: .spaceBetween,
             spacing: largeSpacing,
             children: [
               // Increment denominator down
@@ -221,9 +221,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
             duration: shortAnimationDuration,
             child: Text(
               _newRatio.ratioString,
-              style: textStyleSettingNumber.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: textStyleSettingNumber.copyWith(fontWeight: .bold),
             ),
           ),
         ],

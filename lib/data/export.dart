@@ -61,7 +61,7 @@ abstract class Export {
 
       // Save to a temp file
       final Directory dir = await getApplicationDocumentsDirectory();
-      final File file = File(
+      final File file = .new(
         '${dir.path}/$exportFileName.$exportFileExtension',
       );
       File exportFile = await file.writeAsString(exportData);
@@ -96,7 +96,7 @@ abstract class Export {
     if (result != null && result.files.single.path != null) {
       try {
         // Read file contents
-        final File file = File(result.files.single.path!);
+        final File file = .new(result.files.single.path!);
         ExportFile exportData = ExportFile.fromJson(
           jsonDecode(file.readAsStringSync()),
         );

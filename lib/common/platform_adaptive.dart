@@ -98,7 +98,7 @@ Widget adaptiveScaffold({
           return CupertinoPageScaffold(
             navigationBar: appBar as PlatformAdaptiveNavBar,
             backgroundColor: backgroundColor,
-            child: Material(type: MaterialType.transparency, child: body),
+            child: Material(type: .transparency, child: body),
           );
         },
       );
@@ -107,7 +107,7 @@ Widget adaptiveScaffold({
       return CupertinoPageScaffold(
         navigationBar: appBar as PlatformAdaptiveNavBar,
         backgroundColor: backgroundColor,
-        child: Material(type: MaterialType.transparency, child: body),
+        child: Material(type: .transparency, child: body),
       );
     }
   } else {
@@ -182,7 +182,7 @@ Widget adaptiveSmallButton({
     );
   } else {
     return OutlinedButton(
-      style: OutlinedButton.styleFrom(visualDensity: VisualDensity.compact),
+      style: OutlinedButton.styleFrom(visualDensity: .compact),
       onPressed: onPressed,
       child: Icon(icon),
     );
@@ -205,8 +205,8 @@ Widget adaptiveLargeButton({
   } else {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
-        visualDensity: VisualDensity.comfortable,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        visualDensity: .comfortable,
+        shape: RoundedRectangleBorder(borderRadius: .circular(12)),
         minimumSize: const Size(60, 60),
         padding: smallDefaultPadding,
       ),
@@ -240,9 +240,9 @@ Widget adaptiveTextFormField({
                 autocorrect: false,
                 enableSuggestions: true,
                 enableInteractiveSelection: true,
-                textCapitalization: TextCapitalization.words,
+                textCapitalization: .words,
                 maxLines: 1,
-                textAlignVertical: TextAlignVertical.center,
+                textAlignVertical: .center,
                 padding: largeDefaultPadding,
                 style: TextStyle(color: textColor),
                 cursorColor: cursorColor,
@@ -273,9 +273,9 @@ Widget adaptiveTextFormField({
         autocorrect: false,
         enableSuggestions: true,
         enableInteractiveSelection: true,
-        textCapitalization: TextCapitalization.words,
+        textCapitalization: .words,
         maxLines: 1,
-        textAlignVertical: TextAlignVertical.center,
+        textAlignVertical: .center,
         decoration: InputDecoration(
           counter: const Offstage(),
           suffixIcon: controller.text.isNotEmpty
@@ -370,7 +370,7 @@ Widget adaptivePageHeader(
     titleSpacing: 0,
     title: Container(
       margin: headerPadding,
-      alignment: Alignment.centerLeft,
+      alignment: .centerLeft,
       child: FittedBox(
         child: Text(
           title,
@@ -412,8 +412,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
   bool shouldFullyObstruct(BuildContext context) => true;
 
   @override
-  Size get preferredSize =>
-      Size.fromHeight(Platform.isIOS ? 44 : kToolbarHeight);
+  Size get preferredSize => .fromHeight(Platform.isIOS ? 44 : kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -462,7 +461,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
             ? CupertinoButton(
                 padding: noPadding,
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: .min,
                   children: [
                     const Icon(CupertinoIcons.chevron_back, size: 28),
                     Text(previousPageTitle!),
@@ -475,7 +474,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
                 padding: noPadding,
                 child: Text(
                   buttonTextDone,
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: TextStyle(fontWeight: .w600),
                 ),
                 onPressed: () => Navigator.of(context).pop(),
               )
@@ -494,7 +493,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
           ),
         ),
         // Action buttons
-        trailing: Row(mainAxisSize: MainAxisSize.min, children: actions),
+        trailing: Row(mainAxisSize: .min, children: actions),
       );
     } else {
       return AppBar(
@@ -571,7 +570,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
       barrierDismissible: true,
       builder: (BuildContext context) {
         return Material(
-          type: MaterialType.transparency,
+          type: .transparency,
           child: CupertinoActionSheet(
             title: Text(titleText),
             // Item options

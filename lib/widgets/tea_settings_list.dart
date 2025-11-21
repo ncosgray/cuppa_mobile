@@ -47,7 +47,7 @@ class TeaSettingsList extends StatefulWidget {
 
 class _TeaSettingsListState extends State<TeaSettingsList> {
   // State variables
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = .new();
   bool _showInfoText = false;
   bool _scrollToEnd = false;
   bool _animateTeaList = false;
@@ -297,10 +297,10 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
                 provider.deleteTea(tea);
               },
               // Dismissible delete warning background
-              background: _dismissibleBackground(context, Alignment.centerLeft),
+              background: _dismissibleBackground(context, .centerLeft),
               secondaryBackground: _dismissibleBackground(
                 context,
-                Alignment.centerRight,
+                .centerRight,
               ),
               resizeDuration: longAnimationDuration,
               child: TeaSettingsCard(tea: tea),
@@ -314,7 +314,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
       color: Theme.of(context).colorScheme.error,
       margin: bodyPadding,
       child: Padding(
-        padding: const EdgeInsets.all(14),
+        padding: const .all(14),
         child: Align(
           alignment: alignment,
           child: getPlatformRemoveIcon(Theme.of(context).colorScheme.onError),
@@ -332,7 +332,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
         margin: noPadding,
         shadowColor: Colors.transparent,
         surfaceTintColor: Theme.of(context).colorScheme.primary,
-        clipBehavior: Clip.antiAlias,
+        clipBehavior: .antiAlias,
         child: InkWell(
           child: TextButton.icon(
             label: Text(
@@ -342,7 +342,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
             icon: addIcon,
             style: ButtonStyle(
               shape: WidgetStateProperty.all(
-                const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                const RoundedRectangleBorder(borderRadius: .zero),
               ),
             ),
             // Disable adding teas if there are maximum teas
@@ -383,9 +383,9 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
         ),
         // Preset tea brew time, temperature, and ratio
         title: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: .center,
+          mainAxisSize: .min,
+          crossAxisAlignment: .start,
           children: [
             Text(
               preset.localizedName,
@@ -395,8 +395,8 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
               child: preset.isCustom
                   ? null
                   : Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: .min,
+                      mainAxisAlignment: .start,
                       spacing: largeSpacing,
                       children: [
                         Text(
@@ -443,7 +443,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
       margin: noPadding,
       shadowColor: Colors.transparent,
       surfaceTintColor: Theme.of(context).colorScheme.error,
-      clipBehavior: Clip.antiAlias,
+      clipBehavior: .antiAlias,
       child: InkWell(
         child: getPlatformRemoveAllIcon(Theme.of(context).colorScheme.error),
         onTap: () async {

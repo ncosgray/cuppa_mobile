@@ -140,7 +140,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
             Container(
               padding: noPadding,
               height: teaButtonRows.length > 1 ? 376.0 : null,
-              alignment: Alignment.center,
+              alignment: .center,
               child: tutorialTooltip(
                 context: context,
                 key: tutorialKey3,
@@ -148,7 +148,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
                   context: context,
                   key: tutorialKey4,
                   child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
+                    scrollDirection: .vertical,
                     physics: const BouncingScrollPhysics(),
                     child: Padding(
                       padding: buttonColumnPadding,
@@ -173,8 +173,8 @@ class _TeaButtonListState extends State<TeaButtonList> {
                     child: Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
+                          begin: .topCenter,
+                          end: .bottomCenter,
                           colors: [
                             Theme.of(context).scaffoldBackgroundColor,
                             Theme.of(
@@ -198,9 +198,9 @@ class _TeaButtonListState extends State<TeaButtonList> {
   // Horizontally scrollable list of tea buttons
   Widget _teaButtonRow(List<Tea> teas, double buttonScale) {
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+      scrollDirection: .horizontal,
       physics: const BouncingScrollPhysics(),
-      clipBehavior: Clip.none,
+      clipBehavior: .none,
       controller: _scrollController,
       child: Padding(
         padding: buttonRowPadding,
@@ -248,7 +248,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
       children: [
         // Add tea button
         Card(
-          clipBehavior: Clip.antiAlias,
+          clipBehavior: .antiAlias,
           margin: largeDefaultPadding,
           child: InkWell(
             onTap: () => Navigator.of(context).push(
@@ -263,7 +263,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
               ),
               margin: largeDefaultPadding,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: .center,
                 children: [
                   Text(
                     AppString.add_tea_button.translate(),

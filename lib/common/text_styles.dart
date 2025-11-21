@@ -18,16 +18,13 @@ import 'package:flutter/material.dart';
 
 const TextStyle textStyleNavBar = TextStyle(fontSize: 18);
 
-const TextStyle textStyleHeader = TextStyle(
-  fontSize: 18,
-  fontWeight: FontWeight.bold,
-);
+const TextStyle textStyleHeader = TextStyle(fontSize: 18, fontWeight: .bold);
 
 const TextStyle textStyleTitle = TextStyle(fontSize: 16);
 
 const TextStyle textStyleSubtitle = TextStyle(
   fontSize: 14,
-  fontWeight: FontWeight.normal,
+  fontWeight: .normal,
 );
 
 const TextStyle textStyleFooter = TextStyle(fontSize: 12);
@@ -35,28 +32,25 @@ const TextStyle textStyleFooter = TextStyle(fontSize: 12);
 const TextStyle textStyleFooterLink = TextStyle(
   fontSize: 12,
   color: linkColor,
-  decoration: TextDecoration.underline,
+  decoration: .underline,
   decorationColor: linkColor,
 );
 
-const TextStyle textStyleButton = TextStyle(
-  fontSize: 18,
-  fontWeight: FontWeight.bold,
-);
+const TextStyle textStyleButton = TextStyle(fontSize: 18, fontWeight: .bold);
 
 const TextStyle textStyleButtonSecondary = TextStyle(
   fontSize: 15,
-  fontWeight: FontWeight.bold,
+  fontWeight: .bold,
 );
 
 const TextStyle textStyleButtonTertiary = TextStyle(
   fontSize: 14,
-  fontWeight: FontWeight.bold,
+  fontWeight: .bold,
 );
 
 const TextStyle textStyleTimer = TextStyle(
   fontSize: 150,
-  fontWeight: FontWeight.bold,
+  fontWeight: .bold,
   color: timerForegroundColor,
   fontFeatures: [FontFeature.tabularFigures()],
 );
@@ -66,14 +60,11 @@ const TextStyle textStyleTimerIncrement = TextStyle(
   color: timerForegroundColor,
 );
 
-const TextStyle textStyleSetting = TextStyle(
-  fontSize: 17,
-  fontWeight: FontWeight.bold,
-);
+const TextStyle textStyleSetting = TextStyle(fontSize: 17, fontWeight: .bold);
 
 const TextStyle textStyleSettingNumber = TextStyle(
   fontSize: 16,
-  fontFeatures: [FontFeature.tabularFigures()],
+  fontFeatures: [.tabularFigures()],
 );
 
 const TextStyle textStyleSettingSecondary = TextStyle(fontSize: 15);
@@ -84,12 +75,9 @@ const TextStyle textStyleTutorial = TextStyle(fontSize: 16);
 
 const TextStyle textStyleTutorialTitle = TextStyle(
   fontSize: 16,
-  fontWeight: FontWeight.bold,
+  fontWeight: .bold,
 );
 
-const TextStyle textStyleStat = TextStyle(
-  fontSize: 16,
-  fontWeight: FontWeight.bold,
-);
+const TextStyle textStyleStat = TextStyle(fontSize: 16, fontWeight: .bold);
 
 const TextStyle textStyleStatLabel = TextStyle(fontSize: 16);

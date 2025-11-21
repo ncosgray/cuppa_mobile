@@ -438,7 +438,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
 
   // Tools: export/import data
   Widget get _exportImportTools => Align(
-    alignment: Alignment.topLeft,
+    alignment: .topLeft,
     child: Selector<AppProvider, bool>(
       selector: (_, provider) => provider.activeTeas.isNotEmpty,
       builder: (context, activeTeas, child) {
@@ -454,7 +454,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                 style: textStyleTitle,
               ),
               trailing: Row(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: .min,
                 children: [
                   _exportButton,
                   const VerticalDivider(),

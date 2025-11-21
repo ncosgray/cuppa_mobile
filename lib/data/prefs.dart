@@ -32,8 +32,7 @@ abstract class Prefs {
 
   // Initialize shared preferences instance
   static Future<void> init() async {
-    const SharedPreferencesOptions sharedPreferencesOptions =
-        SharedPreferencesOptions();
+    const SharedPreferencesOptions sharedPreferencesOptions = .new();
 
     // Migrate legacy prefs
     final legacyPrefs = await SharedPreferences.getInstance();
@@ -329,11 +328,11 @@ abstract class Prefs {
 
 // Cup styles
 enum CupStyle {
-  classic(0, AppString.prefs_cup_style_classic, cupImageClassic),
-  floral(1, AppString.prefs_cup_style_floral, cupImageFloral),
-  chinese(2, AppString.prefs_cup_style_chinese, cupImageChinese),
-  mug(3, AppString.prefs_cup_style_mug, cupImageMug),
-  none(99, AppString.prefs_cup_style_none, null);
+  classic(0, .prefs_cup_style_classic, cupImageClassic),
+  floral(1, .prefs_cup_style_floral, cupImageFloral),
+  chinese(2, .prefs_cup_style_chinese, cupImageChinese),
+  mug(3, .prefs_cup_style_mug, cupImageMug),
+  none(99, .prefs_cup_style_none, null);
 
   const CupStyle(this.value, this._nameString, this._cupImage);
 
@@ -346,11 +345,7 @@ enum CupStyle {
     if (_cupImage == null) {
       return noneIcon;
     } else {
-      return Image.asset(
-        _cupImage,
-        fit: BoxFit.fitWidth,
-        gaplessPlayback: true,
-      );
+      return Image.asset(_cupImage, fit: .fitWidth, gaplessPlayback: true);
     }
   }
 
@@ -365,9 +360,9 @@ enum CupStyle {
 
 // Timer button size options
 enum ButtonSize {
-  small(0, AppString.prefs_button_size_small, 0.9),
-  medium(1, AppString.prefs_button_size_medium, 1),
-  large(2, AppString.prefs_button_size_large, 1.1);
+  small(0, .prefs_button_size_small, 0.9),
+  medium(1, .prefs_button_size_medium, 1),
+  large(2, .prefs_button_size_large, 1.1);
 
   const ButtonSize(this.value, this._nameString, this.scale);
 
@@ -388,11 +383,11 @@ enum ButtonSize {
 
 // App themes
 enum AppTheme {
-  system(0, AppString.theme_system, ThemeMode.system, false),
-  light(1, AppString.theme_light, ThemeMode.light, false),
-  dark(2, AppString.theme_dark, ThemeMode.dark, false),
-  black(3, AppString.theme_black, ThemeMode.dark, true),
-  systemBlack(4, AppString.theme_system_black, ThemeMode.system, true);
+  system(0, .theme_system, .system, false),
+  light(1, .theme_light, .light, false),
+  dark(2, .theme_dark, .dark, false),
+  black(3, .theme_black, .dark, true),
+  systemBlack(4, .theme_system_black, .system, true);
 
   const AppTheme(this.value, this._nameString, this.themeMode, this.blackTheme);
 
@@ -412,9 +407,9 @@ enum AppTheme {
 
 // Extra info options
 enum ExtraInfo {
-  brewTime(0, AppString.prefs_extra_brew_time),
-  brewTemp(1, AppString.prefs_extra_brew_temp),
-  brewRatio(2, AppString.prefs_extra_brew_ratio);
+  brewTime(0, .prefs_extra_brew_time),
+  brewTemp(1, .prefs_extra_brew_temp),
+  brewRatio(2, .prefs_extra_brew_ratio);
 
   const ExtraInfo(this.value, this._nameString);
 
