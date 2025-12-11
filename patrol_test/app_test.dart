@@ -61,7 +61,7 @@ void main() {
     // Edit test tea name
     await $.tap(find.text(Presets.presetList[0].localizedName));
     expect(find.byType(TeaNameDialog), findsOneWidget);
-    await $.native.enterTextByIndex(
+    await $.platform.mobile.enterTextByIndex(
       timerName,
       index: 0,
       keyboardBehavior: KeyboardBehavior.showAndDismiss,
@@ -120,8 +120,8 @@ void main() {
       await $.tap(find.text(AppString.prefs_title.translate()));
       await $.tap(find.text(AppString.done_button.translate()));
     } else {
-      await $.native.pressBack();
-      await $.native.pressBack();
+      await $.platform.android.pressBack();
+      await $.platform.android.pressBack();
     }
     await $.pumpAndSettle();
     expect(find.text(formatTimer(0)), findsOneWidget);
@@ -132,28 +132,32 @@ void main() {
 
     // Start timer and allow permission
     await $.tap(find.text(timerName));
-    await $.native.tap(
-      Selector(text: 'Allow'),
-      appId: Platform.isIOS ? 'com.apple.springboard' : null,
-    );
+    if (Platform.isIOS) {
+      await $.platform.ios.tap(
+        IOSSelector(text: 'Allow'),
+        appId: Platform.isIOS ? 'com.apple.springboard' : null,
+      );
+    } else {
+      await $.platform.mobile.tap(Selector(text: 'Allow'));
+    }
 
     // Check for notification after timer duration
     await Future.delayed(const Duration(seconds: timerSeconds));
     if (Platform.isIOS) {
-      await $.native.tap(
-        Selector(text: AppString.notification_title.translate()),
+      await $.platform.ios.tap(
+        IOSSelector(text: AppString.notification_title.translate()),
         appId: 'com.apple.springboard',
       );
     } else {
-      await $.native.openNotifications();
+      await $.platform.mobile.openNotifications();
       bool didNotify = false;
-      for (final notification in await $.native.getNotifications()) {
+      for (final notification in await $.platform.mobile.getNotifications()) {
         if (notification.content.contains(timerName)) {
           didNotify = true;
         }
       }
       expect(didNotify, true);
-      await $.native.closeNotifications();
+      await $.platform.mobile.closeNotifications();
     }
     expect(find.text(timerName), findsOneWidget);
 
