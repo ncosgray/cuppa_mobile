@@ -1,0 +1,2 @@
+* Uygulama başına dil desteği ve tahmine dayalı geri dönüş eklendi.
+* Kullanıcı dostu çeşitli iyileştirmeler ve küçük hata düzeltmeleri.

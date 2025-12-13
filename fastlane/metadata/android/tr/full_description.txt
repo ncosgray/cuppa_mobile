@@ -1,7 +1,7 @@
-Mobil aygıtlar için Cuppa sonunda burada! Çayınızı çok uzun süre bekletip acı ve soğuk olmasından veya çok erken içip tam tadını alamamaktan bıktınız mı? O zaman bu uygulama tam size göre!
+Android için Cuppa sonunda çıktı! Çayınızı çok uzun süre bekletip acı ve soğuk hale gelmesinden ya da çok erken içip tüm potansiyelini takdir edememekten bıktınız mı? O zaman bu uygulama tam size göre!
 
-Uygulamayı gerçekten kullanacağınız kadar hızlı ve kolay hale getirmek için basitliği göz önünde bulundurarak oluşturduk. Uygulamayı açmanız ve demlediğiniz çay türü için düğmeye dokunmanız yeterlidir. Bu kadar. Belirli bir çayı bulmak için karmaşık menüler arasında gezinmenize veya ayarlarla uğraşmanıza gerek yok... demleme sürelerini özelleştirmek veya kendi favori çaylarınızı eklemek istemiyorsanız.
+Uygulamayı gerçekten kullanabileceğiniz kadar hızlı ve kolay hale getirmek için, basitlik ön planda tutularak tasarlandı. Uygulamayı açın ve demlediğiniz çay türünün düğmesine dokunun. Hepsi bu kadar. Belirli bir çayı bulmak için karmaşık menülerde gezinmenize veya ayarlarla uğraşmanıza gerek yok... tabii demleme sürelerini özelleştirmek veya kendi favori çaylarınızı eklemek istemiyorsanız.
 
-Bir kez dokunduğunuzda, Cuppa demleme süresini başlatacak ve fincanda bir çay poşetinin göründüğünü ve çay demlendikçe yavaş yavaş karardığını göreceksiniz. Geri sayım sayacı kalan demlenme süreyi gösterir. Her biri kendi geri sayım sayacına sahip iki ayrı çayı aynı anda demleyebilirsiniz. Çay demlendiğinde Cuppa size bir bildirimde bulunacaktır -- aygıt ayarlarınıza bağlı olarak buna bir ses ve/veya titreşim eşlik edebilir.
+Dokunduğunuzda, Cuppa demleme süresini ölçmeye başlayacak ve fincanda bir çay poşeti görünecek ve çay demlendikçe yavaşca koyulaşacaktır. Geri sayım sayacı, demleme süresinin ne kadar kaldığını gösterir. Aynı anda iki ayrı çay demleyebilirsiniz, her birinin kendi geri sayım sayacı vardır. Çay demlendiğinde Cuppa size bir bildirim gönderir; cihaz ayarlarınıza bağlı olarak, bu bildirim bir ses ve/veya titreşimle birlikte olabilir.
 
-Mobil aygıtınız için Cuppa'yı faydalı bulacağınızı umuyoruz!
+Mobil cihazınız için Cuppa'yı kullanışlı bulacağınızı umuyoruz!
