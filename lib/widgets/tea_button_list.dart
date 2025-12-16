@@ -34,6 +34,7 @@ import 'package:cuppa_mobile/widgets/tea_button.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'dart:async';
+import 'dart:math' show max;
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -83,17 +84,20 @@ class _TeaButtonListState extends State<TeaButtonList> {
   // Build timer button list
   @override
   Widget build(BuildContext context) {
-    // Determine layout based on device orientation
-    bool layoutPortrait = getDeviceSize(context).isPortrait;
-
     // List/grid of available tea buttons
     return Selector<
       AppProvider,
-      ({List<Tea> teaList, bool stackedView, ButtonSize buttonSize})
+      ({
+        List<Tea> teaList,
+        bool stackedView,
+        bool hideCup,
+        ButtonSize buttonSize,
+      })
     >(
       selector: (_, provider) => (
         teaList: provider.teaList,
         stackedView: provider.stackedView,
+        hideCup: provider.cupStyle == CupStyle.none,
         buttonSize: provider.buttonSize,
       ),
       builder: (context, buttonData, child) {
@@ -101,27 +105,14 @@ class _TeaButtonListState extends State<TeaButtonList> {
         double buttonScale = buttonData.buttonSize.scale;
 
         if (buttonData.teaList.isNotEmpty) {
-          if (buttonData.stackedView && getDeviceSize(context).isLargeDevice) {
-            // Arrange into two rows of tea buttons for large screens
-            int topRowLength = (buttonData.teaList.length / 2).floor();
-            teaButtonRows
-              ..add(
-                _teaButtonRow(
-                  buttonData.teaList.sublist(0, topRowLength),
-                  buttonScale,
-                ),
-              )
-              ..add(
-                _teaButtonRow(
-                  buttonData.teaList.sublist(topRowLength),
-                  buttonScale,
-                ),
-              );
-          } else if (buttonData.stackedView && layoutPortrait) {
-            // Arrange into multiple rows for small screens
-            for (final teaRow in buttonData.teaList.slices(
-              stackedViewTeaCount,
-            )) {
+          if (buttonData.stackedView || buttonData.hideCup) {
+            // Calculate optimum number of buttons for screen width
+            int rowLength = max(
+              teaButtonRowMinLength,
+              (getDeviceSize(context).width / buttonScale / 128.0).floor(),
+            );
+            // Arrange into multiple rows for stacked view
+            for (final teaRow in buttonData.teaList.slices(rowLength)) {
               teaButtonRows.add(_teaButtonRow(teaRow, buttonScale));
             }
           } else {
@@ -139,7 +130,11 @@ class _TeaButtonListState extends State<TeaButtonList> {
             // Tea buttons
             Container(
               padding: noPadding,
-              height: teaButtonRows.length > 1 ? 376.0 : null,
+              height: buttonData.hideCup
+                  ? getDeviceSize(context).height * .65
+                  : (teaButtonRows.length > 1
+                        ? getDeviceSize(context).height * .4
+                        : null),
               alignment: .center,
               child: tutorialTooltip(
                 context: context,

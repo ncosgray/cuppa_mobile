@@ -44,7 +44,7 @@ const teaBrewTimeMaxMinutes = 60;
 const teaBrewTimeMaxHours = 24;
 const teasMaxCount = 50;
 const timersMaxCount = 2;
-const stackedViewTeaCount = 3;
+const teaButtonRowMinLength = 3;
 
 // Defaults
 const unknownString = '?';

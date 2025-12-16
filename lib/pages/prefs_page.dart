@@ -152,7 +152,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                 // Setting: stacked timer button view
                 Selector<AppProvider, bool>(
                   selector: (_, provider) =>
-                      provider.teaCount > stackedViewTeaCount,
+                      provider.teaCount > teaButtonRowMinLength &&
+                      provider.cupStyle != CupStyle.none,
                   builder: (context, showStackedView, child) {
                     return Visibility(
                       visible: showStackedView,
