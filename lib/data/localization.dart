@@ -25,7 +25,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 
 const Locale defaultLocale = .fromSubtags(
   languageCode: 'en',
@@ -375,42 +374,31 @@ class AppLocalizations {
   }
 
   // Localized epoch time formatting as date string
-  static String dateString(int ms) {
-    DateTime d = DateTime.fromMillisecondsSinceEpoch(ms);
-    if (instance.isFallbackLanguage || instance.isSystemLanguage) {
-      return regionSettings.formatDate(d, dateStyle: .medium);
-    } else {
-      DateFormat formatter = .yMMMd(instance.appLocaleString);
-      return formatter.format(d);
-    }
-  }
+  static String dateString(int ms) => regionSettings.formatDate(
+    DateTime.fromMillisecondsSinceEpoch(ms),
+    dateStyle: .medium,
+    forceLocale: instance.forceLocale,
+  );
 
   // Localized number formatting
   static String numberString(
     double i, {
     int decimalPlaces = 0,
     bool asPercentage = false,
-  }) {
-    if (instance.isFallbackLanguage || instance.isSystemLanguage) {
-      return regionSettings.formatNumber(
-        i,
-        decimalPlaces: decimalPlaces,
-        asPercentage: asPercentage,
-      );
-    } else {
-      NumberFormat formatter = .new(
-        '#,##0${decimalPlaces > 0 ? '.${'0' * decimalPlaces}' : ''}${asPercentage ? '%' : ''}',
-        instance.appLocaleString,
-      );
-      return formatter.format(i);
-    }
-  }
+  }) => regionSettings.formatNumber(
+    i,
+    decimalPlaces: decimalPlaces,
+    asPercentage: asPercentage,
+    forceLocale: instance.forceLocale,
+  );
 
   // Locale info
   String get appLocaleString => localeString(instance.locale);
   bool get isSystemLanguage => _isSystemLanguage;
   bool get isFallbackLanguage =>
       fallbackLanguageCodes.contains(instance.locale.languageCode);
+  String? get forceLocale =>
+      (isFallbackLanguage || isSystemLanguage) ? null : appLocaleString;
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

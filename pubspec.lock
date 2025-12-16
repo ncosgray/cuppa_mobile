@@ -317,7 +317,7 @@ packages:
     source: hosted
     version: "0.2.0"
   intl:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: intl
       sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
@@ -576,10 +576,10 @@ packages:
     dependency: "direct main"
     description:
       name: region_settings
-      sha256: "7b015dac992115cdf7cb6895d9c456384e1d3db823ed04634ec400667bf0b88b"
+      sha256: "5d7cf36e613d1248d5998fb6bac74cd6435825cb43e4b4489015834c95bdb5df"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.1"
+    version: "1.5.0"
   share_plus:
     dependency: "direct main"
     description:
