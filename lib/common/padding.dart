@@ -15,6 +15,7 @@
 import 'package:flutter/material.dart';
 
 // Row and column spacing
+const double xsmallSpacing = 4;
 const double smallSpacing = 8;
 const double largeSpacing = 14;
 
@@ -32,11 +33,7 @@ const EdgeInsetsGeometry headerPadding = .symmetric(
   horizontal: 12,
 );
 const EdgeInsetsGeometry bodyPadding = .symmetric(vertical: 4, horizontal: 12);
-const EdgeInsetsGeometry narrowTimerLayoutPadding = .all(12);
-const EdgeInsetsGeometry wideTimerLayoutPadding = .symmetric(
-  vertical: 12,
-  horizontal: 48,
-);
+const EdgeInsetsGeometry timerLayoutPadding = .fromLTRB(48, 28, 48, 12);
 const EdgeInsetsGeometry timerPadding = .symmetric(vertical: 2, horizontal: 12);
 const EdgeInsetsGeometry listTilePadding = .symmetric(
   vertical: 6,

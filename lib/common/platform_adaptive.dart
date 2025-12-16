@@ -105,7 +105,7 @@ Widget adaptiveScaffold({
     } else {
       // Regular iOS page without bottom navigation
       return CupertinoPageScaffold(
-        navigationBar: appBar as PlatformAdaptiveNavBar,
+        navigationBar: appBar != null ? appBar as PlatformAdaptiveNavBar : null,
         backgroundColor: backgroundColor,
         child: Material(type: .transparency, child: body),
       );
@@ -121,7 +121,8 @@ Widget adaptiveScaffold({
 }
 
 // Nav bar action button with styling appropriate to platform
-Widget adaptiveNavBarActionButton({
+Widget adaptiveNavBarActionButton(
+  BuildContext context, {
   required Widget icon,
   required Function()? onPressed,
 }) {
@@ -132,7 +133,11 @@ Widget adaptiveNavBarActionButton({
       child: icon,
     );
   } else {
-    return IconButton(icon: icon, onPressed: onPressed);
+    return IconButton(
+      icon: icon,
+      color: Theme.of(context).appBarTheme.actionsIconTheme?.color,
+      onPressed: onPressed,
+    );
   }
 }
 
@@ -421,16 +426,18 @@ class PlatformAdaptiveNavBar extends StatelessWidget
     if (secondaryActionIcon != null && secondaryActionRoute != null) {
       actions.add(
         adaptiveNavBarActionButton(
+          context,
           icon: secondaryActionIcon!,
-          onPressed: _adaptiveOnPressed(context, route: secondaryActionRoute!),
+          onPressed: adaptiveOnPressed(context, route: secondaryActionRoute!),
         ),
       );
     }
     if (actionIcon != null && actionRoute != null) {
       actions.add(
         adaptiveNavBarActionButton(
+          context,
           icon: actionIcon!,
-          onPressed: _adaptiveOnPressed(context, route: actionRoute!),
+          onPressed: adaptiveOnPressed(context, route: actionRoute!),
         ),
       );
     }
@@ -503,24 +510,21 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       );
     }
   }
+}
 
-  // Navigation action handler that adapts to platform
-  Function()? _adaptiveOnPressed(
-    BuildContext context, {
-    required Widget route,
-  }) {
-    return () {
-      if (Platform.isIOS) {
-        Navigator.of(
-          context,
-        ).push(CupertinoSheetRoute<void>(builder: (_) => route));
-      } else {
-        Navigator.of(
-          context,
-        ).push(MaterialPageRoute<void>(builder: (_) => route));
-      }
-    };
-  }
+// Navigation action handler that adapts to platform
+Function()? adaptiveOnPressed(BuildContext context, {required Widget route}) {
+  return () {
+    if (Platform.isIOS) {
+      Navigator.of(
+        context,
+      ).push(CupertinoSheetRoute<void>(builder: (_) => route));
+    } else {
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute<void>(builder: (_) => route));
+    }
+  };
 }
 
 // Bottom nav bar that is Material on Android and Cupertino on iOS

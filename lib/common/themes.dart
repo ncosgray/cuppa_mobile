@@ -22,6 +22,9 @@ final ThemeData lightThemeData = ThemeData(
   brightness: .light,
   colorSchemeSeed: Colors.blue,
   scaffoldBackgroundColor: Colors.white,
+  appBarTheme: AppBarTheme(
+    actionsIconTheme: IconThemeData(color: Colors.grey.shade800),
+  ),
   cardTheme: CardThemeData(color: Colors.grey.shade100),
   listTileTheme: const ListTileThemeData(iconColor: Colors.grey),
   sliderTheme: SliderThemeData(inactiveTrackColor: Colors.grey.shade300),
