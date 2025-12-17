@@ -1,0 +1,2 @@
+* Improve the layout of tea buttons within available screen space.
+* Language translation updates - contribute via Weblate!
