@@ -1,0 +1,1 @@
+* Odpravljen hrošč pri izvozu/uvozu.

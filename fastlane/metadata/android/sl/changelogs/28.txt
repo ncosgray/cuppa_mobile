@@ -1,0 +1,6 @@
+* Nova možnost za čaj: izberi med tremi različnimi ikonami.
+* Lažja izbira časa namakanja in temperature.
+* Omogočaš lahko tudi samo en gumb za čaj.
+* Dodana povezava do nastavitev obvestil na napravi.
+* Izboljšave uporabnosti in vmesnika.
+* Posodobitve prevodov – prispevaj preko Weblate!

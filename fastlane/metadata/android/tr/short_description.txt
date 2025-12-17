@@ -1,1 +1,1 @@
-Çayınızın demlenmesini zamanlayın
+Cuppa, çayınız demlenirken demlenme süresini ölçen küçük bir uygulamadır.

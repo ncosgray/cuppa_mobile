@@ -1,0 +1,2 @@
+* odpravljena sesutja na prepogljivih napravah
+* izboljšana enobarvna ikona

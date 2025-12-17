@@ -1,0 +1,2 @@
+* Fehler beim Datenimport behoben.
+* Aktualisierungen der Sprachübersetzungen – tragen Sie über Weblate dazu bei!

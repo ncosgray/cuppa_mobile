@@ -1,0 +1,5 @@
+* Omogoči razmerja namakanja, ki ti pomagajo natančno odmeriti tvoj čaj!
+* Gumb za utišanje ti omogoča, da utišaš obvestilo časovnika.
+* Uredi podrobnosti čaja, ki se trenutno pripravlja.
+* Različne izboljšave uporabnosti in majhni popravki hroščev.
+* Posodobitve prevodov – prispevaj preko Weblate!

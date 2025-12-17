@@ -1,0 +1,4 @@
+* Dodan gumb Razveljavi pri brisanju čajev.
+* Odpravljen hrošč z bližnjicami po spremembi vrstnega reda seznama čajev.
+* Izboljšave uporabnosti in vmesnika, vključno z novimi animacijami.
+* Prevod v urdujščino in tradicionalno kitajščino – prispevaj še več jezikov preko Weblate!

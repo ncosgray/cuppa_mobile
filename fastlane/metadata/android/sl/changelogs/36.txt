@@ -1,0 +1,5 @@
+* Popolna podpora za hladno namakan čaj (12+ ur namakanja).
+* Prenovljena stran Nastavitve za tablice in prepogljive naprave.
+* Bolj vztrajna obvestila časovnika.
+* Izboljšave uporabnosti in vmesnika.
+* Posodobitve prevodov – prispevaj preko Weblate!

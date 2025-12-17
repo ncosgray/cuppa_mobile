@@ -1,0 +1,3 @@
+* Izvoz/uvoz ti omogoča enostavno kopiranje podatkov Cuppa na drugo napravo.
+* Različne izboljšave uporabnosti in vmesnika.
+* Posodobitve prevodov – prispevaj preko Weblate!

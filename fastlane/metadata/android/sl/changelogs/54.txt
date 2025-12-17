@@ -1,0 +1,2 @@
+* Različne izboljšave uporabnosti in majhni popravki hroščev.
+* Dodan tamilski prevod in druge posodobitve prevodov – prispevaj preko Weblate!

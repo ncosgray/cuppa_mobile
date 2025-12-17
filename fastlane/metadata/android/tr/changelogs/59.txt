@@ -1,0 +1,3 @@
+* Zamanlayıcı düğmelerinde gösterilecek demleme ayrıntılarını seçin.
+* Çeşitli kullanılabilirlik iyileştirmeleri ve küçük hata düzeltmeleri.
+* Dil çevirisi güncellemeleri - Weblate aracılığıyla katkıda bulunun!

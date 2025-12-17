@@ -1,0 +1,4 @@
+* 50 adede kadar çay ekleyin!
+* Zamanlayıcı düğmesinin boyutunu değiştirmek veya çay fincanı grafiğini gizlemek için yeni seçenekler.
+* Çeşitli kullanılabilirlik iyileştirmeleri ve küçük hata düzeltmeleri.
+* Dil çevirisi güncellemeleri - Weblate aracılığıyla katkıda bulunun!

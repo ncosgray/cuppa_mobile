@@ -1,0 +1,4 @@
+* Nytt, helsvart Mörkt tema.
+* Bugg som orsakade att kortkommandon startade har fixats.
+* Förbättrat gränssnitt.
+* Fler översättningar – bidra du också, via Weblate!
