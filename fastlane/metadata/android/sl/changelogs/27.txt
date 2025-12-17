@@ -1,0 +1,2 @@
+* Podpora dovoljenju za obvestila v Android 13.
+* Posodobitve prevodov – prispevaj preko Weblate!

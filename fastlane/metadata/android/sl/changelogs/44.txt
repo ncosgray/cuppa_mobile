@@ -1,0 +1,5 @@
+* Razvrsti svoj seznam čajev po različnih kriterijih z le nekaj dotiki.
+* Dodana nova možnost za navpično razporeditev gumbov čajnih časovnikov.
+* Na voljo so bolj podrobne možnosti temperature z uporabo drsnika.
+* Različne izboljšave uporabnosti in vmesnika.
+* Posodobitve prevodov – prispevaj preko Weblate!

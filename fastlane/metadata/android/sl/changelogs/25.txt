@@ -1,0 +1,4 @@
+* Nov ležeči način za telefone.
+* Boljše prilagajanje glede na nastavitve dostopnosti naprave.
+* Izboljšave uporabnosti in vmesnika.
+* Posodobitve prevodov – prispevaj preko Weblate!

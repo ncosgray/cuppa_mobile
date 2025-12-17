@@ -1,0 +1,2 @@
+* Stöd för tillåtna Android 13-notiser.
+* Fler översättningar – bidra du också, via Weblate!

@@ -1,0 +1,2 @@
+* Različne izboljšave uporabnosti in majhni popravki hroščev.
+* Dodani poljski, slovaški in švedski prevod – prispevaj preko Weblate!

@@ -1,0 +1,2 @@
+* Çeşitli kullanılabilirlik iyileştirmeleri ve küçük hata düzeltmeleri.
+* Lehçe, Slovakça ve İsveççe çeviriler eklendi - Weblate aracılığıyla katkıda bulunun!

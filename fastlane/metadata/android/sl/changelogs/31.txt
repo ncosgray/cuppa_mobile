@@ -1,0 +1,5 @@
+* Popolnoma črna temna tema je zdaj izbirna.
+* Dodan gumb za odstranitev vseh čajev.
+* Odpravljen hrošč, zaradi katerega so se bližnjice nepričakovano zagnale.
+* Izboljšave uporabnosti in vmesnika.
+* Posodobitve prevodov – prispevaj preko Weblate!

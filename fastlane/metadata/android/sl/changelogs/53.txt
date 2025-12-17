@@ -1,0 +1,2 @@
+* Dodana podpora za jezike na ravni posamezne aplikacije in za prediktivni “nazaj”.
+* Različne izboljšave uporabnosti in majhni popravki hroščev.

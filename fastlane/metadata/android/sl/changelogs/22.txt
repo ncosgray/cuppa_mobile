@@ -1,0 +1,5 @@
+* Obvestila časovnika zdaj vključujejo časovni žig.
+* Dodana stran »O aplikaciji«.
+* Nekatere nastavitve lahko zdaj spremeniš tudi med delovanjem časovnika.
+* Izboljšave uporabnosti in vmesnika.
+* Na voljo v 7 novih jezikih – prispevaj več preko Weblate!

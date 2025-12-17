@@ -1,0 +1,3 @@
+* Wählen Sie aus, welche Details zum Brühvorgang auf den Timer-Tasten angezeigt werden sollen.
+* Verschiedene Verbesserungen der Benutzerfreundlichkeit und kleinere Fehlerbehebungen.
+* Aktualisierungen der Sprachübersetzungen – tragen Sie über Weblate dazu bei!

@@ -1,0 +1,4 @@
+* Nova popolnoma črna temna tema.
+* Odpravljen hrošč, zaradi katerega so se bližnjice nepričakovano zagnale.
+* Izboljšave uporabnosti in vmesnika.
+* Posodobitve prevodov – prispevaj preko Weblate!

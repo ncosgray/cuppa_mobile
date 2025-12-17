@@ -1,0 +1,4 @@
+* Glasnejši zvok obvestila.
+* Nova možnost: izberi svoj želeni jezik.
+* Izboljšave uporabnosti in vmesnika.
+* Posodobitve prevodov – prispevaj preko Weblate!

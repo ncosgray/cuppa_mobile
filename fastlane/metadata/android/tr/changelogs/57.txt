@@ -1,0 +1,2 @@
+* Veri içe aktarma hatası düzeltildi.
+* Dil çevirisi güncellemeleri - Weblate aracılığıyla katkıda bulunun!

@@ -1,0 +1,5 @@
+* Če se odločiš za deljenje statistike uporabe, dobiš dostop do zabavnega grafikona, ki prikazuje tvoje navade pitja čaja!
+* Politika zasebnosti posodobljena zaradi zbiranja statistike.
+* Boljše prilagajanje pri velikih sistemskih velikostih pisave.
+* Različne izboljšave uporabnosti in vmesnika.
+* Dodan luksemburški prevod in druge posodobitve prevodov – prispevaj preko Weblate!

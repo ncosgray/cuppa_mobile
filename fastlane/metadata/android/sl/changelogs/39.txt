@@ -1,0 +1,4 @@
+* Zdaj lahko prilagodiš preostali čas na aktivnem čajnem časovniku.
+* Dodatne možnosti temperatur namakanja.
+* Različne izboljšave uporabnosti in vmesnika.
+* Posodobitve prevodov – prispevaj preko Weblate!

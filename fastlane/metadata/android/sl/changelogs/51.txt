@@ -1,0 +1,2 @@
+* Izberi svojo grafiko časovnika, na primer skodelico čaja ali nove dizajne čajnih skodelic.
+* Posodobitve prevodov – prispevaj preko Weblate!

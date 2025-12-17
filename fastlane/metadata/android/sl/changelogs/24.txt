@@ -1,0 +1,5 @@
+* Pred nastavitve vrst čaja olajšajo dodajanje novih čajev!
+* Uporabi opozorilna obvestila, da bolje pritegnejo tvojo pozornost.
+  (Opomba: za preklop na opozorila bo morda potrebna ponovna namestitev.)
+* Izboljšave uporabnosti in vmesnika.
+* Posodobitve prevodov – prispevaj preko Weblate!
