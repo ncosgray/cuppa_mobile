@@ -64,12 +64,12 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
       title: Container(),
       content: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: .center,
+          mainAxisSize: .min,
           children: [
             // Mini tea button previews
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: .spaceEvenly,
               children: [
                 miniTeaButton(icon: widget.previewIcon, color: _newColorShade),
                 miniTeaButton(
@@ -88,12 +88,12 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
             ColorPicker(
               color: _newColorShade ?? _newTeaColor.getColor(),
               pickersEnabled: const <ColorPickerType, bool>{
-                ColorPickerType.both: false,
-                ColorPickerType.primary: false,
-                ColorPickerType.accent: false,
-                ColorPickerType.bw: false,
-                ColorPickerType.custom: true,
-                ColorPickerType.wheel: false,
+                .both: false,
+                .primary: false,
+                .accent: false,
+                .bw: false,
+                .custom: true,
+                .wheel: false,
               },
               customColorSwatchesAndNames: <ColorSwatch<Object>, String>{
                 for (final color in TeaColor.values)

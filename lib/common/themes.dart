@@ -19,9 +19,12 @@ import 'package:flutter/material.dart';
 
 // Theme definitions
 final ThemeData lightThemeData = ThemeData(
-  brightness: Brightness.light,
+  brightness: .light,
   colorSchemeSeed: Colors.blue,
   scaffoldBackgroundColor: Colors.white,
+  appBarTheme: AppBarTheme(
+    actionsIconTheme: IconThemeData(color: Colors.grey.shade800),
+  ),
   cardTheme: CardThemeData(color: Colors.grey.shade100),
   listTileTheme: const ListTileThemeData(iconColor: Colors.grey),
   sliderTheme: SliderThemeData(inactiveTrackColor: Colors.grey.shade300),
@@ -33,7 +36,7 @@ final ThemeData lightThemeData = ThemeData(
   cupertinoOverrideTheme: cupertinoOverrideTheme,
 );
 final ThemeData darkThemeData = ThemeData(
-  brightness: Brightness.dark,
+  brightness: .dark,
   colorSchemeSeed: Colors.blue,
   scaffoldBackgroundColor: const Color(0xff323232),
   cardTheme: CardThemeData(color: Colors.grey.shade800),
@@ -101,14 +104,14 @@ ThemeData createDarkTheme({
 InteractiveInkFeatureFactory? get splashFactory =>
     Platform.isIOS ? NoSplash.splashFactory : null;
 
-PageTransitionsTheme get pageTransitionsTheme => const PageTransitionsTheme(
+PageTransitionsTheme get pageTransitionsTheme => const .new(
   builders: <TargetPlatform, PageTransitionsBuilder>{
-    TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-    TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+    .iOS: CupertinoPageTransitionsBuilder(),
+    .android: PredictiveBackPageTransitionsBuilder(),
   },
 );
 
 String? get fontFamily => Platform.isIOS ? 'CupertinoSystemDisplay' : null;
 
 CupertinoThemeData get cupertinoOverrideTheme =>
-    const CupertinoThemeData(primaryColor: CupertinoColors.systemBlue);
+    const .new(primaryColor: CupertinoColors.systemBlue);

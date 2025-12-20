@@ -63,25 +63,25 @@ class TeaSettingsCard extends StatelessWidget {
                 Expanded(
                   child: Flex(
                     // Determine layout by device size
-                    direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
+                    direction: layoutPortrait ? .vertical : .horizontal,
                     children: [
                       Expanded(
                         child: Container(
                           height: 54,
                           padding: noPadding,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: .start,
                             spacing: smallSpacing,
                             children: [
                               // Favorite status
                               Align(
-                                alignment: Alignment.centerLeft,
+                                alignment: .centerLeft,
                                 child: _favoriteButton(context),
                               ),
                               // Tea name with edit icon
                               Expanded(
                                 child: Align(
-                                  alignment: Alignment.centerLeft,
+                                  alignment: .centerLeft,
                                   child: _teaNameEditor(context),
                                 ),
                               ),
@@ -95,7 +95,7 @@ class TeaSettingsCard extends StatelessWidget {
                                         Visibility(
                                           visible: useBrewRatios,
                                           child: Align(
-                                            alignment: Alignment.centerRight,
+                                            alignment: .centerRight,
                                             child: _teaColorSelector(context),
                                           ),
                                         ),
@@ -113,19 +113,19 @@ class TeaSettingsCard extends StatelessWidget {
                         child: Container(
                           padding: noPadding,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: .spaceBetween,
                             spacing: largeSpacing,
                             children: [
                               // Brew time
                               Align(
                                 alignment: layoutPortrait
-                                    ? Alignment.centerLeft
-                                    : Alignment.center,
+                                    ? .centerLeft
+                                    : .center,
                                 child: _teaBrewTimeSelector(context),
                               ),
                               // Brew temperature
                               Align(
-                                alignment: Alignment.centerLeft,
+                                alignment: .centerLeft,
                                 child: _teaBrewTempSelector(context),
                               ),
                               Row(
@@ -138,7 +138,7 @@ class TeaSettingsCard extends StatelessWidget {
                                         Visibility(
                                           visible: useBrewRatios,
                                           child: Align(
-                                            alignment: Alignment.centerRight,
+                                            alignment: .centerRight,
                                             child: _teaBrewRatioSelector(
                                               context,
                                             ),
@@ -153,7 +153,7 @@ class TeaSettingsCard extends StatelessWidget {
                                         Visibility(
                                           visible: !useBrewRatios,
                                           child: Align(
-                                            alignment: Alignment.centerRight,
+                                            alignment: .centerRight,
                                             child: _teaColorSelector(context),
                                           ),
                                         ),
@@ -162,7 +162,7 @@ class TeaSettingsCard extends StatelessWidget {
                               ),
                               // Icon selection
                               Align(
-                                alignment: Alignment.centerRight,
+                                alignment: .centerRight,
                                 child: _teaIconSelector(context),
                               ),
                             ],
@@ -216,15 +216,15 @@ class TeaSettingsCard extends StatelessWidget {
       height: double.infinity,
       child: InkWell(
         child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: .min,
+          mainAxisAlignment: .start,
           children: <Widget>[
             Flexible(
               child: Text(
                 tea.name,
-                textAlign: TextAlign.left,
+                textAlign: .left,
                 maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                overflow: .ellipsis,
                 style: textStyleSetting.copyWith(color: tea.getColor()),
               ),
             ),
@@ -294,14 +294,14 @@ class TeaSettingsCard extends StatelessWidget {
       height: double.infinity,
       child: InkWell(
         child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: .min,
+          mainAxisAlignment: .center,
           children: <Widget>[
             Container(
               width: 20,
               height: 20,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: .circular(4),
                 color: tea.getColor(),
               ),
             ),
@@ -355,8 +355,8 @@ class TeaSettingsCard extends StatelessWidget {
       height: double.infinity,
       child: InkWell(
         child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: .min,
+          mainAxisAlignment: .start,
           children: <Widget>[
             Text(formatTimer(tea.brewTime), style: textStyleSettingNumber),
             dropdownArrow,
@@ -415,8 +415,8 @@ class TeaSettingsCard extends StatelessWidget {
       height: double.infinity,
       child: InkWell(
         child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: .min,
+          mainAxisAlignment: .center,
           children: <Widget>[
             Text(
               formatTemp(
@@ -478,8 +478,8 @@ class TeaSettingsCard extends StatelessWidget {
       height: double.infinity,
       child: InkWell(
         child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: .min,
+          mainAxisAlignment: .center,
           children: <Widget>[
             Text(tea.brewRatio.numeratorString, style: textStyleSettingNumber),
             dropdownArrow,
@@ -524,8 +524,8 @@ class TeaSettingsCard extends StatelessWidget {
       height: double.infinity,
       child: InkWell(
         child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: .min,
+          mainAxisAlignment: .center,
           children: <Widget>[
             Icon(
               tea.teaIcon,
@@ -551,11 +551,11 @@ class TeaSettingsCard extends StatelessWidget {
           title: Container(),
           content: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: .center,
+              mainAxisSize: .min,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: .spaceEvenly,
                   // Tea icon buttons
                   children: List.generate(
                     TeaIcon.values.length,

@@ -51,7 +51,7 @@ class AboutWidget extends StatelessWidget {
             // Teacup icon
             leading: Container(
               padding: largeDefaultPadding,
-              child: Image.asset(appIcon, fit: BoxFit.scaleDown),
+              child: Image.asset(appIcon, fit: .scaleDown),
             ),
             // Cuppa version and build
             title:
@@ -151,7 +151,7 @@ class AboutWidget extends StatelessWidget {
               top: false,
               right: false,
               child: Align(
-                alignment: Alignment.bottomLeft,
+                alignment: .bottomLeft,
                 // About text linking to app website
                 child: _aboutText(),
               ),
@@ -168,12 +168,12 @@ class AboutWidget extends StatelessWidget {
       child: Container(
         padding: bottomSliverPadding,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: .center,
+          mainAxisSize: .min,
           children: [
             Text(AppString.about_app.translate(), style: textStyleFooter),
             const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: .center,
               children: [
                 Text(aboutCopyright, style: textStyleFooter),
                 VerticalDivider(),
@@ -183,8 +183,7 @@ class AboutWidget extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () =>
-          launchUrl(Uri.parse(aboutURL), mode: LaunchMode.externalApplication),
+      onTap: () => launchUrl(Uri.parse(aboutURL), mode: .externalApplication),
     );
   }
 }

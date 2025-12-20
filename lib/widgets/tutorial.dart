@@ -28,11 +28,11 @@ final GlobalKey tutorialKey3 = GlobalKey();
 final GlobalKey tutorialKey4 = GlobalKey();
 final GlobalKey tutorialKey5 = GlobalKey();
 Map<GlobalKey, List<AppString>> tutorialSteps = {
-  tutorialKey1: [AppString.tutorial_text1],
-  tutorialKey2: [AppString.tutorial_text2, AppString.prefs_title],
-  tutorialKey3: [AppString.tutorial_text3, AppString.teas_title],
-  tutorialKey4: [AppString.tutorial_text4],
-  tutorialKey5: [AppString.tutorial_text5],
+  tutorialKey1: [.tutorial_text1],
+  tutorialKey2: [.tutorial_text2, .prefs_title],
+  tutorialKey3: [.tutorial_text3, .teas_title],
+  tutorialKey4: [.tutorial_text4],
+  tutorialKey5: [.tutorial_text5],
 };
 
 // Start the tutorial
@@ -63,11 +63,11 @@ Widget tutorialTooltip({
           ? tutorialSteps[key]![1].translate()
           : null,
       titleTextStyle: textStyleTutorialTitle.copyWith(color: foregroundColor),
-      titleAlignment: Alignment.centerLeft,
+      titleAlignment: .centerLeft,
       description: tutorialSteps[key]![0].translate(),
       descTextStyle: textStyleTutorial.copyWith(color: foregroundColor),
-      descriptionAlignment: Alignment.centerLeft,
-      tooltipPadding: const EdgeInsets.all(12),
+      descriptionAlignment: .centerLeft,
+      tooltipPadding: const .all(12),
       tooltipBackgroundColor: backgroundColor,
       showArrow: showArrow,
       overlayOpacity: 0,
@@ -80,13 +80,13 @@ Widget tutorialTooltip({
         ),
       ),
       tooltipActionConfig: const TooltipActionConfig(
-        alignment: MainAxisAlignment.end,
-        position: TooltipActionPosition.inside,
+        alignment: .end,
+        position: .inside,
         gapBetweenContentAndAction: 0,
       ),
       tooltipActions: [
         TooltipActionButton(
-          type: TooltipDefaultActionType.next,
+          type: .next,
           name: '',
           tailIcon: ActionButtonIcon(
             icon: key == tutorialSteps.keys.toList().last
@@ -94,13 +94,13 @@ Widget tutorialTooltip({
                 : forwardIcon(color: foregroundColor),
           ),
           backgroundColor: Colors.transparent,
-          padding: EdgeInsets.zero,
+          padding: .zero,
         ),
       ],
       disableMovingAnimation: true,
       disableScaleAnimation: false,
       scaleAnimationDuration: longAnimationDuration,
-      scaleAnimationAlignment: Alignment.center,
+      scaleAnimationAlignment: .center,
       onToolTipClick: () => ShowcaseView.get().next(),
       child: child,
     );

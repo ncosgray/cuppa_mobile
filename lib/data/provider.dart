@@ -150,12 +150,8 @@ class AppProvider extends ChangeNotifier {
         {
           // Sort by hue/lightness, then alpha
           _teaList.sort((a, b) {
-            HSLColor aColor = HSLColor.fromColor(
-              a.colorShade ?? a.color.getColor(),
-            );
-            HSLColor bColor = HSLColor.fromColor(
-              b.colorShade ?? b.color.getColor(),
-            );
+            HSLColor aColor = .fromColor(a.colorShade ?? a.color.getColor());
+            HSLColor bColor = .fromColor(b.colorShade ?? b.color.getColor());
             int compare = aColor.hue.compareTo(bColor.hue);
             if (compare != 0) {
               return compare;
@@ -458,12 +454,12 @@ class AppProvider extends ChangeNotifier {
 
 // Sort criteria
 enum SortBy {
-  alpha(AppString.sort_by_alpha, false),
-  favorite(AppString.sort_by_favorite, false),
-  color(AppString.sort_by_color, false),
-  brewTime(AppString.sort_by_brew_time, false),
-  usage(AppString.sort_by_usage, true),
-  recent(AppString.sort_by_recent, true);
+  alpha(.sort_by_alpha, false),
+  favorite(.sort_by_favorite, false),
+  color(.sort_by_color, false),
+  brewTime(.sort_by_brew_time, false),
+  usage(.sort_by_usage, true),
+  recent(.sort_by_recent, true);
 
   const SortBy(this._nameString, this.statsRequired);
 

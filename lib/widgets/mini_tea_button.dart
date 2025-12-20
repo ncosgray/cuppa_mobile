@@ -30,7 +30,7 @@ Widget miniTeaButton({
     child: Card(
       elevation: 1,
       margin: noPadding,
-      clipBehavior: Clip.antiAlias,
+      clipBehavior: .antiAlias,
       child: DecoratedBox(
         decoration: BoxDecoration(color: isActive ? color : null),
         child: Container(

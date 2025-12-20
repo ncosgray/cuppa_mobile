@@ -117,7 +117,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
   Widget get _timePicker => SizedBox(
     height: 120,
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: .spaceBetween,
       spacing: smallSpacing,
       children: [
         // Increment down
@@ -157,7 +157,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
               visible: _hoursSelectionMode,
               maintainState: true,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: .spaceBetween,
                 spacing: largeSpacing,
                 children: [
                   _hoursPicker,
@@ -171,8 +171,8 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
               visible: !_hoursSelectionMode,
               maintainState: true,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                textDirection: TextDirection.ltr,
+                mainAxisAlignment: .spaceBetween,
+                textDirection: .ltr,
                 spacing: largeSpacing,
                 children: [
                   _minutesPicker,

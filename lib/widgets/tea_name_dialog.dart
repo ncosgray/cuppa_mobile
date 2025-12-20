@@ -63,7 +63,7 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
           // Text entry
           content: Form(
             key: _formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
+            autovalidateMode: .onUserInteraction,
             child: adaptiveTextFormField(
               textColor: Theme.of(context).textTheme.bodyLarge!.color!,
               cursorColor: _isValid ? null : invalidColor,

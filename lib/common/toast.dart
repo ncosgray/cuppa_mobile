@@ -26,7 +26,7 @@ class Toast extends StatelessWidget {
     this.backgroundColor,
     this.textColor,
     this.actionColor,
-    this.position = ToastPosition.bottom,
+    this.position = .bottom,
   });
   final String message;
   final IconData? actionIcon;
@@ -59,10 +59,10 @@ class Toast extends StatelessWidget {
 
     return Material(
       color: effectiveBackgroundColor,
-      borderRadius: BorderRadius.circular(4),
+      borderRadius: .circular(4),
       elevation: snackBarTheme.elevation ?? 6,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: const .symmetric(horizontal: 16, vertical: 14),
         child: Row(
           children: [
             Expanded(
@@ -83,16 +83,13 @@ class Toast extends StatelessWidget {
     if (actionLabel != null) {
       // Show label with optional icon
       return TextButton.icon(
-        label: Text(
-          actionLabel!,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        label: Text(actionLabel!, style: TextStyle(fontWeight: .bold)),
         icon: Icon(actionIcon, size: 18),
         style: TextButton.styleFrom(
           foregroundColor: actionColor,
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          minimumSize: Size.zero,
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          padding: const .symmetric(horizontal: 8),
+          minimumSize: .zero,
+          tapTargetSize: .shrinkWrap,
         ),
         onPressed: onActionPressed,
       );
@@ -102,7 +99,7 @@ class Toast extends StatelessWidget {
         icon: Icon(actionIcon),
         color: actionColor,
         iconSize: 20,
-        padding: EdgeInsets.zero,
+        padding: .zero,
         constraints: const BoxConstraints(),
         onPressed: onActionPressed,
       );
@@ -122,7 +119,7 @@ class Toast extends StatelessWidget {
     Color? backgroundColor,
     Color? textColor,
     Color? actionColor,
-    ToastPosition position = ToastPosition.bottom,
+    ToastPosition position = .bottom,
     Duration duration = const Duration(seconds: 4),
   }) {
     final overlay = Overlay.of(context);

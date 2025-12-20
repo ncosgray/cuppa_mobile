@@ -24,8 +24,8 @@ import 'package:quick_actions/quick_actions.dart';
 
 // Shortcut plugins wrapper including platform checks
 abstract class ShortcutHandler {
-  static const QuickActions quickActions = QuickActions();
-  static final Intelligence intelligence = Intelligence();
+  static const QuickActions quickActions = .new();
+  static final Intelligence intelligence = .new();
 
   // Populate tea shortcuts
   static Future<void> populate({

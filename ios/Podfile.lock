@@ -34,7 +34,7 @@ SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   intelligence: 15222bed61d1cd5bb8247b4bf4189ee70ef9f774
-  patrol: 5df5d241d7f95f0df12a6906bbf45acb43a1e537
+  patrol: cea8074f183a2a4232d0ebd10569ae05149ada42
   SQLite.swift: 2992550ebf3c5b268bf4352603e3df87d2a4ed72
 
 PODFILE CHECKSUM: 293f1560d93d22df958758ea0d0241c0bd2750d0

@@ -25,48 +25,49 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
-import 'package:region_settings/region_settings.dart';
 
-const defaultLocale = Locale.fromSubtags(languageCode: 'en', countryCode: 'GB');
+const Locale defaultLocale = .fromSubtags(
+  languageCode: 'en',
+  countryCode: 'GB',
+);
 
 // Supported locales
 const List<Locale> supportedLocales = [
-  Locale.fromSubtags(languageCode: 'az'),
-  Locale.fromSubtags(languageCode: 'br'),
-  Locale.fromSubtags(languageCode: 'cs'),
-  Locale.fromSubtags(languageCode: 'cv'),
-  Locale.fromSubtags(languageCode: 'da'),
-  Locale.fromSubtags(languageCode: 'de'),
-  Locale.fromSubtags(languageCode: 'en', countryCode: 'GB'),
-  Locale.fromSubtags(languageCode: 'en', countryCode: 'US'),
-  Locale.fromSubtags(languageCode: 'eo'),
-  Locale.fromSubtags(languageCode: 'es'),
-  Locale.fromSubtags(languageCode: 'et'),
-  Locale.fromSubtags(languageCode: 'eu'),
-  Locale.fromSubtags(languageCode: 'fi'),
-  Locale.fromSubtags(languageCode: 'fr'),
-  Locale.fromSubtags(languageCode: 'ga'),
-  Locale.fromSubtags(languageCode: 'he'),
-  Locale.fromSubtags(languageCode: 'ht'),
-  Locale.fromSubtags(languageCode: 'ia'),
-  Locale.fromSubtags(languageCode: 'it'),
-  Locale.fromSubtags(languageCode: 'ja'),
-  Locale.fromSubtags(languageCode: 'lb'),
-  Locale.fromSubtags(languageCode: 'nb'),
-  Locale.fromSubtags(languageCode: 'nl'),
-  Locale.fromSubtags(languageCode: 'pl'),
-  Locale.fromSubtags(languageCode: 'pt'),
-  Locale.fromSubtags(languageCode: 'ru'),
-  Locale.fromSubtags(languageCode: 'sk'),
-  Locale.fromSubtags(languageCode: 'sl'),
-  Locale.fromSubtags(languageCode: 'sv'),
-  Locale.fromSubtags(languageCode: 'ta'),
-  Locale.fromSubtags(languageCode: 'tr'),
-  Locale.fromSubtags(languageCode: 'uk'),
-  Locale.fromSubtags(languageCode: 'ur'),
-  Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
-  Locale.fromSubtags(languageCode: 'zh'),
+  .fromSubtags(languageCode: 'az'),
+  .fromSubtags(languageCode: 'br'),
+  .fromSubtags(languageCode: 'cs'),
+  .fromSubtags(languageCode: 'cv'),
+  .fromSubtags(languageCode: 'da'),
+  .fromSubtags(languageCode: 'de'),
+  .fromSubtags(languageCode: 'en', countryCode: 'GB'),
+  .fromSubtags(languageCode: 'en', countryCode: 'US'),
+  .fromSubtags(languageCode: 'eo'),
+  .fromSubtags(languageCode: 'es'),
+  .fromSubtags(languageCode: 'et'),
+  .fromSubtags(languageCode: 'eu'),
+  .fromSubtags(languageCode: 'fi'),
+  .fromSubtags(languageCode: 'fr'),
+  .fromSubtags(languageCode: 'ga'),
+  .fromSubtags(languageCode: 'he'),
+  .fromSubtags(languageCode: 'ht'),
+  .fromSubtags(languageCode: 'ia'),
+  .fromSubtags(languageCode: 'it'),
+  .fromSubtags(languageCode: 'ja'),
+  .fromSubtags(languageCode: 'lb'),
+  .fromSubtags(languageCode: 'nb'),
+  .fromSubtags(languageCode: 'nl'),
+  .fromSubtags(languageCode: 'pl'),
+  .fromSubtags(languageCode: 'pt'),
+  .fromSubtags(languageCode: 'ru'),
+  .fromSubtags(languageCode: 'sk'),
+  .fromSubtags(languageCode: 'sl'),
+  .fromSubtags(languageCode: 'sv'),
+  .fromSubtags(languageCode: 'ta'),
+  .fromSubtags(languageCode: 'tr'),
+  .fromSubtags(languageCode: 'uk'),
+  .fromSubtags(languageCode: 'ur'),
+  .fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
+  .fromSubtags(languageCode: 'zh'),
 ];
 final List<String> supportedLanguageCodes = supportedLocales
     .map<String>((Locale locale) => locale.languageCode)
@@ -373,42 +374,31 @@ class AppLocalizations {
   }
 
   // Localized epoch time formatting as date string
-  static String dateString(int ms) {
-    DateTime d = DateTime.fromMillisecondsSinceEpoch(ms);
-    if (instance.isFallbackLanguage || instance.isSystemLanguage) {
-      return regionSettings.formatDate(d, dateStyle: DateStyle.medium);
-    } else {
-      DateFormat formatter = DateFormat.yMMMd(instance.appLocaleString);
-      return formatter.format(d);
-    }
-  }
+  static String dateString(int ms) => regionSettings.formatDate(
+    DateTime.fromMillisecondsSinceEpoch(ms),
+    dateStyle: .medium,
+    forceLocale: instance.forceLocale,
+  );
 
   // Localized number formatting
   static String numberString(
     double i, {
     int decimalPlaces = 0,
     bool asPercentage = false,
-  }) {
-    if (instance.isFallbackLanguage || instance.isSystemLanguage) {
-      return regionSettings.formatNumber(
-        i,
-        decimalPlaces: decimalPlaces,
-        asPercentage: asPercentage,
-      );
-    } else {
-      NumberFormat formatter = NumberFormat(
-        '#,##0${decimalPlaces > 0 ? '.${'0' * decimalPlaces}' : ''}${asPercentage ? '%' : ''}',
-        instance.appLocaleString,
-      );
-      return formatter.format(i);
-    }
-  }
+  }) => regionSettings.formatNumber(
+    i,
+    decimalPlaces: decimalPlaces,
+    asPercentage: asPercentage,
+    forceLocale: instance.forceLocale,
+  );
 
   // Locale info
   String get appLocaleString => localeString(instance.locale);
   bool get isSystemLanguage => _isSystemLanguage;
   bool get isFallbackLanguage =>
       fallbackLanguageCodes.contains(instance.locale.languageCode);
+  String? get forceLocale =>
+      (isFallbackLanguage || isSystemLanguage) ? null : appLocaleString;
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -426,7 +416,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   // Load localizations
   @override
   Future<AppLocalizations> load(Locale locale) async {
-    AppLocalizations localizations = AppLocalizations(locale);
+    AppLocalizations localizations = .new(locale);
     await localizations.load(isSystemLanguage: isSystemLanguage);
     instance = localizations;
     return localizations;

@@ -133,7 +133,7 @@ Widget settingListItem(
             child: Radio<dynamic>.adaptive(
               value: value,
               useCupertinoCheckmarkStyle: true,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              materialTapTargetSize: .shrinkWrap,
               activeColor: getAdaptiveActiveColor(context),
               fillColor: WidgetStateProperty.resolveWith(
                 (states) => states.contains(WidgetState.selected)
@@ -188,10 +188,10 @@ Widget settingListTitle({
     Flexible(
       child: Text(
         title,
-        textAlign: alignEnd ? TextAlign.end : TextAlign.start,
+        textAlign: alignEnd ? .end : .start,
         style: textStyleTitle.copyWith(color: color),
         maxLines: 2,
-        overflow: TextOverflow.ellipsis,
+        overflow: .ellipsis,
       ),
     ),
   ];
@@ -200,9 +200,7 @@ Widget settingListTitle({
   }
 
   return Row(
-    mainAxisAlignment: alignEnd
-        ? MainAxisAlignment.end
-        : MainAxisAlignment.start,
+    mainAxisAlignment: alignEnd ? .end : .start,
     spacing: smallSpacing,
     children: titleWidgets,
   );
@@ -223,8 +221,7 @@ Widget aboutLink({
           : null,
       trailing: url != null ? launchIcon : null,
       onTap: url != null
-          ? () =>
-                launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)
+          ? () => launchUrl(Uri.parse(url), mode: .externalApplication)
           : onTap,
       contentPadding: listTilePadding,
       dense: true,

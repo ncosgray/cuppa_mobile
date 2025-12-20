@@ -110,8 +110,8 @@ abstract class Presets {
         metricNumerator: false,
         metricDenominator: false,
       ),
-      color: TeaColor.black,
-      icon: TeaIcon.timer,
+      color: .black,
+      icon: .timer,
       isCustom: true,
     ),
     // Black tea
@@ -132,8 +132,8 @@ abstract class Presets {
         metricNumerator: false,
         metricDenominator: false,
       ),
-      color: TeaColor.black,
-      icon: TeaIcon.timer,
+      color: .black,
+      icon: .timer,
     ),
     // Assam
     Preset(
@@ -153,8 +153,8 @@ abstract class Presets {
         metricNumerator: false,
         metricDenominator: false,
       ),
-      color: TeaColor.black,
-      icon: TeaIcon.timer,
+      color: .black,
+      icon: .timer,
     ),
     // Darjeeling
     Preset(
@@ -174,8 +174,8 @@ abstract class Presets {
         metricNumerator: false,
         metricDenominator: false,
       ),
-      color: TeaColor.black,
-      icon: TeaIcon.timer,
+      color: .black,
+      icon: .timer,
     ),
     // Green tea
     Preset(
@@ -195,8 +195,8 @@ abstract class Presets {
         metricNumerator: false,
         metricDenominator: false,
       ),
-      color: TeaColor.green,
-      icon: TeaIcon.timer,
+      color: .green,
+      icon: .timer,
     ),
     // White tea
     Preset(
@@ -216,8 +216,8 @@ abstract class Presets {
         metricNumerator: false,
         metricDenominator: false,
       ),
-      color: TeaColor.green,
-      icon: TeaIcon.timer,
+      color: .green,
+      icon: .timer,
     ),
     // Herbal tea
     Preset(
@@ -237,8 +237,8 @@ abstract class Presets {
         metricNumerator: false,
         metricDenominator: false,
       ),
-      color: TeaColor.orange,
-      icon: TeaIcon.timer,
+      color: .orange,
+      icon: .timer,
     ),
     // Chamomile
     Preset(
@@ -258,8 +258,8 @@ abstract class Presets {
         metricNumerator: false,
         metricDenominator: false,
       ),
-      color: TeaColor.orange,
-      icon: TeaIcon.timer,
+      color: .orange,
+      icon: .timer,
     ),
     // Mint tea
     Preset(
@@ -279,8 +279,8 @@ abstract class Presets {
         metricNumerator: false,
         metricDenominator: false,
       ),
-      color: TeaColor.orange,
-      icon: TeaIcon.timer,
+      color: .orange,
+      icon: .timer,
     ),
     // Rooibos
     Preset(
@@ -300,8 +300,8 @@ abstract class Presets {
         metricNumerator: false,
         metricDenominator: false,
       ),
-      color: TeaColor.orange,
-      icon: TeaIcon.timer,
+      color: .orange,
+      icon: .timer,
     ),
     // Oolong
     Preset(
@@ -321,8 +321,8 @@ abstract class Presets {
         metricNumerator: false,
         metricDenominator: false,
       ),
-      color: TeaColor.brown,
-      icon: TeaIcon.timer,
+      color: .brown,
+      icon: .timer,
     ),
     // Pu'er
     Preset(
@@ -342,8 +342,8 @@ abstract class Presets {
         metricNumerator: false,
         metricDenominator: false,
       ),
-      color: TeaColor.brown,
-      icon: TeaIcon.timer,
+      color: .brown,
+      icon: .timer,
     ),
     // Cold brew tea
     Preset(
@@ -363,8 +363,8 @@ abstract class Presets {
         metricNumerator: false,
         metricDenominator: false,
       ),
-      color: TeaColor.blue,
-      icon: TeaIcon.timer,
+      color: .blue,
+      icon: .timer,
     ),
   ];
 

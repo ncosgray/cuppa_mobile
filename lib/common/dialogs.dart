@@ -40,7 +40,7 @@ Future showConfirmDialog({
         title: Text(AppString.confirm_title.translate()),
         content: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: .min,
             spacing: smallSpacing,
             children: listBody,
           ),

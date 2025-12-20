@@ -24,8 +24,8 @@ import 'package:collection/collection.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 // Tea timers
-final TeaTimer timer1 = TeaTimer(notifyID: notifyID1);
-final TeaTimer timer2 = TeaTimer(notifyID: notifyID2);
+final TeaTimer timer1 = .new(notifyID: notifyID1);
+final TeaTimer timer2 = .new(notifyID: notifyID2);
 final List<TeaTimer> timerList = [timer1, timer2];
 
 // Tea timer definition

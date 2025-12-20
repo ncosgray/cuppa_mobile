@@ -62,12 +62,8 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
             // Apply background colors to distinguish timers
             gradient: activeTimerCount > 0
                 ? LinearGradient(
-                    begin: layoutPortrait
-                        ? Alignment.topCenter
-                        : Alignment.centerLeft,
-                    end: layoutPortrait
-                        ? Alignment.bottomCenter
-                        : Alignment.centerRight,
+                    begin: layoutPortrait ? .topCenter : .centerLeft,
+                    end: layoutPortrait ? .bottomCenter : .centerRight,
                     stops: List<double>.filled(
                       activeTimerCount,
                       !layoutPortrait && activeTimerCount > 1
@@ -82,7 +78,7 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
                     ],
                   )
                 : null,
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            borderRadius: const .all(Radius.circular(12)),
           ),
           child: AnimatedSize(
             duration: shortAnimationDuration,
@@ -93,8 +89,8 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
                   _timerText()
                 : Flex(
                     // Determine layout by orientation
-                    direction: layoutPortrait ? Axis.vertical : Axis.horizontal,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    direction: layoutPortrait ? .vertical : .horizontal,
+                    mainAxisAlignment: .center,
                     children: [
                       // Timer 1
                       AnimatedSize(
@@ -111,7 +107,7 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
                             timer1.tea?.color == timer2.tea?.color &&
                             timer1.tea?.colorShade == timer2.tea?.colorShade,
                         child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 12),
+                          margin: const .symmetric(horizontal: 12),
                           width: layoutPortrait ? 420.0 : 12.0,
                           height: layoutPortrait ? 12.0 : 140.0,
                           color: timerForegroundColor,
@@ -168,13 +164,13 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
                   width: text.length * 96.0,
                   child: Container(
                     padding: timerPadding,
-                    alignment: Alignment.center,
+                    alignment: .center,
                     child: Text(
                       text,
                       maxLines: 1,
                       softWrap: false,
-                      overflow: TextOverflow.clip,
-                      textScaler: TextScaler.noScaling,
+                      overflow: .clip,
+                      textScaler: .noScaling,
                       style: textStyleTimer,
                     ),
                   ),
