@@ -130,8 +130,9 @@ void main() {
     expect(find.image(const AssetImage(cupImageMug)), findsOneWidget);
     expect(find.text(formatTimer(timerSeconds)), findsOneWidget);
 
-    // Start timer and allow permission
+    // Start timer, navigate away from app, and allow notify permission
     await $.tap(find.text(timerName));
+    await $.platform.mobile.pressHome();
     if (Platform.isIOS) {
       await $.platform.ios.tap(
         IOSSelector(text: 'Allow'),
