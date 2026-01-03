@@ -209,15 +209,6 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
                 listen: false,
               ).updateTea(timer.tea!, isSilent: !(timer.tea!.isSilent)),
             );
-
-            // Update the notification
-            sendNotification(
-              timer.tea!.brewTimeRemaining,
-              AppString.notification_title.translate(),
-              AppString.notification_text.translate(teaName: timer.tea!.name),
-              timer.notifyID,
-              silent: timer.tea!.isSilent,
-            );
           }
           _hideTimerAdjustmentsDelay = hideTimerAdjustmentsDelay;
         },

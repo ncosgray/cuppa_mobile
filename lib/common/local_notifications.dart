@@ -118,7 +118,7 @@ Future<void> sendNotification(
       playSound: !silent,
       sound: silent
           ? null
-          : const RawResourceAndroidNotificationSound(notifySound),
+          : const RawResourceAndroidNotificationSound(notifySoundAndroid),
       audioAttributesUsage: .alarm,
     ),
     iOS: DarwinNotificationDetails(
@@ -131,13 +131,33 @@ Future<void> sendNotification(
       interruptionLevel: .timeSensitive,
     ),
   );
-  await notify.zonedSchedule(
-    notifyID,
-    title,
-    text,
-    notifyTime,
-    notifyDetails,
-    payload: silent ? notifyChannelSilent : notifyChannel,
-    androidScheduleMode: .exactAllowWhileIdle,
-  );
+  if (secs > 0) {
+    await notify.zonedSchedule(
+      notifyID,
+      title,
+      text,
+      notifyTime,
+      notifyDetails,
+      payload: silent ? notifyChannelSilent : notifyChannel,
+      androidScheduleMode: .exactAllowWhileIdle,
+    );
+  } else {
+    // Immediate notification
+    await notify.show(
+      notifyID,
+      title,
+      text,
+      notifyDetails,
+      payload: silent ? notifyChannelSilent : notifyChannel,
+    );
+  }
+}
+
+// Cancel one or all pending notifications
+Future<void> cancelNotification([int? notifyID]) async {
+  if (notifyID != null) {
+    await notify.cancel(notifyID);
+  } else {
+    await notify.cancelAll();
+  }
 }

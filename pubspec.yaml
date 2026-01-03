@@ -23,6 +23,7 @@ environment:
 
 dependencies:
   app_settings: ^7.0.0
+  audioplayers: ^6.5.1
   collection: ^1.19.1
   cupertino_icons: ^1.0.8
   dynamic_color: ^1.8.1
@@ -89,6 +90,7 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
+    - assets/
     - images/
     - langs/
 

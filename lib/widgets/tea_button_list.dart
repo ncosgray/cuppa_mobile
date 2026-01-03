@@ -34,7 +34,9 @@ import 'package:cuppa_mobile/widgets/tea_button.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'dart:async';
+import 'dart:io' show Platform;
 import 'dart:math' show max;
+import 'package:audioplayers/audioplayers.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -48,14 +50,19 @@ class TeaButtonList extends StatefulWidget {
   State<TeaButtonList> createState() => _TeaButtonListState();
 }
 
-class _TeaButtonListState extends State<TeaButtonList> {
+class _TeaButtonListState extends State<TeaButtonList>
+    with WidgetsBindingObserver {
   // State variables
   final ScrollController _scrollController = ScrollController();
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   // Timer button list state
   @override
   void initState() {
     super.initState();
+
+    // Add lifecycle observer
+    WidgetsBinding.instance.addObserver(this);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       AppProvider provider = Provider.of<AppProvider>(context, listen: false);
@@ -79,6 +86,36 @@ class _TeaButtonListState extends State<TeaButtonList> {
       _checkNextTimer();
       ShortcutHandler.listen(_handleShortcut);
     });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
+  // Lifecycle handler
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      // App going to background - schedule notifications for remaining time
+      for (final timer in timerList.where((t) => t.isActive)) {
+        if (timer.tea != null) {
+          sendNotification(
+            timer.tea!.brewTimeRemaining,
+            AppString.notification_title.translate(),
+            AppString.notification_text.translate(teaName: timer.tea!.name),
+            timer.notifyID,
+            silent: timer.tea!.isSilent,
+          );
+        }
+      }
+    } else if (state == AppLifecycleState.resumed) {
+      // App came to foreground - cancel any pending notifications
+      cancelNotification();
+    }
   }
 
   // Build timer button list
@@ -294,6 +331,27 @@ class _TeaButtonListState extends State<TeaButtonList> {
         } else {
           // Brewing complete
           if (timer.tea != null) {
+            // In foreground - immediate notification
+            if (WidgetsBinding.instance.lifecycleState ==
+                AppLifecycleState.resumed) {
+              // Notify sound settings based on timer options and platform
+              final isSilent = timer.tea!.isSilent;
+              final notifySilent = isSilent || Platform.isIOS;
+              final playAppSound = !isSilent && Platform.isIOS;
+
+              sendNotification(
+                0,
+                AppString.notification_title.translate(),
+                AppString.notification_text.translate(teaName: timer.tea!.name),
+                timer.notifyID,
+                silent: notifySilent,
+              );
+              if (playAppSound) {
+                _playAudioAlert();
+              }
+            }
+
+            // Mark tea as inactive
             Provider.of<AppProvider>(
               context,
               listen: false,
@@ -315,13 +373,6 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
       // Start a new timer
       provider.activateTea(tea, timer.notifyID, provider.silentDefault);
-      sendNotification(
-        tea.brewTime,
-        AppString.notification_title.translate(),
-        AppString.notification_text.translate(teaName: tea.name),
-        timer.notifyID,
-        silent: provider.silentDefault,
-      );
 
       // Update timer stats, if enabled
       if (provider.collectStats) {
@@ -356,9 +407,9 @@ class _TeaButtonListState extends State<TeaButtonList> {
   }
 
   // Cancel a timer
-  Future<void> _cancelTimer(TeaTimer timer) async {
+  void _cancelTimer(TeaTimer timer) {
     timer.reset();
-    await notify.cancel(timer.notifyID);
+    cancelNotification(timer.notifyID);
   }
 
   // Cancel timer for a given tea
@@ -424,5 +475,24 @@ class _TeaButtonListState extends State<TeaButtonList> {
         }
       }
     }
+  }
+
+  // Play in-app sound
+  Future<void> _playAudioAlert() async {
+    await _audioPlayer.setVolume(1);
+    await _audioPlayer.setAudioContext(
+      AudioContext(
+        iOS: AudioContextIOS(
+          category: AVAudioSessionCategory.playback,
+          options: {AVAudioSessionOptions.duckOthers},
+        ),
+        android: AudioContextAndroid(
+          contentType: AndroidContentType.sonification,
+          usageType: AndroidUsageType.alarm,
+          audioMode: AndroidAudioMode.normal,
+        ),
+      ),
+    );
+    await _audioPlayer.play(AssetSource(alertSoundAsset));
   }
 }
