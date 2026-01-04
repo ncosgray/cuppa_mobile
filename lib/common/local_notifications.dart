@@ -69,21 +69,6 @@ Future<void> sendNotification(
     tz.local,
   ).add(Duration(seconds: secs));
 
-  // Request notification permissions
-  if (Platform.isIOS) {
-    await notify
-        .resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin
-        >()
-        ?.requestPermissions(alert: true, badge: true, sound: true);
-  } else {
-    await notify
-        .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
-        ?.requestNotificationsPermission();
-  }
-
   // Cancel existing notification if channel needs to be changed (Android only)
   if (Platform.isAndroid) {
     List<PendingNotificationRequest> pendingNotifications = await notify
@@ -159,5 +144,22 @@ Future<void> cancelNotification([int? notifyID]) async {
     await notify.cancel(notifyID);
   } else {
     await notify.cancelAll();
+  }
+}
+
+// Request notification permissions
+Future<void> requestNotificationPermission() async {
+  if (Platform.isIOS) {
+    await notify
+        .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin
+        >()
+        ?.requestPermissions(alert: true, badge: true, sound: true);
+  } else {
+    await notify
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
+        ?.requestNotificationsPermission();
   }
 }

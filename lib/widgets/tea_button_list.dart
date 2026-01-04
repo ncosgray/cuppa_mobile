@@ -402,6 +402,9 @@ class _TeaButtonListState extends State<TeaButtonList>
       });
     }
 
+    // Request notification permissions, if needed
+    requestNotificationPermission();
+
     // Check if we should prompt for a review
     checkReviewPrompt();
   }
