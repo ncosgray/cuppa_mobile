@@ -411,8 +411,14 @@ class _TeaButtonListState extends State<TeaButtonList>
 
   // Cancel a timer
   void _cancelTimer(TeaTimer timer) {
-    timer.reset();
     cancelNotification(timer.notifyID);
+    if (timer.tea != null) {
+      Provider.of<AppProvider>(
+        context,
+        listen: false,
+      ).deactivateTea(timer.tea!);
+    }
+    timer.stop();
   }
 
   // Cancel timer for a given tea
