@@ -111,7 +111,13 @@ class TimerWidget extends StatelessWidget {
                   ),
                 ),
                 // Tea brew start buttons
-                const TeaButtonList(),
+                SafeArea(
+                  left: true,
+                  top: false,
+                  right: true,
+                  bottom: false,
+                  child: const TeaButtonList(),
+                ),
               ],
             ),
             // Floating button to navigate to Preferences page
