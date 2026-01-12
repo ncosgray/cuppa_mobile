@@ -34,6 +34,7 @@ const Locale defaultLocale = .fromSubtags(
 // Supported locales
 const List<Locale> supportedLocales = [
   .fromSubtags(languageCode: 'az'),
+  .fromSubtags(languageCode: 'bg'),
   .fromSubtags(languageCode: 'br'),
   .fromSubtags(languageCode: 'cs'),
   .fromSubtags(languageCode: 'cv'),
