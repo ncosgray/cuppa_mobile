@@ -17,7 +17,6 @@ import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
-import 'package:cuppa_mobile/common/local_notifications.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
