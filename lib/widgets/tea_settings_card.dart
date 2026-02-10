@@ -242,19 +242,6 @@ class TeaSettingsCard extends StatelessWidget {
               navigatorKey.currentContext!,
               listen: false,
             ).updateTea(tea, name: newValue);
-
-            // Edit notification for active timer
-            if (tea.isActive &&
-                tea.brewTimeRemaining > 0 &&
-                tea.timerNotifyID != null) {
-              sendNotification(
-                tea.brewTimeRemaining,
-                AppString.notification_title.translate(),
-                AppString.notification_text.translate(teaName: tea.name),
-                tea.timerNotifyID!,
-                silent: tea.isSilent,
-              );
-            }
           }
         }),
       ),
