@@ -65,10 +65,6 @@ Future<void> sendNotification(
     return;
   }
 
-  tz.TZDateTime notifyTime = tz.TZDateTime.now(
-    tz.local,
-  ).add(Duration(seconds: secs));
-
   // Cancel existing notification if channel needs to be changed (Android only)
   if (Platform.isAndroid) {
     List<PendingNotificationRequest> pendingNotifications = await notify
@@ -117,6 +113,11 @@ Future<void> sendNotification(
     ),
   );
   if (secs > 0) {
+    // Calculate notification time, ensuring it is after the timer completes
+    final tz.TZDateTime notifyTime = tz.TZDateTime.now(
+      tz.local,
+    ).add(Duration(seconds: secs + 1));
+
     await notify.zonedSchedule(
       notifyID,
       title,
