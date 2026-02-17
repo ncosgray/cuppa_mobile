@@ -55,14 +55,19 @@ class _TeaButtonListState extends State<TeaButtonList>
   // State variables
   final ScrollController _scrollController = ScrollController();
   final AudioPlayer _audioPlayer = AudioPlayer();
+  late final AppLifecycleListener _lifeCycleListener;
 
   // Timer button list state
   @override
   void initState() {
     super.initState();
+    _onStateOpened();
 
     // Add lifecycle observer
-    WidgetsBinding.instance.addObserver(this);
+    _lifeCycleListener = AppLifecycleListener(
+      onHide: _onStateClosed,
+      onResume: _onStateOpened,
+    );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       AppProvider provider = Provider.of<AppProvider>(context, listen: false);
@@ -88,34 +93,32 @@ class _TeaButtonListState extends State<TeaButtonList>
     });
   }
 
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    _audioPlayer.dispose();
-    super.dispose();
+  // Lifecycle handlers
+  void _onStateClosed() {
+    // App going to background - schedule notifications for remaining time
+    for (final timer in timerList.where((t) => t.isActive)) {
+      if (timer.tea != null) {
+        sendNotification(
+          timer.tea!.brewTimeRemaining,
+          AppString.notification_title.translate(),
+          AppString.notification_text.translate(teaName: timer.tea!.name),
+          timer.notifyID,
+          silent: timer.tea!.isSilent,
+        );
+      }
+    }
   }
 
-  // Lifecycle handler
+  void _onStateOpened() {
+    // App came to foreground - cancel any pending notifications
+    cancelNotification();
+  }
+
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.inactive) {
-      // App going to background - schedule notifications for remaining time
-      for (final timer in timerList.where((t) => t.isActive)) {
-        if (timer.tea != null) {
-          sendNotification(
-            timer.tea!.brewTimeRemaining,
-            AppString.notification_title.translate(),
-            AppString.notification_text.translate(teaName: timer.tea!.name),
-            timer.notifyID,
-            silent: timer.tea!.isSilent,
-          );
-        }
-      }
-    } else if (state == AppLifecycleState.resumed) {
-      // App came to foreground - cancel any pending notifications
-      cancelNotification();
-    }
+  void dispose() {
+    _lifeCycleListener.dispose();
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   // Build timer button list
