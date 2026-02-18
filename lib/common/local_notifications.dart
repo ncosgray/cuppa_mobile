@@ -28,7 +28,7 @@ final FlutterLocalNotificationsPlugin notify = .new();
 // Initialize notifications plugin
 Future<void> initializeNotifications() async {
   await notify.initialize(
-    const InitializationSettings(
+    settings: const InitializationSettings(
       android: AndroidInitializationSettings(notifyIcon),
       iOS: DarwinInitializationSettings(
         // Wait to request permissions when user starts a timer
@@ -93,7 +93,7 @@ Future<void> sendNotification(
       if (notification.payload != null && notification.id == notifyID) {
         if ((notification.payload == notifyChannel && silent) ||
             (notification.payload == notifyChannelSilent && !silent)) {
-          await notify.cancel(notifyID);
+          await notify.cancel(id: notifyID);
         }
       }
     }
@@ -132,11 +132,11 @@ Future<void> sendNotification(
     ),
   );
   await notify.zonedSchedule(
-    notifyID,
-    title,
-    text,
-    notifyTime,
-    notifyDetails,
+    id: notifyID,
+    title: title,
+    body: text,
+    scheduledDate: notifyTime,
+    notificationDetails: notifyDetails,
     payload: silent ? notifyChannelSilent : notifyChannel,
     androidScheduleMode: .exactAllowWhileIdle,
   );

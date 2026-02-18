@@ -358,7 +358,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
   // Cancel a timer
   Future<void> _cancelTimer(TeaTimer timer) async {
     timer.reset();
-    await notify.cancel(timer.notifyID);
+    await notify.cancel(id: timer.notifyID);
   }
 
   // Cancel timer for a given tea
