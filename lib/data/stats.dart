@@ -136,9 +136,8 @@ class Stat {
   late int count;
 
   // Getters
-  Color get color {
-    return Color.fromRGBO(colorShadeRed, colorShadeGreen, colorShadeBlue, 1);
-  }
+  Color get color =>
+      .fromRGBO(colorShadeRed, colorShadeGreen, colorShadeBlue, 1);
 }
 
 // Stats methods
@@ -202,11 +201,7 @@ abstract class Stats {
     final db = await statsData;
 
     // Insert a row into the stats table
-    await db.insert(
-      statsTable,
-      stat.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    await db.insert(statsTable, stat.toMap(), conflictAlgorithm: .replace);
   }
 
   // Retrieve tea stats from the database

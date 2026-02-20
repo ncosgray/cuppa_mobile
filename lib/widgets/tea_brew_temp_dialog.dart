@@ -99,10 +99,10 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
     int maxTempIndex = widget.tempCOptions.length - 1;
 
     return Material(
-      type: MaterialType.transparency,
+      type: .transparency,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: .center,
+        mainAxisSize: .min,
         spacing: largeSpacing,
         children: [
           // Unit selector
@@ -135,7 +135,7 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: .spaceBetween,
             children: [
               // Increment down
               adaptiveSmallButton(

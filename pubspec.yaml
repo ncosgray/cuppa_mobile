@@ -15,37 +15,36 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.10.0+61
+version: 2.10.2+62
 
 environment:
-  sdk: '>=3.8.0 <4.0.0'
-  flutter: ^3.35.7
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: ^3.38.4
 
 dependencies:
-  app_settings: ^5.2.0
+  app_settings: ^7.0.0
   collection: ^1.19.1
   cupertino_icons: ^1.0.8
   dynamic_color: ^1.8.1
-  file_picker: ^10.3.3
+  file_picker: ^10.3.7
   fl_chart: ^1.1.1
-  flex_color_picker: ^3.7.1
+  flex_color_picker: ^3.8.0
   flutter:
     sdk: flutter
   flutter_local_notifications: ^19.5.0
   flutter_localizations:
     sdk: flutter
-  flutter_timezone: ^5.0.0
+  flutter_timezone: ^5.0.1
   in_app_review: ^2.0.11
   intelligence: ^0.2.0
-  intl: ^0.20.2
   package_info_plus: ^9.0.0
   path: ^1.9.1
   path_provider: ^2.1.5
   provider: ^6.1.5+1
   quick_actions: ^1.1.0
-  region_settings: ^1.4.1
+  region_settings: ^1.5.0
   share_plus: ^12.0.1
-  shared_preferences: ^2.5.3
+  shared_preferences: ^2.5.4
   showcaseview: ^5.0.1
   sliver_tools: ^0.2.12
   sqflite: ^2.4.2
@@ -64,7 +63,7 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  patrol: ^3.19.0
+  patrol: ^4.0.1
 
 patrol:
   app_name: Cuppa

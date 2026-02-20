@@ -92,17 +92,17 @@ class _StatsWidgetState extends State<StatsWidget> {
                         child: Padding(
                           padding: bodyPadding,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: .center,
                             children: [
                               Text(
                                 AppString.stats_no_data_1.translate(),
                                 style: textStyleHeader,
-                                textAlign: TextAlign.center,
+                                textAlign: .center,
                               ),
                               Text(
                                 AppString.stats_no_data_2.translate(),
                                 style: textStyleSubtitle,
-                                textAlign: TextAlign.center,
+                                textAlign: .center,
                               ),
                             ],
                           ),
@@ -121,14 +121,14 @@ class _StatsWidgetState extends State<StatsWidget> {
                             child: Flex(
                               // Determine layout by device size
                               direction: layoutPortrait
-                                  ? Axis.vertical
-                                  : Axis.horizontal,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                                  ? .vertical
+                                  : .horizontal,
+                              mainAxisAlignment: .spaceBetween,
+                              crossAxisAlignment: .start,
                               children: [
                                 // Summary stats
                                 Align(
-                                  alignment: Alignment.topLeft,
+                                  alignment: .topLeft,
                                   child: ConstrainedBox(
                                     constraints: BoxConstraints(
                                       maxWidth: summaryWidth,
@@ -136,8 +136,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                                     child: AnimatedSize(
                                       duration: longAnimationDuration,
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: .start,
                                         children: <Widget>[
                                           ..._filteredSummaryStats.map<Widget>(
                                             (Stat stat) => _statWidget(
@@ -159,9 +158,9 @@ class _StatsWidgetState extends State<StatsWidget> {
                                     Visibility(
                                       visible: _filteredSummaryStats.isNotEmpty,
                                       child: Align(
-                                        alignment: Alignment.topCenter,
+                                        alignment: .topCenter,
                                         child: Padding(
-                                          padding: const EdgeInsets.all(24),
+                                          padding: const .all(24),
                                           child: _chart(chartSize: chartSize),
                                         ),
                                       ),
@@ -174,8 +173,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                                       child: Padding(
                                         padding: smallDefaultPadding,
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                          mainAxisAlignment: .end,
                                           children: [
                                             ConstrainedBox(
                                               constraints: BoxConstraints(
@@ -184,7 +182,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                                               child: Text(
                                                 AppString.stats_include_deleted
                                                     .translate(),
-                                                textAlign: TextAlign.end,
+                                                textAlign: .end,
                                                 style: textStyleSettingTertiary,
                                               ),
                                             ),
@@ -215,7 +213,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                           child: Container(
                             margin: bottomSliverPadding,
                             child: Align(
-                              alignment: Alignment.bottomCenter,
+                              alignment: .bottomCenter,
                               // General metrics
                               child: IntrinsicHeight(
                                 child: Card(
@@ -236,7 +234,7 @@ class _StatsWidgetState extends State<StatsWidget> {
             // Progress indicator while fetching stats
             return const Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: .center,
                 children: [CircularProgressIndicator()],
               ),
             );
@@ -326,7 +324,7 @@ class _StatsWidgetState extends State<StatsWidget> {
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: .spaceBetween,
             children: [
               Row(
                 children: [
@@ -352,7 +350,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                 ],
               ),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: .start,
                 children: [
                   Row(
                     children: [
@@ -445,7 +443,7 @@ class _StatsWidgetState extends State<StatsWidget> {
       title: AppLocalizations.numberString(percent, asPercentage: true),
       titleStyle: textStyleSubtitle.copyWith(
         color: chartTextColor,
-        fontWeight: selected ? FontWeight.bold : null,
+        fontWeight: selected ? .bold : null,
       ),
       titlePositionPercentageOffset: 0.7,
     );
@@ -522,7 +520,7 @@ class _StatsWidgetState extends State<StatsWidget> {
     return Padding(
       padding: smallDefaultPadding,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: .spaceBetween,
         children: [
           // Metric name
           ConstrainedBox(

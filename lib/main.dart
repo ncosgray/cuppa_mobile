@@ -37,7 +37,7 @@ void enableCheckReviewPrompt() {
 
       // Prompt for review
       if (counter == reviewPromptAtCount) {
-        final InAppReview inAppReview = InAppReview.instance;
+        final InAppReview inAppReview = .instance;
         if (await inAppReview.isAvailable()) {
           Future.delayed(promptDelayDuration, () {
             inAppReview.requestReview();

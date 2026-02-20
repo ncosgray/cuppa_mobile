@@ -24,13 +24,13 @@ import 'package:flutter/material.dart';
 Widget cancelButton({required Color color, required Function()? onPressed}) {
   // Button with "X" icon
   return InkWell(
-    borderRadius: BorderRadius.circular(4),
+    borderRadius: .circular(4),
     onTap: onPressed,
     child: Container(
       padding: smallDefaultPadding,
       height: cancelButtonHeight,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: .center,
         spacing: smallSpacing,
         children: [
           cancelIcon(color: color),

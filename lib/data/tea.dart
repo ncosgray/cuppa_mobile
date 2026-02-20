@@ -204,9 +204,9 @@ class Tea {
   String get shortcutIcon {
     if (Platform.isIOS) {
       switch (icon) {
-        case TeaIcon.cup:
+        case .cup:
           return shortcutIconIOSCup;
-        case TeaIcon.flower:
+        case .flower:
           return shortcutIconIOSFlower;
         default:
           return shortcutIconIOS;
@@ -216,9 +216,9 @@ class Tea {
         case TeaColor.red:
           {
             switch (icon) {
-              case TeaIcon.cup:
+              case .cup:
                 return shortcutIconCupRed;
-              case TeaIcon.flower:
+              case .flower:
                 return shortcutIconFlowerRed;
               default:
                 return shortcutIconRed;
@@ -227,9 +227,9 @@ class Tea {
         case TeaColor.orange:
           {
             switch (icon) {
-              case TeaIcon.cup:
+              case .cup:
                 return shortcutIconCupOrange;
-              case TeaIcon.flower:
+              case .flower:
                 return shortcutIconFlowerOrange;
               default:
                 return shortcutIconOrange;
@@ -238,9 +238,9 @@ class Tea {
         case TeaColor.green:
           {
             switch (icon) {
-              case TeaIcon.cup:
+              case .cup:
                 return shortcutIconCupGreen;
-              case TeaIcon.flower:
+              case .flower:
                 return shortcutIconFlowerGreen;
               default:
                 return shortcutIconGreen;
@@ -249,9 +249,9 @@ class Tea {
         case TeaColor.blue:
           {
             switch (icon) {
-              case TeaIcon.cup:
+              case .cup:
                 return shortcutIconCupBlue;
-              case TeaIcon.flower:
+              case .flower:
                 return shortcutIconFlowerBlue;
               default:
                 return shortcutIconBlue;
@@ -260,9 +260,9 @@ class Tea {
         case TeaColor.purple:
           {
             switch (icon) {
-              case TeaIcon.cup:
+              case .cup:
                 return shortcutIconCupPurple;
-              case TeaIcon.flower:
+              case .flower:
                 return shortcutIconFlowerPurple;
               default:
                 return shortcutIconPurple;
@@ -271,9 +271,9 @@ class Tea {
         case TeaColor.brown:
           {
             switch (icon) {
-              case TeaIcon.cup:
+              case .cup:
                 return shortcutIconCupBrown;
-              case TeaIcon.flower:
+              case .flower:
                 return shortcutIconFlowerBrown;
               default:
                 return shortcutIconBrown;
@@ -282,9 +282,9 @@ class Tea {
         case TeaColor.pink:
           {
             switch (icon) {
-              case TeaIcon.cup:
+              case .cup:
                 return shortcutIconCupPink;
-              case TeaIcon.flower:
+              case .flower:
                 return shortcutIconFlowerPink;
               default:
                 return shortcutIconPink;
@@ -293,9 +293,9 @@ class Tea {
         case TeaColor.amber:
           {
             switch (icon) {
-              case TeaIcon.cup:
+              case .cup:
                 return shortcutIconCupAmber;
-              case TeaIcon.flower:
+              case .flower:
                 return shortcutIconFlowerAmber;
               default:
                 return shortcutIconAmber;
@@ -304,9 +304,9 @@ class Tea {
         case TeaColor.teal:
           {
             switch (icon) {
-              case TeaIcon.cup:
+              case .cup:
                 return shortcutIconCupTeal;
-              case TeaIcon.flower:
+              case .flower:
                 return shortcutIconFlowerTeal;
               default:
                 return shortcutIconTeal;
@@ -315,9 +315,9 @@ class Tea {
         case TeaColor.cyan:
           {
             switch (icon) {
-              case TeaIcon.cup:
+              case .cup:
                 return shortcutIconCupCyan;
-              case TeaIcon.flower:
+              case .flower:
                 return shortcutIconFlowerCyan;
               default:
                 return shortcutIconCyan;
@@ -326,9 +326,9 @@ class Tea {
         case TeaColor.lavender:
           {
             switch (icon) {
-              case TeaIcon.cup:
+              case .cup:
                 return shortcutIconCupLavender;
-              case TeaIcon.flower:
+              case .flower:
                 return shortcutIconFlowerLavender;
               default:
                 return shortcutIconLavender;
@@ -337,9 +337,9 @@ class Tea {
         default:
           {
             switch (icon) {
-              case TeaIcon.cup:
+              case .cup:
                 return shortcutIconCupBlack;
-              case TeaIcon.flower:
+              case .flower:
                 return shortcutIconFlowerBlack;
               default:
                 return shortcutIconBlack;
