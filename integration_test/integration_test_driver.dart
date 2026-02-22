@@ -17,7 +17,8 @@ import 'package:integration_test/integration_test_driver_extended.dart';
 
 Future<void> main() async {
   // Setup screenshots
-  String screenshotPath = 'screenshots-output';
+  String testLang = Platform.environment['TEST_LOCALE'] ?? 'en-US';
+  String screenshotPath = 'screenshots-output/$testLang/';
   String deviceName = (Platform.environment['DEVICE_NAME'] ?? '').replaceAll(
     RegExp(r'[^a-zA-Z0-9]'),
     '',
