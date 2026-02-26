@@ -57,54 +57,50 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
   // Build dialog
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        child: AlertDialog.adaptive(
-          // Text entry
-          content: Form(
-            key: _formKey,
-            autovalidateMode: .onUserInteraction,
-            child: adaptiveTextFormField(
-              textColor: Theme.of(context).textTheme.bodyLarge!.color!,
-              cursorColor: _isValid ? null : invalidColor,
-              controller: _controller,
-              validator: widget.validator,
-              onChanged: (String newValue) {
-                // Validate text and set new value
-                setState(() {
-                  _isValid = false;
-                  if (_formKey.currentState != null) {
-                    if (_formKey.currentState!.validate()) {
-                      _isValid = true;
-                      _newValue = newValue;
-                    }
-                  }
-                });
-              },
-              onCleared: () => setState(() {
-                // Invalidate an empty value
-                _isValid = false;
-                _controller.clear();
-              }),
-            ),
-          ),
-          actions: <Widget>[
-            // Cancel and close dialog
-            adaptiveDialogAction(
-              text: widget.buttonTextCancel,
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            // Save and close dialog, if valid
-            adaptiveDialogAction(
-              isDefaultAction: true,
-              onPressed: _isValid
-                  ? () => Navigator.of(context).pop(_newValue)
-                  : null,
-              text: widget.buttonTextOK,
-            ),
-          ],
+    return AlertDialog.adaptive(
+      // Text entry
+      content: Form(
+        key: _formKey,
+        autovalidateMode: .onUserInteraction,
+        child: adaptiveTextFormField(
+          textColor: Theme.of(context).textTheme.bodyLarge!.color!,
+          cursorColor: _isValid ? null : invalidColor,
+          controller: _controller,
+          validator: widget.validator,
+          onChanged: (String newValue) {
+            // Validate text and set new value
+            setState(() {
+              _isValid = false;
+              if (_formKey.currentState != null) {
+                if (_formKey.currentState!.validate()) {
+                  _isValid = true;
+                  _newValue = newValue;
+                }
+              }
+            });
+          },
+          onCleared: () => setState(() {
+            // Invalidate an empty value
+            _isValid = false;
+            _controller.clear();
+          }),
         ),
       ),
+      actions: <Widget>[
+        // Cancel and close dialog
+        adaptiveDialogAction(
+          text: widget.buttonTextCancel,
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        // Save and close dialog, if valid
+        adaptiveDialogAction(
+          isDefaultAction: true,
+          onPressed: _isValid
+              ? () => Navigator.of(context).pop(_newValue)
+              : null,
+          text: widget.buttonTextOK,
+        ),
+      ],
     );
   }
 }
