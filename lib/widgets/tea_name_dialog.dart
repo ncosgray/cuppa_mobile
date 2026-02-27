@@ -58,6 +58,8 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog.adaptive(
+      scrollable: true,
+      insetPadding: .symmetric(vertical: 0),
       // Text entry
       content: Form(
         key: _formKey,
