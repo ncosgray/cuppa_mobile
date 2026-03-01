@@ -86,6 +86,7 @@ Widget adaptiveScaffold({
   PreferredSizeWidget? appBar,
   Widget? bottomNavigationBar,
   Color? backgroundColor,
+  bool resizeToAvoidBottomInset = true,
 }) {
   if (Platform.isIOS) {
     if (bottomNavigationBar != null &&
@@ -98,6 +99,7 @@ Widget adaptiveScaffold({
           return CupertinoPageScaffold(
             navigationBar: appBar as PlatformAdaptiveNavBar,
             backgroundColor: backgroundColor,
+            resizeToAvoidBottomInset: resizeToAvoidBottomInset,
             child: Material(type: .transparency, child: body),
           );
         },
@@ -107,6 +109,7 @@ Widget adaptiveScaffold({
       return CupertinoPageScaffold(
         navigationBar: appBar != null ? appBar as PlatformAdaptiveNavBar : null,
         backgroundColor: backgroundColor,
+        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         child: Material(type: .transparency, child: body),
       );
     }
@@ -116,6 +119,7 @@ Widget adaptiveScaffold({
       body: body,
       bottomNavigationBar: bottomNavigationBar,
       backgroundColor: backgroundColor,
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
     );
   }
 }

@@ -33,17 +33,26 @@ class TeaButton extends StatelessWidget {
     required this.fade,
     required this.scale,
     this.onPressed,
+    this.onLongPress,
   });
 
   final Tea tea;
   final bool fade;
   final double scale;
   final Function()? onPressed;
+  final Function()? onLongPress;
 
   void _handleTap() {
     if (onPressed != null) {
       HapticFeedback.lightImpact();
       onPressed!();
+    }
+  }
+
+  void _handleLongPress() {
+    if (onLongPress != null) {
+      HapticFeedback.mediumImpact();
+      onLongPress!();
     }
   }
 
@@ -60,9 +69,10 @@ class TeaButton extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(color: tea.isActive ? tea.getColor() : null),
         child: IgnorePointer(
-          ignoring: onPressed == null,
+          ignoring: onPressed == null && onLongPress == null,
           child: InkWell(
             onTap: _handleTap,
+            onLongPress: _handleLongPress,
             child: AnimatedOpacity(
               opacity: fade ? fadeOpacity : noOpacity,
               duration: longAnimationDuration,

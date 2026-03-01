@@ -31,6 +31,7 @@ import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/cancel_button.dart';
 import 'package:cuppa_mobile/pages/prefs_page.dart';
 import 'package:cuppa_mobile/widgets/tea_button.dart';
+import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'dart:async';
@@ -51,6 +52,8 @@ class TeaButtonList extends StatefulWidget {
 class _TeaButtonListState extends State<TeaButtonList> {
   // State variables
   final ScrollController _scrollController = ScrollController();
+  final Map<int, GlobalKey> _buttonKeys = {};
+  BuildContext? _settingsDialogContext;
 
   // Timer button list state
   @override
@@ -79,6 +82,12 @@ class _TeaButtonListState extends State<TeaButtonList> {
       _checkNextTimer();
       ShortcutHandler.listen(_handleShortcut);
     });
+  }
+
+  @override
+  void dispose() {
+    _closeTeaSettings();
+    super.dispose();
   }
 
   // Build timer button list
@@ -147,10 +156,10 @@ class _TeaButtonListState extends State<TeaButtonList> {
                     physics: const BouncingScrollPhysics(),
                     child: Padding(
                       padding: buttonColumnPadding,
-                      child: SafeArea(
-                        left: false,
-                        top: false,
-                        right: false,
+                      child: Padding(
+                        padding: .only(
+                          bottom: MediaQuery.viewPaddingOf(context).bottom,
+                        ),
                         child: Column(children: [...teaButtonRows]),
                       ),
                     ),
@@ -188,7 +197,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
   }
 
   // Generate unique key for a tea button
-  Key _teaKey(Tea tea) => ValueKey('tea_${tea.id}_${tea.hashCode}');
+  Key _teaKey(Tea tea) => _buttonKeys.putIfAbsent(tea.id, () => GlobalKey());
 
   // Horizontally scrollable list of tea buttons
   Widget _teaButtonRow(List<Tea> teas, double buttonScale) {
@@ -221,6 +230,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
           onPressed: activeTimerCount < timersMaxCount && !tea.isActive
               ? () => _setTimer(tea)
               : null,
+          onLongPress: () => _openTeaSettings(tea),
         ),
         // Cancel brewing button
         Container(
@@ -278,6 +288,42 @@ class _TeaButtonListState extends State<TeaButtonList> {
         ),
       ],
     );
+  }
+
+  // Open tea settings as a floating card above the button
+  void _openTeaSettings(Tea tea) {
+    _closeTeaSettings();
+
+    final key = _buttonKeys[tea.id];
+    if (key?.currentContext == null) return;
+
+    final RenderBox box = key!.currentContext!.findRenderObject() as RenderBox;
+    final Offset buttonTopCenter = box.localToGlobal(
+      Offset(box.size.width / 2, 0),
+    );
+
+    showGeneralDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.transparent,
+      transitionDuration: Duration.zero,
+      pageBuilder: (dialogContext, _, _) {
+        _settingsDialogContext = dialogContext;
+        return _TeaSettingsFloatingCard(
+          tea: tea,
+          buttonTopCenter: buttonTopCenter,
+          onClose: _closeTeaSettings,
+        );
+      },
+    ).whenComplete(() => _settingsDialogContext = null);
+  }
+
+  void _closeTeaSettings() {
+    final dialogContext = _settingsDialogContext;
+    _settingsDialogContext = null;
+    if (dialogContext != null && dialogContext.mounted) {
+      Navigator.of(dialogContext).pop();
+    }
   }
 
   // Ticker handler for a TeaTimer
@@ -341,10 +387,9 @@ class _TeaButtonListState extends State<TeaButtonList> {
       Navigator.of(context).popUntil((route) => route.isFirst);
 
       // Scroll to the tea button after the next frame
-      final teaKey = _teaKey(tea);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
-        final BuildContext? target = findWidgetWithKey(context, teaKey);
+        final BuildContext? target = _buttonKeys[tea.id]?.currentContext;
         if (target != null) {
           Scrollable.ensureVisible(target);
         }
@@ -424,5 +469,175 @@ class _TeaButtonListState extends State<TeaButtonList> {
         }
       }
     }
+  }
+}
+
+// Floating overlay that shows a tea settings card
+class _TeaSettingsFloatingCard extends StatefulWidget {
+  const _TeaSettingsFloatingCard({
+    required this.tea,
+    required this.buttonTopCenter,
+    required this.onClose,
+  });
+
+  final Tea tea;
+  final Offset buttonTopCenter;
+  final VoidCallback onClose;
+
+  @override
+  State<_TeaSettingsFloatingCard> createState() =>
+      _TeaSettingsFloatingCardState();
+}
+
+class _TeaSettingsFloatingCardState extends State<_TeaSettingsFloatingCard> {
+  final ValueNotifier<bool> _subDialogOpen = ValueNotifier(false);
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        // Tap-to-dismiss barrier (disabled while a sub-dialog is open)
+        Positioned.fill(
+          child: ValueListenableBuilder<bool>(
+            valueListenable: _subDialogOpen,
+            builder: (context, isSubDialogOpen, child) =>
+                IgnorePointer(ignoring: isSubDialogOpen, child: child),
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: widget.onClose,
+            ),
+          ),
+        ),
+        // Floating settings card centered horizontally above the button
+        CustomSingleChildLayout(
+          delegate: _FloatingCardLayout(
+            buttonTopCenter: widget.buttonTopCenter,
+            safeAreaInsets: MediaQuery.of(context).padding,
+          ),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              // Card with drop shadow, dimmed while a sub-dialog is open
+              ValueListenableBuilder<bool>(
+                valueListenable: _subDialogOpen,
+                builder: (context, isSubDialogOpen, child) {
+                  return AbsorbPointer(
+                    absorbing: isSubDialogOpen,
+                    child: child,
+                  );
+                },
+                child: DecoratedBox(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 12,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Consumer<AppProvider>(
+                    builder: (context, provider, _) {
+                      final editTea = provider.teaList.firstWhere(
+                        (t) => t.id == widget.tea.id,
+                        orElse: () => widget.tea,
+                      );
+                      return MediaQuery.removePadding(
+                        context: context,
+                        removeLeft: true,
+                        removeRight: true,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: 380),
+                          child: TeaSettingsCard(
+                            tea: editTea,
+                            showDragHandle: false,
+                            subDialogNotifier: _subDialogOpen,
+                            forcePortraitLayout: true,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              // Close button at top-right corner of card
+              Positioned(
+                top: -5,
+                right: 0,
+                child: GestureDetector(
+                  onTap: widget.onClose,
+                  child: Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      shape: BoxShape.circle,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 4,
+                          offset: Offset(0, 1),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.close,
+                        size: 14,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// Layout delegate to position settings card centered above tea button
+class _FloatingCardLayout extends SingleChildLayoutDelegate {
+  const _FloatingCardLayout({
+    required this.buttonTopCenter,
+    required this.safeAreaInsets,
+  });
+
+  final Offset buttonTopCenter;
+  final EdgeInsets safeAreaInsets;
+
+  @override
+  BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
+    return constraints.loosen();
+  }
+
+  @override
+  Offset getPositionForChild(Size size, Size childSize) {
+    // Center card horizontally over the button, clamped within safe area insets
+    double left = buttonTopCenter.dx - childSize.width / 2;
+    left = left.clamp(
+      safeAreaInsets.left,
+      max(
+        safeAreaInsets.left,
+        size.width - childSize.width - safeAreaInsets.right,
+      ),
+    );
+    // Position bottom of card at top of button
+    double top = buttonTopCenter.dy - childSize.height;
+    return Offset(left, top);
+  }
+
+  @override
+  bool shouldRelayout(_FloatingCardLayout oldDelegate) {
+    return oldDelegate.buttonTopCenter != buttonTopCenter ||
+        oldDelegate.safeAreaInsets != safeAreaInsets;
   }
 }

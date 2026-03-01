@@ -38,6 +38,7 @@ class TimerWidget extends StatelessWidget {
     bool layoutPortrait = getDeviceSize(context).isPortrait;
 
     return adaptiveScaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         left: false,
         top: true,
