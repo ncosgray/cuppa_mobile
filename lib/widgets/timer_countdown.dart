@@ -244,13 +244,18 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
               context,
               listen: false,
             ).incrementTimer(timer.tea!, secs)) {
-              // If adjustment was successful, update the notification
+              // If adjustment was successful, update the notifications
               sendNotification(
                 timer.tea!.brewTimeRemaining,
                 AppString.notification_title.translate(),
                 AppString.notification_text.translate(teaName: timer.tea!.name),
                 timer.notifyID,
                 silent: timer.tea!.isSilent,
+              );
+              sendOngoingNotification(
+                timer.notifyID,
+                timer.tea!.name,
+                timer.tea!.timerEndTime,
               );
             }
           }

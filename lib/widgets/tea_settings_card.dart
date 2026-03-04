@@ -264,6 +264,11 @@ class TeaSettingsCard extends StatelessWidget {
                 tea.timerNotifyID!,
                 silent: tea.isSilent,
               );
+              sendOngoingNotification(
+                tea.timerNotifyID!,
+                tea.name,
+                tea.timerEndTime,
+              );
             }
           }
         }),

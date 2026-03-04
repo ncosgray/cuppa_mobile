@@ -82,8 +82,11 @@ const double cancelButtonHeight = 34;
 // Notifications
 const notifyID1 = 0;
 const notifyID2 = 1;
+const notifyOngoingID1 = 10;
+const notifyOngoingID2 = 11;
 const notifyChannel = 'Cuppa_timer_channel';
 const notifyChannelSilent = 'Cuppa_silent_channel';
+const notifyOngoingChannel = 'Cuppa_ongoing_channel';
 const notifyIcon = 'ic_stat_name';
 const notifySound = 'spoon';
 const notifySoundIOS = 'sound/spoon.aiff';

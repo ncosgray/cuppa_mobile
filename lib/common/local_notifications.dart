@@ -141,3 +141,52 @@ Future<void> sendNotification(
     androidScheduleMode: .exactAllowWhileIdle,
   );
 }
+
+// Show or update an ongoing countdown notification (Android only)
+Future<void> sendOngoingNotification(
+  int notifyID,
+  String teaName,
+  int timerEndTime,
+) async {
+  if (skipNotify || !Platform.isAndroid) {
+    return;
+  }
+
+  int ongoingID = notifyID == notifyID1 ? notifyOngoingID1 : notifyOngoingID2;
+
+  NotificationDetails notifyDetails = .new(
+    android: AndroidNotificationDetails(
+      notifyOngoingChannel,
+      AppString.notification_channel_name.translate(),
+      importance: .low,
+      priority: .low,
+      ongoing: true,
+      autoCancel: false,
+      showWhen: true,
+      usesChronometer: true,
+      chronometerCountDown: true,
+      when: timerEndTime,
+      playSound: false,
+      enableVibration: false,
+      icon: notifyIcon,
+      color: notifyColor,
+    ),
+  );
+
+  await notify.show(
+    id: ongoingID,
+    title: teaName,
+    body: null,
+    notificationDetails: notifyDetails,
+  );
+}
+
+// Cancel an ongoing countdown notification (Android only)
+Future<void> cancelOngoingNotification(int notifyID) async {
+  if (skipNotify || !Platform.isAndroid) {
+    return;
+  }
+
+  int ongoingID = notifyID == notifyID1 ? notifyOngoingID1 : notifyOngoingID2;
+  await notify.cancel(id: ongoingID);
+}

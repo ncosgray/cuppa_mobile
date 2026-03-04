@@ -313,6 +313,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
         } else {
           // Brewing complete
           if (timer.tea != null) {
+            cancelOngoingNotification(timer.notifyID);
             Provider.of<AppProvider>(
               context,
               listen: false,
@@ -341,6 +342,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
         timer.notifyID,
         silent: provider.silentDefault,
       );
+      sendOngoingNotification(timer.notifyID, tea.name, tea.timerEndTime);
 
       // Update timer stats, if enabled
       if (provider.collectStats) {
@@ -377,6 +379,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
   Future<void> _cancelTimer(TeaTimer timer) async {
     timer.reset();
     await notify.cancel(id: timer.notifyID);
+    await cancelOngoingNotification(timer.notifyID);
   }
 
   // Cancel timer for a given tea
@@ -405,6 +408,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
       if (tea.brewTimeRemaining > 0) {
         // Resume timer from stored prefs
         _setTimer(tea, resume: true, autoScroll: true);
+        sendOngoingNotification(tea.timerNotifyID!, tea.name, tea.timerEndTime);
       } else {
         provider.deactivateTea(tea);
       }
