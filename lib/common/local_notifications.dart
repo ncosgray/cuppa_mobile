@@ -18,8 +18,9 @@ import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 
 import 'dart:io' show Platform;
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // ignore: depend_on_referenced_packages
 import 'package:timezone/timezone.dart' as tz;
 
@@ -140,4 +141,15 @@ Future<void> sendNotification(
     payload: silent ? notifyChannelSilent : notifyChannel,
     androidScheduleMode: .exactAllowWhileIdle,
   );
+}
+
+// Update the iOS app icon badge count
+const MethodChannel _badgeChannel = MethodChannel('com.nathanatos.Cuppa/badge');
+
+Future<void> updateBadgeCount(int count) async {
+  if (skipNotify || !Platform.isIOS) {
+    return;
+  }
+
+  await _badgeChannel.invokeMethod('setBadge', count);
 }

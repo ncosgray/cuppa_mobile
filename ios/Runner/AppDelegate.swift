@@ -1,5 +1,6 @@
 import Flutter
 import UIKit
+import UserNotifications
 import AppIntents
 import intelligence
 
@@ -12,6 +13,26 @@ import intelligence
     // Setup for flutter_local_notifications plugin
     if #available(iOS 10.0, *) {
       UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+    }
+
+    // Setup badge count method channel
+    let controller = window?.rootViewController as! FlutterViewController
+    let badgeChannel = FlutterMethodChannel(
+      name: "com.nathanatos.Cuppa/badge",
+      binaryMessenger: controller.binaryMessenger
+    )
+    badgeChannel.setMethodCallHandler { (call, result) in
+      if call.method == "setBadge" {
+        let count = call.arguments as? Int ?? 0
+        if #available(iOS 16.0, *) {
+          UNUserNotificationCenter.current().setBadgeCount(count)
+        } else {
+          application.applicationIconBadgeNumber = count
+        }
+        result(nil)
+      } else {
+        result(FlutterMethodNotImplemented)
+      }
     }
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)

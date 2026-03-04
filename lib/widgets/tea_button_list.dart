@@ -317,6 +317,12 @@ class _TeaButtonListState extends State<TeaButtonList> {
               context,
               listen: false,
             ).deactivateTea(timer.tea!);
+            updateBadgeCount(
+              Provider.of<AppProvider>(
+                context,
+                listen: false,
+              ).activeTeas.length,
+            );
           }
           timer.stop();
         }
@@ -341,6 +347,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
         timer.notifyID,
         silent: provider.silentDefault,
       );
+      updateBadgeCount(provider.activeTeas.length);
 
       // Update timer stats, if enabled
       if (provider.collectStats) {
@@ -379,6 +386,13 @@ class _TeaButtonListState extends State<TeaButtonList> {
     await notify.cancel(id: timer.notifyID);
   }
 
+  // Update badge after timer cancellation
+  void _updateBadgeAfterCancel() {
+    updateBadgeCount(
+      Provider.of<AppProvider>(context, listen: false).activeTeas.length,
+    );
+  }
+
   // Cancel timer for a given tea
   void _cancelTimerForTea(Tea tea) {
     for (final timer in timerList) {
@@ -386,6 +400,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
         _cancelTimer(timer);
       }
     }
+    _updateBadgeAfterCancel();
   }
 
   // Force cancel and reset all timers
@@ -394,6 +409,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
       _cancelTimer(timer);
     }
     Provider.of<AppProvider>(context, listen: false).clearActiveTea();
+    updateBadgeCount(0);
   }
 
   // Start timer from stored prefs
