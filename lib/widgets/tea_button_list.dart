@@ -28,7 +28,6 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea_timer.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:cuppa_mobile/widgets/cancel_button.dart';
 import 'package:cuppa_mobile/pages/prefs_page.dart';
 import 'package:cuppa_mobile/widgets/tea_button.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
@@ -209,84 +208,58 @@ class _TeaButtonListState extends State<TeaButtonList> {
       child: Padding(
         padding: buttonRowPadding,
         child: Row(
+          crossAxisAlignment: .start,
           children: [
-            ...teas.map<Widget>((Tea tea) => _teaButton(tea, buttonScale)),
+            ...teas.map<Widget>(
+              (Tea tea) => TeaButton(
+                key: _teaKey(tea),
+                tea: tea,
+                fade: !(activeTimerCount < timersMaxCount || tea.isActive),
+                scale: buttonScale,
+                onPressed: activeTimerCount < timersMaxCount && !tea.isActive
+                    ? () => _setTimer(tea)
+                    : null,
+                onLongPress: () => _openTeaSettings(tea),
+                onCancelPressed: () => _cancelTimerForTea(tea),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  // Tea button paired with cancel button
-  Widget _teaButton(Tea tea, double scale) {
-    return Column(
-      children: [
-        // Start brewing button
-        TeaButton(
-          key: _teaKey(tea),
-          tea: tea,
-          fade: !(activeTimerCount < timersMaxCount || tea.isActive),
-          scale: scale,
-          onPressed: activeTimerCount < timersMaxCount && !tea.isActive
-              ? () => _setTimer(tea)
-              : null,
-          onLongPress: () => _openTeaSettings(tea),
-        ),
-        // Cancel brewing button
-        Container(
-          constraints: const BoxConstraints(minHeight: cancelButtonHeight),
-          child: Visibility(
-            visible: tea.isActive,
-            child: cancelButton(
-              color: Theme.of(context).colorScheme.error,
-              onPressed: () => _cancelTimerForTea(tea),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   // Add button linking to Prefs page
   Widget _addButton() {
-    return Column(
-      children: [
-        // Add tea button
-        Card(
-          clipBehavior: .antiAlias,
-          margin: largeDefaultPadding,
-          child: InkWell(
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => const PrefsWidget(launchAddTea: true),
-              ),
-            ),
-            child: Container(
-              constraints: const BoxConstraints(
-                minHeight: teaButtonHeight,
-                minWidth: teaButtonWidth,
-              ),
-              margin: largeDefaultPadding,
-              child: Column(
-                mainAxisAlignment: .center,
-                children: [
-                  Text(
-                    AppString.add_tea_button.translate(),
-                    style: textStyleButton.copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                  ),
-                  navigateIcon(color: Theme.of(context).colorScheme.error),
-                ],
-              ),
-            ),
+    return Card(
+      clipBehavior: .antiAlias,
+      margin: largeDefaultPadding,
+      child: InkWell(
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => const PrefsWidget(launchAddTea: true),
           ),
         ),
-        // Placeholder to align with tea button layout
-        Container(
-          constraints: const BoxConstraints(minHeight: cancelButtonHeight),
+        child: Container(
+          constraints: const BoxConstraints(
+            minHeight: teaButtonHeight,
+            minWidth: teaButtonWidth,
+          ),
+          margin: largeDefaultPadding,
+          child: Column(
+            mainAxisAlignment: .center,
+            children: [
+              Text(
+                AppString.add_tea_button.translate(),
+                style: textStyleButton.copyWith(
+                  color: Theme.of(context).colorScheme.error,
+                ),
+              ),
+              navigateIcon(color: Theme.of(context).colorScheme.error),
+            ],
+          ),
         ),
-      ],
+      ),
     );
   }
 

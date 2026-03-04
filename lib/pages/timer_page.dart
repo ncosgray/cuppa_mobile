@@ -13,6 +13,7 @@
 // Cuppa Timer page
 // - Build interface and interactivity
 
+import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/platform_adaptive.dart';
@@ -117,7 +118,18 @@ class TimerWidget extends StatelessWidget {
                   top: false,
                   right: true,
                   bottom: false,
-                  child: const TeaButtonList(),
+                  child: Selector<AppProvider, double>(
+                    selector: (_, provider) =>
+                        provider.buttonSize.scale +
+                        (provider.showExtraList.isEmpty ? .6 : .8),
+                    builder: (context, scale, child) => Container(
+                      constraints: BoxConstraints(
+                        minHeight:
+                            (teaButtonHeight + cancelButtonHeight) * scale,
+                      ),
+                      child: const TeaButtonList(),
+                    ),
+                  ),
                 ),
               ],
             ),
