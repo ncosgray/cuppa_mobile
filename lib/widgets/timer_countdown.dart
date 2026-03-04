@@ -210,13 +210,12 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
               ).updateTea(timer.tea!, isSilent: !(timer.tea!.isSilent)),
             );
 
-            // Update the notification
-            sendNotification(
-              timer.tea!.brewTimeRemaining,
-              AppString.notification_title.translate(),
-              AppString.notification_text.translate(teaName: timer.tea!.name),
-              timer.notifyID,
-              silent: timer.tea!.isSilent,
+            // Update all notifications with correct badge counts
+            rescheduleNotifications(
+              Provider.of<AppProvider>(
+                context,
+                listen: false,
+              ).activeTeas,
             );
           }
           _hideTimerAdjustmentsDelay = hideTimerAdjustmentsDelay;
@@ -244,13 +243,12 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
               context,
               listen: false,
             ).incrementTimer(timer.tea!, secs)) {
-              // If adjustment was successful, update the notification
-              sendNotification(
-                timer.tea!.brewTimeRemaining,
-                AppString.notification_title.translate(),
-                AppString.notification_text.translate(teaName: timer.tea!.name),
-                timer.notifyID,
-                silent: timer.tea!.isSilent,
+              // If adjustment was successful, update all notifications
+              rescheduleNotifications(
+                Provider.of<AppProvider>(
+                  context,
+                  listen: false,
+                ).activeTeas,
               );
             }
           }

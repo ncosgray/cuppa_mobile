@@ -16,6 +16,7 @@ import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
+import 'package:cuppa_mobile/data/tea.dart';
 
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
@@ -61,6 +62,7 @@ Future<void> sendNotification(
   String text,
   int notifyID, {
   bool silent = false,
+  int? badgeCount,
 }) async {
   if (skipNotify) {
     return;
@@ -130,6 +132,7 @@ Future<void> sendNotification(
       presentList: true,
       sound: silent ? null : notifySoundIOS,
       interruptionLevel: .timeSensitive,
+      badgeNumber: badgeCount,
     ),
   );
   await notify.zonedSchedule(
@@ -141,6 +144,33 @@ Future<void> sendNotification(
     payload: silent ? notifyChannelSilent : notifyChannel,
     androidScheduleMode: .exactAllowWhileIdle,
   );
+}
+
+// Reschedule all active timer notifications with correct badge counts
+// based on completion order (iOS only — Android ignores badgeCount)
+Future<void> rescheduleNotifications(List<Tea> activeTeas) async {
+  if (skipNotify) {
+    return;
+  }
+
+  // Sort by end time to determine completion order
+  List<Tea> sorted = List.from(activeTeas)
+    ..sort((a, b) => a.timerEndTime.compareTo(b.timerEndTime));
+
+  for (int i = 0; i < sorted.length; i++) {
+    Tea tea = sorted[i];
+    if (tea.timerNotifyID != null && tea.brewTimeRemaining > 0) {
+      await sendNotification(
+        tea.brewTimeRemaining,
+        AppString.notification_title.translate(),
+        AppString.notification_text.translate(teaName: tea.name),
+        tea.timerNotifyID!,
+        silent: tea.isSilent,
+        // Badge shows how many timers remain active after this one completes
+        badgeCount: sorted.length - 1 - i,
+      );
+    }
+  }
 }
 
 // Update the iOS app icon badge count

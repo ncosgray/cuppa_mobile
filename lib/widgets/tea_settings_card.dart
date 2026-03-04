@@ -257,12 +257,11 @@ class TeaSettingsCard extends StatelessWidget {
             if (tea.isActive &&
                 tea.brewTimeRemaining > 0 &&
                 tea.timerNotifyID != null) {
-              sendNotification(
-                tea.brewTimeRemaining,
-                AppString.notification_title.translate(),
-                AppString.notification_text.translate(teaName: tea.name),
-                tea.timerNotifyID!,
-                silent: tea.isSilent,
+              rescheduleNotifications(
+                Provider.of<AppProvider>(
+                  navigatorKey.currentContext!,
+                  listen: false,
+                ).activeTeas,
               );
             }
           }

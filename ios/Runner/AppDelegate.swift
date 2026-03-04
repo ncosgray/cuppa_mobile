@@ -15,31 +15,32 @@ import intelligence
       UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
     }
 
-    // Setup badge count method channel
-    let controller = window?.rootViewController as! FlutterViewController
-    let badgeChannel = FlutterMethodChannel(
-      name: "com.nathanatos.Cuppa/badge",
-      binaryMessenger: controller.binaryMessenger
-    )
-    badgeChannel.setMethodCallHandler { (call, result) in
-      if call.method == "setBadge" {
-        let count = call.arguments as? Int ?? 0
-        if #available(iOS 16.0, *) {
-          UNUserNotificationCenter.current().setBadgeCount(count)
-        } else {
-          application.applicationIconBadgeNumber = count
-        }
-        result(nil)
-      } else {
-        result(FlutterMethodNotImplemented)
-      }
-    }
-
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
   func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
     GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
+
+    // Setup badge count method channel
+    if let registrar = engineBridge.pluginRegistry.registrar(forPlugin: "BadgePlugin") {
+      let badgeChannel = FlutterMethodChannel(
+        name: "com.nathanatos.Cuppa/badge",
+        binaryMessenger: registrar.messenger()
+      )
+      badgeChannel.setMethodCallHandler { (call, result) in
+        if call.method == "setBadge" {
+          let count = call.arguments as? Int ?? 0
+          if #available(iOS 16.0, *) {
+            UNUserNotificationCenter.current().setBadgeCount(count)
+          } else {
+            UIApplication.shared.applicationIconBadgeNumber = count
+          }
+          result(nil as Any?)
+        } else {
+          result(FlutterMethodNotImplemented)
+        }
+      }
+    }
 
     // Setup for intelligence plugin
     IntelligencePlugin.storage.attachListener {

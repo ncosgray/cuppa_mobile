@@ -340,13 +340,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
       // Start a new timer
       provider.activateTea(tea, timer.notifyID, provider.silentDefault);
-      sendNotification(
-        tea.brewTime,
-        AppString.notification_title.translate(),
-        AppString.notification_text.translate(teaName: tea.name),
-        timer.notifyID,
-        silent: provider.silentDefault,
-      );
+      rescheduleNotifications(provider.activeTeas);
       updateBadgeCount(provider.activeTeas.length);
 
       // Update timer stats, if enabled
@@ -386,11 +380,11 @@ class _TeaButtonListState extends State<TeaButtonList> {
     await notify.cancel(id: timer.notifyID);
   }
 
-  // Update badge after timer cancellation
-  void _updateBadgeAfterCancel() {
-    updateBadgeCount(
-      Provider.of<AppProvider>(context, listen: false).activeTeas.length,
-    );
+  // Update badge and reschedule remaining notifications after cancellation
+  void _updateAfterCancel() {
+    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+    rescheduleNotifications(provider.activeTeas);
+    updateBadgeCount(provider.activeTeas.length);
   }
 
   // Cancel timer for a given tea
@@ -400,7 +394,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
         _cancelTimer(timer);
       }
     }
-    _updateBadgeAfterCancel();
+    _updateAfterCancel();
   }
 
   // Force cancel and reset all timers
