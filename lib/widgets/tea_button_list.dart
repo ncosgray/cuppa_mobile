@@ -380,8 +380,8 @@ class _TeaButtonListState extends State<TeaButtonList> {
     await notify.cancel(id: timer.notifyID);
   }
 
-  // Update badge and reschedule remaining notifications after cancellation
-  void _updateAfterCancel() {
+  // Reschedule remaining notifications and sync badge with current state
+  void _syncNotificationsAndBadge() {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     rescheduleNotifications(provider.activeTeas);
     updateBadgeCount(provider.activeTeas.length);
@@ -394,7 +394,8 @@ class _TeaButtonListState extends State<TeaButtonList> {
         _cancelTimer(timer);
       }
     }
-    _updateAfterCancel();
+    Provider.of<AppProvider>(context, listen: false).deactivateTea(tea);
+    _syncNotificationsAndBadge();
   }
 
   // Force cancel and reset all timers
@@ -419,6 +420,9 @@ class _TeaButtonListState extends State<TeaButtonList> {
         provider.deactivateTea(tea);
       }
     }
+
+    // Sync badge and notifications with current state after resume
+    _syncNotificationsAndBadge();
   }
 
   // Start a timer from shortcut selection
