@@ -279,7 +279,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
       context: context,
       barrierDismissible: false,
       barrierColor: Colors.transparent,
-      transitionDuration: Duration.zero,
+      transitionDuration: .zero,
       pageBuilder: (dialogContext, _, _) {
         _settingsDialogContext = dialogContext;
         return _TeaSettingsFloatingCard(
@@ -485,7 +485,7 @@ class _TeaSettingsFloatingCardState extends State<_TeaSettingsFloatingCard> {
             builder: (context, isSubDialogOpen, child) =>
                 IgnorePointer(ignoring: isSubDialogOpen, child: child),
             child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
+              behavior: .opaque,
               onTap: widget.onClose,
             ),
           ),
@@ -497,7 +497,7 @@ class _TeaSettingsFloatingCardState extends State<_TeaSettingsFloatingCard> {
             safeAreaInsets: MediaQuery.of(context).padding,
           ),
           child: Stack(
-            clipBehavior: Clip.none,
+            clipBehavior: .none,
             children: [
               // Card with drop shadow, dimmed while a sub-dialog is open
               ValueListenableBuilder<bool>(
@@ -510,7 +510,7 @@ class _TeaSettingsFloatingCardState extends State<_TeaSettingsFloatingCard> {
                 },
                 child: DecoratedBox(
                   decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    borderRadius: .all(Radius.circular(12)),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black26,
@@ -554,7 +554,7 @@ class _TeaSettingsFloatingCardState extends State<_TeaSettingsFloatingCard> {
                     height: 24,
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
-                      shape: BoxShape.circle,
+                      shape: .circle,
                       boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
