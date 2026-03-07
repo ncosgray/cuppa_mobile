@@ -26,6 +26,7 @@
   "new_tea_default_name": "Nova teo",
   "no_button": "Ne",
   "notification_channel_name": "Temporizigaj sciigoj",
+  "notification_channel_ongoing": "Rekta retronombrado",
   "notification_channel_silent": "Silentaj sciigoj",
   "notification_text": "{{tea_name}} nun pretas!",
   "notification_title": "Tefarado finiĝis…",

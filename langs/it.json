@@ -26,6 +26,7 @@
   "new_tea_default_name": "Nuovo infuso",
   "no_button": "No",
   "notification_channel_name": "Notifiche timer",
+  "notification_channel_ongoing": "Conto alla rovescia live",
   "notification_channel_silent": "Notifiche silenziose",
   "notification_text": "{{tea_name}} è pronto!",
   "notification_title": "Infusione completa…",

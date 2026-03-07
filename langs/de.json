@@ -26,6 +26,7 @@
     "new_tea_default_name": "Neuer Tee",
     "no_button": "Nein",
     "notification_channel_name": "Timer-Benachrichtigungen",
+    "notification_channel_ongoing": "Live-Countdown",
     "notification_channel_silent": "Stille Benachrichtigungen",
     "notification_text": "{{tea_name}} ist jetzt fertig!",
     "notification_title": "Brühvorgang abgeschlossen …",

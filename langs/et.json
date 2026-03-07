@@ -26,6 +26,7 @@
   "new_tea_default_name": "Uus tee",
   "no_button": "Ei",
   "notification_channel_name": "Taimeri märguanded",
+  "notification_channel_ongoing": "Reaalajas loendur",
   "notification_channel_silent": "Vaiksed teavitused",
   "notification_text": "{{tea_name}} on nüüd valmis!",
   "notification_title": "Jook on nüüd tõmmanud...",

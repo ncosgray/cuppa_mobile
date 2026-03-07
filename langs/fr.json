@@ -26,6 +26,7 @@
   "new_tea_default_name": "Nouvelle Thé",
   "no_button": "Non",
   "notification_channel_name": "Notifications de la minuterie",
+  "notification_channel_ongoing": "Compte à rebours en direct",
   "notification_channel_silent": "Notifications silencieuses",
   "notification_text": "{{tea_name}} est maintenant prêt !",
   "notification_title": "Infusion terminée…",

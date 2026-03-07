@@ -26,6 +26,7 @@
   "new_tea_default_name": "Новий Чай",
   "no_button": "Ні",
   "notification_channel_name": "Сповіщення за таймером",
+  "notification_channel_ongoing": "Живий відлік",
   "notification_channel_silent": "Безшумні сповіщення",
   "notification_text": "{{tea_name}} вже готовий!",
   "notification_title": "Заварювання завершено...",

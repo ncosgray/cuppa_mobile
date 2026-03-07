@@ -26,6 +26,7 @@
   "new_tea_default_name": "תה חדש",
   "no_button": "לא",
   "notification_channel_name": "התראות קוצב זמן",
+  "notification_channel_ongoing": "ספירה לאחור חיה",
   "notification_channel_silent": "התראות שקטות",
   "notification_text": "{{tea_name}} מוכן!",
   "notification_title": "החליטה נגמרה...",

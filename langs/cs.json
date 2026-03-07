@@ -26,6 +26,7 @@
   "new_tea_default_name": "Nový čaj",
   "no_button": "Ne",
   "notification_channel_name": "Upozornění časovače",
+  "notification_channel_ongoing": "Živé odpočítávání",
   "notification_channel_silent": "Tichá oznámení",
   "notification_text": "{{tea_name}} je připravený!",
   "notification_title": "Vaření je hotovo...",

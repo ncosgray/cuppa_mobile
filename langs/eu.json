@@ -26,6 +26,7 @@
   "new_tea_default_name": "Te Berria",
   "no_button": "Ez",
   "notification_channel_name": "Tenporizadorearen jakinarazpenak",
+  "notification_channel_ongoing": "Zuzeneko atzerako kontaketa",
   "notification_channel_silent": "Jakinarazpen isilak",
   "notification_text": "{{tea_name}} orain prest!",
   "notification_title": "Brewing osoa...",

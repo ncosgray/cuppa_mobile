@@ -26,6 +26,7 @@
   "new_tea_default_name": "نئی چائے",
   "no_button": "نہیں",
   "notification_channel_name": "ٹائمر اطلاعات",
+  "notification_channel_ongoing": "براہ راست الٹی گنتی",
   "notification_channel_silent": "خاموش اطلاعات",
   "notification_text": "{{tea_name}} اب تیار ہے!",
   "notification_title": "مکمل بریک...",

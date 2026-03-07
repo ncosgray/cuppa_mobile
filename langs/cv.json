@@ -26,6 +26,7 @@
   "new_tea_default_name": "Ҫӗнӗ чей",
   "no_button": "Ҫук",
   "notification_channel_name": "Таймер пӗлтерӳсем",
+  "notification_channel_ongoing": "Ӳнер хушамат",
   "notification_channel_silent": "Шӑп пӗлтерӳсем",
   "notification_text": "Халь {{tea_name}} хатӗр!",
   "notification_title": "Хатӗрлесе пӗтертӗмӗр …",

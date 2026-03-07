@@ -26,6 +26,7 @@
     "new_tea_default_name": "Novi čaj",
     "no_button": "Ne",
     "notification_channel_name": "Obvestila časovnika",
+    "notification_channel_ongoing": "Živo odštevanje",
     "notification_channel_silent": "Tiha obvestila",
     "notification_text": "{{tea_name}} je sedaj pripravljen!",
     "notification_title": "Kuhanje končano...",

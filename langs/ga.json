@@ -26,6 +26,7 @@
   "new_tea_default_name": "Tae nua",
   "no_button": "Níl",
   "notification_channel_name": "Fógraí ama",
+  "notification_channel_ongoing": "Comhaireamh síos beo",
   "notification_channel_silent": "Fógraí ciúin",
   "notification_text": "Tá {{tea_name}} réidh anois!",
   "notification_title": "Ullmhúchán críochnaithe…",

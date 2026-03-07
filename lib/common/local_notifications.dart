@@ -17,6 +17,7 @@ import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 
+import 'dart:async' show Completer;
 import 'dart:io' show Platform;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/foundation.dart';
@@ -53,6 +54,36 @@ final Int64List notifyVibratePattern = .fromList(
       notifyVibrateSubpattern,
 );
 
+// Request notification permissions
+Completer<void>? _permissionsCompleter;
+Future<void> requestNotifyPermissions() async {
+  if (_permissionsCompleter != null) {
+    return _permissionsCompleter!.future;
+  }
+  _permissionsCompleter = Completer<void>();
+  try {
+    if (Platform.isIOS) {
+      await notify
+          .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin
+          >()
+          ?.requestPermissions(alert: true, badge: true, sound: true);
+    } else {
+      await notify
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >()
+          ?.requestNotificationsPermission();
+    }
+    _permissionsCompleter!.complete();
+  } catch (e) {
+    _permissionsCompleter!.completeError(e);
+    rethrow;
+  } finally {
+    _permissionsCompleter = null;
+  }
+}
+
 // Send or update a brewing complete notification
 Future<void> sendNotification(
   int secs,
@@ -69,20 +100,7 @@ Future<void> sendNotification(
     tz.local,
   ).add(Duration(seconds: secs));
 
-  // Request notification permissions
-  if (Platform.isIOS) {
-    await notify
-        .resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin
-        >()
-        ?.requestPermissions(alert: true, badge: true, sound: true);
-  } else {
-    await notify
-        .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
-        ?.requestNotificationsPermission();
-  }
+  await requestNotifyPermissions();
 
   // Cancel existing notification if channel needs to be changed (Android only)
   if (Platform.isAndroid) {
@@ -154,10 +172,18 @@ Future<void> sendOngoingNotification(
 
   int ongoingID = notifyID == notifyID1 ? notifyOngoingID1 : notifyOngoingID2;
 
+  // Auto-dismiss the notification when the timer completes
+  int timeoutMs = timerEndTime - DateTime.now().millisecondsSinceEpoch;
+  if (timeoutMs <= 0) {
+    return;
+  }
+
+  await requestNotifyPermissions();
+
   NotificationDetails notifyDetails = .new(
     android: AndroidNotificationDetails(
       notifyOngoingChannel,
-      AppString.notification_channel_name.translate(),
+      AppString.notification_channel_ongoing.translate(),
       importance: .low,
       priority: .low,
       ongoing: true,
@@ -166,6 +192,7 @@ Future<void> sendOngoingNotification(
       usesChronometer: true,
       chronometerCountDown: true,
       when: timerEndTime,
+      timeoutAfter: timeoutMs,
       playSound: false,
       enableVibration: false,
       icon: notifyIcon,
