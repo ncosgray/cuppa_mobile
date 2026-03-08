@@ -1,0 +1,2 @@
+* Mevcut ekran alanı içinde çay düğmelerinin düzenini iyileştirin.
+* Dil çevirisi güncellemeleri - Weblate aracılığıyla katkıda bulunun!
