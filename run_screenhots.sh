@@ -101,7 +101,7 @@ SCREENSHOT_DIR="screenshots-output"
 ##
 DEVICE_ENTRIES=(
     "ios:iPad Air 13-inch (M3):{NUM}_APP_IPAD_PRO_3GEN_129_{NUM}.png"
-    "ios:iPhone 16 Plus:{NUM}_APP_IPHONE_16_PLUS_{NUM}.png"
+    "ios:iPhone 16 Plus:{NUM}_APP_IPHONE_67_{NUM}.png"
     "android:Pixel_9_API_36:phone{NUM}_{LOCALE}.png"
     "android:Pixel_C_Tablet_API_33:tablet{NUM}_{LOCALE}.png"
 )
