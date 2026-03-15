@@ -1,0 +1,2 @@
+* Izboljšaj razporeditev čajnih gumbov znotraj razpoložljivega prostora na zaslonu.
+* Posodobitve prevodov – prispevaj prek Weblate!
