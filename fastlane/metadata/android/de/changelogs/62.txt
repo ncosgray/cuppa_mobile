@@ -1,0 +1,2 @@
+* Verbesserung des Layouts der Tee-Schaltflächen innerhalb des verfügbaren Bildschirmbereichs.
+* Aktualisierungen der Sprachübersetzungen – tragen Sie über Weblate dazu bei!
