@@ -1,0 +1,4 @@
+* Optional ongoing countdown timer notification.
+* Long-press a tea to edit it right from the main screen.
+* Added Bulgarian translation - contribute via Weblate!
+* Various usability tweaks and small bug fixes.
