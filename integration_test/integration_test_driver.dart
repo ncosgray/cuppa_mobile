@@ -4,7 +4,7 @@
  Class:    integration_test_driver.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2026 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -17,7 +17,8 @@ import 'package:integration_test/integration_test_driver_extended.dart';
 
 Future<void> main() async {
   // Setup screenshots
-  String screenshotPath = 'screenshots-output';
+  String testLang = Platform.environment['TEST_LOCALE'] ?? 'en-US';
+  String screenshotPath = 'screenshots-output/$testLang/';
   String deviceName = (Platform.environment['DEVICE_NAME'] ?? '').replaceAll(
     RegExp(r'[^a-zA-Z0-9]'),
     '',

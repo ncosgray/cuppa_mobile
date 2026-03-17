@@ -4,7 +4,7 @@
  Class:    timer_page.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2026 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -13,6 +13,7 @@
 // Cuppa Timer page
 // - Build interface and interactivity
 
+import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/platform_adaptive.dart';
@@ -38,6 +39,7 @@ class TimerWidget extends StatelessWidget {
     bool layoutPortrait = getDeviceSize(context).isPortrait;
 
     return adaptiveScaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         left: false,
         top: true,
@@ -111,7 +113,24 @@ class TimerWidget extends StatelessWidget {
                   ),
                 ),
                 // Tea brew start buttons
-                const TeaButtonList(),
+                SafeArea(
+                  left: true,
+                  top: false,
+                  right: true,
+                  bottom: false,
+                  child: Selector<AppProvider, double>(
+                    selector: (_, provider) =>
+                        provider.buttonSize.scale +
+                        (provider.showExtraList.isEmpty ? .6 : .8),
+                    builder: (context, scale, child) => Container(
+                      constraints: BoxConstraints(
+                        minHeight:
+                            (teaButtonHeight + cancelButtonHeight) * scale,
+                      ),
+                      child: const TeaButtonList(),
+                    ),
+                  ),
+                ),
               ],
             ),
             // Floating button to navigate to Preferences page

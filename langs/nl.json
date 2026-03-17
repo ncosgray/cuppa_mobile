@@ -26,6 +26,7 @@
   "new_tea_default_name": "Nieuwe theesoort",
   "no_button": "Nee",
   "notification_channel_name": "Tijdklokmeldingen",
+  "notification_channel_ongoing": "Live aftelling",
   "notification_channel_silent": "Stille meldingen",
   "notification_text": "{{tea_name}} is getrokken!",
   "notification_title": "De thee is getrokken…",

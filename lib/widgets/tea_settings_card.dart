@@ -4,7 +4,7 @@
  Class:    tea_settings_card.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2026 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -37,15 +37,25 @@ import 'package:provider/provider.dart';
 
 // Widget defining a tea settings card
 class TeaSettingsCard extends StatelessWidget {
-  const TeaSettingsCard({super.key, required this.tea});
+  const TeaSettingsCard({
+    super.key,
+    required this.tea,
+    this.subDialogNotifier,
+    this.showDragHandle = true,
+    this.forcePortraitLayout = false,
+  });
 
   final Tea tea;
+  final ValueNotifier<bool>? subDialogNotifier;
+  final bool showDragHandle;
+  final bool forcePortraitLayout;
 
   // Build a tea settings card
   @override
   Widget build(BuildContext context) {
     // Determine layout based on device size
     bool layoutPortrait =
+        forcePortraitLayout ||
         getDeviceSize(context).isPortrait ||
         getDeviceSize(context).isLargeDevice;
 
@@ -175,7 +185,7 @@ class TeaSettingsCard extends StatelessWidget {
                 // Extra space for horizontal layout
                 SizedBox(width: layoutPortrait ? 0.0 : 24.0),
                 // Indicate reorderability
-                dragHandle,
+                if (showDragHandle) dragHandle,
               ],
             ),
           ),
@@ -254,6 +264,11 @@ class TeaSettingsCard extends StatelessWidget {
                 tea.timerNotifyID!,
                 silent: tea.isSilent,
               );
+              sendOngoingNotification(
+                tea.timerNotifyID!,
+                tea.name,
+                tea.timerEndTime,
+              );
             }
           }
         }),
@@ -266,7 +281,8 @@ class TeaSettingsCard extends StatelessWidget {
     BuildContext context,
     String currentTeaName,
   ) async {
-    return showAdaptiveDialog<String>(
+    subDialogNotifier?.value = true;
+    final result = await showAdaptiveDialog<String>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
@@ -286,6 +302,8 @@ class TeaSettingsCard extends StatelessWidget {
         );
       },
     );
+    subDialogNotifier?.value = false;
+    return result;
   }
 
   // Tea color selection
@@ -334,19 +352,23 @@ class TeaSettingsCard extends StatelessWidget {
     TeaColor currentTeaColor,
     Color? currentColorShade,
   ) async {
-    return showAdaptiveDialog<({TeaColor teaColor, Color? colorShade})>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return TeaColorDialog(
-          initialTeaColor: currentTeaColor,
-          initialColorShade: currentColorShade,
-          previewIcon: tea.teaIcon,
-          buttonTextCancel: AppString.cancel_button.translate(),
-          buttonTextOK: AppString.ok_button.translate(),
+    subDialogNotifier?.value = true;
+    final result =
+        await showAdaptiveDialog<({TeaColor teaColor, Color? colorShade})>(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext context) {
+            return TeaColorDialog(
+              initialTeaColor: currentTeaColor,
+              initialColorShade: currentColorShade,
+              previewIcon: tea.teaIcon,
+              buttonTextCancel: AppString.cancel_button.translate(),
+              buttonTextOK: AppString.ok_button.translate(),
+            );
+          },
         );
-      },
-    );
+    subDialogNotifier?.value = false;
+    return result;
   }
 
   // Tea brew time selection
@@ -389,7 +411,8 @@ class TeaSettingsCard extends StatelessWidget {
     int currentMinutes,
     int currentSeconds,
   ) async {
-    return showAdaptiveDialog<int>(
+    subDialogNotifier?.value = true;
+    final result = await showAdaptiveDialog<int>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
@@ -407,6 +430,8 @@ class TeaSettingsCard extends StatelessWidget {
         );
       },
     );
+    subDialogNotifier?.value = false;
+    return result;
   }
 
   // Tea brew temp selection
@@ -451,7 +476,8 @@ class TeaSettingsCard extends StatelessWidget {
     BuildContext context,
     int currentTemp,
   ) async {
-    return showAdaptiveDialog<int>(
+    subDialogNotifier?.value = true;
+    final result = await showAdaptiveDialog<int>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
@@ -470,6 +496,8 @@ class TeaSettingsCard extends StatelessWidget {
         );
       },
     );
+    subDialogNotifier?.value = false;
+    return result;
   }
 
   // Tea brew ratio selection
@@ -505,7 +533,8 @@ class TeaSettingsCard extends StatelessWidget {
     BuildContext context,
     BrewRatio currentRatio,
   ) async {
-    return showAdaptiveDialog<BrewRatio?>(
+    subDialogNotifier?.value = true;
+    final result = await showAdaptiveDialog<BrewRatio?>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
@@ -516,6 +545,8 @@ class TeaSettingsCard extends StatelessWidget {
         );
       },
     );
+    subDialogNotifier?.value = false;
+    return result;
   }
 
   // Tea icon selection
@@ -543,7 +574,8 @@ class TeaSettingsCard extends StatelessWidget {
 
   // Display a tea icon selection dialog box
   Future<bool?> _openIconDialog(BuildContext context, Tea tea) async {
-    return showAdaptiveDialog<bool>(
+    subDialogNotifier?.value = true;
+    final result = await showAdaptiveDialog<bool>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
@@ -574,6 +606,8 @@ class TeaSettingsCard extends StatelessWidget {
         );
       },
     );
+    subDialogNotifier?.value = false;
+    return result;
   }
 
   // Tea icon button

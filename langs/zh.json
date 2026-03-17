@@ -26,6 +26,7 @@
   "new_tea_default_name": "新茶",
   "no_button": "否",
   "notification_channel_name": "倒计时",
+  "notification_channel_ongoing": "实时倒计时",
   "notification_channel_silent": "静默通知",
   "notification_text": "{{tea_name}}泡好了！",
   "notification_title": "冲泡完毕...",

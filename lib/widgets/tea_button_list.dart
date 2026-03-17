@@ -4,7 +4,7 @@
  Class:    tea_button_list.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2026 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -28,9 +28,9 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea_timer.dart';
 import 'package:cuppa_mobile/data/tea.dart';
-import 'package:cuppa_mobile/widgets/cancel_button.dart';
 import 'package:cuppa_mobile/pages/prefs_page.dart';
 import 'package:cuppa_mobile/widgets/tea_button.dart';
+import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'dart:async';
@@ -51,6 +51,8 @@ class TeaButtonList extends StatefulWidget {
 class _TeaButtonListState extends State<TeaButtonList> {
   // State variables
   final ScrollController _scrollController = ScrollController();
+  final Map<int, GlobalKey> _buttonKeys = {};
+  BuildContext? _settingsDialogContext;
 
   // Timer button list state
   @override
@@ -79,6 +81,12 @@ class _TeaButtonListState extends State<TeaButtonList> {
       _checkNextTimer();
       ShortcutHandler.listen(_handleShortcut);
     });
+  }
+
+  @override
+  void dispose() {
+    _closeTeaSettings();
+    super.dispose();
   }
 
   // Build timer button list
@@ -147,10 +155,10 @@ class _TeaButtonListState extends State<TeaButtonList> {
                     physics: const BouncingScrollPhysics(),
                     child: Padding(
                       padding: buttonColumnPadding,
-                      child: SafeArea(
-                        left: false,
-                        top: false,
-                        right: false,
+                      child: Padding(
+                        padding: .only(
+                          bottom: MediaQuery.viewPaddingOf(context).bottom,
+                        ),
                         child: Column(children: [...teaButtonRows]),
                       ),
                     ),
@@ -188,7 +196,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
   }
 
   // Generate unique key for a tea button
-  Key _teaKey(Tea tea) => ValueKey('tea_${tea.id}_${tea.hashCode}');
+  Key _teaKey(Tea tea) => _buttonKeys.putIfAbsent(tea.id, () => GlobalKey());
 
   // Horizontally scrollable list of tea buttons
   Widget _teaButtonRow(List<Tea> teas, double buttonScale) {
@@ -200,84 +208,95 @@ class _TeaButtonListState extends State<TeaButtonList> {
       child: Padding(
         padding: buttonRowPadding,
         child: Row(
+          crossAxisAlignment: .start,
           children: [
-            ...teas.map<Widget>((Tea tea) => _teaButton(tea, buttonScale)),
+            ...teas.map<Widget>(
+              (Tea tea) => TeaButton(
+                key: _teaKey(tea),
+                tea: tea,
+                fade: !(activeTimerCount < timersMaxCount || tea.isActive),
+                scale: buttonScale,
+                onPressed: activeTimerCount < timersMaxCount && !tea.isActive
+                    ? () => _setTimer(tea)
+                    : null,
+                onLongPress: () => _openTeaSettings(tea),
+                onCancelPressed: () => _cancelTimerForTea(tea),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  // Tea button paired with cancel button
-  Widget _teaButton(Tea tea, double scale) {
-    return Column(
-      children: [
-        // Start brewing button
-        TeaButton(
-          key: _teaKey(tea),
-          tea: tea,
-          fade: !(activeTimerCount < timersMaxCount || tea.isActive),
-          scale: scale,
-          onPressed: activeTimerCount < timersMaxCount && !tea.isActive
-              ? () => _setTimer(tea)
-              : null,
-        ),
-        // Cancel brewing button
-        Container(
-          constraints: const BoxConstraints(minHeight: cancelButtonHeight),
-          child: Visibility(
-            visible: tea.isActive,
-            child: cancelButton(
-              color: Theme.of(context).colorScheme.error,
-              onPressed: () => _cancelTimerForTea(tea),
-            ),
+  // Add button linking to Prefs page
+  Widget _addButton() {
+    return Card(
+      clipBehavior: .antiAlias,
+      margin: largeDefaultPadding,
+      child: InkWell(
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => const PrefsWidget(launchAddTea: true),
           ),
         ),
-      ],
+        child: Container(
+          constraints: const BoxConstraints(
+            minHeight: teaButtonHeight,
+            minWidth: teaButtonWidth,
+          ),
+          margin: largeDefaultPadding,
+          child: Column(
+            mainAxisAlignment: .center,
+            children: [
+              Text(
+                AppString.add_tea_button.translate(),
+                style: textStyleButton.copyWith(
+                  color: Theme.of(context).colorScheme.error,
+                ),
+              ),
+              navigateIcon(color: Theme.of(context).colorScheme.error),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  // Add button linking to Prefs page
-  Widget _addButton() {
-    return Column(
-      children: [
-        // Add tea button
-        Card(
-          clipBehavior: .antiAlias,
-          margin: largeDefaultPadding,
-          child: InkWell(
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (_) => const PrefsWidget(launchAddTea: true),
-              ),
-            ),
-            child: Container(
-              constraints: const BoxConstraints(
-                minHeight: teaButtonHeight,
-                minWidth: teaButtonWidth,
-              ),
-              margin: largeDefaultPadding,
-              child: Column(
-                mainAxisAlignment: .center,
-                children: [
-                  Text(
-                    AppString.add_tea_button.translate(),
-                    style: textStyleButton.copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                  ),
-                  navigateIcon(color: Theme.of(context).colorScheme.error),
-                ],
-              ),
-            ),
-          ),
-        ),
-        // Placeholder to align with tea button layout
-        Container(
-          constraints: const BoxConstraints(minHeight: cancelButtonHeight),
-        ),
-      ],
+  // Open tea settings as a floating card above the button
+  void _openTeaSettings(Tea tea) {
+    _closeTeaSettings();
+
+    final key = _buttonKeys[tea.id];
+    if (key?.currentContext == null) return;
+
+    final RenderBox box = key!.currentContext!.findRenderObject() as RenderBox;
+    final Offset buttonTopCenter = box.localToGlobal(
+      Offset(box.size.width / 2, 0),
     );
+
+    showGeneralDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.transparent,
+      transitionDuration: .zero,
+      pageBuilder: (dialogContext, _, _) {
+        _settingsDialogContext = dialogContext;
+        return _TeaSettingsFloatingCard(
+          tea: tea,
+          buttonTopCenter: buttonTopCenter,
+          onClose: _closeTeaSettings,
+        );
+      },
+    ).whenComplete(() => _settingsDialogContext = null);
+  }
+
+  void _closeTeaSettings() {
+    final dialogContext = _settingsDialogContext;
+    _settingsDialogContext = null;
+    if (dialogContext != null && dialogContext.mounted) {
+      Navigator.of(dialogContext).pop();
+    }
   }
 
   // Ticker handler for a TeaTimer
@@ -294,6 +313,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
         } else {
           // Brewing complete
           if (timer.tea != null) {
+            cancelOngoingNotification(timer.notifyID);
             Provider.of<AppProvider>(
               context,
               listen: false,
@@ -322,6 +342,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
         timer.notifyID,
         silent: provider.silentDefault,
       );
+      sendOngoingNotification(timer.notifyID, tea.name, tea.timerEndTime);
 
       // Update timer stats, if enabled
       if (provider.collectStats) {
@@ -341,10 +362,9 @@ class _TeaButtonListState extends State<TeaButtonList> {
       Navigator.of(context).popUntil((route) => route.isFirst);
 
       // Scroll to the tea button after the next frame
-      final teaKey = _teaKey(tea);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
-        final BuildContext? target = findWidgetWithKey(context, teaKey);
+        final BuildContext? target = _buttonKeys[tea.id]?.currentContext;
         if (target != null) {
           Scrollable.ensureVisible(target);
         }
@@ -358,7 +378,8 @@ class _TeaButtonListState extends State<TeaButtonList> {
   // Cancel a timer
   Future<void> _cancelTimer(TeaTimer timer) async {
     timer.reset();
-    await notify.cancel(timer.notifyID);
+    await notify.cancel(id: timer.notifyID);
+    await cancelOngoingNotification(timer.notifyID);
   }
 
   // Cancel timer for a given tea
@@ -387,6 +408,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
       if (tea.brewTimeRemaining > 0) {
         // Resume timer from stored prefs
         _setTimer(tea, resume: true, autoScroll: true);
+        sendOngoingNotification(tea.timerNotifyID!, tea.name, tea.timerEndTime);
       } else {
         provider.deactivateTea(tea);
       }
@@ -424,5 +446,175 @@ class _TeaButtonListState extends State<TeaButtonList> {
         }
       }
     }
+  }
+}
+
+// Floating overlay that shows a tea settings card
+class _TeaSettingsFloatingCard extends StatefulWidget {
+  const _TeaSettingsFloatingCard({
+    required this.tea,
+    required this.buttonTopCenter,
+    required this.onClose,
+  });
+
+  final Tea tea;
+  final Offset buttonTopCenter;
+  final VoidCallback onClose;
+
+  @override
+  State<_TeaSettingsFloatingCard> createState() =>
+      _TeaSettingsFloatingCardState();
+}
+
+class _TeaSettingsFloatingCardState extends State<_TeaSettingsFloatingCard> {
+  final ValueNotifier<bool> _subDialogOpen = ValueNotifier(false);
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        // Tap-to-dismiss barrier (disabled while a sub-dialog is open)
+        Positioned.fill(
+          child: ValueListenableBuilder<bool>(
+            valueListenable: _subDialogOpen,
+            builder: (context, isSubDialogOpen, child) =>
+                IgnorePointer(ignoring: isSubDialogOpen, child: child),
+            child: GestureDetector(
+              behavior: .opaque,
+              onTap: widget.onClose,
+            ),
+          ),
+        ),
+        // Floating settings card centered horizontally above the button
+        CustomSingleChildLayout(
+          delegate: _FloatingCardLayout(
+            buttonTopCenter: widget.buttonTopCenter,
+            safeAreaInsets: MediaQuery.of(context).padding,
+          ),
+          child: Stack(
+            clipBehavior: .none,
+            children: [
+              // Card with drop shadow, dimmed while a sub-dialog is open
+              ValueListenableBuilder<bool>(
+                valueListenable: _subDialogOpen,
+                builder: (context, isSubDialogOpen, child) {
+                  return AbsorbPointer(
+                    absorbing: isSubDialogOpen,
+                    child: child,
+                  );
+                },
+                child: DecoratedBox(
+                  decoration: const BoxDecoration(
+                    borderRadius: .all(Radius.circular(12)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 12,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Consumer<AppProvider>(
+                    builder: (context, provider, _) {
+                      final editTea = provider.teaList.firstWhere(
+                        (t) => t.id == widget.tea.id,
+                        orElse: () => widget.tea,
+                      );
+                      return MediaQuery.removePadding(
+                        context: context,
+                        removeLeft: true,
+                        removeRight: true,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: 380),
+                          child: TeaSettingsCard(
+                            tea: editTea,
+                            showDragHandle: false,
+                            subDialogNotifier: _subDialogOpen,
+                            forcePortraitLayout: true,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              // Close button at top-right corner of card
+              Positioned(
+                top: -5,
+                right: 0,
+                child: GestureDetector(
+                  onTap: widget.onClose,
+                  child: Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      shape: .circle,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 4,
+                          offset: Offset(0, 1),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.close,
+                        size: 14,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// Layout delegate to position settings card centered above tea button
+class _FloatingCardLayout extends SingleChildLayoutDelegate {
+  const _FloatingCardLayout({
+    required this.buttonTopCenter,
+    required this.safeAreaInsets,
+  });
+
+  final Offset buttonTopCenter;
+  final EdgeInsets safeAreaInsets;
+
+  @override
+  BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
+    return constraints.loosen();
+  }
+
+  @override
+  Offset getPositionForChild(Size size, Size childSize) {
+    // Center card horizontally over the button, clamped within safe area insets
+    double left = buttonTopCenter.dx - childSize.width / 2;
+    left = left.clamp(
+      safeAreaInsets.left,
+      max(
+        safeAreaInsets.left,
+        size.width - childSize.width - safeAreaInsets.right,
+      ),
+    );
+    // Position bottom of card at top of button
+    double top = buttonTopCenter.dy - childSize.height;
+    return Offset(left, top);
+  }
+
+  @override
+  bool shouldRelayout(_FloatingCardLayout oldDelegate) {
+    return oldDelegate.buttonTopCenter != buttonTopCenter ||
+        oldDelegate.safeAreaInsets != safeAreaInsets;
   }
 }

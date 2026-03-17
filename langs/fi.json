@@ -26,6 +26,7 @@
   "new_tea_default_name": "Uusi tee",
   "no_button": "Ei",
   "notification_channel_name": "Ajastimen ilmoitukset",
+  "notification_channel_ongoing": "Reaaliaikainen ajastin",
   "notification_channel_silent": "Hiljaiset ilmoitukset",
   "notification_text": "{{tea_name}} on nyt valmis!",
   "notification_title": "Haudutus valmiina...",

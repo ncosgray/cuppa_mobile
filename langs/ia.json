@@ -26,6 +26,7 @@
     "new_tea_default_name": "Nove the",
     "no_button": "Non",
     "notification_channel_name": "Notificationes del temporisator",
+    "notification_channel_ongoing": "Conto a retro in directo",
     "notification_channel_silent": "Notificationes silentiose",
     "notification_text": "{{tea_name}} ora es preste!",
     "notification_title": "Preparation completate...",

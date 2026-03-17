@@ -26,6 +26,7 @@
     "new_tea_default_name": "Yeni Çay",
     "no_button": "Hayır",
     "notification_channel_name": "Zamanlayıcı bildirimleri",
+    "notification_channel_ongoing": "Canlı geri sayım",
     "notification_channel_silent": "Sessiz bildirimler",
     "notification_text": "{{tea_name}} hazır!",
     "notification_title": "Demleme tamamlandı...",

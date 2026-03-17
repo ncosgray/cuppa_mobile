@@ -13,7 +13,7 @@ To make the app so quick and easy that you'll actually use it, we have built it 
 
 Once you tap, Cuppa will begin timing the brew and you'll see a teabag appear in the cup and gradually darken as the tea steeps. A countdown timer shows the steep time remaining. You can have up to two separate teas brewing at once, each with its own countdown timer. When the tea is done Cuppa will let you know with a notification -- depending on your device settings, this may be accompanied by a sound and/or vibration.
 
-<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/5_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/6_en-US.png" width="200"/>
+<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/phone0_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/phone1_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/phone2_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/phone3_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/phone4_en-US.png" width="200"/>|<img src="https://github.com/ncosgray/cuppa_mobile/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/phone5_en-US.png" width="200"/>
 -|-|-|-|-|-
 
 ### Install
@@ -52,7 +52,7 @@ Buy us a cup of tea to support active development of Cuppa.
 
 <a href="https://paypal.me/ncosgray"><img src="https://www.nathanatos.com/images/paypal-badge.png" alt="Donate with PayPal" width="185" height="50"/></a><br/>
 <a href="https://venmo.com/nathancosgray"><img src="https://www.nathanatos.com/images/venmo-badge.png" alt="Donate with Venmo" width="185" height="50"/></a><br/>
-<img src="https://www.nathanatos.com/images/ethereum-logo.png" alt="Ethereum Logo" width="15" height="25"/> <a href="ethereum:0xc5be97ea75ad15854ed09529139e672fae2f63c0">Ethereum: 0xc5be97ea75ad15854ed09529139e672fae2f63c0</a><br/>
+<img src="https://www.nathanatos.com/images/ethereum-logo.png" alt="Ethereum Logo" width="15" height="25"/> <a href="ethereum:0xc5be97ea75ad15854ed09529139e672fae2f63c0">Ethereum: `0xc5be97ea75ad15854ed09529139e672fae2f63c0`</a><br/>
 
 ### About
 

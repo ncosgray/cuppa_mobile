@@ -26,6 +26,7 @@
   "new_tea_default_name": "Nuevo té",
   "no_button": "No",
   "notification_channel_name": "Notificaciones de temporizador",
+  "notification_channel_ongoing": "Cuenta regresiva en vivo",
   "notification_channel_silent": "Notificaciones silenciosas",
   "notification_text": "¡{{tea_name}} está listo!",
   "notification_title": "Preparación completa...",

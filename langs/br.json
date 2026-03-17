@@ -26,6 +26,7 @@
   "new_tea_default_name": "Evaj nevez",
   "no_button": "Ket",
   "notification_channel_name": "Kemennadoù an eur",
+  "notification_channel_ongoing": "Kont war-gil war-eeun",
   "notification_channel_silent": "Kemennadennoù didrouz",
   "notification_text": "Ho {{tea_name}} 'zo prest bremañ !",
   "notification_title": "Glec'hiadur echuet...",

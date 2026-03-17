@@ -26,6 +26,7 @@
   "new_tea_default_name": "Néien Téi",
   "no_button": "Nee",
   "notification_channel_name": "Timer-Matdeelungen",
+  "notification_channel_ongoing": "Live-Countdown",
   "notification_channel_silent": "Stille Notifikatiounen",
   "notification_text": "{{tea_name}} ass elo prett!",
   "notification_title": "Bréizäit eriwwer...",

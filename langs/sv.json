@@ -26,6 +26,7 @@
   "new_tea_default_name": "Nytt Te",
   "no_button": "Nej",
   "notification_channel_name": "Timeraviseringar",
+  "notification_channel_ongoing": "Live nedräkning",
   "notification_channel_silent": "Tysta aviseringar",
   "notification_text": "{{tea_name}} är nu färdigt!",
   "notification_title": "Bryggning komplett...",

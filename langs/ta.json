@@ -26,6 +26,7 @@
   "new_tea_default_name": "புதிய தேநீர்",
   "no_button": "இல்லை",
   "notification_channel_name": "நேரங்குறிகருவி அறிவிப்புகள்",
+  "notification_channel_ongoing": "நேரடி கவுண்ட்டவுன்",
   "notification_channel_silent": "அமைதியான அறிவிப்புகள்",
   "notification_text": "{{tea_name}} இப்போது தயாராக உள்ளது!",
   "notification_title": "காய்ச்சுதல் முழுமையானது ...",

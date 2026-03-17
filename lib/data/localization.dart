@@ -4,7 +4,7 @@
  Class:    localization.dart
  Author:   Nathan Cosgray | https://www.nathanatos.com
  -------------------------------------------------------------------------------
- Copyright (c) 2017-2025 Nathan Cosgray. All rights reserved.
+ Copyright (c) 2017-2026 Nathan Cosgray. All rights reserved.
 
  This source code is licensed under the BSD-style license found in LICENSE.txt.
  *******************************************************************************
@@ -34,6 +34,7 @@ const Locale defaultLocale = .fromSubtags(
 // Supported locales
 const List<Locale> supportedLocales = [
   .fromSubtags(languageCode: 'az'),
+  .fromSubtags(languageCode: 'bg'),
   .fromSubtags(languageCode: 'br'),
   .fromSubtags(languageCode: 'cs'),
   .fromSubtags(languageCode: 'cv'),
@@ -108,6 +109,7 @@ enum AppString {
   new_tea_default_name('new_tea_default_name'),
   no_button('no_button'),
   notification_channel_name('notification_channel_name'),
+  notification_channel_ongoing('notification_channel_ongoing'),
   notification_channel_silent('notification_channel_silent'),
   notification_text('notification_text'),
   notification_title('notification_title'),

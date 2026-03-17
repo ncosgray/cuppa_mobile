@@ -26,6 +26,7 @@
   "new_tea_default_name": "Nouvo te",
   "no_button": "Non",
   "notification_channel_name": "Notifikasyon revèy",
+  "notification_channel_ongoing": "Kont a rebou an dirèk",
   "notification_channel_silent": "Notifikasyon an silans",
   "notification_text": "{{tea_name}} pare kounye a!",
   "notification_title": "Preparasyon fini…",

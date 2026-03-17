@@ -26,6 +26,7 @@
   "new_tea_default_name": "新茶",
   "no_button": "沒有",
   "notification_channel_name": "計時器通知",
+  "notification_channel_ongoing": "即時倒數",
   "notification_channel_silent": "靜音通知",
   "notification_text": "{{tea_name}} 現在已準備就緒！",
   "notification_title": "釀造完成...",

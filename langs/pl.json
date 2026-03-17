@@ -26,6 +26,7 @@
   "new_tea_default_name": "Nowa herbata",
   "no_button": "Nie",
   "notification_channel_name": "Powiadomienia minutnika",
+  "notification_channel_ongoing": "Odliczanie na żywo",
   "notification_channel_silent": "Ciche powiadomienia",
   "notification_text": "{{tea_name}} jest gotowa!",
   "notification_title": "Zaparzanie ukończone...",
