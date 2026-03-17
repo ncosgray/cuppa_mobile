@@ -1,0 +1,4 @@
+* Optionale Benachrichtigung über den laufenden Countdown-Timer.
+* Drücken Sie lange auf einen Tee, um ihn direkt vom Hauptbildschirm aus zu bearbeiten.
+* Bulgarische Übersetzung hinzugefügt – Beitrag über Weblate!
+* Verschiedene Verbesserungen der Benutzerfreundlichkeit und kleine Fehlerbehebungen.
