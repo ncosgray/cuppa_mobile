@@ -1,0 +1,4 @@
+* Fógra roghnach maidir le lasc ama comhairimh síos leanúnach.
+* Brúigh tae le fada chun é a chur in eagar díreach ón bpríomhscáileán.
+* Aistriúchán Bulgáirise curtha leis - cuir leis trí Weblate!
+* Feabhsuithe éagsúla ar inúsáidteacht agus ceartúcháin bheaga ar fhabhtanna.
