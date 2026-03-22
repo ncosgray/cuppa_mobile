@@ -320,6 +320,11 @@ class _TeaButtonListState extends State<TeaButtonList> {
             ).deactivateTea(timer.tea!);
           }
           timer.stop();
+
+          // Update or end Live Activity
+          liveActivityService.startOrUpdate(
+            Provider.of<AppProvider>(context, listen: false).activeTeas,
+          );
         }
       }
     };
@@ -356,6 +361,11 @@ class _TeaButtonListState extends State<TeaButtonList> {
     // Set up timer state
     timer.start(tea, _handleTick(timer));
 
+    // Update Live Activity
+    liveActivityService.startOrUpdate(
+      Provider.of<AppProvider>(context, listen: false).activeTeas,
+    );
+
     if (autoScroll) {
       // Ensure we are on the home screen (timer page)
       if (!mounted) return;
@@ -377,9 +387,22 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
   // Cancel a timer
   Future<void> _cancelTimer(TeaTimer timer) async {
+    // Capture active teas before async gap
+    final activeTeas = Provider.of<AppProvider>(
+      context,
+      listen: false,
+    ).activeTeas;
+
     timer.reset();
     await notify.cancel(id: timer.notifyID);
     await cancelOngoingNotification(timer.notifyID);
+
+    // Update or end Live Activity
+    if (activeTeas.length <= 1) {
+      await liveActivityService.end();
+    } else {
+      await liveActivityService.startOrUpdate(activeTeas);
+    }
   }
 
   // Cancel timer for a given tea

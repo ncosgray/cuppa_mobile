@@ -15,6 +15,7 @@
 // - Store current app settings
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/shortcut_handler.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -127,6 +128,15 @@ class AppProvider extends ChangeNotifier {
         _teaList[teaIndex].isSilent = isSilent;
       }
       saveTeas();
+
+      // Update Live Activity if this tea is actively timing
+      if (_teaList[teaIndex].isActive &&
+          (name != null ||
+              color != null ||
+              colorShade != null ||
+              icon != null)) {
+        liveActivityService.startOrUpdate(activeTeas);
+      }
     }
   }
 

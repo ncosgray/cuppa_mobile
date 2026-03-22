@@ -8,6 +8,7 @@ cd "$SCRIPT_DIR"
 flutter pub remove --offline patrol
 flutter pub remove --offline integration_test
 flutter pub remove --offline in_app_review
+flutter pub remove --offline live_activities
 flutter build apk --target lib/main_fdroid.dart
 
 # Clean up

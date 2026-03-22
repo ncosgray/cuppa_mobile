@@ -13,6 +13,7 @@
 // Cuppa globals
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/live_activity_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -35,6 +36,9 @@ PackageInfo packageInfo = PackageInfo(
   version: unknownString,
   buildNumber: unknownString,
 );
+
+// Live Activity service
+final liveActivityService = LiveActivityService();
 
 // App store review prompt
 Function checkReviewPrompt = () {};
