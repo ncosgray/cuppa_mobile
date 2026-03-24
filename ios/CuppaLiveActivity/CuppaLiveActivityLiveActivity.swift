@@ -71,15 +71,11 @@ struct CuppaLiveActivityLiveActivity: Widget {
                 // Compact pill: leading side shows countdown for timer 1 (if 2 timers)
                 // or the tea icon (if 1 timer)
                 if timerCount(context: context) >= 2 {
-                    Text(
-                        timerInterval: Date()...endDate(context: context, index: 1),
-                        countsDown: true
-                    )
-                    .monospacedDigit()
-                    .font(.caption)
-                    .fontWeight(.bold)
-                    .foregroundColor(teaColor(context: context, index: 1))
-                    .frame(width: 50)
+                    countdownText(end: endDate(context: context, index: 1))
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(teaColor(context: context, index: 1))
+                        .frame(width: 50)
                 } else {
                     teaIconImage(context: context, index: 1)
                         .frame(width: 20, height: 20)
@@ -88,26 +84,18 @@ struct CuppaLiveActivityLiveActivity: Widget {
                 // Compact pill: trailing side shows countdown for timer 2 (if 2 timers)
                 // or the countdown for timer 1 (if 1 timer)
                 if timerCount(context: context) >= 2 {
-                    Text(
-                        timerInterval: Date()...endDate(context: context, index: 2),
-                        countsDown: true
-                    )
-                    .monospacedDigit()
-                    .font(.caption)
-                    .fontWeight(.bold)
-                    .foregroundColor(teaColor(context: context, index: 2))
-                    .frame(width: 50, alignment: .trailing)
-                    .multilineTextAlignment(.trailing)
+                    countdownText(end: endDate(context: context, index: 2))
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(teaColor(context: context, index: 2))
+                        .frame(width: 50, alignment: .trailing)
+                        .multilineTextAlignment(.trailing)
                 } else {
-                    Text(
-                        timerInterval: Date()...endDate(context: context, index: 1),
-                        countsDown: true
-                    )
-                    .monospacedDigit()
-                    .fontWeight(.bold)
-                    .foregroundColor(teaColor(context: context, index: 1))
-                    .frame(width: 50, alignment: .trailing)
-                    .multilineTextAlignment(.trailing)
+                    countdownText(end: endDate(context: context, index: 1))
+                        .fontWeight(.bold)
+                        .foregroundColor(teaColor(context: context, index: 1))
+                        .frame(width: 50, alignment: .trailing)
+                        .multilineTextAlignment(.trailing)
                 }
             } minimal: {
                 // Minimal view: shown when multiple Live Activities compete for space
@@ -122,13 +110,15 @@ struct CuppaLiveActivityLiveActivity: Widget {
 
 /// Lock screen and notification banner view for the Live Activity.
 /// Adapts layout based on the number of active timers:
-/// - 1 timer: icon on the left, tea name and countdown on the right.
+/// - 1 timer: icon and tea name on the left, countdown on the right.
 /// - 2 timers: side-by-side layout with a divider, second timer mirrored.
 struct LockScreenView: View {
     let context: ActivityViewContext<LiveActivitiesAppAttributes>
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         let count = timerCount(context: context)
+        let tintColor = colorScheme == .dark ? Color.black.opacity(0.05) : Color.white.opacity(0.05)
 
         if count >= 2 {
             // Two-timer layout: timers side by side with a vertical divider
@@ -139,33 +129,27 @@ struct LockScreenView: View {
                 timerRow(context: context, index: 2, mirrorLayout: true)
             }
             .padding(16)
-            .activityBackgroundTint(.black.opacity(0.7))
+            .activityBackgroundTint(tintColor)
         } else {
-            // Single-timer layout: icon left, name and countdown right
+            // Single-timer layout: icon and name left, countdown right
             HStack {
                 teaIconImage(context: context, index: 1)
                     .frame(width: 36, height: 36)
-                Spacer(minLength: 0)
-                VStack(alignment: .trailing, spacing: 2) {
-                    Text(teaName(context: context, index: 1))
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .foregroundColor(teaColor(context: context, index: 1))
-                        .lineLimit(1)
-                    Text(
-                        timerInterval: Date()...endDate(context: context, index: 1),
-                        countsDown: true
-                    )
-                    .font(.title2)
+                Text(teaName(context: context, index: 1))
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(teaColor(context: context, index: 1))
+                    .lineLimit(1)
+                    .layoutPriority(1)
+                Spacer(minLength: 8)
+                countdownText(end: endDate(context: context, index: 1))
+                    .font(.title3)
                     .fontWeight(.bold)
-                    .monospacedDigit()
                     .foregroundColor(teaColor(context: context, index: 1))
                     .multilineTextAlignment(.trailing)
-                }
-                .layoutPriority(1)
             }
             .padding(16)
-            .activityBackgroundTint(.black.opacity(0.7))
+            .activityBackgroundTint(tintColor)
         }
     }
 }
@@ -193,15 +177,11 @@ func timerRow(context: ActivityViewContext<LiveActivitiesAppAttributes>, index: 
                 .fontWeight(.semibold)
                 .foregroundColor(color)
                 .lineLimit(1)
-            Text(
-                timerInterval: Date()...end,
-                countsDown: true
-            )
-            .font(.title2)
-            .fontWeight(.bold)
-            .monospacedDigit()
-            .multilineTextAlignment(mirrorLayout ? .trailing : .leading)
-            .foregroundColor(color)
+            countdownText(end: end)
+                .font(.title2)
+                .fontWeight(.bold)
+                .multilineTextAlignment(mirrorLayout ? .trailing : .leading)
+                .foregroundColor(color)
         }
         if mirrorLayout {
             teaIconImage(context: context, index: index)
@@ -223,14 +203,10 @@ func timerColumn(context: ActivityViewContext<LiveActivitiesAppAttributes>, inde
             .font(.caption2)
             .foregroundColor(color)
             .lineLimit(1)
-        Text(
-            timerInterval: Date()...end,
-            countsDown: true
-        )
-        .font(.body)
-        .fontWeight(.bold)
-        .monospacedDigit()
-        .foregroundColor(color)
+        countdownText(end: end)
+            .font(.body)
+            .fontWeight(.bold)
+            .foregroundColor(color)
     }
     .frame(maxWidth: .infinity)
 }
@@ -277,6 +253,19 @@ func teaIconName(context: ActivityViewContext<LiveActivitiesAppAttributes>, inde
     case 1: return "TeaIconCup"
     case 2: return "TeaIconFlower"
     default: return "TeaIconTimer"
+    }
+}
+
+/// Build a countdown text view that uses the relative date style (e.g. "2 hr.")
+/// for timers with 1+ hour remaining, or the standard ticking countdown (m:ss)
+/// for shorter timers.
+@ViewBuilder
+func countdownText(end: Date) -> some View {
+    if end.timeIntervalSinceNow >= 3600 {
+        Text(end, style: .relative)
+    } else {
+        Text(timerInterval: Date()...end, countsDown: true)
+            .monospacedDigit()
     }
 }
 
