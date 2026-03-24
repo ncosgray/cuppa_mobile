@@ -1,0 +1,4 @@
+* İsteğe bağlı sürekli geri sayım sayacı bildirimi.
+* Ana ekrandan bir çayı uzun basarak doğrudan düzenleyin.
+* Bulgarca çeviri eklendi – Weblate aracılığıyla katkıda bulunun!
+* Çeşitli kullanılabilirlik iyileştirmeleri ve küçük hata düzeltmeleri.
