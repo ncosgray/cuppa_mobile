@@ -1,0 +1,5 @@
+* Sort your tea list by a variety of criteria with just a couple of taps.
+* Added a new option to arrange your tea timer buttons vertically.
+* More granular temperature options are available using the slider.
+* Various usability and interface tweaks.
+* Language translation updates - contribute via Weblate!
