@@ -308,7 +308,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
           timer.decrement();
           if (timer.timerSeconds != timerSeconds) {
             // Only update UI if the timer countdown changed
-            Provider.of<AppProvider>(context, listen: false).notify();
+            Provider.of<AppProvider>(context, listen: false).notifyTimerTick();
           }
         } else {
           // Brewing complete
@@ -507,10 +507,7 @@ class _TeaSettingsFloatingCardState extends State<_TeaSettingsFloatingCard> {
             valueListenable: _subDialogOpen,
             builder: (context, isSubDialogOpen, child) =>
                 IgnorePointer(ignoring: isSubDialogOpen, child: child),
-            child: GestureDetector(
-              behavior: .opaque,
-              onTap: widget.onClose,
-            ),
+            child: GestureDetector(behavior: .opaque, onTap: widget.onClose),
           ),
         ),
         // Floating settings card centered horizontally above the button

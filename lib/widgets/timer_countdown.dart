@@ -47,8 +47,9 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
     bool layoutPortrait = getDeviceSize(context).isPortrait;
 
     // Countdown timer display adjusted for orientation
-    return Consumer<AppProvider>(
-      builder: (context, provider, child) {
+    return Selector<AppProvider, int>(
+      selector: (_, provider) => provider.timerTick,
+      builder: (context, _, child) {
         // Delay before hiding increments buttons
         if (_hideTimerAdjustmentsDelay > 0) {
           _hideTimerAdjustmentsDelay--;
@@ -260,10 +261,7 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
               );
               // Update Live Activity with adjusted end time
               liveActivityService.startOrUpdate(
-                Provider.of<AppProvider>(
-                  context,
-                  listen: false,
-                ).activeTeas,
+                Provider.of<AppProvider>(context, listen: false).activeTeas,
               );
             }
           }

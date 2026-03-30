@@ -30,8 +30,9 @@ Widget teacup() {
         // Teacup image
         cupStyle.image,
         // Animate while timing
-        Consumer<AppProvider>(
-          builder: (context, provider, child) => Visibility(
+        Selector<AppProvider, int>(
+          selector: (_, provider) => provider.timerTick,
+          builder: (context, _, child) => Visibility(
             visible: activeTimerCount > 0,
             child: Stack(
               children: [
