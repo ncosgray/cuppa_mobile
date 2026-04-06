@@ -1,0 +1,4 @@
+* Neobvezno stalno obvestilo o odštevalniku.
+* Dolgo pritisni na čaj, da ga urediš neposredno z glavnega zaslona.
+* Dodan bolgarski prevod – prispevaj prek Weblate!
+* Različne izboljšave uporabnosti in manjši popravki napak.
