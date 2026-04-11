@@ -1,0 +1,2 @@
+* Reorganized the Settings page.
+* Various usability tweaks and small bug fixes.

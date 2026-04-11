@@ -1,0 +1,5 @@
+* Improved support for regional settings.
+* Easier Settings navigation on smaller screens.
+* Various usability tweaks and small bug fixes.
+* Added British English, Chuvash, and Interlingua, plus other translation updates - contribute via Weblate!
+* New F-Droid build flavor to remove unwanted dependencies.
