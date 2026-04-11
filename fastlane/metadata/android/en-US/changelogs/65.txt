@@ -1,0 +1,2 @@
+* Fixed a bug with resuming timers in certain scenarios.
+* Language translation updates - contribute via Weblate!
