@@ -19,12 +19,12 @@ version: 2.11.0+64
 
 environment:
   sdk: '>=3.10.0 <4.0.0'
-  flutter: ^3.41.4
+  flutter: ^3.41.6
 
 dependencies:
   app_settings: ^7.0.0
   collection: ^1.19.1
-  cupertino_icons: ^1.0.8
+  cupertino_icons: ^1.0.9
   dynamic_color: ^1.8.1
   file_picker: ^10.3.10
   fl_chart: ^1.2.0
@@ -38,14 +38,14 @@ dependencies:
   in_app_review: ^2.0.11
   intelligence: ^0.2.0
   live_activities: ^2.4.7
-  package_info_plus: ^9.0.0
+  package_info_plus: ^9.0.1
   path: ^1.9.1
   path_provider: ^2.1.5
   provider: ^6.1.5+1
   quick_actions: ^1.1.0
   region_settings: ^1.5.0
-  share_plus: ^12.0.1
-  shared_preferences: ^2.5.4
+  share_plus: ^12.0.2
+  shared_preferences: ^2.5.5
   showcaseview: ^5.0.1
   sliver_tools: ^0.2.12
   sqflite: ^2.4.2
@@ -64,7 +64,7 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  patrol: ^4.3.0
+  patrol: ^4.5.0
 
 patrol:
   app_name: Cuppa
