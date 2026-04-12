@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
+		324E0F8A2F780E942065083F /* Pods_CuppaLiveActivityExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96BB1D427479B603423B33D3 /* Pods_CuppaLiveActivityExtension.framework */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		5B49541DAFF55AC0C2A0D346 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCBE280E542ED7CC75D24D9C /* Pods_Runner.framework */; };
 		707F68307FDBF1DE219B208C /* Pods_Runner_RunnerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8E20614537BE47B4BEF18E6 /* Pods_Runner_RunnerUITests.framework */; };
@@ -22,6 +23,9 @@
 		FEA49BF72BDED66B00853D36 /* RunnerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA49BF62BDED66B00853D36 /* RunnerUITests.m */; };
 		FED7FF5A2CED918B00D6D252 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FED7FF582CED918A00D6D252 /* Localizable.strings */; };
 		FED7FF5D2CED91A100D6D252 /* AppShortcuts.strings in Resources */ = {isa = PBXBuildFile; fileRef = FED7FF5B2CED91A100D6D252 /* AppShortcuts.strings */; };
+		FEE6CD612F6FC0DC000C6AEA /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEE6CD602F6FC0DC000C6AEA /* WidgetKit.framework */; };
+		FEE6CD632F6FC0DC000C6AEA /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEE6CD622F6FC0DC000C6AEA /* SwiftUI.framework */; };
+		FEE6CD702F6FC0DE000C6AEA /* CuppaLiveActivityExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = FEE6CD5F2F6FC0DC000C6AEA /* CuppaLiveActivityExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FEFBBCF92B40CF1C0066DD9E /* sound in Resources */ = {isa = PBXBuildFile; fileRef = FEFBBCF82B40CF1C0066DD9E /* sound */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +36,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 97C146ED1CF9000F007C117D;
 			remoteInfo = Runner;
+		};
+		FEE6CD6E2F6FC0DE000C6AEA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FEE6CD5E2F6FC0DC000C6AEA;
+			remoteInfo = CuppaLiveActivityExtension;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -46,6 +57,17 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FEE6CD712F6FC0DE000C6AEA /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				FEE6CD702F6FC0DE000C6AEA /* CuppaLiveActivityExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -56,16 +78,20 @@
 		4759EEA3CA5C4F9AD5398B8E /* Pods-Runner-RunnerUITests.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner-RunnerUITests.profile.xcconfig"; path = "Target Support Files/Pods-Runner-RunnerUITests/Pods-Runner-RunnerUITests.profile.xcconfig"; sourceTree = "<group>"; };
 		4961930BB5F224565FEFF2B7 /* Pods-Runner-RunnerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner-RunnerUITests.debug.xcconfig"; path = "Target Support Files/Pods-Runner-RunnerUITests/Pods-Runner-RunnerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		4DEFA96A1F779487E013FE17 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
+		5DB4F3C06EE767E308A889DF /* Pods-CuppaLiveActivityExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CuppaLiveActivityExtension.debug.xcconfig"; path = "Target Support Files/Pods-CuppaLiveActivityExtension/Pods-CuppaLiveActivityExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78E0A7A72DC9AD7400C4905E /* FlutterGeneratedPluginSwiftPackage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FlutterGeneratedPluginSwiftPackage; path = Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
 		90895C272CDCDCCF3EDA47A3 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
+		96BB1D427479B603423B33D3 /* Pods_CuppaLiveActivityExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CuppaLiveActivityExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A26AFAFC867EF0D4D3BB7C1C /* Pods-CuppaLiveActivityExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CuppaLiveActivityExtension.release.xcconfig"; path = "Target Support Files/Pods-CuppaLiveActivityExtension/Pods-CuppaLiveActivityExtension.release.xcconfig"; sourceTree = "<group>"; };
+		A5CF1D19ED7CDBCE90F55124 /* Pods-CuppaLiveActivityExtension.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CuppaLiveActivityExtension.profile.xcconfig"; path = "Target Support Files/Pods-CuppaLiveActivityExtension/Pods-CuppaLiveActivityExtension.profile.xcconfig"; sourceTree = "<group>"; };
 		C8E20614537BE47B4BEF18E6 /* Pods_Runner_RunnerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner_RunnerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D83ACD747148C335D2D2F5FF /* Pods-Runner-RunnerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner-RunnerUITests.release.xcconfig"; path = "Target Support Files/Pods-Runner-RunnerUITests/Pods-Runner-RunnerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		DCBE280E542ED7CC75D24D9C /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,9 +172,38 @@
 		FED7004E2CEDAC9D00D6D252 /* ur */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ur; path = ur.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
 		FED7FF592CED918B00D6D252 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FED7FF5C2CED91A100D6D252 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/AppShortcuts.strings; sourceTree = "<group>"; };
+		FEE6CD5F2F6FC0DC000C6AEA /* CuppaLiveActivityExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CuppaLiveActivityExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEE6CD602F6FC0DC000C6AEA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		FEE6CD622F6FC0DC000C6AEA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		FEE6CD782F6FC1E6000C6AEA /* CuppaLiveActivityExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CuppaLiveActivityExtension.entitlements; sourceTree = "<group>"; };
 		FEEDB3BA2B4CDFFD0020F67E /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		FEFBBCF82B40CF1C0066DD9E /* sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sound; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		FEE6CD752F6FC0DE000C6AEA /* Exceptions for "CuppaLiveActivity" folder in "CuppaLiveActivityExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = FEE6CD5E2F6FC0DC000C6AEA /* CuppaLiveActivityExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		FEE6CD642F6FC0DC000C6AEA /* CuppaLiveActivity */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FEE6CD752F6FC0DE000C6AEA /* Exceptions for "CuppaLiveActivity" folder in "CuppaLiveActivityExtension" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = CuppaLiveActivity;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		97C146EB1CF9000F007C117D /* Frameworks */ = {
@@ -168,6 +223,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FEE6CD5C2F6FC0DC000C6AEA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEE6CD632F6FC0DC000C6AEA /* SwiftUI.framework in Frameworks */,
+				FEE6CD612F6FC0DC000C6AEA /* WidgetKit.framework in Frameworks */,
+				324E0F8A2F780E942065083F /* Pods_CuppaLiveActivityExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -180,6 +245,9 @@
 				4961930BB5F224565FEFF2B7 /* Pods-Runner-RunnerUITests.debug.xcconfig */,
 				D83ACD747148C335D2D2F5FF /* Pods-Runner-RunnerUITests.release.xcconfig */,
 				4759EEA3CA5C4F9AD5398B8E /* Pods-Runner-RunnerUITests.profile.xcconfig */,
+				5DB4F3C06EE767E308A889DF /* Pods-CuppaLiveActivityExtension.debug.xcconfig */,
+				A26AFAFC867EF0D4D3BB7C1C /* Pods-CuppaLiveActivityExtension.release.xcconfig */,
+				A5CF1D19ED7CDBCE90F55124 /* Pods-CuppaLiveActivityExtension.profile.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -189,6 +257,9 @@
 			children = (
 				DCBE280E542ED7CC75D24D9C /* Pods_Runner.framework */,
 				C8E20614537BE47B4BEF18E6 /* Pods_Runner_RunnerUITests.framework */,
+				FEE6CD602F6FC0DC000C6AEA /* WidgetKit.framework */,
+				FEE6CD622F6FC0DC000C6AEA /* SwiftUI.framework */,
+				96BB1D427479B603423B33D3 /* Pods_CuppaLiveActivityExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -208,9 +279,11 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				FEE6CD782F6FC1E6000C6AEA /* CuppaLiveActivityExtension.entitlements */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				FEA49BF52BDED66B00853D36 /* RunnerUITests */,
+				FEE6CD642F6FC0DC000C6AEA /* CuppaLiveActivity */,
 				97C146EF1CF9000F007C117D /* Products */,
 				575287EF0AB69D14759B209D /* Pods */,
 				680794546BC21303704A5F8F /* Frameworks */,
@@ -222,6 +295,7 @@
 			children = (
 				97C146EE1CF9000F007C117D /* Runner.app */,
 				FEA49BF42BDED66B00853D36 /* RunnerUITests.xctest */,
+				FEE6CD5F2F6FC0DC000C6AEA /* CuppaLiveActivityExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -269,12 +343,15 @@
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
+				FEE6CD712F6FC0DE000C6AEA /* Embed Foundation Extensions */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				33ED04A039996614C516CED2 /* [CP] Embed Pods Frameworks */,
+				922C3A6E9A996D4E6166D4A6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				FEE6CD6F2F6FC0DE000C6AEA /* PBXTargetDependency */,
 			);
 			name = Runner;
 			packageProductDependencies = (
@@ -295,6 +372,7 @@
 				FEA49BF22BDED66B00853D36 /* Resources */,
 				A21ABDB77597F5480E39E7E5 /* [CP] Embed Pods Frameworks */,
 				FEB145162BDED80300705E83 /* xcode_backend embed_and_thin */,
+				362A124A3D9BC19FD37B92F9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -306,6 +384,27 @@
 			productReference = FEA49BF42BDED66B00853D36 /* RunnerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		FEE6CD5E2F6FC0DC000C6AEA /* CuppaLiveActivityExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FEE6CD762F6FC0DE000C6AEA /* Build configuration list for PBXNativeTarget "CuppaLiveActivityExtension" */;
+			buildPhases = (
+				8E7B878B0F3073CF0B1BEC0B /* [CP] Check Pods Manifest.lock */,
+				FEE6CD5B2F6FC0DC000C6AEA /* Sources */,
+				FEE6CD5C2F6FC0DC000C6AEA /* Frameworks */,
+				FEE6CD5D2F6FC0DC000C6AEA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				FEE6CD642F6FC0DC000C6AEA /* CuppaLiveActivity */,
+			);
+			name = CuppaLiveActivityExtension;
+			productName = CuppaLiveActivityExtension;
+			productReference = FEE6CD5F2F6FC0DC000C6AEA /* CuppaLiveActivityExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -313,6 +412,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 1510;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
@@ -323,6 +423,9 @@
 					FEA49BF32BDED66B00853D36 = {
 						CreatedOnToolsVersion = 15.3;
 						TestTargetID = 97C146ED1CF9000F007C117D;
+					};
+					FEE6CD5E2F6FC0DC000C6AEA = {
+						CreatedOnToolsVersion = 26.3;
 					};
 				};
 			};
@@ -378,6 +481,7 @@
 			targets = (
 				97C146ED1CF9000F007C117D /* Runner */,
 				FEA49BF32BDED66B00853D36 /* RunnerUITests */,
+				FEE6CD5E2F6FC0DC000C6AEA /* CuppaLiveActivityExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -405,6 +509,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FEE6CD5D2F6FC0DC000C6AEA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -425,6 +536,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		362A124A3D9BC19FD37B92F9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner-RunnerUITests/Pods-Runner-RunnerUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner-RunnerUITests/Pods-Runner-RunnerUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner-RunnerUITests/Pods-Runner-RunnerUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -440,6 +568,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
+		};
+		8E7B878B0F3073CF0B1BEC0B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CuppaLiveActivityExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		922C3A6E9A996D4E6166D4A6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		9740EEB61CF901F6004384FC /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -575,6 +742,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FEE6CD5B2F6FC0DC000C6AEA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -582,6 +756,11 @@
 			isa = PBXTargetDependency;
 			target = 97C146ED1CF9000F007C117D /* Runner */;
 			targetProxy = FEA49BFA2BDED66B00853D36 /* PBXContainerItemProxy */;
+		};
+		FEE6CD6F2F6FC0DE000C6AEA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FEE6CD5E2F6FC0DC000C6AEA /* CuppaLiveActivityExtension */;
+			targetProxy = FEE6CD6E2F6FC0DE000C6AEA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1034,6 +1213,144 @@
 			};
 			name = Profile;
 		};
+		FEE6CD722F6FC0DE000C6AEA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5DB4F3C06EE767E308A889DF /* Pods-CuppaLiveActivityExtension.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = CuppaLiveActivityExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BTLTN4T7QF;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CuppaLiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CuppaLiveActivity;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nathanatos.Cuppa.CuppaLiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FEE6CD732F6FC0DE000C6AEA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A26AFAFC867EF0D4D3BB7C1C /* Pods-CuppaLiveActivityExtension.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = CuppaLiveActivityExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BTLTN4T7QF;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CuppaLiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CuppaLiveActivity;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nathanatos.Cuppa.CuppaLiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		FEE6CD742F6FC0DE000C6AEA /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A5CF1D19ED7CDBCE90F55124 /* Pods-CuppaLiveActivityExtension.profile.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = CuppaLiveActivityExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = BTLTN4T7QF;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CuppaLiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CuppaLiveActivity;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nathanatos.Cuppa.CuppaLiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Profile;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1063,6 +1380,16 @@
 				FEA49BFD2BDED66B00853D36 /* Debug */,
 				FEA49BFE2BDED66B00853D36 /* Release */,
 				FEA49BFF2BDED66B00853D36 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FEE6CD762F6FC0DE000C6AEA /* Build configuration list for PBXNativeTarget "CuppaLiveActivityExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEE6CD722F6FC0DE000C6AEA /* Debug */,
+				FEE6CD732F6FC0DE000C6AEA /* Release */,
+				FEE6CD742F6FC0DE000C6AEA /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

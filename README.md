@@ -59,3 +59,5 @@ Buy us a cup of tea to support active development of Cuppa.
 Cuppa Mobile is a free, open-source mobile app licensed under the terms of the BSD license and built on the [Flutter](https://flutter.dev) framework.
 
 Author: [Nathan Cosgray](https://www.nathanatos.com)
+
+*Portions of this app were written by Claude Code and reviewed, tested and approved by a human.*

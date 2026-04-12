@@ -8,6 +8,8 @@ PODS:
     - CocoaAsyncSocket (~> 7.6)
     - Flutter
     - FlutterMacOS
+  - permission_handler_apple (9.3.0):
+    - Flutter
   - SQLite.swift (0.14.1):
     - SQLite.swift/standard (= 0.14.1)
   - SQLite.swift/standard (0.14.1)
@@ -16,6 +18,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - intelligence (from `.symlinks/plugins/intelligence/ios`)
   - patrol (from `.symlinks/plugins/patrol/darwin`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
 
 SPEC REPOS:
   trunk:
@@ -29,14 +32,17 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/intelligence/ios"
   patrol:
     :path: ".symlinks/plugins/patrol/darwin"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   intelligence: 15222bed61d1cd5bb8247b4bf4189ee70ef9f774
   patrol: cea8074f183a2a4232d0ebd10569ae05149ada42
+  permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
   SQLite.swift: 2992550ebf3c5b268bf4352603e3df87d2a4ed72
 
-PODFILE CHECKSUM: 293f1560d93d22df958758ea0d0241c0bd2750d0
+PODFILE CHECKSUM: d4077f1530b00cfdfb21e1c1cdd2443fcb044d87
 
 COCOAPODS: 1.16.2

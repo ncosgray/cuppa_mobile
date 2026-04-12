@@ -54,6 +54,9 @@ Future<void> initializeApp({bool testing = false}) async {
   skipNotify = testing;
   await initializeNotifications();
 
+  // Initialize Live Activity service
+  await liveActivityService.init();
+
   // Register showcase for tutorial
   skipTutorial = testing;
   ShowcaseView.register();

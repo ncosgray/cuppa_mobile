@@ -15,6 +15,7 @@
 // - Store current app settings
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/shortcut_handler.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -127,6 +128,15 @@ class AppProvider extends ChangeNotifier {
         _teaList[teaIndex].isSilent = isSilent;
       }
       saveTeas();
+
+      // Update Live Activity if this tea is actively timing
+      if (_teaList[teaIndex].isActive &&
+          (name != null ||
+              color != null ||
+              colorShade != null ||
+              icon != null)) {
+        liveActivityService.startOrUpdate(activeTeas);
+      }
     }
   }
 
@@ -277,13 +287,23 @@ class AppProvider extends ChangeNotifier {
     return _teaList.where((tea) => tea.isFavorite == true).toList();
   }
 
+  // Timer tick counter (incremented on timer state changes only)
+  int _timerTick = 0;
+  int get timerTick => _timerTick;
+
+  // Notify listeners for timer-related changes
+  void notifyTimerTick() {
+    _timerTick++;
+    notifyListeners();
+  }
+
   // Activate a tea
   void activateTea(Tea tea, int notifyID, silentDefault) {
     int teaIndex = _teaList.indexOf(tea);
     if (teaIndex >= 0) {
       _teaList[teaIndex].activate(notifyID, silentDefault);
       Prefs.saveTeas(_teaList);
-      notifyListeners();
+      notifyTimerTick();
     }
   }
 
@@ -293,7 +313,7 @@ class AppProvider extends ChangeNotifier {
     if (teaIndex >= 0) {
       _teaList[teaIndex].deactivate();
       Prefs.saveTeas(_teaList);
-      notifyListeners();
+      notifyTimerTick();
     }
   }
 
@@ -309,7 +329,7 @@ class AppProvider extends ChangeNotifier {
           tea.timerEndTime + ms < now + (teaBrewTimeMaxHours * 3600 * 1000)) {
         tea.adjustBrewTimeRemaining(ms);
         Prefs.saveTeas(_teaList);
-        notifyListeners();
+        notifyTimerTick();
         return true;
       }
     }
@@ -322,7 +342,7 @@ class AppProvider extends ChangeNotifier {
       tea.deactivate();
     });
     Prefs.saveTeas(_teaList);
-    notifyListeners();
+    notifyTimerTick();
   }
 
   // Get active tea list
@@ -443,11 +463,6 @@ class AppProvider extends ChangeNotifier {
   set stackedView(bool newValue) {
     _stackedView = newValue;
     Prefs.saveSettings(stackedView: _stackedView);
-    notifyListeners();
-  }
-
-  // Notify listeners
-  void notify() {
     notifyListeners();
   }
 }
