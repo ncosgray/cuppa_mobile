@@ -19,6 +19,9 @@ import intelligence
 
   func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
     GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
+    CuppaLiveActivityPlugin.register(
+      with: engineBridge.pluginRegistry.registrar(forPlugin: "CuppaLiveActivityPlugin")!,
+    )
 
     // Setup for intelligence plugin
     IntelligencePlugin.storage.attachListener {

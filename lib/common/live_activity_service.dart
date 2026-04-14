@@ -17,14 +17,13 @@ import 'package:cuppa_mobile/data/tea.dart';
 
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
-import 'package:live_activities/live_activities.dart';
+import 'package:flutter/services.dart';
 
-const _liveActivityId = 'cuppa_tea_timer';
+// Native method channel for iOS Live Activity management
+const _channel = MethodChannel('cuppa_live_activity');
 
 // Service that manages the lifecycle of an iOS Live Activity for tea timers
 class LiveActivityService {
-  final LiveActivities _liveActivities = LiveActivities();
-
   // The ID of the currently active Live Activity, or null if none is running
   String? _activityId;
 
@@ -34,18 +33,21 @@ class LiveActivityService {
   // Cached result of whether the user has enabled Live Activities for this app
   bool? _activitiesEnabled;
 
-  // Initialize the Live Activity plugin with the app group ID
+  // Initialize the Live Activity service with the app group ID
   Future<void> init() async {
     if (!Platform.isIOS) return;
-    await _liveActivities.init(appGroupId: liveActivityAppGroupId);
+    await _channel.invokeMethod<void>(
+      'init',
+      {'appGroupId': liveActivityAppGroupId},
+    );
     _initialized = true;
 
     // Clean up any orphaned activities from a previous app session
-    await _liveActivities.endAllActivities();
+    await _channel.invokeMethod<void>('endAllActivities');
   }
 
   // Create/update the Live Activity with the current active tea timers
-  // or, if no teas are active end the Live Activity
+  // or, if no teas are active, end the Live Activity
   Future<void> startOrUpdate(List<Tea> activeTeas) async {
     if (!_initialized) return;
 
@@ -55,7 +57,8 @@ class LiveActivityService {
     }
 
     // Check if the user has enabled Live Activities (cached after first check)
-    _activitiesEnabled ??= await _liveActivities.areActivitiesEnabled();
+    _activitiesEnabled ??=
+        await _channel.invokeMethod<bool>('areActivitiesEnabled') ?? false;
     if (!_activitiesEnabled!) return;
 
     final data = _buildDataMap(activeTeas);
@@ -63,14 +66,16 @@ class LiveActivityService {
     try {
       if (_activityId == null) {
         // No existing activity - create a new one
-        _activityId = await _liveActivities.createActivity(
-          _liveActivityId,
-          data,
-          iOSEnableRemoteUpdates: false,
+        _activityId = await _channel.invokeMethod<String>(
+          'createActivity',
+          {'data': data},
         );
       } else {
         // Update the existing activity with new timer data
-        await _liveActivities.updateActivity(_activityId!, data);
+        await _channel.invokeMethod<void>('updateActivity', {
+          'activityId': _activityId!,
+          'data': data,
+        });
       }
     } catch (e) {
       debugPrint('Live Activity error: $e');
@@ -81,7 +86,10 @@ class LiveActivityService {
   // End the current Live Activity and clear the tracked activity ID
   Future<void> end() async {
     if (!_initialized || _activityId == null) return;
-    await _liveActivities.endActivity(_activityId!);
+    await _channel.invokeMethod<void>(
+      'endActivity',
+      {'activityId': _activityId!},
+    );
     _activityId = null;
   }
 
