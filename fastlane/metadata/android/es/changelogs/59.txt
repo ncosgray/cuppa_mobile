@@ -1,0 +1,3 @@
+* Elige los detalles de la elaboración para mostrar en botones de temporizador.
+* Diversos ajustes de usabilidad y pequeñas correcciones de fallos.
+* Actualizaciones de traducción de idiomas - ¡contribuya a través de Weblate!

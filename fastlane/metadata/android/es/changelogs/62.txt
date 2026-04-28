@@ -1,0 +1,2 @@
+* Mejorar el diseño de botones de té dentro del espacio de pantalla disponible.
+* Actualizaciones de traducción de idiomas - contribuya a través de Weblate!

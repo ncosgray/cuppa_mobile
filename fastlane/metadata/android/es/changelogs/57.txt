@@ -1,0 +1,2 @@
+* Areglado un error de importación de datos.
+* Actualizaciones de traducción de idiomas - ¡contribuya a través de Weblate!
