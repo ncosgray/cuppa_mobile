@@ -107,6 +107,7 @@ enum AppString {
   issues('issues'),
   language_name('language_name'),
   new_tea_default_name('new_tea_default_name'),
+  new_tea_default_subtext('new_tea_default_subtext'),
   no_button('no_button'),
   notification_channel_name('notification_channel_name'),
   notification_channel_ongoing('notification_channel_ongoing'),
