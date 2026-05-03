@@ -86,17 +86,28 @@ Future<void> requestNotifyPermissions() async {
 
 // Send or update a brewing complete notification
 Future<void> sendNotification(
-  int secs,
-  String title,
-  String text,
-  int notifyID, {
+  int notifyID,
+  String teaName,
+  int secs, {
   bool silent = false,
+  bool preNotify = false,
 }) async {
   if (skipNotify) {
     return;
   }
 
-  tz.TZDateTime notifyTime = tz.TZDateTime.now(
+  // Configure notification
+  String title;
+  String text;
+  if (preNotify && secs > preNotifySeconds) {
+    secs -= preNotifySeconds;
+    title = AppString.notification_pre_title.translate();
+    text = AppString.notification_pre_text.translate(teaName: teaName);
+  } else {
+    title = AppString.notification_title.translate();
+    text = AppString.notification_text.translate(teaName: teaName);
+  }
+  final tz.TZDateTime notifyTime = tz.TZDateTime.now(
     tz.local,
   ).add(Duration(seconds: secs));
 

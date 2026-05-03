@@ -41,6 +41,7 @@ class AppProvider extends ChangeNotifier {
     _appLanguage = Prefs.loadAppLanguage() ?? _appLanguage;
     _collectStats = Prefs.loadCollectStats() ?? _collectStats;
     _stackedView = Prefs.loadStackedView() ?? _stackedView;
+    _preNotify = Prefs.loadPreNotify() ?? _preNotify;
 
     // Load teas from prefs
     if (Prefs.teaPrefsExist()) {
@@ -463,6 +464,15 @@ class AppProvider extends ChangeNotifier {
   set stackedView(bool newValue) {
     _stackedView = newValue;
     Prefs.saveSettings(stackedView: _stackedView);
+    notifyListeners();
+  }
+
+  // Setting: pre-notify before brewing complete
+  bool _preNotify = false;
+  bool get preNotify => _preNotify;
+  set preNotify(bool newValue) {
+    _preNotify = newValue;
+    Prefs.saveSettings(preNotify: _preNotify);
     notifyListeners();
   }
 }

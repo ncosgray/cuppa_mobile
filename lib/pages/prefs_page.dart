@@ -15,6 +15,7 @@
 
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/dialogs.dart';
+import 'package:cuppa_mobile/common/local_notifications.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/list_tiles.dart';
@@ -167,6 +168,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                 // Setting: use brew ratios
                 _useBrewRatiosSetting,
                 listDivider,
+                // Setting: pre-notify before brewing complete
+                _preNotifySetting,
                 // Setting: default to silent timer notifications
                 _defaultSilentSetting,
                 // Notification info
@@ -281,6 +284,33 @@ class _PrefsWidgetState extends State<PrefsWidget> {
     onChanged: (bool newValue) {
       Provider.of<AppProvider>(context, listen: false).hideIncrements =
           newValue;
+    },
+  );
+
+  // Setting: pre-notify before brewing complete
+  Widget get _preNotifySetting => settingSwitch(
+    title: AppString.prefs_pre_notify.translate(),
+    subtitle: Provider.of<AppProvider>(context).preNotify
+        ? AppString.prefs_pre_notify_enabled.translate()
+        : AppString.prefs_pre_notify_disabled.translate(),
+    value: Provider.of<AppProvider>(context).preNotify,
+    // Save preNotify setting to prefs
+    onChanged: (bool newValue) {
+      AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+      // ignore: cascade_invocations
+      provider.preNotify = newValue;
+      // Update any active timer notifications
+      for (final tea in provider.activeTeas) {
+        if (tea.timerNotifyID != null && tea.brewTimeRemaining > 0) {
+          sendNotification(
+            tea.timerNotifyID!,
+            tea.name,
+            tea.brewTimeRemaining,
+            silent: tea.isSilent,
+            preNotify: newValue,
+          );
+        }
+      }
     },
   );
 

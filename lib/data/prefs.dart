@@ -285,6 +285,10 @@ abstract class Prefs {
     return sharedPrefs.getBool(prefStackedView);
   }
 
+  static bool? loadPreNotify() {
+    return sharedPrefs.getBool(prefPreNotify);
+  }
+
   // Store setting(s) in shared prefs
   static void saveSettings({
     List<ExtraInfo>? showExtraList,
@@ -298,6 +302,7 @@ abstract class Prefs {
     String? appLanguage,
     bool? collectStats,
     bool? stackedView,
+    bool? preNotify,
   }) {
     if (showExtraList != null) {
       sharedPrefs.setStringList(
@@ -334,6 +339,9 @@ abstract class Prefs {
     }
     if (stackedView != null) {
       sharedPrefs.setBool(prefStackedView, stackedView);
+    }
+    if (preNotify != null) {
+      sharedPrefs.setBool(prefPreNotify, preNotify);
     }
   }
 
