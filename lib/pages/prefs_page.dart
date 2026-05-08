@@ -291,8 +291,8 @@ class _PrefsWidgetState extends State<PrefsWidget> {
   Widget get _preNotifySetting => settingSwitch(
     title: AppString.prefs_pre_notify.translate(),
     subtitle: Provider.of<AppProvider>(context).preNotify
-        ? AppString.prefs_pre_notify_enabled.translate()
-        : AppString.prefs_pre_notify_disabled.translate(),
+        ? AppString.prefs_pre_notify_info.translate()
+        : null,
     value: Provider.of<AppProvider>(context).preNotify,
     // Save preNotify setting to prefs
     onChanged: (bool newValue) {
