@@ -1,1 +1,1 @@
-Cronometre el tiempo de su té mientras se empapa
+Cuppa es una aplicación pequeña para medir como se empapa su taza de té.

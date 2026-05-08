@@ -1,0 +1,4 @@
+* ¡Añada hasta 50 tes!
+* Nuevas opciones para cambiar el tamaño del botón temporizador o ocultar el gráfico de la taza de té.
+* Diversos ajustes de usabilidad y pequeñas correcciones de fallos.
+* Actualizaciones de traducción de idiomas - contribuya a través de Weblate!
