@@ -1,0 +1,2 @@
+* Odpravljena napaka pri nadaljevanju časovnikov v določenih primerih.
+* Posodobitve prevodov – prispevaj prek Weblate!
