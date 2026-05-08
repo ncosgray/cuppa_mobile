@@ -1,0 +1,4 @@
+* Notificación opcional de temporizador de cuenta regresiva.
+* Mantén pulsado un té para editarlo directamente desde la pantalla principal.
+* Se agregó la traducción al búlgaro: ¡contribuye a través de Weblate!
+* Diversas mejoras de usabilidad y pequeñas correcciones de errores.
