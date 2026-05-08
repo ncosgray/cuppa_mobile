@@ -90,7 +90,7 @@ abstract class Export {
     bool imported = false;
 
     // Prompt for export file source
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.pickFiles(
       type: FileType.custom,
       allowedExtensions: [exportFileExtension],
     );
