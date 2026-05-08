@@ -19,7 +19,9 @@ import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io' show Platform;
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,6 +49,35 @@ abstract class Prefs {
       cacheOptions: SharedPreferencesWithCacheOptions(),
       sharedPreferencesOptions: sharedPreferencesOptions,
     );
+
+    // Handle condition where the app may pre-warm before user prefs are
+    // available to load (iOS specific)
+    if (Platform.isIOS && !sharedPrefs.containsKey(prefTeaList)) {
+      await _waitForCacheReload();
+    }
+  }
+
+  // Wait for prefs cache to reload
+  static Future<void> _waitForCacheReload() async {
+    // If the app is already foregrounded, reload immediately
+    if (WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed) {
+      await sharedPrefs.reloadCache();
+      return;
+    }
+
+    // If the app is in pre-warm state, wait for resume and then reload
+    final completer = Completer<void>();
+    final observer = _LifecycleObserver(
+      onResumed: () async {
+        await sharedPrefs.reloadCache();
+        if (!completer.isCompleted) {
+          completer.complete();
+        }
+      },
+    );
+    WidgetsBinding.instance.addObserver(observer);
+    await completer.future;
+    WidgetsBinding.instance.removeObserver(observer);
   }
 
   // Determine if tea settings exist in shared prefs
@@ -460,3 +491,17 @@ final List<int> brewRatioOzOptions = [
   1,
   ...[for (var i = 2; i <= 18; i += 2) i],
 ];
+
+// Lifecycle observer that triggers a callback when the app resumes
+class _LifecycleObserver with WidgetsBindingObserver {
+  _LifecycleObserver({required this.onResumed});
+
+  final Future<void> Function() onResumed;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      onResumed();
+    }
+  }
+}

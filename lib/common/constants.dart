@@ -91,6 +91,9 @@ const notifyIcon = 'ic_stat_name';
 const notifySound = 'spoon';
 const notifySoundIOS = 'sound/spoon.aiff';
 
+// Live Activities
+const liveActivityAppGroupId = 'group.com.nathanatos.Cuppa';
+
 // Quick actions
 const favoritesMaxCount = 4; // iOS limitation
 const shortcutPrefix = 'shortcutTea';

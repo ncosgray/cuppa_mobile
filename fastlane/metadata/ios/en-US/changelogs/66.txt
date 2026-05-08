@@ -1,0 +1,2 @@
+* Added a Live Activity for ongoing timer countdowns.
+* Language translation updates - contribute via Weblate!
