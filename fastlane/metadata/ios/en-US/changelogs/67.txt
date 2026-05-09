@@ -1,0 +1,3 @@
+* Added tea presets for matcha and yellow tea.
+* "Early warnings" setting notifies you a few seconds before your tea is ready.
+* Language translation updates - contribute via Weblate!
