@@ -1,0 +1,3 @@
+* Athfhachtóireacht déanta chun spleáchais a bhaint as tógálacha F-Droid.
+* Fabht socraithe le lasc ama atosaithe i gcásanna áirithe.
+* Nuashonruithe aistriúcháin teanga - cuir leis trí Weblate!
