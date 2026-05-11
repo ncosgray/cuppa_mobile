@@ -1,0 +1,1 @@
+* Risolto un bug relativo alle notifiche su Android.

@@ -1,0 +1,3 @@
+* Scegli quali dettagli dell'infusione visualizzare sui pulsanti del timer.
+* Varie ottimizzazioni dell'usabilità e piccole correzioni di bug.
+* Aggiornamenti delle traduzioni: contribuisci tramite Weblate!

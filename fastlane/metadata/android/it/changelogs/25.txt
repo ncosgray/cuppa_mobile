@@ -1,0 +1,4 @@
+* Nuova modalità orizzontale per smartphone.
+* Miglior adattamento alle impostazioni di accessibilità del dispositivo.
+* Miglioramenti all'usabilità e all'interfaccia.
+* Aggiornamenti delle traduzioni in diverse lingue: contribuisci tramite Weblate!

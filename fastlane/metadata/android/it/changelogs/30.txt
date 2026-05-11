@@ -1,0 +1,4 @@
+* Nuovo tema scuro (pure black).
+* Risolto un bug che causava l'avvio imprevisto delle scorciatoie.
+* Miglioramenti all'usabilità e all'interfaccia.
+* Aggiornamenti delle traduzioni: contribuisci tramite Weblate!

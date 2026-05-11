@@ -1,0 +1,3 @@
+* Doppio timer: ora puoi avviare un secondo timer mentre il primo tè è in infusione.
+* Notifiche del timer più affidabili in alcuni casi.
+* Aggiunta una lingua e altri aggiornamenti di traduzione: contribuisci tramite Weblate!

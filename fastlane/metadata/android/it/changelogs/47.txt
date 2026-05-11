@@ -1,0 +1,4 @@
+* Supporto migliorato per le impostazioni regionali.
+* Navigazione delle impostazioni più semplice su schermi più piccoli.
+* Vari miglioramenti all'usabilità e piccole correzioni di bug.
+* Aggiunte le lingue inglese britannico, ciuvascio e interlingua, oltre ad altri aggiornamenti di traduzione: contribuisci tramite Weblate!

@@ -1,0 +1,5 @@
+* Supporto completo per tè preparati a freddo (infusione di oltre 12 ore).
+* Pagina delle preferenze riprogettata per tablet e dispositivi pieghevoli.
+* Notifiche del timer più insistenti.
+* Miglioramenti all'usabilità e all'interfaccia.
+* Aggiornamenti delle traduzioni: contribuisci tramite Weblate!

@@ -1,0 +1,5 @@
+* Le preimpostazioni per i tipi di tè rendono ancora più semplice aggiungere nuovi tè!
+* Utilizza le notifiche di avviso per attirare la tua attenzione.
+	(Nota: potrebbe essere necessario reinstallare l'applicazione.)
+* Miglioramenti all'usabilità e all'interfaccia.
+* Aggiornamenti delle traduzioni in altre lingue: contribuisci tramite Weblate!

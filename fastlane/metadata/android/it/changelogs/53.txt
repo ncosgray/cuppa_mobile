@@ -1,0 +1,2 @@
+* Aggiunto il supporto per le lingue specifiche di ciascuna app e la funzione di ritorno predittivo.
+* Vari miglioramenti all'usabilità e piccole correzioni di bug.

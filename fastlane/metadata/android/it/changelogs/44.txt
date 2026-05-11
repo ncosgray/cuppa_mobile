@@ -1,0 +1,5 @@
+* Ordina la tua lista di tè in base a diversi criteri con pochi tocchi.
+* Aggiunta una nuova opzione per disporre i pulsanti del timer del tè in verticale.
+* Sono disponibili opzioni di temperatura più precise tramite il cursore.
+* Vari miglioramenti all'usabilità e all'interfaccia.
+* Aggiornamenti delle traduzioni: contribuisci tramite Weblate!

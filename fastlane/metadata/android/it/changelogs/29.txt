@@ -1,0 +1,2 @@
+* Risolto il problema di arresto anomalo sui dispositivi pieghevoli
+* Icona monocromatica migliorata

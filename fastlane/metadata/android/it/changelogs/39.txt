@@ -1,0 +1,4 @@
+* Ora è possibile regolare il tempo rimanente di un timer attivo.
+* Ulteriori opzioni per la temperatura di infusione.
+* Vari miglioramenti all'usabilità e all'interfaccia.
+* Aggiornamenti delle traduzioni: contribuisci tramite Weblate!

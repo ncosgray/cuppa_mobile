@@ -1,0 +1,3 @@
+* Ristrutturazione del codice per rimuovere le dipendenze per le build F-Droid.
+* Risolto un bug relativo alla ripresa dei timer in determinati scenari.
+* Aggiornamenti delle traduzioni: contribuisci tramite Weblate!

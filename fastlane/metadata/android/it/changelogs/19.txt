@@ -1,0 +1,6 @@
+* Metti una stella ai tuoi tè preferiti per aggiungerli come scorciatoie alle icone delle app.
+* Per chi si trova al di fuori degli Stati Uniti, le temperature verranno visualizzate in gradi Celsius.
+* Nuova opzione: scegli il tuo tema (chiaro o scuro).
+* Più opzioni di colore per il pulsante del tè.
+* Miglioramenti all'usabilità e all'interfaccia.
+* Aggiornamenti delle traduzioni in diverse lingue: contribuisci tramite Weblate!
