@@ -12,6 +12,7 @@
 
 // Generate Cuppa screenshots
 
+import 'package:cuppa_mobile/common/helpers.dart' show getDeviceSize;
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/cuppa_app.dart';
@@ -116,17 +117,18 @@ Future<void> main() async {
     await $.pumpAndSettle();
     await $.tap(find.byIcon(addIcon.icon!));
     await $.pumpAndSettle();
-    final Finder rooibosPreset = find
-        .text(AppString.tea_name_rooibos.translate(), skipOffstage: false)
+    final AppString presetTea = AppString.tea_name_yellow;
+    final Finder preset = find
+        .text(presetTea.translate(), skipOffstage: false)
         .last;
-    await $.ensureVisible(rooibosPreset);
+    await $.ensureVisible(preset);
     await $.pumpAndSettle();
-    await $.tap(rooibosPreset);
+    await $.tap(preset);
     await $.pumpAndSettle();
     await $.tap(
       findWidgetWithContainerColor(
         Presets.presetList
-            .firstWhere((preset) => preset.key == AppString.tea_name_rooibos)
+            .firstWhere((preset) => preset.key == presetTea)
             .color
             .color,
       ).first,
@@ -138,7 +140,7 @@ Future<void> main() async {
             of: find.byType(ColorPicker),
             matching: find.byType(ColorIndicator),
           )
-          .at(TeaColor.red.index),
+          .at(TeaColor.amber.index),
     );
     await $.pumpAndSettle();
     await $.tap(find.text(AppString.ok_button.translate()));
@@ -147,9 +149,17 @@ Future<void> main() async {
     await binding.takeScreenshot('3-prefs');
 
     // Screenshot 3a: Settings page (phone only)
-    final Finder settingsIconFinder = find.byIcon(navBarSettingsIcon.icon!);
-    if (settingsIconFinder.evaluate().isNotEmpty) {
-      await $.tap(settingsIconFinder);
+    final bool isLargeDevice = getDeviceSize(
+      $.element(find.byType(Container).first),
+    ).isLargeDevice;
+    final Finder settingsIconFinder = find.byIcon(
+      navBarSettingsIcon.icon!,
+      skipOffstage: false,
+    );
+    final bool hasSettingsPage =
+        settingsIconFinder.evaluate().isNotEmpty && !isLargeDevice;
+    if (hasSettingsPage) {
+      await $.tap(settingsIconFinder.first);
       await $.pumpAndSettle();
       sleep(const Duration(seconds: 2));
       await binding.takeScreenshot('3a-settings');
@@ -211,20 +221,17 @@ Future<void> main() async {
     await $.pumpAndSettle();
     await $.tap(find.text(AppString.cancel_button.translate()));
     await $.pumpAndSettle();
-    final Finder rooibosTea = find.text(
-      AppString.tea_name_rooibos.translate(),
-      skipOffstage: false,
-    );
-    await $.ensureVisible(rooibosTea);
+    final Finder newTea = find.text(presetTea.translate(), skipOffstage: false);
+    await $.ensureVisible(newTea);
     await $.pumpAndSettle();
-    await $.tap(rooibosTea);
+    await $.tap(newTea);
     await $.pumpAndSettle();
     await $.tap(find.text(AppString.cancel_button.translate()));
     await $.pumpAndSettle();
     await $.tap(find.byIcon(platformSettingsIcon.icon!, skipOffstage: false));
     await $.pumpAndSettle();
-    if (settingsIconFinder.evaluate().isNotEmpty) {
-      await $.tap(settingsIconFinder);
+    if (hasSettingsPage) {
+      await $.tap(settingsIconFinder.first);
       await $.pumpAndSettle();
     }
     await $.tap(find.text(AppString.prefs_app_theme.translate()));
