@@ -23,7 +23,6 @@ import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 
 import 'dart:io' show Platform;
-import 'dart:math' show pi;
 import 'dart:ui' show ImageFilter, MaskFilter;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +98,39 @@ Widget adaptiveScaffold({
         backgroundColor: backgroundColor,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         extendBody: true,
-        body: Material(type: .transparency, child: body),
+        body: Material(
+          type: .transparency,
+          child: Stack(
+            children: [
+              body,
+              // Fade-out overlay to ease the transition behind GlassBottomBar
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Builder(
+                  builder: (context) {
+                    final Color bgColor =
+                        backgroundColor ??
+                        Theme.of(context).scaffoldBackgroundColor;
+                    return IgnorePointer(
+                      child: Container(
+                        height: 90,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: .topCenter,
+                            end: .bottomCenter,
+                            colors: [bgColor.withValues(alpha: 0), bgColor],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
         bottomNavigationBar: bottomNavigationBar,
       );
     } else {
@@ -578,7 +609,7 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
       const double barBorderRadius = 32;
       final double barWidth = items.length * tabWidth + 2 * hPadding;
       return Padding(
-        padding: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.only(bottom: 24),
         child: Row(
           mainAxisAlignment: .center,
           children: [
@@ -608,7 +639,7 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
                         ),
                       )
                       .toList(),
-                  barHeight: 54,
+                  barHeight: 58,
                   verticalPadding: 0,
                   iconSize: 22,
                   horizontalPadding: 0,
@@ -617,17 +648,9 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
                   unselectedIconColor: labelColor,
                   indicatorColor: primaryColor.withValues(alpha: 0.1),
                   glassSettings: LiquidGlassSettings(
-                    thickness: 30,
-                    blur: 3,
-                    chromaticAberration: 0.3,
-                    lightIntensity: 0.6,
-                    refractiveIndex: 1.59,
-                    saturation: 0.7,
-                    ambientStrength: 1,
-                    lightAngle: 0.75 * pi,
                     glassColor: isDark
                         ? Colors.black.withValues(alpha: 0.35)
-                        : const Color(0x3DFFFFFF),
+                        : Color.fromARGB(50, 245, 245, 245),
                   ),
                   glowDuration: shortAnimationDuration,
                 ),
