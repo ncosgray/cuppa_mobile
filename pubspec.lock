@@ -157,10 +157,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: "1d4afa261268e59863af47b9f9dd9a230502d4c702b9d9183353646fe6d5b6e1"
+      sha256: "5813e430c9444b32c437628056297698e94bb7f804cf69fdf1a8912ff05dd918"
       url: "https://pub.dev"
     source: hosted
-    version: "12.0.0-beta.1"
+    version: "12.0.0-beta.2"
   fixnum:
     dependency: transitive
     description:
@@ -424,10 +424,10 @@ packages:
     dependency: "direct main"
     description:
       name: liquid_glass_widgets
-      sha256: de7a91a832c24dbe1d3dc4ff84f2594a89f30cc3dd8742c58e1d13f6d8143bab
+      sha256: e6a09276d13de16cbaf8a8f523a1cdc54a591346c81f8bf3ee04df465b223adc
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.9"
+    version: "0.10.10"
   logging:
     dependency: transitive
     description:
