@@ -115,7 +115,7 @@ Widget adaptiveScaffold({
                         Theme.of(context).scaffoldBackgroundColor;
                     return IgnorePointer(
                       child: Container(
-                        height: 90,
+                        height: 120,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: .topCenter,
