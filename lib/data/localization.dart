@@ -107,10 +107,13 @@ enum AppString {
   issues('issues'),
   language_name('language_name'),
   new_tea_default_name('new_tea_default_name'),
+  new_tea_default_subtext('new_tea_default_subtext'),
   no_button('no_button'),
   notification_channel_name('notification_channel_name'),
   notification_channel_ongoing('notification_channel_ongoing'),
   notification_channel_silent('notification_channel_silent'),
+  notification_pre_text('notification_pre_text'),
+  notification_pre_title('notification_pre_title'),
   notification_text('notification_text'),
   notification_title('notification_title'),
   ok_button('ok_button'),
@@ -134,6 +137,8 @@ enum AppString {
   prefs_hide_increments_info('prefs_hide_increments_info'),
   prefs_language('prefs_language'),
   prefs_notifications('prefs_notifications'),
+  prefs_pre_notify('prefs_pre_notify'),
+  prefs_pre_notify_info('prefs_pre_notify_info'),
   prefs_show_extra('prefs_show_extra'),
   prefs_show_extra_ratios('prefs_show_extra_ratios'),
   prefs_silent_default('prefs_silent_default'),
@@ -176,11 +181,14 @@ enum AppString {
   tea_name_darjeeling('tea_name_darjeeling'),
   tea_name_green('tea_name_green'),
   tea_name_herbal('tea_name_herbal'),
+  tea_name_koicha('tea_name_koicha'),
   tea_name_mint('tea_name_mint'),
   tea_name_oolong('tea_name_oolong'),
   tea_name_puer('tea_name_puer'),
   tea_name_rooibos('tea_name_rooibos'),
+  tea_name_usucha('tea_name_usucha'),
   tea_name_white('tea_name_white'),
+  tea_name_yellow('tea_name_yellow'),
   teas_title('teas_title'),
   theme_black('theme_black'),
   theme_dark('theme_dark'),
@@ -223,7 +231,8 @@ enum AppString {
         .replaceAll('{{favorites_max}}', favoritesMaxCount.toString())
         .replaceAll('{{teas_max}}', teasMaxCount.toString())
         .replaceAll('{{timers_max}}', timersMaxCount.toString())
-        .replaceAll('{{star_symbol}}', starSymbol);
+        .replaceAll('{{star_symbol}}', starSymbol)
+        .replaceAll('{{pre_notify_seconds}}', preNotifySeconds.toString());
   }
 }
 

@@ -12,9 +12,17 @@
 
 // Cuppa toast message
 
+import 'package:cuppa_mobile/common/padding.dart';
+
+import 'dart:async' show Timer;
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
 enum ToastPosition { top, bottom }
+
+// Extra bottom clearance on iOS so the toast floats above the GlassBottomBar
+const double _iosBottomBarClearance = 56;
 
 class Toast extends StatelessWidget {
   const Toast({
@@ -124,37 +132,68 @@ class Toast extends StatelessWidget {
   }) {
     final overlay = Overlay.of(context);
     late OverlayEntry overlayEntry;
+    Timer? dismissTimer;
+
+    void dismiss() {
+      dismissTimer?.cancel();
+      if (overlayEntry.mounted) overlayEntry.remove();
+    }
+
+    // Build a toast that adapts to platform
+    final Widget content = Platform.isIOS
+        ? Material(
+            type: .transparency,
+            child: Align(
+              alignment: .center,
+              child: GlassToast(
+                message: message,
+                type: .info,
+                action: actionLabel != null
+                    ? GlassToastAction(
+                        label: actionLabel,
+                        onPressed: () {
+                          onActionPressed();
+                          dismiss();
+                        },
+                      )
+                    : null,
+              ),
+            ),
+          )
+        : SafeArea(
+            child: Toast(
+              message: message,
+              actionIcon: actionIcon,
+              actionLabel: actionLabel,
+              onActionPressed: () {
+                onActionPressed();
+                dismiss();
+              },
+              backgroundColor: backgroundColor,
+              textColor: textColor,
+              actionColor: actionColor,
+              position: position,
+            ),
+          );
 
     overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        top: position == ToastPosition.top ? 20 : null,
-        bottom: position == ToastPosition.bottom ? 20 : null,
-        left: 8,
-        right: 8,
-        child: SafeArea(
-          child: Toast(
-            message: message,
-            actionIcon: actionIcon,
-            actionLabel: actionLabel,
-            onActionPressed: () {
-              onActionPressed();
-              overlayEntry.remove();
-            },
-            backgroundColor: backgroundColor,
-            textColor: textColor,
-            actionColor: actionColor,
-            position: position,
-          ),
-        ),
-      ),
+      builder: (ctx) {
+        final double vInset = Platform.isIOS
+            ? (position == .bottom
+                  ? MediaQuery.of(ctx).padding.bottom + _iosBottomBarClearance
+                  : MediaQuery.of(ctx).padding.top + largeSpacing)
+            : largeSpacing;
+        return Positioned(
+          left: smallSpacing,
+          right: smallSpacing,
+          top: position == .top ? vInset : null,
+          bottom: position == .bottom ? vInset : null,
+          child: content,
+        );
+      },
     );
 
     overlay.insert(overlayEntry);
-
-    Future.delayed(duration, () {
-      if (overlayEntry.mounted) {
-        overlayEntry.remove();
-      }
-    });
+    dismissTimer = Timer(duration, dismiss);
   }
 }

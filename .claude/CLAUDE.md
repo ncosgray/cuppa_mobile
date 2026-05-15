@@ -66,6 +66,8 @@ The app uses the `provider` package with a single `AppProvider` (`lib/data/provi
 ### Localization
 Translations live in `langs/*.json` files (loaded as Flutter assets). The `AppString` enum in `lib/data/localization.dart` defines all string keys. Call `AppString.some_key.translate()` anywhere — no `BuildContext` required. The default locale is `en_GB`. Translations are managed via [Weblate](https://hosted.weblate.org/engage/cuppa/).
 
+**Adding new strings:** Add the key and English text to both `langs/en_GB.json` and `langs/en_US.json`, and add the corresponding `AppString` enum value to `lib/data/localization.dart`. Then ask Claude to machine-translate the remaining `langs/*.json` files — community contributors will refine via Weblate later. Preserve `{{placeholder}}` tokens exactly in all languages.
+
 ### Persistence
 - **Tea list and settings**: `shared_preferences` (JSON-encoded list stored under `prefTeaList`)
 - **Usage statistics**: SQLite database via `sqflite` (`lib/data/stats.dart`)

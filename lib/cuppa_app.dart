@@ -22,10 +22,12 @@ import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/pages/timer_page.dart';
 
+import 'dart:io' show Platform;
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:region_settings/region_settings.dart';
@@ -60,6 +62,11 @@ Future<void> initializeApp({bool testing = false}) async {
   // Register showcase for tutorial
   skipTutorial = testing;
   ShowcaseView.register();
+
+  // Initialize Liquid Glass for iOS
+  if (Platform.isIOS) {
+    await LiquidGlassWidgets.initialize();
+  }
 }
 
 // Create the app
@@ -68,7 +75,7 @@ class CuppaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    final Widget tree = ChangeNotifierProvider(
       create: (_) => AppProvider(),
       child: Selector<AppProvider, ({AppTheme appTheme, String appLanguage})>(
         selector: (_, provider) =>
@@ -124,5 +131,9 @@ class CuppaApp extends StatelessWidget {
         },
       ),
     );
+    if (Platform.isIOS) {
+      return LiquidGlassWidgets.wrap(child: tree, adaptiveQuality: true);
+    }
+    return tree;
   }
 }

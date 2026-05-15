@@ -90,6 +90,7 @@ const notifyOngoingChannel = 'Cuppa_ongoing_channel';
 const notifyIcon = 'ic_stat_name';
 const notifySound = 'spoon';
 const notifySoundIOS = 'sound/spoon.aiff';
+const preNotifySeconds = 15;
 
 // Live Activities
 const liveActivityAppGroupId = 'group.com.nathanatos.Cuppa';
@@ -167,6 +168,7 @@ const prefShowExtraList = 'Cuppa_show_extra_list';
 const prefHideIncrements = 'Cuppa_hide_increments';
 const prefSilentDefault = 'Cuppa_silent_default';
 const prefStackedView = 'Cuppa_stacked_view';
+const prefPreNotify = 'Cuppa_pre_notify';
 const prefCollectStats = 'Cuppa_collect_stats';
 const prefUseCelsius = 'Cuppa_use_celsius';
 const prefUseBrewRatios = 'Cuppa_use_brew_ratios';
@@ -186,6 +188,7 @@ const jsonKeyShowExtraList = 'showExtraList';
 const jsonKeyHideIncrements = 'hideIncrements';
 const jsonKeySilentDefault = 'silentDefault';
 const jsonKeyStackedView = 'stackedView';
+const jsonKeyPreNotify = 'preNotify';
 const jsonKeyUseCelsius = 'useCelsius';
 const jsonKeyUseBrewRatios = 'useBrewRatios';
 const jsonKeyCupStyle = 'cupStyle';

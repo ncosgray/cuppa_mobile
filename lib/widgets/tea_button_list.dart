@@ -341,11 +341,11 @@ class _TeaButtonListState extends State<TeaButtonList> {
       // Start a new timer
       provider.activateTea(tea, timer.notifyID, provider.silentDefault);
       sendNotification(
-        tea.brewTime,
-        AppString.notification_title.translate(),
-        AppString.notification_text.translate(teaName: tea.name),
         timer.notifyID,
+        tea.name,
+        tea.brewTime,
         silent: provider.silentDefault,
+        preNotify: provider.preNotify,
       );
       sendOngoingNotification(timer.notifyID, tea.name, tea.timerEndTime);
 
