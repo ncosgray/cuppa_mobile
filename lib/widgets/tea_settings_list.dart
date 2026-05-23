@@ -112,9 +112,9 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
     return Selector<AppProvider, ({bool activeTeas})>(
       selector: (_, provider) => (activeTeas: provider.activeTeas.isNotEmpty),
       builder: (context, teaData, child) => CustomScrollView(
+        scrollCacheExtent: .pixels(teasMaxCount * 48),
         controller: _scrollController,
         physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-        cacheExtent: teasMaxCount * 48,
         slivers: [
           // Teas section header
           adaptivePageHeader(
@@ -239,7 +239,7 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
       prototypeItem: _animateTeaList ? null : TeaSettingsCard(tea: dummyTea),
       proxyDecorator: _draggableFeedback,
       onReorderStart: (_) => HapticFeedback.heavyImpact(),
-      onReorder: (int oldIndex, int newIndex) {
+      onReorderItem: (int oldIndex, int newIndex) {
         // Reorder the tea list
         provider.reorderTeas(oldIndex, newIndex);
       },

@@ -574,9 +574,15 @@ class PlatformAdaptiveNavBar extends StatelessWidget
 Function()? adaptiveOnPressed(BuildContext context, {required Widget route}) {
   return () {
     if (Platform.isIOS) {
-      Navigator.of(
-        context,
-      ).push(CupertinoSheetRoute<void>(builder: (_) => route));
+      Navigator.of(context).push(
+        CupertinoSheetRoute<void>(
+          scrollableBuilder:
+              (BuildContext context, ScrollController controller) {
+                Widget widgetBuilder(BuildContext _) => route;
+                return widgetBuilder(context);
+              },
+        ),
+      );
     } else {
       Navigator.of(
         context,
