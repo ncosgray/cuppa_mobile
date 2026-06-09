@@ -653,7 +653,7 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
                   selectedIconColor: primaryColor,
                   unselectedIconColor: labelColor,
                   indicatorColor: primaryColor.withValues(alpha: 0.1),
-                  glassSettings: LiquidGlassSettings(
+                  settings: LiquidGlassSettings(
                     glassColor: isDark
                         ? Colors.black.withValues(alpha: 0.35)
                         : Color.fromARGB(50, 245, 245, 245),
