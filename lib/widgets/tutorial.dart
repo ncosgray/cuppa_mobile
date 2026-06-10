@@ -27,10 +27,12 @@ final GlobalKey tutorialKey2 = GlobalKey();
 final GlobalKey tutorialKey3 = GlobalKey();
 final GlobalKey tutorialKey4 = GlobalKey();
 final GlobalKey tutorialKey5 = GlobalKey();
+final GlobalKey tutorialKey6 = GlobalKey();
 Map<GlobalKey, List<AppString>> tutorialSteps = {
   tutorialKey1: [.tutorial_text1],
   tutorialKey2: [.tutorial_text2, .prefs_title],
   tutorialKey3: [.tutorial_text3, .teas_title],
+  tutorialKey6: [.tutorial_text6],
   tutorialKey4: [.tutorial_text4],
   tutorialKey5: [.tutorial_text5],
 };

@@ -15,7 +15,11 @@
 // - Timer utility functions
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
+import 'package:cuppa_mobile/common/local_notifications.dart';
+import 'package:cuppa_mobile/data/provider.dart';
+import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'dart:async';
@@ -93,4 +97,111 @@ TeaTimer? getTimerFromID(int id) {
 // Count of currently active timers
 int get activeTimerCount {
   return timerList.where((timer) => timer.isActive).length;
+}
+
+// Start a new brewing timer
+void setTimer(Tea tea, AppProvider provider, {bool resume = false}) {
+  // Determine next available timer
+  TeaTimer timer = !timer1.isActive ? timer1 : timer2;
+
+  if (!resume) {
+    // Start a new timer
+    provider.activateTea(tea, timer.notifyID, provider.silentDefault);
+    sendNotification(
+      timer.notifyID,
+      tea.name,
+      tea.brewTime,
+      silent: provider.silentDefault,
+      preNotify: provider.preNotify,
+    );
+    sendOngoingNotification(timer.notifyID, tea.name, tea.timerEndTime);
+
+    // Update timer stats, if enabled
+    if (provider.collectStats) {
+      Stats.insertStat(Stat(tea: tea));
+    }
+  } else if (tea.timerNotifyID != null) {
+    // Resume with same timer ID
+    timer = tea.timerNotifyID == timer1.notifyID ? timer1 : timer2;
+  }
+
+  // Set up timer state
+  timer.start(tea, handleTimerTick(timer, provider));
+  provider.notifyTimerTick();
+
+  // Update Live Activity
+  liveActivityService.startOrUpdate(provider.activeTeas);
+}
+
+// Ticker handler for a TeaTimer
+void Function(Timer? ticker) handleTimerTick(
+  TeaTimer timer,
+  AppProvider provider,
+) {
+  return (ticker) {
+    if (timer.isActive) {
+      int timerSeconds = timer.timerSeconds;
+      if (timerSeconds > 0) {
+        timer.decrement();
+        if (timer.timerSeconds != timerSeconds) {
+          // Only update UI if the timer countdown changed
+          provider.notifyTimerTick();
+        }
+      } else {
+        // Brewing complete
+        if (timer.tea != null) {
+          cancelOngoingNotification(timer.notifyID);
+          provider.deactivateTea(timer.tea!);
+        }
+        timer.stop();
+        provider.notifyTimerTick();
+
+        // Update or end Live Activity
+        liveActivityService.startOrUpdate(provider.activeTeas);
+      }
+    }
+  };
+}
+
+// Cancel a timer
+Future<void> cancelTimer(TeaTimer timer, AppProvider provider) async {
+  // Capture active teas before async gap
+  final activeTeas = provider.activeTeas;
+
+  timer.stop();
+  await notify.cancel(id: timer.notifyID);
+  await cancelOngoingNotification(timer.notifyID);
+
+  // Update or end Live Activity
+  if (activeTeas.length <= 1) {
+    await liveActivityService.end();
+  } else {
+    await liveActivityService.startOrUpdate(activeTeas);
+  }
+}
+
+// Cancel the active Quick Timer
+void cancelQuickTimer(AppProvider provider) {
+  cancelTimerForTea(provider.quickTimer, provider);
+}
+
+// Cancel timer for a given tea
+void cancelTimerForTea(Tea tea, AppProvider provider) {
+  for (final timer in timerList) {
+    if (timer.tea == tea) {
+      cancelTimer(timer, provider);
+    }
+  }
+  provider
+    ..deactivateTea(tea)
+    ..notifyTimerTick();
+}
+
+// Force cancel and reset all timers
+void cancelAllTimers(AppProvider provider) {
+  for (final timer in timerList) {
+    cancelTimer(timer, provider);
+  }
+  cancelTimerForTea(provider.quickTimer, provider);
+  provider.clearActiveTea();
 }

@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 class TeaBrewTimeDialog extends StatefulWidget {
   const TeaBrewTimeDialog({
     super.key,
+    this.title,
     required this.initialHours,
     required this.hourOptions,
     required this.hourLabel,
@@ -36,6 +37,7 @@ class TeaBrewTimeDialog extends StatefulWidget {
     required this.buttonTextOK,
   });
 
+  final Widget? title;
   final int initialHours;
   final List<int> hourOptions;
   final String hourLabel;
@@ -90,6 +92,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog.adaptive(
+      title: widget.title,
       // Time entry
       content: _timePicker,
       actions: <Widget>[

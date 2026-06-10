@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/pages/prefs_page.dart';
+import 'package:cuppa_mobile/widgets/quick_timer_button.dart';
 import 'package:cuppa_mobile/widgets/tea_button_list.dart';
 import 'package:cuppa_mobile/widgets/teacup.dart';
 import 'package:cuppa_mobile/widgets/timer_countdown.dart';
@@ -133,6 +134,17 @@ class TimerWidget extends StatelessWidget {
                 ),
               ],
             ),
+            // Floating button to start a Quick Timer
+            Positioned(
+              top: layoutPortrait ? xsmallSpacing : largeSpacing,
+              left: layoutPortrait ? smallSpacing : largeSpacing,
+              child: tutorialTooltip(
+                context: context,
+                key: tutorialKey6,
+                showBorder: true,
+                child: const QuickTimerButton(),
+              ),
+            ),
             // Floating button to navigate to Preferences page
             Positioned(
               top: layoutPortrait ? xsmallSpacing : largeSpacing,
@@ -156,4 +168,5 @@ class TimerWidget extends StatelessWidget {
       ),
     );
   }
+
 }

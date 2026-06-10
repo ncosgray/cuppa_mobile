@@ -160,6 +160,7 @@ const prefTea3Color = 'Cuppa_tea3_color';
 const prefTea3IsFavorite = 'Cuppa_tea3_is_favorite';
 const prefTea3IsActive = 'Cuppa_tea3_is_active';
 const prefTeaList = 'Cuppa_tea_list';
+const prefQuickTimer = 'Cuppa_quick_timer';
 
 // Shared prefs keys for other settings
 const prefNextTeaID = 'Cuppa_next_tea_id';
@@ -231,6 +232,9 @@ const followSystemLanguage = '';
 // Animation durations
 const shortAnimationDuration = Duration(milliseconds: 100);
 const longAnimationDuration = Duration(milliseconds: 200);
+
+// Quick Timer
+const defaultQuickTimerSeconds = 180;
 
 // Timer adjustments
 const incrementSeconds = 10;

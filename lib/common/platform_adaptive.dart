@@ -57,6 +57,18 @@ Icon get platformChevronIcon => Platform.isIOS
     ? Icon(CupertinoIcons.chevron_right)
     : Icon(Icons.chevron_right);
 
+Icon getPlatformQuickTimerIcon([Color? color]) {
+  return Platform.isIOS
+      ? Icon(CupertinoIcons.timer_fill, size: 24)
+      : Icon(Icons.timer);
+}
+
+Icon getPlatformQuickTimerCancelIcon([Color? color]) {
+  return Platform.isIOS
+      ? Icon(CupertinoIcons.xmark_circle_fill, size: 24, color: color)
+      : Icon(Icons.timer_off, color: color);
+}
+
 Icon getPlatformEditIcon({double? size}) {
   return Platform.isIOS
       ? Icon(CupertinoIcons.pencil_ellipsis_rectangle, size: size)

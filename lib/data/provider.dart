@@ -50,6 +50,7 @@ class AppProvider extends ChangeNotifier {
       // Manage shortcut options
       setupShortcuts();
     }
+    _quickTimer = Prefs.loadQuickTimer() ?? _quickTimer;
   }
 
   // Teas
@@ -298,13 +299,27 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Quick timer tea
+  Tea _quickTimer = quickTimerTea(unknownString, defaultQuickTimerSeconds);
+  Tea get quickTimer => _quickTimer;
+  void setQuickTimer(String name, int newValue) {
+    _quickTimer = quickTimerTea(name, newValue, isActive: true);
+    Prefs.saveQuickTimer(_quickTimer);
+    notifyListeners();
+  }
+
+  bool get isQuickTimerActive => _quickTimer.isActive;
+
   // Activate a tea
-  void activateTea(Tea tea, int notifyID, silentDefault) {
+  void activateTea(Tea tea, int notifyID, bool silentDefault) {
     int teaIndex = _teaList.indexOf(tea);
     if (teaIndex >= 0) {
       _teaList[teaIndex].activate(notifyID, silentDefault);
       Prefs.saveTeas(_teaList);
-      notifyTimerTick();
+    } else {
+      tea.activate(notifyID, silentDefault);
+      _quickTimer = tea;
+      Prefs.saveQuickTimer(_quickTimer);
     }
   }
 
@@ -314,22 +329,31 @@ class AppProvider extends ChangeNotifier {
     if (teaIndex >= 0) {
       _teaList[teaIndex].deactivate();
       Prefs.saveTeas(_teaList);
-      notifyTimerTick();
+    } else if (tea == _quickTimer) {
+      _quickTimer.deactivate();
+      Prefs.saveQuickTimer(_quickTimer);
     }
   }
 
   // Adjust a tea's brewing time
   bool incrementTimer(Tea tea, int secs) {
-    int teaIndex = _teaList.indexOf(tea);
-    if (teaIndex >= 0) {
-      Tea tea = _teaList[teaIndex];
+    final int teaIndex = _teaList.indexOf(tea);
+    final Tea? target = teaIndex >= 0
+        ? _teaList[teaIndex]
+        : (tea == _quickTimer ? _quickTimer : null);
+    if (target != null) {
       int ms = secs * 1000;
       int now = DateTime.now().millisecondsSinceEpoch;
-      if (tea.isActive &&
-          tea.timerEndTime + ms > now &&
-          tea.timerEndTime + ms < now + (teaBrewTimeMaxHours * 3600 * 1000)) {
-        tea.adjustBrewTimeRemaining(ms);
-        Prefs.saveTeas(_teaList);
+      if (target.isActive &&
+          target.timerEndTime + ms > now &&
+          target.timerEndTime + ms <
+              now + (teaBrewTimeMaxHours * 3600 * 1000)) {
+        target.adjustBrewTimeRemaining(ms);
+        if (teaIndex >= 0) {
+          Prefs.saveTeas(_teaList);
+        } else {
+          Prefs.saveQuickTimer(_quickTimer);
+        }
         notifyTimerTick();
         return true;
       }
@@ -343,12 +367,17 @@ class AppProvider extends ChangeNotifier {
       tea.deactivate();
     });
     Prefs.saveTeas(_teaList);
+    _quickTimer.deactivate();
+    Prefs.saveQuickTimer(_quickTimer);
     notifyTimerTick();
   }
 
   // Get active tea list
   List<Tea> get activeTeas {
-    return _teaList.where((tea) => tea.isActive == true).toList();
+    return [
+      ..._teaList.where((tea) => tea.isActive),
+      if (isQuickTimerActive) _quickTimer,
+    ];
   }
 
   // Setting: show brew time, temperature, and ratio on timer buttons

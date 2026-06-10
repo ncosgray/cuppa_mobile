@@ -25,7 +25,6 @@ import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
-import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea_timer.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/pages/prefs_page.dart';
@@ -220,7 +219,10 @@ class _TeaButtonListState extends State<TeaButtonList> {
                     ? () => _setTimer(tea)
                     : null,
                 onLongPress: () => _openTeaSettings(tea),
-                onCancelPressed: () => _cancelTimerForTea(tea),
+                onCancelPressed: () => cancelTimerForTea(
+                  tea,
+                  Provider.of<AppProvider>(context, listen: false),
+                ),
               ),
             ),
           ],
@@ -299,71 +301,12 @@ class _TeaButtonListState extends State<TeaButtonList> {
     }
   }
 
-  // Ticker handler for a TeaTimer
-  void Function(Timer? ticker) _handleTick(TeaTimer timer) {
-    return (ticker) {
-      if (timer.isActive) {
-        int timerSeconds = timer.timerSeconds;
-        if (timerSeconds > 0) {
-          timer.decrement();
-          if (timer.timerSeconds != timerSeconds) {
-            // Only update UI if the timer countdown changed
-            Provider.of<AppProvider>(context, listen: false).notifyTimerTick();
-          }
-        } else {
-          // Brewing complete
-          if (timer.tea != null) {
-            cancelOngoingNotification(timer.notifyID);
-            Provider.of<AppProvider>(
-              context,
-              listen: false,
-            ).deactivateTea(timer.tea!);
-          }
-          timer.stop();
-
-          // Update or end Live Activity
-          liveActivityService.startOrUpdate(
-            Provider.of<AppProvider>(context, listen: false).activeTeas,
-          );
-        }
-      }
-    };
-  }
-
   // Start a new brewing timer
   void _setTimer(Tea tea, {bool resume = false, bool autoScroll = false}) {
-    // Determine next available timer
-    TeaTimer timer = !timer1.isActive ? timer1 : timer2;
-
-    if (!resume) {
-      AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-
-      // Start a new timer
-      provider.activateTea(tea, timer.notifyID, provider.silentDefault);
-      sendNotification(
-        timer.notifyID,
-        tea.name,
-        tea.brewTime,
-        silent: provider.silentDefault,
-        preNotify: provider.preNotify,
-      );
-      sendOngoingNotification(timer.notifyID, tea.name, tea.timerEndTime);
-
-      // Update timer stats, if enabled
-      if (provider.collectStats) {
-        Stats.insertStat(Stat(tea: tea));
-      }
-    } else if (tea.timerNotifyID != null) {
-      // Resume with same timer ID
-      timer = tea.timerNotifyID == timer1.notifyID ? timer1 : timer2;
-    }
-
-    // Set up timer state
-    timer.start(tea, _handleTick(timer));
-
-    // Update Live Activity
-    liveActivityService.startOrUpdate(
-      Provider.of<AppProvider>(context, listen: false).activeTeas,
+    setTimer(
+      tea,
+      Provider.of<AppProvider>(context, listen: false),
+      resume: resume,
     );
 
     if (autoScroll) {
@@ -385,43 +328,6 @@ class _TeaButtonListState extends State<TeaButtonList> {
     checkReviewPrompt();
   }
 
-  // Cancel a timer
-  Future<void> _cancelTimer(TeaTimer timer) async {
-    // Capture active teas before async gap
-    final activeTeas = Provider.of<AppProvider>(
-      context,
-      listen: false,
-    ).activeTeas;
-
-    timer.reset();
-    await notify.cancel(id: timer.notifyID);
-    await cancelOngoingNotification(timer.notifyID);
-
-    // Update or end Live Activity
-    if (activeTeas.length <= 1) {
-      await liveActivityService.end();
-    } else {
-      await liveActivityService.startOrUpdate(activeTeas);
-    }
-  }
-
-  // Cancel timer for a given tea
-  void _cancelTimerForTea(Tea tea) {
-    for (final timer in timerList) {
-      if (timer.tea == tea) {
-        _cancelTimer(timer);
-      }
-    }
-  }
-
-  // Force cancel and reset all timers
-  void _cancelAllTimers() {
-    for (final timer in timerList) {
-      _cancelTimer(timer);
-    }
-    Provider.of<AppProvider>(context, listen: false).clearActiveTea();
-  }
-
   // Start timer from stored prefs
   void _checkNextTimer() {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
@@ -431,9 +337,17 @@ class _TeaButtonListState extends State<TeaButtonList> {
       if (tea.brewTimeRemaining > 0) {
         // Resume timer from stored prefs
         _setTimer(tea, resume: true, autoScroll: true);
-        sendOngoingNotification(tea.timerNotifyID!, tea.name, tea.timerEndTime);
+        if (tea.timerNotifyID != null) {
+          sendOngoingNotification(
+            tea.timerNotifyID!,
+            tea.name,
+            tea.timerEndTime,
+          );
+        }
       } else {
-        provider.deactivateTea(tea);
+        provider
+          ..deactivateTea(tea)
+          ..notifyTimerTick();
       }
     }
   }
@@ -458,7 +372,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
               body: Text(AppString.confirm_message_line1.translate()),
               bodyExtra: Text(AppString.confirm_message_line2.translate()),
             )) {
-              _cancelAllTimers();
+              cancelAllTimers(provider);
             } else {
               return;
             }

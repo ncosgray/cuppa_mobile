@@ -204,6 +204,23 @@ abstract class Prefs {
     sharedPrefs.setInt(prefNextTeaID, nextTeaID);
   }
 
+  // Quick Timer tea
+  static Tea? loadQuickTimer() {
+    String? quickTimerJson = sharedPrefs.getString(prefQuickTimer);
+    if (quickTimerJson != null) {
+      try {
+        return Tea.fromJson(jsonDecode(quickTimerJson));
+      } catch (e) {
+        // Something went wrong
+      }
+    }
+    return null;
+  }
+
+  static void saveQuickTimer(Tea quickTimer) {
+    sharedPrefs.setString(prefQuickTimer, jsonEncode(quickTimer.toJson()));
+  }
+
   // Get settings from shared prefs
   static List<ExtraInfo>? loadShowExtraList() {
     if (sharedPrefs.containsKey(prefShowExtraList)) {
