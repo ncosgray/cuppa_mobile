@@ -87,6 +87,7 @@
   "stats_include_deleted": "Include deleted teas in chart",
   "stats_no_data_1": "No data yet!",
   "stats_no_data_2": "Start a timer to begin collecting stats.",
+  "stats_quick_timer": "Quick Timers started",
   "stats_starred": "Starred teas {{star_symbol}}",
   "stats_tea_amount": "Total amount of tea",
   "stats_timer_count": "Timers started",

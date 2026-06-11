@@ -43,6 +43,7 @@ class _StatsWidgetState extends State<StatsWidget> {
   // Timer data
   int _beginDateTime = 0;
   int _totalCount = 0;
+  int _quickTimerCount = 0;
   int _starredCount = 0;
   int _totalTime = 0;
   double _totalAmountG = 0;
@@ -169,7 +170,8 @@ class _StatsWidgetState extends State<StatsWidget> {
                                     Visibility(
                                       visible:
                                           _includeDeleted ||
-                                          _totalCount != _filteredTotalCount,
+                                          _totalCount - _quickTimerCount !=
+                                              _filteredTotalCount,
                                       child: Padding(
                                         padding: smallDefaultPadding,
                                         child: Row(
@@ -248,6 +250,7 @@ class _StatsWidgetState extends State<StatsWidget> {
   Future<bool> _fetchTimerStats() async {
     _beginDateTime = await Stats.getMetric(MetricQuery.beginDateTime);
     _totalCount = await Stats.getMetric(MetricQuery.totalCount);
+    _quickTimerCount = await Stats.getMetric(MetricQuery.quickTimerCount);
     _starredCount = await Stats.getMetric(MetricQuery.starredCount);
     _totalTime = await Stats.getMetric(MetricQuery.totalTime);
     _morningTea = await Stats.getString(StringQuery.morningTea);
@@ -464,12 +467,16 @@ class _StatsWidgetState extends State<StatsWidget> {
           metricName: AppString.stats_timer_count.translate(),
           metric: _totalCount.toString(),
         ),
+        _metricWidget(
+          metricName: AppString.stats_quick_timer.translate(),
+          metric: _quickTimerCount.toString(),
+        ),
         Visibility(
-          visible: _totalCount > 0,
+          visible: _totalCount - _quickTimerCount > 0,
           child: _metricWidget(
             metricName: AppString.stats_starred.translate(),
             metric: AppLocalizations.numberString(
-              _starredCount / _totalCount,
+              _starredCount / (_totalCount - _quickTimerCount),
               asPercentage: true,
             ),
           ),

@@ -87,6 +87,7 @@
   "stats_include_deleted": "Включить удаленные команды в диаграмму",
   "stats_no_data_1": "Пока нет данных!",
   "stats_no_data_2": "Запустите таймер, чтобы начать сбор статистики.",
+  "stats_quick_timer": "Быстрых таймеров запущено",
   "stats_starred": "Звездные чаи {{star_symbol}}",
   "stats_tea_amount": "Общее количество чая",
   "stats_timer_count": "Таймеров запущено",

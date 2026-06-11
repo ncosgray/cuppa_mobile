@@ -40,6 +40,7 @@ class Stat {
     int? iconValue,
     bool? isFavorite,
     int? timerStartTime,
+    bool? isQuickTimer,
     int? count,
   }) {
     this.id = tea?.id ?? id ?? 0;
@@ -61,6 +62,7 @@ class Stat {
     this.isFavorite = tea?.isFavorite ?? isFavorite ?? false;
     this.timerStartTime =
         timerStartTime ?? DateTime.now().millisecondsSinceEpoch;
+    this.isQuickTimer = isQuickTimer ?? false;
     this.count = count ?? 0;
   }
 
@@ -84,6 +86,7 @@ class Stat {
       iconValue: tryCast<int>(json[jsonKeyIcon]) ?? defaultTeaIconValue,
       isFavorite: tryCast<bool>(json[jsonKeyIsFavorite]) ?? false,
       timerStartTime: tryCast<int>(json[jsonKeyTimerStartTime]) ?? 0,
+      isQuickTimer: tryCast<bool>(json[jsonKeyIsQuickTimer]) ?? false,
     );
   }
 
@@ -100,6 +103,7 @@ class Stat {
     jsonKeyIcon: iconValue,
     jsonKeyIsFavorite: isFavorite,
     jsonKeyTimerStartTime: timerStartTime,
+    jsonKeyIsQuickTimer: isQuickTimer,
   };
 
   // Convert a stat to a map for inserting
@@ -117,6 +121,7 @@ class Stat {
       statsColumnIconValue: iconValue,
       statsColumnIsFavorite: isFavorite ? 1 : 0,
       statsColumnTimerStartTime: timerStartTime,
+      statsColumnIsQuickTimer: isQuickTimer ? 1 : 0,
     };
   }
 
@@ -133,6 +138,7 @@ class Stat {
   late int iconValue;
   late bool isFavorite;
   late int timerStartTime;
+  late bool isQuickTimer;
   late int count;
 
   // Getters
@@ -157,11 +163,14 @@ abstract class Stats {
       , $statsColumnTimerStartTime INTEGER
       , $statsColumnBrewAmount INTEGER
       , $statsColumnBrewAmountMetric INTEGER
+      , $statsColumnIsQuickTimer INTEGER
     )''';
   static const upgradeV2Step1SQL = '''ALTER TABLE $statsTable
     ADD $statsColumnBrewAmount INTEGER''';
   static const upgradeV2Step2SQL = '''ALTER TABLE $statsTable
     ADD $statsColumnBrewAmountMetric INTEGER''';
+  static const upgradeV3SQL = '''ALTER TABLE $statsTable
+    ADD $statsColumnIsQuickTimer INTEGER''';
   static const deleteAllSQL = 'DELETE FROM $statsTable';
 
   // Stats database getter
@@ -177,12 +186,15 @@ abstract class Stats {
   static Future<Database> openStats() async {
     return await openDatabase(
       join(await getDatabasesPath(), statsDatabase),
-      version: 2,
+      version: 3,
       onCreate: (Database db, _) async => await db.execute(createSQL),
       onUpgrade: (Database db, int oldVersion, int newVersion) async {
         if (oldVersion < 2) {
           await db.execute(upgradeV2Step1SQL);
           await db.execute(upgradeV2Step2SQL);
+        }
+        if (oldVersion < 3) {
+          await db.execute(upgradeV3SQL);
         }
       },
     );
@@ -247,6 +259,8 @@ abstract class Stats {
         timerStartTime: int.tryParse(
           results[i][statsColumnTimerStartTime].toString(),
         ),
+        isQuickTimer:
+            int.tryParse(results[i][statsColumnIsQuickTimer].toString()) == 1,
         count: int.tryParse(results[i][statsColumnCount].toString()),
       );
     });
@@ -297,7 +311,8 @@ enum MetricQuery {
   beginDateTime(_beginDateTimeSQL),
   totalCount(_totalCountSQL),
   totalTime(_totalTimeSQL),
-  starredCount(_starredCountSQL);
+  starredCount(_starredCountSQL),
+  quickTimerCount(_quickTimerCountSQL);
 
   const MetricQuery(this.sql);
 
@@ -316,6 +331,10 @@ enum MetricQuery {
       '''SELECT COUNT(*) AS metric
     FROM $statsTable
     WHERE $statsColumnIsFavorite = 1''';
+  static const _quickTimerCountSQL =
+      '''SELECT COUNT(*) AS metric
+    FROM $statsTable
+    WHERE IFNULL($statsColumnIsQuickTimer, 0) = 1''';
 }
 
 // Decimal queries
@@ -331,11 +350,13 @@ enum DecimalQuery {
   static const _totalAmountGSQL =
       '''SELECT SUM($statsColumnBrewAmount)/10.0 AS metric
     FROM $statsTable
-    WHERE $statsColumnBrewAmountMetric = 1''';
+    WHERE $statsColumnBrewAmountMetric = 1
+    AND IFNULL($statsColumnIsQuickTimer, 0) = 0''';
   static const _totalAmountTspSQL =
       '''SELECT SUM($statsColumnBrewAmount)/10.0 AS metric
     FROM $statsTable
-    WHERE $statsColumnBrewAmountMetric <> 1''';
+    WHERE $statsColumnBrewAmountMetric <> 1
+    AND IFNULL($statsColumnIsQuickTimer, 0) = 0''';
 }
 
 // String queries
@@ -358,6 +379,7 @@ enum StringQuery {
     ) AS string
     FROM $statsTable stat
     WHERE STRFTIME('%H', stat.$statsColumnTimerStartTime / 1000, 'unixepoch', 'localtime') - 12 < 0
+    AND IFNULL($statsColumnIsQuickTimer, 0) = 0
     GROUP BY stat.$statsColumnId
     ORDER BY COUNT(*) DESC
     LIMIT 1''';
@@ -371,6 +393,7 @@ enum StringQuery {
     ) AS string
     FROM $statsTable stat
     WHERE STRFTIME('%H', stat.$statsColumnTimerStartTime / 1000, 'unixepoch', 'localtime') - 12 >= 0
+    AND IFNULL($statsColumnIsQuickTimer, 0) = 0
     GROUP BY stat.$statsColumnId
     ORDER BY COUNT(*) DESC
     LIMIT 1''';
@@ -413,6 +436,7 @@ enum ListQuery {
       )
     ) AS tea
     ON tea.$statsColumnId = $statsTable.$statsColumnId
+    WHERE IFNULL($statsTable.$statsColumnIsQuickTimer, 0) = 0
     GROUP BY $statsTable.$statsColumnId
     , tea.$statsColumnName
     , tea.$statsColumnColorShadeRed
@@ -426,12 +450,14 @@ enum ListQuery {
       '''SELECT $statsTable.$statsColumnId
     , COUNT(*) AS count
     FROM $statsTable
+    WHERE IFNULL($statsTable.$statsColumnIsQuickTimer, 0) = 0
     GROUP BY $statsTable.$statsColumnId
     ORDER BY COUNT(*) DESC''';
   static const _recentlyUsedSQL =
       '''SELECT $statsTable.$statsColumnId
     , MAX($statsTable.$statsColumnTimerStartTime) AS count
     FROM $statsTable
+    WHERE IFNULL($statsTable.$statsColumnIsQuickTimer, 0) = 0
     GROUP BY $statsTable.$statsColumnId
     ORDER BY MAX($statsTable.$statsColumnTimerStartTime) DESC''';
 }

@@ -100,7 +100,12 @@ int get activeTimerCount {
 }
 
 // Start a new brewing timer
-void setTimer(Tea tea, AppProvider provider, {bool resume = false}) {
+void setTimer(
+  Tea tea,
+  AppProvider provider, {
+  bool resume = false,
+  bool isQuickTimer = false,
+}) {
   // Determine next available timer
   TeaTimer timer = !timer1.isActive ? timer1 : timer2;
 
@@ -118,7 +123,7 @@ void setTimer(Tea tea, AppProvider provider, {bool resume = false}) {
 
     // Update timer stats, if enabled
     if (provider.collectStats) {
-      Stats.insertStat(Stat(tea: tea));
+      Stats.insertStat(Stat(tea: tea, isQuickTimer: isQuickTimer));
     }
   } else if (tea.timerNotifyID != null) {
     // Resume with same timer ID

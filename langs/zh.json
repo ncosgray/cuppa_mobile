@@ -87,6 +87,7 @@
   "stats_include_deleted": "在图表中包括已删除的茶",
   "stats_no_data_1": "尚无数据！",
   "stats_no_data_2": "启动计时器以开始收集统计数据。",
+  "stats_quick_timer": "快速计时器已启动",
   "stats_starred": "加星的茶 {{star_symbol}}",
   "stats_tea_amount": "茶的总量",
   "stats_timer_count": "计时器已启动",

@@ -87,6 +87,7 @@
   "stats_include_deleted": "Incluir os chás eliminados no gráfico",
   "stats_no_data_1": "Ainda não há dados!",
   "stats_no_data_2": "Inicie um cronômetro para começar a coletar estatísticas.",
+  "stats_quick_timer": "Temporizadores rápidos iniciados",
   "stats_starred": "Chás estrelados {{star_symbol}}",
   "stats_tea_amount": "Quantidade total de chá",
   "stats_timer_count": "Temporizadores iniciados",

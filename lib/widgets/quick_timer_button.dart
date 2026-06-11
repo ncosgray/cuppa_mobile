@@ -90,7 +90,7 @@ class QuickTimerButton extends StatelessWidget {
     if (secs != null && activeTimerCount < timersMaxCount) {
       // Save and start a timer
       provider.setQuickTimer(quickTimerLabel, secs);
-      setTimer(provider.quickTimer, provider);
+      setTimer(provider.quickTimer, provider, isQuickTimer: true);
     }
   }
 }

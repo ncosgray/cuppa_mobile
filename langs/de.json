@@ -87,6 +87,7 @@
   "stats_include_deleted": "Gelöschte Tees in Diagramm einbeziehen",
   "stats_no_data_1": "Noch keine Daten!",
   "stats_no_data_2": "Starten Sie einen Timer, um mit der Erfassung von Statistiken zu beginnen.",
+  "stats_quick_timer": "Schnell-Timer gestartet",
   "stats_starred": "Tees mit Sternchen {{star_symbol}}",
   "stats_tea_amount": "Gesamtmenge an Tee",
   "stats_timer_count": "Gestartete Timer",

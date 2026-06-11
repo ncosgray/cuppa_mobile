@@ -87,6 +87,7 @@
   "stats_include_deleted": "Inkluder slettede teer i diagrammet",
   "stats_no_data_1": "Ingen data ennå!",
   "stats_no_data_2": "Start en timer for å begynne å samle inn statistikk.",
+  "stats_quick_timer": "Hurtige tidtakere startet",
   "stats_starred": "Stjernede teer {{star_symbol}}",
   "stats_tea_amount": "Total mengde te",
   "stats_timer_count": "Tidtakere startet",

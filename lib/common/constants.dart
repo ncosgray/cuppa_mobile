@@ -219,6 +219,7 @@ const jsonKeyTimerEndTime = 'timerEndTime';
 const jsonKeyTimerNotifyID = 'timerNotifyID';
 const jsonKeyStats = 'stats';
 const jsonKeyTimerStartTime = 'timerStartTime';
+const jsonKeyIsQuickTimer = 'isQuickTimer';
 const jsonKeyBrewAmount = 'brewAmount';
 const jsonKeyBrewAmountMetric = 'brewAmountMetric';
 
@@ -262,6 +263,7 @@ const statsColumnColorShadeBlue = 'colorShadeBlue';
 const statsColumnIconValue = 'iconValue';
 const statsColumnIsFavorite = 'isFavorite';
 const statsColumnTimerStartTime = 'timerStartTime';
+const statsColumnIsQuickTimer = 'isQuickTimer';
 const statsColumnCount = 'count';
 const statsColumnMetric = 'metric';
 const statsColumnString = 'string';

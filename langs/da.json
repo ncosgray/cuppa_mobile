@@ -87,6 +87,7 @@
   "stats_include_deleted": "Medtag slettede te i diagrammet",
   "stats_no_data_1": "Ingen data endnu!",
   "stats_no_data_2": "Start en timer for at begynde at indsamle statistik.",
+  "stats_quick_timer": "Hurtige timere startet",
   "stats_starred": "Stjernemarkerede teer {{star_symbol}}",
   "stats_tea_amount": "Samlet mængde te",
   "stats_timer_count": "Timere startet",

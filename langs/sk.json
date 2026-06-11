@@ -87,6 +87,7 @@
   "stats_include_deleted": "Zahrnúť zmazané čaje do grafu",
   "stats_no_data_1": "Zatiaľ žiadne údaje!",
   "stats_no_data_2": "Spustite časovač a začnite zhromažďovať štatistiky.",
+  "stats_quick_timer": "Začali rýchle časovače",
   "stats_starred": "Hviezdičkové čaje {{star_symbol}}",
   "stats_tea_amount": "Celkové množstvo čaju",
   "stats_timer_count": "Začali časovače",

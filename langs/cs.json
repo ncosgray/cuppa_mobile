@@ -87,6 +87,7 @@
   "stats_include_deleted": "Zahrnout odstraněné čaje do grafu",
   "stats_no_data_1": "Zatím žádná data!",
   "stats_no_data_2": "Spusťte časovač pro zahájení sběru statistik.",
+  "stats_quick_timer": "Rychlé časovače spuštěny",
   "stats_starred": "Hvězdné čaje {{star_symbol}}",
   "stats_tea_amount": "Celkové množství čaje",
   "stats_timer_count": "Časovače spuštěny",

@@ -87,6 +87,7 @@
   "stats_include_deleted": "Включити видалені чаї в діаграму",
   "stats_no_data_1": "Поки що немає даних!",
   "stats_no_data_2": "Запустіть таймер, щоб розпочати збір статистики.",
+  "stats_quick_timer": "Швидкі таймери запущені",
   "stats_starred": "Чаї позначені зірочкою {{star_symbol}}",
   "stats_tea_amount": "Загальна кількість чаю",
   "stats_timer_count": "Таймери запущені",
