@@ -32,8 +32,8 @@ Map<GlobalKey, List<AppString>> tutorialSteps = {
   tutorialKey1: [.tutorial_text1],
   tutorialKey2: [.tutorial_text2, .prefs_title],
   tutorialKey3: [.tutorial_text3, .teas_title],
-  tutorialKey6: [.tutorial_text6],
   tutorialKey4: [.tutorial_text4],
+  tutorialKey6: [.tutorial_text6],
   tutorialKey5: [.tutorial_text5],
 };
 
