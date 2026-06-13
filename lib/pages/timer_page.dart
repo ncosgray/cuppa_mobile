@@ -135,9 +135,8 @@ class TimerWidget extends StatelessWidget {
               ],
             ),
             // Floating button to start a Quick Timer
-            Positioned(
-              top: layoutPortrait ? xsmallSpacing : largeSpacing,
-              left: layoutPortrait ? smallSpacing : largeSpacing,
+            _floatingNavButton(
+              isRight: false,
               child: tutorialTooltip(
                 context: context,
                 key: tutorialKey6,
@@ -146,9 +145,8 @@ class TimerWidget extends StatelessWidget {
               ),
             ),
             // Floating button to navigate to Preferences page
-            Positioned(
-              top: layoutPortrait ? xsmallSpacing : largeSpacing,
-              right: layoutPortrait ? smallSpacing : largeSpacing,
+            _floatingNavButton(
+              isRight: true,
               child: tutorialTooltip(
                 context: context,
                 key: tutorialKey2,
@@ -159,6 +157,7 @@ class TimerWidget extends StatelessWidget {
                   onPressed: adaptiveOnPressed(
                     context,
                     route: const PrefsWidget(),
+                    transitionUp: true,
                   ),
                 ),
               ),
@@ -168,5 +167,27 @@ class TimerWidget extends StatelessWidget {
       ),
     );
   }
+}
 
+// Positions a floating button in a top corner of the screen
+Widget _floatingNavButton({required bool isRight, required Widget child}) {
+  return Positioned(
+    top: 0,
+    left: isRight ? null : 0,
+    right: isRight ? 0 : null,
+    child: SafeArea(
+      top: false,
+      left: !isRight,
+      right: isRight,
+      bottom: false,
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: smallSpacing,
+          left: isRight ? 0.0 : largeSpacing,
+          right: isRight ? largeSpacing : 0.0,
+        ),
+        child: child,
+      ),
+    ),
+  );
 }

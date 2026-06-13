@@ -233,6 +233,7 @@ const followSystemLanguage = '';
 // Animation durations
 const shortAnimationDuration = Duration(milliseconds: 100);
 const longAnimationDuration = Duration(milliseconds: 200);
+const transitionAnimationDuration = Duration(milliseconds: 400);
 
 // Quick Timer
 const defaultQuickTimerSeconds = 180;

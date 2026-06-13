@@ -85,152 +85,164 @@ class _StatsWidgetState extends State<StatsWidget> {
         builder: (_, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasData) {
             return CustomScrollView(
-              slivers: _filteredSummaryStats.isEmpty
-                  // No data to show
-                  ? [
-                      SliverFillRemaining(
-                        hasScrollBody: false,
-                        child: Padding(
-                          padding: bodyPadding,
-                          child: Column(
-                            mainAxisAlignment: .center,
-                            children: [
-                              Text(
-                                AppString.stats_no_data_1.translate(),
-                                style: textStyleHeader,
-                                textAlign: .center,
-                              ),
-                              Text(
-                                AppString.stats_no_data_2.translate(),
-                                style: textStyleSubtitle,
-                                textAlign: .center,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ]
-                  // Usage report
-                  : [
-                      // Summary section
-                      SliverToBoxAdapter(
-                        child: SafeArea(
-                          top: false,
-                          bottom: false,
+              slivers: [
+                adaptivePageHeader(
+                  context,
+                  title: AppString.stats_title.translate(),
+                ),
+                ..._filteredSummaryStats.isEmpty
+                    // No data to show
+                    ? [
+                        SliverFillRemaining(
+                          hasScrollBody: false,
                           child: Padding(
-                            padding: EdgeInsetsGeometry.only(top: largeSpacing),
-                            child: Flex(
-                              // Determine layout by device size
-                              direction: layoutPortrait
-                                  ? .vertical
-                                  : .horizontal,
-                              mainAxisAlignment: .spaceBetween,
-                              crossAxisAlignment: .start,
+                            padding: bodyPadding,
+                            child: Column(
+                              mainAxisAlignment: .center,
                               children: [
-                                // Summary stats
-                                Align(
-                                  alignment: .topLeft,
-                                  child: ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                      maxWidth: summaryWidth,
-                                    ),
-                                    child: AnimatedSize(
-                                      duration: longAnimationDuration,
-                                      child: Column(
-                                        crossAxisAlignment: .start,
-                                        children: <Widget>[
-                                          ..._filteredSummaryStats.map<Widget>(
-                                            (Stat stat) => _statWidget(
-                                              stat: stat,
-                                              statIndex: _summaryStats.indexOf(
-                                                stat,
-                                              ),
-                                              maxWidth: summaryWidth,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                Text(
+                                  AppString.stats_no_data_1.translate(),
+                                  style: textStyleHeader,
+                                  textAlign: .center,
                                 ),
-                                Column(
-                                  children: [
-                                    // Summary pie chart
-                                    Visibility(
-                                      visible: _filteredSummaryStats.isNotEmpty,
-                                      child: Align(
-                                        alignment: .topCenter,
-                                        child: Padding(
-                                          padding: const .all(24),
-                                          child: _chart(chartSize: chartSize),
-                                        ),
-                                      ),
-                                    ),
-                                    // Chart option: Include deleted teas
-                                    Visibility(
-                                      visible:
-                                          _includeDeleted ||
-                                          _totalCount - _quickTimerCount !=
-                                              _filteredTotalCount,
-                                      child: Padding(
-                                        padding: smallDefaultPadding,
-                                        child: Row(
-                                          mainAxisAlignment: .end,
-                                          children: [
-                                            ConstrainedBox(
-                                              constraints: BoxConstraints(
-                                                maxWidth: chartSize,
-                                              ),
-                                              child: Text(
-                                                AppString.stats_include_deleted
-                                                    .translate(),
-                                                textAlign: .end,
-                                                style: textStyleSettingTertiary,
-                                              ),
-                                            ),
-                                            Checkbox.adaptive(
-                                              value: _includeDeleted,
-                                              onChanged: (newValue) => setState(
-                                                () => _includeDeleted =
-                                                    newValue ?? false,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  AppString.stats_no_data_2.translate(),
+                                  style: textStyleSubtitle,
+                                  textAlign: .center,
                                 ),
                               ],
                             ),
                           ),
                         ),
-                      ),
-                      // Metrics section
-                      SliverFillRemaining(
-                        hasScrollBody: false,
-                        fillOverscroll: true,
-                        child: SafeArea(
-                          top: false,
-                          child: Container(
-                            margin: bottomSliverPadding,
-                            child: Align(
-                              alignment: .bottomCenter,
-                              // General metrics
-                              child: IntrinsicHeight(
-                                child: Card(
-                                  elevation: 1,
-                                  child: Container(
-                                    margin: largeDefaultPadding,
-                                    child: _metricsList(),
+                      ]
+                    // Usage report
+                    : [
+                        // Summary section
+                        SliverToBoxAdapter(
+                          child: SafeArea(
+                            top: false,
+                            bottom: false,
+                            child: Padding(
+                              padding: EdgeInsetsGeometry.only(
+                                top: largeSpacing,
+                              ),
+                              child: Flex(
+                                // Determine layout by device size
+                                direction: layoutPortrait
+                                    ? .vertical
+                                    : .horizontal,
+                                mainAxisAlignment: .spaceBetween,
+                                crossAxisAlignment: .start,
+                                children: [
+                                  // Summary stats
+                                  Align(
+                                    alignment: .topLeft,
+                                    child: ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                        maxWidth: summaryWidth,
+                                      ),
+                                      child: AnimatedSize(
+                                        duration: longAnimationDuration,
+                                        child: Column(
+                                          crossAxisAlignment: .start,
+                                          children: <Widget>[
+                                            ..._filteredSummaryStats
+                                                .map<Widget>(
+                                                  (Stat stat) => _statWidget(
+                                                    stat: stat,
+                                                    statIndex: _summaryStats
+                                                        .indexOf(stat),
+                                                    maxWidth: summaryWidth,
+                                                  ),
+                                                ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Column(
+                                    children: [
+                                      // Summary pie chart
+                                      Visibility(
+                                        visible:
+                                            _filteredSummaryStats.isNotEmpty,
+                                        child: Align(
+                                          alignment: .topCenter,
+                                          child: Padding(
+                                            padding: const .all(24),
+                                            child: _chart(chartSize: chartSize),
+                                          ),
+                                        ),
+                                      ),
+                                      // Chart option: Include deleted teas
+                                      Visibility(
+                                        visible:
+                                            _includeDeleted ||
+                                            _totalCount - _quickTimerCount !=
+                                                _filteredTotalCount,
+                                        child: Padding(
+                                          padding: smallDefaultPadding,
+                                          child: Row(
+                                            mainAxisAlignment: .end,
+                                            children: [
+                                              ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                  maxWidth: chartSize,
+                                                ),
+                                                child: Text(
+                                                  AppString
+                                                      .stats_include_deleted
+                                                      .translate(),
+                                                  textAlign: .end,
+                                                  style:
+                                                      textStyleSettingTertiary,
+                                                ),
+                                              ),
+                                              Checkbox.adaptive(
+                                                value: _includeDeleted,
+                                                onChanged: (newValue) =>
+                                                    setState(
+                                                      () => _includeDeleted =
+                                                          newValue ?? false,
+                                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Metrics section
+                        SliverFillRemaining(
+                          hasScrollBody: false,
+                          fillOverscroll: true,
+                          child: SafeArea(
+                            top: false,
+                            child: Container(
+                              margin: bottomSliverPadding,
+                              child: Align(
+                                alignment: .bottomCenter,
+                                // General metrics
+                                child: IntrinsicHeight(
+                                  child: Card(
+                                    elevation: 1,
+                                    child: Container(
+                                      margin: largeDefaultPadding,
+                                      child: _metricsList(),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+              ],
             );
           } else {
             // Progress indicator while fetching stats
