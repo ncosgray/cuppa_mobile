@@ -48,6 +48,7 @@ const teaButtonRowMinLength = 3;
 
 // Defaults
 const unknownString = '?';
+const dummyTeaID = -999;
 const defaultBrewTime = 240;
 const defaultTeaColorValue = 0;
 const defaultTeaIconValue = 0;
@@ -236,6 +237,7 @@ const longAnimationDuration = Duration(milliseconds: 200);
 const transitionAnimationDuration = Duration(milliseconds: 400);
 
 // Quick Timer
+const quickTimerTeaID = -1;
 const defaultQuickTimerSeconds = 180;
 
 // Timer adjustments
