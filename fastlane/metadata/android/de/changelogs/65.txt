@@ -1,0 +1,2 @@
+* Ein Fehler bei der Wiederaufnahme von Timern in bestimmten Szenarien wurde behoben.
+* Aktualisierungen der Sprachübersetzungen – hilf mit über Weblate!

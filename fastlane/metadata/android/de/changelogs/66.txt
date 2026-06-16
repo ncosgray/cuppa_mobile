@@ -1,0 +1,3 @@
+* Refactoring zur Beseitigung von Abhängigkeiten bei F-Droid-Builds.
+* Ein Fehler beim Fortsetzen von Timern in bestimmten Szenarien wurde behoben.
+* Aktualisierungen der Sprachübersetzungen – trage über Weblate dazu bei!
