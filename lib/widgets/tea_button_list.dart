@@ -28,6 +28,7 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea_timer.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/pages/prefs_page.dart';
+import 'package:cuppa_mobile/widgets/quick_timer_button.dart';
 import 'package:cuppa_mobile/widgets/tea_button.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
@@ -60,20 +61,33 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+      bool doSetupShortcuts = false;
 
       // Set default brew temp units based on locale
       // ignore: cascade_invocations
       provider.useCelsius = Prefs.loadUseCelsius() ?? deviceUsesCelsius();
 
+      // Add Quick Timer defaults if not set
+      if (!Prefs.quickTimerPrefsExist()) {
+        provider.loadQuickTimerDefaults();
+        doSetupShortcuts = true;
+      }
+
       // Add default presets if no custom teas have been set
       if (provider.teaCount == 0 && !Prefs.teaPrefsExist()) {
         provider.loadDefaults();
+        doSetupShortcuts = true;
 
         // Start a tutorial for new users
         if (Prefs.showTutorial) {
           startTutorial();
           Prefs.setSkipTutorial();
         }
+      }
+
+      // Manage shortcut options
+      if (doSetupShortcuts) {
+        provider.setupShortcuts();
       }
 
       // Manage timers
@@ -381,6 +395,24 @@ class _TeaButtonListState extends State<TeaButtonList> {
           // Start timer from shortcut
           _setTimer(tea, autoScroll: true);
         }
+        // Handle Quick Timer shortcut
+      } else if (teaIndex == quickTimerTeaID && !provider.quickTimer.isActive) {
+        if (activeTimerCount >= timersMaxCount) {
+          if (await showConfirmDialog(
+            context: context,
+            body: Text(AppString.confirm_message_line1.translate()),
+            bodyExtra: Text(AppString.confirm_message_line2.translate()),
+          )) {
+            cancelAllTimers(provider);
+          } else {
+            return;
+          }
+        }
+
+        // Open the Quick Timer dialog from the home screen
+        if (!mounted) return;
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        await openQuickTimerDialog(context);
       }
     }
   }

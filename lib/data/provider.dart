@@ -42,6 +42,7 @@ class AppProvider extends ChangeNotifier {
     _collectStats = Prefs.loadCollectStats() ?? _collectStats;
     _stackedView = Prefs.loadStackedView() ?? _stackedView;
     _preNotify = Prefs.loadPreNotify() ?? _preNotify;
+    _quickTimer = Prefs.loadQuickTimer() ?? _quickTimer;
 
     // Load teas from prefs
     if (Prefs.teaPrefsExist()) {
@@ -50,7 +51,6 @@ class AppProvider extends ChangeNotifier {
       // Manage shortcut options
       setupShortcuts();
     }
-    _quickTimer = Prefs.loadQuickTimer() ?? _quickTimer;
   }
 
   // Teas
@@ -258,6 +258,7 @@ class AppProvider extends ChangeNotifier {
     await ShortcutHandler.populate(
       teaList: teaList,
       favoritesList: favoritesList,
+      quickTimer: quickTimer,
     );
   }
 
@@ -279,9 +280,6 @@ class AppProvider extends ChangeNotifier {
           AppString.tea_name_herbal,
         ).createTea(useCelsius: _useCelsius, isFavorite: true),
       );
-
-    // Manage shortcut options
-    setupShortcuts();
   }
 
   // Get favorite tea list
@@ -306,9 +304,20 @@ class AppProvider extends ChangeNotifier {
     _quickTimer = quickTimerTea(name, newValue, isActive: true);
     Prefs.saveQuickTimer(_quickTimer);
     notifyListeners();
+
+    // Manage shortcut options
+    setupShortcuts();
   }
 
   bool get isQuickTimerActive => _quickTimer.isActive;
+
+  // Load Quick Timer defaults
+  void loadQuickTimerDefaults() {
+    _quickTimer = quickTimerTea(
+      AppString.quick_timer.translate(),
+      defaultQuickTimerSeconds,
+    );
+  }
 
   // Activate a tea
   void activateTea(Tea tea, int notifyID, bool silentDefault) {

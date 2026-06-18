@@ -49,48 +49,48 @@ class QuickTimerButton extends StatelessWidget {
                   Provider.of<AppProvider>(context, listen: false),
                 )
               : canStart
-              ? () => _openQuickTimerDialog(context)
+              ? () => openQuickTimerDialog(context)
               : null,
         );
       },
     );
   }
+}
 
-  // Display a Quick Timer dialog box
-  Future<Null> _openQuickTimerDialog(BuildContext context) async {
-    AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+// Display a Quick Timer dialog box
+Future<Null> openQuickTimerDialog(BuildContext context) async {
+  AppProvider provider = Provider.of<AppProvider>(context, listen: false);
 
-    // Get last Quick Timer values
-    int currentHours = provider.quickTimer.brewTimeHours;
-    int currentMinutes = provider.quickTimer.brewTimeMinutes;
-    int currentSeconds = provider.quickTimer.brewTimeSeconds;
-    final String quickTimerLabel = AppString.quick_timer.translate();
+  // Get last Quick Timer values
+  int currentHours = provider.quickTimer.brewTimeHours;
+  int currentMinutes = provider.quickTimer.brewTimeMinutes;
+  int currentSeconds = provider.quickTimer.brewTimeSeconds;
+  final String quickTimerLabel = AppString.quick_timer.translate();
 
-    // Ask for Quick Timer brewing time
-    final secs = await showAdaptiveDialog<int>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return TeaBrewTimeDialog(
-          initialHours: currentHours,
-          hourOptions: brewTimeHourOptions,
-          hourLabel: AppString.unit_hours.translate(),
-          initialMinutes: currentMinutes,
-          minuteOptions: brewTimeMinuteOptions,
-          minuteLabel: AppString.unit_minutes.translate(),
-          initialSeconds: currentSeconds,
-          secondOptions: brewTimeSecondOptions,
-          buttonTextCancel: AppString.cancel_button.translate(),
-          title: Text(quickTimerLabel),
-          buttonTextOK: AppString.start_button.translate(),
-        );
-      },
-    );
+  // Ask for Quick Timer brewing time
+  final secs = await showAdaptiveDialog<int>(
+    context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context) {
+      return TeaBrewTimeDialog(
+        initialHours: currentHours,
+        hourOptions: brewTimeHourOptions,
+        hourLabel: AppString.unit_hours.translate(),
+        initialMinutes: currentMinutes,
+        minuteOptions: brewTimeMinuteOptions,
+        minuteLabel: AppString.unit_minutes.translate(),
+        initialSeconds: currentSeconds,
+        secondOptions: brewTimeSecondOptions,
+        buttonTextCancel: AppString.cancel_button.translate(),
+        title: Text(quickTimerLabel),
+        buttonTextOK: AppString.start_button.translate(),
+      );
+    },
+  );
 
-    if (secs != null && activeTimerCount < timersMaxCount) {
-      // Save and start a timer
-      provider.setQuickTimer(quickTimerLabel, secs);
-      setTimer(provider.quickTimer, provider, isQuickTimer: true);
-    }
+  if (secs != null && activeTimerCount < timersMaxCount) {
+    // Save and start a timer
+    provider.setQuickTimer(quickTimerLabel, secs);
+    setTimer(provider.quickTimer, provider, isQuickTimer: true);
   }
 }

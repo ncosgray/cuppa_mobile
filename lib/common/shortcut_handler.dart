@@ -31,6 +31,7 @@ abstract class ShortcutHandler {
   static Future<void> populate({
     required List<Tea> teaList,
     required List<Tea> favoritesList,
+    required Tea quickTimer,
   }) async {
     // Create a quick action item for each favorite tea
     await quickActions.setShortcutItems([
@@ -40,13 +41,24 @@ abstract class ShortcutHandler {
           localizedTitle: tea.name,
           icon: tea.shortcutIcon,
         ),
+      // Add Quick Timer if there's space
+      if (favoritesList.length < favoritesMaxCount)
+        ShortcutItem(
+          type: shortcutPrefixID + quickTimer.id.toString(),
+          localizedTitle: quickTimer.name,
+          icon: quickTimer.shortcutIcon,
+        ),
     ]);
 
-    // Create an intelligence item for each tea (iOS only)
+    // Create an intelligence item for each tea and Quick Timer (iOS only)
     if (Platform.isIOS) {
       await intelligence.populate([
         for (final Tea tea in teaList)
           Representable(representation: tea.name, id: tea.id.toString()),
+        Representable(
+          representation: quickTimer.name,
+          id: quickTimer.id.toString(),
+        ),
       ]);
     }
   }

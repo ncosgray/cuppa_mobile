@@ -221,6 +221,11 @@ abstract class Prefs {
     sharedPrefs.setString(prefQuickTimer, jsonEncode(quickTimer.toJson()));
   }
 
+  // Determine if Quick Timer settings exist in shared prefs
+  static bool quickTimerPrefsExist() {
+    return sharedPrefs.containsKey(prefQuickTimer);
+  }
+
   // Get settings from shared prefs
   static List<ExtraInfo>? loadShowExtraList() {
     if (sharedPrefs.containsKey(prefShowExtraList)) {
