@@ -103,6 +103,7 @@ const shortcutPrefixID = 'shortcutID';
 const shortcutIconIOS = 'QuickAction';
 const shortcutIconIOSCup = 'QuickActionCup';
 const shortcutIconIOSFlower = 'QuickActionFlower';
+const shortcutIconQuickTimerIOS = 'QuickActionQuickTimer';
 const shortcutIconRed = 'ic_shortcut_red';
 const shortcutIconOrange = 'ic_shortcut_orange';
 const shortcutIconGreen = 'ic_shortcut_green';
@@ -139,6 +140,7 @@ const shortcutIconFlowerTeal = 'ic_shortcut_flower_teal';
 const shortcutIconFlowerCyan = 'ic_shortcut_flower_cyan';
 const shortcutIconFlowerLavender = 'ic_shortcut_flower_lavender';
 const shortcutIconFlowerBlack = 'ic_shortcut_flower_black';
+const shortcutIconQuickTimer = 'ic_shortcut_quick_timer';
 
 // Shared prefs keys for tea definitions
 const prefTea1Name = 'Cuppa_tea1_name';

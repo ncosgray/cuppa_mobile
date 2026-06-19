@@ -59,6 +59,8 @@ const Icon noneIcon = Icon(Icons.block, size: 20, color: defaultIconColor);
 
 const IconData undoIcon = Icons.undo;
 
+const Icon quickTimerIcon = Icon(Icons.timer);
+
 // Variable color icons
 Icon customPresetIcon({required Color color}) {
   return Icon(Icons.person, color: color, size: 24);
@@ -78,6 +80,10 @@ Icon forwardIcon({required Color color}) {
 
 Icon doneIcon({required Color color}) {
   return Icon(Icons.check, color: color);
+}
+
+Icon quickTimerCancelIcon({required Color color}) {
+  return Icon(Icons.timer_off, color: color);
 }
 
 // Icon data for increment buttons

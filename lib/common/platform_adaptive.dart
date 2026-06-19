@@ -31,15 +31,15 @@ import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
 // Platform specific icons
 Icon get platformSettingsIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.settings_solid, size: 24)
+    ? const Icon(CupertinoIcons.settings_solid)
     : const Icon(Icons.settings);
 
 Icon get platformAboutIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.question, size: 24)
+    ? const Icon(CupertinoIcons.question)
     : const Icon(Icons.help);
 
 Icon get platformStatsIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.chart_pie, size: 24)
+    ? const Icon(CupertinoIcons.chart_pie)
     : const Icon(Icons.pie_chart_outline);
 
 Icon get platformSortIcon => Platform.isIOS
@@ -57,18 +57,6 @@ Icon get platformImportIcon => Platform.isIOS
 Icon get platformChevronIcon => Platform.isIOS
     ? Icon(CupertinoIcons.chevron_right)
     : Icon(Icons.chevron_right);
-
-Icon getPlatformQuickTimerIcon([Color? color]) {
-  return Platform.isIOS
-      ? Icon(CupertinoIcons.timer_fill, size: 24)
-      : Icon(Icons.timer);
-}
-
-Icon getPlatformQuickTimerCancelIcon([Color? color]) {
-  return Platform.isIOS
-      ? Icon(CupertinoIcons.xmark_circle_fill, size: 24, color: color)
-      : Icon(Icons.timer_off, color: color);
-}
 
 Icon getPlatformEditIcon({double? size}) {
   return Platform.isIOS

@@ -14,6 +14,7 @@
 // - Floating button to start or cancel a Quick Timer
 
 import 'package:cuppa_mobile/common/constants.dart';
+import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -40,10 +41,8 @@ class QuickTimerButton extends StatelessWidget {
         return adaptiveNavBarActionButton(
           context,
           icon: isActive
-              ? getPlatformQuickTimerCancelIcon(
-                  Theme.of(context).colorScheme.error,
-                )
-              : getPlatformQuickTimerIcon(),
+              ? quickTimerCancelIcon(color: Theme.of(context).colorScheme.error)
+              : quickTimerIcon,
           onPressed: isActive
               ? () => cancelQuickTimer(
                   Provider.of<AppProvider>(context, listen: false),

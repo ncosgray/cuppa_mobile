@@ -46,7 +46,9 @@ abstract class ShortcutHandler {
         ShortcutItem(
           type: shortcutPrefixID + quickTimer.id.toString(),
           localizedTitle: quickTimer.name,
-          icon: quickTimer.shortcutIcon,
+          icon: Platform.isIOS
+              ? shortcutIconQuickTimerIOS
+              : shortcutIconQuickTimer,
         ),
     ]);
 
