@@ -17,6 +17,7 @@
 // - Create NavBar and BottomNavBar page navigation for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
+import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
@@ -183,25 +184,18 @@ Widget adaptiveNavBarActionButton(
   required Function()? onPressed,
 }) {
   if (Platform.isIOS) {
-    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     final Color primaryColor = CupertinoTheme.of(context).primaryColor;
 
-    return CustomPaint(
-      painter: _LiquidGlassShadowPainter(
-        borderRadius: 22,
-        color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.2),
+    return GlassIconButton(
+      icon: IconTheme(
+        data: IconThemeData(color: primaryColor),
+        child: icon,
       ),
-      child: GlassIconButton(
-        icon: IconTheme(
-          data: IconThemeData(color: primaryColor),
-          child: icon,
-        ),
-        onPressed: onPressed,
-        size: 44,
-        useOwnLayer: true,
-        quality: .standard,
-        settings: _liquidGlassSettings(isDark: isDark),
-      ),
+      onPressed: onPressed,
+      size: 44,
+      useOwnLayer: true,
+      quality: .standard,
+      settings: _liquidGlassSettings,
     );
   } else {
     return IconButton(
@@ -447,9 +441,7 @@ Widget adaptivePageHeader(
         ? Colors.transparent
         : Theme.of(context).scaffoldBackgroundColor,
     surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-    shadowColor: Platform.isIOS
-        ? Colors.transparent
-        : Theme.of(context).shadowColor,
+    shadowColor: Platform.isIOS ? Colors.transparent : shadowColor,
     // Override so SystemUiOverlayStyle is always correct regardless of where
     // the SliverAppBar sits relative to the status bar during scrolling
     systemOverlayStyle: Platform.isIOS
@@ -541,36 +533,25 @@ class PlatformAdaptiveNavBar extends StatelessWidget
     ];
 
     if (Platform.isIOS) {
-      final bool isDark = Theme.of(context).brightness == Brightness.dark;
-      final Color shadowColor = Colors.black.withValues(
-        alpha: isDark ? 0.35 : 0.2,
-      );
-
       return GlassAppBar(
         padding: EdgeInsets.only(
           top: smallSpacing,
           left: largeSpacing,
           right: largeSpacing,
         ),
-        // Back/done navigation button with shadow
+        // Back/done navigation button
         leading: isPoppable
-            ? CustomPaint(
-                painter: _LiquidGlassShadowPainter(
-                  borderRadius: 22,
-                  color: shadowColor,
+            ? GlassIconButton(
+                icon: Icon(
+                  previousPageTitle != null
+                      ? CupertinoIcons.chevron_back
+                      : CupertinoIcons.xmark,
+                  color: CupertinoTheme.of(context).primaryColor,
                 ),
-                child: GlassIconButton(
-                  icon: Icon(
-                    previousPageTitle != null
-                        ? CupertinoIcons.chevron_back
-                        : CupertinoIcons.xmark,
-                    color: CupertinoTheme.of(context).primaryColor,
-                  ),
-                  onPressed: () => Navigator.of(context).pop(),
-                  useOwnLayer: true,
-                  quality: .standard,
-                  settings: _liquidGlassSettings(isDark: isDark),
-                ),
+                onPressed: () => Navigator.of(context).pop(),
+                useOwnLayer: true,
+                quality: .standard,
+                settings: _liquidGlassSettings,
               )
             : null,
         actions: actions.isNotEmpty ? actions : null,
@@ -640,53 +621,47 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
     if (Platform.isIOS) {
       final Color labelColor = CupertinoColors.label.resolveFrom(context);
       final Color primaryColor = CupertinoTheme.of(context).primaryColor;
-      final bool isDark = Theme.of(context).brightness == Brightness.dark;
       const double tabWidth = 120;
       const double hPadding = 20;
       const double barBorderRadius = 32;
       final double barWidth = items.length * tabWidth + 2 * hPadding;
+
       return Padding(
         padding: const EdgeInsets.only(bottom: 24),
         child: Row(
           mainAxisAlignment: .center,
           children: [
-            CustomPaint(
-              painter: _LiquidGlassShadowPainter(
-                borderRadius: barBorderRadius,
-                color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.2),
-              ),
-              child: SizedBox(
-                width: barWidth,
-                child: GlassBottomBar(
-                  selectedIndex: currentIndex,
-                  onTabSelected: onTap ?? (_) {},
-                  tabs: items
-                      .map(
-                        (item) => GlassBottomBarTab(
-                          icon: _glassBottomBarTabIcon(
-                            icon: item.icon,
-                            label: item.label,
-                            color: labelColor,
-                          ),
-                          activeIcon: _glassBottomBarTabIcon(
-                            icon: item.icon,
-                            label: item.label,
-                            color: primaryColor,
-                          ),
+            SizedBox(
+              width: barWidth,
+              child: GlassBottomBar(
+                selectedIndex: currentIndex,
+                onTabSelected: onTap ?? (_) {},
+                tabs: items
+                    .map(
+                      (item) => GlassBottomBarTab(
+                        icon: _glassBottomBarTabIcon(
+                          icon: item.icon,
+                          label: item.label,
+                          color: labelColor,
                         ),
-                      )
-                      .toList(),
-                  barHeight: 58,
-                  verticalPadding: 0,
-                  iconSize: 22,
-                  horizontalPadding: 0,
-                  barBorderRadius: barBorderRadius,
-                  selectedIconColor: primaryColor,
-                  unselectedIconColor: labelColor,
-                  indicatorColor: primaryColor.withValues(alpha: 0.1),
-                  glowDuration: shortAnimationDuration,
-                  settings: _liquidGlassSettings(isDark: isDark),
-                ),
+                        activeIcon: _glassBottomBarTabIcon(
+                          icon: item.icon,
+                          label: item.label,
+                          color: primaryColor,
+                        ),
+                      ),
+                    )
+                    .toList(),
+                barHeight: 58,
+                verticalPadding: 0,
+                iconSize: 22,
+                horizontalPadding: 0,
+                barBorderRadius: barBorderRadius,
+                selectedIconColor: primaryColor,
+                unselectedIconColor: labelColor,
+                indicatorColor: primaryColor.withValues(alpha: 0.1),
+                glowDuration: shortAnimationDuration,
+                settings: _liquidGlassSettings,
               ),
             ),
           ],
@@ -704,66 +679,30 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
 }
 
 // Liquid Glass customizations
-final _darkGlassSettings = LiquidGlassSettings(
-  glassColor: Colors.black.withValues(alpha: 0.35),
+final _liquidGlassSettings = LiquidGlassSettings(
+  shadow: [BoxShadow(color: shadowColor, blurRadius: 12)],
 );
-
-final _lightGlassSettings = LiquidGlassSettings(
-  glassColor: const Color.fromARGB(50, 245, 245, 245),
-);
-
-LiquidGlassSettings _liquidGlassSettings({required bool isDark}) =>
-    isDark ? _darkGlassSettings : _lightGlassSettings;
 
 // Gradient overlay that fades from the scaffold background color to transparent
-Widget _liquidGlassFadeOverlay({required Color color, required bool top}) {
-  return Positioned(
-    left: 0,
-    right: 0,
-    top: top ? 0 : null,
-    bottom: top ? null : 0,
-    child: IgnorePointer(
-      child: Container(
-        height: 88,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: top ? .topCenter : .bottomCenter,
-            end: top ? .bottomCenter : .topCenter,
-            colors: [color, color.withValues(alpha: 0)],
+Widget _liquidGlassFadeOverlay({required Color color, required bool top}) =>
+    Positioned(
+      left: 0,
+      right: 0,
+      top: top ? 0 : null,
+      bottom: top ? null : 0,
+      child: IgnorePointer(
+        child: Container(
+          height: 88,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: top ? .topCenter : .bottomCenter,
+              end: top ? .bottomCenter : .topCenter,
+              colors: [color, color.withValues(alpha: 0)],
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
-
-// Paints a blur shadow outside a Liquid Glass widget
-class _LiquidGlassShadowPainter extends CustomPainter {
-  const _LiquidGlassShadowPainter({
-    required this.borderRadius,
-    required this.color,
-  });
-
-  final double borderRadius;
-  final Color color;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Offset.zero & size,
-        Radius.circular(borderRadius),
-      ),
-      Paint()
-        ..color = color
-        ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 8),
     );
-  }
-
-  @override
-  bool shouldRepaint(_LiquidGlassShadowPainter old) =>
-      old.borderRadius != borderRadius || old.color != color;
-}
 
 // Icon with optional text label for Liquid Glass tab bar
 Widget _glassBottomBarTabIcon({

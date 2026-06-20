@@ -33,7 +33,7 @@ const EdgeInsetsGeometry headerPadding = .symmetric(
   horizontal: 12,
 );
 const EdgeInsetsGeometry bodyPadding = .symmetric(vertical: 4, horizontal: 12);
-const EdgeInsetsGeometry timerLayoutPadding = .fromLTRB(48, 36, 48, 12);
+const EdgeInsetsGeometry timerLayoutPadding = .fromLTRB(48, 48, 48, 12);
 const EdgeInsetsGeometry timerPadding = .symmetric(vertical: 2, horizontal: 12);
 const EdgeInsetsGeometry listTilePadding = .symmetric(
   vertical: 6,
