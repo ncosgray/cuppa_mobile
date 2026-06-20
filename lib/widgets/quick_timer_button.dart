@@ -90,6 +90,6 @@ Future<Null> openQuickTimerDialog(BuildContext context) async {
   if (secs != null && activeTimerCount < timersMaxCount) {
     // Save and start a timer
     provider.setQuickTimer(quickTimerLabel, secs);
-    setTimer(provider.quickTimer, provider, isQuickTimer: true);
+    setTimer(provider.quickTimer, provider);
   }
 }
