@@ -13,6 +13,7 @@
 // Cuppa timer button list
 // - Start, confirm, cancel timers
 
+import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/globals.dart';
@@ -479,7 +480,7 @@ class _TeaSettingsFloatingCardState extends State<_TeaSettingsFloatingCard> {
                     borderRadius: .all(Radius.circular(12)),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black26,
+                        color: shadowColor,
                         blurRadius: 12,
                         offset: Offset(0, 4),
                       ),
@@ -523,7 +524,7 @@ class _TeaSettingsFloatingCardState extends State<_TeaSettingsFloatingCard> {
                       shape: .circle,
                       boxShadow: const [
                         BoxShadow(
-                          color: Colors.black26,
+                          color: shadowColor,
                           blurRadius: 4,
                           offset: Offset(0, 1),
                         ),
