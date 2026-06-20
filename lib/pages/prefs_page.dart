@@ -259,16 +259,18 @@ class _PrefsWidgetState extends State<PrefsWidget> {
 
     return Selector<AppProvider, bool>(
       selector: (_, provider) => provider.showExtraList.contains(value),
-      builder: (context, isEnabled, child) => settingListCheckbox(
-        context,
-        // Extra info
-        title: value.localizedName,
-        value: isEnabled,
-        // Save selection to prefs
-        onChanged: (bool? newValue) {
-          if (newValue == null) return;
-          provider.toggleExtraInfo(value, newValue);
-        },
+      builder: (context, isEnabled, child) => adaptiveSelectListAction(
+        action: settingSwitch(
+          // Extra info
+          title: value.localizedName,
+          value: isEnabled,
+          // Save selection to prefs
+          onChanged: (bool? newValue) {
+            if (newValue == null) return;
+            provider.toggleExtraInfo(value, newValue);
+          },
+        ),
+        onTap: () => true,
       ),
     );
   }
