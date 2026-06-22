@@ -212,7 +212,10 @@ Widget adaptiveSelectListAction({
   required Function() onTap,
 }) {
   if (Platform.isIOS) {
-    return CupertinoActionSheetAction(onPressed: onTap, child: action);
+    return CupertinoActionSheetAction(
+      onPressed: onTap,
+      child: Material(type: MaterialType.transparency, child: action),
+    );
   } else {
     return GestureDetector(onTap: onTap, child: action);
   }
