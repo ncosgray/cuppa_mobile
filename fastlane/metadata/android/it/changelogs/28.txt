@@ -1,0 +1,6 @@
+* Nuova opzione per il tè: scegli tra tre icone diverse.
+* Selezione più semplice del tempo e della temperatura di infusione.
+* Possibilità di utilizzare anche un solo pulsante per il tè.
+* Aggiunto un collegamento alle impostazioni di notifica del dispositivo.
+* Miglioramenti all'usabilità e all'interfaccia.
+* Aggiornamenti delle traduzioni: contribuisci tramite Weblate!

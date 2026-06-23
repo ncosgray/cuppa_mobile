@@ -1,0 +1,5 @@
+* Abilita le proporzioni di infusione per misurare il tè con precisione!
+* Il pulsante Silenzioso ti permette di silenziare la notifica del timer.
+* Modifica i dettagli di un tè in fase di infusione.
+* Vari miglioramenti all'usabilità e piccole correzioni di bug.
+* Aggiornamenti delle traduzioni: contribuisci tramite Weblate!

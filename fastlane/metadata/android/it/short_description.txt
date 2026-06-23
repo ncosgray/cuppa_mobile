@@ -1,1 +1,1 @@
-Cronometra il tuo tè mentre è in infusione
+Cuppa è un semplice timer che puoi usare mentre il tuo tè è in infusione.

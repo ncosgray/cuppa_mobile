@@ -1,0 +1,3 @@
+* Identifica facilmente ogni timer per il tè attivo grazie al suo colore.
+* Adesso è consentito inserire nomi di tè più lunghi.
+* Aggiornamenti delle traduzioni: contribuisci tramite Weblate!

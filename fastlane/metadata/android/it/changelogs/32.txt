@@ -1,0 +1,2 @@
+* Nuovo look e interfaccia "Material You".
+* La combinazione di colori dinamica si adatta alle impostazioni del tuo dispositivo.

@@ -1,0 +1,2 @@
+* Risolto un bug relativo all'importazione dei dati.
+* Aggiornamenti delle traduzioni: contribuisci tramite Weblate!

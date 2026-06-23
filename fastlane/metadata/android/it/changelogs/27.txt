@@ -1,0 +1,2 @@
+* Supporto per le autorizzazioni di notifica di Android 13.
+* Aggiornamenti delle traduzioni: contribuisci tramite Weblate!

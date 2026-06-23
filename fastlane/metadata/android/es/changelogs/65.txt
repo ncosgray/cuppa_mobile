@@ -1,0 +1,2 @@
+* Solucionado un defecto con los cronómetros de resumen en ciertos escenarios.
+* Actualizaciones de traducción de idiomas - ¡contribuya a través de Weblate!

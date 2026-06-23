@@ -1,0 +1,5 @@
+* Le notifiche del timer ora includono un timestamp.
+* Aggiunta una pagina "Informazioni".
+* Alcune impostazioni possono ora essere modificate mentre un timer è attivo.
+* Miglioramenti all'usabilità e all'interfaccia.
+* Disponibile in 7 nuove lingue: contribuisci anche tu tramite Weblate!

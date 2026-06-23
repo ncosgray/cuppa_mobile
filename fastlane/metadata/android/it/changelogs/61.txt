@@ -1,0 +1,4 @@
+* Aggiungi fino a 50 tipi di tè!
+* Nuove opzioni per modificare le dimensioni del pulsante del timer o nascondere l'icona della tazza.
+* Vari miglioramenti all'usabilità e piccole correzioni di bug.
+* Aggiornamenti delle traduzioni in diverse lingue: contribuisci tramite Weblate!

@@ -1,0 +1,2 @@
+* Risolto un bug relativo alla ripresa dei timer in determinati scenari.
+* Aggiornamenti delle traduzioni: contribuisci tramite Weblate!
