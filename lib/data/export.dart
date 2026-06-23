@@ -54,6 +54,7 @@ abstract class Export {
           appLanguage: provider.appLanguage,
           collectStats: provider.collectStats,
           stackedView: provider.stackedView,
+          preNotify: provider.preNotify,
         ),
         teaList: provider.teaList,
         stats: await Stats.getTeaStats(),
@@ -89,7 +90,7 @@ abstract class Export {
     bool imported = false;
 
     // Prompt for export file source
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.pickFiles(
       type: FileType.custom,
       allowedExtensions: [exportFileExtension],
     );
@@ -174,6 +175,10 @@ abstract class Export {
             provider.stackedView = exportData.settings!.stackedView!;
           }
 
+          if (exportData.settings!.preNotify != null) {
+            provider.preNotify = exportData.settings!.preNotify!;
+          }
+
           imported = true;
         }
 
@@ -256,6 +261,7 @@ class ExportSettings {
     this.appLanguage,
     this.collectStats,
     this.stackedView,
+    this.preNotify,
   });
 
   // Factories
@@ -274,6 +280,7 @@ class ExportSettings {
       appLanguage: tryCast<String>(json[jsonKeyAppLanguage]),
       collectStats: tryCast<bool>(json[jsonKeyCollectStats]),
       stackedView: tryCast<bool>(json[jsonKeyStackedView]),
+      preNotify: tryCast<bool>(json[jsonKeyPreNotify]),
     );
   }
 
@@ -290,6 +297,7 @@ class ExportSettings {
     jsonKeyAppLanguage: appLanguage,
     jsonKeyCollectStats: collectStats,
     jsonKeyStackedView: stackedView,
+    jsonKeyPreNotify: preNotify,
   };
 
   // Fields
@@ -306,4 +314,5 @@ class ExportSettings {
   String? appLanguage;
   bool? collectStats;
   bool? stackedView;
+  bool? preNotify;
 }

@@ -258,11 +258,14 @@ class TeaSettingsCard extends StatelessWidget {
                 tea.brewTimeRemaining > 0 &&
                 tea.timerNotifyID != null) {
               sendNotification(
-                tea.brewTimeRemaining,
-                AppString.notification_title.translate(),
-                AppString.notification_text.translate(teaName: tea.name),
                 tea.timerNotifyID!,
+                tea.name,
+                tea.brewTimeRemaining,
                 silent: tea.isSilent,
+                preNotify: Provider.of<AppProvider>(
+                  navigatorKey.currentContext!,
+                  listen: false,
+                ).preNotify,
               );
               sendOngoingNotification(
                 tea.timerNotifyID!,

@@ -393,7 +393,12 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
             ),
             Container(
               child: preset.isCustom
-                  ? null
+                  ? Text(
+                      AppString.new_tea_default_subtext.translate(),
+                      style: textStyleSettingNumber.copyWith(
+                        color: presetColor,
+                      ),
+                    )
                   : Row(
                       mainAxisSize: .min,
                       mainAxisAlignment: .start,

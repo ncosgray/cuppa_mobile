@@ -198,6 +198,48 @@ abstract class Presets {
       color: .green,
       icon: .timer,
     ),
+    // Usucha Matcha
+    Preset(
+      key: AppString.tea_name_usucha,
+      brewTime: 30,
+      brewTempDegreesC: 70,
+      brewTempDegreesF: 150,
+      brewRatioG: BrewRatio(
+        ratioNumerator: 2,
+        ratioDenominator: 70,
+        metricNumerator: true,
+        metricDenominator: true,
+      ),
+      brewRatioTsp: BrewRatio(
+        ratioNumerator: 1,
+        ratioDenominator: 2,
+        metricNumerator: false,
+        metricDenominator: false,
+      ),
+      color: .green,
+      icon: .timer,
+    ),
+    // Koicha Matcha
+    Preset(
+      key: AppString.tea_name_koicha,
+      brewTime: 30,
+      brewTempDegreesC: 60,
+      brewTempDegreesF: 130,
+      brewRatioG: BrewRatio(
+        ratioNumerator: 4,
+        ratioDenominator: 70,
+        metricNumerator: true,
+        metricDenominator: true,
+      ),
+      brewRatioTsp: BrewRatio(
+        ratioNumerator: 2,
+        ratioDenominator: 2,
+        metricNumerator: false,
+        metricDenominator: false,
+      ),
+      color: .green,
+      icon: .timer,
+    ),
     // White tea
     Preset(
       key: AppString.tea_name_white,
@@ -216,7 +258,28 @@ abstract class Presets {
         metricNumerator: false,
         metricDenominator: false,
       ),
-      color: .green,
+      color: .pink,
+      icon: .timer,
+    ),
+    // Yellow tea
+    Preset(
+      key: AppString.tea_name_yellow,
+      brewTime: 180,
+      brewTempDegreesC: 75,
+      brewTempDegreesF: 160,
+      brewRatioG: BrewRatio(
+        ratioNumerator: 3,
+        ratioDenominator: 250,
+        metricNumerator: true,
+        metricDenominator: true,
+      ),
+      brewRatioTsp: BrewRatio(
+        ratioNumerator: 1,
+        ratioDenominator: 8,
+        metricNumerator: false,
+        metricDenominator: false,
+      ),
+      color: .pink,
       icon: .timer,
     ),
     // Herbal tea

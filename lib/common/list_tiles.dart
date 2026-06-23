@@ -33,13 +33,13 @@ Widget settingSwitch({
 }) {
   return AnimatedSize(
     duration: shortAnimationDuration,
-    child: SwitchListTile.adaptive(
+    child: ListTile(
       title: Text(title, style: textStyleTitle),
       subtitle: subtitle != null
           ? Text(subtitle, style: textStyleSubtitle)
           : null,
-      value: value,
-      onChanged: onChanged,
+      trailing: adaptiveSwitch(value: value, onChanged: onChanged),
+      onTap: () => onChanged(!value),
       contentPadding: listTilePadding,
       dense: true,
     ),

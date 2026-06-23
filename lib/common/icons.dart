@@ -61,7 +61,7 @@ const IconData undoIcon = Icons.undo;
 
 // Variable color icons
 Icon customPresetIcon({required Color color}) {
-  return Icon(Icons.add_circle, color: color, size: 20);
+  return Icon(Icons.person, color: color, size: 24);
 }
 
 Icon cancelIcon({required Color color}) {

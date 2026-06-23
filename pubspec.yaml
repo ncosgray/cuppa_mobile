@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.12.1+66
+version: 2.13.0+68
 
 environment:
   sdk: '>=3.10.0 <4.0.0'
@@ -26,7 +26,7 @@ dependencies:
   collection: ^1.19.1
   cupertino_icons: ^1.0.9
   dynamic_color: ^1.8.1
-  file_picker: ^10.3.10
+  file_picker: ^12.0.0-beta.2
   fl_chart: ^1.2.0
   flex_color_picker: ^3.8.0
   flutter:
@@ -37,20 +37,21 @@ dependencies:
   flutter_timezone: ^5.0.2
   in_app_review: ^2.0.11
   intelligence: ^0.2.0
-  package_info_plus: ^9.0.1
+  liquid_glass_widgets: ^0.10.10
+  package_info_plus: ^10.1.0
   path: ^1.9.1
   path_provider: ^2.1.5
   provider: ^6.1.5+1
   quick_actions: ^1.1.0
-  region_settings: ^1.5.0
-  share_plus: ^12.0.2
+  region_settings: ^1.5.1
+  share_plus: ^13.1.0
   shared_preferences: ^2.5.5
-  showcaseview: ^5.0.1
+  showcaseview: ^5.0.2
   sliver_tools: ^0.2.12
-  sqflite: ^2.4.2
+  sqflite: ^2.4.2+1
   transitioned_indexed_stack: ^1.0.2
   url_launcher: ^6.3.2
-  wakelock_plus: ^1.5.1
+  wakelock_plus: ^1.6.0
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to

@@ -1,0 +1,4 @@
+* Added tea presets for matcha and yellow tea.
+* New option to notify a few seconds before your tea is ready.
+* Refreshed the UI with Liquid Glass design.
+* Language translation updates - contribute via Weblate!

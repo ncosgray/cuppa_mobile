@@ -17,14 +17,16 @@
 // - Create NavBar and BottomNavBar page navigation for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
+import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 
 import 'dart:io' show Platform;
-import 'dart:ui' show ImageFilter;
+import 'dart:ui' show ImageFilter, MaskFilter;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
 // Platform specific icons
 Icon get platformSettingsIcon => Platform.isIOS
@@ -89,20 +91,47 @@ Widget adaptiveScaffold({
   bool resizeToAvoidBottomInset = true,
 }) {
   if (Platform.isIOS) {
-    if (bottomNavigationBar != null &&
-        bottomNavigationBar is PlatformAdaptiveBottomNavBar) {
-      // For iOS with bottom navigation, use CupertinoTabScaffold
-      return CupertinoTabScaffold(
+    if (bottomNavigationBar != null) {
+      // For iOS with bottom navigation, use Scaffold with GlassBottomBar
+      return Scaffold(
+        appBar: appBar,
         backgroundColor: backgroundColor,
-        tabBar: (bottomNavigationBar).iosTabBar,
-        tabBuilder: (BuildContext context, int index) {
-          return CupertinoPageScaffold(
-            navigationBar: appBar as PlatformAdaptiveNavBar,
-            backgroundColor: backgroundColor,
-            resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-            child: Material(type: .transparency, child: body),
-          );
-        },
+        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+        extendBody: true,
+        body: Material(
+          type: .transparency,
+          child: Stack(
+            children: [
+              body,
+              // Fade-out overlay to ease the transition behind GlassBottomBar
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Builder(
+                  builder: (context) {
+                    final Color bgColor =
+                        backgroundColor ??
+                        Theme.of(context).scaffoldBackgroundColor;
+                    return IgnorePointer(
+                      child: Container(
+                        height: 120,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: .topCenter,
+                            end: .bottomCenter,
+                            colors: [bgColor.withValues(alpha: 0), bgColor],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: bottomNavigationBar,
       );
     } else {
       // Regular iOS page without bottom navigation
@@ -267,7 +296,6 @@ Widget adaptiveTextFormField({
                 onPressed: onCleared,
                 child: clearIcon,
               ),
-              //),
             ),
           ],
         ),
@@ -305,6 +333,25 @@ Widget adaptiveTextFormField({
   }
 }
 
+// Switch with styling appropriate to platform
+Widget adaptiveSwitch({
+  required bool value,
+  required Function(bool) onChanged,
+}) {
+  if (Platform.isIOS) {
+    return Builder(
+      builder: (context) => GlassSwitch(
+        value: value,
+        onChanged: onChanged,
+        inactiveColor: CupertinoColors.systemFill.resolveFrom(context),
+        quality: .minimal,
+      ),
+    );
+  } else {
+    return Switch.adaptive(value: value, onChanged: onChanged);
+  }
+}
+
 // Segmented control with styling appropriate to platform
 Widget adaptiveSegmentedControl({
   required String buttonTextTrue,
@@ -313,23 +360,30 @@ Widget adaptiveSegmentedControl({
   required Function(bool?) onValueChanged,
 }) {
   if (Platform.isIOS) {
-    return CupertinoSlidingSegmentedControl<bool>(
-      groupValue: groupValue,
-      onValueChanged: onValueChanged,
-      children: <bool, Widget>{
-        true: Text(buttonTextTrue),
-        false: Text(buttonTextFalse),
+    return Builder(
+      builder: (context) {
+        final Color primaryColor = CupertinoTheme.of(context).primaryColor;
+        return GlassSegmentedControl(
+          segments: [buttonTextTrue, buttonTextFalse],
+          selectedIndex: groupValue ? 0 : 1,
+          onSegmentSelected: (i) => onValueChanged(i == 0),
+          backgroundColor: CupertinoColors.systemFill
+              .resolveFrom(context)
+              .withValues(alpha: 0.05),
+          indicatorColor: primaryColor.withValues(alpha: 0.1),
+          selectedTextStyle: textStyleSettingTertiary.copyWith(
+            color: primaryColor,
+          ),
+          unselectedTextStyle: textStyleSettingTertiary.copyWith(
+            color: CupertinoColors.label.resolveFrom(context),
+          ),
+        );
       },
     );
   } else {
-    // Refactor onChanged function to use a set of values
-    onValueSetChanged(Set<bool>? selected) {
-      return onValueChanged(selected?.first);
-    }
-
     return SegmentedButton<bool>(
       selected: <bool>{groupValue},
-      onSelectionChanged: onValueSetChanged,
+      onSelectionChanged: (selected) => onValueChanged(selected.first),
       segments: <ButtonSegment<bool>>[
         ButtonSegment<bool>(value: true, label: Text(buttonTextTrue)),
         ButtonSegment<bool>(value: false, label: Text(buttonTextFalse)),
@@ -531,7 +585,7 @@ Function()? adaptiveOnPressed(BuildContext context, {required Widget route}) {
   };
 }
 
-// Bottom nav bar that is Material on Android and Cupertino on iOS
+// Bottom nav bar that is Material on Android and Liquid Glass on iOS
 class PlatformAdaptiveBottomNavBar extends StatelessWidget {
   const PlatformAdaptiveBottomNavBar({
     super.key,
@@ -544,13 +598,67 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
   final Function(int)? onTap;
   final List<BottomNavigationBarItem> items;
 
-  CupertinoTabBar get iosTabBar =>
-      CupertinoTabBar(currentIndex: currentIndex, onTap: onTap, items: items);
-
   @override
   Widget build(BuildContext context) {
     if (Platform.isIOS) {
-      return iosTabBar;
+      final Color labelColor = CupertinoColors.label.resolveFrom(context);
+      final Color primaryColor = CupertinoTheme.of(context).primaryColor;
+      final bool isDark = Theme.of(context).brightness == Brightness.dark;
+      const double tabWidth = 120;
+      const double hPadding = 20;
+      const double barBorderRadius = 32;
+      final double barWidth = items.length * tabWidth + 2 * hPadding;
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 24),
+        child: Row(
+          mainAxisAlignment: .center,
+          children: [
+            CustomPaint(
+              painter: _GlassBottomBarShadowPainter(
+                borderRadius: barBorderRadius,
+                color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.2),
+              ),
+              child: SizedBox(
+                width: barWidth,
+                child: GlassBottomBar(
+                  selectedIndex: currentIndex,
+                  onTabSelected: onTap ?? (_) {},
+                  tabs: items
+                      .map(
+                        (item) => GlassBottomBarTab(
+                          icon: _glassBottomBarTabIcon(
+                            icon: item.icon,
+                            label: item.label,
+                            color: labelColor,
+                          ),
+                          activeIcon: _glassBottomBarTabIcon(
+                            icon: item.icon,
+                            label: item.label,
+                            color: primaryColor,
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  barHeight: 58,
+                  verticalPadding: 0,
+                  iconSize: 22,
+                  horizontalPadding: 0,
+                  barBorderRadius: barBorderRadius,
+                  selectedIconColor: primaryColor,
+                  unselectedIconColor: labelColor,
+                  indicatorColor: primaryColor.withValues(alpha: 0.1),
+                  glassSettings: LiquidGlassSettings(
+                    glassColor: isDark
+                        ? Colors.black.withValues(alpha: 0.35)
+                        : Color.fromARGB(50, 245, 245, 245),
+                  ),
+                  glowDuration: shortAnimationDuration,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
     } else {
       return BottomNavigationBar(
         useLegacyColorScheme: false,
@@ -561,6 +669,48 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
     }
   }
 }
+
+// Paints a blur shadow outside a Liquid Glass tab bar
+class _GlassBottomBarShadowPainter extends CustomPainter {
+  const _GlassBottomBarShadowPainter({
+    required this.borderRadius,
+    required this.color,
+  });
+
+  final double borderRadius;
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Offset.zero & size,
+        Radius.circular(borderRadius),
+      ),
+      Paint()
+        ..color = color
+        ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 8),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_GlassBottomBarShadowPainter old) =>
+      old.borderRadius != borderRadius || old.color != color;
+}
+
+// Icon with optional text label for Liquid Glass tab bar
+Widget _glassBottomBarTabIcon({
+  required Widget icon,
+  required String? label,
+  required Color color,
+}) => Column(
+  mainAxisAlignment: .spaceAround,
+  mainAxisSize: .min,
+  children: [
+    icon,
+    Text(label ?? '', style: TextStyle(color: color, fontSize: 11)),
+  ],
+);
 
 // Display a selector list that is Material on Android and Cupertino on iOS
 Future<bool?> openPlatformAdaptiveSelectList({
