@@ -1,0 +1,3 @@
+* Quick Timer lets you brew without adding a new tea.
+* Liquid Glass UI improvements.
+* Language translation updates - contribute via Weblate!

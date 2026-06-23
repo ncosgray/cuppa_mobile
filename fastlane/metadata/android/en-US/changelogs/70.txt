@@ -1,0 +1,2 @@
+* Quick Timer lets you brew without adding a new tea.
+* Language translation updates - contribute via Weblate!
