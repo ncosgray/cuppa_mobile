@@ -1,0 +1,2 @@
+* Migliorata la disposizione dei pulsanti del tè nello spazio disponibile sullo schermo.
+* Aggiornamenti delle traduzioni: contribuisci tramite Weblate!

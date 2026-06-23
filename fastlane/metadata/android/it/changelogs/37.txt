@@ -1,0 +1,4 @@
+* Aggiunto il pulsante Annulla durante l'eliminazione dei tè.
+* Risolto un bug relativo alle scorciatoie dopo il riordino dell'elenco dei tè.
+* Miglioramenti all'usabilità e all'interfaccia, incluse nuove animazioni.
+* Traduzioni in urdu e cinese tradizionale: contribuisci con altre lingue tramite Weblate!

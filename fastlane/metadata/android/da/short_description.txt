@@ -1,1 +1,1 @@
-Hold styr på din tes bryggetid
+Cuppa er en enkel app, der holder styr på din tes trækketid.

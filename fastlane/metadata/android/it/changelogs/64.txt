@@ -1,0 +1,4 @@
+* Notifica opzionale del timer con conto alla rovescia.
+* Tieni premuto a lungo su una tisana per modificarla direttamente dalla schermata principale.
+* Aggiunta la traduzione in bulgaro: contribuisci tramite Weblate!
+* Vari miglioramenti all'usabilità e piccole correzioni di bug.

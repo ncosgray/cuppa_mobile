@@ -1,0 +1,2 @@
+* Opgelost: bug bij het herstellen van kookwekkers onder bepaalde omstandigheden.
+* Bijgewerkt: vertalingen. Draag ook bij via Weblate!

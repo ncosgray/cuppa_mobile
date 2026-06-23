@@ -1,0 +1,2 @@
+* Vari miglioramenti all'usabilità e piccole correzioni di bug.
+* Aggiunte le traduzioni in polacco, slovacco e svedese: contribuisci tramite Weblate!

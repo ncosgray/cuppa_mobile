@@ -1,0 +1,4 @@
+* Suono di notifica più forte.
+* Nuova opzione: scegli la tua lingua preferita.
+* Miglioramenti all'usabilità e all'interfaccia.
+* Aggiornamenti delle traduzioni: contribuisci tramite Weblate!

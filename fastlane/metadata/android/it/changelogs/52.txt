@@ -1,0 +1,2 @@
+* Riorganizzata la pagina delle impostazioni.
+* Vari miglioramenti all'usabilità e piccole correzioni di bug.

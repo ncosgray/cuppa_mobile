@@ -1,0 +1,3 @@
+* Refactor para eliminar dependencias para F-Droid construye.
+* Arregló un error con los temporizadores de resumir en ciertos escenarios.
+* Actualizaciones de traducción de idiomas - ¡contribuya a través de Weblate!

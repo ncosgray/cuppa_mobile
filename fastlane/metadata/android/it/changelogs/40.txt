@@ -1,0 +1,5 @@
+* Attiva le statistiche di utilizzo per accedere a un grafico divertente che mostra le tue abitudini di consumo di tè!
+* Informativa sulla privacy aggiornata per la raccolta delle statistiche.
+* Migliore ridimensionamento per i caratteri di sistema di grandi dimensioni.
+* Vari miglioramenti all'usabilità e all'interfaccia.
+* Aggiunta la traduzione in lussemburghese e altri aggiornamenti di traduzione: contribuisci tramite Weblate!

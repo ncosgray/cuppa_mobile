@@ -1,0 +1,2 @@
+* Vari miglioramenti all'usabilità e piccole correzioni di bug.
+* Aggiunta la traduzione in tamil e altri aggiornamenti alle traduzioni: contribuisci tramite Weblate!
