@@ -399,7 +399,10 @@ Widget adaptiveSegmentedControl({
       builder: (context) {
         final Color primaryColor = CupertinoTheme.of(context).primaryColor;
         return GlassSegmentedControl(
-          segments: [buttonTextTrue, buttonTextFalse],
+          segments: [
+            GlassTab(label: buttonTextTrue),
+            GlassTab(label: buttonTextFalse),
+          ],
           selectedIndex: groupValue ? 0 : 1,
           onSegmentSelected: (i) => onValueChanged(i == 0),
           backgroundColor: CupertinoColors.systemFill
@@ -636,12 +639,12 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
           children: [
             SizedBox(
               width: barWidth,
-              child: GlassBottomBar(
+              child: GlassTabBar.bottom(
                 selectedIndex: currentIndex,
                 onTabSelected: onTap ?? (_) {},
                 tabs: items
                     .map(
-                      (item) => GlassBottomBarTab(
+                      (item) => GlassTab(
                         icon: _glassBottomBarTabIcon(
                           icon: item.icon,
                           label: item.label,
