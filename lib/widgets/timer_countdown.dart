@@ -106,8 +106,7 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
                       Visibility(
                         visible:
                             activeTimerCount > 1 &&
-                            timer1.tea?.color == timer2.tea?.color &&
-                            timer1.tea?.colorShade == timer2.tea?.colorShade,
+                            timer1.tea?.getColor() == timer2.tea?.getColor(),
                         child: Container(
                           margin: const .symmetric(horizontal: 12),
                           width: layoutPortrait ? 420.0 : 12.0,

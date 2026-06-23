@@ -396,6 +396,7 @@ Tea quickTimerTea(String name, int brewTime, {bool isActive = false}) => Tea(
   brewTime: brewTime,
   brewTemp: boilDegreesC,
   brewRatio: BrewRatio(),
+  color: .black,
   isFavorite: false,
   isActive: isActive,
 );
