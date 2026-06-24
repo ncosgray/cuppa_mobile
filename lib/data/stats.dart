@@ -297,7 +297,8 @@ enum MetricQuery {
   beginDateTime(_beginDateTimeSQL),
   totalCount(_totalCountSQL),
   totalTime(_totalTimeSQL),
-  starredCount(_starredCountSQL);
+  starredCount(_starredCountSQL),
+  quickTimerCount(_quickTimerCountSQL);
 
   const MetricQuery(this.sql);
 
@@ -316,6 +317,10 @@ enum MetricQuery {
       '''SELECT COUNT(*) AS metric
     FROM $statsTable
     WHERE $statsColumnIsFavorite = 1''';
+  static const _quickTimerCountSQL =
+      '''SELECT COUNT(*) AS metric
+    FROM $statsTable
+    WHERE $statsColumnId = $quickTimerTeaID''';
 }
 
 // Decimal queries
@@ -331,11 +336,13 @@ enum DecimalQuery {
   static const _totalAmountGSQL =
       '''SELECT SUM($statsColumnBrewAmount)/10.0 AS metric
     FROM $statsTable
-    WHERE $statsColumnBrewAmountMetric = 1''';
+    WHERE $statsColumnBrewAmountMetric = 1
+    AND $statsColumnId <> $quickTimerTeaID''';
   static const _totalAmountTspSQL =
       '''SELECT SUM($statsColumnBrewAmount)/10.0 AS metric
     FROM $statsTable
-    WHERE $statsColumnBrewAmountMetric <> 1''';
+    WHERE $statsColumnBrewAmountMetric <> 1
+    AND $statsColumnId <> $quickTimerTeaID''';
 }
 
 // String queries
@@ -358,6 +365,7 @@ enum StringQuery {
     ) AS string
     FROM $statsTable stat
     WHERE STRFTIME('%H', stat.$statsColumnTimerStartTime / 1000, 'unixepoch', 'localtime') - 12 < 0
+    AND $statsColumnId <> $quickTimerTeaID
     GROUP BY stat.$statsColumnId
     ORDER BY COUNT(*) DESC
     LIMIT 1''';
@@ -371,6 +379,7 @@ enum StringQuery {
     ) AS string
     FROM $statsTable stat
     WHERE STRFTIME('%H', stat.$statsColumnTimerStartTime / 1000, 'unixepoch', 'localtime') - 12 >= 0
+    AND $statsColumnId <> $quickTimerTeaID
     GROUP BY stat.$statsColumnId
     ORDER BY COUNT(*) DESC
     LIMIT 1''';
@@ -411,6 +420,7 @@ enum ListQuery {
         FROM $statsTable
         WHERE $statsColumnId = stat.$statsColumnId
       )
+      AND $statsColumnId <> $quickTimerTeaID
     ) AS tea
     ON tea.$statsColumnId = $statsTable.$statsColumnId
     GROUP BY $statsTable.$statsColumnId
@@ -426,12 +436,14 @@ enum ListQuery {
       '''SELECT $statsTable.$statsColumnId
     , COUNT(*) AS count
     FROM $statsTable
+    WHERE $statsTable.$statsColumnId <> $quickTimerTeaID
     GROUP BY $statsTable.$statsColumnId
     ORDER BY COUNT(*) DESC''';
   static const _recentlyUsedSQL =
       '''SELECT $statsTable.$statsColumnId
     , MAX($statsTable.$statsColumnTimerStartTime) AS count
     FROM $statsTable
+    WHERE $statsTable.$statsColumnId <> $quickTimerTeaID
     GROUP BY $statsTable.$statsColumnId
     ORDER BY MAX($statsTable.$statsColumnTimerStartTime) DESC''';
 }

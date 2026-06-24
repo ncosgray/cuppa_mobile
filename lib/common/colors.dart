@@ -26,6 +26,6 @@ const Color favoriteIconColor = Colors.amber;
 // Miscellaneous colors
 const Color linkColor = Colors.blue;
 const Color invalidColor = Colors.red;
-const Color shadowColor = Colors.grey;
+const Color shadowColor = Colors.black26;
 const Color chartTextColor = Colors.white;
 const Color notifyColor = Colors.green;

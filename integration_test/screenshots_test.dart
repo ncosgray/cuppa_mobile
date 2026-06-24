@@ -23,7 +23,7 @@ import 'package:cuppa_mobile/data/tea.dart';
 import 'dart:io';
 import 'package:flex_color_picker/flex_color_picker.dart'
     show ColorIndicator, ColorPicker;
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
@@ -194,9 +194,7 @@ Future<void> main() async {
     await $.tap(find.text(AppString.yes_button.translate()));
     await $.pumpAndSettle();
     if (Platform.isIOS) {
-      await $.tap(
-        find.text(AppString.done_button.translate()).hitTestable().first,
-      );
+      await $.tap(find.byIcon(CupertinoIcons.xmark).hitTestable().first);
     } else {
       await $.pageBack();
     }

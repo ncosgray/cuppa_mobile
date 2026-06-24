@@ -15,43 +15,43 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.13.0+68
+version: 2.14.0+70
 
 environment:
   sdk: '>=3.10.0 <4.0.0'
-  flutter: ^3.41.6
+  flutter: ^3.44.3
 
 dependencies:
   app_settings: ^7.0.0
   collection: ^1.19.1
   cupertino_icons: ^1.0.9
   dynamic_color: ^1.8.1
-  file_picker: ^12.0.0-beta.2
+  file_picker: ^12.0.0-beta.7
   fl_chart: ^1.2.0
   flex_color_picker: ^3.8.0
   flutter:
     sdk: flutter
-  flutter_local_notifications: ^21.0.0
+  flutter_local_notifications: ^22.0.1
   flutter_localizations:
     sdk: flutter
-  flutter_timezone: ^5.0.2
-  in_app_review: ^2.0.11
+  flutter_timezone: ^5.1.0
+  in_app_review: ^2.0.12
   intelligence: ^0.2.0
-  liquid_glass_widgets: ^0.10.10
+  liquid_glass_widgets: ^0.18.1
   package_info_plus: ^10.1.0
   path: ^1.9.1
-  path_provider: ^2.1.5
+  path_provider: ^2.1.6
   provider: ^6.1.5+1
   quick_actions: ^1.1.0
   region_settings: ^1.5.1
   share_plus: ^13.1.0
   shared_preferences: ^2.5.5
-  showcaseview: ^5.0.2
+  showcaseview: ^5.1.0
   sliver_tools: ^0.2.12
-  sqflite: ^2.4.2+1
+  sqflite: ^2.4.3
   transitioned_indexed_stack: ^1.0.2
   url_launcher: ^6.3.2
-  wakelock_plus: ^1.6.0
+  wakelock_plus: ^1.6.1
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -64,7 +64,7 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  patrol: ^4.5.0
+  patrol: ^4.6.1
 
 patrol:
   app_name: Cuppa

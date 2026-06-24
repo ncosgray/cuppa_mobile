@@ -389,8 +389,21 @@ enum TeaIcon {
   IconData getIcon() => icon;
 }
 
+// Quick timer tea
+Tea quickTimerTea(String name, int brewTime, {bool isActive = false}) => Tea(
+  id: quickTimerTeaID,
+  name: name,
+  brewTime: brewTime,
+  brewTemp: boilDegreesC,
+  brewRatio: BrewRatio(),
+  color: .black,
+  isFavorite: false,
+  isActive: isActive,
+);
+
 // Dummy tea for prototype items
 final Tea dummyTea = Tea(
+  id: dummyTeaID,
   name: unknownString * teaNameMaxLength,
   brewTime: defaultBrewTime,
   brewTemp: boilDegreesC,

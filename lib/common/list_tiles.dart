@@ -154,28 +154,6 @@ Widget settingListItem(
   );
 }
 
-// Setting list checkbox
-Widget settingListCheckbox(
-  BuildContext context, {
-  required String title,
-  required dynamic value,
-  required Function(bool?) onChanged,
-}) {
-  return adaptiveSelectListAction(
-    action: CheckboxListTile.adaptive(
-      contentPadding: radioTilePadding,
-      title: settingListTitle(
-        title: title,
-        color: Theme.of(context).textTheme.bodyLarge!.color!,
-      ),
-      activeColor: getAdaptiveActiveColor(context),
-      value: value,
-      onChanged: onChanged,
-    ),
-    onTap: () => true,
-  );
-}
-
 // Setting list title with optional image
 Widget settingListTitle({
   required String title,

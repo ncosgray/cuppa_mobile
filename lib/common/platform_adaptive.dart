@@ -17,28 +17,30 @@
 // - Create NavBar and BottomNavBar page navigation for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
+import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/icons.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 
 import 'dart:io' show Platform;
-import 'dart:ui' show ImageFilter, MaskFilter;
+import 'dart:ui' show ImageFilter;
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter/material.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
 // Platform specific icons
 Icon get platformSettingsIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.settings_solid, size: 24)
+    ? const Icon(CupertinoIcons.settings_solid)
     : const Icon(Icons.settings);
 
 Icon get platformAboutIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.question, size: 24)
+    ? const Icon(CupertinoIcons.question)
     : const Icon(Icons.help);
 
 Icon get platformStatsIcon => Platform.isIOS
-    ? const Icon(CupertinoIcons.chart_pie, size: 24)
+    ? const Icon(CupertinoIcons.chart_pie)
     : const Icon(Icons.pie_chart_outline);
 
 Icon get platformSortIcon => Platform.isIOS
@@ -85,61 +87,83 @@ Color? getAdaptiveActiveColor(BuildContext context) {
 // Platform adaptive page scaffold
 Widget adaptiveScaffold({
   required Widget body,
-  PreferredSizeWidget? appBar,
+  ObstructingPreferredSizeWidget? appBar,
   Widget? bottomNavigationBar,
   Color? backgroundColor,
   bool resizeToAvoidBottomInset = true,
 }) {
   if (Platform.isIOS) {
+    final bool showTopFade = appBar != null;
+
     if (bottomNavigationBar != null) {
-      // For iOS with bottom navigation, use Scaffold with GlassBottomBar
-      return Scaffold(
-        appBar: appBar,
-        backgroundColor: backgroundColor,
-        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-        extendBody: true,
-        body: Material(
-          type: .transparency,
-          child: Stack(
-            children: [
-              body,
-              // Fade-out overlay to ease the transition behind GlassBottomBar
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: Builder(
-                  builder: (context) {
-                    final Color bgColor =
-                        backgroundColor ??
-                        Theme.of(context).scaffoldBackgroundColor;
-                    return IgnorePointer(
-                      child: Container(
-                        height: 120,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: .topCenter,
-                            end: .bottomCenter,
-                            colors: [bgColor.withValues(alpha: 0), bgColor],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
+      // With bottom nav bar: Material Scaffold so GlassBottomBar integrates
+      // correctly. AnnotatedRegion provides status bar style since Material
+      // Scaffold doesn't manage it automatically without a Material AppBar.
+      return Builder(
+        builder: (context) {
+          final ThemeData theme = Theme.of(context);
+          final bool isDark = theme.brightness == Brightness.dark;
+          final Color bgColor =
+              backgroundColor ?? theme.scaffoldBackgroundColor;
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: isDark
+                ? SystemUiOverlayStyle.light
+                : SystemUiOverlayStyle.dark,
+            child: Scaffold(
+              appBar: appBar,
+              backgroundColor: backgroundColor,
+              resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+              extendBodyBehindAppBar: true,
+              extendBody: true,
+              body: Material(
+                type: .transparency,
+                child: Stack(
+                  children: [
+                    body,
+                    if (showTopFade)
+                      _liquidGlassFadeOverlay(color: bgColor, top: true),
+                    _liquidGlassFadeOverlay(color: bgColor, top: false),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-        bottomNavigationBar: bottomNavigationBar,
+              bottomNavigationBar: bottomNavigationBar,
+            ),
+          );
+        },
       );
     } else {
-      // Regular iOS page without bottom navigation
-      return CupertinoPageScaffold(
-        navigationBar: appBar != null ? appBar as PlatformAdaptiveNavBar : null,
-        backgroundColor: backgroundColor,
-        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-        child: Material(type: .transparency, child: body),
+      // Without bottom nav: CupertinoPageScaffold for correct layout.
+      // AnnotatedRegion provides a baseline status bar style for pages that
+      // have no SliverAppBar (e.g. the timer page). Pages with adaptivePageHeader
+      // also set systemOverlayStyle directly on their SliverAppBar so the
+      // correct style is applied even as it scrolls through the status bar area.
+      return Builder(
+        builder: (context) {
+          final ThemeData theme = Theme.of(context);
+          final bool isDark = theme.brightness == Brightness.dark;
+          final Color bgColor =
+              backgroundColor ?? theme.scaffoldBackgroundColor;
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: isDark
+                ? SystemUiOverlayStyle.light
+                : SystemUiOverlayStyle.dark,
+            child: CupertinoPageScaffold(
+              navigationBar: appBar,
+              backgroundColor: bgColor,
+              resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+              child: Material(
+                type: .transparency,
+                child: Stack(
+                  children: [
+                    body,
+                    if (showTopFade)
+                      _liquidGlassFadeOverlay(color: bgColor, top: true),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       );
     }
   } else {
@@ -160,10 +184,18 @@ Widget adaptiveNavBarActionButton(
   required Function()? onPressed,
 }) {
   if (Platform.isIOS) {
-    return CupertinoButton(
-      padding: noPadding,
+    final Color primaryColor = CupertinoTheme.of(context).primaryColor;
+
+    return GlassIconButton(
+      icon: IconTheme(
+        data: IconThemeData(color: primaryColor),
+        child: icon,
+      ),
       onPressed: onPressed,
-      child: icon,
+      size: 44,
+      useOwnLayer: true,
+      quality: .standard,
+      settings: _liquidGlassSettings,
     );
   } else {
     return IconButton(
@@ -180,7 +212,10 @@ Widget adaptiveSelectListAction({
   required Function() onTap,
 }) {
   if (Platform.isIOS) {
-    return CupertinoActionSheetAction(onPressed: onTap, child: action);
+    return CupertinoActionSheetAction(
+      onPressed: onTap,
+      child: Material(type: MaterialType.transparency, child: action),
+    );
   } else {
     return GestureDetector(onTap: onTap, child: action);
   }
@@ -364,7 +399,10 @@ Widget adaptiveSegmentedControl({
       builder: (context) {
         final Color primaryColor = CupertinoTheme.of(context).primaryColor;
         return GlassSegmentedControl(
-          segments: [buttonTextTrue, buttonTextFalse],
+          segments: [
+            GlassTab(label: buttonTextTrue),
+            GlassTab(label: buttonTextFalse),
+          ],
           selectedIndex: groupValue ? 0 : 1,
           onSegmentSelected: (i) => onValueChanged(i == 0),
           backgroundColor: CupertinoColors.systemFill
@@ -401,28 +439,32 @@ Widget adaptivePageHeader(
   List<Widget>? actions,
 }) {
   return SliverAppBar(
-    elevation: Platform.isIOS ? 0 : (pinned ? 1 : 0),
-    pinned: pinned,
-    floating: !pinned,
-    snap: !pinned,
+    elevation: pinned ? 1 : 0,
+    pinned: Platform.isIOS ? false : pinned,
+    floating: Platform.isIOS ? false : !pinned,
+    snap: Platform.isIOS ? false : !pinned,
     backgroundColor: Platform.isIOS
         ? Colors.transparent
         : Theme.of(context).scaffoldBackgroundColor,
-    surfaceTintColor: Platform.isIOS
-        ? null
-        : Theme.of(context).scaffoldBackgroundColor,
-    shadowColor: Platform.isIOS
-        ? Colors.transparent
-        : Theme.of(context).shadowColor,
-    flexibleSpace: Platform.isIOS
-        ? FlexibleSpaceBar(
-            background: ClipRect(
+    surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+    shadowColor: Platform.isIOS ? Colors.transparent : shadowColor,
+    // Override so SystemUiOverlayStyle is always correct regardless of where
+    // the SliverAppBar sits relative to the status bar during scrolling
+    systemOverlayStyle: Platform.isIOS
+        ? (Theme.of(context).brightness == Brightness.dark
+              ? SystemUiOverlayStyle.light
+              : SystemUiOverlayStyle.dark)
+        : null,
+    // Frosted glass background on pinned iOS headers
+    flexibleSpace: Platform.isIOS && pinned
+        ? Builder(
+            builder: (ctx) => ClipRect(
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
                 child: Container(
                   color: Theme.of(
-                    context,
-                  ).scaffoldBackgroundColor.withValues(alpha: 0.7),
+                    ctx,
+                  ).scaffoldBackgroundColor.withValues(alpha: 0.75),
                 ),
               ),
             ),
@@ -472,93 +514,53 @@ class PlatformAdaptiveNavBar extends StatelessWidget
   final Widget? secondaryActionIcon;
 
   @override
-  bool shouldFullyObstruct(BuildContext context) => true;
+  bool shouldFullyObstruct(BuildContext context) => !Platform.isIOS;
 
   @override
-  Size get preferredSize => .fromHeight(Platform.isIOS ? 44 : kToolbarHeight);
+  Size get preferredSize =>
+      .fromHeight(Platform.isIOS ? 44 + smallSpacing : kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
     // Build action list
-    List<Widget> actions = [];
-    if (secondaryActionIcon != null && secondaryActionRoute != null) {
-      actions.add(
+    final List<Widget> actions = [
+      if (secondaryActionIcon != null && secondaryActionRoute != null)
         adaptiveNavBarActionButton(
           context,
           icon: secondaryActionIcon!,
           onPressed: adaptiveOnPressed(context, route: secondaryActionRoute!),
         ),
-      );
-    }
-    if (actionIcon != null && actionRoute != null) {
-      actions.add(
+      if (actionIcon != null && actionRoute != null)
         adaptiveNavBarActionButton(
           context,
           icon: actionIcon!,
           onPressed: adaptiveOnPressed(context, route: actionRoute!),
         ),
-      );
-    }
+    ];
 
     if (Platform.isIOS) {
-      return CupertinoNavigationBar(
-        transitionBetweenRoutes: false,
-        automaticallyImplyLeading: false,
-        automaticallyImplyMiddle: false,
-        automaticBackgroundVisibility: false,
-        enableBackgroundFilterBlur: false,
-        padding: previousPageTitle != null
-            ? const EdgeInsetsDirectional.only(start: 4, end: 12)
-            : const EdgeInsetsDirectional.symmetric(horizontal: 12),
-        border: isPoppable
-            ? const Border(
-                bottom: BorderSide(color: Color(0x4D000000), width: 0.5),
-              ) // _kDefaultNavBarBorder
-            : null,
-        backgroundColor: isPoppable
-            ? CupertinoDynamicColor.resolve(
-                CupertinoTheme.of(context).barBackgroundColor,
-                context,
-              )
-            : Theme.of(context).scaffoldBackgroundColor,
-        // Back navigation
-        leading: previousPageTitle != null
-            ? CupertinoButton(
-                padding: noPadding,
-                child: Row(
-                  mainAxisSize: .min,
-                  children: [
-                    const Icon(CupertinoIcons.chevron_back, size: 28),
-                    Text(previousPageTitle!),
-                  ],
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            : isPoppable
-            ? CupertinoButton(
-                padding: noPadding,
-                child: Text(
-                  buttonTextDone,
-                  style: TextStyle(fontWeight: .w600),
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            : null,
-        // Page title
-        middle: Padding(
-          padding: titlePadding,
-          child: Text(
-            title,
-            style: TextStyle(
-              color: CupertinoDynamicColor.resolve(
-                CupertinoTheme.of(context).textTheme.navTitleTextStyle.color!,
-                context,
-              ),
-            ),
-          ),
+      return GlassAppBar(
+        padding: EdgeInsets.only(
+          top: smallSpacing,
+          left: largeSpacing,
+          right: largeSpacing,
         ),
-        // Action buttons
-        trailing: Row(mainAxisSize: .min, children: actions),
+        // Back/done navigation button
+        leading: isPoppable
+            ? GlassIconButton(
+                icon: Icon(
+                  previousPageTitle != null
+                      ? CupertinoIcons.chevron_back
+                      : CupertinoIcons.xmark,
+                  color: CupertinoTheme.of(context).primaryColor,
+                ),
+                onPressed: () => Navigator.of(context).pop(),
+                useOwnLayer: true,
+                quality: .standard,
+                settings: _liquidGlassSettings,
+              )
+            : null,
+        actions: actions.isNotEmpty ? actions : null,
       );
     } else {
       return AppBar(
@@ -570,13 +572,35 @@ class PlatformAdaptiveNavBar extends StatelessWidget
   }
 }
 
+// Slide-up tween for the transitionUp route animation
+final _slideUpTween = Tween<Offset>(
+  begin: const Offset(0, 1),
+  end: Offset.zero,
+).chain(CurveTween(curve: Curves.easeInOutCubic));
+
 // Navigation action handler that adapts to platform
-Function()? adaptiveOnPressed(BuildContext context, {required Widget route}) {
+Function()? adaptiveOnPressed(
+  BuildContext context, {
+  required Widget route,
+  bool transitionUp = false,
+}) {
   return () {
     if (Platform.isIOS) {
-      Navigator.of(
-        context,
-      ).push(CupertinoSheetRoute<void>(builder: (_) => route));
+      Navigator.of(context).push(
+        transitionUp
+            ? PageRouteBuilder<void>(
+                pageBuilder: (_, _, _) => route,
+                transitionDuration: transitionAnimationDuration,
+                reverseTransitionDuration: transitionAnimationDuration,
+                transitionsBuilder: (_, animation, _, child) {
+                  return SlideTransition(
+                    position: animation.drive(_slideUpTween),
+                    child: child,
+                  );
+                },
+              )
+            : CupertinoPageRoute<void>(builder: (_) => route),
+      );
     } else {
       Navigator.of(
         context,
@@ -603,57 +627,47 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
     if (Platform.isIOS) {
       final Color labelColor = CupertinoColors.label.resolveFrom(context);
       final Color primaryColor = CupertinoTheme.of(context).primaryColor;
-      final bool isDark = Theme.of(context).brightness == Brightness.dark;
       const double tabWidth = 120;
       const double hPadding = 20;
       const double barBorderRadius = 32;
       final double barWidth = items.length * tabWidth + 2 * hPadding;
+
       return Padding(
         padding: const EdgeInsets.only(bottom: 24),
         child: Row(
           mainAxisAlignment: .center,
           children: [
-            CustomPaint(
-              painter: _GlassBottomBarShadowPainter(
-                borderRadius: barBorderRadius,
-                color: Colors.black.withValues(alpha: isDark ? 0.35 : 0.2),
-              ),
-              child: SizedBox(
-                width: barWidth,
-                child: GlassBottomBar(
-                  selectedIndex: currentIndex,
-                  onTabSelected: onTap ?? (_) {},
-                  tabs: items
-                      .map(
-                        (item) => GlassBottomBarTab(
-                          icon: _glassBottomBarTabIcon(
-                            icon: item.icon,
-                            label: item.label,
-                            color: labelColor,
-                          ),
-                          activeIcon: _glassBottomBarTabIcon(
-                            icon: item.icon,
-                            label: item.label,
-                            color: primaryColor,
-                          ),
+            SizedBox(
+              width: barWidth,
+              child: GlassTabBar.bottom(
+                selectedIndex: currentIndex,
+                onTabSelected: onTap ?? (_) {},
+                tabs: items
+                    .map(
+                      (item) => GlassTab(
+                        icon: _glassBottomBarTabIcon(
+                          icon: item.icon,
+                          label: item.label,
+                          color: labelColor,
                         ),
-                      )
-                      .toList(),
-                  barHeight: 58,
-                  verticalPadding: 0,
-                  iconSize: 22,
-                  horizontalPadding: 0,
-                  barBorderRadius: barBorderRadius,
-                  selectedIconColor: primaryColor,
-                  unselectedIconColor: labelColor,
-                  indicatorColor: primaryColor.withValues(alpha: 0.1),
-                  glassSettings: LiquidGlassSettings(
-                    glassColor: isDark
-                        ? Colors.black.withValues(alpha: 0.35)
-                        : Color.fromARGB(50, 245, 245, 245),
-                  ),
-                  glowDuration: shortAnimationDuration,
-                ),
+                        activeIcon: _glassBottomBarTabIcon(
+                          icon: item.icon,
+                          label: item.label,
+                          color: primaryColor,
+                        ),
+                      ),
+                    )
+                    .toList(),
+                barHeight: 58,
+                verticalPadding: 0,
+                iconSize: 22,
+                horizontalPadding: 0,
+                barBorderRadius: barBorderRadius,
+                selectedIconColor: primaryColor,
+                unselectedIconColor: labelColor,
+                indicatorColor: primaryColor.withValues(alpha: 0.1),
+                glowDuration: shortAnimationDuration,
+                settings: _liquidGlassSettings,
               ),
             ),
           ],
@@ -670,33 +684,31 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
   }
 }
 
-// Paints a blur shadow outside a Liquid Glass tab bar
-class _GlassBottomBarShadowPainter extends CustomPainter {
-  const _GlassBottomBarShadowPainter({
-    required this.borderRadius,
-    required this.color,
-  });
+// Liquid Glass customizations
+final _liquidGlassSettings = LiquidGlassSettings(
+  shadow: [BoxShadow(color: shadowColor, blurRadius: 12)],
+);
 
-  final double borderRadius;
-  final Color color;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Offset.zero & size,
-        Radius.circular(borderRadius),
+// Gradient overlay that fades from the scaffold background color to transparent
+Widget _liquidGlassFadeOverlay({required Color color, required bool top}) =>
+    Positioned(
+      left: 0,
+      right: 0,
+      top: top ? 0 : null,
+      bottom: top ? null : 0,
+      child: IgnorePointer(
+        child: Container(
+          height: 88,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: top ? .topCenter : .bottomCenter,
+              end: top ? .bottomCenter : .topCenter,
+              colors: [color, color.withValues(alpha: 0)],
+            ),
+          ),
+        ),
       ),
-      Paint()
-        ..color = color
-        ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 8),
     );
-  }
-
-  @override
-  bool shouldRepaint(_GlassBottomBarShadowPainter old) =>
-      old.borderRadius != borderRadius || old.color != color;
-}
 
 // Icon with optional text label for Liquid Glass tab bar
 Widget _glassBottomBarTabIcon({

@@ -48,6 +48,7 @@ const teaButtonRowMinLength = 3;
 
 // Defaults
 const unknownString = '?';
+const dummyTeaID = -999;
 const defaultBrewTime = 240;
 const defaultTeaColorValue = 0;
 const defaultTeaIconValue = 0;
@@ -102,6 +103,7 @@ const shortcutPrefixID = 'shortcutID';
 const shortcutIconIOS = 'QuickAction';
 const shortcutIconIOSCup = 'QuickActionCup';
 const shortcutIconIOSFlower = 'QuickActionFlower';
+const shortcutIconQuickTimerIOS = 'QuickActionQuickTimer';
 const shortcutIconRed = 'ic_shortcut_red';
 const shortcutIconOrange = 'ic_shortcut_orange';
 const shortcutIconGreen = 'ic_shortcut_green';
@@ -138,6 +140,7 @@ const shortcutIconFlowerTeal = 'ic_shortcut_flower_teal';
 const shortcutIconFlowerCyan = 'ic_shortcut_flower_cyan';
 const shortcutIconFlowerLavender = 'ic_shortcut_flower_lavender';
 const shortcutIconFlowerBlack = 'ic_shortcut_flower_black';
+const shortcutIconQuickTimer = 'ic_shortcut_quick_timer';
 
 // Shared prefs keys for tea definitions
 const prefTea1Name = 'Cuppa_tea1_name';
@@ -160,6 +163,7 @@ const prefTea3Color = 'Cuppa_tea3_color';
 const prefTea3IsFavorite = 'Cuppa_tea3_is_favorite';
 const prefTea3IsActive = 'Cuppa_tea3_is_active';
 const prefTeaList = 'Cuppa_tea_list';
+const prefQuickTimer = 'Cuppa_quick_timer';
 
 // Shared prefs keys for other settings
 const prefNextTeaID = 'Cuppa_next_tea_id';
@@ -231,6 +235,11 @@ const followSystemLanguage = '';
 // Animation durations
 const shortAnimationDuration = Duration(milliseconds: 100);
 const longAnimationDuration = Duration(milliseconds: 200);
+const transitionAnimationDuration = Duration(milliseconds: 400);
+
+// Quick Timer
+const quickTimerTeaID = -1;
+const defaultQuickTimerSeconds = 180;
 
 // Timer adjustments
 const incrementSeconds = 10;

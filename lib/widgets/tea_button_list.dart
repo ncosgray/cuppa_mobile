@@ -13,6 +13,7 @@
 // Cuppa timer button list
 // - Start, confirm, cancel timers
 
+import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/dialogs.dart';
 import 'package:cuppa_mobile/common/globals.dart';
@@ -25,10 +26,10 @@ import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
-import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea_timer.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/pages/prefs_page.dart';
+import 'package:cuppa_mobile/widgets/quick_timer_button.dart';
 import 'package:cuppa_mobile/widgets/tea_button.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
@@ -61,20 +62,33 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+      bool doSetupShortcuts = false;
 
       // Set default brew temp units based on locale
       // ignore: cascade_invocations
       provider.useCelsius = Prefs.loadUseCelsius() ?? deviceUsesCelsius();
 
+      // Add Quick Timer defaults if not set
+      if (!Prefs.quickTimerPrefsExist()) {
+        provider.loadQuickTimerDefaults();
+        doSetupShortcuts = true;
+      }
+
       // Add default presets if no custom teas have been set
       if (provider.teaCount == 0 && !Prefs.teaPrefsExist()) {
         provider.loadDefaults();
+        doSetupShortcuts = true;
 
         // Start a tutorial for new users
         if (Prefs.showTutorial) {
           startTutorial();
           Prefs.setSkipTutorial();
         }
+      }
+
+      // Manage shortcut options
+      if (doSetupShortcuts) {
+        provider.setupShortcuts();
       }
 
       // Manage timers
@@ -220,7 +234,10 @@ class _TeaButtonListState extends State<TeaButtonList> {
                     ? () => _setTimer(tea)
                     : null,
                 onLongPress: () => _openTeaSettings(tea),
-                onCancelPressed: () => _cancelTimerForTea(tea),
+                onCancelPressed: () => cancelTimerForTea(
+                  tea,
+                  Provider.of<AppProvider>(context, listen: false),
+                ),
               ),
             ),
           ],
@@ -299,71 +316,12 @@ class _TeaButtonListState extends State<TeaButtonList> {
     }
   }
 
-  // Ticker handler for a TeaTimer
-  void Function(Timer? ticker) _handleTick(TeaTimer timer) {
-    return (ticker) {
-      if (timer.isActive) {
-        int timerSeconds = timer.timerSeconds;
-        if (timerSeconds > 0) {
-          timer.decrement();
-          if (timer.timerSeconds != timerSeconds) {
-            // Only update UI if the timer countdown changed
-            Provider.of<AppProvider>(context, listen: false).notifyTimerTick();
-          }
-        } else {
-          // Brewing complete
-          if (timer.tea != null) {
-            cancelOngoingNotification(timer.notifyID);
-            Provider.of<AppProvider>(
-              context,
-              listen: false,
-            ).deactivateTea(timer.tea!);
-          }
-          timer.stop();
-
-          // Update or end Live Activity
-          liveActivityService.startOrUpdate(
-            Provider.of<AppProvider>(context, listen: false).activeTeas,
-          );
-        }
-      }
-    };
-  }
-
   // Start a new brewing timer
   void _setTimer(Tea tea, {bool resume = false, bool autoScroll = false}) {
-    // Determine next available timer
-    TeaTimer timer = !timer1.isActive ? timer1 : timer2;
-
-    if (!resume) {
-      AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-
-      // Start a new timer
-      provider.activateTea(tea, timer.notifyID, provider.silentDefault);
-      sendNotification(
-        timer.notifyID,
-        tea.name,
-        tea.brewTime,
-        silent: provider.silentDefault,
-        preNotify: provider.preNotify,
-      );
-      sendOngoingNotification(timer.notifyID, tea.name, tea.timerEndTime);
-
-      // Update timer stats, if enabled
-      if (provider.collectStats) {
-        Stats.insertStat(Stat(tea: tea));
-      }
-    } else if (tea.timerNotifyID != null) {
-      // Resume with same timer ID
-      timer = tea.timerNotifyID == timer1.notifyID ? timer1 : timer2;
-    }
-
-    // Set up timer state
-    timer.start(tea, _handleTick(timer));
-
-    // Update Live Activity
-    liveActivityService.startOrUpdate(
-      Provider.of<AppProvider>(context, listen: false).activeTeas,
+    setTimer(
+      tea,
+      Provider.of<AppProvider>(context, listen: false),
+      resume: resume,
     );
 
     if (autoScroll) {
@@ -385,43 +343,6 @@ class _TeaButtonListState extends State<TeaButtonList> {
     checkReviewPrompt();
   }
 
-  // Cancel a timer
-  Future<void> _cancelTimer(TeaTimer timer) async {
-    // Capture active teas before async gap
-    final activeTeas = Provider.of<AppProvider>(
-      context,
-      listen: false,
-    ).activeTeas;
-
-    timer.reset();
-    await notify.cancel(id: timer.notifyID);
-    await cancelOngoingNotification(timer.notifyID);
-
-    // Update or end Live Activity
-    if (activeTeas.length <= 1) {
-      await liveActivityService.end();
-    } else {
-      await liveActivityService.startOrUpdate(activeTeas);
-    }
-  }
-
-  // Cancel timer for a given tea
-  void _cancelTimerForTea(Tea tea) {
-    for (final timer in timerList) {
-      if (timer.tea == tea) {
-        _cancelTimer(timer);
-      }
-    }
-  }
-
-  // Force cancel and reset all timers
-  void _cancelAllTimers() {
-    for (final timer in timerList) {
-      _cancelTimer(timer);
-    }
-    Provider.of<AppProvider>(context, listen: false).clearActiveTea();
-  }
-
   // Start timer from stored prefs
   void _checkNextTimer() {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
@@ -431,9 +352,17 @@ class _TeaButtonListState extends State<TeaButtonList> {
       if (tea.brewTimeRemaining > 0) {
         // Resume timer from stored prefs
         _setTimer(tea, resume: true, autoScroll: true);
-        sendOngoingNotification(tea.timerNotifyID!, tea.name, tea.timerEndTime);
+        if (tea.timerNotifyID != null) {
+          sendOngoingNotification(
+            tea.timerNotifyID!,
+            tea.name,
+            tea.timerEndTime,
+          );
+        }
       } else {
-        provider.deactivateTea(tea);
+        provider
+          ..deactivateTea(tea)
+          ..notifyTimerTick();
       }
     }
   }
@@ -458,7 +387,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
               body: Text(AppString.confirm_message_line1.translate()),
               bodyExtra: Text(AppString.confirm_message_line2.translate()),
             )) {
-              _cancelAllTimers();
+              cancelAllTimers(provider);
             } else {
               return;
             }
@@ -467,6 +396,24 @@ class _TeaButtonListState extends State<TeaButtonList> {
           // Start timer from shortcut
           _setTimer(tea, autoScroll: true);
         }
+        // Handle Quick Timer shortcut
+      } else if (teaIndex == quickTimerTeaID && !provider.quickTimer.isActive) {
+        if (activeTimerCount >= timersMaxCount) {
+          if (await showConfirmDialog(
+            context: context,
+            body: Text(AppString.confirm_message_line1.translate()),
+            bodyExtra: Text(AppString.confirm_message_line2.translate()),
+          )) {
+            cancelAllTimers(provider);
+          } else {
+            return;
+          }
+        }
+
+        // Open the Quick Timer dialog from the home screen
+        if (!mounted) return;
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        await openQuickTimerDialog(context);
       }
     }
   }
@@ -533,7 +480,7 @@ class _TeaSettingsFloatingCardState extends State<_TeaSettingsFloatingCard> {
                     borderRadius: .all(Radius.circular(12)),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black26,
+                        color: shadowColor,
                         blurRadius: 12,
                         offset: Offset(0, 4),
                       ),
@@ -577,7 +524,7 @@ class _TeaSettingsFloatingCardState extends State<_TeaSettingsFloatingCard> {
                       shape: .circle,
                       boxShadow: const [
                         BoxShadow(
-                          color: Colors.black26,
+                          color: shadowColor,
                           blurRadius: 4,
                           offset: Offset(0, 1),
                         ),

@@ -20,6 +20,7 @@ import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/pages/prefs_page.dart';
+import 'package:cuppa_mobile/widgets/quick_timer_button.dart';
 import 'package:cuppa_mobile/widgets/tea_button_list.dart';
 import 'package:cuppa_mobile/widgets/teacup.dart';
 import 'package:cuppa_mobile/widgets/timer_countdown.dart';
@@ -133,10 +134,19 @@ class TimerWidget extends StatelessWidget {
                 ),
               ],
             ),
+            // Floating button to start a Quick Timer
+            _floatingNavButton(
+              isRight: false,
+              child: tutorialTooltip(
+                context: context,
+                key: tutorialKey6,
+                showBorder: true,
+                child: const QuickTimerButton(),
+              ),
+            ),
             // Floating button to navigate to Preferences page
-            Positioned(
-              top: layoutPortrait ? xsmallSpacing : largeSpacing,
-              right: layoutPortrait ? smallSpacing : largeSpacing,
+            _floatingNavButton(
+              isRight: true,
               child: tutorialTooltip(
                 context: context,
                 key: tutorialKey2,
@@ -147,6 +157,7 @@ class TimerWidget extends StatelessWidget {
                   onPressed: adaptiveOnPressed(
                     context,
                     route: const PrefsWidget(),
+                    transitionUp: true,
                   ),
                 ),
               ),
@@ -156,4 +167,27 @@ class TimerWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+// Positions a floating button in a top corner of the screen
+Widget _floatingNavButton({required bool isRight, required Widget child}) {
+  return Positioned(
+    top: 0,
+    left: isRight ? null : 0,
+    right: isRight ? 0 : null,
+    child: SafeArea(
+      top: false,
+      left: !isRight,
+      right: isRight,
+      bottom: false,
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: smallSpacing,
+          left: isRight ? 0.0 : largeSpacing,
+          right: isRight ? largeSpacing : 0.0,
+        ),
+        child: child,
+      ),
+    ),
+  );
 }
