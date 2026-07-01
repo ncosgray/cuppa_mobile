@@ -384,6 +384,12 @@ class TeaSettingsCard extends StatelessWidget {
           mainAxisAlignment: .start,
           children: <Widget>[
             Text(formatTimer(tea.brewTime), style: textStyleSettingNumber),
+            if (tea.multipleInfusions)
+              Icon(
+                Icons.restart_alt,
+                color: Theme.of(context).textTheme.bodySmall!.color!,
+                size: textStyleSettingNumber.fontSize!,
+              ),
             dropdownArrow,
           ],
         ),
@@ -394,13 +400,20 @@ class TeaSettingsCard extends StatelessWidget {
               tea.brewTimeHours,
               tea.brewTimeMinutes,
               tea.brewTimeSeconds,
-            ).then((newValue) {
-              if (newValue != null) {
-                // Save brew time to prefs
+              tea.numInfusions,
+              tea.infusionInterval,
+            ).then((result) {
+              if (result != null) {
+                // Save brew time and infusion settings to prefs
                 Provider.of<AppProvider>(
                   navigatorKey.currentContext!,
                   listen: false,
-                ).updateTea(tea, brewTime: newValue);
+                ).updateTea(
+                  tea,
+                  brewTime: result.brewTime,
+                  numInfusions: result.numInfusions,
+                  infusionInterval: result.infusionInterval,
+                );
               }
             }),
       ),
@@ -408,14 +421,16 @@ class TeaSettingsCard extends StatelessWidget {
   }
 
   // Display a tea brew time entry dialog box
-  Future<int?> _openTeaBrewTimeDialog(
+  Future<BrewTimeResult?> _openTeaBrewTimeDialog(
     BuildContext context,
     int currentHours,
     int currentMinutes,
     int currentSeconds,
+    int currentNumInfusions,
+    int currentInfusionInterval,
   ) async {
     subDialogNotifier?.value = true;
-    final result = await showAdaptiveDialog<int>(
+    final result = await showAdaptiveDialog<BrewTimeResult>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
@@ -430,6 +445,8 @@ class TeaSettingsCard extends StatelessWidget {
           secondOptions: brewTimeSecondOptions,
           buttonTextCancel: AppString.cancel_button.translate(),
           buttonTextOK: AppString.ok_button.translate(),
+          initialNumInfusions: currentNumInfusions,
+          initialInfusionInterval: currentInfusionInterval,
         );
       },
     );

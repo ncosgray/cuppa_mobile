@@ -71,6 +71,13 @@ const double brewRatioNumeratorMin = 0;
 const double brewRatioNumeratorMax = 20;
 const double brewRatioNumeratorStep = 0.5;
 
+// Multiple infusions
+const numInfusionsMin = 2;
+const numInfusionsMax = 10;
+const defaultNumInfusions = 1;
+const infusionIntervalMin = 15;
+const defaultInfusionInterval = 30;
+
 // UI sizing thresholds
 const largeDeviceSize = 550;
 
@@ -215,6 +222,9 @@ const jsonKeyColorShadeRed = 'colorShadeRed';
 const jsonKeyColorShadeGreen = 'colorShadeGreen';
 const jsonKeyColorShadeBlue = 'colorShadeBlue';
 const jsonKeyIcon = 'icon';
+const jsonKeyNumInfusions = 'numInfusions';
+const jsonKeyInfusionInterval = 'infusionInterval';
+const jsonKeyCurrentInfusion = 'currentInfusion';
 const jsonKeyIsFavorite = 'isFavorite';
 const jsonKeyIsActive = 'isActive';
 const jsonKeyIsSilent = 'isSilent';

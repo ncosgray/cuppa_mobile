@@ -90,6 +90,8 @@ class AppProvider extends ChangeNotifier {
     TeaIcon? icon,
     bool? isFavorite,
     bool? isSilent,
+    int? numInfusions,
+    int? infusionInterval,
   }) {
     int teaIndex = _teaList.indexOf(tea);
     if (teaIndex >= 0) {
@@ -128,6 +130,13 @@ class AppProvider extends ChangeNotifier {
       }
       if (isSilent != null) {
         _teaList[teaIndex].isSilent = isSilent;
+      }
+      if (numInfusions != null) {
+        _teaList[teaIndex].numInfusions = numInfusions;
+        _teaList[teaIndex].currentInfusion = 1;
+      }
+      if (infusionInterval != null) {
+        _teaList[teaIndex].infusionInterval = infusionInterval;
       }
       saveTeas();
 
@@ -368,6 +377,42 @@ class AppProvider extends ChangeNotifier {
       }
     }
     return false;
+  }
+
+  // Increment/decrement active timer by the tea's infusion interval
+  void adjustTimerForInfusion(Tea tea) {
+    final int teaIndex = _teaList.indexOf(tea);
+    final Tea? target = teaIndex >= 0
+        ? _teaList[teaIndex]
+        : (tea == _quickTimer ? _quickTimer : null);
+    if (target != null && target.isActive && target.multipleInfusions) {
+      final int now = DateTime.now().millisecondsSinceEpoch;
+      target.advanceInfusion();
+
+      // Update the timer
+      if (target.currentInfusion == 1) {
+        // Cycled back to start: restart at initial brew time
+        target.timerEndTime = now + (target.currentBrewTime + 1) * 1000;
+      } else {
+        final int ms = target.infusionInterval * 1000;
+        if (target.timerEndTime + ms > now) {
+          target.adjustBrewTimeRemaining(ms);
+        } else {
+          // Finish timer immediately
+          target.timerEndTime = now;
+        }
+      }
+      if (teaIndex >= 0) {
+        Prefs.saveTeas(_teaList);
+      } else {
+        Prefs.saveQuickTimer(_quickTimer);
+      }
+
+      // Update Live Activity with adjusted end time
+      liveActivityService.startOrUpdate(activeTeas);
+
+      notifyTimerTick();
+    }
   }
 
   // Clear active tea

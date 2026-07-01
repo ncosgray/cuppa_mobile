@@ -39,6 +39,9 @@ class Tea {
     this.isSilent = false,
     this.timerEndTime = 0,
     this.timerNotifyID,
+    this.numInfusions = defaultNumInfusions,
+    this.infusionInterval = defaultInfusionInterval,
+    this.currentInfusion = 1,
   }) {
     // Assign next tea ID if not given
     this.id = id ?? Prefs.nextTeaID++;
@@ -86,6 +89,12 @@ class Tea {
       isSilent: tryCast<bool>(json[jsonKeyIsSilent]) ?? false,
       timerEndTime: tryCast<int>(json[jsonKeyTimerEndTime]) ?? 0,
       timerNotifyID: tryCast<int>(json[jsonKeyTimerNotifyID]),
+      numInfusions:
+          tryCast<int>(json[jsonKeyNumInfusions]) ?? defaultNumInfusions,
+      infusionInterval:
+          tryCast<int>(json[jsonKeyInfusionInterval]) ??
+          defaultInfusionInterval,
+      currentInfusion: tryCast<int>(json[jsonKeyCurrentInfusion]) ?? 1,
     );
   }
 
@@ -106,6 +115,9 @@ class Tea {
       jsonKeyIsSilent: isSilent,
       jsonKeyTimerEndTime: timerEndTime,
       jsonKeyTimerNotifyID: timerNotifyID,
+      jsonKeyNumInfusions: numInfusions,
+      jsonKeyInfusionInterval: infusionInterval,
+      jsonKeyCurrentInfusion: currentInfusion,
     };
   }
 
@@ -123,13 +135,16 @@ class Tea {
   late bool isSilent;
   late int timerEndTime;
   int? timerNotifyID;
+  late int numInfusions;
+  late int infusionInterval;
+  late int currentInfusion;
 
   // Activate brew timer
   void activate(int notifyID, bool silentDefault) {
     isActive = true;
     isSilent = silentDefault;
     timerEndTime = DateTime.now()
-        .add(Duration(seconds: brewTime + 1))
+        .add(Duration(seconds: currentBrewTime + 1))
         .millisecondsSinceEpoch;
     timerNotifyID = notifyID;
   }
@@ -172,6 +187,22 @@ class Tea {
   // Icon getter
   IconData get teaIcon {
     return icon.getIcon();
+  }
+
+  // Multiple infusions getters
+  bool get multipleInfusions => numInfusions >= numInfusionsMin;
+
+  // Brew time for the current infusion
+  int get currentBrewTime {
+    if (!multipleInfusions) return brewTime;
+    final int time = brewTime + (currentInfusion - 1) * infusionInterval;
+    // Minimum 1 second
+    return time < 1 ? 1 : time;
+  }
+
+  // Advance to the next infusion, wrapping around after the last
+  void advanceInfusion() {
+    currentInfusion = currentInfusion >= numInfusions ? 1 : currentInfusion + 1;
   }
 
   // Brew time getters

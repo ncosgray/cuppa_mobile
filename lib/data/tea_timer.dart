@@ -48,7 +48,7 @@ class TeaTimer {
   void start(Tea newTea, void Function(Timer? timer) handleTick) {
     isActive = true;
     tea = newTea;
-    brewTime = newTea.brewTime;
+    brewTime = newTea.currentBrewTime;
     ticker = Timer.periodic(const Duration(milliseconds: 100), handleTick);
     decrement();
   }
@@ -110,7 +110,7 @@ void setTimer(Tea tea, AppProvider provider, {bool resume = false}) {
     sendNotification(
       timer.notifyID,
       tea.name,
-      tea.brewTime,
+      tea.currentBrewTime,
       silent: provider.silentDefault,
       preNotify: provider.preNotify,
     );
@@ -151,6 +151,9 @@ void Function(Timer? ticker) handleTimerTick(
         // Brewing complete
         if (timer.tea != null) {
           cancelOngoingNotification(timer.notifyID);
+          if (timer.tea!.multipleInfusions) {
+            timer.tea!.advanceInfusion();
+          }
           provider.deactivateTea(timer.tea!);
         }
         timer.stop();
@@ -195,6 +198,29 @@ void cancelTimerForTea(Tea tea, AppProvider provider) {
   provider
     ..deactivateTea(tea)
     ..notifyTimerTick();
+}
+
+// Advance infusion for a running timer: update state, notification, and timer sync
+void advanceRunningInfusion(Tea tea, AppProvider provider) {
+  final TeaTimer? timer = timerList.firstWhereOrNull(
+    (t) => t.isActive && t.tea == tea,
+  );
+  if (timer == null) return;
+
+  provider.adjustTimerForInfusion(tea);
+
+  // Sync progress arc denominator to the new infusion's brew time
+  timer.brewTime = tea.currentBrewTime;
+
+  // Reschedule notification for the new end time
+  sendNotification(
+    timer.notifyID,
+    tea.name,
+    tea.brewTimeRemaining,
+    silent: provider.silentDefault,
+    preNotify: provider.preNotify,
+  );
+  sendOngoingNotification(timer.notifyID, tea.name, tea.timerEndTime);
 }
 
 // Force cancel and reset all timers

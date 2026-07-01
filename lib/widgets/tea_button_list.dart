@@ -230,8 +230,14 @@ class _TeaButtonListState extends State<TeaButtonList> {
                 tea: tea,
                 fade: !(activeTimerCount < timersMaxCount || tea.isActive),
                 scale: buttonScale,
-                onPressed: activeTimerCount < timersMaxCount && !tea.isActive
+                // Start timer or advance the infusion count
+                onPressed: !tea.isActive && activeTimerCount < timersMaxCount
                     ? () => _setTimer(tea)
+                    : tea.isActive && tea.multipleInfusions
+                    ? () => advanceRunningInfusion(
+                        tea,
+                        Provider.of<AppProvider>(context, listen: false),
+                      )
                     : null,
                 onLongPress: () => _openTeaSettings(tea),
                 onCancelPressed: () => cancelTimerForTea(
@@ -296,13 +302,27 @@ class _TeaButtonListState extends State<TeaButtonList> {
       context: context,
       barrierDismissible: false,
       barrierColor: Colors.transparent,
-      transitionDuration: .zero,
+      transitionDuration: shortAnimationDuration,
       pageBuilder: (dialogContext, _, _) {
         _settingsDialogContext = dialogContext;
         return _TeaSettingsFloatingCard(
           tea: tea,
           buttonTopCenter: buttonTopCenter,
           onClose: _closeTeaSettings,
+        );
+      },
+      transitionBuilder: (context, animation, _, child) {
+        final curved = CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOut,
+          reverseCurve: Curves.easeIn,
+        );
+        return FadeTransition(
+          opacity: curved,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.9, end: 1).animate(curved),
+            child: child,
+          ),
         );
       },
     ).whenComplete(() => _settingsDialogContext = null);
