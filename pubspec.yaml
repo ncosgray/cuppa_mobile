@@ -19,7 +19,7 @@ version: 2.14.0+70
 
 environment:
   sdk: '>=3.10.0 <4.0.0'
-  flutter: ^3.44.3
+  flutter: ^3.44.4
 
 dependencies:
   app_settings: ^7.0.0
@@ -37,13 +37,13 @@ dependencies:
   flutter_timezone: ^5.1.0
   in_app_review: ^2.0.12
   intelligence: ^0.2.0
-  liquid_glass_widgets: ^0.19.1
+  liquid_glass_widgets: ^0.21.0
   package_info_plus: ^10.2.0
   path: ^1.9.1
   path_provider: ^2.1.6
   provider: ^6.1.5+1
   quick_actions: ^1.1.0
-  region_settings: ^1.5.1
+  region_settings: ^1.5.2
   share_plus: ^13.2.0
   shared_preferences: ^2.5.5
   showcaseview: ^5.1.0
