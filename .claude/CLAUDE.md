@@ -24,9 +24,13 @@ flutter build ipa                         # iOS
 # Lint / analyze
 flutter analyze
 
+# Unit tests (no device required)
+flutter test                              # Tea model, AppProvider, export/import
+
 # Integration tests (requires device/emulator)
 flutter test integration_test/            # screenshot collection only (not true integration tests)
 patrol test patrol_test/app_test.dart     # full end-to-end integration tests with Patrol
+patrol test -t patrol_test/timer_flows_test.dart  # timer flow integration tests
 
 # Screenshots (requires AVD/simulator setup)
 ./run_screenhots.sh
