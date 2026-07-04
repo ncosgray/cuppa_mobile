@@ -168,15 +168,15 @@ abstract class Prefs {
       }
     }
 
-    // Load tea list
+    // Load tea list, skipping any entries that fail to parse
     List<String>? teaListJson = sharedPrefs.getStringList(prefTeaList);
     if (teaListJson != null) {
-      try {
-        teaList += (teaListJson.map<Tea>(
-          (tea) => Tea.fromJson(jsonDecode(tea)),
-        )).toList();
-      } catch (e) {
-        // Something went wrong
+      for (final String teaJson in teaListJson) {
+        try {
+          teaList.add(Tea.fromJson(jsonDecode(teaJson)));
+        } catch (e) {
+          debugPrint('Failed to load tea: $e');
+        }
       }
     }
 
@@ -210,7 +210,7 @@ abstract class Prefs {
       try {
         return Tea.fromJson(jsonDecode(quickTimerJson));
       } catch (e) {
-        // Something went wrong
+        debugPrint('Failed to load Quick Timer: $e');
       }
     }
     return null;

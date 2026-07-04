@@ -50,7 +50,8 @@ class Tea {
         color ??
         TeaColor.values.firstWhere(
           (color) => color.value == colorValue,
-          orElse: () => TeaColor.values[0],
+          // Match the default color value (0 = black) for unknown values
+          orElse: () => TeaColor.black,
         );
     // Prefer TeaIcon or lookup from value if icon not given
     this.icon =
@@ -216,19 +217,6 @@ class Tea {
 
   int get brewTimeHours {
     return brewTime ~/ 3600;
-  }
-
-  // Brew time setters
-  set brewTimeSeconds(int newSecs) {
-    brewTime = (brewTimeHours * 3600) + (brewTimeMinutes * 60) + newSecs;
-  }
-
-  set brewTimeMinutes(int newMins) {
-    brewTime = (brewTimeHours * 3600) + (newMins * 60) + brewTimeSeconds;
-  }
-
-  set brewTimeHours(int newHrs) {
-    brewTime = (newHrs * 3600) + (brewTimeMinutes * 60) + brewTimeSeconds;
   }
 
   // Quick action shortcut icons based on color and tea icon

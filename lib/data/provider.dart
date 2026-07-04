@@ -80,9 +80,6 @@ class AppProvider extends ChangeNotifier {
     Tea tea, {
     String? name,
     int? brewTime,
-    int? brewTimeHours,
-    int? brewTimeMinutes,
-    int? brewTimeSeconds,
     int? brewTemp,
     BrewRatio? brewRatio,
     TeaColor? color,
@@ -101,15 +98,6 @@ class AppProvider extends ChangeNotifier {
       }
       if (brewTime != null) {
         target.brewTime = brewTime;
-      }
-      if (brewTimeHours != null) {
-        target.brewTimeHours = brewTimeHours;
-      }
-      if (brewTimeMinutes != null) {
-        target.brewTimeMinutes = brewTimeMinutes;
-      }
-      if (brewTimeSeconds != null) {
-        target.brewTimeSeconds = brewTimeSeconds;
       }
       if (brewTemp != null) {
         target.brewTemp = brewTemp;

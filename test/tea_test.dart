@@ -135,11 +135,12 @@ void main() {
       expect(decoded.isFavorite, false);
     });
 
-    test('unknown color and icon values fall back to first enum value', () {
+    test('unknown color and icon values fall back to defaults', () {
       Tea decoded = Tea.fromJson({jsonKeyColor: 999, jsonKeyIcon: 999});
 
-      expect(decoded.color, TeaColor.values[0]);
-      expect(decoded.icon, TeaIcon.values[0]);
+      // Same fallbacks as missing values: black color, timer icon
+      expect(decoded.color, TeaColor.black);
+      expect(decoded.icon, TeaIcon.timer);
     });
   });
 
@@ -166,18 +167,6 @@ void main() {
       expect(makeTea(brewTime: 240).brewTimeSeconds, 0);
       expect(makeTea(brewTime: 59).brewTimeMinutes, 0);
       expect(makeTea(brewTime: 59).brewTimeSeconds, 59);
-    });
-
-    test('setters preserve the other time components', () {
-      // 1:02:05 with seconds changed to 30
-      Tea tea = makeTea(brewTime: 3725)..brewTimeSeconds = 30;
-      expect(tea.brewTime, 3750); // 1:02:30
-
-      tea.brewTimeMinutes = 10;
-      expect(tea.brewTime, 4230); // 1:10:30
-
-      tea.brewTimeHours = 2;
-      expect(tea.brewTime, 7830); // 2:10:30
     });
   });
 
