@@ -155,7 +155,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
                       ? CrossFadeState.showFirst
                       : CrossFadeState.showSecond,
                   firstChild: Column(
-                    spacing: largeSpacing,
+                    spacing: smallSpacing,
                     children: [
                       listDivider,
                       // First infusion time picker
@@ -188,6 +188,36 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
                           ),
                         ],
                       ),
+                      // Current infusion status and reset button
+                      if (_effectiveCurrentInfusion > 1)
+                        Row(
+                          spacing: smallSpacing,
+                          mainAxisAlignment: .center,
+                          children: [
+                            Text(
+                              AppString.tea_current_infusion.translate(),
+                              style: textStyleSettingSecondary,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  AppString.tea_infusion_of.translate(
+                                    currentInfusion: _effectiveCurrentInfusion,
+                                    totalInfusions: _numInfusions,
+                                  ),
+                                  style: textStyleSettingNumber,
+                                ),
+                                adaptiveSmallButton(
+                                  icon: resetIcon,
+                                  onPressed: widget.allowInfusionReset
+                                      ? () =>
+                                            setState(() => _currentInfusion = 1)
+                                      : null,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       listDivider,
                       // Infusion interval label and sign toggle
                       Text(
@@ -249,33 +279,6 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
                         style: textStyleSettingNumber.copyWith(
                           fontWeight: .bold,
                         ),
-                      ),
-                      listDivider,
-                      // Current infusion status and reset button
-                      Row(
-                        mainAxisAlignment: .spaceBetween,
-                        children: [
-                          Text(
-                            AppString.tea_current_infusion.translate(),
-                            style: textStyleSettingSecondary,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                '$_effectiveCurrentInfusion',
-                                style: textStyleSettingNumber,
-                              ),
-                              adaptiveSmallButton(
-                                icon: resetIcon,
-                                onPressed:
-                                    widget.allowInfusionReset &&
-                                        _effectiveCurrentInfusion > 1
-                                    ? () => setState(() => _currentInfusion = 1)
-                                    : null,
-                              ),
-                            ],
-                          ),
-                        ],
                       ),
                     ],
                   ),
