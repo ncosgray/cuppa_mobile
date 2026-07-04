@@ -85,6 +85,46 @@ abstract class Prefs {
     return sharedPrefs.containsKey(prefTeaList);
   }
 
+  // Migrate a legacy tea definition from shared prefs, if present
+  static Tea? _migrateLegacyTea({
+    required String nameKey,
+    required String brewTimeKey,
+    required String brewTempKey,
+    required String colorKey,
+    String? iconKey,
+    required String isFavoriteKey,
+    required String isActiveKey,
+  }) {
+    if (!sharedPrefs.containsKey(nameKey) ||
+        !sharedPrefs.containsKey(brewTimeKey)) {
+      return null;
+    }
+
+    Tea tea = Tea(
+      name: sharedPrefs.getString(nameKey) ?? unknownString,
+      brewTime: sharedPrefs.getInt(brewTimeKey) ?? defaultBrewTime,
+      brewTemp: sharedPrefs.getInt(brewTempKey) ?? boilDegreesC,
+      brewRatio: BrewRatio(),
+      colorValue: sharedPrefs.getInt(colorKey) ?? defaultTeaColorValue,
+      iconValue: iconKey != null
+          ? sharedPrefs.getInt(iconKey) ?? defaultTeaIconValue
+          : defaultTeaIconValue,
+      isFavorite: sharedPrefs.getBool(isFavoriteKey) ?? true,
+      isActive: sharedPrefs.getBool(isActiveKey) ?? false,
+    );
+    sharedPrefs
+      ..remove(nameKey)
+      ..remove(brewTimeKey)
+      ..remove(brewTempKey)
+      ..remove(colorKey)
+      ..remove(isFavoriteKey)
+      ..remove(isActiveKey);
+    if (iconKey != null) {
+      sharedPrefs.remove(iconKey);
+    }
+    return tea;
+  }
+
   // Fetch tea settings from shared prefs or use defaults
   static List<Tea> loadTeas() {
     // Initialize teas
@@ -94,79 +134,38 @@ abstract class Prefs {
     // Initialize next tea ID
     nextTeaID = sharedPrefs.getInt(prefNextTeaID) ?? 0;
 
-    // Migrate legacy Tea 1
-    if (sharedPrefs.containsKey(prefTea1Name) &&
-        sharedPrefs.containsKey(prefTea1BrewTime)) {
-      teaList.add(
-        Tea(
-          name: sharedPrefs.getString(prefTea1Name) ?? unknownString,
-          brewTime: sharedPrefs.getInt(prefTea1BrewTime) ?? defaultBrewTime,
-          brewTemp: sharedPrefs.getInt(prefTea1BrewTemp) ?? boilDegreesC,
-          brewRatio: BrewRatio(),
-          colorValue: sharedPrefs.getInt(prefTea1Color) ?? defaultTeaColorValue,
-          iconValue: sharedPrefs.getInt(prefTea1Icon) ?? defaultTeaIconValue,
-          isFavorite: sharedPrefs.getBool(prefTea1IsFavorite) ?? true,
-          isActive: sharedPrefs.getBool(prefTea1IsActive) ?? false,
-        ),
-      );
-      sharedPrefs
-        ..remove(prefTea1Name)
-        ..remove(prefTea1BrewTime)
-        ..remove(prefTea1BrewTemp)
-        ..remove(prefTea1Color)
-        ..remove(prefTea1IsFavorite)
-        ..remove(prefTea1IsActive);
-      migrated = true;
-    }
-
-    // Migrate legacy Tea 2
-    if (sharedPrefs.containsKey(prefTea2Name) &&
-        sharedPrefs.containsKey(prefTea2BrewTime)) {
-      teaList.add(
-        Tea(
-          name: sharedPrefs.getString(prefTea2Name) ?? unknownString,
-          brewTime: sharedPrefs.getInt(prefTea2BrewTime) ?? defaultBrewTime,
-          brewTemp: sharedPrefs.getInt(prefTea2BrewTemp) ?? boilDegreesC,
-          brewRatio: BrewRatio(),
-          colorValue: sharedPrefs.getInt(prefTea2Color) ?? defaultTeaColorValue,
-          iconValue: defaultTeaIconValue,
-          isFavorite: sharedPrefs.getBool(prefTea2IsFavorite) ?? true,
-          isActive: sharedPrefs.getBool(prefTea2IsActive) ?? false,
-        ),
-      );
-      sharedPrefs
-        ..remove(prefTea2Name)
-        ..remove(prefTea2BrewTime)
-        ..remove(prefTea2BrewTemp)
-        ..remove(prefTea2Color)
-        ..remove(prefTea2IsFavorite)
-        ..remove(prefTea2IsActive);
-      migrated = true;
-    }
-
-    // Migrate legacy Tea 3
-    if (sharedPrefs.containsKey(prefTea3Name) &&
-        sharedPrefs.containsKey(prefTea3BrewTime)) {
-      teaList.add(
-        Tea(
-          name: sharedPrefs.getString(prefTea3Name) ?? unknownString,
-          brewTime: sharedPrefs.getInt(prefTea3BrewTime) ?? defaultBrewTime,
-          brewTemp: sharedPrefs.getInt(prefTea3BrewTemp) ?? boilDegreesC,
-          brewRatio: BrewRatio(),
-          colorValue: sharedPrefs.getInt(prefTea3Color) ?? defaultTeaColorValue,
-          iconValue: defaultTeaIconValue,
-          isFavorite: sharedPrefs.getBool(prefTea3IsFavorite) ?? true,
-          isActive: sharedPrefs.getBool(prefTea3IsActive) ?? false,
-        ),
-      );
-      sharedPrefs
-        ..remove(prefTea3Name)
-        ..remove(prefTea3BrewTime)
-        ..remove(prefTea3BrewTemp)
-        ..remove(prefTea3Color)
-        ..remove(prefTea3IsFavorite)
-        ..remove(prefTea3IsActive);
-      migrated = true;
+    // Migrate legacy Teas 1-3
+    for (final Tea? legacyTea in [
+      _migrateLegacyTea(
+        nameKey: prefTea1Name,
+        brewTimeKey: prefTea1BrewTime,
+        brewTempKey: prefTea1BrewTemp,
+        colorKey: prefTea1Color,
+        iconKey: prefTea1Icon,
+        isFavoriteKey: prefTea1IsFavorite,
+        isActiveKey: prefTea1IsActive,
+      ),
+      _migrateLegacyTea(
+        nameKey: prefTea2Name,
+        brewTimeKey: prefTea2BrewTime,
+        brewTempKey: prefTea2BrewTemp,
+        colorKey: prefTea2Color,
+        isFavoriteKey: prefTea2IsFavorite,
+        isActiveKey: prefTea2IsActive,
+      ),
+      _migrateLegacyTea(
+        nameKey: prefTea3Name,
+        brewTimeKey: prefTea3BrewTime,
+        brewTempKey: prefTea3BrewTemp,
+        colorKey: prefTea3Color,
+        isFavoriteKey: prefTea3IsFavorite,
+        isActiveKey: prefTea3IsActive,
+      ),
+    ]) {
+      if (legacyTea != null) {
+        teaList.add(legacyTea);
+        migrated = true;
+      }
     }
 
     // Load tea list

@@ -123,21 +123,21 @@ class Tea {
 
   // Fields
   late int id;
-  late String name;
-  late int brewTime;
-  late int brewTemp;
-  late BrewRatio brewRatio;
+  String name;
+  int brewTime;
+  int brewTemp;
+  BrewRatio brewRatio;
   late TeaColor color;
   Color? colorShade;
   late TeaIcon icon;
-  late bool isFavorite;
-  late bool isActive;
-  late bool isSilent;
-  late int timerEndTime;
+  bool isFavorite;
+  bool isActive;
+  bool isSilent;
+  int timerEndTime;
   int? timerNotifyID;
-  late int numInfusions;
-  late int infusionInterval;
-  late int currentInfusion;
+  int numInfusions;
+  int infusionInterval;
+  int currentInfusion;
 
   // Activate brew timer
   void activate(int notifyID, bool silentDefault) {
@@ -207,28 +207,28 @@ class Tea {
 
   // Brew time getters
   int get brewTimeSeconds {
-    return brewTime - (brewTimeMinutes * 60);
+    return brewTime % 60;
   }
 
   int get brewTimeMinutes {
-    return (brewTime / 60).floor() - (brewTimeHours * 60);
+    return (brewTime % 3600) ~/ 60;
   }
 
   int get brewTimeHours {
-    return (brewTime / 3600).floor();
+    return brewTime ~/ 3600;
   }
 
   // Brew time setters
   set brewTimeSeconds(int newSecs) {
-    brewTime = (brewTimeMinutes * 60) + newSecs;
+    brewTime = (brewTimeHours * 3600) + (brewTimeMinutes * 60) + newSecs;
   }
 
   set brewTimeMinutes(int newMins) {
-    brewTime = (newMins * 60) + brewTimeSeconds;
+    brewTime = (brewTimeHours * 3600) + (newMins * 60) + brewTimeSeconds;
   }
 
   set brewTimeHours(int newHrs) {
-    brewTime = (newHrs * 3600) + brewTimeMinutes;
+    brewTime = (newHrs * 3600) + (brewTimeMinutes * 60) + brewTimeSeconds;
   }
 
   // Quick action shortcut icons based on color and tea icon
@@ -239,145 +239,16 @@ class Tea {
           return shortcutIconIOSCup;
         case .flower:
           return shortcutIconIOSFlower;
-        default:
+        case .timer:
           return shortcutIconIOS;
       }
-    } else {
-      switch (color) {
-        case TeaColor.red:
-          {
-            switch (icon) {
-              case .cup:
-                return shortcutIconCupRed;
-              case .flower:
-                return shortcutIconFlowerRed;
-              default:
-                return shortcutIconRed;
-            }
-          }
-        case TeaColor.orange:
-          {
-            switch (icon) {
-              case .cup:
-                return shortcutIconCupOrange;
-              case .flower:
-                return shortcutIconFlowerOrange;
-              default:
-                return shortcutIconOrange;
-            }
-          }
-        case TeaColor.green:
-          {
-            switch (icon) {
-              case .cup:
-                return shortcutIconCupGreen;
-              case .flower:
-                return shortcutIconFlowerGreen;
-              default:
-                return shortcutIconGreen;
-            }
-          }
-        case TeaColor.blue:
-          {
-            switch (icon) {
-              case .cup:
-                return shortcutIconCupBlue;
-              case .flower:
-                return shortcutIconFlowerBlue;
-              default:
-                return shortcutIconBlue;
-            }
-          }
-        case TeaColor.purple:
-          {
-            switch (icon) {
-              case .cup:
-                return shortcutIconCupPurple;
-              case .flower:
-                return shortcutIconFlowerPurple;
-              default:
-                return shortcutIconPurple;
-            }
-          }
-        case TeaColor.brown:
-          {
-            switch (icon) {
-              case .cup:
-                return shortcutIconCupBrown;
-              case .flower:
-                return shortcutIconFlowerBrown;
-              default:
-                return shortcutIconBrown;
-            }
-          }
-        case TeaColor.pink:
-          {
-            switch (icon) {
-              case .cup:
-                return shortcutIconCupPink;
-              case .flower:
-                return shortcutIconFlowerPink;
-              default:
-                return shortcutIconPink;
-            }
-          }
-        case TeaColor.amber:
-          {
-            switch (icon) {
-              case .cup:
-                return shortcutIconCupAmber;
-              case .flower:
-                return shortcutIconFlowerAmber;
-              default:
-                return shortcutIconAmber;
-            }
-          }
-        case TeaColor.teal:
-          {
-            switch (icon) {
-              case .cup:
-                return shortcutIconCupTeal;
-              case .flower:
-                return shortcutIconFlowerTeal;
-              default:
-                return shortcutIconTeal;
-            }
-          }
-        case TeaColor.cyan:
-          {
-            switch (icon) {
-              case .cup:
-                return shortcutIconCupCyan;
-              case .flower:
-                return shortcutIconFlowerCyan;
-              default:
-                return shortcutIconCyan;
-            }
-          }
-        case TeaColor.lavender:
-          {
-            switch (icon) {
-              case .cup:
-                return shortcutIconCupLavender;
-              case .flower:
-                return shortcutIconFlowerLavender;
-              default:
-                return shortcutIconLavender;
-            }
-          }
-        default:
-          {
-            switch (icon) {
-              case .cup:
-                return shortcutIconCupBlack;
-              case .flower:
-                return shortcutIconFlowerBlack;
-              default:
-                return shortcutIconBlack;
-            }
-          }
-      }
     }
+
+    // Android drawable names are derived from the TeaIcon and TeaColor enum
+    // names, e.g. ic_shortcut_cup_red; keep drawables in sync with the enums
+    return icon == TeaIcon.timer
+        ? '$shortcutIconPrefix${color.name}'
+        : '$shortcutIconPrefix${icon.name}_${color.name}';
   }
 }
 

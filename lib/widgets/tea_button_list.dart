@@ -387,6 +387,22 @@ class _TeaButtonListState extends State<TeaButtonList> {
     }
   }
 
+  // Ask to cancel and free a timer slot if needed
+  Future<bool> _freeTimerSlot(AppProvider provider) async {
+    if (activeTimerCount >= timersMaxCount) {
+      if (await showConfirmDialog(
+        context: context,
+        body: Text(AppString.confirm_message_line1.translate()),
+        bodyExtra: Text(AppString.confirm_message_line2.translate()),
+      )) {
+        cancelAllTimers(provider);
+      } else {
+        return false;
+      }
+    }
+    return true;
+  }
+
   // Start a timer from shortcut selection
   Future<void> _handleShortcut(String shortcutType) async {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
@@ -400,35 +416,14 @@ class _TeaButtonListState extends State<TeaButtonList> {
       if (teaIndex >= 0 && teaIndex < provider.teaCount) {
         Tea tea = provider.teaList[teaIndex];
         if (!tea.isActive) {
-          if (activeTimerCount >= timersMaxCount) {
-            // Ask to cancel and free a timer slot if needed
-            if (await showConfirmDialog(
-              context: context,
-              body: Text(AppString.confirm_message_line1.translate()),
-              bodyExtra: Text(AppString.confirm_message_line2.translate()),
-            )) {
-              cancelAllTimers(provider);
-            } else {
-              return;
-            }
-          }
+          if (!await _freeTimerSlot(provider)) return;
 
           // Start timer from shortcut
           _setTimer(tea, autoScroll: true);
         }
         // Handle Quick Timer shortcut
       } else if (teaIndex == quickTimerTeaID && !provider.quickTimer.isActive) {
-        if (activeTimerCount >= timersMaxCount) {
-          if (await showConfirmDialog(
-            context: context,
-            body: Text(AppString.confirm_message_line1.translate()),
-            bodyExtra: Text(AppString.confirm_message_line2.translate()),
-          )) {
-            cancelAllTimers(provider);
-          } else {
-            return;
-          }
-        }
+        if (!await _freeTimerSlot(provider)) return;
 
         // Open the Quick Timer dialog from the home screen
         if (!mounted) return;

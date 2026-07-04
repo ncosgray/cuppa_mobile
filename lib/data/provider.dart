@@ -95,53 +95,55 @@ class AppProvider extends ChangeNotifier {
   }) {
     int teaIndex = _teaList.indexOf(tea);
     if (teaIndex >= 0) {
+      final Tea target = _teaList[teaIndex];
       if (name != null) {
-        _teaList[teaIndex].name = name;
+        target.name = name;
       }
       if (brewTime != null) {
-        _teaList[teaIndex].brewTime = brewTime;
+        target.brewTime = brewTime;
       }
       if (brewTimeHours != null) {
-        _teaList[teaIndex].brewTimeHours = brewTimeHours;
+        target.brewTimeHours = brewTimeHours;
       }
       if (brewTimeMinutes != null) {
-        _teaList[teaIndex].brewTimeMinutes = brewTimeMinutes;
+        target.brewTimeMinutes = brewTimeMinutes;
       }
       if (brewTimeSeconds != null) {
-        _teaList[teaIndex].brewTimeSeconds = brewTimeSeconds;
+        target.brewTimeSeconds = brewTimeSeconds;
       }
       if (brewTemp != null) {
-        _teaList[teaIndex].brewTemp = brewTemp;
+        target.brewTemp = brewTemp;
       }
       if (brewRatio != null) {
-        _teaList[teaIndex].brewRatio = brewRatio;
+        target.brewRatio = brewRatio;
       }
       if (color != null) {
-        _teaList[teaIndex].color = color;
+        target.color = color;
       }
       if (colorShade != null) {
-        _teaList[teaIndex].colorShade = colorShade;
+        target.colorShade = colorShade;
       }
       if (icon != null) {
-        _teaList[teaIndex].icon = icon;
+        target.icon = icon;
       }
       if (isFavorite != null) {
-        _teaList[teaIndex].isFavorite = isFavorite;
+        target.isFavorite = isFavorite;
       }
       if (isSilent != null) {
-        _teaList[teaIndex].isSilent = isSilent;
+        target.isSilent = isSilent;
       }
       if (numInfusions != null) {
-        _teaList[teaIndex].numInfusions = numInfusions;
-        _teaList[teaIndex].currentInfusion = 1;
+        target
+          ..numInfusions = numInfusions
+          ..currentInfusion = 1;
       }
       if (infusionInterval != null) {
-        _teaList[teaIndex].infusionInterval = infusionInterval;
+        target.infusionInterval = infusionInterval;
       }
       saveTeas();
 
       // Update Live Activity if this tea is actively timing
-      if (_teaList[teaIndex].isActive &&
+      if (target.isActive &&
           (name != null ||
               color != null ||
               colorShade != null ||
@@ -328,37 +330,48 @@ class AppProvider extends ChangeNotifier {
     );
   }
 
-  // Activate a tea
-  void activateTea(Tea tea, int notifyID, bool silentDefault) {
+  // Locate a tea in the tea list or match the Quick Timer
+  Tea? _findTea(Tea tea) {
     int teaIndex = _teaList.indexOf(tea);
     if (teaIndex >= 0) {
-      _teaList[teaIndex].activate(notifyID, silentDefault);
+      return _teaList[teaIndex];
+    }
+    return tea == _quickTimer ? _quickTimer : null;
+  }
+
+  // Persist a tea to the tea list or Quick Timer store
+  void _saveTea(Tea tea) {
+    if (_teaList.contains(tea)) {
       Prefs.saveTeas(_teaList);
     } else {
-      tea.activate(notifyID, silentDefault);
-      _quickTimer = tea;
       Prefs.saveQuickTimer(_quickTimer);
     }
   }
 
+  // Activate a tea
+  void activateTea(Tea tea, int notifyID, bool silentDefault) {
+    Tea? target = _findTea(tea);
+    if (target == null) {
+      // Not in the tea list: make this tea the Quick Timer
+      target = tea;
+      _quickTimer = tea;
+    }
+    target.activate(notifyID, silentDefault);
+    _saveTea(target);
+  }
+
   // Deactivate a tea
   void deactivateTea(Tea tea) {
-    int teaIndex = _teaList.indexOf(tea);
-    if (teaIndex >= 0) {
-      _teaList[teaIndex].deactivate();
-      Prefs.saveTeas(_teaList);
-    } else if (tea == _quickTimer) {
-      _quickTimer.deactivate();
-      Prefs.saveQuickTimer(_quickTimer);
+    final Tea? target = _findTea(tea);
+    if (target != null) {
+      target.deactivate();
+      _saveTea(target);
     }
   }
 
   // Adjust a tea's brewing time
   bool incrementTimer(Tea tea, int secs) {
-    final int teaIndex = _teaList.indexOf(tea);
-    final Tea? target = teaIndex >= 0
-        ? _teaList[teaIndex]
-        : (tea == _quickTimer ? _quickTimer : null);
+    final Tea? target = _findTea(tea);
     if (target != null) {
       int ms = secs * 1000;
       int now = DateTime.now().millisecondsSinceEpoch;
@@ -367,11 +380,7 @@ class AppProvider extends ChangeNotifier {
           target.timerEndTime + ms <
               now + (teaBrewTimeMaxHours * 3600 * 1000)) {
         target.adjustBrewTimeRemaining(ms);
-        if (teaIndex >= 0) {
-          Prefs.saveTeas(_teaList);
-        } else {
-          Prefs.saveQuickTimer(_quickTimer);
-        }
+        _saveTea(target);
         notifyTimerTick();
         return true;
       }
@@ -381,10 +390,7 @@ class AppProvider extends ChangeNotifier {
 
   // Increment/decrement active timer by the tea's infusion interval
   void adjustTimerForInfusion(Tea tea) {
-    final int teaIndex = _teaList.indexOf(tea);
-    final Tea? target = teaIndex >= 0
-        ? _teaList[teaIndex]
-        : (tea == _quickTimer ? _quickTimer : null);
+    final Tea? target = _findTea(tea);
     if (target != null && target.isActive && target.multipleInfusions) {
       final int now = DateTime.now().millisecondsSinceEpoch;
       target.advanceInfusion();
@@ -402,11 +408,7 @@ class AppProvider extends ChangeNotifier {
           target.timerEndTime = now;
         }
       }
-      if (teaIndex >= 0) {
-        Prefs.saveTeas(_teaList);
-      } else {
-        Prefs.saveQuickTimer(_quickTimer);
-      }
+      _saveTea(target);
 
       // Update Live Activity with adjusted end time
       liveActivityService.startOrUpdate(activeTeas);

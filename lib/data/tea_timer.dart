@@ -200,6 +200,42 @@ void cancelTimerForTea(Tea tea, AppProvider provider) {
     ..notifyTimerTick();
 }
 
+// Adjust a running timer by the given seconds and update notifications
+void incrementRunningTimer(TeaTimer timer, int secs, AppProvider provider) {
+  final Tea? tea = timer.tea;
+  if (tea == null) return;
+
+  if (provider.incrementTimer(tea, secs)) {
+    // Reschedule notifications for the new end time
+    sendNotification(
+      timer.notifyID,
+      tea.name,
+      tea.brewTimeRemaining,
+      silent: tea.isSilent,
+      preNotify: provider.preNotify,
+    );
+    sendOngoingNotification(timer.notifyID, tea.name, tea.timerEndTime);
+
+    // Update Live Activity with adjusted end time
+    liveActivityService.startOrUpdate(provider.activeTeas);
+  }
+}
+
+// Toggle silent status for a running timer and update its notification
+void toggleTimerSilence(TeaTimer timer, AppProvider provider) {
+  final Tea? tea = timer.tea;
+  if (tea == null) return;
+
+  provider.updateTea(tea, isSilent: !tea.isSilent);
+  sendNotification(
+    timer.notifyID,
+    tea.name,
+    tea.brewTimeRemaining,
+    silent: tea.isSilent,
+    preNotify: provider.preNotify,
+  );
+}
+
 // Advance infusion for a running timer: update state, notification, and timer sync
 void advanceRunningInfusion(Tea tea, AppProvider provider) {
   final TeaTimer? timer = timerList.firstWhereOrNull(
@@ -217,7 +253,7 @@ void advanceRunningInfusion(Tea tea, AppProvider provider) {
     timer.notifyID,
     tea.name,
     tea.brewTimeRemaining,
-    silent: provider.silentDefault,
+    silent: tea.isSilent,
     preNotify: provider.preNotify,
   );
   sendOngoingNotification(timer.notifyID, tea.name, tea.timerEndTime);
