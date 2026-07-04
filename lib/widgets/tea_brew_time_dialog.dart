@@ -28,6 +28,7 @@ typedef BrewTimeResult = ({
   int brewTime,
   int numInfusions,
   int infusionInterval,
+  int currentInfusion,
 });
 
 // Display a tea brew time entry dialog box
@@ -48,6 +49,8 @@ class TeaBrewTimeDialog extends StatefulWidget {
     this.showInfusionSettings = true,
     this.initialNumInfusions = defaultNumInfusions,
     this.initialInfusionInterval = defaultInfusionInterval,
+    this.initialCurrentInfusion = 1,
+    this.allowInfusionReset = true,
   });
 
   final Widget? title;
@@ -64,6 +67,8 @@ class TeaBrewTimeDialog extends StatefulWidget {
   final bool showInfusionSettings;
   final int initialNumInfusions;
   final int initialInfusionInterval;
+  final int initialCurrentInfusion;
+  final bool allowInfusionReset;
 
   @override
   State<TeaBrewTimeDialog> createState() => _TeaBrewTimeDialogState();
@@ -74,6 +79,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
   late int _currentBrewTime;
   late bool _multipleInfusions;
   late int _numInfusions;
+  late int _currentInfusion;
   int _infusionInterval = 0;
   int _infusionIntervalSign = 1;
   int _intervalPickerKey = 0;
@@ -93,7 +99,14 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
         : numInfusionsMin;
     _infusionInterval = widget.initialInfusionInterval.abs();
     _infusionIntervalSign = widget.initialInfusionInterval < 0 ? -1 : 1;
+    _currentInfusion = widget.initialCurrentInfusion;
   }
+
+  // Current infusion clamped to the selected infusion count
+  int get _effectiveCurrentInfusion =>
+      _multipleInfusions && _currentInfusion <= _numInfusions
+      ? _currentInfusion
+      : 1;
 
   // Build dialog
   @override
@@ -237,6 +250,33 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
                           fontWeight: .bold,
                         ),
                       ),
+                      listDivider,
+                      // Current infusion status and reset button
+                      Row(
+                        mainAxisAlignment: .spaceBetween,
+                        children: [
+                          Text(
+                            AppString.tea_current_infusion.translate(),
+                            style: textStyleSettingSecondary,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '$_effectiveCurrentInfusion',
+                                style: textStyleSettingNumber,
+                              ),
+                              adaptiveSmallButton(
+                                icon: resetIcon,
+                                onPressed:
+                                    widget.allowInfusionReset &&
+                                        _effectiveCurrentInfusion > 1
+                                    ? () => setState(() => _currentInfusion = 1)
+                                    : null,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                   secondChild: const SizedBox.shrink(),
@@ -260,6 +300,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
             brewTime: _currentBrewTime,
             numInfusions: _multipleInfusions ? _numInfusions : 1,
             infusionInterval: _infusionIntervalSign * _infusionInterval,
+            currentInfusion: _effectiveCurrentInfusion,
           )),
         ),
       ],

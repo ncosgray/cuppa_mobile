@@ -413,6 +413,7 @@ class TeaSettingsCard extends StatelessWidget {
                   brewTime: result.brewTime,
                   numInfusions: result.numInfusions,
                   infusionInterval: result.infusionInterval,
+                  currentInfusion: result.currentInfusion,
                 );
               }
             }),
@@ -447,6 +448,9 @@ class TeaSettingsCard extends StatelessWidget {
           buttonTextOK: AppString.ok_button.translate(),
           initialNumInfusions: currentNumInfusions,
           initialInfusionInterval: currentInfusionInterval,
+          initialCurrentInfusion: tea.currentInfusion,
+          // Resetting mid-brew would desync the running timer
+          allowInfusionReset: !tea.isActive,
         );
       },
     );

@@ -90,6 +90,7 @@ class AppProvider extends ChangeNotifier {
     bool? isSilent,
     int? numInfusions,
     int? infusionInterval,
+    int? currentInfusion,
   }) {
     int teaIndex = _teaList.indexOf(tea);
     if (teaIndex >= 0) {
@@ -121,13 +122,17 @@ class AppProvider extends ChangeNotifier {
       if (isSilent != null) {
         target.isSilent = isSilent;
       }
-      if (numInfusions != null) {
+      if (numInfusions != null && numInfusions != target.numInfusions) {
+        // Restart the infusion cycle when the infusion count changes
         target
           ..numInfusions = numInfusions
           ..currentInfusion = 1;
       }
       if (infusionInterval != null) {
         target.infusionInterval = infusionInterval;
+      }
+      if (currentInfusion != null) {
+        target.currentInfusion = currentInfusion;
       }
       saveTeas();
 
@@ -438,10 +443,23 @@ class AppProvider extends ChangeNotifier {
     }
   }
 
+  // Reset a tea's infusion cycle to the first infusion
+  void resetInfusion(Tea tea) {
+    final Tea? target = _findTea(tea);
+    if (target != null && target.currentInfusion != 1) {
+      target.currentInfusion = 1;
+      _saveTea(target);
+      notifyListeners();
+    }
+  }
+
   // Clear active tea
   void clearActiveTea() {
     _teaList.where((tea) => tea.isActive == true).forEach((tea) {
-      tea.deactivate();
+      // Cancelling a timer abandons the session: restart the infusion cycle
+      tea
+        ..deactivate()
+        ..currentInfusion = 1;
     });
     Prefs.saveTeas(_teaList);
     _quickTimer.deactivate();

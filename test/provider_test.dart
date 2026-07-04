@@ -122,6 +122,25 @@ void main() {
       expect(updated.currentInfusion, 1);
     });
 
+    test('updateTea keeps infusion progress when count is unchanged', () {
+      Tea tea = makeTea(numInfusions: 5, currentInfusion: 3);
+      provider
+        ..addTea(tea)
+        ..updateTea(tea, numInfusions: 5, infusionInterval: 45);
+
+      expect(provider.teaList[0].currentInfusion, 3);
+      expect(provider.teaList[0].infusionInterval, 45);
+    });
+
+    test('updateTea applies an explicit current infusion', () {
+      Tea tea = makeTea(numInfusions: 5, currentInfusion: 3);
+      provider
+        ..addTea(tea)
+        ..updateTea(tea, numInfusions: 5, currentInfusion: 1);
+
+      expect(provider.teaList[0].currentInfusion, 1);
+    });
+
     test('mutations notify listeners', () {
       int notifications = 0;
       provider.addListener(() => notifications++);
@@ -329,6 +348,39 @@ void main() {
 
       expect(provider.teaList[0].currentInfusion, 2);
       expect(provider.teaList[0].brewTimeRemaining, 0);
+    });
+
+    test('resetInfusion returns to infusion 1 and persists', () {
+      Tea tea = makeTea(numInfusions: 5, currentInfusion: 4);
+      provider
+        ..addTea(tea)
+        ..resetInfusion(tea);
+
+      expect(provider.teaList[0].currentInfusion, 1);
+      expect(Prefs.loadTeas()[0].currentInfusion, 1);
+    });
+
+    test('resetInfusion does not notify when already at infusion 1', () {
+      Tea tea = makeTea(numInfusions: 5);
+      provider.addTea(tea);
+
+      int notifications = 0;
+      provider
+        ..addListener(() => notifications++)
+        ..resetInfusion(tea);
+
+      expect(notifications, 0);
+    });
+
+    test('clearActiveTea resets the infusion cycle', () {
+      Tea tea = makeTea(numInfusions: 5, currentInfusion: 3);
+      provider
+        ..addTea(tea)
+        ..activateTea(tea, notifyID1, false)
+        ..clearActiveTea();
+
+      expect(provider.teaList[0].isActive, false);
+      expect(provider.teaList[0].currentInfusion, 1);
     });
 
     test('adjustTimerForInfusion ignores single-infusion teas', () {

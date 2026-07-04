@@ -121,6 +121,13 @@ void main() {
     expect(find.byType(TeaBrewTimeDialog), findsOneWidget);
     await $.tester.tap(find.byType(GlassSwitch));
     await $.tester.pumpAndSettle();
+
+    // Current infusion status row appears with infusions enabled
+    expect(
+      find.text(AppString.tea_current_infusion.translate()),
+      findsOneWidget,
+    );
+
     await $.tap(find.text(AppString.ok_button.translate()));
 
     // Close the floating settings card via its barrier
@@ -146,9 +153,13 @@ void main() {
       findsOneWidget,
     );
 
-    // Cancel the timer
+    // Cancel the timer: also resets the infusion cycle back to 1
     await $.tester.tap(find.text(AppString.cancel_button.translate()));
     await $.tester.pump(const Duration(seconds: 1));
     expect(find.text(formatTimer(0)), findsOneWidget);
+    expect(
+      find.descendant(of: find.byType(TeaButton), matching: find.text('1')),
+      findsOneWidget,
+    );
   });
 }

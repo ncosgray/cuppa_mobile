@@ -197,6 +197,8 @@ void cancelTimerForTea(Tea tea, AppProvider provider) {
   }
   provider
     ..deactivateTea(tea)
+    // Cancelling a timer abandons the session: restart the infusion cycle
+    ..resetInfusion(tea)
     ..notifyTimerTick();
 }
 

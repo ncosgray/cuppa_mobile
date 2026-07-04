@@ -177,6 +177,7 @@ enum AppString {
   stats_timer_time('stats_timer_time'),
   stats_title('stats_title'),
   support_the_project('support_the_project'),
+  tea_current_infusion('tea_current_infusion'),
   tea_infusion_count('tea_infusion_count'),
   tea_infusion_first('tea_infusion_first'),
   tea_infusion_interval('tea_infusion_interval'),
