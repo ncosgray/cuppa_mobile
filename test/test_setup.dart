@@ -14,6 +14,7 @@
 // - Initialize globals and in-memory shared prefs for unit tests
 
 import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 
 import 'package:flutter/services.dart';
@@ -60,6 +61,11 @@ Future<void> setUpTestEnvironment() async {
         const MethodChannel('plugins.flutter.io/quick_actions'),
         (MethodCall call) async => null,
       );
+
+  // Load default localizations so translated strings resolve
+  await const AppLocalizationsDelegate(
+    isSystemLanguage: true,
+  ).load(defaultLocale);
 
   // Fresh in-memory shared prefs stores
   SharedPreferences.setMockInitialValues({});

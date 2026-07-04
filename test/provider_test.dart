@@ -345,6 +345,35 @@ void main() {
     });
   });
 
+  group('Startup defaults', () {
+    test('first run loads default presets and Quick Timer', () {
+      expect(provider.initializeDefaults(), true);
+
+      // Default presets loaded as favorites
+      expect(provider.teaCount, 3);
+      expect(provider.favoritesList.length, 3);
+
+      // Metric region fixture defaults to Celsius
+      expect(provider.useCelsius, true);
+
+      // Quick Timer defaults applied
+      expect(provider.quickTimer.brewTime, defaultQuickTimerSeconds);
+
+      // Second call is not a first run and does not duplicate teas
+      expect(provider.initializeDefaults(), false);
+      expect(provider.teaCount, 3);
+    });
+
+    test('stored settings and teas are respected', () {
+      Prefs.saveSettings(useCelsius: false);
+      provider.addTea(makeTea(name: 'Existing'));
+
+      expect(provider.initializeDefaults(), false);
+      expect(provider.useCelsius, false);
+      expect(provider.teaList.map((tea) => tea.name), ['Existing']);
+    });
+  });
+
   group('Settings', () {
     test('settings persist and reload into a new provider', () {
       provider

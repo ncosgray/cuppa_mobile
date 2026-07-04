@@ -16,6 +16,7 @@
 
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/shortcut_handler.dart';
 import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -259,6 +260,38 @@ class AppProvider extends ChangeNotifier {
       favoritesList: favoritesList,
       quickTimer: quickTimer,
     );
+  }
+
+  // Apply locale-based defaults and first-run data at app startup
+  // Must be called after localizations have loaded, since default teas and
+  // the Quick Timer use translated names
+  // Returns true on first run, i.e. default presets were loaded
+  bool initializeDefaults() {
+    bool isFirstRun = false;
+    bool doSetupShortcuts = false;
+
+    // Set default brew temp units based on locale
+    useCelsius = Prefs.loadUseCelsius() ?? deviceUsesCelsius();
+
+    // Add Quick Timer defaults if not set
+    if (!Prefs.quickTimerPrefsExist()) {
+      loadQuickTimerDefaults();
+      doSetupShortcuts = true;
+    }
+
+    // Add default presets if no custom teas have been set
+    if (teaCount == 0 && !Prefs.teaPrefsExist()) {
+      loadDefaults();
+      isFirstRun = true;
+      doSetupShortcuts = true;
+    }
+
+    // Manage shortcut options
+    if (doSetupShortcuts) {
+      setupShortcuts();
+    }
+
+    return isFirstRun;
   }
 
   // Load teas from default presets

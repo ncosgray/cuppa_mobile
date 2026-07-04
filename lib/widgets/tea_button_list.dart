@@ -62,33 +62,14 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-      bool doSetupShortcuts = false;
 
-      // Set default brew temp units based on locale
-      // ignore: cascade_invocations
-      provider.useCelsius = Prefs.loadUseCelsius() ?? deviceUsesCelsius();
+      // Apply locale defaults and load first-run teas
+      bool isFirstRun = provider.initializeDefaults();
 
-      // Add Quick Timer defaults if not set
-      if (!Prefs.quickTimerPrefsExist()) {
-        provider.loadQuickTimerDefaults();
-        doSetupShortcuts = true;
-      }
-
-      // Add default presets if no custom teas have been set
-      if (provider.teaCount == 0 && !Prefs.teaPrefsExist()) {
-        provider.loadDefaults();
-        doSetupShortcuts = true;
-
-        // Start a tutorial for new users
-        if (Prefs.showTutorial) {
-          startTutorial();
-          Prefs.setSkipTutorial();
-        }
-      }
-
-      // Manage shortcut options
-      if (doSetupShortcuts) {
-        provider.setupShortcuts();
+      // Start a tutorial for new users
+      if (isFirstRun && Prefs.showTutorial) {
+        startTutorial();
+        Prefs.setSkipTutorial();
       }
 
       // Manage timers
