@@ -453,6 +453,18 @@ class AppProvider extends ChangeNotifier {
     }
   }
 
+  // Complete a brew: advance the infusion cycle and deactivate
+  void completeTea(Tea tea) {
+    final Tea? target = _findTea(tea);
+    if (target != null) {
+      if (target.multipleInfusions) {
+        target.advanceInfusion();
+      }
+      target.deactivate();
+      _saveTea(target);
+    }
+  }
+
   // Clear active tea
   void clearActiveTea() {
     _teaList.where((tea) => tea.isActive == true).forEach((tea) {

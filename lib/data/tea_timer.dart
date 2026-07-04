@@ -151,10 +151,7 @@ void Function(Timer? ticker) handleTimerTick(
         // Brewing complete
         if (timer.tea != null) {
           cancelOngoingNotification(timer.notifyID);
-          if (timer.tea!.multipleInfusions) {
-            timer.tea!.advanceInfusion();
-          }
-          provider.deactivateTea(timer.tea!);
+          provider.completeTea(timer.tea!);
         }
         timer.stop();
         provider.notifyTimerTick();

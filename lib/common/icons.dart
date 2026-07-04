@@ -93,4 +93,4 @@ const IconData incrementPlusIcon = Icons.add_circle_outline;
 const IconData incrementMinusIcon = Icons.remove_circle_outline;
 
 // Icon data for infusion reset button
-const IconData resetIcon = Icons.refresh;
+const IconData resetIcon = Icons.undo;

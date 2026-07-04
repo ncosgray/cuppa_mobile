@@ -350,6 +350,40 @@ void main() {
       expect(provider.teaList[0].brewTimeRemaining, 0);
     });
 
+    test('completeTea advances the infusion and deactivates', () {
+      Tea tea = makeTea(numInfusions: 3, currentInfusion: 1);
+      provider
+        ..addTea(tea)
+        ..activateTea(tea, notifyID1, false)
+        ..completeTea(tea);
+
+      expect(provider.teaList[0].isActive, false);
+      expect(provider.teaList[0].currentInfusion, 2);
+      expect(Prefs.loadTeas()[0].currentInfusion, 2);
+    });
+
+    test('completeTea wraps to infusion 1 after the last infusion', () {
+      Tea tea = makeTea(numInfusions: 3, currentInfusion: 3);
+      provider
+        ..addTea(tea)
+        ..activateTea(tea, notifyID1, false)
+        ..completeTea(tea);
+
+      expect(provider.teaList[0].isActive, false);
+      expect(provider.teaList[0].currentInfusion, 1);
+    });
+
+    test('completeTea leaves single-infusion teas at infusion 1', () {
+      Tea tea = makeTea(numInfusions: 1);
+      provider
+        ..addTea(tea)
+        ..activateTea(tea, notifyID1, false)
+        ..completeTea(tea);
+
+      expect(provider.teaList[0].isActive, false);
+      expect(provider.teaList[0].currentInfusion, 1);
+    });
+
     test('resetInfusion returns to infusion 1 and persists', () {
       Tea tea = makeTea(numInfusions: 5, currentInfusion: 4);
       provider

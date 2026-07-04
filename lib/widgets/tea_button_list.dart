@@ -361,8 +361,9 @@ class _TeaButtonListState extends State<TeaButtonList> {
           );
         }
       } else {
+        // Timer completed while the app was not running
         provider
-          ..deactivateTea(tea)
+          ..completeTea(tea)
           ..notifyTimerTick();
       }
     }
