@@ -24,6 +24,7 @@ import 'package:cuppa_mobile/widgets/tea_button.dart';
 import 'package:cuppa_mobile/widgets/timer_countdown.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
@@ -35,12 +36,9 @@ void main() {
     await initializeApp();
     await $.pumpWidgetAndSettle(const CuppaApp());
 
-    // Tap through tutorials if shown
+    // Tap through tutorials, waiting for the delayed showcase overlay
     for (final key in tutorialSteps.keys) {
-      final Finder step = find.text(tutorialSteps[key]![0].translate());
-      if ($.tester.any(step)) {
-        await $.tap(step);
-      }
+      await $.tap(find.text(tutorialSteps[key]![0].translate()));
     }
 
     // Read the countdown timer text, e.g. 3:59
@@ -70,10 +68,14 @@ void main() {
 
     // Allow notification permission if prompted
     try {
-      await $.platform.ios.tap(
-        IOSSelector(text: 'Allow'),
-        appId: 'com.apple.springboard',
-      );
+      if (Platform.isIOS) {
+        await $.platform.ios.tap(
+          IOSSelector(text: 'Allow'),
+          appId: 'com.apple.springboard',
+        );
+      } else {
+        await $.platform.mobile.tap(Selector(text: 'Allow'));
+      }
     } catch (_) {
       // Permission already granted
     }
@@ -119,7 +121,7 @@ void main() {
     await $.tester.pumpAndSettle();
     await $.tap(find.text(formatTimer(defaultBrewTime)));
     expect(find.byType(TeaBrewTimeDialog), findsOneWidget);
-    await $.tester.tap(find.byType(GlassSwitch));
+    await $.tester.tap(find.byType(Platform.isIOS ? GlassSwitch : Switch));
     await $.tester.pumpAndSettle();
 
     // Current infusion status row appears with infusions enabled

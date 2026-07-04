@@ -24,7 +24,7 @@ import 'package:cuppa_mobile/widgets/tea_name_dialog.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'dart:io' show Platform;
-import 'package:flutter/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol/patrol.dart';
 
@@ -45,7 +45,7 @@ void main() {
 
     // Navigate to Prefs page
     await $.tap(find.byIcon(platformSettingsIcon.icon!, skipOffstage: false));
-    expect(find.text(AppString.prefs_title.translate()), findsOneWidget);
+    expect(find.byIcon(platformSortIcon.icon!), findsOneWidget);
 
     // Delete all teas
     final Finder removeButton = find.byIcon(getPlatformRemoveAllIcon().icon!);
@@ -61,11 +61,7 @@ void main() {
     // Edit test tea name
     await $.tap(find.text(Presets.presetList[0].localizedName));
     expect(find.byType(TeaNameDialog), findsOneWidget);
-    await $.platform.mobile.enterTextByIndex(
-      timerName,
-      index: 0,
-      keyboardBehavior: KeyboardBehavior.showAndDismiss,
-    );
+    await $.enterText(find.byType(EditableText), timerName);
     await $.tap(find.text(AppString.ok_button.translate()));
     expect(find.text(timerName), findsAny);
 
@@ -117,8 +113,8 @@ void main() {
 
     // Navigate back to Timer page
     if (Platform.isIOS) {
-      await $.tap(find.text(AppString.prefs_title.translate()));
-      await $.tap(find.text(AppString.done_button.translate()));
+      await $.tap(find.byIcon(CupertinoIcons.chevron_back));
+      await $.tap(find.byIcon(CupertinoIcons.xmark));
     } else {
       await $.platform.android.pressBack();
       await $.platform.android.pressBack();
