@@ -198,23 +198,18 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
                               AppString.tea_current_infusion.translate(),
                               style: textStyleSettingSecondary,
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  AppString.tea_infusion_of.translate(
-                                    currentInfusion: _effectiveCurrentInfusion,
-                                    totalInfusions: _numInfusions,
-                                  ),
-                                  style: textStyleSettingNumber,
-                                ),
-                                adaptiveSmallButton(
-                                  icon: resetIcon,
-                                  onPressed: widget.allowInfusionReset
-                                      ? () =>
-                                            setState(() => _currentInfusion = 1)
-                                      : null,
-                                ),
-                              ],
+                            Text(
+                              AppString.tea_infusion_of.translate(
+                                currentInfusion: _effectiveCurrentInfusion,
+                                totalInfusions: _numInfusions,
+                              ),
+                              style: textStyleSettingNumber,
+                            ),
+                            adaptiveSmallButton(
+                              icon: resetIcon,
+                              onPressed: widget.allowInfusionReset
+                                  ? () => setState(() => _currentInfusion = 1)
+                                  : null,
                             ),
                           ],
                         ),
