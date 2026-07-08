@@ -72,7 +72,7 @@ void main() {
         ..addTea(makeTea(name: 'A'))
         ..addTea(makeTea(name: 'B'))
         ..addTea(makeTea(name: 'C'))
-        ..reorderTeas(0, 3);
+        ..reorderTeas(0, 2);
 
       expect(provider.teaList.map((tea) => tea.name), ['B', 'C', 'A']);
 
