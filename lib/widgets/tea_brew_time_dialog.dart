@@ -108,6 +108,16 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
       ? _currentInfusion
       : 1;
 
+  // Maximum infusion interval: one picker step less than the brew time,
+  // ensuring a negative interval cannot zero out later infusions
+  int get _maxInterval {
+    final int intervalStep = widget.secondOptions.length > 1
+        ? widget.secondOptions[1]
+        : 1;
+    final int maxInterval = _currentBrewTime - intervalStep;
+    return maxInterval > 0 ? maxInterval : 0;
+  }
+
   // Build dialog
   @override
   Widget build(BuildContext context) {
@@ -239,33 +249,21 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
                         hourLabel: '',
                         initialMinutes: _infusionInterval ~/ 60,
                         minuteOptions: List.generate(
-                          (_currentBrewTime - infusionIntervalMin).clamp(
-                                    0,
-                                    _currentBrewTime,
-                                  ) ~/
-                                  60 +
-                              1,
+                          _maxInterval ~/ 60 + 1,
                           (i) => i,
                         ),
                         minuteLabel: '',
                         initialSeconds: _infusionInterval % 60,
                         secondOptions: widget.secondOptions,
                         onChanged: (value) {
-                          final effectiveMax =
-                              (_currentBrewTime - infusionIntervalMin).clamp(
-                                infusionIntervalMin,
-                                _currentBrewTime,
-                              );
-                          final capped = value.clamp(
-                            infusionIntervalMin,
-                            effectiveMax,
-                          );
+                          final capped = value.clamp(0, _maxInterval);
                           setState(() {
                             if (value != capped) _intervalPickerKey++;
                             _infusionInterval = capped;
                           });
                         },
                         dense: true,
+                        allowZero: true,
                       ),
                       listDivider,
                       // Display selected infusions
@@ -319,17 +317,14 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
     onChanged: (value) {
       setState(() {
         _currentBrewTime = value;
-        final maxInterval = (_currentBrewTime - infusionIntervalMin).clamp(
-          infusionIntervalMin,
-          _currentBrewTime,
-        );
-        if (_infusionInterval > maxInterval) {
-          _infusionInterval = maxInterval;
+        if (_infusionInterval > _maxInterval) {
+          _infusionInterval = _maxInterval;
           _intervalPickerKey++;
         }
       });
     },
     dense: dense,
+    allowZero: false,
   );
 
   // List of first few infusions generated from current settings selections
@@ -361,6 +356,7 @@ class BrewTimePicker extends StatefulWidget {
     required this.secondOptions,
     required this.onChanged,
     required this.dense,
+    required this.allowZero,
   });
 
   final int initialHours;
@@ -373,6 +369,7 @@ class BrewTimePicker extends StatefulWidget {
   final List<int> secondOptions;
   final ValueChanged<int> onChanged;
   final bool dense;
+  final bool allowZero;
 
   @override
   State<BrewTimePicker> createState() => _BrewTimePickerState();
@@ -631,11 +628,12 @@ class _BrewTimePickerState extends State<BrewTimePicker> {
 
   // Update picker position and notify parent
   void _updatePicker({bool doScroll = false}) {
-    // Ensure we never have a 0:00:00 brew time
     if (widget.hourOptions[_hoursIndex] == 0 &&
         widget.minuteOptions[_minutesIndex] == 0 &&
-        widget.secondOptions[_secondsIndex] == 0) {
-      if (widget.hourOptions[_hoursIndex] > 0) {
+        widget.secondOptions[_secondsIndex] == 0 &&
+        !widget.allowZero) {
+      // Ensure we never have a 0:00:00 brew time
+      if (_hoursSelectionMode) {
         _minutesIndex++;
       } else {
         _secondsIndex++;

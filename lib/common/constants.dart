@@ -75,7 +75,6 @@ const double brewRatioNumeratorStep = 0.5;
 const numInfusionsMin = 2;
 const numInfusionsMax = 10;
 const defaultNumInfusions = 1;
-const infusionIntervalMin = 15;
 const defaultInfusionInterval = 30;
 
 // UI sizing thresholds
