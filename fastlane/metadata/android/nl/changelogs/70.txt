@@ -1,0 +1,2 @@
+* Nieuw: snelle wekker om thee te zetten zonder een nieuwe soort toe te voegen;
+* Bijgewerkt: vertalingen. Draag ook bij via Weblate!

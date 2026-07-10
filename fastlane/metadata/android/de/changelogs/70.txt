@@ -1,0 +1,2 @@
+* Mit dem Quick Timer können Sie aufbrühen, ohne neuen Tee hinzuzufügen.
+* Aktualisierungen der Sprachübersetzungen – tragen Sie über Weblate bei!
