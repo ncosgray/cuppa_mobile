@@ -86,9 +86,7 @@ void main() {
     expect(secsStart, greaterThan(0));
 
     // Reveal timer adjustment controls
-    await $.tester.tapAt(
-      $.tester.getCenter(find.byType(TimerCountdownWidget)),
-    );
+    await $.tester.tapAt($.tester.getCenter(find.byType(TimerCountdownWidget)));
     await $.tester.pump(const Duration(milliseconds: 500));
     expect(find.byIcon(incrementPlusIcon), findsOneWidget);
 
@@ -124,11 +122,8 @@ void main() {
     await $.tester.tap(find.byType(Platform.isIOS ? GlassSwitch : Switch));
     await $.tester.pumpAndSettle();
 
-    // Current infusion status row appears with infusions enabled
-    expect(
-      find.text(AppString.tea_current_infusion.translate()),
-      findsOneWidget,
-    );
+    // Current infusion status row is hidden while still on infusion 1
+    expect(find.text(AppString.tea_current_infusion.translate()), findsNothing);
 
     await $.tap(find.text(AppString.ok_button.translate()));
 
@@ -154,6 +149,22 @@ void main() {
       find.descendant(of: find.byType(TeaButton), matching: find.text('2')),
       findsOneWidget,
     );
+
+    // Open tea settings and ensure current infusion status is visible now
+    await $.tester.longPress(find.byType(TeaButton).first);
+    await $.tester.pumpAndSettle();
+    await $.tap(find.text(formatTimer(defaultBrewTime)));
+    expect(find.byType(TeaBrewTimeDialog), findsOneWidget);
+    expect(
+      find.text(AppString.tea_current_infusion.translate()),
+      findsOneWidget,
+    );
+
+    await $.tap(find.text(AppString.ok_button.translate()));
+
+    // Close the floating settings card via its barrier
+    await $.tester.tapAt(const Offset(50, 120));
+    await $.tester.pumpAndSettle();
 
     // Cancel the timer: also resets the infusion cycle back to 1
     await $.tester.tap(find.text(AppString.cancel_button.translate()));
