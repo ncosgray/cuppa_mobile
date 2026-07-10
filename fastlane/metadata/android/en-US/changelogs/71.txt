@@ -1,0 +1,3 @@
+* New feature: support for multiple infusions.
+* Bug fixes.
+* Language translation updates - contribute via Weblate!
