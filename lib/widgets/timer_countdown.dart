@@ -14,10 +14,8 @@
 
 import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
-import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/icons.dart';
-import 'package:cuppa_mobile/common/local_notifications.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
@@ -203,26 +201,12 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
       child: IconButton(
         // Toggle silent status for this timer
         onPressed: () {
-          if (timer.tea != null) {
-            setState(
-              () => Provider.of<AppProvider>(
-                context,
-                listen: false,
-              ).updateTea(timer.tea!, isSilent: !(timer.tea!.isSilent)),
-            );
-
-            // Update the notification
-            sendNotification(
-              timer.notifyID,
-              timer.tea!.name,
-              timer.tea!.brewTimeRemaining,
-              silent: timer.tea!.isSilent,
-              preNotify: Provider.of<AppProvider>(
-                context,
-                listen: false,
-              ).preNotify,
-            );
-          }
+          setState(
+            () => toggleTimerSilence(
+              timer,
+              Provider.of<AppProvider>(context, listen: false),
+            ),
+          );
           _hideTimerAdjustmentsDelay = hideTimerAdjustmentsDelay;
         },
         // Button with speaker icon
@@ -243,33 +227,11 @@ class _TimerCountdownWidgetState extends State<TimerCountdownWidget> {
       child: TextButton(
         // Increment this timer
         onPressed: () {
-          if (timer.tea != null) {
-            if (Provider.of<AppProvider>(
-              context,
-              listen: false,
-            ).incrementTimer(timer.tea!, secs)) {
-              // If adjustment was successful, update the notifications
-              sendNotification(
-                timer.notifyID,
-                timer.tea!.name,
-                timer.tea!.brewTimeRemaining,
-                silent: timer.tea!.isSilent,
-                preNotify: Provider.of<AppProvider>(
-                  context,
-                  listen: false,
-                ).preNotify,
-              );
-              sendOngoingNotification(
-                timer.notifyID,
-                timer.tea!.name,
-                timer.tea!.timerEndTime,
-              );
-              // Update Live Activity with adjusted end time
-              liveActivityService.startOrUpdate(
-                Provider.of<AppProvider>(context, listen: false).activeTeas,
-              );
-            }
-          }
+          incrementRunningTimer(
+            timer,
+            secs,
+            Provider.of<AppProvider>(context, listen: false),
+          );
           _hideTimerAdjustmentsDelay = hideTimerAdjustmentsDelay;
         },
         // Button with +/- icon and increment amount

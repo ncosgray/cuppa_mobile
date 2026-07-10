@@ -62,33 +62,14 @@ class _TeaButtonListState extends State<TeaButtonList> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       AppProvider provider = Provider.of<AppProvider>(context, listen: false);
-      bool doSetupShortcuts = false;
 
-      // Set default brew temp units based on locale
-      // ignore: cascade_invocations
-      provider.useCelsius = Prefs.loadUseCelsius() ?? deviceUsesCelsius();
+      // Apply locale defaults and load first-run teas
+      bool isFirstRun = provider.initializeDefaults();
 
-      // Add Quick Timer defaults if not set
-      if (!Prefs.quickTimerPrefsExist()) {
-        provider.loadQuickTimerDefaults();
-        doSetupShortcuts = true;
-      }
-
-      // Add default presets if no custom teas have been set
-      if (provider.teaCount == 0 && !Prefs.teaPrefsExist()) {
-        provider.loadDefaults();
-        doSetupShortcuts = true;
-
-        // Start a tutorial for new users
-        if (Prefs.showTutorial) {
-          startTutorial();
-          Prefs.setSkipTutorial();
-        }
-      }
-
-      // Manage shortcut options
-      if (doSetupShortcuts) {
-        provider.setupShortcuts();
+      // Start a tutorial for new users
+      if (isFirstRun && Prefs.showTutorial) {
+        startTutorial();
+        Prefs.setSkipTutorial();
       }
 
       // Manage timers
@@ -230,8 +211,14 @@ class _TeaButtonListState extends State<TeaButtonList> {
                 tea: tea,
                 fade: !(activeTimerCount < timersMaxCount || tea.isActive),
                 scale: buttonScale,
-                onPressed: activeTimerCount < timersMaxCount && !tea.isActive
+                // Start timer or advance the infusion count
+                onPressed: !tea.isActive && activeTimerCount < timersMaxCount
                     ? () => _setTimer(tea)
+                    : tea.isActive && tea.multipleInfusions
+                    ? () => advanceRunningInfusion(
+                        tea,
+                        Provider.of<AppProvider>(context, listen: false),
+                      )
                     : null,
                 onLongPress: () => _openTeaSettings(tea),
                 onCancelPressed: () => cancelTimerForTea(
@@ -296,13 +283,27 @@ class _TeaButtonListState extends State<TeaButtonList> {
       context: context,
       barrierDismissible: false,
       barrierColor: Colors.transparent,
-      transitionDuration: .zero,
+      transitionDuration: shortAnimationDuration,
       pageBuilder: (dialogContext, _, _) {
         _settingsDialogContext = dialogContext;
         return _TeaSettingsFloatingCard(
           tea: tea,
           buttonTopCenter: buttonTopCenter,
           onClose: _closeTeaSettings,
+        );
+      },
+      transitionBuilder: (context, animation, _, child) {
+        final curved = CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOut,
+          reverseCurve: Curves.easeIn,
+        );
+        return FadeTransition(
+          opacity: curved,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.9, end: 1).animate(curved),
+            child: child,
+          ),
         );
       },
     ).whenComplete(() => _settingsDialogContext = null);
@@ -360,11 +361,28 @@ class _TeaButtonListState extends State<TeaButtonList> {
           );
         }
       } else {
+        // Timer completed while the app was not running
         provider
-          ..deactivateTea(tea)
+          ..completeTea(tea)
           ..notifyTimerTick();
       }
     }
+  }
+
+  // Ask to cancel and free a timer slot if needed
+  Future<bool> _freeTimerSlot(AppProvider provider) async {
+    if (activeTimerCount >= timersMaxCount) {
+      if (await showConfirmDialog(
+        context: context,
+        body: Text(AppString.confirm_message_line1.translate()),
+        bodyExtra: Text(AppString.confirm_message_line2.translate()),
+      )) {
+        cancelAllTimers(provider);
+      } else {
+        return false;
+      }
+    }
+    return true;
   }
 
   // Start a timer from shortcut selection
@@ -380,35 +398,14 @@ class _TeaButtonListState extends State<TeaButtonList> {
       if (teaIndex >= 0 && teaIndex < provider.teaCount) {
         Tea tea = provider.teaList[teaIndex];
         if (!tea.isActive) {
-          if (activeTimerCount >= timersMaxCount) {
-            // Ask to cancel and free a timer slot if needed
-            if (await showConfirmDialog(
-              context: context,
-              body: Text(AppString.confirm_message_line1.translate()),
-              bodyExtra: Text(AppString.confirm_message_line2.translate()),
-            )) {
-              cancelAllTimers(provider);
-            } else {
-              return;
-            }
-          }
+          if (!await _freeTimerSlot(provider)) return;
 
           // Start timer from shortcut
           _setTimer(tea, autoScroll: true);
         }
         // Handle Quick Timer shortcut
       } else if (teaIndex == quickTimerTeaID && !provider.quickTimer.isActive) {
-        if (activeTimerCount >= timersMaxCount) {
-          if (await showConfirmDialog(
-            context: context,
-            body: Text(AppString.confirm_message_line1.translate()),
-            bodyExtra: Text(AppString.confirm_message_line2.translate()),
-          )) {
-            cancelAllTimers(provider);
-          } else {
-            return;
-          }
-        }
+        if (!await _freeTimerSlot(provider)) return;
 
         // Open the Quick Timer dialog from the home screen
         if (!mounted) return;

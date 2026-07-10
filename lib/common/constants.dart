@@ -71,6 +71,12 @@ const double brewRatioNumeratorMin = 0;
 const double brewRatioNumeratorMax = 20;
 const double brewRatioNumeratorStep = 0.5;
 
+// Multiple infusions
+const numInfusionsMin = 2;
+const numInfusionsMax = 10;
+const defaultNumInfusions = 1;
+const defaultInfusionInterval = 30;
+
 // UI sizing thresholds
 const largeDeviceSize = 550;
 
@@ -104,42 +110,7 @@ const shortcutIconIOS = 'QuickAction';
 const shortcutIconIOSCup = 'QuickActionCup';
 const shortcutIconIOSFlower = 'QuickActionFlower';
 const shortcutIconQuickTimerIOS = 'QuickActionQuickTimer';
-const shortcutIconRed = 'ic_shortcut_red';
-const shortcutIconOrange = 'ic_shortcut_orange';
-const shortcutIconGreen = 'ic_shortcut_green';
-const shortcutIconBlue = 'ic_shortcut_blue';
-const shortcutIconPurple = 'ic_shortcut_purple';
-const shortcutIconBrown = 'ic_shortcut_brown';
-const shortcutIconPink = 'ic_shortcut_pink';
-const shortcutIconAmber = 'ic_shortcut_amber';
-const shortcutIconTeal = 'ic_shortcut_teal';
-const shortcutIconCyan = 'ic_shortcut_cyan';
-const shortcutIconLavender = 'ic_shortcut_lavender';
-const shortcutIconBlack = 'ic_shortcut_black';
-const shortcutIconCupRed = 'ic_shortcut_cup_red';
-const shortcutIconCupOrange = 'ic_shortcut_cup_orange';
-const shortcutIconCupGreen = 'ic_shortcut_cup_green';
-const shortcutIconCupBlue = 'ic_shortcut_cup_blue';
-const shortcutIconCupPurple = 'ic_shortcut_cup_purple';
-const shortcutIconCupBrown = 'ic_shortcut_cup_brown';
-const shortcutIconCupPink = 'ic_shortcut_cup_pink';
-const shortcutIconCupAmber = 'ic_shortcut_cup_amber';
-const shortcutIconCupTeal = 'ic_shortcut_cup_teal';
-const shortcutIconCupCyan = 'ic_shortcut_cup_cyan';
-const shortcutIconCupLavender = 'ic_shortcut_cup_lavender';
-const shortcutIconCupBlack = 'ic_shortcut_cup_black';
-const shortcutIconFlowerRed = 'ic_shortcut_flower_red';
-const shortcutIconFlowerOrange = 'ic_shortcut_flower_orange';
-const shortcutIconFlowerGreen = 'ic_shortcut_flower_green';
-const shortcutIconFlowerBlue = 'ic_shortcut_flower_blue';
-const shortcutIconFlowerPurple = 'ic_shortcut_flower_purple';
-const shortcutIconFlowerBrown = 'ic_shortcut_flower_brown';
-const shortcutIconFlowerPink = 'ic_shortcut_flower_pink';
-const shortcutIconFlowerAmber = 'ic_shortcut_flower_amber';
-const shortcutIconFlowerTeal = 'ic_shortcut_flower_teal';
-const shortcutIconFlowerCyan = 'ic_shortcut_flower_cyan';
-const shortcutIconFlowerLavender = 'ic_shortcut_flower_lavender';
-const shortcutIconFlowerBlack = 'ic_shortcut_flower_black';
+const shortcutIconPrefix = 'ic_shortcut_';
 const shortcutIconQuickTimer = 'ic_shortcut_quick_timer';
 
 // Shared prefs keys for tea definitions
@@ -215,6 +186,9 @@ const jsonKeyColorShadeRed = 'colorShadeRed';
 const jsonKeyColorShadeGreen = 'colorShadeGreen';
 const jsonKeyColorShadeBlue = 'colorShadeBlue';
 const jsonKeyIcon = 'icon';
+const jsonKeyNumInfusions = 'numInfusions';
+const jsonKeyInfusionInterval = 'infusionInterval';
+const jsonKeyCurrentInfusion = 'currentInfusion';
 const jsonKeyIsFavorite = 'isFavorite';
 const jsonKeyIsActive = 'isActive';
 const jsonKeyIsSilent = 'isSilent';
