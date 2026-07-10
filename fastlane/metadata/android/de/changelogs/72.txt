@@ -1,0 +1,3 @@
+Neue Funktion: Unterstützung für verschiedene Aufgüsse
+* Fehlerbehebungen.
+* Aktualisierungen der Sprachübersetzungen – tragen Sie über Weblate bei!
