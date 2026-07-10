@@ -1,0 +1,3 @@
+* Dodane prednastavitve za matcho in rumeni čaj.
+* Nova možnost obveščanja nekaj sekund pred pripravljenostjo čaja.
+* Posodobitve prevodov – prispevaj prek Weblate!

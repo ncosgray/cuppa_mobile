@@ -1,0 +1,3 @@
+* Réamhshocruithe tae curtha leis do matcha agus tae buí.
+* Rogha nua chun fógra a thabhairt cúpla soicind sula mbeidh do thae réidh.
+* Nuashonruithe aistriúcháin teanga - cuir leis trí Weblate!

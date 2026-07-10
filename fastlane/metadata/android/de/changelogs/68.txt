@@ -1,0 +1,3 @@
+* Teevoreinstellungen für Matcha und gelben Tee hinzugefügt.
+* Neue Option zur Benachrichtigung einige Sekunden bevor Ihr Tee fertig ist.
+* Aktualisierungen der Sprachübersetzungen – tragen Sie über Weblate bei!

@@ -1,0 +1,2 @@
+* Hitri časovnik omogoča pripravo čaja brez dodajanja novega čaja.
+* Posodobitve prevodov – prispevaj prek Weblate!
