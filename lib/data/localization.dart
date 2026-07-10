@@ -177,6 +177,12 @@ enum AppString {
   stats_timer_time('stats_timer_time'),
   stats_title('stats_title'),
   support_the_project('support_the_project'),
+  tea_current_infusion('tea_current_infusion'),
+  tea_infusion_count('tea_infusion_count'),
+  tea_infusion_first('tea_infusion_first'),
+  tea_infusion_interval('tea_infusion_interval'),
+  tea_infusion_of('tea_infusion_of'),
+  tea_multiple_infusions('tea_multiple_infusions'),
   tea_name_assam('tea_name_assam'),
   tea_name_black('tea_name_black'),
   tea_name_chamomile('tea_name_chamomile'),
@@ -228,9 +234,15 @@ enum AppString {
   final String key;
 
   // Lookup localized string and apply substitutions
-  String translate({String teaName = ''}) {
+  String translate({
+    String teaName = '',
+    int currentInfusion = 0,
+    int totalInfusions = 0,
+  }) {
     return AppLocalizations.translate(key)
         .replaceAll('{{tea_name}}', teaName)
+        .replaceAll('{{current_infusion}}', currentInfusion.toString())
+        .replaceAll('{{total_infusions}}', totalInfusions.toString())
         .replaceAll('{{app_name}}', appName)
         .replaceAll('{{favorites_max}}', favoritesMaxCount.toString())
         .replaceAll('{{teas_max}}', teasMaxCount.toString())

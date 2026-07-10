@@ -67,7 +67,7 @@ Future<Null> openQuickTimerDialog(BuildContext context) async {
   final String quickTimerLabel = AppString.quick_timer.translate();
 
   // Ask for Quick Timer brewing time
-  final secs = await showAdaptiveDialog<int>(
+  final result = await showAdaptiveDialog<BrewTimeResult>(
     context: context,
     barrierDismissible: true,
     builder: (BuildContext context) {
@@ -83,13 +83,14 @@ Future<Null> openQuickTimerDialog(BuildContext context) async {
         buttonTextCancel: AppString.cancel_button.translate(),
         title: Text(quickTimerLabel),
         buttonTextOK: AppString.start_button.translate(),
+        showInfusionSettings: false,
       );
     },
   );
 
-  if (secs != null && activeTimerCount < timersMaxCount) {
+  if (result != null && activeTimerCount < timersMaxCount) {
     // Save and start a timer
-    provider.setQuickTimer(quickTimerLabel, secs);
+    provider.setQuickTimer(quickTimerLabel, result.brewTime);
     setTimer(provider.quickTimer, provider);
   }
 }

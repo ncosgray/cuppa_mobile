@@ -80,6 +80,9 @@ String formatTemp(int i, {bool? useCelsius}) {
 
 // Format brew time as m:ss or hm or d
 String formatTimer(int s, {bool inDays = true}) {
+  if (s < 0) {
+    s = 0;
+  }
   double days = s / 86400.0;
   int hrs = (s / 3600).floor();
   int mins = (s / 60).floor() - (hrs * 60);

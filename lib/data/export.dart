@@ -78,7 +78,7 @@ abstract class Export {
         );
       }
     } catch (e) {
-      // Something went wrong
+      debugPrint('Failed to create export: $e');
       return Future.value(false);
     }
 
@@ -197,7 +197,7 @@ abstract class Export {
           imported = true;
         }
       } catch (e) {
-        // Something went wrong
+        debugPrint('Failed to import: $e');
         imported = false;
       }
     }

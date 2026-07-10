@@ -116,10 +116,22 @@ class TeaButton extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: .center,
                 children: [
-                  Icon(
-                    tea.teaIcon,
-                    color: textColor,
-                    size: teaIconSize * scale,
+                  Row(
+                    mainAxisAlignment: .center,
+                    children: [
+                      Icon(
+                        tea.teaIcon,
+                        color: textColor,
+                        size: teaIconSize * scale,
+                      ),
+                      // Infusion number indicator
+                      if (tea.multipleInfusions)
+                        _InfusionBadge(
+                          tea: tea,
+                          textColor: textColor,
+                          scale: scale,
+                        ),
+                    ],
                   ),
                   Text(
                     tea.name,
@@ -139,7 +151,7 @@ class TeaButton extends StatelessWidget {
                           // Brew time
                           _extraInfoItem(
                             infoType: ExtraInfo.brewTime,
-                            text: formatTimer(tea.brewTime),
+                            text: formatTimer(tea.currentBrewTime),
                             color: textColor,
                             fontSize: extraInfoSize,
                           ),
@@ -231,6 +243,43 @@ class TeaButton extends StatelessWidget {
               ),
             )
           : const SizedBox.shrink(),
+    );
+  }
+}
+
+// Infusion counter badge
+class _InfusionBadge extends StatelessWidget {
+  const _InfusionBadge({
+    required this.tea,
+    required this.textColor,
+    required this.scale,
+  });
+
+  final Tea tea;
+  final Color textColor;
+  final double scale;
+
+  @override
+  Widget build(BuildContext context) {
+    final infusion = context.select<AppProvider, int>(
+      (p) => tea.currentInfusion,
+    );
+    return Row(
+      children: [
+        Icon(
+          Icons.restart_alt,
+          color: textColor,
+          size: textStyleButton.fontSize! * scale,
+        ),
+        Text(
+          '$infusion',
+          style: textStyleButton.copyWith(
+            color: textColor,
+            fontSize: textStyleButton.fontSize! * scale,
+            fontFeatures: [FontFeature.tabularFigures()],
+          ),
+        ),
+      ],
     );
   }
 }

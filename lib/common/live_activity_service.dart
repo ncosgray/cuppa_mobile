@@ -36,10 +36,9 @@ class LiveActivityService {
   // Initialize the Live Activity service with the app group ID
   Future<void> init() async {
     if (!Platform.isIOS) return;
-    await _channel.invokeMethod<void>(
-      'init',
-      {'appGroupId': liveActivityAppGroupId},
-    );
+    await _channel.invokeMethod<void>('init', {
+      'appGroupId': liveActivityAppGroupId,
+    });
     _initialized = true;
 
     // Clean up any orphaned activities from a previous app session
@@ -66,10 +65,9 @@ class LiveActivityService {
     try {
       if (_activityId == null) {
         // No existing activity - create a new one
-        _activityId = await _channel.invokeMethod<String>(
-          'createActivity',
-          {'data': data},
-        );
+        _activityId = await _channel.invokeMethod<String>('createActivity', {
+          'data': data,
+        });
       } else {
         // Update the existing activity with new timer data
         await _channel.invokeMethod<void>('updateActivity', {
@@ -86,10 +84,9 @@ class LiveActivityService {
   // End the current Live Activity and clear the tracked activity ID
   Future<void> end() async {
     if (!_initialized || _activityId == null) return;
-    await _channel.invokeMethod<void>(
-      'endActivity',
-      {'activityId': _activityId!},
-    );
+    await _channel.invokeMethod<void>('endActivity', {
+      'activityId': _activityId!,
+    });
     _activityId = null;
   }
 

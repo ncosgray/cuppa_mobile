@@ -400,8 +400,8 @@ Widget adaptiveSegmentedControl({
         final Color primaryColor = CupertinoTheme.of(context).primaryColor;
         return GlassSegmentedControl(
           segments: [
-            GlassTab(label: buttonTextTrue),
-            GlassTab(label: buttonTextFalse),
+            GlassSegment(label: buttonTextTrue),
+            GlassSegment(label: buttonTextFalse),
           ],
           selectedIndex: groupValue ? 0 : 1,
           onSegmentSelected: (i) => onValueChanged(i == 0),

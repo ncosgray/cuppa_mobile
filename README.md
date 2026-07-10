@@ -6,6 +6,8 @@ Cuppa is a small application to time your cup of tea as it steeps. Tired of leav
 [![GitHub issues](https://img.shields.io/github/issues/ncosgray/cuppa_mobile?color=red)](https://github.com/ncosgray/cuppa_mobile/issues)
 [![Weblate project translated](https://img.shields.io/weblate/progress/cuppa?color=green&server=https%3A%2F%2Fhosted.weblate.org)](https://hosted.weblate.org/engage/cuppa/)
 [![GitHub license](https://img.shields.io/github/license/ncosgray/cuppa_mobile?color=lightgrey)](https://github.com/ncosgray/cuppa_mobile/blob/master/LICENSE.txt)
+[![Tests](https://img.shields.io/github/actions/workflow/status/ncosgray/cuppa_mobile/ci.yml?branch=main&label=tests)](https://github.com/ncosgray/cuppa_mobile/actions/workflows/ci.yml)
+
 
 ### Tea Timer App for iOS and Android
 
