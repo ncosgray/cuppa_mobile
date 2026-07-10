@@ -92,9 +92,8 @@ class AppProvider extends ChangeNotifier {
     int? infusionInterval,
     int? currentInfusion,
   }) {
-    int teaIndex = _teaList.indexOf(tea);
-    if (teaIndex >= 0) {
-      final Tea target = _teaList[teaIndex];
+    final Tea? target = _findTea(tea);
+    if (target != null) {
       if (name != null) {
         target.name = name;
       }
@@ -134,7 +133,13 @@ class AppProvider extends ChangeNotifier {
       if (currentInfusion != null) {
         target.currentInfusion = currentInfusion;
       }
-      saveTeas();
+      if (_teaList.contains(target)) {
+        saveTeas();
+      } else {
+        // Quick Timer tea is stored separately from the tea list
+        Prefs.saveQuickTimer(target);
+        notifyListeners();
+      }
 
       // Update Live Activity if this tea is actively timing
       if (target.isActive &&
