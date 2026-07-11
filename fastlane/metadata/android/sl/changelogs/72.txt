@@ -1,0 +1,3 @@
+* Nova funkcija: podpora za več prelivov.
+* Popravki napak.
+* Posodobitve prevodov – prispevaj prek Weblate!
