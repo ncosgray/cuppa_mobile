@@ -1,0 +1,3 @@
+* Nueva función: compatibilidad con múltiples infusiones.
+* Corrección de errores.
+* Actualizaciones de traducción: ¡contribuye a través de Weblate!

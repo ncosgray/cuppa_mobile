@@ -1,0 +1,2 @@
+* Quick Timer te permite preparar té sin añadir más.
+* Actualizaciones de traducción: ¡contribuye a través de Weblate!
