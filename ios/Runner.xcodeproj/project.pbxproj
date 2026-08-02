@@ -20,6 +20,7 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		FE19E2982E7BBDA900EC15B8 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = FE19E2972E7BBDA900EC15B8 /* AppIcon.icon */; };
+		FE33B7C8302008A100580DEB /* FlutterGeneratedPluginSwiftPackage in Frameworks */ = {isa = PBXBuildFile; productRef = FE33B7C7302008A100580DEB /* FlutterGeneratedPluginSwiftPackage */; };
 		FE9362B92CEA99A2002EC994 /* TeaEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9362B52CEA99A2002EC994 /* TeaEntity.swift */; };
 		FE9362BA2CEA99A2002EC994 /* BrewTeaIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9362B62CEA99A2002EC994 /* BrewTeaIntent.swift */; };
 		FEA49BF72BDED66B00853D36 /* RunnerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FEA49BF62BDED66B00853D36 /* RunnerUITests.m */; };
@@ -224,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				707F68307FDBF1DE219B208C /* Pods_Runner_RunnerUITests.framework in Frameworks */,
+				FE33B7C8302008A100580DEB /* FlutterGeneratedPluginSwiftPackage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1377,6 +1379,10 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		78A3181F2AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FlutterGeneratedPluginSwiftPackage;
+		};
+		FE33B7C7302008A100580DEB /* FlutterGeneratedPluginSwiftPackage */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FlutterGeneratedPluginSwiftPackage;
 		};
