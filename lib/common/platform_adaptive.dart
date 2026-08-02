@@ -84,6 +84,10 @@ Color? getAdaptiveActiveColor(BuildContext context) {
       : null;
 }
 
+// Nav bar glass button dimensions
+const double _navBarButtonSize = 44;
+const double _navBarIconSize = _navBarButtonSize / 2;
+
 // Platform adaptive page scaffold
 Widget adaptiveScaffold({
   required Widget body,
@@ -192,7 +196,7 @@ Widget adaptiveNavBarActionButton(
         child: icon,
       ),
       onPressed: onPressed,
-      size: 44,
+      size: _navBarButtonSize,
       useOwnLayer: true,
       quality: .standard,
       settings: _liquidGlassSettings,
@@ -517,26 +521,61 @@ class PlatformAdaptiveNavBar extends StatelessWidget
   bool shouldFullyObstruct(BuildContext context) => !Platform.isIOS;
 
   @override
-  Size get preferredSize =>
-      .fromHeight(Platform.isIOS ? 44 + smallSpacing : kToolbarHeight);
+  Size get preferredSize => .fromHeight(
+    Platform.isIOS ? _navBarButtonSize + smallSpacing : kToolbarHeight,
+  );
 
   @override
   Widget build(BuildContext context) {
+    final bool hasAction = actionIcon != null && actionRoute != null;
+    final bool hasSecondaryAction =
+        secondaryActionIcon != null && secondaryActionRoute != null;
+
     // Build action list
-    final List<Widget> actions = [
-      if (secondaryActionIcon != null && secondaryActionRoute != null)
-        adaptiveNavBarActionButton(
-          context,
-          icon: secondaryActionIcon!,
-          onPressed: adaptiveOnPressed(context, route: secondaryActionRoute!),
-        ),
-      if (actionIcon != null && actionRoute != null)
-        adaptiveNavBarActionButton(
-          context,
-          icon: actionIcon!,
-          onPressed: adaptiveOnPressed(context, route: actionRoute!),
-        ),
-    ];
+    final List<Widget> actions =
+        Platform.isIOS && hasAction && hasSecondaryAction
+        // Combine multiple actions into a single glass pill on iOS
+        ? [
+            GlassButtonGroup.icons(
+              borderRadius: _navBarButtonSize / 2,
+              iconSize: _navBarIconSize,
+              itemPadding: EdgeInsets.all(
+                (_navBarButtonSize - _navBarIconSize) / 2,
+              ),
+              useOwnLayer: true,
+              quality: .standard,
+              settings: _liquidGlassSettings,
+              items: [
+                _navBarGroupItem(
+                  context,
+                  icon: secondaryActionIcon!,
+                  route: secondaryActionRoute!,
+                ),
+                _navBarGroupItem(
+                  context,
+                  icon: actionIcon!,
+                  route: actionRoute!,
+                ),
+              ],
+            ),
+          ]
+        : [
+            if (hasSecondaryAction)
+              adaptiveNavBarActionButton(
+                context,
+                icon: secondaryActionIcon!,
+                onPressed: adaptiveOnPressed(
+                  context,
+                  route: secondaryActionRoute!,
+                ),
+              ),
+            if (hasAction)
+              adaptiveNavBarActionButton(
+                context,
+                icon: actionIcon!,
+                onPressed: adaptiveOnPressed(context, route: actionRoute!),
+              ),
+          ];
 
     if (Platform.isIOS) {
       return GlassAppBar(
@@ -555,6 +594,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
                   color: CupertinoTheme.of(context).primaryColor,
                 ),
                 onPressed: () => Navigator.of(context).pop(),
+                size: _navBarButtonSize,
                 useOwnLayer: true,
                 quality: .standard,
                 settings: _liquidGlassSettings,
@@ -570,6 +610,21 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       );
     }
   }
+}
+
+// Nav bar action as one segment of a grouped glass pill on iOS
+GlassButtonGroupItem _navBarGroupItem(
+  BuildContext context, {
+  required Widget icon,
+  required Widget route,
+}) {
+  return GlassButtonGroupItem(
+    icon: IconTheme.merge(
+      data: IconThemeData(color: CupertinoTheme.of(context).primaryColor),
+      child: icon,
+    ),
+    onTap: adaptiveOnPressed(context, route: route)!,
+  );
 }
 
 // Slide-up tween for the transitionUp route animation
@@ -660,7 +715,7 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
                     .toList(),
                 barHeight: 58,
                 verticalPadding: 0,
-                iconSize: 22,
+                iconSize: _navBarIconSize,
                 horizontalPadding: 0,
                 barBorderRadius: barBorderRadius,
                 selectedIconColor: primaryColor,
