@@ -16,7 +16,7 @@
 // - Text form field for Android and iOS
 // - PlatformAdaptiveDialog alert dialog for context platform
 // - Create NavBar and BottomNavBar page navigation for context platform
-// - openPlatformAdaptiveSelectList modal/dialog selector for context platform
+// - openPlatformAdaptiveSelectList action sheet/dialog selector for context platform
 
 import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
@@ -217,12 +217,30 @@ Widget adaptiveSelectListAction({
   required Function() onTap,
 }) {
   if (Platform.isIOS) {
-    return CupertinoActionSheetAction(
-      onPressed: onTap,
-      child: Material(type: MaterialType.transparency, child: action),
-    );
+    return _SelectListActionCapsule(onTap: onTap, child: action);
   } else {
     return GestureDetector(onTap: onTap, child: action);
+  }
+}
+
+// An option in an iOS 26 action sheet, which is a capsule of the same fill and
+// minimum height as a plain action, grown to fit whatever the option draws
+class _SelectListActionCapsule extends StatelessWidget {
+  const _SelectListActionCapsule({required this.child, required this.onTap});
+
+  final Widget child;
+  final Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoButton(
+      padding: dialogActionPadding,
+      minimumSize: const Size(0, dialogActionHeight),
+      borderRadius: .circular(dialogActionHeight / 2),
+      color: _dialogActionColor.resolveFrom(context),
+      onPressed: onTap,
+      child: Material(type: .transparency, child: child),
+    );
   }
 }
 
@@ -278,70 +296,39 @@ class PlatformAdaptiveDialog extends StatelessWidget {
       dialogContent = SingleChildScrollView(child: dialogContent);
     }
 
-    return SafeArea(
-      child: Dialog(
-        backgroundColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        elevation: 0,
-        insetPadding: insetPadding ?? dialogInsetPadding,
-        shape: RoundedSuperellipseBorder(borderRadius: .circular(dialogRadius)),
-        clipBehavior: .antiAlias,
-        // CupertinoPopupSurface supplies the system blur and vibrancy filter;
-        // its own corner clip is squarer than the dialog shape, so the shape
-        // above is what gets seen. The surface colour is painted here instead
-        // of by the popup surface, which is more opaque than an iOS 26 alert.
-        child: Semantics(
-          role: .alertDialog,
-          namesRoute: true,
-          scopesRoute: true,
-          explicitChildNodes: true,
-          label: MaterialLocalizations.of(context).alertDialogLabel,
-          child: CupertinoPopupSurface(
-            isSurfacePainted: false,
-            child: ColoredBox(
-              color: _dialogBackgroundColor.resolveFrom(context),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: dialogWidth),
-                child: Column(
-                  mainAxisSize: .min,
-                  crossAxisAlignment: .stretch,
-                  children: [
-                    if (title != null)
-                      Padding(
-                        padding: dialogTitlePadding,
-                        child: DefaultTextStyle(
-                          style: textStyleDialogTitle.copyWith(
-                            color: CupertinoColors.label.resolveFrom(context),
-                          ),
-                          textAlign: .start,
-                          child: title!,
-                        ),
-                      ),
-                    if (dialogContent != null)
-                      Flexible(
-                        child: Padding(
-                          padding: title != null
-                              ? dialogContentPadding
-                              : dialogContentNoTitlePadding,
-                          child: dialogContent,
-                        ),
-                      ),
-                    // Scrollable so the actions degrade gracefully rather than
-                    // overflowing when the dialog is squeezed, such as by the
-                    // keyboard in landscape at large text sizes
-                    Flexible(
-                      child: SingleChildScrollView(
-                        padding: dialogActionsPadding,
-                        child: _actions(context),
-                      ),
-                    ),
-                  ],
-                ),
+    return _CupertinoAlertCard(
+      insetPadding: insetPadding,
+      children: [
+        if (title != null)
+          Padding(
+            padding: dialogTitlePadding,
+            child: DefaultTextStyle(
+              style: textStyleDialogTitle.copyWith(
+                color: CupertinoColors.label.resolveFrom(context),
               ),
+              textAlign: .start,
+              child: title!,
             ),
           ),
+        if (dialogContent != null)
+          Flexible(
+            child: Padding(
+              padding: title != null
+                  ? dialogContentPadding
+                  : dialogContentNoTitlePadding,
+              child: dialogContent,
+            ),
+          ),
+        // Scrollable so the actions degrade gracefully rather than
+        // overflowing when the dialog is squeezed, such as by the
+        // keyboard in landscape at large text sizes
+        Flexible(
+          child: SingleChildScrollView(
+            padding: dialogActionsPadding,
+            child: _actions(context),
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -463,6 +450,111 @@ class AdaptiveDialogAction extends StatelessWidget {
   }
 }
 
+// The iOS 26 alert window: a translucent card of stacked capsules, centred over
+// a blurred backdrop. Alerts and action sheets are the same surface on iOS 26,
+// differing only in what they put inside, so both are built from this card
+class _CupertinoAlertCard extends StatelessWidget {
+  const _CupertinoAlertCard({required this.children, this.insetPadding});
+
+  final List<Widget> children;
+  final EdgeInsets? insetPadding;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Dialog(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        insetPadding: insetPadding ?? dialogInsetPadding,
+        shape: RoundedSuperellipseBorder(borderRadius: .circular(dialogRadius)),
+        clipBehavior: .antiAlias,
+        // CupertinoPopupSurface supplies the system blur and vibrancy filter;
+        // its own corner clip is squarer than the dialog shape, so the shape
+        // above is what gets seen. The surface colour is painted here instead
+        // of by the popup surface, which is more opaque than an iOS 26 alert.
+        child: Semantics(
+          role: .alertDialog,
+          namesRoute: true,
+          scopesRoute: true,
+          explicitChildNodes: true,
+          label: MaterialLocalizations.of(context).alertDialogLabel,
+          child: CupertinoPopupSurface(
+            isSurfacePainted: false,
+            child: ColoredBox(
+              color: _dialogBackgroundColor.resolveFrom(context),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: dialogWidth),
+                child: Column(
+                  mainAxisSize: .min,
+                  crossAxisAlignment: .stretch,
+                  children: children,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Selector list rendered as an iOS 26 action sheet
+class _CupertinoSelectList extends StatelessWidget {
+  const _CupertinoSelectList({
+    required this.titleText,
+    required this.buttonTextCancel,
+    required this.itemCount,
+    required this.itemBuilder,
+  });
+
+  final String titleText;
+  final String buttonTextCancel;
+  final int itemCount;
+  final Widget Function(BuildContext, int) itemBuilder;
+
+  @override
+  Widget build(BuildContext context) {
+    return _CupertinoAlertCard(
+      children: [
+        // A sheet headed by a lone title centres it in the plain body style,
+        // rather than the bold leading aligned style an alert title gets
+        Padding(
+          padding: dialogTitlePadding,
+          child: Text(
+            titleText,
+            textAlign: .center,
+            style: textStyleDialogAction.copyWith(
+              color: CupertinoColors.label.resolveFrom(context),
+            ),
+          ),
+        ),
+        // The options and the cancel action form one scrolling stack, so a list
+        // too long for the card scrolls instead of overflowing
+        Flexible(
+          child: ListView.separated(
+            padding: dialogActionsPadding,
+            shrinkWrap: true,
+            itemCount: itemCount + 1,
+            itemBuilder: (context, index) => index < itemCount
+                ? itemBuilder(context, index)
+                // The action closing the sheet is the default one, so it gets
+                // the prominent filled treatment that sets it apart from the
+                // neutral capsules of the options above it
+                : AdaptiveDialogAction(
+                    isDefaultAction: true,
+                    text: buttonTextCancel,
+                    onPressed: () => Navigator.of(context).pop(false),
+                  ),
+            separatorBuilder: (context, index) =>
+                const SizedBox(height: smallSpacing),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 // Translucent iOS alert window background, painted over the blurred backdrop
 const CupertinoDynamicColor _dialogBackgroundColor =
     CupertinoDynamicColor.withBrightness(
@@ -470,7 +562,7 @@ const CupertinoDynamicColor _dialogBackgroundColor =
       darkColor: Color(0xac161616),
     );
 
-// Translucent neutral fill behind a non-default alert action
+// Translucent neutral fill behind a non-default action or a sheet option
 const CupertinoDynamicColor _dialogActionColor =
     CupertinoDynamicColor.withBrightness(
       color: Color(0x1f000000),
@@ -1020,28 +1112,16 @@ Future<bool?> openPlatformAdaptiveSelectList({
   required Widget Function(BuildContext, int) separatorBuilder,
 }) async {
   if (Platform.isIOS) {
-    // iOS style modal list
-    return showCupertinoModalPopup<bool>(
+    // iOS style action sheet
+    return showAdaptiveDialog<bool>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return Material(
-          type: .transparency,
-          child: CupertinoActionSheet(
-            title: Text(titleText),
-            // Item options
-            actions: itemList
-                .asMap()
-                .entries
-                .map((item) => itemBuilder(context, item.key))
-                .toList(),
-            // Cancel button
-            cancelButton: CupertinoActionSheetAction(
-              isDefaultAction: true,
-              onPressed: () => Navigator.of(context).pop(false),
-              child: Text(buttonTextCancel),
-            ),
-          ),
+        return _CupertinoSelectList(
+          titleText: titleText,
+          buttonTextCancel: buttonTextCancel,
+          itemCount: itemList.length,
+          itemBuilder: itemBuilder,
         );
       },
     );
