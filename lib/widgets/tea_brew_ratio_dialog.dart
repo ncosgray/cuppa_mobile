@@ -72,17 +72,17 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
   // Build dialog
   @override
   Widget build(BuildContext context) {
-    return AlertDialog.adaptive(
+    return PlatformAdaptiveDialog(
       // Ratio entry
       content: SingleChildScrollView(child: _ratioPicker()),
-      actions: <Widget>[
+      actions: [
         // Cancel and close dialog
-        adaptiveDialogAction(
+        AdaptiveDialogAction(
           text: widget.buttonTextCancel,
           onPressed: () => Navigator.pop(context, null),
         ),
         // Save and close dialog
-        adaptiveDialogAction(
+        AdaptiveDialogAction(
           text: widget.buttonTextOK,
           isDefaultAction: true,
           onPressed: () => Navigator.pop(context, _newRatio),

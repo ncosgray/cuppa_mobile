@@ -36,9 +36,9 @@ Future showConfirmDialog({
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
-      return AlertDialog.adaptive(
+      return PlatformAdaptiveDialog(
         title: Text(AppString.confirm_title.translate()),
-        content: SingleChildScrollView(
+        message: SingleChildScrollView(
           child: Column(
             mainAxisSize: .min,
             spacing: smallSpacing,
@@ -46,12 +46,14 @@ Future showConfirmDialog({
           ),
         ),
         actions: [
-          adaptiveDialogAction(
-            isDefaultAction: true,
+          AdaptiveDialogAction(
             text: AppString.no_button.translate(),
             onPressed: () => Navigator.of(context).pop(false),
           ),
-          adaptiveDialogAction(
+          // The confirming action is the default one, so iOS gives it the
+          // prominent filled treatment, trailing in the row of actions
+          AdaptiveDialogAction(
+            isDefaultAction: true,
             isDestructiveAction: isDestructiveAction,
             text: AppString.yes_button.translate(),
             onPressed: () => Navigator.of(context).pop(true),
@@ -71,10 +73,10 @@ Future showInfoDialog({
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
-      return AlertDialog.adaptive(
-        content: SingleChildScrollView(child: Text(message)),
+      return PlatformAdaptiveDialog(
+        message: SingleChildScrollView(child: Text(message)),
         actions: [
-          adaptiveDialogAction(
+          AdaptiveDialogAction(
             isDefaultAction: true,
             text: AppString.ok_button.translate(),
             onPressed: () => Navigator.of(context).pop(),

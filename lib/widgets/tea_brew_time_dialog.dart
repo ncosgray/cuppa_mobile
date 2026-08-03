@@ -121,7 +121,7 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
   // Build dialog
   @override
   Widget build(BuildContext context) {
-    return AlertDialog.adaptive(
+    return PlatformAdaptiveDialog(
       title: widget.title,
       content: SingleChildScrollView(
         child: Material(
@@ -282,14 +282,14 @@ class _TeaBrewTimeDialogState extends State<TeaBrewTimeDialog> {
           ),
         ),
       ),
-      actions: <Widget>[
+      actions: [
         // Cancel and close dialog
-        adaptiveDialogAction(
+        AdaptiveDialogAction(
           text: widget.buttonTextCancel,
           onPressed: () => Navigator.pop(context, null),
         ),
         // Save and close dialog
-        adaptiveDialogAction(
+        AdaptiveDialogAction(
           isDefaultAction: true,
           text: widget.buttonTextOK,
           onPressed: () => Navigator.pop<BrewTimeResult>(context, (

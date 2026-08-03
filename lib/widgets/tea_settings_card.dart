@@ -603,8 +603,7 @@ class TeaSettingsCard extends StatelessWidget {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return AlertDialog.adaptive(
-          title: Container(),
+        return PlatformAdaptiveDialog(
           content: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: .center,
@@ -622,7 +621,7 @@ class TeaSettingsCard extends StatelessWidget {
             ),
           ),
           actions: [
-            adaptiveDialogAction(
+            AdaptiveDialogAction(
               text: AppString.cancel_button.translate(),
               onPressed: () => Navigator.of(context).pop(false),
             ),

@@ -14,6 +14,7 @@
 // - Icons for Android and iOS
 // - Buttons and controls for Android and iOS
 // - Text form field for Android and iOS
+// - PlatformAdaptiveDialog alert dialog for context platform
 // - Create NavBar and BottomNavBar page navigation for context platform
 // - openPlatformAdaptiveSelectList modal/dialog selector for context platform
 
@@ -225,26 +226,256 @@ Widget adaptiveSelectListAction({
   }
 }
 
-// Dialog action button appropriate to platform
-Widget adaptiveDialogAction({
-  bool isDefaultAction = false,
-  bool isDestructiveAction = false,
-  required String text,
-  required Function()? onPressed,
-}) {
-  if (Platform.isIOS) {
-    return CupertinoDialogAction(
-      isDefaultAction: isDefaultAction,
-      isDestructiveAction: isDestructiveAction,
-      onPressed: onPressed,
-      child: Text(text),
+// Alert dialog appropriate to platform
+// iOS 26 draws alerts as a translucent window over a blurred backdrop with
+// rounded, tinted action buttons, which neither CupertinoAlertDialog nor a
+// Liquid Glass surface can produce, so the iOS look is built from a Dialog
+class PlatformAdaptiveDialog extends StatelessWidget {
+  const PlatformAdaptiveDialog({
+    super.key,
+    this.title,
+    this.message,
+    this.content,
+    required this.actions,
+    this.scrollable = false,
+    this.insetPadding,
+  });
+
+  final Widget? title;
+  // Alert body text, styled like an iOS alert message
+  final Widget? message;
+  // Arbitrary widgets, which keep their own styling
+  final Widget? content;
+  final List<AdaptiveDialogAction> actions;
+  final bool scrollable;
+  final EdgeInsets? insetPadding;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!Platform.isIOS) {
+      return AlertDialog(
+        title: title,
+        content: message ?? content,
+        actions: actions,
+        scrollable: scrollable,
+        insetPadding: insetPadding ?? dialogInsetPadding,
+      );
+    }
+
+    // A message is leading aligned in the secondary label colour; content is
+    // left alone so that styles set by its widgets survive
+    Widget? dialogContent = content;
+    if (message != null) {
+      dialogContent = DefaultTextStyle.merge(
+        style: textStyleDialogContent.copyWith(
+          color: CupertinoColors.secondaryLabel.resolveFrom(context),
+        ),
+        textAlign: .start,
+        child: message!,
+      );
+    }
+    if (dialogContent != null && scrollable) {
+      dialogContent = SingleChildScrollView(child: dialogContent);
+    }
+
+    return SafeArea(
+      child: Dialog(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        insetPadding: insetPadding ?? dialogInsetPadding,
+        shape: RoundedSuperellipseBorder(borderRadius: .circular(dialogRadius)),
+        clipBehavior: .antiAlias,
+        // CupertinoPopupSurface supplies the system blur and vibrancy filter;
+        // its own corner clip is squarer than the dialog shape, so the shape
+        // above is what gets seen. The surface colour is painted here instead
+        // of by the popup surface, which is more opaque than an iOS 26 alert.
+        child: Semantics(
+          role: .alertDialog,
+          namesRoute: true,
+          scopesRoute: true,
+          explicitChildNodes: true,
+          label: MaterialLocalizations.of(context).alertDialogLabel,
+          child: CupertinoPopupSurface(
+            isSurfacePainted: false,
+            child: ColoredBox(
+              color: _dialogBackgroundColor.resolveFrom(context),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: dialogWidth),
+                child: Column(
+                  mainAxisSize: .min,
+                  crossAxisAlignment: .stretch,
+                  children: [
+                    if (title != null)
+                      Padding(
+                        padding: dialogTitlePadding,
+                        child: DefaultTextStyle(
+                          style: textStyleDialogTitle.copyWith(
+                            color: CupertinoColors.label.resolveFrom(context),
+                          ),
+                          textAlign: .start,
+                          child: title!,
+                        ),
+                      ),
+                    if (dialogContent != null)
+                      Flexible(
+                        child: Padding(
+                          padding: title != null
+                              ? dialogContentPadding
+                              : dialogContentNoTitlePadding,
+                          child: dialogContent,
+                        ),
+                      ),
+                    // Scrollable so the actions degrade gracefully rather than
+                    // overflowing when the dialog is squeezed, such as by the
+                    // keyboard in landscape at large text sizes
+                    Flexible(
+                      child: SingleChildScrollView(
+                        padding: dialogActionsPadding,
+                        child: _actions(context),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
-  } else {
-    return isDestructiveAction
-        ? TextButton(onPressed: onPressed, child: Text(text))
-        : FilledButton.tonal(onPressed: onPressed, child: Text(text));
+  }
+
+  // iOS lays two actions out side by side with the default action trailing,
+  // and otherwise stacks them with the default action on top
+  Widget _actions(BuildContext context) {
+    final List<AdaptiveDialogAction> defaultActions = actions
+        .where((action) => action.isDefaultAction)
+        .toList();
+    final List<AdaptiveDialogAction> otherActions = actions
+        .where((action) => !action.isDefaultAction)
+        .toList();
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (actions.length == 2 &&
+            _actionsFitSideBySide(context, constraints.maxWidth)) {
+          return Row(
+            spacing: smallSpacing,
+            children: [
+              for (final action in [...otherActions, ...defaultActions])
+                Expanded(child: action),
+            ],
+          );
+        }
+
+        return Column(
+          mainAxisSize: .min,
+          crossAxisAlignment: .stretch,
+          spacing: smallSpacing,
+          children: [...defaultActions, ...otherActions],
+        );
+      },
+    );
+  }
+
+  // Check that both action labels fit in half of the available action width,
+  // measured the way CupertinoButton renders them
+  bool _actionsFitSideBySide(BuildContext context, double rowWidth) {
+    final double availableWidth =
+        (rowWidth - smallSpacing - (dialogActionPadding.horizontal * 2)) / 2;
+    final TextStyle baseStyle = CupertinoTheme.of(
+      context,
+    ).textTheme.actionTextStyle.merge(textStyleDialogAction);
+
+    return actions.every((action) {
+      final TextPainter painter = TextPainter(
+        text: TextSpan(
+          text: action.text,
+          style: baseStyle.copyWith(
+            fontWeight: action.isDefaultAction ? FontWeight.w600 : null,
+          ),
+        ),
+        textDirection: Directionality.of(context),
+        textScaler: MediaQuery.textScalerOf(context),
+      )..layout();
+
+      return painter.width <= availableWidth;
+    });
   }
 }
+
+// Dialog action button appropriate to platform
+class AdaptiveDialogAction extends StatelessWidget {
+  const AdaptiveDialogAction({
+    super.key,
+    this.isDefaultAction = false,
+    this.isDestructiveAction = false,
+    required this.text,
+    required this.onPressed,
+  });
+
+  final bool isDefaultAction;
+  final bool isDestructiveAction;
+  final String text;
+  final Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!Platform.isIOS) {
+      return isDestructiveAction
+          ? TextButton(onPressed: onPressed, child: Text(text))
+          : FilledButton.tonal(onPressed: onPressed, child: Text(text));
+    }
+
+    // iOS 26 gives actions a translucent neutral fill with label coloured text,
+    // reserving the accent fill for the default action
+    final Color neutralColor = _dialogActionColor.resolveFrom(context);
+    final Color accentColor = isDestructiveAction
+        ? CupertinoColors.systemRed.resolveFrom(context)
+        : CupertinoTheme.of(context).primaryColor;
+    final Color backgroundColor = isDefaultAction ? accentColor : neutralColor;
+    final Color foregroundColor = isDefaultAction
+        ? CupertinoColors.white
+        : (isDestructiveAction
+              ? accentColor
+              : CupertinoColors.label.resolveFrom(context));
+
+    return CupertinoButton(
+      padding: dialogActionPadding,
+      minimumSize: const Size(0, dialogActionHeight),
+      borderRadius: .circular(dialogActionHeight / 2),
+      color: backgroundColor,
+      disabledColor: neutralColor,
+      onPressed: onPressed,
+      child: Text(
+        text,
+        style: textStyleDialogAction.copyWith(
+          fontWeight: isDefaultAction ? FontWeight.w600 : null,
+          color: onPressed != null
+              ? foregroundColor
+              : CupertinoColors.placeholderText.resolveFrom(context),
+        ),
+        // Long labels wrap and grow the button, as iOS does, rather than
+        // truncating at large text sizes
+        textAlign: .center,
+      ),
+    );
+  }
+}
+
+// Translucent iOS alert window background, painted over the blurred backdrop
+const CupertinoDynamicColor _dialogBackgroundColor =
+    CupertinoDynamicColor.withBrightness(
+      color: Color(0xacffffff),
+      darkColor: Color(0xac161616),
+    );
+
+// Translucent neutral fill behind a non-default alert action
+const CupertinoDynamicColor _dialogActionColor =
+    CupertinoDynamicColor.withBrightness(
+      color: Color(0x1f000000),
+      darkColor: Color(0x1cffffff),
+    );
 
 // Small button with styling appropriate to platform
 Widget adaptiveSmallButton({
@@ -820,7 +1051,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return AlertDialog.adaptive(
+        return PlatformAdaptiveDialog(
           title: Text(titleText),
           content: SizedBox(
             width: double.maxFinite,
@@ -837,7 +1068,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
           ),
           actions: [
             // Cancel button
-            adaptiveDialogAction(
+            AdaptiveDialogAction(
               text: buttonTextCancel,
               onPressed: () => Navigator.of(context).pop(false),
             ),

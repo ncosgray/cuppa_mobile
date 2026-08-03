@@ -57,7 +57,7 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
   // Build dialog
   @override
   Widget build(BuildContext context) {
-    return AlertDialog.adaptive(
+    return PlatformAdaptiveDialog(
       scrollable: true,
       insetPadding: .symmetric(vertical: 0),
       // Text entry
@@ -88,14 +88,14 @@ class _TeaNameDialogState extends State<TeaNameDialog> {
           }),
         ),
       ),
-      actions: <Widget>[
+      actions: [
         // Cancel and close dialog
-        adaptiveDialogAction(
+        AdaptiveDialogAction(
           text: widget.buttonTextCancel,
           onPressed: () => Navigator.of(context).pop(),
         ),
         // Save and close dialog, if valid
-        adaptiveDialogAction(
+        AdaptiveDialogAction(
           isDefaultAction: true,
           onPressed: _isValid
               ? () => Navigator.of(context).pop(_newValue)

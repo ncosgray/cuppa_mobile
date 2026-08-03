@@ -75,17 +75,17 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
   // Build dialog
   @override
   Widget build(BuildContext context) {
-    return AlertDialog.adaptive(
+    return PlatformAdaptiveDialog(
       // Temperature entry
       content: SingleChildScrollView(child: _tempPicker()),
-      actions: <Widget>[
+      actions: [
         // Cancel and close dialog
-        adaptiveDialogAction(
+        AdaptiveDialogAction(
           text: widget.buttonTextCancel,
           onPressed: () => Navigator.pop(context, null),
         ),
         // Save and close dialog
-        adaptiveDialogAction(
+        AdaptiveDialogAction(
           text: widget.buttonTextOK,
           isDefaultAction: true,
           onPressed: () => Navigator.pop(context, _newTemp),

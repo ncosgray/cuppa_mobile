@@ -85,6 +85,9 @@ const double teaIconSize = 64;
 const double teaButtonHeight = 106;
 const double teaButtonWidth = 88;
 const double cancelButtonHeight = 34;
+const double dialogWidth = 320;
+const double dialogRadius = 34;
+const double dialogActionHeight = 48;
 
 // Notifications
 const notifyID1 = 0;

@@ -60,8 +60,7 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
   // Build dialog
   @override
   Widget build(BuildContext context) {
-    return AlertDialog.adaptive(
-      title: Container(),
+    return PlatformAdaptiveDialog(
       content: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: .center,
@@ -119,11 +118,11 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
         ),
       ),
       actions: [
-        adaptiveDialogAction(
+        AdaptiveDialogAction(
           text: widget.buttonTextCancel,
           onPressed: () => Navigator.of(context).pop(null),
         ),
-        adaptiveDialogAction(
+        AdaptiveDialogAction(
           isDefaultAction: true,
           text: widget.buttonTextOK,
           onPressed: () => Navigator.of(

@@ -48,6 +48,25 @@ const TextStyle textStyleButtonTertiary = TextStyle(
   fontWeight: .bold,
 );
 
+// Dialog text styles match the iOS 26 system alert type ramp: headline title,
+// subheadline message, body actions. Used by the iOS dialog only; Android
+// dialogs are styled by the Material dialog theme.
+const TextStyle textStyleDialogTitle = TextStyle(
+  fontSize: 17,
+  fontWeight: .w600,
+  height: 22 / 17,
+);
+
+const TextStyle textStyleDialogContent = TextStyle(
+  fontSize: 15,
+  height: 20 / 15,
+);
+
+const TextStyle textStyleDialogAction = TextStyle(
+  fontSize: 17,
+  height: 22 / 17,
+);
+
 const TextStyle textStyleTimer = TextStyle(
   fontSize: 150,
   fontWeight: .bold,
