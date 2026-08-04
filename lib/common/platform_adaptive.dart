@@ -616,6 +616,74 @@ Widget adaptiveLargeButton({
   }
 }
 
+// Full width list action button with styling appropriate to platform: an iOS 26
+// dialog action capsule, or a Material tonal button. Omitting the label gives a
+// square icon-only button of the same height
+Widget adaptiveListActionButton(
+  BuildContext context, {
+  required Widget icon,
+  String? label,
+  bool isDestructiveAction = false,
+  required Function()? onPressed,
+}) {
+  if (Platform.isIOS) {
+    final Color accentColor = isDestructiveAction
+        ? CupertinoColors.systemRed.resolveFrom(context)
+        : CupertinoTheme.of(context).primaryColor;
+    final Color foregroundColor = onPressed != null
+        ? accentColor
+        : CupertinoColors.placeholderText.resolveFrom(context);
+    final Color neutralColor = _dialogActionColor.resolveFrom(context);
+
+    return CupertinoButton(
+      padding: dialogActionPadding,
+      minimumSize: const Size(dialogActionHeight, dialogActionHeight),
+      borderRadius: .circular(dialogActionHeight / 2),
+      color: neutralColor,
+      disabledColor: neutralColor,
+      onPressed: onPressed,
+      child: Row(
+        mainAxisSize: .min,
+        spacing: xsmallSpacing,
+        children: [
+          IconTheme.merge(
+            data: IconThemeData(color: foregroundColor),
+            child: icon,
+          ),
+          if (label != null)
+            Flexible(
+              child: Text(
+                label,
+                style: textStyleDialogAction.copyWith(color: foregroundColor),
+                textAlign: .center,
+              ),
+            ),
+        ],
+      ),
+    );
+  } else {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    final ButtonStyle style = FilledButton.styleFrom(
+      backgroundColor: colors.secondaryContainer,
+      foregroundColor: isDestructiveAction
+          ? colors.error
+          : colors.onSecondaryContainer,
+      minimumSize: const Size(dialogActionHeight, dialogActionHeight),
+      padding: dialogActionPadding,
+      shape: const StadiumBorder(),
+    );
+
+    return label != null
+        ? FilledButton.icon(
+            style: style,
+            icon: icon,
+            label: Text(label, style: textStyleButtonSecondary),
+            onPressed: onPressed,
+          )
+        : FilledButton(style: style, onPressed: onPressed, child: icon);
+  }
+}
+
 // Build a platform adaptive text form field with clear button and validation
 Widget adaptiveTextFormField({
   required Color textColor,
