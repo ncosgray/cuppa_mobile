@@ -280,7 +280,7 @@ class PlatformAdaptiveDialog extends StatelessWidget {
       );
     }
 
-    // A message is leading aligned in the secondary label colour; content is
+    // A message is leading aligned in the secondary label color; content is
     // left alone so that styles set by its widgets survive
     Widget? dialogContent = content;
     if (message != null) {
@@ -298,37 +298,30 @@ class PlatformAdaptiveDialog extends StatelessWidget {
 
     return _CupertinoAlertCard(
       insetPadding: insetPadding,
-      children: [
-        if (title != null)
-          Padding(
-            padding: dialogTitlePadding,
-            child: DefaultTextStyle(
-              style: textStyleDialogTitle.copyWith(
-                color: CupertinoColors.label.resolveFrom(context),
+      header: title != null
+          ? Padding(
+              padding: dialogTitlePadding,
+              child: DefaultTextStyle(
+                style: textStyleDialogTitle.copyWith(
+                  color: CupertinoColors.label.resolveFrom(context),
+                ),
+                textAlign: .start,
+                child: title!,
               ),
-              textAlign: .start,
-              child: title!,
-            ),
-          ),
-        if (dialogContent != null)
-          Flexible(
-            child: Padding(
+            )
+          : null,
+      body: dialogContent != null
+          ? Padding(
               padding: title != null
                   ? dialogContentPadding
                   : dialogContentNoTitlePadding,
               child: dialogContent,
-            ),
-          ),
-        // Scrollable so the actions degrade gracefully rather than
-        // overflowing when the dialog is squeezed, such as by the
-        // keyboard in landscape at large text sizes
-        Flexible(
-          child: SingleChildScrollView(
-            padding: dialogActionsPadding,
-            child: _actions(context),
-          ),
-        ),
-      ],
+            )
+          : null,
+      footer: SingleChildScrollView(
+        padding: dialogActionsPadding,
+        child: _actions(context),
+      ),
     );
   }
 
@@ -414,7 +407,7 @@ class AdaptiveDialogAction extends StatelessWidget {
           : FilledButton.tonal(onPressed: onPressed, child: Text(text));
     }
 
-    // iOS 26 gives actions a translucent neutral fill with label coloured text,
+    // iOS 26 gives actions a translucent neutral fill with label colored text,
     // reserving the accent fill for the default action
     final Color neutralColor = _dialogActionColor.resolveFrom(context);
     final Color accentColor = isDestructiveAction
@@ -450,13 +443,20 @@ class AdaptiveDialogAction extends StatelessWidget {
   }
 }
 
-// The iOS 26 alert window: a translucent card of stacked capsules, centred over
+// The iOS 26 alert window: a translucent card of stacked capsules, centered over
 // a blurred backdrop. Alerts and action sheets are the same surface on iOS 26,
 // differing only in what they put inside, so both are built from this card
 class _CupertinoAlertCard extends StatelessWidget {
-  const _CupertinoAlertCard({required this.children, this.insetPadding});
+  const _CupertinoAlertCard({
+    this.header,
+    this.body,
+    this.footer,
+    this.insetPadding,
+  });
 
-  final List<Widget> children;
+  final Widget? header;
+  final Widget? body;
+  final Widget? footer;
   final EdgeInsets? insetPadding;
 
   @override
@@ -471,7 +471,7 @@ class _CupertinoAlertCard extends StatelessWidget {
         clipBehavior: .antiAlias,
         // CupertinoPopupSurface supplies the system blur and vibrancy filter;
         // its own corner clip is squarer than the dialog shape, so the shape
-        // above is what gets seen. The surface colour is painted here instead
+        // above is what gets seen. The surface color is painted here instead
         // of by the popup surface, which is more opaque than an iOS 26 alert.
         child: Semantics(
           role: .alertDialog,
@@ -485,10 +485,22 @@ class _CupertinoAlertCard extends StatelessWidget {
               color: _dialogBackgroundColor.resolveFrom(context),
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: dialogWidth),
-                child: Column(
-                  mainAxisSize: .min,
-                  crossAxisAlignment: .stretch,
-                  children: children,
+                child: LayoutBuilder(
+                  builder: (context, constraints) => Column(
+                    mainAxisSize: .min,
+                    crossAxisAlignment: .stretch,
+                    children: [
+                      ?header,
+                      if (body != null) Flexible(child: body!),
+                      if (footer != null)
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: constraints.maxHeight,
+                          ),
+                          child: footer!,
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -516,41 +528,32 @@ class _CupertinoSelectList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _CupertinoAlertCard(
-      children: [
-        // A sheet headed by a lone title centres it in the plain body style,
-        // rather than the bold leading aligned style an alert title gets
-        Padding(
-          padding: dialogTitlePadding,
-          child: Text(
-            titleText,
-            textAlign: .center,
-            style: textStyleDialogAction.copyWith(
-              color: CupertinoColors.label.resolveFrom(context),
-            ),
+      header: Padding(
+        padding: dialogTitlePadding,
+        child: Text(
+          titleText,
+          textAlign: .center,
+          style: textStyleDialogAction.copyWith(
+            color: CupertinoColors.label.resolveFrom(context),
           ),
         ),
-        // The options and the cancel action form one scrolling stack, so a list
-        // too long for the card scrolls instead of overflowing
-        Flexible(
-          child: ListView.separated(
-            padding: dialogActionsPadding,
-            shrinkWrap: true,
-            itemCount: itemCount + 1,
-            itemBuilder: (context, index) => index < itemCount
-                ? itemBuilder(context, index)
-                // The action closing the sheet is the default one, so it gets
-                // the prominent filled treatment that sets it apart from the
-                // neutral capsules of the options above it
-                : AdaptiveDialogAction(
-                    isDefaultAction: true,
-                    text: buttonTextCancel,
-                    onPressed: () => Navigator.of(context).pop(false),
-                  ),
-            separatorBuilder: (context, index) =>
-                const SizedBox(height: smallSpacing),
-          ),
-        ),
-      ],
+      ),
+      // The options and the cancel action form one scrolling stack, so a list
+      // too long for the card scrolls instead of overflowing
+      body: ListView.separated(
+        padding: dialogActionsPadding,
+        shrinkWrap: true,
+        itemCount: itemCount + 1,
+        itemBuilder: (context, index) => index < itemCount
+            ? itemBuilder(context, index)
+            : AdaptiveDialogAction(
+                isDefaultAction: true,
+                text: buttonTextCancel,
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+        separatorBuilder: (context, index) =>
+            const SizedBox(height: smallSpacing),
+      ),
     );
   }
 }
@@ -700,8 +703,7 @@ Widget adaptiveTextFormField({
       children: [
         Row(
           children: [
-            SizedBox(
-              width: 186,
+            Expanded(
               child: CupertinoTextFormFieldRow(
                 controller: controller,
                 autofocus: true,
@@ -720,9 +722,12 @@ Widget adaptiveTextFormField({
             ),
             Visibility(
               visible: controller.text.isNotEmpty,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
               // Clear field button
               child: CupertinoButton(
-                padding: noPadding,
+                padding: largeDefaultPadding,
                 onPressed: onCleared,
                 child: clearIcon,
               ),
@@ -970,11 +975,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
 
     if (Platform.isIOS) {
       return GlassAppBar(
-        padding: EdgeInsets.only(
-          top: smallSpacing,
-          left: largeSpacing,
-          right: largeSpacing,
-        ),
+        padding: navBarPadding,
         // Back/done navigation button
         leading: isPoppable
             ? GlassIconButton(
@@ -1010,9 +1011,12 @@ GlassButtonGroupItem _navBarGroupItem(
   required Widget route,
 }) {
   return GlassButtonGroupItem(
-    icon: IconTheme.merge(
-      data: IconThemeData(color: CupertinoTheme.of(context).primaryColor),
-      child: icon,
+    icon: Padding(
+      padding: navBarButtonPadding,
+      child: IconTheme.merge(
+        data: IconThemeData(color: CupertinoTheme.of(context).primaryColor),
+        child: icon,
+      ),
     ),
     onTap: adaptiveOnPressed(context, route: route)!,
   );

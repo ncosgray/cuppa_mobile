@@ -43,7 +43,9 @@ import 'package:provider/provider.dart';
 
 // List or grid of TeaButtons
 class TeaButtonList extends StatefulWidget {
-  const TeaButtonList({super.key});
+  const TeaButtonList({super.key, required this.stackedView});
+
+  final bool stackedView;
 
   @override
   State<TeaButtonList> createState() => _TeaButtonListState();
@@ -90,16 +92,10 @@ class _TeaButtonListState extends State<TeaButtonList> {
     // List/grid of available tea buttons
     return Selector<
       AppProvider,
-      ({
-        List<Tea> teaList,
-        bool stackedView,
-        bool hideCup,
-        ButtonSize buttonSize,
-      })
+      ({List<Tea> teaList, bool hideCup, ButtonSize buttonSize})
     >(
       selector: (_, provider) => (
         teaList: provider.teaList,
-        stackedView: provider.stackedView,
         hideCup: provider.cupStyle == CupStyle.none,
         buttonSize: provider.buttonSize,
       ),
@@ -108,7 +104,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
         double buttonScale = buttonData.buttonSize.scale;
 
         if (buttonData.teaList.isNotEmpty) {
-          if (buttonData.stackedView || buttonData.hideCup) {
+          if (widget.stackedView || buttonData.hideCup) {
             // Calculate optimum number of buttons for screen width
             int rowLength = max(
               teaButtonRowMinLength,
@@ -132,7 +128,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
           children: [
             // Tea buttons
             Container(
-              padding: noPadding,
+              padding: EdgeInsets.only(top: xsmallSpacing),
               height: buttonData.hideCup
                   ? getDeviceSize(context).height * .65
                   : (teaButtonRows.length > 1

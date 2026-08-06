@@ -119,18 +119,28 @@ class TimerWidget extends StatelessWidget {
                   top: false,
                   right: true,
                   bottom: false,
-                  child: Selector<AppProvider, double>(
-                    selector: (_, provider) =>
-                        provider.buttonSize.scale +
-                        (provider.showExtraList.isEmpty ? .6 : .8),
-                    builder: (context, scale, child) => Container(
-                      constraints: BoxConstraints(
-                        minHeight:
-                            (teaButtonHeight + cancelButtonHeight) * scale,
+                  child:
+                      Selector<
+                        AppProvider,
+                        ({double calculatedScale, bool stackedView})
+                      >(
+                        selector: (_, provider) => (
+                          calculatedScale:
+                              provider.buttonSize.scale +
+                              (provider.showExtraList.isEmpty ? .6 : .8),
+                          stackedView: provider.stackedView,
+                        ),
+                        builder: (context, listData, child) => Container(
+                          constraints: BoxConstraints(
+                            minHeight:
+                                (teaButtonHeight * listData.calculatedScale) +
+                                cancelButtonHeight,
+                          ),
+                          child: TeaButtonList(
+                            stackedView: layoutPortrait && listData.stackedView,
+                          ),
+                        ),
                       ),
-                      child: const TeaButtonList(),
-                    ),
-                  ),
                 ),
               ],
             ),
