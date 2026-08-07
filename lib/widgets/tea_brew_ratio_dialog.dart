@@ -142,7 +142,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
             ],
           ),
           // Numerator slider
-          Slider.adaptive(
+          adaptiveSlider(
             value: _newRatio.ratioNumerator,
             min: brewRatioNumeratorMin,
             max: brewRatioNumeratorMax,
@@ -205,7 +205,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
             ],
           ),
           // Denominator slider
-          Slider.adaptive(
+          adaptiveSlider(
             value: _newDenominatorIndex.toDouble(),
             min: 0,
             max: (brewRatioMlOptions.length - 1).toDouble(),

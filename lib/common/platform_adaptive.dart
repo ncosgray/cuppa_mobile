@@ -779,11 +779,40 @@ Widget adaptiveSwitch({
         value: value,
         onChanged: onChanged,
         inactiveColor: CupertinoColors.systemFill.resolveFrom(context),
-        quality: .minimal,
       ),
     );
   } else {
     return Switch.adaptive(value: value, onChanged: onChanged);
+  }
+}
+
+// Slider with styling appropriate to platform
+Widget adaptiveSlider({
+  required double value,
+  required double min,
+  required double max,
+  required int divisions,
+  required Function(double) onChanged,
+}) {
+  if (Platform.isIOS) {
+    return Builder(
+      builder: (context) => GlassSlider(
+        value: value,
+        min: min,
+        max: max,
+        divisions: divisions,
+        onChanged: onChanged,
+        activeColor: CupertinoColors.activeBlue.resolveFrom(context),
+      ),
+    );
+  } else {
+    return Slider.adaptive(
+      value: value,
+      min: min,
+      max: max,
+      divisions: divisions,
+      onChanged: onChanged,
+    );
   }
 }
 
