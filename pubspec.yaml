@@ -18,26 +18,26 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 2.15.0+72
 
 environment:
-  sdk: '>=3.10.0 <4.0.0'
-  flutter: ^3.44.8
+  sdk: '>=3.13.0 <4.0.0'
+  flutter: 3.47.0
 
 dependencies:
   app_settings: ^8.0.3
   collection: ^1.19.1
   cupertino_icons: ^1.0.9
-  dynamic_color: ^1.8.1
+  dynamic_color: ^1.9.0
   file_picker: ^12.0.0-beta.7
   fl_chart: ^1.2.0
   flex_color_picker: ^3.8.0
   flutter:
     sdk: flutter
-  flutter_local_notifications: ^22.2.0
+  flutter_local_notifications: ^22.3.0
   flutter_localizations:
     sdk: flutter
   flutter_timezone: ^5.1.0
   in_app_review: ^2.0.12
   intelligence: ^0.2.0
-  liquid_glass_widgets: ^0.28.1
+  liquid_glass_widgets: ^0.29.5
   package_info_plus: ^10.2.1
   path: ^1.9.1
   path_provider: ^2.1.6
