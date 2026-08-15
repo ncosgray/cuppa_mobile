@@ -23,6 +23,7 @@ import 'package:cuppa_mobile/data/tea.dart';
 
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
@@ -90,14 +91,14 @@ abstract class Export {
     bool imported = false;
 
     // Prompt for export file source
-    FilePickerResult? result = await FilePicker.pickFiles(
+    PlatformFile? result = await FilePicker.pickFile(
       type: FileType.custom,
       allowedExtensions: [exportFileExtension],
     );
-    if (result != null && result.files.single.path != null) {
+    if (result != null && result.path != null) {
       try {
         // Read file contents
-        final File file = .new(result.files.single.path!);
+        final File file = .new(result.path!);
         ExportFile exportData = ExportFile.fromJson(
           jsonDecode(file.readAsStringSync()),
         );
@@ -219,12 +220,10 @@ class ExportFile {
     try {
       return ExportFile(
         settings: ExportSettings.fromJson(json[jsonKeySettings]),
-        teaList: (json[jsonKeyTeas].map<Tea>(
-          (tea) => Tea.fromJson(tea),
-        )).toList(),
-        stats: (json[jsonKeyStats].map<Stat>(
-          (stat) => Stat.fromJson(stat),
-        )).toList(),
+        teaList: (json[jsonKeyTeas].map<Tea>((tea) => Tea.fromJson(tea)))
+            .toList(),
+        stats: (json[jsonKeyStats].map<Stat>((stat) => Stat.fromJson(stat)))
+            .toList(),
       );
     } catch (e) {
       return ExportFile(settings: null, teaList: null, stats: null);
