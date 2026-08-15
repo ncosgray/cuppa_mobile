@@ -32,7 +32,6 @@ import 'package:cuppa_mobile/pages/about_page.dart';
 import 'package:cuppa_mobile/pages/stats_page.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
 
-import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:transitioned_indexed_stack/transitioned_indexed_stack.dart';
@@ -573,8 +572,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
         style: textStyleSubtitle,
       ),
       trailing: const SizedBox(height: double.infinity, child: launchIcon),
-      onTap: () =>
-          AppSettings.openAppSettings(type: AppSettingsType.notification),
+      onTap: () => openNotificationSettings(),
       contentPadding: listTilePadding,
       dense: true,
     ),

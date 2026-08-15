@@ -228,3 +228,7 @@ Future<void> cancelOngoingNotification(int notifyID) async {
   int ongoingID = notifyID == notifyID1 ? notifyOngoingID1 : notifyOngoingID2;
   await notify.cancel(id: ongoingID);
 }
+
+// Open OS notification settings for the app
+Future<bool?> openNotificationSettings() =>
+    notify.openAppNotificationSettings();
