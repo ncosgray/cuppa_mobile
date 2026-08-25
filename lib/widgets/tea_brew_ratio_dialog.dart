@@ -21,7 +21,7 @@ import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Display a tea brew ratio entry dialog box
 class TeaBrewRatioDialog extends StatefulWidget {

@@ -18,7 +18,7 @@ import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/mini_tea_button.dart';
 
 import 'package:flex_color_picker/flex_color_picker.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Text entry dialog
 class TeaColorDialog extends StatefulWidget {
@@ -125,9 +125,9 @@ class _TeaColorDialogState extends State<TeaColorDialog> {
         AdaptiveDialogAction(
           isDefaultAction: true,
           text: widget.buttonTextOK,
-          onPressed: () => Navigator.of(
-            context,
-          ).pop((teaColor: _newTeaColor, colorShade: _newColorShade)),
+          onPressed: () =>
+              Navigator.of(context)
+                  .pop((teaColor: _newTeaColor, colorShade: _newColorShade)),
         ),
       ],
     );

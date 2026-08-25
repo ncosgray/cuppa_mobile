@@ -19,7 +19,7 @@ import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Display a tea brew temperature entry dialog box
 class TeaBrewTempDialog extends StatefulWidget {

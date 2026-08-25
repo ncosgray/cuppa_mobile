@@ -25,7 +25,7 @@ import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Provider for settings changes
 class AppProvider extends ChangeNotifier {
@@ -305,19 +305,16 @@ class AppProvider extends ChangeNotifier {
   void loadDefaults() {
     _teaList
       ..add(
-        Presets.getPreset(
-          AppString.tea_name_black,
-        ).createTea(useCelsius: _useCelsius, isFavorite: true),
+        Presets.getPreset(AppString.tea_name_black)
+            .createTea(useCelsius: _useCelsius, isFavorite: true),
       )
       ..add(
-        Presets.getPreset(
-          AppString.tea_name_green,
-        ).createTea(useCelsius: _useCelsius, isFavorite: true),
+        Presets.getPreset(AppString.tea_name_green)
+            .createTea(useCelsius: _useCelsius, isFavorite: true),
       )
       ..add(
-        Presets.getPreset(
-          AppString.tea_name_herbal,
-        ).createTea(useCelsius: _useCelsius, isFavorite: true),
+        Presets.getPreset(AppString.tea_name_herbal)
+            .createTea(useCelsius: _useCelsius, isFavorite: true),
       );
   }
 

@@ -26,9 +26,10 @@ import 'package:cuppa_mobile/common/text_styles.dart';
 
 import 'dart:io' show Platform;
 import 'dart:ui' show ImageFilter;
-import 'package:flutter/cupertino.dart';
+
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
 // Platform specific icons
@@ -363,9 +364,10 @@ class PlatformAdaptiveDialog extends StatelessWidget {
   bool _actionsFitSideBySide(BuildContext context, double rowWidth) {
     final double availableWidth =
         (rowWidth - smallSpacing - (dialogActionPadding.horizontal * 2)) / 2;
-    final TextStyle baseStyle = CupertinoTheme.of(
-      context,
-    ).textTheme.actionTextStyle.merge(textStyleDialogAction);
+    final TextStyle baseStyle = CupertinoTheme.of(context)
+        .textTheme
+        .actionTextStyle
+        .merge(textStyleDialogAction);
 
     return actions.every((action) {
       final TextPainter painter = TextPainter(
@@ -891,9 +893,8 @@ Widget adaptivePageHeader(
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
                 child: Container(
-                  color: Theme.of(
-                    ctx,
-                  ).scaffoldBackgroundColor.withValues(alpha: 0.75),
+                  color: Theme.of(ctx).scaffoldBackgroundColor
+                      .withValues(alpha: 0.75),
                 ),
               ),
             ),
@@ -1081,9 +1082,8 @@ Function()? adaptiveOnPressed(
             : CupertinoPageRoute<void>(builder: (_) => route),
       );
     } else {
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute<void>(builder: (_) => route));
+      Navigator.of(context)
+          .push(MaterialPageRoute<void>(builder: (_) => route));
     }
   };
 }

@@ -26,7 +26,7 @@ import 'package:cuppa_mobile/widgets/teacup.dart';
 import 'package:cuppa_mobile/widgets/timer_countdown.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 // Cuppa Timer page

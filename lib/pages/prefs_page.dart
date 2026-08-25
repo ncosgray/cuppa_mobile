@@ -32,7 +32,7 @@ import 'package:cuppa_mobile/pages/about_page.dart';
 import 'package:cuppa_mobile/pages/stats_page.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:transitioned_indexed_stack/transitioned_indexed_stack.dart';
 
@@ -544,18 +544,17 @@ class _PrefsWidgetState extends State<PrefsWidget> {
       )) {
         // Attempt to load an export file and report the result
         if (mounted) {
-          await Export.load(
-            Provider.of<AppProvider>(context, listen: false),
-          ).then((imported) {
-            if (mounted) {
-              showInfoDialog(
-                context: context,
-                message: imported
-                    ? AppString.import_sucess.translate()
-                    : AppString.import_failure.translate(),
-              );
-            }
-          });
+          await Export.load(Provider.of<AppProvider>(context, listen: false))
+              .then((imported) {
+                if (mounted) {
+                  showInfoDialog(
+                    context: context,
+                    message: imported
+                        ? AppString.import_sucess.translate()
+                        : AppString.import_failure.translate(),
+                  );
+                }
+              });
         }
       }
     },

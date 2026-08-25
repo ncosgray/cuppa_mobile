@@ -15,7 +15,7 @@
 import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/platform_adaptive.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Text entry dialog
 class TeaNameDialog extends StatefulWidget {

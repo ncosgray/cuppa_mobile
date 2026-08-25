@@ -19,7 +19,8 @@ import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 
 import 'dart:io' show Platform;
-import 'package:flutter/material.dart';
+
+import 'package:material_ui/material_ui.dart';
 
 // Tea definition
 class Tea {
@@ -165,9 +166,9 @@ class Tea {
 
   // Get brew time remaining
   int get brewTimeRemaining {
-    int secs = DateTime.fromMillisecondsSinceEpoch(
-      timerEndTime,
-    ).difference(DateTime.now()).inSeconds;
+    int secs = DateTime.fromMillisecondsSinceEpoch(timerEndTime)
+        .difference(DateTime.now())
+        .inSeconds;
     return secs < 0 ? 0 : secs;
   }
 

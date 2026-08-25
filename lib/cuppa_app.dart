@@ -13,6 +13,7 @@
 // Cuppa app builder
 // - Intialize globals, theme, localization
 
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/local_notifications.dart';
@@ -23,18 +24,17 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/pages/timer_page.dart';
 
 import 'dart:io' show Platform;
+
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart' as fl;
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:region_settings/region_settings.dart';
 import 'package:showcaseview/showcaseview.dart';
-// ignore: depend_on_referenced_packages
 import 'package:timezone/data/latest_all.dart' as tz;
-// ignore: depend_on_referenced_packages
 import 'package:timezone/timezone.dart' as tz;
 
 // App initialization
@@ -120,7 +120,7 @@ class CuppaApp extends StatelessWidget {
                   AppLocalizationsDelegate(isSystemLanguage: isSystemLanguage),
                   GlobalMaterialLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
+                  fl.GlobalWidgetsLocalizations.delegate,
                   FallbackMaterialLocalizationsDelegate(),
                   FallbackCupertinoLocalizationsDelegate(),
                 ],

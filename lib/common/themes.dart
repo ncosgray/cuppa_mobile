@@ -13,9 +13,10 @@
 // Cuppa visual themes
 
 import 'dart:io' show Platform;
+
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Theme definitions
 final ThemeData lightThemeData = ThemeData(

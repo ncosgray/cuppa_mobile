@@ -21,9 +21,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:region_settings/region_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// ignore: depend_on_referenced_packages
 import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
-// ignore: depend_on_referenced_packages
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
 
 // Set up globals and fresh in-memory shared prefs for a unit test
@@ -63,9 +61,8 @@ Future<void> setUpTestEnvironment() async {
       );
 
   // Load default localizations so translated strings resolve
-  await const AppLocalizationsDelegate(
-    isSystemLanguage: true,
-  ).load(defaultLocale);
+  await const AppLocalizationsDelegate(isSystemLanguage: true)
+      .load(defaultLocale);
 
   // Fresh in-memory shared prefs stores
   SharedPreferences.setMockInitialValues({});

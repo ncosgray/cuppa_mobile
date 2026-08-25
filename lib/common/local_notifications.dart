@@ -19,9 +19,9 @@ import 'package:cuppa_mobile/data/localization.dart';
 
 import 'dart:async' show Completer;
 import 'dart:io' show Platform;
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/foundation.dart';
-// ignore: depend_on_referenced_packages
 import 'package:timezone/timezone.dart' as tz;
 
 final FlutterLocalNotificationsPlugin notify = .new();
@@ -107,9 +107,8 @@ Future<void> sendNotification(
     title = AppString.notification_title.translate();
     text = AppString.notification_text.translate(teaName: teaName);
   }
-  final tz.TZDateTime notifyTime = tz.TZDateTime.now(
-    tz.local,
-  ).add(Duration(seconds: secs));
+  final tz.TZDateTime notifyTime = tz.TZDateTime.now(tz.local)
+      .add(Duration(seconds: secs));
 
   await requestNotifyPermissions();
 

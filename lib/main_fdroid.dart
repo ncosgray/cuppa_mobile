@@ -15,7 +15,7 @@
 
 import 'package:cuppa_mobile/cuppa_app.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() async {
   await initializeApp();

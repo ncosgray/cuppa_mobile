@@ -32,7 +32,7 @@ import 'package:cuppa_mobile/widgets/tea_brew_time_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_color_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_name_dialog.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 // Widget defining a tea settings card

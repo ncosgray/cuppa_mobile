@@ -36,9 +36,9 @@ import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'dart:async';
 import 'dart:math' show max;
-// ignore: depend_on_referenced_packages
+
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 // List or grid of TeaButtons
@@ -171,9 +171,8 @@ class _TeaButtonListState extends State<TeaButtonList> {
                           end: .bottomCenter,
                           colors: [
                             Theme.of(context).scaffoldBackgroundColor,
-                            Theme.of(
-                              context,
-                            ).scaffoldBackgroundColor.withValues(alpha: 0),
+                            Theme.of(context).scaffoldBackgroundColor
+                                .withValues(alpha: 0),
                           ],
                         ),
                       ),

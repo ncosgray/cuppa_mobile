@@ -21,7 +21,7 @@ import 'package:cuppa_mobile/common/separators.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Return type for brew time dialog: brew time plus infusion settings
 typedef BrewTimeResult = ({
