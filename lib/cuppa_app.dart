@@ -13,7 +13,6 @@
 // Cuppa app builder
 // - Intialize globals, theme, localization
 
-import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/local_notifications.dart';
@@ -25,6 +24,7 @@ import 'package:cuppa_mobile/pages/timer_page.dart';
 
 import 'dart:io' show Platform;
 
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_localizations/flutter_localizations.dart' as fl;
 import 'package:material_ui/material_ui.dart';
