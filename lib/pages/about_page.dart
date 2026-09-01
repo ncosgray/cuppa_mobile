@@ -26,23 +26,44 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/pages/stats_page.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
+import 'dart:io' show Platform;
+
 import 'package:material_ui/material_ui.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // About Cuppa page
-class AboutWidget extends StatelessWidget {
+class AboutWidget extends StatefulWidget {
   const AboutWidget({super.key});
+
+  @override
+  State<AboutWidget> createState() => _AboutWidgetState();
+}
+
+class _AboutWidgetState extends State<AboutWidget> {
+  // Fades the nav bar title in as the page header scrolls away. Only iOS shows
+  // a fading title, and only iOS should pay for driving one.
+  final GlassLargeTitleController? _titleController = Platform.isIOS
+      ? GlassLargeTitleController(collapseTitleHeight: kToolbarHeight)
+      : null;
+
+  @override
+  void dispose() {
+    _titleController?.dispose();
+    super.dispose();
+  }
 
   // Build About page
   @override
   Widget build(BuildContext context) {
-    return adaptiveScaffold(
+    final Widget scaffold = adaptiveScaffold(
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
         title: AppString.about_title.translate(),
         buttonTextDone: AppString.done_button.translate(),
         previousPageTitle: AppString.prefs_title.translate(),
+        largeTitleController: _titleController,
       ),
       body: CustomScrollView(
         slivers: [
@@ -160,6 +181,16 @@ class AboutWidget extends StatelessWidget {
         ],
       ),
     );
+
+    // Overriding the primary controller rather than passing the scroll view a
+    // controller keeps the status bar tap-to-top gesture working, which reads
+    // PrimaryScrollController from above the scaffold
+    return _titleController == null
+        ? scaffold
+        : PrimaryScrollController(
+            controller: _titleController.scrollController,
+            child: scaffold,
+          );
   }
 
   // About text linking to app website

@@ -19,16 +19,16 @@ version: 2.15.0+72
 
 environment:
   sdk: '>=3.13.0 <4.0.0'
-  flutter: 3.47.1
+  flutter: 3.47.2
 
 dependencies:
   collection: ^1.19.1
   cupertino_icons: ^1.0.9
   cupertino_ui: ^1.0.1
   dynamic_color: ^2.1.0
-  file_picker: ^12.0.0
+  file_picker: ^12.1.2
   fl_chart: ^1.2.0
-  flex_color_picker: ^3.8.0
+  flex_color_picker: ^4.0.0
   flutter:
     sdk: flutter
   flutter_local_notifications: ^22.3.0
@@ -37,7 +37,7 @@ dependencies:
   flutter_timezone: ^5.1.0
   in_app_review: ^2.0.12
   intelligence: ^0.2.0
-  liquid_glass_widgets: ^0.30.2
+  liquid_glass_widgets: ^1.2.2
   material_ui: ^1.1.0
   package_info_plus: ^10.2.1
   path: ^1.9.1

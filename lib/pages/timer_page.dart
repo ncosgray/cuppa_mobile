@@ -17,6 +17,7 @@ import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/platform_adaptive.dart';
+import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/pages/prefs_page.dart';
@@ -164,6 +165,7 @@ class TimerWidget extends StatelessWidget {
                 child: adaptiveNavBarActionButton(
                   context,
                   icon: platformSettingsIcon,
+                  semanticLabel: AppString.prefs_title.translate(),
                   onPressed: adaptiveOnPressed(
                     context,
                     route: const PrefsWidget(),
@@ -190,11 +192,11 @@ Widget _floatingNavButton({required bool isRight, required Widget child}) {
       left: !isRight,
       right: isRight,
       bottom: false,
+      // Aligned with the pinned chrome; the Stack is already inside a SafeArea
       child: Padding(
         padding: EdgeInsets.only(
-          top: smallSpacing,
-          left: isRight ? 0.0 : largeSpacing,
-          right: isRight ? largeSpacing : 0.0,
+          left: isRight ? 0.0 : navBarChromeInset,
+          right: isRight ? navBarChromeInset : 0.0,
         ),
         child: child,
       ),

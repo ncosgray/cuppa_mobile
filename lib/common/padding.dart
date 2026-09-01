@@ -32,11 +32,6 @@ const EdgeInsetsGeometry headerPadding = .symmetric(
   vertical: 0,
   horizontal: 12,
 );
-const EdgeInsetsGeometry navBarPadding = .fromLTRB(12, 8, 12, 0);
-const EdgeInsetsGeometry navBarButtonPadding = .symmetric(
-  vertical: 0,
-  horizontal: 4,
-);
 const EdgeInsetsGeometry bodyPadding = .symmetric(vertical: 4, horizontal: 12);
 const EdgeInsetsGeometry timerLayoutPadding = .fromLTRB(48, 48, 48, 12);
 const EdgeInsetsGeometry timerPadding = .symmetric(vertical: 2, horizontal: 12);

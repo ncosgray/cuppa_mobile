@@ -40,6 +40,7 @@ class QuickTimerButton extends StatelessWidget {
         final (isActive, canStart) = data;
         return adaptiveNavBarActionButton(
           context,
+          semanticLabel: AppString.quick_timer.translate(),
           icon: isActive
               ? quickTimerCancelIcon(color: Theme.of(context).colorScheme.error)
               : quickTimerIcon,

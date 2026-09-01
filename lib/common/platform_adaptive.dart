@@ -86,9 +86,32 @@ Color? getAdaptiveActiveColor(BuildContext context) {
       : null;
 }
 
-// Nav bar glass button dimensions
-const double _navBarButtonSize = 44;
-const double _navBarIconSize = _navBarButtonSize / 2;
+// Both depths are doubled because GlassScrollEdgeStyle.hard applies its curve
+// over half the height it is given
+const double _scrollEdgeFadeHeight = 88 * 2;
+
+// Top fade clears the whole bar, so content dissolves before it reaches the
+// nav title rather than passing legibly behind it
+double _topScrollEdgeFadeHeight(BuildContext context) =>
+    (MediaQuery.paddingOf(context).top + _navBarButtonSize + smallSpacing * 2) *
+    2;
+
+// Nav bar glass button dimensions, from the shell's metrics so the timer
+// page's floating buttons line up with hoisted chrome
+const double _navBarButtonSize = GlassNavPinnedMetrics.slot;
+const double _navBarIconSize = GlassNavPinnedMetrics.iconSize;
+
+// Edge inset of the pinned chrome, for buttons that must line up with it
+const double navBarChromeInset = GlassNavPinnedMetrics.horizontalPadding;
+
+// Must match the shell's geometry or the chrome jumps while a dialog is up.
+// Gap goes below the row: Scaffold insets the body by the bar's height.
+const EdgeInsetsGeometry navBarPadding = .fromLTRB(
+  GlassNavPinnedMetrics.horizontalPadding,
+  0,
+  GlassNavPinnedMetrics.horizontalPadding,
+  smallSpacing,
+);
 
 // Platform adaptive page scaffold
 Widget adaptiveScaffold({
@@ -123,13 +146,13 @@ Widget adaptiveScaffold({
               extendBody: true,
               body: Material(
                 type: .transparency,
-                child: Stack(
-                  children: [
-                    body,
-                    if (showTopFade)
-                      _liquidGlassFadeOverlay(color: bgColor, top: true),
-                    _liquidGlassFadeOverlay(color: bgColor, top: false),
-                  ],
+                child: GlassScrollEdgeEffect(
+                  fadeTop: showTopFade,
+                  topFadeHeight: _topScrollEdgeFadeHeight(context),
+                  bottomFadeHeight: _scrollEdgeFadeHeight,
+                  style: .hard,
+                  fadeColor: bgColor,
+                  child: body,
                 ),
               ),
               bottomNavigationBar: bottomNavigationBar,
@@ -159,12 +182,13 @@ Widget adaptiveScaffold({
               resizeToAvoidBottomInset: resizeToAvoidBottomInset,
               child: Material(
                 type: .transparency,
-                child: Stack(
-                  children: [
-                    body,
-                    if (showTopFade)
-                      _liquidGlassFadeOverlay(color: bgColor, top: true),
-                  ],
+                child: GlassScrollEdgeEffect(
+                  fadeTop: showTopFade,
+                  fadeBottom: false,
+                  topFadeHeight: _topScrollEdgeFadeHeight(context),
+                  style: .hard,
+                  fadeColor: bgColor,
+                  child: body,
                 ),
               ),
             ),
@@ -188,6 +212,7 @@ Widget adaptiveNavBarActionButton(
   BuildContext context, {
   required Widget icon,
   required Function()? onPressed,
+  required String semanticLabel,
 }) {
   if (Platform.isIOS) {
     final Color primaryColor = CupertinoTheme.of(context).primaryColor;
@@ -200,14 +225,15 @@ Widget adaptiveNavBarActionButton(
       onPressed: onPressed,
       size: _navBarButtonSize,
       useOwnLayer: true,
-      quality: .standard,
-      settings: _liquidGlassSettings,
+      quality: .premium,
+      semanticLabel: semanticLabel,
     );
   } else {
     return IconButton(
       icon: icon,
       color: Theme.of(context).appBarTheme.actionsIconTheme?.color,
       onPressed: onPressed,
+      tooltip: semanticLabel,
     );
   }
 }
@@ -831,8 +857,8 @@ Widget adaptiveSegmentedControl({
         final Color primaryColor = CupertinoTheme.of(context).primaryColor;
         return GlassSegmentedControl(
           segments: [
-            GlassSegment(label: buttonTextTrue),
-            GlassSegment(label: buttonTextFalse),
+            GlassSegment(id: true, label: buttonTextTrue),
+            GlassSegment(id: false, label: buttonTextFalse),
           ],
           selectedIndex: groupValue ? 0 : 1,
           onSegmentSelected: (i) => onValueChanged(i == 0),
@@ -932,6 +958,9 @@ class PlatformAdaptiveNavBar extends StatelessWidget
     this.actionIcon,
     this.secondaryActionRoute,
     this.secondaryActionIcon,
+    this.actionLabel,
+    this.secondaryActionLabel,
+    this.largeTitleController,
   });
 
   final bool isPoppable;
@@ -942,6 +971,12 @@ class PlatformAdaptiveNavBar extends StatelessWidget
   final Widget? actionIcon;
   final Widget? secondaryActionRoute;
   final Widget? secondaryActionIcon;
+  // Announced by screen readers; the icons carry no text of their own
+  final String? actionLabel;
+  final String? secondaryActionLabel;
+  // Fades the iOS title in as the page header scrolls away; pages that omit
+  // it show no title at all
+  final GlassLargeTitleController? largeTitleController;
 
   @override
   bool shouldFullyObstruct(BuildContext context) => !Platform.isIOS;
@@ -957,98 +992,107 @@ class PlatformAdaptiveNavBar extends StatelessWidget
     final bool hasSecondaryAction =
         secondaryActionIcon != null && secondaryActionRoute != null;
 
-    // Build action list
-    final List<Widget> actions =
-        Platform.isIOS && hasAction && hasSecondaryAction
-        // Combine multiple actions into a single glass pill on iOS
-        ? [
-            GlassButtonGroup.icons(
-              borderRadius: _navBarButtonSize / 2,
-              iconSize: _navBarIconSize,
-              itemPadding: EdgeInsets.all(
-                (_navBarButtonSize - _navBarIconSize) / 2,
-              ),
-              useOwnLayer: true,
-              quality: .standard,
-              settings: _liquidGlassSettings,
-              items: [
-                _navBarGroupItem(
-                  context,
-                  icon: secondaryActionIcon!,
-                  route: secondaryActionRoute!,
-                ),
-                _navBarGroupItem(
-                  context,
-                  icon: actionIcon!,
-                  route: actionRoute!,
-                ),
-              ],
-            ),
-          ]
-        : [
-            if (hasSecondaryAction)
-              adaptiveNavBarActionButton(
-                context,
-                icon: secondaryActionIcon!,
-                onPressed: adaptiveOnPressed(
-                  context,
-                  route: secondaryActionRoute!,
-                ),
-              ),
-            if (hasAction)
-              adaptiveNavBarActionButton(
-                context,
-                icon: actionIcon!,
-                onPressed: adaptiveOnPressed(context, route: actionRoute!),
-              ),
-          ];
-
     if (Platform.isIOS) {
-      return GlassAppBar(
+      // Chrome declared as data so the shell can hoist it above the Navigator;
+      // a cluster of items renders as one capsule
+      return GlassAppBar.pinned(
         padding: navBarPadding,
-        // Back/done navigation button
-        leading: isPoppable
-            ? GlassIconButton(
-                icon: Icon(
-                  previousPageTitle != null
-                      ? CupertinoIcons.chevron_back
-                      : CupertinoIcons.xmark,
-                  color: CupertinoTheme.of(context).primaryColor,
+        // No controller means the page opted out of a title entirely, rather
+        // than wanting one pinned on screen the whole time. The color is set
+        // from the app theme because CupertinoTheme's brightness does not
+        // track it, which left the title white on white in light mode.
+        title: largeTitleController == null
+            ? null
+            : Text(
+                title,
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
                 ),
-                onPressed: () => Navigator.of(context).pop(),
-                size: _navBarButtonSize,
-                useOwnLayer: true,
-                quality: .standard,
-                settings: _liquidGlassSettings,
-              )
-            : null,
-        actions: actions.isNotEmpty ? actions : null,
+              ),
+        largeTitleController: largeTitleController,
+        // Default 44 squashes the 46pt items, shrinking them while a dialog
+        // hands the chrome back to the route
+        toolbarHeight: _navBarButtonSize,
+        // Supplied as a leading item; the shell's own back button can't be tinted
+        backButton: false,
+        leading: isPoppable
+            ? [
+                _navBarItem(
+                  context,
+                  id: 'back',
+                  icon: Icon(
+                    previousPageTitle != null
+                        ? CupertinoIcons.chevron_back
+                        : CupertinoIcons.xmark,
+                  ),
+                  label: previousPageTitle ?? buttonTextDone,
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+              ]
+            : const [],
+        actions: [
+          if (hasSecondaryAction)
+            _navBarItem(
+              context,
+              id: 'secondaryAction',
+              icon: secondaryActionIcon!,
+              label: secondaryActionLabel,
+              onTap: adaptiveOnPressed(context, route: secondaryActionRoute!)!,
+            ),
+          if (hasAction)
+            _navBarItem(
+              context,
+              id: 'action',
+              icon: actionIcon!,
+              label: actionLabel,
+              onTap: adaptiveOnPressed(context, route: actionRoute!)!,
+            ),
+        ],
       );
     } else {
       return AppBar(
         elevation: !isPoppable ? 4.0 : null,
         title: Text(title, style: textStyleNavBar),
-        actions: actions,
+        actions: [
+          if (hasSecondaryAction)
+            adaptiveNavBarActionButton(
+              context,
+              icon: secondaryActionIcon!,
+              semanticLabel: secondaryActionLabel ?? '',
+              onPressed: adaptiveOnPressed(
+                context,
+                route: secondaryActionRoute!,
+              ),
+            ),
+          if (hasAction)
+            adaptiveNavBarActionButton(
+              context,
+              icon: actionIcon!,
+              semanticLabel: actionLabel ?? '',
+              onPressed: adaptiveOnPressed(context, route: actionRoute!),
+            ),
+        ],
       );
     }
   }
 }
 
-// Nav bar action as one segment of a grouped glass pill on iOS
-GlassButtonGroupItem _navBarGroupItem(
+// Nav bar chrome item; an explicit icon color overrides the cluster's theme
+GlassBarItem _navBarItem(
   BuildContext context, {
+  required Object id,
   required Widget icon,
-  required Widget route,
+  required VoidCallback onTap,
+  String? label,
 }) {
-  return GlassButtonGroupItem(
-    icon: Padding(
-      padding: navBarButtonPadding,
-      child: IconTheme.merge(
-        data: IconThemeData(color: CupertinoTheme.of(context).primaryColor),
-        child: icon,
-      ),
+  return GlassBarItem.icon(
+    id: id,
+    label: label,
+    icon: IconTheme.merge(
+      data: IconThemeData(color: CupertinoTheme.of(context).primaryColor),
+      child: icon,
     ),
-    onTap: adaptiveOnPressed(context, route: route)!,
+    onTap: onTap,
   );
 }
 
@@ -1122,20 +1166,7 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
                 selectedIndex: currentIndex,
                 onTabSelected: onTap ?? (_) {},
                 tabs: items
-                    .map(
-                      (item) => GlassTab(
-                        icon: _glassBottomBarTabIcon(
-                          icon: item.icon,
-                          label: item.label,
-                          color: labelColor,
-                        ),
-                        activeIcon: _glassBottomBarTabIcon(
-                          icon: item.icon,
-                          label: item.label,
-                          color: primaryColor,
-                        ),
-                      ),
-                    )
+                    .map((item) => GlassTab(icon: item.icon, label: item.label))
                     .toList(),
                 barHeight: 58,
                 verticalPadding: 0,
@@ -1144,9 +1175,12 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
                 barBorderRadius: barBorderRadius,
                 selectedIconColor: primaryColor,
                 unselectedIconColor: labelColor,
+                selectedLabelColor: primaryColor,
+                unselectedLabelColor: labelColor,
+                labelFontSize: 11,
                 indicatorColor: primaryColor.withValues(alpha: 0.1),
                 glowDuration: shortAnimationDuration,
-                settings: _liquidGlassSettings,
+                settings: liquidGlassSettings,
               ),
             ),
           ],
@@ -1163,44 +1197,10 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
   }
 }
 
-// Liquid Glass customizations
-final _liquidGlassSettings = LiquidGlassSettings(
+// Installed as LiquidGlassWidgets.globalSettings. The transparent glassColor
+// keeps the tab bar readable in dark mode; GlassTabBar.bottom needs it passed.
+final liquidGlassSettings = LiquidGlassSettings(
   shadow: [BoxShadow(color: shadowColor, blurRadius: 12)],
-);
-
-// Gradient overlay that fades from the scaffold background color to transparent
-Widget _liquidGlassFadeOverlay({required Color color, required bool top}) =>
-    Positioned(
-      left: 0,
-      right: 0,
-      top: top ? 0 : null,
-      bottom: top ? null : 0,
-      child: IgnorePointer(
-        child: Container(
-          height: 88,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: top ? .topCenter : .bottomCenter,
-              end: top ? .bottomCenter : .topCenter,
-              colors: [color, color.withValues(alpha: 0)],
-            ),
-          ),
-        ),
-      ),
-    );
-
-// Icon with optional text label for Liquid Glass tab bar
-Widget _glassBottomBarTabIcon({
-  required Widget icon,
-  required String? label,
-  required Color color,
-}) => Column(
-  mainAxisAlignment: .spaceAround,
-  mainAxisSize: .min,
-  children: [
-    icon,
-    Text(label ?? '', style: TextStyle(color: color, fontSize: 11)),
-  ],
 );
 
 // Display a selector list that is Material on Android and Cupertino on iOS

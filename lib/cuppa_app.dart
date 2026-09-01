@@ -16,6 +16,7 @@
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/local_notifications.dart';
+import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/themes.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -66,6 +67,7 @@ Future<void> initializeApp({bool testing = false}) async {
   // Initialize Liquid Glass for iOS
   if (Platform.isIOS) {
     await LiquidGlassWidgets.initialize();
+    LiquidGlassWidgets.globalSettings = liquidGlassSettings;
   }
 }
 
@@ -109,6 +111,15 @@ class CuppaApp extends StatelessWidget {
                   highContrast: true,
                 ),
                 themeMode: appThemeMode,
+                // Hosts pinned nav bar chrome above the Navigator. Portrait
+                // only: the shell ignores horizontal safe area insets.
+                builder: Platform.isIOS
+                    ? (context, child) =>
+                          MediaQuery.orientationOf(context) ==
+                              Orientation.portrait
+                          ? GlassNavigationShell(child: child!)
+                          : child!
+                    : null,
                 // Initial route
                 home: const TimerWidget(),
                 // Localization
@@ -132,7 +143,11 @@ class CuppaApp extends StatelessWidget {
       ),
     );
     if (Platform.isIOS) {
-      return LiquidGlassWidgets.wrap(child: tree, adaptiveQuality: true);
+      return LiquidGlassWidgets.wrap(
+        child: tree,
+        adaptiveQuality: true,
+        brightnessResolver: Theme.maybeBrightnessOf,
+      );
     }
     return tree;
   }

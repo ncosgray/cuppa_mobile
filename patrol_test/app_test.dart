@@ -29,6 +29,10 @@ import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol/patrol.dart';
 
+// Hoisted chrome leaves an IgnorePointer placeholder behind, so each nav bar
+// icon matches twice; hit testing picks the live one
+Finder navBarIcon(IconData icon) => find.byIcon(icon).hitTestable();
+
 void main() {
   patrolTest('end-to-end tea timer test', ($) async {
     // Test timer setings
@@ -45,7 +49,7 @@ void main() {
     }
 
     // Navigate to Prefs page
-    await $.tap(find.byIcon(platformSettingsIcon.icon!, skipOffstage: false));
+    await $.tap(navBarIcon(platformSettingsIcon.icon!));
     expect(find.byIcon(platformSortIcon.icon!), findsOneWidget);
 
     // Delete all teas
@@ -109,13 +113,13 @@ void main() {
     await $.tap(find.text(AppString.yes_button.translate()));
 
     // Navigate to Stats page and validate report
-    await $.tap(find.byIcon(platformStatsIcon.icon!, skipOffstage: false));
+    await $.tap(navBarIcon(platformStatsIcon.icon!));
     expect(find.text(AppString.stats_no_data_1.translate()), findsOneWidget);
 
     // Navigate back to Timer page
     if (Platform.isIOS) {
-      await $.tap(find.byIcon(CupertinoIcons.chevron_back));
-      await $.tap(find.byIcon(CupertinoIcons.xmark));
+      await $.tap(navBarIcon(CupertinoIcons.chevron_back));
+      await $.tap(navBarIcon(CupertinoIcons.xmark));
     } else {
       await $.platform.android.pressBack();
       await $.platform.android.pressBack();
@@ -159,8 +163,8 @@ void main() {
     expect(find.text(timerName), findsOneWidget);
 
     // Navigate to Stats page and re-validate report
-    await $.tap(find.byIcon(platformSettingsIcon.icon!, skipOffstage: false));
-    await $.tap(find.byIcon(platformStatsIcon.icon!, skipOffstage: false));
+    await $.tap(navBarIcon(platformSettingsIcon.icon!));
+    await $.tap(navBarIcon(platformStatsIcon.icon!));
     expect(find.text(AppString.stats_begin.translate()), findsOneWidget);
     expect(find.text(timerName), findsAtLeastNWidgets(2));
     expect(find.text(formatTimer(timerSeconds)), findsAny);

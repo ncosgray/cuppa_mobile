@@ -69,9 +69,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
             // Button to navigate to About page
             actionIcon: platformAboutIcon,
             actionRoute: const AboutWidget(),
+            actionLabel: AppString.about_title.translate(),
             // Button to navigate to Stats page
             secondaryActionIcon: collectStats ? platformStatsIcon : null,
             secondaryActionRoute: collectStats ? const StatsWidget() : null,
+            secondaryActionLabel: AppString.stats_title.translate(),
           ),
           body: layoutColumns
               // Arrange Teas and Settings in two columns for large screens
