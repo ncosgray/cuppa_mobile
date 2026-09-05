@@ -101,6 +101,11 @@ double _topScrollEdgeFadeHeight(BuildContext context) =>
 const double _navBarButtonSize = GlassNavPinnedMetrics.slot;
 const double _navBarIconSize = GlassNavPinnedMetrics.iconSize;
 
+// Shape and press-stretch of a hoisted chrome capsule, so floating buttons
+// inflate on press exactly as the shell's own items do
+const double _navBarButtonRadius = GlassNavPinnedMetrics.capsuleRadius;
+const double _navBarButtonStretch = GlassNavPinnedMetrics.capsuleStretch;
+
 // Edge inset of the pinned chrome, for buttons that must line up with it
 const double navBarChromeInset = GlassNavPinnedMetrics.horizontalPadding;
 
@@ -216,17 +221,19 @@ Widget adaptiveNavBarActionButton(
 }) {
   if (Platform.isIOS) {
     final Color primaryColor = CupertinoTheme.of(context).primaryColor;
-
-    return GlassIconButton(
-      icon: IconTheme(
-        data: IconThemeData(color: primaryColor),
+    return GlassButton.custom(
+      onTap: onPressed ?? () {},
+      enabled: onPressed != null,
+      label: semanticLabel,
+      width: _navBarButtonSize,
+      height: _navBarButtonSize,
+      shape: const LiquidRoundedRectangle(borderRadius: _navBarButtonRadius),
+      stretch: _navBarButtonStretch,
+      useOwnLayer: true,
+      child: IconTheme(
+        data: IconThemeData(color: primaryColor, size: _navBarIconSize),
         child: icon,
       ),
-      onPressed: onPressed,
-      size: _navBarButtonSize,
-      useOwnLayer: true,
-      quality: .premium,
-      semanticLabel: semanticLabel,
     );
   } else {
     return IconButton(

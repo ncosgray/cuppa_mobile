@@ -114,11 +114,13 @@ class CuppaApp extends StatelessWidget {
                 // Hosts pinned nav bar chrome above the Navigator. Portrait
                 // only: the shell ignores horizontal safe area insets.
                 builder: Platform.isIOS
-                    ? (context, child) =>
-                          MediaQuery.orientationOf(context) ==
-                              Orientation.portrait
-                          ? GlassNavigationShell(child: child!)
-                          : child!
+                    ? (context, child) => Overlay.wrap(
+                        child:
+                            MediaQuery.orientationOf(context) ==
+                                Orientation.portrait
+                            ? GlassNavigationShell(child: child!)
+                            : child!,
+                      )
                     : null,
                 // Initial route
                 home: const TimerWidget(),
