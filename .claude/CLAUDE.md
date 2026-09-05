@@ -25,7 +25,7 @@ flutter build ipa                         # iOS
 flutter analyze
 
 # Unit tests (no device required)
-flutter test                              # Tea model, AppProvider, export/import
+flutter test                              # Tea model, AppProvider, export/import, Timer page layout
 
 # Integration tests (requires device/emulator)
 flutter test integration_test/            # screenshot collection only (not true integration tests)
