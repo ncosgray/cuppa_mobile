@@ -100,7 +100,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
         buttonSize: provider.buttonSize,
       ),
       builder: (context, buttonData, child) {
-        List<Widget> teaButtonRows = [];
+        List<List<Tea>> teaRows = [];
         double buttonScale = buttonData.buttonSize.scale;
 
         if (buttonData.teaList.isNotEmpty) {
@@ -111,17 +111,24 @@ class _TeaButtonListState extends State<TeaButtonList> {
               (getDeviceSize(context).width / buttonScale / 128.0).floor(),
             );
             // Arrange into multiple rows for stacked view
-            for (final teaRow in buttonData.teaList.slices(rowLength)) {
-              teaButtonRows.add(_teaButtonRow(teaRow, buttonScale));
-            }
+            teaRows = buttonData.teaList.slices(rowLength).toList();
           } else {
             // Single row of tea buttons
-            teaButtonRows.add(_teaButtonRow(buttonData.teaList, buttonScale));
+            teaRows = [buttonData.teaList];
           }
-        } else {
-          // Add button if tea list is empty
-          teaButtonRows.add(_addButton());
         }
+
+        // Only a single row sizes itself to its contents, so hold the cancel
+        // button's space there to keep the page from shifting
+        bool reserveCancelSpace = !buttonData.hideCup && teaRows.length < 2;
+
+        List<Widget> teaButtonRows = teaRows.isEmpty
+            // Add button if tea list is empty
+            ? [_addButton()]
+            : [
+                for (final teaRow in teaRows)
+                  _teaButtonRow(teaRow, buttonScale, reserveCancelSpace),
+              ];
 
         // Build tea button list/grid container
         return Stack(
@@ -189,7 +196,11 @@ class _TeaButtonListState extends State<TeaButtonList> {
   Key _teaKey(Tea tea) => _buttonKeys.putIfAbsent(tea.id, () => GlobalKey());
 
   // Horizontally scrollable list of tea buttons
-  Widget _teaButtonRow(List<Tea> teas, double buttonScale) {
+  Widget _teaButtonRow(
+    List<Tea> teas,
+    double buttonScale,
+    bool reserveCancelSpace,
+  ) {
     return SingleChildScrollView(
       scrollDirection: .horizontal,
       physics: const BouncingScrollPhysics(),
@@ -206,6 +217,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
                 tea: tea,
                 fade: !(activeTimerCount < timersMaxCount || tea.isActive),
                 scale: buttonScale,
+                reserveCancelSpace: reserveCancelSpace,
                 // Start timer or advance the infusion count
                 onPressed: !tea.isActive && activeTimerCount < timersMaxCount
                     ? () => _setTimer(tea)

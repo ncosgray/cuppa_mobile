@@ -34,6 +34,7 @@ class TeaButton extends StatelessWidget {
     required this.tea,
     required this.fade,
     required this.scale,
+    required this.reserveCancelSpace,
     this.onPressed,
     this.onLongPress,
     this.onCancelPressed,
@@ -42,6 +43,7 @@ class TeaButton extends StatelessWidget {
   final Tea tea;
   final bool fade;
   final double scale;
+  final bool reserveCancelSpace;
   final Function()? onPressed;
   final Function()? onLongPress;
   final Function()? onCancelPressed;
@@ -72,21 +74,29 @@ class TeaButton extends StatelessWidget {
     AppProvider provider = Provider.of<AppProvider>(context, listen: false);
     Color textColor = tea.isActive ? timerActiveColor : tea.getColor();
     double extraInfoSize = textStyleButtonTertiary.fontSize! * scale;
+    bool showCancel = onCancelPressed != null && tea.isActive;
 
     // Combined timer start and cancel buttons
-    return Card(
-      margin: largeDefaultPadding,
-      elevation: tea.isActive ? 0.0 : 1.0,
-      clipBehavior: .antiAlias,
-      child: IntrinsicWidth(
-        child: Column(
-          mainAxisSize: .min,
-          children: [
-            _timerButton(textColor, extraInfoSize, provider),
-            _cancelButton(context),
-          ],
+    return Column(
+      mainAxisSize: .min,
+      children: [
+        Card(
+          margin: largeDefaultPadding,
+          elevation: tea.isActive ? 0.0 : 1.0,
+          clipBehavior: .antiAlias,
+          child: IntrinsicWidth(
+            child: Column(
+              mainAxisSize: .min,
+              children: [
+                _timerButton(textColor, extraInfoSize, provider),
+                _cancelButton(context, showCancel),
+              ],
+            ),
+          ),
         ),
-      ),
+        // Holds the cancel button's space while it is hidden
+        if (reserveCancelSpace) _cancelButtonSpacer(showCancel),
+      ],
     );
   }
 
@@ -215,11 +225,11 @@ class TeaButton extends StatelessWidget {
   }
 
   // Cancel tea timer button (slides out from below when timer is active)
-  AnimatedSize _cancelButton(BuildContext context) {
+  AnimatedSize _cancelButton(BuildContext context, bool showCancel) {
     return AnimatedSize(
       duration: longAnimationDuration,
       curve: Curves.easeInOut,
-      child: onCancelPressed != null && tea.isActive
+      child: showCancel
           ? InkWell(
               onTap: _handleCancelTap,
               child: Ink(
@@ -243,6 +253,18 @@ class TeaButton extends StatelessWidget {
               ),
             )
           : const SizedBox.shrink(),
+    );
+  }
+
+  // Empty space that yields to the cancel button as it slides out
+  AnimatedSize _cancelButtonSpacer(bool showCancel) {
+    return AnimatedSize(
+      duration: longAnimationDuration,
+      curve: Curves.easeInOut,
+      child: SizedBox(
+        width: 0,
+        height: showCancel ? 0 : cancelButtonHeight * scale,
+      ),
     );
   }
 }
