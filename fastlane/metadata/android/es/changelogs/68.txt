@@ -1,0 +1,3 @@
+* Se agregaron ajustes preestablecidos para té matcha y té amarillo.
+* Nueva opción para recibir una notificación unos segundos antes de que tu té esté listo.
+* Actualizaciones de traducción de idiomas: ¡contribuye a través de Weblate!

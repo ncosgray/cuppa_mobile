@@ -1,0 +1,3 @@
+* Yeni özellik: birden fazla demleme desteği.
+* Hata düzeltmeleri.
+* Dil çeviri güncellemeleri - Weblate aracılığıyla katkıda bulunun!
