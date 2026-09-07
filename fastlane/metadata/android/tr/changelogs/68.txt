@@ -1,0 +1,3 @@
+* Matcha ve sarı çay için çay ön ayarları eklendi.
+* Çayınız hazır olmadan birkaç saniye önce bildirim gönderilmesini sağlayan yeni seçenek.
+* Dil çeviri güncellemeleri - Weblate aracılığıyla katkıda bulunun!

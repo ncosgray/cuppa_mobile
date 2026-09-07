@@ -1,0 +1,2 @@
+* Bazı durumlarda zamanlayıcıların devam ettirilmesiyle ilgili bir hata düzeltildi.
+* Dil çeviri güncellemeleri - Weblate aracılığıyla katkıda bulunun!

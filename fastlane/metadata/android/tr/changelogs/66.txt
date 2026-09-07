@@ -1,0 +1,3 @@
+* F-Droid derlemelerindeki bağımlılıkları kaldırmak için kod yeniden düzenlemesi yapıldı.
+* Bazı durumlarda zamanlayıcıların devam ettirilmesiyle ilgili bir hata düzeltildi.
+* Dil çeviri güncellemeleri - Weblate aracılığıyla katkıda bulunun!

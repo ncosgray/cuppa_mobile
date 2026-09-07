@@ -1,0 +1,2 @@
+* Hızlı Zamanlayıcı özelliği, yeni çay eklemeden demleme yapmanızı sağlar.
+* Dil çeviri güncellemeleri - Weblate aracılığıyla katkıda bulunun!
