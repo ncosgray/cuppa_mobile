@@ -14,7 +14,7 @@
 
 import 'package:cuppa_mobile/common/colors.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 const TextStyle textStyleNavBar = TextStyle(fontSize: 18);
 
@@ -46,6 +46,25 @@ const TextStyle textStyleButtonSecondary = TextStyle(
 const TextStyle textStyleButtonTertiary = TextStyle(
   fontSize: 14,
   fontWeight: .bold,
+);
+
+// Dialog text styles match the iOS 26 system alert type ramp: headline title,
+// subheadline message, body actions. Used by the iOS dialog only; Android
+// dialogs are styled by the Material dialog theme.
+const TextStyle textStyleDialogTitle = TextStyle(
+  fontSize: 17,
+  fontWeight: .w600,
+  height: 22 / 17,
+);
+
+const TextStyle textStyleDialogContent = TextStyle(
+  fontSize: 15,
+  height: 20 / 15,
+);
+
+const TextStyle textStyleDialogAction = TextStyle(
+  fontSize: 17,
+  height: 22 / 17,
 );
 
 const TextStyle textStyleTimer = TextStyle(

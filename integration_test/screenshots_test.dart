@@ -21,9 +21,10 @@ import 'package:cuppa_mobile/data/presets.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'dart:io';
+
 import 'package:flex_color_picker/flex_color_picker.dart'
     show ColorIndicator, ColorPicker;
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 

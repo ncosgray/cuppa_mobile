@@ -16,7 +16,7 @@ import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/themes.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Preview of a tea button with color and theme
 Widget miniTeaButton({

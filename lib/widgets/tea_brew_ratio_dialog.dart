@@ -21,7 +21,7 @@ import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Display a tea brew ratio entry dialog box
 class TeaBrewRatioDialog extends StatefulWidget {
@@ -72,17 +72,17 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
   // Build dialog
   @override
   Widget build(BuildContext context) {
-    return AlertDialog.adaptive(
+    return PlatformAdaptiveDialog(
       // Ratio entry
       content: SingleChildScrollView(child: _ratioPicker()),
-      actions: <Widget>[
+      actions: [
         // Cancel and close dialog
-        adaptiveDialogAction(
+        AdaptiveDialogAction(
           text: widget.buttonTextCancel,
           onPressed: () => Navigator.pop(context, null),
         ),
         // Save and close dialog
-        adaptiveDialogAction(
+        AdaptiveDialogAction(
           text: widget.buttonTextOK,
           isDefaultAction: true,
           onPressed: () => Navigator.pop(context, _newRatio),
@@ -142,7 +142,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
             ],
           ),
           // Numerator slider
-          Slider.adaptive(
+          adaptiveSlider(
             value: _newRatio.ratioNumerator,
             min: brewRatioNumeratorMin,
             max: brewRatioNumeratorMax,
@@ -205,7 +205,7 @@ class _TeaBrewRatioDialogState extends State<TeaBrewRatioDialog> {
             ],
           ),
           // Denominator slider
-          Slider.adaptive(
+          adaptiveSlider(
             value: _newDenominatorIndex.toDouble(),
             min: 0,
             max: (brewRatioMlOptions.length - 1).toDouble(),

@@ -17,7 +17,7 @@ import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/cuppa_app.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:in_app_review/in_app_review.dart';
 
 void main() async {

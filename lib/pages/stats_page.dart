@@ -26,9 +26,12 @@ import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/mini_tea_button.dart';
 
+import 'dart:io' show Platform;
 import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 // Timer Stats page
@@ -40,6 +43,18 @@ class StatsWidget extends StatefulWidget {
 }
 
 class _StatsWidgetState extends State<StatsWidget> {
+  // Fades the nav bar title in as the page header scrolls away. Only iOS shows
+  // a fading title, and only iOS should pay for driving one.
+  final GlassLargeTitleController? _titleController = Platform.isIOS
+      ? GlassLargeTitleController(collapseTitleHeight: kToolbarHeight)
+      : null;
+
+  @override
+  void dispose() {
+    _titleController?.dispose();
+    super.dispose();
+  }
+
   // Timer data
   int _beginDateTime = 0;
   int _totalCount = 0;
@@ -73,12 +88,13 @@ class _StatsWidgetState extends State<StatsWidget> {
             getDeviceSize(context).height * 0.4,
           );
 
-    return adaptiveScaffold(
+    final Widget scaffold = adaptiveScaffold(
       appBar: PlatformAdaptiveNavBar(
         isPoppable: true,
         title: AppString.stats_title.translate(),
         buttonTextDone: AppString.done_button.translate(),
         previousPageTitle: AppString.prefs_title.translate(),
+        largeTitleController: _titleController,
       ),
       body: FutureBuilder<bool>(
         future: _fetchTimerStats(),
@@ -256,6 +272,16 @@ class _StatsWidgetState extends State<StatsWidget> {
         },
       ),
     );
+
+    // Overriding the primary controller rather than passing the scroll view a
+    // controller keeps the status bar tap-to-top gesture working, which reads
+    // PrimaryScrollController from above the scaffold
+    return _titleController == null
+        ? scaffold
+        : PrimaryScrollController(
+            controller: _titleController.scrollController,
+            child: scaffold,
+          );
   }
 
   // Fetch stats from database

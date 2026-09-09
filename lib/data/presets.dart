@@ -19,7 +19,7 @@ import 'package:cuppa_mobile/data/brew_ratio.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Preset definition
 class Preset {

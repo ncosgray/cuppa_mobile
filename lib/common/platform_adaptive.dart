@@ -14,8 +14,9 @@
 // - Icons for Android and iOS
 // - Buttons and controls for Android and iOS
 // - Text form field for Android and iOS
+// - PlatformAdaptiveDialog alert dialog for context platform
 // - Create NavBar and BottomNavBar page navigation for context platform
-// - openPlatformAdaptiveSelectList modal/dialog selector for context platform
+// - openPlatformAdaptiveSelectList action sheet/dialog selector for context platform
 
 import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
@@ -25,9 +26,10 @@ import 'package:cuppa_mobile/common/text_styles.dart';
 
 import 'dart:io' show Platform;
 import 'dart:ui' show ImageFilter;
-import 'package:flutter/cupertino.dart';
+
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 
 // Platform specific icons
@@ -84,6 +86,38 @@ Color? getAdaptiveActiveColor(BuildContext context) {
       : null;
 }
 
+// Both depths are doubled because GlassScrollEdgeStyle.hard applies its curve
+// over half the height it is given
+const double _scrollEdgeFadeHeight = 88 * 2;
+
+// Top fade clears the whole bar, so content dissolves before it reaches the
+// nav title rather than passing legibly behind it
+double _topScrollEdgeFadeHeight(BuildContext context) =>
+    (MediaQuery.paddingOf(context).top + _navBarButtonSize + smallSpacing * 2) *
+    2;
+
+// Nav bar glass button dimensions, from the shell's metrics so the timer
+// page's floating buttons line up with hoisted chrome
+const double _navBarButtonSize = GlassNavPinnedMetrics.slot;
+const double _navBarIconSize = GlassNavPinnedMetrics.iconSize;
+
+// Shape and press-stretch of a hoisted chrome capsule, so floating buttons
+// inflate on press exactly as the shell's own items do
+const double _navBarButtonRadius = GlassNavPinnedMetrics.capsuleRadius;
+const double _navBarButtonStretch = GlassNavPinnedMetrics.capsuleStretch;
+
+// Edge inset of the pinned chrome, for buttons that must line up with it
+const double navBarChromeInset = GlassNavPinnedMetrics.horizontalPadding;
+
+// Must match the shell's geometry or the chrome jumps while a dialog is up.
+// Gap goes below the row: Scaffold insets the body by the bar's height.
+const EdgeInsetsGeometry navBarPadding = .fromLTRB(
+  GlassNavPinnedMetrics.horizontalPadding,
+  0,
+  GlassNavPinnedMetrics.horizontalPadding,
+  smallSpacing,
+);
+
 // Platform adaptive page scaffold
 Widget adaptiveScaffold({
   required Widget body,
@@ -117,13 +151,13 @@ Widget adaptiveScaffold({
               extendBody: true,
               body: Material(
                 type: .transparency,
-                child: Stack(
-                  children: [
-                    body,
-                    if (showTopFade)
-                      _liquidGlassFadeOverlay(color: bgColor, top: true),
-                    _liquidGlassFadeOverlay(color: bgColor, top: false),
-                  ],
+                child: GlassScrollEdgeEffect(
+                  fadeTop: showTopFade,
+                  topFadeHeight: _topScrollEdgeFadeHeight(context),
+                  bottomFadeHeight: _scrollEdgeFadeHeight,
+                  style: .hard,
+                  fadeColor: bgColor,
+                  child: body,
                 ),
               ),
               bottomNavigationBar: bottomNavigationBar,
@@ -153,12 +187,13 @@ Widget adaptiveScaffold({
               resizeToAvoidBottomInset: resizeToAvoidBottomInset,
               child: Material(
                 type: .transparency,
-                child: Stack(
-                  children: [
-                    body,
-                    if (showTopFade)
-                      _liquidGlassFadeOverlay(color: bgColor, top: true),
-                  ],
+                child: GlassScrollEdgeEffect(
+                  fadeTop: showTopFade,
+                  fadeBottom: false,
+                  topFadeHeight: _topScrollEdgeFadeHeight(context),
+                  style: .hard,
+                  fadeColor: bgColor,
+                  child: body,
                 ),
               ),
             ),
@@ -182,26 +217,30 @@ Widget adaptiveNavBarActionButton(
   BuildContext context, {
   required Widget icon,
   required Function()? onPressed,
+  required String semanticLabel,
 }) {
   if (Platform.isIOS) {
     final Color primaryColor = CupertinoTheme.of(context).primaryColor;
-
-    return GlassIconButton(
-      icon: IconTheme(
-        data: IconThemeData(color: primaryColor),
+    return GlassButton.custom(
+      onTap: onPressed ?? () {},
+      enabled: onPressed != null,
+      label: semanticLabel,
+      width: _navBarButtonSize,
+      height: _navBarButtonSize,
+      shape: const LiquidRoundedRectangle(borderRadius: _navBarButtonRadius),
+      stretch: _navBarButtonStretch,
+      useOwnLayer: true,
+      child: IconTheme(
+        data: IconThemeData(color: primaryColor, size: _navBarIconSize),
         child: icon,
       ),
-      onPressed: onPressed,
-      size: 44,
-      useOwnLayer: true,
-      quality: .standard,
-      settings: _liquidGlassSettings,
     );
   } else {
     return IconButton(
       icon: icon,
       color: Theme.of(context).appBarTheme.actionsIconTheme?.color,
       onPressed: onPressed,
+      tooltip: semanticLabel,
     );
   }
 }
@@ -212,35 +251,361 @@ Widget adaptiveSelectListAction({
   required Function() onTap,
 }) {
   if (Platform.isIOS) {
-    return CupertinoActionSheetAction(
-      onPressed: onTap,
-      child: Material(type: MaterialType.transparency, child: action),
-    );
+    return _SelectListActionCapsule(onTap: onTap, child: action);
   } else {
     return GestureDetector(onTap: onTap, child: action);
   }
 }
 
-// Dialog action button appropriate to platform
-Widget adaptiveDialogAction({
-  bool isDefaultAction = false,
-  bool isDestructiveAction = false,
-  required String text,
-  required Function()? onPressed,
-}) {
-  if (Platform.isIOS) {
-    return CupertinoDialogAction(
-      isDefaultAction: isDefaultAction,
-      isDestructiveAction: isDestructiveAction,
-      onPressed: onPressed,
-      child: Text(text),
+// An option in an iOS 26 action sheet, which is a capsule of the same fill and
+// minimum height as a plain action, grown to fit whatever the option draws
+class _SelectListActionCapsule extends StatelessWidget {
+  const _SelectListActionCapsule({required this.child, required this.onTap});
+
+  final Widget child;
+  final Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoButton(
+      padding: dialogActionPadding,
+      minimumSize: const Size(0, dialogActionHeight),
+      borderRadius: .circular(dialogActionHeight / 2),
+      color: _dialogActionColor.resolveFrom(context),
+      onPressed: onTap,
+      child: Material(type: .transparency, child: child),
     );
-  } else {
-    return isDestructiveAction
-        ? TextButton(onPressed: onPressed, child: Text(text))
-        : FilledButton.tonal(onPressed: onPressed, child: Text(text));
   }
 }
+
+// Alert dialog appropriate to platform
+// iOS 26 draws alerts as a translucent window over a blurred backdrop with
+// rounded, tinted action buttons, which neither CupertinoAlertDialog nor a
+// Liquid Glass surface can produce, so the iOS look is built from a Dialog
+class PlatformAdaptiveDialog extends StatelessWidget {
+  const PlatformAdaptiveDialog({
+    super.key,
+    this.title,
+    this.message,
+    this.content,
+    required this.actions,
+    this.scrollable = false,
+    this.insetPadding,
+  });
+
+  final Widget? title;
+  // Alert body text, styled like an iOS alert message
+  final Widget? message;
+  // Arbitrary widgets, which keep their own styling
+  final Widget? content;
+  final List<AdaptiveDialogAction> actions;
+  final bool scrollable;
+  final EdgeInsets? insetPadding;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!Platform.isIOS) {
+      return AlertDialog(
+        title: title,
+        content: message ?? content,
+        actions: actions,
+        scrollable: scrollable,
+        insetPadding: insetPadding ?? dialogInsetPadding,
+      );
+    }
+
+    // A message is leading aligned in the secondary label color; content is
+    // left alone so that styles set by its widgets survive
+    Widget? dialogContent = content;
+    if (message != null) {
+      dialogContent = DefaultTextStyle.merge(
+        style: textStyleDialogContent.copyWith(
+          color: CupertinoColors.secondaryLabel.resolveFrom(context),
+        ),
+        textAlign: .start,
+        child: message!,
+      );
+    }
+    if (dialogContent != null && scrollable) {
+      dialogContent = SingleChildScrollView(child: dialogContent);
+    }
+
+    return _CupertinoAlertCard(
+      insetPadding: insetPadding,
+      header: title != null
+          ? Padding(
+              padding: dialogTitlePadding,
+              child: DefaultTextStyle(
+                style: textStyleDialogTitle.copyWith(
+                  color: CupertinoColors.label.resolveFrom(context),
+                ),
+                textAlign: .start,
+                child: title!,
+              ),
+            )
+          : null,
+      body: dialogContent != null
+          ? Padding(
+              padding: title != null
+                  ? dialogContentPadding
+                  : dialogContentNoTitlePadding,
+              child: dialogContent,
+            )
+          : null,
+      footer: SingleChildScrollView(
+        padding: dialogActionsPadding,
+        child: _actions(context),
+      ),
+    );
+  }
+
+  // iOS lays two actions out side by side with the default action trailing,
+  // and otherwise stacks them with the default action on top
+  Widget _actions(BuildContext context) {
+    final List<AdaptiveDialogAction> defaultActions = actions
+        .where((action) => action.isDefaultAction)
+        .toList();
+    final List<AdaptiveDialogAction> otherActions = actions
+        .where((action) => !action.isDefaultAction)
+        .toList();
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (actions.length == 2 &&
+            _actionsFitSideBySide(context, constraints.maxWidth)) {
+          return Row(
+            spacing: smallSpacing,
+            children: [
+              for (final action in [...otherActions, ...defaultActions])
+                Expanded(child: action),
+            ],
+          );
+        }
+
+        return Column(
+          mainAxisSize: .min,
+          crossAxisAlignment: .stretch,
+          spacing: smallSpacing,
+          children: [...defaultActions, ...otherActions],
+        );
+      },
+    );
+  }
+
+  // Check that both action labels fit in half of the available action width,
+  // measured the way CupertinoButton renders them
+  bool _actionsFitSideBySide(BuildContext context, double rowWidth) {
+    final double availableWidth =
+        (rowWidth - smallSpacing - (dialogActionPadding.horizontal * 2)) / 2;
+    final TextStyle baseStyle = CupertinoTheme.of(context)
+        .textTheme
+        .actionTextStyle
+        .merge(textStyleDialogAction);
+
+    return actions.every((action) {
+      final TextPainter painter = TextPainter(
+        text: TextSpan(
+          text: action.text,
+          style: baseStyle.copyWith(
+            fontWeight: action.isDefaultAction ? FontWeight.w600 : null,
+          ),
+        ),
+        textDirection: Directionality.of(context),
+        textScaler: MediaQuery.textScalerOf(context),
+      )..layout();
+
+      return painter.width <= availableWidth;
+    });
+  }
+}
+
+// Dialog action button appropriate to platform
+class AdaptiveDialogAction extends StatelessWidget {
+  const AdaptiveDialogAction({
+    super.key,
+    this.isDefaultAction = false,
+    this.isDestructiveAction = false,
+    required this.text,
+    required this.onPressed,
+  });
+
+  final bool isDefaultAction;
+  final bool isDestructiveAction;
+  final String text;
+  final Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!Platform.isIOS) {
+      return isDestructiveAction
+          ? TextButton(onPressed: onPressed, child: Text(text))
+          : FilledButton.tonal(onPressed: onPressed, child: Text(text));
+    }
+
+    // iOS 26 gives actions a translucent neutral fill with label colored text,
+    // reserving the accent fill for the default action
+    final Color neutralColor = _dialogActionColor.resolveFrom(context);
+    final Color accentColor = isDestructiveAction
+        ? CupertinoColors.systemRed.resolveFrom(context)
+        : CupertinoTheme.of(context).primaryColor;
+    final Color backgroundColor = isDefaultAction ? accentColor : neutralColor;
+    final Color foregroundColor = isDefaultAction
+        ? CupertinoColors.white
+        : (isDestructiveAction
+              ? accentColor
+              : CupertinoColors.label.resolveFrom(context));
+
+    return CupertinoButton(
+      padding: dialogActionPadding,
+      minimumSize: const Size(0, dialogActionHeight),
+      borderRadius: .circular(dialogActionHeight / 2),
+      color: backgroundColor,
+      disabledColor: neutralColor,
+      onPressed: onPressed,
+      child: Text(
+        text,
+        style: textStyleDialogAction.copyWith(
+          fontWeight: isDefaultAction ? FontWeight.w600 : null,
+          color: onPressed != null
+              ? foregroundColor
+              : CupertinoColors.placeholderText.resolveFrom(context),
+        ),
+        // Long labels wrap and grow the button, as iOS does, rather than
+        // truncating at large text sizes
+        textAlign: .center,
+      ),
+    );
+  }
+}
+
+// The iOS 26 alert window: a translucent card of stacked capsules, centered over
+// a blurred backdrop. Alerts and action sheets are the same surface on iOS 26,
+// differing only in what they put inside, so both are built from this card
+class _CupertinoAlertCard extends StatelessWidget {
+  const _CupertinoAlertCard({
+    this.header,
+    this.body,
+    this.footer,
+    this.insetPadding,
+  });
+
+  final Widget? header;
+  final Widget? body;
+  final Widget? footer;
+  final EdgeInsets? insetPadding;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Dialog(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        insetPadding: insetPadding ?? dialogInsetPadding,
+        shape: RoundedSuperellipseBorder(borderRadius: .circular(dialogRadius)),
+        clipBehavior: .antiAlias,
+        // CupertinoPopupSurface supplies the system blur and vibrancy filter;
+        // its own corner clip is squarer than the dialog shape, so the shape
+        // above is what gets seen. The surface color is painted here instead
+        // of by the popup surface, which is more opaque than an iOS 26 alert.
+        child: Semantics(
+          role: .alertDialog,
+          namesRoute: true,
+          scopesRoute: true,
+          explicitChildNodes: true,
+          label: MaterialLocalizations.of(context).alertDialogLabel,
+          child: CupertinoPopupSurface(
+            isSurfacePainted: false,
+            child: ColoredBox(
+              color: _dialogBackgroundColor.resolveFrom(context),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: dialogWidth),
+                child: LayoutBuilder(
+                  builder: (context, constraints) => Column(
+                    mainAxisSize: .min,
+                    crossAxisAlignment: .stretch,
+                    children: [
+                      ?header,
+                      if (body != null) Flexible(child: body!),
+                      if (footer != null)
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: constraints.maxHeight,
+                          ),
+                          child: footer!,
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Selector list rendered as an iOS 26 action sheet
+class _CupertinoSelectList extends StatelessWidget {
+  const _CupertinoSelectList({
+    required this.titleText,
+    required this.buttonTextCancel,
+    required this.itemCount,
+    required this.itemBuilder,
+  });
+
+  final String titleText;
+  final String buttonTextCancel;
+  final int itemCount;
+  final Widget Function(BuildContext, int) itemBuilder;
+
+  @override
+  Widget build(BuildContext context) {
+    return _CupertinoAlertCard(
+      header: Padding(
+        padding: dialogTitlePadding,
+        child: Text(
+          titleText,
+          textAlign: .center,
+          style: textStyleDialogAction.copyWith(
+            color: CupertinoColors.label.resolveFrom(context),
+          ),
+        ),
+      ),
+      // The options and the cancel action form one scrolling stack, so a list
+      // too long for the card scrolls instead of overflowing
+      body: ListView.separated(
+        padding: dialogActionsPadding,
+        shrinkWrap: true,
+        itemCount: itemCount + 1,
+        itemBuilder: (context, index) => index < itemCount
+            ? itemBuilder(context, index)
+            : AdaptiveDialogAction(
+                isDefaultAction: true,
+                text: buttonTextCancel,
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+        separatorBuilder: (context, index) =>
+            const SizedBox(height: smallSpacing),
+      ),
+    );
+  }
+}
+
+// Translucent iOS alert window background, painted over the blurred backdrop
+const CupertinoDynamicColor _dialogBackgroundColor =
+    CupertinoDynamicColor.withBrightness(
+      color: Color(0xacffffff),
+      darkColor: Color(0xac161616),
+    );
+
+// Translucent neutral fill behind a non-default action or a sheet option
+const CupertinoDynamicColor _dialogActionColor =
+    CupertinoDynamicColor.withBrightness(
+      color: Color(0x1f000000),
+      darkColor: Color(0x1cffffff),
+    );
 
 // Small button with styling appropriate to platform
 Widget adaptiveSmallButton({
@@ -289,6 +654,74 @@ Widget adaptiveLargeButton({
   }
 }
 
+// Full width list action button with styling appropriate to platform: an iOS 26
+// dialog action capsule, or a Material tonal button. Omitting the label gives a
+// square icon-only button of the same height
+Widget adaptiveListActionButton(
+  BuildContext context, {
+  required Widget icon,
+  String? label,
+  bool isDestructiveAction = false,
+  required Function()? onPressed,
+}) {
+  if (Platform.isIOS) {
+    final Color accentColor = isDestructiveAction
+        ? CupertinoColors.systemRed.resolveFrom(context)
+        : CupertinoTheme.of(context).primaryColor;
+    final Color foregroundColor = onPressed != null
+        ? accentColor
+        : CupertinoColors.placeholderText.resolveFrom(context);
+    final Color neutralColor = _dialogActionColor.resolveFrom(context);
+
+    return CupertinoButton(
+      padding: dialogActionPadding,
+      minimumSize: const Size(dialogActionHeight, dialogActionHeight),
+      borderRadius: .circular(dialogActionHeight / 2),
+      color: neutralColor,
+      disabledColor: neutralColor,
+      onPressed: onPressed,
+      child: Row(
+        mainAxisSize: .min,
+        spacing: xsmallSpacing,
+        children: [
+          IconTheme.merge(
+            data: IconThemeData(color: foregroundColor),
+            child: icon,
+          ),
+          if (label != null)
+            Flexible(
+              child: Text(
+                label,
+                style: textStyleDialogAction.copyWith(color: foregroundColor),
+                textAlign: .center,
+              ),
+            ),
+        ],
+      ),
+    );
+  } else {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    final ButtonStyle style = FilledButton.styleFrom(
+      backgroundColor: colors.secondaryContainer,
+      foregroundColor: isDestructiveAction
+          ? colors.error
+          : colors.onSecondaryContainer,
+      minimumSize: const Size(dialogActionHeight, dialogActionHeight),
+      padding: dialogActionPadding,
+      shape: const StadiumBorder(),
+    );
+
+    return label != null
+        ? FilledButton.icon(
+            style: style,
+            icon: icon,
+            label: Text(label, style: textStyleButtonSecondary),
+            onPressed: onPressed,
+          )
+        : FilledButton(style: style, onPressed: onPressed, child: icon);
+  }
+}
+
 // Build a platform adaptive text form field with clear button and validation
 Widget adaptiveTextFormField({
   required Color textColor,
@@ -305,8 +738,7 @@ Widget adaptiveTextFormField({
       children: [
         Row(
           children: [
-            SizedBox(
-              width: 186,
+            Expanded(
               child: CupertinoTextFormFieldRow(
                 controller: controller,
                 autofocus: true,
@@ -325,9 +757,12 @@ Widget adaptiveTextFormField({
             ),
             Visibility(
               visible: controller.text.isNotEmpty,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
               // Clear field button
               child: CupertinoButton(
-                padding: noPadding,
+                padding: largeDefaultPadding,
                 onPressed: onCleared,
                 child: clearIcon,
               ),
@@ -379,11 +814,40 @@ Widget adaptiveSwitch({
         value: value,
         onChanged: onChanged,
         inactiveColor: CupertinoColors.systemFill.resolveFrom(context),
-        quality: .minimal,
       ),
     );
   } else {
     return Switch.adaptive(value: value, onChanged: onChanged);
+  }
+}
+
+// Slider with styling appropriate to platform
+Widget adaptiveSlider({
+  required double value,
+  required double min,
+  required double max,
+  required int divisions,
+  required Function(double) onChanged,
+}) {
+  if (Platform.isIOS) {
+    return Builder(
+      builder: (context) => GlassSlider(
+        value: value,
+        min: min,
+        max: max,
+        divisions: divisions,
+        onChanged: onChanged,
+        activeColor: CupertinoColors.activeBlue.resolveFrom(context),
+      ),
+    );
+  } else {
+    return Slider.adaptive(
+      value: value,
+      min: min,
+      max: max,
+      divisions: divisions,
+      onChanged: onChanged,
+    );
   }
 }
 
@@ -400,8 +864,8 @@ Widget adaptiveSegmentedControl({
         final Color primaryColor = CupertinoTheme.of(context).primaryColor;
         return GlassSegmentedControl(
           segments: [
-            GlassSegment(label: buttonTextTrue),
-            GlassSegment(label: buttonTextFalse),
+            GlassSegment(id: true, label: buttonTextTrue),
+            GlassSegment(id: false, label: buttonTextFalse),
           ],
           selectedIndex: groupValue ? 0 : 1,
           onSegmentSelected: (i) => onValueChanged(i == 0),
@@ -462,9 +926,8 @@ Widget adaptivePageHeader(
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
                 child: Container(
-                  color: Theme.of(
-                    ctx,
-                  ).scaffoldBackgroundColor.withValues(alpha: 0.75),
+                  color: Theme.of(ctx).scaffoldBackgroundColor
+                      .withValues(alpha: 0.75),
                 ),
               ),
             ),
@@ -502,6 +965,9 @@ class PlatformAdaptiveNavBar extends StatelessWidget
     this.actionIcon,
     this.secondaryActionRoute,
     this.secondaryActionIcon,
+    this.actionLabel,
+    this.secondaryActionLabel,
+    this.largeTitleController,
   });
 
   final bool isPoppable;
@@ -512,64 +978,129 @@ class PlatformAdaptiveNavBar extends StatelessWidget
   final Widget? actionIcon;
   final Widget? secondaryActionRoute;
   final Widget? secondaryActionIcon;
+  // Announced by screen readers; the icons carry no text of their own
+  final String? actionLabel;
+  final String? secondaryActionLabel;
+  // Fades the iOS title in as the page header scrolls away; pages that omit
+  // it show no title at all
+  final GlassLargeTitleController? largeTitleController;
 
   @override
   bool shouldFullyObstruct(BuildContext context) => !Platform.isIOS;
 
   @override
-  Size get preferredSize =>
-      .fromHeight(Platform.isIOS ? 44 + smallSpacing : kToolbarHeight);
+  Size get preferredSize => .fromHeight(
+    Platform.isIOS ? _navBarButtonSize + smallSpacing : kToolbarHeight,
+  );
 
   @override
   Widget build(BuildContext context) {
-    // Build action list
-    final List<Widget> actions = [
-      if (secondaryActionIcon != null && secondaryActionRoute != null)
-        adaptiveNavBarActionButton(
-          context,
-          icon: secondaryActionIcon!,
-          onPressed: adaptiveOnPressed(context, route: secondaryActionRoute!),
-        ),
-      if (actionIcon != null && actionRoute != null)
-        adaptiveNavBarActionButton(
-          context,
-          icon: actionIcon!,
-          onPressed: adaptiveOnPressed(context, route: actionRoute!),
-        ),
-    ];
+    final bool hasAction = actionIcon != null && actionRoute != null;
+    final bool hasSecondaryAction =
+        secondaryActionIcon != null && secondaryActionRoute != null;
 
     if (Platform.isIOS) {
-      return GlassAppBar(
-        padding: EdgeInsets.only(
-          top: smallSpacing,
-          left: largeSpacing,
-          right: largeSpacing,
-        ),
-        // Back/done navigation button
-        leading: isPoppable
-            ? GlassIconButton(
-                icon: Icon(
-                  previousPageTitle != null
-                      ? CupertinoIcons.chevron_back
-                      : CupertinoIcons.xmark,
-                  color: CupertinoTheme.of(context).primaryColor,
+      // Chrome declared as data so the shell can hoist it above the Navigator;
+      // a cluster of items renders as one capsule
+      return GlassAppBar.pinned(
+        padding: navBarPadding,
+        // No controller means the page opted out of a title entirely, rather
+        // than wanting one pinned on screen the whole time. The color is set
+        // from the app theme because CupertinoTheme's brightness does not
+        // track it, which left the title white on white in light mode.
+        title: largeTitleController == null
+            ? null
+            : Text(
+                title,
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
                 ),
-                onPressed: () => Navigator.of(context).pop(),
-                useOwnLayer: true,
-                quality: .standard,
-                settings: _liquidGlassSettings,
-              )
-            : null,
-        actions: actions.isNotEmpty ? actions : null,
+              ),
+        largeTitleController: largeTitleController,
+        // Default 44 squashes the 46pt items, shrinking them while a dialog
+        // hands the chrome back to the route
+        toolbarHeight: _navBarButtonSize,
+        // Supplied as a leading item; the shell's own back button can't be tinted
+        backButton: false,
+        leading: isPoppable
+            ? [
+                _navBarItem(
+                  context,
+                  id: 'back',
+                  icon: Icon(
+                    previousPageTitle != null
+                        ? CupertinoIcons.chevron_back
+                        : CupertinoIcons.xmark,
+                  ),
+                  label: previousPageTitle ?? buttonTextDone,
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+              ]
+            : const [],
+        actions: [
+          if (hasSecondaryAction)
+            _navBarItem(
+              context,
+              id: 'secondaryAction',
+              icon: secondaryActionIcon!,
+              label: secondaryActionLabel,
+              onTap: adaptiveOnPressed(context, route: secondaryActionRoute!)!,
+            ),
+          if (hasAction)
+            _navBarItem(
+              context,
+              id: 'action',
+              icon: actionIcon!,
+              label: actionLabel,
+              onTap: adaptiveOnPressed(context, route: actionRoute!)!,
+            ),
+        ],
       );
     } else {
       return AppBar(
         elevation: !isPoppable ? 4.0 : null,
         title: Text(title, style: textStyleNavBar),
-        actions: actions,
+        actions: [
+          if (hasSecondaryAction)
+            adaptiveNavBarActionButton(
+              context,
+              icon: secondaryActionIcon!,
+              semanticLabel: secondaryActionLabel ?? '',
+              onPressed: adaptiveOnPressed(
+                context,
+                route: secondaryActionRoute!,
+              ),
+            ),
+          if (hasAction)
+            adaptiveNavBarActionButton(
+              context,
+              icon: actionIcon!,
+              semanticLabel: actionLabel ?? '',
+              onPressed: adaptiveOnPressed(context, route: actionRoute!),
+            ),
+        ],
       );
     }
   }
+}
+
+// Nav bar chrome item; an explicit icon color overrides the cluster's theme
+GlassBarItem _navBarItem(
+  BuildContext context, {
+  required Object id,
+  required Widget icon,
+  required VoidCallback onTap,
+  String? label,
+}) {
+  return GlassBarItem.icon(
+    id: id,
+    label: label,
+    icon: IconTheme.merge(
+      data: IconThemeData(color: CupertinoTheme.of(context).primaryColor),
+      child: icon,
+    ),
+    onTap: onTap,
+  );
 }
 
 // Slide-up tween for the transitionUp route animation
@@ -602,9 +1133,8 @@ Function()? adaptiveOnPressed(
             : CupertinoPageRoute<void>(builder: (_) => route),
       );
     } else {
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute<void>(builder: (_) => route));
+      Navigator.of(context)
+          .push(MaterialPageRoute<void>(builder: (_) => route));
     }
   };
 }
@@ -643,31 +1173,21 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
                 selectedIndex: currentIndex,
                 onTabSelected: onTap ?? (_) {},
                 tabs: items
-                    .map(
-                      (item) => GlassTab(
-                        icon: _glassBottomBarTabIcon(
-                          icon: item.icon,
-                          label: item.label,
-                          color: labelColor,
-                        ),
-                        activeIcon: _glassBottomBarTabIcon(
-                          icon: item.icon,
-                          label: item.label,
-                          color: primaryColor,
-                        ),
-                      ),
-                    )
+                    .map((item) => GlassTab(icon: item.icon, label: item.label))
                     .toList(),
                 barHeight: 58,
                 verticalPadding: 0,
-                iconSize: 22,
+                iconSize: _navBarIconSize,
                 horizontalPadding: 0,
                 barBorderRadius: barBorderRadius,
                 selectedIconColor: primaryColor,
                 unselectedIconColor: labelColor,
+                selectedLabelColor: primaryColor,
+                unselectedLabelColor: labelColor,
+                labelFontSize: 11,
                 indicatorColor: primaryColor.withValues(alpha: 0.1),
                 glowDuration: shortAnimationDuration,
-                settings: _liquidGlassSettings,
+                settings: liquidGlassSettings,
               ),
             ),
           ],
@@ -684,44 +1204,10 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
   }
 }
 
-// Liquid Glass customizations
-final _liquidGlassSettings = LiquidGlassSettings(
+// Installed as LiquidGlassWidgets.globalSettings. The transparent glassColor
+// keeps the tab bar readable in dark mode; GlassTabBar.bottom needs it passed.
+final liquidGlassSettings = LiquidGlassSettings(
   shadow: [BoxShadow(color: shadowColor, blurRadius: 12)],
-);
-
-// Gradient overlay that fades from the scaffold background color to transparent
-Widget _liquidGlassFadeOverlay({required Color color, required bool top}) =>
-    Positioned(
-      left: 0,
-      right: 0,
-      top: top ? 0 : null,
-      bottom: top ? null : 0,
-      child: IgnorePointer(
-        child: Container(
-          height: 88,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: top ? .topCenter : .bottomCenter,
-              end: top ? .bottomCenter : .topCenter,
-              colors: [color, color.withValues(alpha: 0)],
-            ),
-          ),
-        ),
-      ),
-    );
-
-// Icon with optional text label for Liquid Glass tab bar
-Widget _glassBottomBarTabIcon({
-  required Widget icon,
-  required String? label,
-  required Color color,
-}) => Column(
-  mainAxisAlignment: .spaceAround,
-  mainAxisSize: .min,
-  children: [
-    icon,
-    Text(label ?? '', style: TextStyle(color: color, fontSize: 11)),
-  ],
 );
 
 // Display a selector list that is Material on Android and Cupertino on iOS
@@ -734,28 +1220,16 @@ Future<bool?> openPlatformAdaptiveSelectList({
   required Widget Function(BuildContext, int) separatorBuilder,
 }) async {
   if (Platform.isIOS) {
-    // iOS style modal list
-    return showCupertinoModalPopup<bool>(
+    // iOS style action sheet
+    return showAdaptiveDialog<bool>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return Material(
-          type: .transparency,
-          child: CupertinoActionSheet(
-            title: Text(titleText),
-            // Item options
-            actions: itemList
-                .asMap()
-                .entries
-                .map((item) => itemBuilder(context, item.key))
-                .toList(),
-            // Cancel button
-            cancelButton: CupertinoActionSheetAction(
-              isDefaultAction: true,
-              onPressed: () => Navigator.of(context).pop(false),
-              child: Text(buttonTextCancel),
-            ),
-          ),
+        return _CupertinoSelectList(
+          titleText: titleText,
+          buttonTextCancel: buttonTextCancel,
+          itemCount: itemList.length,
+          itemBuilder: itemBuilder,
         );
       },
     );
@@ -765,7 +1239,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return AlertDialog.adaptive(
+        return PlatformAdaptiveDialog(
           title: Text(titleText),
           content: SizedBox(
             width: double.maxFinite,
@@ -782,7 +1256,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
           ),
           actions: [
             // Cancel button
-            adaptiveDialogAction(
+            AdaptiveDialogAction(
               text: buttonTextCancel,
               onPressed: () => Navigator.of(context).pop(false),
             ),

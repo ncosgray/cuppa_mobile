@@ -19,7 +19,7 @@ import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Display a tea brew temperature entry dialog box
 class TeaBrewTempDialog extends StatefulWidget {
@@ -75,17 +75,17 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
   // Build dialog
   @override
   Widget build(BuildContext context) {
-    return AlertDialog.adaptive(
+    return PlatformAdaptiveDialog(
       // Temperature entry
       content: SingleChildScrollView(child: _tempPicker()),
-      actions: <Widget>[
+      actions: [
         // Cancel and close dialog
-        adaptiveDialogAction(
+        AdaptiveDialogAction(
           text: widget.buttonTextCancel,
           onPressed: () => Navigator.pop(context, null),
         ),
         // Save and close dialog
-        adaptiveDialogAction(
+        AdaptiveDialogAction(
           text: widget.buttonTextOK,
           isDefaultAction: true,
           onPressed: () => Navigator.pop(context, _newTemp),
@@ -159,7 +159,7 @@ class _TeaBrewTempDialogState extends State<TeaBrewTempDialog> {
             ],
           ),
           // Temperature picker
-          Slider.adaptive(
+          adaptiveSlider(
             value: _newTempIndex.toDouble(),
             min: 0,
             max: maxTempIndex.toDouble(),

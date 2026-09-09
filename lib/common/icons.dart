@@ -14,7 +14,7 @@
 
 import 'package:cuppa_mobile/common/colors.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Icons
 const Icon navBarTeasIcon = Icon(Icons.timer_outlined, size: 28);

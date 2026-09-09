@@ -12,17 +12,13 @@
 
 // Cuppa toast message
 
-import 'package:cuppa_mobile/common/padding.dart';
-
-import 'dart:async' show Timer;
 import 'dart:io' show Platform;
-import 'package:flutter/material.dart';
-import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
+
+import 'package:material_ui/material_ui.dart';
 
 enum ToastPosition { top, bottom }
 
-// Extra bottom clearance on iOS so the toast floats above the GlassBottomBar
-const double _iosBottomBarClearance = 56;
+ToastPosition get defaultToastPosition => Platform.isIOS ? .top : .bottom;
 
 class Toast extends StatelessWidget {
   const Toast({
@@ -34,7 +30,7 @@ class Toast extends StatelessWidget {
     this.backgroundColor,
     this.textColor,
     this.actionColor,
-    this.position = .bottom,
+    this.position,
   });
   final String message;
   final IconData? actionIcon;
@@ -43,7 +39,7 @@ class Toast extends StatelessWidget {
   final Color? backgroundColor;
   final Color? textColor;
   final Color? actionColor;
-  final ToastPosition position;
+  final ToastPosition? position;
 
   @override
   Widget build(BuildContext context) {
@@ -127,73 +123,43 @@ class Toast extends StatelessWidget {
     Color? backgroundColor,
     Color? textColor,
     Color? actionColor,
-    ToastPosition position = .bottom,
+    ToastPosition? position,
     Duration duration = const Duration(seconds: 4),
   }) {
-    final overlay = Overlay.of(context);
+    final overlay = Overlay.of(context, rootOverlay: true);
+    final effectivePosition = position ?? defaultToastPosition;
     late OverlayEntry overlayEntry;
-    Timer? dismissTimer;
-
-    void dismiss() {
-      dismissTimer?.cancel();
-      if (overlayEntry.mounted) overlayEntry.remove();
-    }
-
-    // Build a toast that adapts to platform
-    final Widget content = Platform.isIOS
-        ? Material(
-            type: .transparency,
-            child: Align(
-              alignment: .center,
-              child: GlassToast(
-                message: message,
-                type: .info,
-                action: actionLabel != null
-                    ? GlassToastAction(
-                        label: actionLabel,
-                        onPressed: () {
-                          onActionPressed();
-                          dismiss();
-                        },
-                      )
-                    : null,
-              ),
-            ),
-          )
-        : SafeArea(
-            child: Toast(
-              message: message,
-              actionIcon: actionIcon,
-              actionLabel: actionLabel,
-              onActionPressed: () {
-                onActionPressed();
-                dismiss();
-              },
-              backgroundColor: backgroundColor,
-              textColor: textColor,
-              actionColor: actionColor,
-              position: position,
-            ),
-          );
 
     overlayEntry = OverlayEntry(
-      builder: (ctx) {
-        final double vInset = Platform.isIOS
-            ? (position == .bottom
-                  ? MediaQuery.of(ctx).padding.bottom + _iosBottomBarClearance
-                  : MediaQuery.of(ctx).padding.top + largeSpacing)
-            : largeSpacing;
-        return Positioned(
-          left: smallSpacing,
-          right: smallSpacing,
-          top: position == .top ? vInset : null,
-          bottom: position == .bottom ? vInset : null,
-          child: content,
-        );
-      },
+      builder: (context) => Positioned(
+        top: effectivePosition == ToastPosition.top ? 0 : null,
+        bottom: effectivePosition == ToastPosition.bottom ? 20 : null,
+        left: 8,
+        right: 8,
+        child: SafeArea(
+          child: Toast(
+            message: message,
+            actionIcon: actionIcon,
+            actionLabel: actionLabel,
+            onActionPressed: () {
+              onActionPressed();
+              overlayEntry.remove();
+            },
+            backgroundColor: backgroundColor,
+            textColor: textColor,
+            actionColor: actionColor,
+            position: effectivePosition,
+          ),
+        ),
+      ),
     );
 
     overlay.insert(overlayEntry);
-    dismissTimer = Timer(duration, dismiss);
+
+    Future.delayed(duration, () {
+      if (overlayEntry.mounted) {
+        overlayEntry.remove();
+      }
+    });
   }
 }

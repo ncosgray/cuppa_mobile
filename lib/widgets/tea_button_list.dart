@@ -36,14 +36,16 @@ import 'package:cuppa_mobile/widgets/tutorial.dart';
 
 import 'dart:async';
 import 'dart:math' show max;
-// ignore: depend_on_referenced_packages
+
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 // List or grid of TeaButtons
 class TeaButtonList extends StatefulWidget {
-  const TeaButtonList({super.key});
+  const TeaButtonList({super.key, required this.stackedView});
+
+  final bool stackedView;
 
   @override
   State<TeaButtonList> createState() => _TeaButtonListState();
@@ -90,49 +92,50 @@ class _TeaButtonListState extends State<TeaButtonList> {
     // List/grid of available tea buttons
     return Selector<
       AppProvider,
-      ({
-        List<Tea> teaList,
-        bool stackedView,
-        bool hideCup,
-        ButtonSize buttonSize,
-      })
+      ({List<Tea> teaList, bool hideCup, ButtonSize buttonSize})
     >(
       selector: (_, provider) => (
         teaList: provider.teaList,
-        stackedView: provider.stackedView,
         hideCup: provider.cupStyle == CupStyle.none,
         buttonSize: provider.buttonSize,
       ),
       builder: (context, buttonData, child) {
-        List<Widget> teaButtonRows = [];
+        List<List<Tea>> teaRows = [];
         double buttonScale = buttonData.buttonSize.scale;
 
         if (buttonData.teaList.isNotEmpty) {
-          if (buttonData.stackedView || buttonData.hideCup) {
+          if (widget.stackedView || buttonData.hideCup) {
             // Calculate optimum number of buttons for screen width
             int rowLength = max(
               teaButtonRowMinLength,
               (getDeviceSize(context).width / buttonScale / 128.0).floor(),
             );
             // Arrange into multiple rows for stacked view
-            for (final teaRow in buttonData.teaList.slices(rowLength)) {
-              teaButtonRows.add(_teaButtonRow(teaRow, buttonScale));
-            }
+            teaRows = buttonData.teaList.slices(rowLength).toList();
           } else {
             // Single row of tea buttons
-            teaButtonRows.add(_teaButtonRow(buttonData.teaList, buttonScale));
+            teaRows = [buttonData.teaList];
           }
-        } else {
-          // Add button if tea list is empty
-          teaButtonRows.add(_addButton());
         }
+
+        // Only a single row sizes itself to its contents, so hold the cancel
+        // button's space there to keep the page from shifting
+        bool reserveCancelSpace = !buttonData.hideCup && teaRows.length < 2;
+
+        List<Widget> teaButtonRows = teaRows.isEmpty
+            // Add button if tea list is empty
+            ? [_addButton()]
+            : [
+                for (final teaRow in teaRows)
+                  _teaButtonRow(teaRow, buttonScale, reserveCancelSpace),
+              ];
 
         // Build tea button list/grid container
         return Stack(
           children: [
             // Tea buttons
             Container(
-              padding: noPadding,
+              padding: EdgeInsets.only(top: xsmallSpacing),
               height: buttonData.hideCup
                   ? getDeviceSize(context).height * .65
                   : (teaButtonRows.length > 1
@@ -175,9 +178,8 @@ class _TeaButtonListState extends State<TeaButtonList> {
                           end: .bottomCenter,
                           colors: [
                             Theme.of(context).scaffoldBackgroundColor,
-                            Theme.of(
-                              context,
-                            ).scaffoldBackgroundColor.withValues(alpha: 0),
+                            Theme.of(context).scaffoldBackgroundColor
+                                .withValues(alpha: 0),
                           ],
                         ),
                       ),
@@ -194,7 +196,11 @@ class _TeaButtonListState extends State<TeaButtonList> {
   Key _teaKey(Tea tea) => _buttonKeys.putIfAbsent(tea.id, () => GlobalKey());
 
   // Horizontally scrollable list of tea buttons
-  Widget _teaButtonRow(List<Tea> teas, double buttonScale) {
+  Widget _teaButtonRow(
+    List<Tea> teas,
+    double buttonScale,
+    bool reserveCancelSpace,
+  ) {
     return SingleChildScrollView(
       scrollDirection: .horizontal,
       physics: const BouncingScrollPhysics(),
@@ -211,6 +217,7 @@ class _TeaButtonListState extends State<TeaButtonList> {
                 tea: tea,
                 fade: !(activeTimerCount < timersMaxCount || tea.isActive),
                 scale: buttonScale,
+                reserveCancelSpace: reserveCancelSpace,
                 // Start timer or advance the infusion count
                 onPressed: !tea.isActive && activeTimerCount < timersMaxCount
                     ? () => _setTimer(tea)

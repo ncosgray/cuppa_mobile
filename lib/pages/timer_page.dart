@@ -17,6 +17,7 @@ import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/helpers.dart';
 import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/platform_adaptive.dart';
+import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
 import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/pages/prefs_page.dart';
@@ -26,7 +27,7 @@ import 'package:cuppa_mobile/widgets/teacup.dart';
 import 'package:cuppa_mobile/widgets/timer_countdown.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 // Cuppa Timer page
@@ -119,18 +120,28 @@ class TimerWidget extends StatelessWidget {
                   top: false,
                   right: true,
                   bottom: false,
-                  child: Selector<AppProvider, double>(
-                    selector: (_, provider) =>
-                        provider.buttonSize.scale +
-                        (provider.showExtraList.isEmpty ? .6 : .8),
-                    builder: (context, scale, child) => Container(
-                      constraints: BoxConstraints(
-                        minHeight:
-                            (teaButtonHeight + cancelButtonHeight) * scale,
+                  child:
+                      Selector<
+                        AppProvider,
+                        ({double calculatedScale, bool stackedView})
+                      >(
+                        selector: (_, provider) => (
+                          calculatedScale:
+                              provider.buttonSize.scale +
+                              (provider.showExtraList.isEmpty ? .6 : .8),
+                          stackedView: provider.stackedView,
+                        ),
+                        builder: (context, listData, child) => Container(
+                          constraints: BoxConstraints(
+                            minHeight:
+                                (teaButtonHeight * listData.calculatedScale) +
+                                cancelButtonHeight,
+                          ),
+                          child: TeaButtonList(
+                            stackedView: layoutPortrait && listData.stackedView,
+                          ),
+                        ),
                       ),
-                      child: const TeaButtonList(),
-                    ),
-                  ),
                 ),
               ],
             ),
@@ -154,6 +165,7 @@ class TimerWidget extends StatelessWidget {
                 child: adaptiveNavBarActionButton(
                   context,
                   icon: platformSettingsIcon,
+                  semanticLabel: AppString.prefs_title.translate(),
                   onPressed: adaptiveOnPressed(
                     context,
                     route: const PrefsWidget(),
@@ -180,11 +192,11 @@ Widget _floatingNavButton({required bool isRight, required Widget child}) {
       left: !isRight,
       right: isRight,
       bottom: false,
+      // Aligned with the pinned chrome; the Stack is already inside a SafeArea
       child: Padding(
         padding: EdgeInsets.only(
-          top: smallSpacing,
-          left: isRight ? 0.0 : largeSpacing,
-          right: isRight ? largeSpacing : 0.0,
+          left: isRight ? 0.0 : navBarChromeInset,
+          right: isRight ? navBarChromeInset : 0.0,
         ),
         child: child,
       ),

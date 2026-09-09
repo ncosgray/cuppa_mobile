@@ -12,7 +12,7 @@
 
 // Cuppa separator builders
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Select list separator
 Widget separatorBuilder(BuildContext context, int index) {

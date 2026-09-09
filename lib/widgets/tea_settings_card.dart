@@ -32,7 +32,7 @@ import 'package:cuppa_mobile/widgets/tea_brew_time_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_color_dialog.dart';
 import 'package:cuppa_mobile/widgets/tea_name_dialog.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 // Widget defining a tea settings card
@@ -603,8 +603,7 @@ class TeaSettingsCard extends StatelessWidget {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return AlertDialog.adaptive(
-          title: Container(),
+        return PlatformAdaptiveDialog(
           content: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: .center,
@@ -622,7 +621,7 @@ class TeaSettingsCard extends StatelessWidget {
             ),
           ),
           actions: [
-            adaptiveDialogAction(
+            AdaptiveDialogAction(
               text: AppString.cancel_button.translate(),
               onPressed: () => Navigator.of(context).pop(false),
             ),

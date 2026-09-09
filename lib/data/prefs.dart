@@ -22,8 +22,9 @@ import 'package:cuppa_mobile/data/tea.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show Platform;
+
 import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences/util/legacy_to_async_migration_util.dart';
 

@@ -12,7 +12,7 @@
 
 // Cuppa colors
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // Timer colors
 const Color timerActiveColor = Colors.white;

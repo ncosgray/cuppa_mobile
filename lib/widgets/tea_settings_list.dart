@@ -30,7 +30,7 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_card.dart';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -326,30 +326,12 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   // Add tea button
   Widget get _addTeaButton => Selector<AppProvider, bool>(
     selector: (_, provider) => provider.teaCount < teasMaxCount,
-    builder: (context, maxNotReached, child) => SizedBox(
-      height: 48,
-      child: Card(
-        margin: noPadding,
-        shadowColor: Colors.transparent,
-        surfaceTintColor: Theme.of(context).colorScheme.primary,
-        clipBehavior: .antiAlias,
-        child: InkWell(
-          child: TextButton.icon(
-            label: Text(
-              AppString.add_tea_button.translate(),
-              style: textStyleButtonSecondary,
-            ),
-            icon: addIcon,
-            style: ButtonStyle(
-              shape: WidgetStateProperty.all(
-                const RoundedRectangleBorder(borderRadius: .zero),
-              ),
-            ),
-            // Disable adding teas if there are maximum teas
-            onPressed: maxNotReached ? () => _openAddTeaDialog() : null,
-          ),
-        ),
-      ),
+    builder: (context, maxNotReached, child) => adaptiveListActionButton(
+      context,
+      icon: addIcon,
+      label: AppString.add_tea_button.translate(),
+      // Disable adding teas if there are maximum teas
+      onPressed: maxNotReached ? () => _openAddTeaDialog() : null,
     ),
   );
 
@@ -441,30 +423,19 @@ class _TeaSettingsListState extends State<TeaSettingsList> {
   }
 
   // Remove all teas button
-  Widget get _removeAllButton => SizedBox(
-    width: 48,
-    height: 48,
-    child: Card(
-      margin: noPadding,
-      shadowColor: Colors.transparent,
-      surfaceTintColor: Theme.of(context).colorScheme.error,
-      clipBehavior: .antiAlias,
-      child: InkWell(
-        child: getPlatformRemoveAllIcon(Theme.of(context).colorScheme.error),
-        onTap: () async {
-          AppProvider provider = Provider.of<AppProvider>(
-            context,
-            listen: false,
-          );
-          if (await showConfirmDialog(
-            context: context,
-            body: Text(AppString.confirm_delete.translate()),
-          )) {
-            // Clear tea list
-            provider.clearTeaList();
-          }
-        },
-      ),
-    ),
+  Widget get _removeAllButton => adaptiveListActionButton(
+    context,
+    icon: getPlatformRemoveAllIcon(),
+    isDestructiveAction: true,
+    onPressed: () async {
+      AppProvider provider = Provider.of<AppProvider>(context, listen: false);
+      if (await showConfirmDialog(
+        context: context,
+        body: Text(AppString.confirm_delete.translate()),
+      )) {
+        // Clear tea list
+        provider.clearTeaList();
+      }
+    },
   );
 }

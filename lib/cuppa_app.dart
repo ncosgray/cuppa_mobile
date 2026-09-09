@@ -16,6 +16,7 @@
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/local_notifications.dart';
+import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/themes.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -23,18 +24,18 @@ import 'package:cuppa_mobile/data/provider.dart';
 import 'package:cuppa_mobile/pages/timer_page.dart';
 
 import 'dart:io' show Platform;
+
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart' as fl;
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:region_settings/region_settings.dart';
 import 'package:showcaseview/showcaseview.dart';
-// ignore: depend_on_referenced_packages
 import 'package:timezone/data/latest_all.dart' as tz;
-// ignore: depend_on_referenced_packages
 import 'package:timezone/timezone.dart' as tz;
 
 // App initialization
@@ -66,6 +67,7 @@ Future<void> initializeApp({bool testing = false}) async {
   // Initialize Liquid Glass for iOS
   if (Platform.isIOS) {
     await LiquidGlassWidgets.initialize();
+    LiquidGlassWidgets.globalSettings = liquidGlassSettings;
   }
 }
 
@@ -109,6 +111,17 @@ class CuppaApp extends StatelessWidget {
                   highContrast: true,
                 ),
                 themeMode: appThemeMode,
+                // Hosts pinned nav bar chrome above the Navigator. Portrait
+                // only: the shell ignores horizontal safe area insets.
+                builder: Platform.isIOS
+                    ? (context, child) => Overlay.wrap(
+                        child:
+                            MediaQuery.orientationOf(context) ==
+                                Orientation.portrait
+                            ? GlassNavigationShell(child: child!)
+                            : child!,
+                      )
+                    : null,
                 // Initial route
                 home: const TimerWidget(),
                 // Localization
@@ -120,7 +133,7 @@ class CuppaApp extends StatelessWidget {
                   AppLocalizationsDelegate(isSystemLanguage: isSystemLanguage),
                   GlobalMaterialLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
+                  fl.GlobalWidgetsLocalizations.delegate,
                   FallbackMaterialLocalizationsDelegate(),
                   FallbackCupertinoLocalizationsDelegate(),
                 ],
@@ -132,7 +145,11 @@ class CuppaApp extends StatelessWidget {
       ),
     );
     if (Platform.isIOS) {
-      return LiquidGlassWidgets.wrap(child: tree, adaptiveQuality: true);
+      return LiquidGlassWidgets.wrap(
+        child: tree,
+        adaptiveQuality: true,
+        brightnessResolver: Theme.maybeBrightnessOf,
+      );
     }
     return tree;
   }

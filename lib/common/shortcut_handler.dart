@@ -18,6 +18,7 @@ import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'dart:io';
+
 import 'package:intelligence/intelligence.dart';
 import 'package:intelligence/model/representable.dart';
 import 'package:quick_actions/quick_actions.dart';

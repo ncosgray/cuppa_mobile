@@ -32,8 +32,7 @@ import 'package:cuppa_mobile/pages/about_page.dart';
 import 'package:cuppa_mobile/pages/stats_page.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
 
-import 'package:app_settings/app_settings.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:transitioned_indexed_stack/transitioned_indexed_stack.dart';
 
@@ -70,9 +69,11 @@ class _PrefsWidgetState extends State<PrefsWidget> {
             // Button to navigate to About page
             actionIcon: platformAboutIcon,
             actionRoute: const AboutWidget(),
+            actionLabel: AppString.about_title.translate(),
             // Button to navigate to Stats page
             secondaryActionIcon: collectStats ? platformStatsIcon : null,
             secondaryActionRoute: collectStats ? const StatsWidget() : null,
+            secondaryActionLabel: AppString.stats_title.translate(),
           ),
           body: layoutColumns
               // Arrange Teas and Settings in two columns for large screens
@@ -545,18 +546,17 @@ class _PrefsWidgetState extends State<PrefsWidget> {
       )) {
         // Attempt to load an export file and report the result
         if (mounted) {
-          await Export.load(
-            Provider.of<AppProvider>(context, listen: false),
-          ).then((imported) {
-            if (mounted) {
-              showInfoDialog(
-                context: context,
-                message: imported
-                    ? AppString.import_sucess.translate()
-                    : AppString.import_failure.translate(),
-              );
-            }
-          });
+          await Export.load(Provider.of<AppProvider>(context, listen: false))
+              .then((imported) {
+                if (mounted) {
+                  showInfoDialog(
+                    context: context,
+                    message: imported
+                        ? AppString.import_sucess.translate()
+                        : AppString.import_failure.translate(),
+                  );
+                }
+              });
         }
       }
     },
@@ -573,8 +573,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
         style: textStyleSubtitle,
       ),
       trailing: const SizedBox(height: double.infinity, child: launchIcon),
-      onTap: () =>
-          AppSettings.openAppSettings(type: AppSettingsType.notification),
+      onTap: () => openNotificationSettings(),
       contentPadding: listTilePadding,
       dense: true,
     ),

@@ -23,7 +23,7 @@ import 'package:cuppa_mobile/data/stats.dart';
 import 'package:cuppa_mobile/data/tea.dart';
 
 import 'dart:async';
-// ignore: depend_on_referenced_packages
+
 import 'package:collection/collection.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
