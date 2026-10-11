@@ -85,10 +85,12 @@ class LiveActivityService {
   // End the current Live Activity and clear the tracked activity ID
   Future<void> end() async {
     if (!_initialized || _activityId == null) return;
-    await _channel.invokeMethod<void>('endActivity', {
-      'activityId': _activityId!,
-    });
+    // Clear before the async gap so a following start creates a new activity
+    final activityId = _activityId!;
     _activityId = null;
+    await _channel.invokeMethod<void>('endActivity', {
+      'activityId': activityId,
+    });
   }
 
   // Build the data map that gets written to shared UserDefaults for the
