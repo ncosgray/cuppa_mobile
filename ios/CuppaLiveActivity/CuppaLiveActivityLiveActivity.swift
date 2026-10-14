@@ -51,11 +51,13 @@ struct CuppaLiveActivityLiveActivity: Widget {
                 DynamicIslandExpandedRegion(.leading) {
                     teaIconImage(context: context, index: 1)
                         .frame(height: 32)
+                        .padding(.leading, 2)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     if timerCount(context: context) >= 2 {
                         teaIconImage(context: context, index: 2)
                             .frame(height: 32)
+                            .padding(.trailing, 2)
                     }
                 }
                 DynamicIslandExpandedRegion(.bottom) {
@@ -65,7 +67,7 @@ struct CuppaLiveActivityLiveActivity: Widget {
                             timerColumn(context: context, index: 2)
                         }
                     }
-                    .padding(.horizontal, 4)
+                    .padding(.horizontal, 2)
                 }
             } compactLeading: {
                 // Compact pill: leading side shows countdown for timer 1 (if 2 timers)
@@ -76,9 +78,11 @@ struct CuppaLiveActivityLiveActivity: Widget {
                         .fontWeight(.bold)
                         .foregroundColor(teaColor(context: context, index: 1))
                         .frame(width: compactCountdownWidth(end: endDate(context: context, index: 1)))
+                        .padding(.leading, 2)
                 } else {
                     teaIconImage(context: context, index: 1)
                         .frame(height: 20)
+                        .padding(.leading, 2)
                 }
             } compactTrailing: {
                 // Compact pill: trailing side shows countdown for timer 2 (if 2 timers)
@@ -90,17 +94,20 @@ struct CuppaLiveActivityLiveActivity: Widget {
                         .foregroundColor(teaColor(context: context, index: 2))
                         .frame(width: compactCountdownWidth(end: endDate(context: context, index: 2)), alignment: .trailing)
                         .multilineTextAlignment(.trailing)
-                } else {
+                        .padding(.trailing, 2)
+               } else {
                     countdownText(end: endDate(context: context, index: 1))
                         .fontWeight(.bold)
                         .foregroundColor(teaColor(context: context, index: 1))
                         .frame(width: compactCountdownWidth(end: endDate(context: context, index: 1)), alignment: .trailing)
                         .multilineTextAlignment(.trailing)
+                        .padding(.trailing, 2)
                 }
             } minimal: {
                 // Minimal view: shown when multiple Live Activities compete for space
                 teaIconImage(context: context, index: 1)
                     .frame(height: 20)
+                    .padding(.horizontal, 2)
             }
         }
     }
