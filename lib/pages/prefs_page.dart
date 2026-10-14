@@ -34,7 +34,6 @@ import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
 
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
-import 'package:transitioned_indexed_stack/transitioned_indexed_stack.dart';
 
 // Cuppa Preferences page
 class PrefsWidget extends StatefulWidget {
@@ -46,11 +45,22 @@ class PrefsWidget extends StatefulWidget {
   State<PrefsWidget> createState() => _PrefsWidgetState();
 }
 
-class _PrefsWidgetState extends State<PrefsWidget> {
+class _PrefsWidgetState extends State<PrefsWidget>
+    with SingleTickerProviderStateMixin {
   // Navigation state
   int _navIndex = 0;
-  bool _navInitial = true;
   bool _navSlideBack = false;
+  late final AnimationController _navController = AnimationController(
+    vsync: this,
+    duration: shortAnimationDuration,
+    value: 1,
+  );
+
+  @override
+  void dispose() {
+    _navController.dispose();
+    super.dispose();
+  }
 
   // Build Prefs page
   @override
@@ -86,32 +96,39 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                   ],
                 )
               // Use bottom nav bar with widget stack on small screens
-              : SlideIndexedStack(
-                  duration: shortAnimationDuration,
-                  beginSlideOffset: _navInitial
-                      // Do not transition on first build
-                      ? Offset.zero
+              : SlideTransition(
+                  position: _navController.drive(
+                    Tween<Offset>(
                       // Determine transition direction
-                      : _navSlideBack
-                      ? const Offset(-1, 0)
-                      : const Offset(1, 0),
-                  endSlideOffset: Offset.zero,
-                  index: _navIndex,
-                  children: [
-                    TeaSettingsList(launchAddTea: widget.launchAddTea),
-                    _otherSettingsList(),
-                  ],
+                      begin: _navSlideBack
+                          ? const Offset(-1, 0)
+                          : const Offset(1, 0),
+                      end: .zero,
+                    ),
+                  ),
+                  child: IndexedStack(
+                    index: _navIndex,
+                    sizing: .loose,
+                    alignment: AlignmentDirectional.topStart,
+                    children: [
+                      TeaSettingsList(launchAddTea: widget.launchAddTea),
+                      _otherSettingsList(),
+                    ],
+                  ),
                 ),
           bottomNavigationBar: layoutColumns
               ? null
               // Navigate between Teas and Settings
               : PlatformAdaptiveBottomNavBar(
                   currentIndex: _navIndex,
-                  onTap: (index) => setState(() {
-                    _navInitial = false;
-                    _navSlideBack = index < _navIndex;
-                    _navIndex = index;
-                  }),
+                  onTap: (index) {
+                    if (index == _navIndex) return;
+                    setState(() {
+                      _navSlideBack = index < _navIndex;
+                      _navIndex = index;
+                    });
+                    _navController.forward(from: 0);
+                  },
                   items: [
                     BottomNavigationBarItem(
                       icon: navBarTeasIcon,
