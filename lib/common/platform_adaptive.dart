@@ -106,15 +106,15 @@ const double _navBarIconSize = GlassNavPinnedMetrics.iconSize;
 const double _navBarButtonRadius = GlassNavPinnedMetrics.capsuleRadius;
 const double _navBarButtonStretch = GlassNavPinnedMetrics.capsuleStretch;
 
-// Edge inset of the pinned chrome, for buttons that must line up with it
-const double navBarChromeInset = GlassNavPinnedMetrics.horizontalPadding;
+// Edge inset of the pinned chrome, aligned with the page content
+const double navBarChromeInset = pageInset;
 
 // Must match the shell's geometry or the chrome jumps while a dialog is up.
 // Gap goes below the row: Scaffold insets the body by the bar's height.
 const EdgeInsetsGeometry navBarPadding = .fromLTRB(
-  GlassNavPinnedMetrics.horizontalPadding,
+  navBarChromeInset,
   0,
-  GlassNavPinnedMetrics.horizontalPadding,
+  navBarChromeInset,
   smallSpacing,
 );
 
@@ -1001,25 +1001,11 @@ class PlatformAdaptiveNavBar extends StatelessWidget
 
     if (Platform.isIOS) {
       // Chrome declared as data so the shell can hoist it above the Navigator;
-      // a cluster of items renders as one capsule
-      return GlassAppBar.pinned(
-        padding: navBarPadding,
-        // No controller means the page opted out of a title entirely, rather
-        // than wanting one pinned on screen the whole time. The color is set
-        // from the app theme because CupertinoTheme's brightness does not
-        // track it, which left the title white on white in light mode.
-        title: largeTitleController == null
-            ? null
-            : Text(
-                title,
-                style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyLarge?.color,
-                ),
-              ),
+      // a cluster of items renders as one capsule. Registered directly since
+      // GlassAppBar.pinned can't set the shell's inset.
+      return GlassPinnedBarChrome(
+        horizontalInset: navBarChromeInset,
         largeTitleController: largeTitleController,
-        // Default 44 squashes the 46pt items, shrinking them while a dialog
-        // hands the chrome back to the route
-        toolbarHeight: _navBarButtonSize,
         // Supplied as a leading item; the shell's own back button can't be tinted
         backButton: false,
         leading: isPoppable
@@ -1055,6 +1041,27 @@ class PlatformAdaptiveNavBar extends StatelessWidget
               onTap: adaptiveOnPressed(context, route: actionRoute!)!,
             ),
         ],
+        builder: (context, chrome) => GlassAppBar(
+          padding: navBarPadding,
+          // No controller means the page opted out of a title entirely, rather
+          // than wanting one pinned on screen the whole time. The color is set
+          // from the app theme because CupertinoTheme's brightness does not
+          // track it, which left the title white on white in light mode.
+          title: largeTitleController == null
+              ? null
+              : Text(
+                  title,
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                ),
+          largeTitleController: largeTitleController,
+          // Default 44 squashes the 46pt items, shrinking them while a dialog
+          // hands the chrome back to the route
+          toolbarHeight: _navBarButtonSize,
+          leading: chrome.leading,
+          actions: chrome.actions.isEmpty ? null : chrome.actions,
+        ),
       );
     } else {
       return AppBar(
