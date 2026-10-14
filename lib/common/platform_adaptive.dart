@@ -25,7 +25,7 @@ import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 
 import 'dart:io' show Platform;
-import 'dart:ui' show ImageFilter;
+import 'dart:ui' show FlutterView, ImageFilter;
 
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
@@ -93,7 +93,10 @@ const double _scrollEdgeFadeHeight = 88 * 2;
 // Top fade clears the whole bar, so content dissolves before it reaches the
 // nav title rather than passing legibly behind it
 double _topScrollEdgeFadeHeight(BuildContext context) =>
-    (MediaQuery.paddingOf(context).top + _navBarButtonSize + smallSpacing * 2) *
+    (MediaQuery.paddingOf(context).top +
+        navBarTopInset +
+        _navBarButtonSize +
+        smallSpacing * 2) *
     2;
 
 // Nav bar glass button dimensions, from the shell's metrics so the timer
@@ -108,6 +111,15 @@ const double _navBarButtonStretch = GlassNavPinnedMetrics.capsuleStretch;
 
 // Edge inset of the pinned chrome, aligned with the page content
 const double navBarChromeInset = pageInset;
+
+// Top inset for nav buttons when there is no status bar to hold them off the
+// screen edge, i.e. iPhone landscape. Read from the view as preferredSize has
+// no context.
+double get navBarTopInset {
+  final FlutterView view =
+      WidgetsBinding.instance.platformDispatcher.views.first;
+  return view.padding.top / view.devicePixelRatio < pageInset ? pageInset : 0;
+}
 
 // Must match the shell's geometry or the chrome jumps while a dialog is up.
 // Gap goes below the row: Scaffold insets the body by the bar's height.
@@ -990,7 +1002,9 @@ class PlatformAdaptiveNavBar extends StatelessWidget
 
   @override
   Size get preferredSize => .fromHeight(
-    Platform.isIOS ? _navBarButtonSize + smallSpacing : kToolbarHeight,
+    Platform.isIOS
+        ? navBarTopInset + _navBarButtonSize + smallSpacing
+        : kToolbarHeight,
   );
 
   @override
@@ -1042,7 +1056,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
             ),
         ],
         builder: (context, chrome) => GlassAppBar(
-          padding: navBarPadding,
+          padding: navBarPadding.add(.only(top: navBarTopInset)),
           // No controller means the page opted out of a title entirely, rather
           // than wanting one pinned on screen the whole time. The color is set
           // from the app theme because CupertinoTheme's brightness does not

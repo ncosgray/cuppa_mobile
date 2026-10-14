@@ -65,7 +65,9 @@ class TimerWidget extends StatelessWidget {
                           Expanded(
                             flex: layoutPortrait ? 4 : 3,
                             child: Container(
-                              padding: timerLayoutPadding,
+                              padding: timerLayoutPadding.add(
+                                .only(top: navBarTopInset),
+                              ),
                               alignment: layoutPortrait || hideCup
                                   ? .center
                                   : .centerRight,
@@ -99,7 +101,9 @@ class TimerWidget extends StatelessWidget {
                                       maxWidth:
                                           getDeviceSize(context).height * 0.45,
                                     ),
-                                    padding: timerLayoutPadding,
+                                    padding: timerLayoutPadding.add(
+                                      .only(top: navBarTopInset),
+                                    ),
                                     alignment: layoutPortrait
                                         ? .center
                                         : .centerLeft,
@@ -184,7 +188,7 @@ class TimerWidget extends StatelessWidget {
 // Positions a floating button in a top corner of the screen
 Widget _floatingNavButton({required bool isRight, required Widget child}) {
   return Positioned(
-    top: 0,
+    top: navBarTopInset,
     left: isRight ? null : 0,
     right: isRight ? 0 : null,
     child: SafeArea(

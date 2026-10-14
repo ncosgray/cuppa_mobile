@@ -226,7 +226,7 @@ Map<String, Rect> _regions(WidgetTester tester) {
               .ancestor(of: cupImage.first, matching: find.byType(Container))
               .first,
         ),
-        timerLayoutPadding.resolve(.ltr),
+        timerLayoutPadding.add(.only(top: navBarTopInset)).resolve(.ltr),
       ),
     'the tea buttons': tester.getRect(find.byType(TeaButtonList)),
   };
