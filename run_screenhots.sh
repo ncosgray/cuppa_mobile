@@ -326,8 +326,15 @@ run_tests_on_ios() {
 
     echo "--- Starting tests on iOS Simulator: $SIMULATOR_NAME for locale: $LOCALE ---"
 
-    # Get the UDID for the specified simulator name
-    local UDID=$(xcrun simctl list devices available --json | jq --raw-output '.devices | flatten | .[] | select(.name == "'"$SIMULATOR_NAME"'") | .udid')
+    # Get the UDID for the specified simulator name, preferring the newest iOS
+    # runtime when the same name exists under multiple runtimes
+    local UDID=$(xcrun simctl list devices available --json | jq --raw-output --arg name "$SIMULATOR_NAME" '
+        .devices | to_entries
+        | map(select(.key | test("SimRuntime\\.iOS-")))
+        | sort_by(.key | capture("iOS-(?<v>[0-9-]+)").v | split("-") | map(tonumber))
+        | reverse
+        | map(.value[] | select(.name == $name) | .udid)
+        | first // empty')
     if [[ -z "$UDID" ]]; then
         echo "Error: Simulator named \"$SIMULATOR_NAME\" not found. Exiting."
         return 1
