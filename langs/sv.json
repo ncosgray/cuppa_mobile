@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Aviseringar är avstängda för {{app_name}}.",
   "notify_issue_fix": "Tryck här för att ändra enhetens inställningar.",
   "notify_issue_muted": "Timerlarm är tystade i enhetens aviseringsinställningar.",
+  "notify_issue_time_sensitive": "Tidskänsliga notiser är avstängda för {{app_name}}, så timerlarm kan döljas.",
   "notification_channel_name": "Timeraviseringar",
   "notification_channel_ongoing": "Live nedräkning",
   "notification_channel_silent": "Tysta aviseringar",

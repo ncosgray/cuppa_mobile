@@ -31,6 +31,7 @@
   "notify_issue_disabled": "{{app_name}} teavitused on välja lülitatud.",
   "notify_issue_fix": "Puudutage siin, et muuta seadme seadeid.",
   "notify_issue_muted": "Taimeri märguanded on seadme teavitusseadetes vaigistatud.",
+  "notify_issue_time_sensitive": "Ajatundlikud teavitused on rakenduse {{app_name}} jaoks välja lülitatud, seega võivad taimeri märguanded olla peidetud.",
   "notification_channel_name": "Taimeri märguanded",
   "notification_channel_ongoing": "Reaalajas loendur",
   "notification_channel_silent": "Vaiksed teavitused",

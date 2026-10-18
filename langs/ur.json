@@ -31,6 +31,7 @@
   "notify_issue_disabled": "{{app_name}} کے لیے اطلاعات بند ہیں۔",
   "notify_issue_fix": "اپنے آلے کی ترتیبات تبدیل کرنے کے لیے یہاں ٹیپ کریں۔",
   "notify_issue_muted": "آپ کے آلے کی اطلاعات کی ترتیبات میں ٹائمر الرٹس خاموش ہیں۔",
+  "notify_issue_time_sensitive": "{{app_name}} کے لیے وقت کے لحاظ سے حساس اطلاعات بند ہیں، اس لیے ٹائمر الرٹس چھپ سکتے ہیں۔",
   "notification_channel_name": "ٹائمر اطلاعات",
   "notification_channel_ongoing": "براہ راست الٹی گنتی",
   "notification_channel_silent": "خاموش اطلاعات",

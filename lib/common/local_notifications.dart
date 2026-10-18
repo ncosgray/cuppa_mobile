@@ -237,19 +237,22 @@ Future<void> cancelOngoingNotification(int notifyID) async {
 Future<bool?> openNotificationSettings() =>
     notify.openAppNotificationSettings();
 
-// Native method channel for alarm volume (Android only)
+// Native method channels for notification settings
 const _audioChannel = MethodChannel('cuppa_audio');
+const _notifyChannel = MethodChannel('cuppa_notifications');
 
 // Device settings that can keep timer alerts from being heard
 enum NotifyIssue {
   disabled,
   muted,
+  timeSensitive,
   alarmVolume;
 
   // Localized description of the issue
   String get message => switch (this) {
     .disabled => AppString.notify_issue_disabled.translate(),
     .muted => AppString.notify_issue_muted.translate(),
+    .timeSensitive => AppString.notify_issue_time_sensitive.translate(),
     .alarmVolume => AppString.notify_issue_alarm_volume.translate(),
   };
 
@@ -260,37 +263,67 @@ enum NotifyIssue {
   };
 }
 
-// Check for the most severe notification issue, if any (Android only)
+// Check for the most severe notification issue, if any
 Future<NotifyIssue?> checkNotifyIssue() async {
-  if (skipNotify || !Platform.isAndroid) {
+  if (skipNotify) {
     return null;
   }
 
+  try {
+    return Platform.isIOS
+        ? await _checkNotifyIssueIOS()
+        : await _checkNotifyIssueAndroid();
+  } catch (e) {
+    debugPrint('Notification check error: $e');
+    return null;
+  }
+}
+
+Future<NotifyIssue?> _checkNotifyIssueIOS() async {
+  final Map<String, dynamic>? settings = await _notifyChannel
+      .invokeMapMethod<String, dynamic>('getNotificationSettings');
+  if (settings == null) {
+    return null;
+  }
+
+  // Permission is requested when the first timer starts
+  if (settings['status'] == 'denied') {
+    return .disabled;
+  }
+  if (settings['status'] == 'notDetermined') {
+    return null;
+  }
+  if (settings['soundEnabled'] == false) {
+    return .muted;
+  }
+  if (settings['timeSensitiveEnabled'] == false) {
+    return .timeSensitive;
+  }
+  return null;
+}
+
+Future<NotifyIssue?> _checkNotifyIssueAndroid() async {
   final AndroidFlutterLocalNotificationsPlugin? android = notify
       .resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin
       >();
-  try {
-    if (await android?.areNotificationsEnabled() == false) {
-      return .disabled;
-    }
+  if (await android?.areNotificationsEnabled() == false) {
+    return .disabled;
+  }
 
-    // The channel only exists once a timer has run
-    final AndroidNotificationChannel? channel =
-        (await android?.getNotificationChannels())?.firstWhereOrNull(
-          (channel) => channel.id == notifyChannel,
-        );
-    if (channel != null &&
-        (!channel.playSound ||
-            channel.importance.value < Importance.defaultImportance.value)) {
-      return .muted;
-    }
+  // The channel only exists once a timer has run
+  final AndroidNotificationChannel? channel =
+      (await android?.getNotificationChannels())?.firstWhereOrNull(
+        (channel) => channel.id == notifyChannel,
+      );
+  if (channel != null &&
+      (!channel.playSound ||
+          channel.importance.value < Importance.defaultImportance.value)) {
+    return .muted;
+  }
 
-    if (await isAlarmVolumeLow()) {
-      return .alarmVolume;
-    }
-  } catch (e) {
-    debugPrint('Notification check error: $e');
+  if (await isAlarmVolumeLow()) {
+    return .alarmVolume;
   }
   return null;
 }

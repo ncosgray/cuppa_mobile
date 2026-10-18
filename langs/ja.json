@@ -31,6 +31,7 @@
   "notify_issue_disabled": "{{app_name}} の通知がオフになっています。",
   "notify_issue_fix": "ここをタップしてデバイスの設定を変更します。",
   "notify_issue_muted": "デバイスの通知設定でタイマーの通知がミュートされています。",
+  "notify_issue_time_sensitive": "{{app_name}} の「即時通知」がオフになっているため、タイマーの通知が表示されない場合があります。",
   "notification_channel_name": "タイマー通知",
   "notification_channel_ongoing": "ライブカウントダウン",
   "notification_channel_silent": "サイレント通知",

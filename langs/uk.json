@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Сповіщення для {{app_name}} вимкнено.",
   "notify_issue_fix": "Торкніться тут, щоб змінити налаштування пристрою.",
   "notify_issue_muted": "Сигнали таймера вимкнено в налаштуваннях сповіщень вашого пристрою.",
+  "notify_issue_time_sensitive": "Термінові сповіщення для {{app_name}} вимкнено, тому сигнали таймера можуть бути приховані.",
   "notification_channel_name": "Сповіщення за таймером",
   "notification_channel_ongoing": "Живий відлік",
   "notification_channel_silent": "Безшумні сповіщення",

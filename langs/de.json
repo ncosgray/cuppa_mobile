@@ -31,6 +31,7 @@
     "notify_issue_disabled": "Benachrichtigungen für {{app_name}} sind deaktiviert.",
     "notify_issue_fix": "Tippen Sie hier, um die Einstellungen Ihres Geräts zu ändern.",
     "notify_issue_muted": "Timer-Hinweise sind in den Benachrichtigungseinstellungen Ihres Geräts stummgeschaltet.",
+    "notify_issue_time_sensitive": "Dringende Mitteilungen sind für {{app_name}} deaktiviert, daher können Timer-Hinweise ausgeblendet werden.",
     "notification_channel_name": "Timer-Benachrichtigungen",
     "notification_channel_ongoing": "Live-Countdown",
     "notification_channel_silent": "Stille Benachrichtigungen",

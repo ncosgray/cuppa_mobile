@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Varsler er slått av for {{app_name}}.",
   "notify_issue_fix": "Trykk her for å endre innstillingene på enheten din.",
   "notify_issue_muted": "Tidtakervarsler er dempet i varslingsinnstillingene på enheten din.",
+  "notify_issue_time_sensitive": "Tidssensitive varsler er slått av for {{app_name}}, så tidtakervarsler kan bli skjult.",
   "notification_channel_name": "Timervarsler",
   "notification_channel_ongoing": "Direktenedtelling",
   "notification_channel_silent": "Stille varsler",

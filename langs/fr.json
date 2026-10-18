@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Les notifications sont désactivées pour {{app_name}}.",
   "notify_issue_fix": "Appuyez ici pour modifier les paramètres de votre appareil.",
   "notify_issue_muted": "Les alertes du minuteur sont mises en sourdine dans les paramètres de notification de votre appareil.",
+  "notify_issue_time_sensitive": "Les notifications urgentes sont désactivées pour {{app_name}}, les alertes du minuteur peuvent donc être masquées.",
   "notification_channel_name": "Notifications de la minuterie",
   "notification_channel_ongoing": "Compte à rebours en direct",
   "notification_channel_silent": "Notifications silencieuses",

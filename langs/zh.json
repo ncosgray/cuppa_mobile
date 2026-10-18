@@ -31,6 +31,7 @@
   "notify_issue_disabled": "{{app_name}} 的通知已关闭。",
   "notify_issue_fix": "点按此处更改设备设置。",
   "notify_issue_muted": "计时器提醒已在设备的通知设置中静音。",
+  "notify_issue_time_sensitive": "{{app_name}} 的“时效性通知”已关闭，计时器提醒可能会被隐藏。",
   "notification_channel_name": "倒计时",
   "notification_channel_ongoing": "实时倒计时",
   "notification_channel_silent": "静默通知",

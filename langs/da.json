@@ -31,6 +31,7 @@
     "notify_issue_disabled": "Notifikationer er slået fra for {{app_name}}.",
     "notify_issue_fix": "Tryk her for at ændre din enheds indstillinger.",
     "notify_issue_muted": "Timeradvarsler er slået lydløse i din enheds notifikationsindstillinger.",
+    "notify_issue_time_sensitive": "Tidsfølsomme notifikationer er slået fra for {{app_name}}, så timeradvarsler kan blive skjult.",
     "notification_channel_name": "Timer-notifikationer",
     "notification_channel_ongoing": "Live nedtælling",
     "notification_channel_silent": "Lydløse meddelelser",

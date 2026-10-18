@@ -114,6 +114,7 @@ enum AppString {
   notify_issue_disabled('notify_issue_disabled'),
   notify_issue_fix('notify_issue_fix'),
   notify_issue_muted('notify_issue_muted'),
+  notify_issue_time_sensitive('notify_issue_time_sensitive'),
   notification_channel_name('notification_channel_name'),
   notification_channel_ongoing('notification_channel_ongoing'),
   notification_channel_silent('notification_channel_silent'),

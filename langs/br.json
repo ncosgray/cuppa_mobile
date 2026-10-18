@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Lazhet eo ar c'hemennoù evit {{app_name}}.",
   "notify_issue_fix": "Stokit amañ evit kemmañ arventennoù ho trevnad.",
   "notify_issue_muted": "Mut eo galvoù ar maser e arventennoù kemennoù ho trevnad.",
+  "notify_issue_time_sensitive": "Lazhet eo ar c'hemennoù prim evit {{app_name}}, neuze e c'hallfe galvoù ar maser bezañ kuzhet.",
   "notification_channel_name": "Kemennadoù an eur",
   "notification_channel_ongoing": "Kont war-gil war-eeun",
   "notification_channel_silent": "Kemennadennoù didrouz",

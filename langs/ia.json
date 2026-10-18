@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Le notificationes es disactivate pro {{app_name}}.",
   "notify_issue_fix": "Tocca hic pro cambiar le parametros de tu apparato.",
   "notify_issue_muted": "Le avisos del temporisator es silentiate in le parametros de notification de tu apparato.",
+  "notify_issue_time_sensitive": "Le notificationes urgente es disactivate pro {{app_name}}, assi le avisos del temporisator pote esser celate.",
   "notification_channel_name": "Notificationes del temporisator",
   "notification_channel_ongoing": "Conto a retro in directo",
   "notification_channel_silent": "Notificationes silentiose",

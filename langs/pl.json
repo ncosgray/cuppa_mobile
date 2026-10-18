@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Powiadomienia dla {{app_name}} są wyłączone.",
   "notify_issue_fix": "Dotknij tutaj, aby zmienić ustawienia urządzenia.",
   "notify_issue_muted": "Powiadomienia minutnika są wyciszone w ustawieniach powiadomień Twojego urządzenia.",
+  "notify_issue_time_sensitive": "Powiadomienia pilne są wyłączone dla {{app_name}}, więc powiadomienia minutnika mogą być ukryte.",
   "notification_channel_name": "Powiadomienia minutnika",
   "notification_channel_ongoing": "Odliczanie na żywo",
   "notification_channel_silent": "Ciche powiadomienia",

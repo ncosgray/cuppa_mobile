@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Ilmoitukset on poistettu käytöstä sovellukselta {{app_name}}.",
   "notify_issue_fix": "Napauta tästä muuttaaksesi laitteesi asetuksia.",
   "notify_issue_muted": "Ajastinilmoitukset on mykistetty laitteesi ilmoitusasetuksissa.",
+  "notify_issue_time_sensitive": "Aikaherkät ilmoitukset on poistettu käytöstä sovellukselta {{app_name}}, joten ajastinilmoitukset voivat olla piilossa.",
   "notification_channel_name": "Ajastimen ilmoitukset",
   "notification_channel_ongoing": "Reaaliaikainen ajastin",
   "notification_channel_silent": "Hiljaiset ilmoitukset",

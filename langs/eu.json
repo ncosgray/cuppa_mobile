@@ -31,6 +31,7 @@
   "notify_issue_disabled": "{{app_name}}(r)en jakinarazpenak desaktibatuta daude.",
   "notify_issue_fix": "Sakatu hemen zure gailuaren ezarpenak aldatzeko.",
   "notify_issue_muted": "Tenporizadorearen abisuak isilarazita daude zure gailuaren jakinarazpen-ezarpenetan.",
+  "notify_issue_time_sensitive": "Denbora-mugako jakinarazpenak desaktibatuta daude {{app_name}}(r)entzat; beraz, tenporizadorearen abisuak ezkutatuta egon daitezke.",
   "notification_channel_name": "Tenporizadorearen jakinarazpenak",
   "notification_channel_ongoing": "Zuzeneko atzerako kontaketa",
   "notification_channel_silent": "Jakinarazpen isilak",

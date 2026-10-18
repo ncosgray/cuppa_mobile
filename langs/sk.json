@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Upozornenia pre {{app_name}} sú vypnuté.",
   "notify_issue_fix": "Ťuknutím sem zmeníte nastavenia zariadenia.",
   "notify_issue_muted": "Upozornenia časovača sú stlmené v nastaveniach upozornení vášho zariadenia.",
+  "notify_issue_time_sensitive": "Časovo citlivé upozornenia sú pre {{app_name}} vypnuté, takže upozornenia časovača môžu byť skryté.",
   "notification_channel_name": "Oznámenia časovača",
   "notification_channel_ongoing": "Živé odpočítavanie",
   "notification_channel_silent": "Tiché oznámenia",

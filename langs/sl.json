@@ -31,6 +31,7 @@
     "notify_issue_disabled": "Obvestila za {{app_name}} so izklopljena.",
     "notify_issue_fix": "Tapnite tukaj, da spremenite nastavitve naprave.",
     "notify_issue_muted": "Opozorila časovnika so utišana v nastavitvah obvestil vaše naprave.",
+    "notify_issue_time_sensitive": "Časovno občutljiva obvestila so za {{app_name}} izklopljena, zato so lahko opozorila časovnika skrita.",
     "notification_channel_name": "Obvestila časovnika",
     "notification_channel_ongoing": "Živo odštevanje",
     "notification_channel_silent": "Tiha obvestila",

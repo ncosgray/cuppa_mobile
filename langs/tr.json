@@ -31,6 +31,7 @@
   "notify_issue_disabled": "{{app_name}} için bildirimler kapalı.",
   "notify_issue_fix": "Cihaz ayarlarınızı değiştirmek için buraya dokunun.",
   "notify_issue_muted": "Zamanlayıcı uyarıları cihazınızın bildirim ayarlarında sessize alınmış.",
+  "notify_issue_time_sensitive": "{{app_name}} için zamana duyarlı bildirimler kapalı, bu nedenle zamanlayıcı uyarıları gizlenebilir.",
   "notification_channel_name": "Zamanlayıcı bildirimleri",
   "notification_channel_ongoing": "Canlı geri sayım",
   "notification_channel_silent": "Sessiz bildirimler",

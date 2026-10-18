@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Notifikasyon yo etenn pou {{app_name}}.",
   "notify_issue_fix": "Tape la a pou chanje paramèt aparèy ou.",
   "notify_issue_muted": "Alèt revèy la an silans nan paramèt notifikasyon aparèy ou.",
+  "notify_issue_time_sensitive": "Notifikasyon ijan yo etenn pou {{app_name}}, kidonk alèt revèy la ka kache.",
   "notification_channel_name": "Notifikasyon revèy",
   "notification_channel_ongoing": "Kont a rebou an dirèk",
   "notification_channel_silent": "Notifikasyon an silans",

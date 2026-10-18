@@ -31,6 +31,7 @@
     "notify_issue_disabled": "Уведомления для {{app_name}} отключены.",
     "notify_issue_fix": "Нажмите здесь, чтобы изменить настройки устройства.",
     "notify_issue_muted": "Сигналы таймера отключены в настройках уведомлений вашего устройства.",
+    "notify_issue_time_sensitive": "Срочные уведомления для {{app_name}} отключены, поэтому сигналы таймера могут быть скрыты.",
     "notification_channel_name": "Уведомления таймера",
     "notification_channel_ongoing": "Живой отсчёт",
     "notification_channel_silent": "Тихие уведомления",

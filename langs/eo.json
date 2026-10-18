@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Sciigoj estas malŝaltitaj por {{app_name}}.",
   "notify_issue_fix": "Tuŝetu ĉi tie por ŝanĝi la agordojn de via aparato.",
   "notify_issue_muted": "Tempumilaj avertoj estas silentigitaj en la sciigaj agordoj de via aparato.",
+  "notify_issue_time_sensitive": "Tempe gravaj sciigoj estas malŝaltitaj por {{app_name}}, do tempumilaj avertoj povas esti kaŝitaj.",
   "notification_channel_name": "Temporizigaj sciigoj",
   "notification_channel_ongoing": "Rekta retronombrado",
   "notification_channel_silent": "Silentaj sciigoj",

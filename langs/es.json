@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Las notificaciones de {{app_name}} están desactivadas.",
   "notify_issue_fix": "Toca aquí para cambiar los ajustes de tu dispositivo.",
   "notify_issue_muted": "Los avisos del temporizador están silenciados en los ajustes de notificaciones de tu dispositivo.",
+  "notify_issue_time_sensitive": "Las notificaciones urgentes están desactivadas para {{app_name}}, así que los avisos del temporizador pueden ocultarse.",
   "notification_channel_name": "Notificaciones de temporizador",
   "notification_channel_ongoing": "Cuenta regresiva en vivo",
   "notification_channel_silent": "Notificaciones silenciosas",

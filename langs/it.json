@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Le notifiche sono disattivate per {{app_name}}.",
   "notify_issue_fix": "Tocca qui per modificare le impostazioni del dispositivo.",
   "notify_issue_muted": "Gli avvisi del timer sono silenziati nelle impostazioni di notifica del tuo dispositivo.",
+  "notify_issue_time_sensitive": "Le notifiche urgenti sono disattivate per {{app_name}}, quindi gli avvisi del timer potrebbero essere nascosti.",
   "notification_channel_name": "Notifiche timer",
   "notification_channel_ongoing": "Conto alla rovescia live",
   "notification_channel_silent": "Notifiche silenziose",

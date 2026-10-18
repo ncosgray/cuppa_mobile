@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Notifications are turned off for {{app_name}}.",
   "notify_issue_fix": "Tap here to change your device settings.",
   "notify_issue_muted": "Timer alerts are silenced in your device's notification settings.",
+  "notify_issue_time_sensitive": "Time Sensitive notifications are turned off for {{app_name}}, so timer alerts may be hidden.",
   "notification_channel_name": "Timer notifications",
   "notification_channel_ongoing": "Live countdown",
   "notification_channel_silent": "Silent notifications",

@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Meldingen zijn uitgeschakeld voor {{app_name}}.",
   "notify_issue_fix": "Tik hier om de instellingen van je apparaat te wijzigen.",
   "notify_issue_muted": "Timermeldingen zijn gedempt in de meldingsinstellingen van je apparaat.",
+  "notify_issue_time_sensitive": "Tijdgevoelige meldingen zijn uitgeschakeld voor {{app_name}}, dus timermeldingen kunnen verborgen blijven.",
   "notification_channel_name": "Tijdklokmeldingen",
   "notification_channel_ongoing": "Live aftelling",
   "notification_channel_silent": "Stille meldingen",

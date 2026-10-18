@@ -31,6 +31,7 @@
   "notify_issue_disabled": "Notifikatioune fir {{app_name}} sinn ausgeschalt.",
   "notify_issue_fix": "Tippt hei, fir d'Astellunge vun Ärem Apparat z'änneren.",
   "notify_issue_muted": "Timer-Alarmer sinn an den Notifikatiounsastellunge vun Ärem Apparat stommgeschalt.",
+  "notify_issue_time_sensitive": "Dréngend Notifikatioune sinn fir {{app_name}} ausgeschalt, dofir kënnen Timer-Alarmer verstoppt ginn.",
   "notification_channel_name": "Timer-Matdeelungen",
   "notification_channel_ongoing": "Live-Countdown",
   "notification_channel_silent": "Stille Notifikatiounen",
