@@ -15,13 +15,18 @@
 import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/toast.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 
 import 'dart:async' show Completer;
 import 'dart:io' show Platform;
 
+import 'package:collection/collection.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 final FlutterLocalNotificationsPlugin notify = .new();
@@ -231,3 +236,110 @@ Future<void> cancelOngoingNotification(int notifyID) async {
 // Open OS notification settings for the app
 Future<bool?> openNotificationSettings() =>
     notify.openAppNotificationSettings();
+
+// Native method channel for alarm volume (Android only)
+const _audioChannel = MethodChannel('cuppa_audio');
+
+// Device settings that can keep timer alerts from being heard
+enum NotifyIssue {
+  disabled,
+  muted,
+  alarmVolume;
+
+  // Localized description of the issue
+  String get message => switch (this) {
+    .disabled => AppString.notify_issue_disabled.translate(),
+    .muted => AppString.notify_issue_muted.translate(),
+    .alarmVolume => AppString.notify_issue_alarm_volume.translate(),
+  };
+
+  // Take the user to the setting that fixes the issue
+  Future<void> resolve() async => switch (this) {
+    .alarmVolume => await showAlarmVolume(),
+    _ => await openNotificationSettings(),
+  };
+}
+
+// Check for the most severe notification issue, if any (Android only)
+Future<NotifyIssue?> checkNotifyIssue() async {
+  if (skipNotify || !Platform.isAndroid) {
+    return null;
+  }
+
+  final AndroidFlutterLocalNotificationsPlugin? android = notify
+      .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin
+      >();
+  try {
+    if (await android?.areNotificationsEnabled() == false) {
+      return .disabled;
+    }
+
+    // The channel only exists once a timer has run
+    final AndroidNotificationChannel? channel =
+        (await android?.getNotificationChannels())?.firstWhereOrNull(
+          (channel) => channel.id == notifyChannel,
+        );
+    if (channel != null &&
+        (!channel.playSound ||
+            channel.importance.value < Importance.defaultImportance.value)) {
+      return .muted;
+    }
+
+    if (await isAlarmVolumeLow()) {
+      return .alarmVolume;
+    }
+  } catch (e) {
+    debugPrint('Notification check error: $e');
+  }
+  return null;
+}
+
+// Whether alarm volume is at its minimum (Android only)
+Future<bool> isAlarmVolumeLow() async {
+  if (skipNotify || !Platform.isAndroid) {
+    return false;
+  }
+
+  try {
+    final Map<String, int>? volume = await _audioChannel
+        .invokeMapMethod<String, int>('getAlarmVolume');
+    return volume != null && volume['current']! <= volume['min']!;
+  } catch (e) {
+    debugPrint('Alarm volume error: $e');
+    return false;
+  }
+}
+
+// Show the system alarm volume slider (Android only)
+Future<void> showAlarmVolume() async {
+  if (!Platform.isAndroid) {
+    return;
+  }
+
+  await _audioChannel.invokeMethod<void>('showAlarmVolume');
+}
+
+// Warn once per session if a timer alert would be inaudible
+bool _alarmVolumeWarned = false;
+Future<void> warnIfAlarmVolumeLow() async {
+  if (_alarmVolumeWarned || !await isAlarmVolumeLow()) {
+    return;
+  }
+
+  final OverlayState? overlay = navigatorKey.currentState?.overlay;
+  if (overlay == null || !overlay.mounted) {
+    return;
+  }
+
+  _alarmVolumeWarned = true;
+  Toast.show(
+    overlay.context,
+    overlay: overlay,
+    message: AppString.notify_issue_alarm_volume.translate(),
+    actionLabel: AppString.adjust_button.translate(),
+    actionIcon: launchIcon.icon,
+    onActionPressed: showAlarmVolume,
+    duration: const Duration(seconds: 6),
+  );
+}

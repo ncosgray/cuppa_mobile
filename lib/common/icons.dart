@@ -55,6 +55,8 @@ const Icon disabledStarIcon = Icon(Icons.star_border_outlined);
 
 const Icon infoIcon = Icon(Icons.info, size: 20);
 
+const Icon warningIcon = Icon(Icons.warning, size: 20);
+
 const Icon noneIcon = Icon(Icons.block, size: 20, color: defaultIconColor);
 
 const IconData undoIcon = Icons.undo;

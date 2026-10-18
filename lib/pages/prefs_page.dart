@@ -32,6 +32,8 @@ import 'package:cuppa_mobile/pages/about_page.dart';
 import 'package:cuppa_mobile/pages/stats_page.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
 
+import 'dart:async';
+
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -190,8 +192,8 @@ class _PrefsWidgetState extends State<PrefsWidget>
                 _preNotifySetting,
                 // Setting: default to silent timer notifications
                 _defaultSilentSetting,
-                // Notification info
-                _notificationLink,
+                // Notification info and any issue warning
+                const _NotificationLink(),
                 listDivider,
                 // Setting: collect timer usage stats
                 _collectStatsSetting,
@@ -578,21 +580,84 @@ class _PrefsWidgetState extends State<PrefsWidget>
       }
     },
   );
+}
 
-  // Notification settings info text and link
-  Widget get _notificationLink => InkWell(
-    child: ListTile(
-      minLeadingWidth: 30,
-      leading: const SizedBox(height: double.infinity, child: infoIcon),
-      horizontalTitleGap: 0,
-      title: Text(
-        AppString.prefs_notifications.translate(),
-        style: textStyleSubtitle,
+// Notification settings info text and link, with a warning if timer alerts
+// may not be heard
+class _NotificationLink extends StatefulWidget {
+  const _NotificationLink();
+
+  @override
+  State<_NotificationLink> createState() => _NotificationLinkState();
+}
+
+class _NotificationLinkState extends State<_NotificationLink> {
+  NotifyIssue? _issue;
+  late final AppLifecycleListener _lifecycleListener;
+  Timer? _volumePoller;
+
+  @override
+  void initState() {
+    super.initState();
+    // Recheck when returning from system settings
+    _lifecycleListener = AppLifecycleListener(onResume: _checkIssue);
+    _checkIssue();
+  }
+
+  @override
+  void dispose() {
+    _lifecycleListener.dispose();
+    _volumePoller?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _checkIssue() async {
+    final NotifyIssue? issue = await checkNotifyIssue();
+    if (!mounted) return;
+    setState(() => _issue = issue);
+
+    // Volume changes don't trigger a resume, so poll while that warning shows
+    if (issue == .alarmVolume) {
+      _volumePoller ??= Timer.periodic(
+        const Duration(seconds: 2),
+        (_) => _checkIssue(),
+      );
+    } else {
+      _volumePoller?.cancel();
+      _volumePoller = null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final NotifyIssue? issue = _issue;
+
+    return InkWell(
+      child: ListTile(
+        minLeadingWidth: 30,
+        leading: SizedBox(
+          height: double.infinity,
+          child: issue == null
+              ? infoIcon
+              : IconTheme.merge(
+                  data: IconThemeData(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                  child: warningIcon,
+                ),
+        ),
+        horizontalTitleGap: 0,
+        title: Text(
+          issue == null
+              ? AppString.prefs_notifications.translate()
+              : '${issue.message} ${AppString.notify_issue_fix.translate()}',
+          style: textStyleSubtitle,
+        ),
+        trailing: const SizedBox(height: double.infinity, child: launchIcon),
+        onTap: issue?.resolve ?? openNotificationSettings,
+        contentPadding: listTilePadding,
+        dense: true,
       ),
-      trailing: const SizedBox(height: double.infinity, child: launchIcon),
-      onTap: () => openNotificationSettings(),
-      contentPadding: listTilePadding,
-      dense: true,
-    ),
-  );
+    );
+  }
 }

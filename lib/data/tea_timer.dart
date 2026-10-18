@@ -115,6 +115,9 @@ void setTimer(Tea tea, AppProvider provider, {bool resume = false}) {
       preNotify: provider.preNotify,
     );
     sendOngoingNotification(timer.notifyID, tea.name, tea.timerEndTime);
+    if (!provider.silentDefault) {
+      warnIfAlarmVolumeLow();
+    }
 
     // Update timer stats, if enabled
     if (provider.collectStats) {
@@ -226,6 +229,9 @@ void toggleTimerSilence(TeaTimer timer, AppProvider provider) {
     silent: tea.isSilent,
     preNotify: provider.preNotify,
   );
+  if (!tea.isSilent) {
+    warnIfAlarmVolumeLow();
+  }
 }
 
 // Advance infusion for a running timer: update state, notification, and timer sync

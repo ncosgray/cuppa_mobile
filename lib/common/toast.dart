@@ -125,8 +125,9 @@ class Toast extends StatelessWidget {
     Color? actionColor,
     ToastPosition? position,
     Duration duration = const Duration(seconds: 4),
+    OverlayState? overlay,
   }) {
-    final overlay = Overlay.of(context, rootOverlay: true);
+    overlay ??= Overlay.of(context, rootOverlay: true);
     final effectivePosition = position ?? defaultToastPosition;
     late OverlayEntry overlayEntry;
 
