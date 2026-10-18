@@ -263,23 +263,25 @@ enum NotifyIssue {
   };
 }
 
-// Check for the most severe notification issue, if any
-Future<NotifyIssue?> checkNotifyIssue() async {
+// Check for the most severe notification issue, if any, ignoring sound issues
+// if timers default to silent
+Future<NotifyIssue?> checkNotifyIssue({bool silent = false}) async {
   if (skipNotify) {
     return null;
   }
 
   try {
     return Platform.isIOS
-        ? await _checkNotifyIssueIOS()
-        : await _checkNotifyIssueAndroid();
+        ? await checkNotifyIssueIOS(silent: silent)
+        : await _checkNotifyIssueAndroid(silent: silent);
   } catch (e) {
     debugPrint('Notification check error: $e');
     return null;
   }
 }
 
-Future<NotifyIssue?> _checkNotifyIssueIOS() async {
+@visibleForTesting
+Future<NotifyIssue?> checkNotifyIssueIOS({bool silent = false}) async {
   final Map<String, dynamic>? settings = await _notifyChannel
       .invokeMapMethod<String, dynamic>('getNotificationSettings');
   if (settings == null) {
@@ -293,7 +295,7 @@ Future<NotifyIssue?> _checkNotifyIssueIOS() async {
   if (settings['status'] == 'notDetermined') {
     return null;
   }
-  if (settings['soundEnabled'] == false) {
+  if (!silent && settings['soundEnabled'] == false) {
     return .muted;
   }
   if (settings['timeSensitiveEnabled'] == false) {
@@ -302,27 +304,42 @@ Future<NotifyIssue?> _checkNotifyIssueIOS() async {
   return null;
 }
 
-Future<NotifyIssue?> _checkNotifyIssueAndroid() async {
+Future<NotifyIssue?> _checkNotifyIssueAndroid({bool silent = false}) async {
   final AndroidFlutterLocalNotificationsPlugin? android = notify
       .resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin
       >();
-  if (await android?.areNotificationsEnabled() == false) {
+  return notifyIssueAndroid(
+    enabled: await android?.areNotificationsEnabled(),
+    channel: (await android?.getNotificationChannels())?.firstWhereOrNull(
+      (channel) => channel.id == notifyChannel,
+    ),
+    alarmVolumeLow: await isAlarmVolumeLow(),
+    silent: silent,
+  );
+}
+
+@visibleForTesting
+NotifyIssue? notifyIssueAndroid({
+  required bool? enabled,
+  required AndroidNotificationChannel? channel,
+  required bool alarmVolumeLow,
+  bool silent = false,
+}) {
+  if (enabled == false) {
     return .disabled;
+  }
+  if (silent) {
+    return null;
   }
 
   // The channel only exists once a timer has run
-  final AndroidNotificationChannel? channel =
-      (await android?.getNotificationChannels())?.firstWhereOrNull(
-        (channel) => channel.id == notifyChannel,
-      );
   if (channel != null &&
       (!channel.playSound ||
           channel.importance.value < Importance.defaultImportance.value)) {
     return .muted;
   }
-
-  if (await isAlarmVolumeLow()) {
+  if (alarmVolumeLow) {
     return .alarmVolume;
   }
   return null;

@@ -193,7 +193,11 @@ class _PrefsWidgetState extends State<PrefsWidget>
                 // Setting: default to silent timer notifications
                 _defaultSilentSetting,
                 // Notification info and any issue warning
-                const _NotificationLink(),
+                Selector<AppProvider, bool>(
+                  selector: (_, provider) => provider.silentDefault,
+                  builder: (context, silentDefault, child) =>
+                      _NotificationLink(silent: silentDefault),
+                ),
                 listDivider,
                 // Setting: collect timer usage stats
                 _collectStatsSetting,
@@ -585,7 +589,9 @@ class _PrefsWidgetState extends State<PrefsWidget>
 // Notification settings info text and link, with a warning if timer alerts
 // may not be heard
 class _NotificationLink extends StatefulWidget {
-  const _NotificationLink();
+  const _NotificationLink({required this.silent});
+
+  final bool silent;
 
   @override
   State<_NotificationLink> createState() => _NotificationLinkState();
@@ -605,6 +611,14 @@ class _NotificationLinkState extends State<_NotificationLink> {
   }
 
   @override
+  void didUpdateWidget(_NotificationLink oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.silent != oldWidget.silent) {
+      _checkIssue();
+    }
+  }
+
+  @override
   void dispose() {
     _lifecycleListener.dispose();
     _volumePoller?.cancel();
@@ -612,7 +626,7 @@ class _NotificationLinkState extends State<_NotificationLink> {
   }
 
   Future<void> _checkIssue() async {
-    final NotifyIssue? issue = await checkNotifyIssue();
+    final NotifyIssue? issue = await checkNotifyIssue(silent: widget.silent);
     if (!mounted) return;
     setState(() => _issue = issue);
 
