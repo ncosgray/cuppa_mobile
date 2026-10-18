@@ -245,21 +245,13 @@ const _notifyChannel = MethodChannel('cuppa_notifications');
 enum NotifyIssue {
   disabled,
   muted,
-  timeSensitive,
-  alarmVolume;
+  timeSensitive;
 
   // Localized description of the issue
   String get message => switch (this) {
     .disabled => AppString.notify_issue_disabled.translate(),
     .muted => AppString.notify_issue_muted.translate(),
     .timeSensitive => AppString.notify_issue_time_sensitive.translate(),
-    .alarmVolume => AppString.notify_issue_alarm_volume.translate(),
-  };
-
-  // Take the user to the setting that fixes the issue
-  Future<void> resolve() async => switch (this) {
-    .alarmVolume => await showAlarmVolume(),
-    _ => await openNotificationSettings(),
   };
 }
 
@@ -314,7 +306,6 @@ Future<NotifyIssue?> _checkNotifyIssueAndroid({bool silent = false}) async {
     channel: (await android?.getNotificationChannels())?.firstWhereOrNull(
       (channel) => channel.id == notifyChannel,
     ),
-    alarmVolumeLow: await isAlarmVolumeLow(),
     silent: silent,
   );
 }
@@ -323,7 +314,6 @@ Future<NotifyIssue?> _checkNotifyIssueAndroid({bool silent = false}) async {
 NotifyIssue? notifyIssueAndroid({
   required bool? enabled,
   required AndroidNotificationChannel? channel,
-  required bool alarmVolumeLow,
   bool silent = false,
 }) {
   if (enabled == false) {
@@ -338,9 +328,6 @@ NotifyIssue? notifyIssueAndroid({
       (!channel.playSound ||
           channel.importance.value < Importance.defaultImportance.value)) {
     return .muted;
-  }
-  if (alarmVolumeLow) {
-    return .alarmVolume;
   }
   return null;
 }
@@ -370,10 +357,15 @@ Future<void> showAlarmVolume() async {
   await _audioChannel.invokeMethod<void>('showAlarmVolume');
 }
 
-// Warn once per session if a timer alert would be inaudible
+// Warn if a timer alert would be inaudible, then not again until the user
+// adjusts the volume or it's found above minimum
 bool _alarmVolumeWarned = false;
 Future<void> warnIfAlarmVolumeLow() async {
-  if (_alarmVolumeWarned || !await isAlarmVolumeLow()) {
+  if (!await isAlarmVolumeLow()) {
+    _alarmVolumeWarned = false;
+    return;
+  }
+  if (_alarmVolumeWarned) {
     return;
   }
 
@@ -389,7 +381,10 @@ Future<void> warnIfAlarmVolumeLow() async {
     message: AppString.notify_issue_alarm_volume.translate(),
     actionLabel: AppString.adjust_button.translate(),
     actionIcon: launchIcon.icon,
-    onActionPressed: showAlarmVolume,
+    onActionPressed: () {
+      _alarmVolumeWarned = false;
+      showAlarmVolume();
+    },
     duration: const Duration(seconds: 6),
   );
 }

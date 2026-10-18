@@ -32,8 +32,6 @@ import 'package:cuppa_mobile/pages/about_page.dart';
 import 'package:cuppa_mobile/pages/stats_page.dart';
 import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
 
-import 'dart:async';
-
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -600,7 +598,6 @@ class _NotificationLink extends StatefulWidget {
 class _NotificationLinkState extends State<_NotificationLink> {
   NotifyIssue? _issue;
   late final AppLifecycleListener _lifecycleListener;
-  Timer? _volumePoller;
 
   @override
   void initState() {
@@ -621,7 +618,6 @@ class _NotificationLinkState extends State<_NotificationLink> {
   @override
   void dispose() {
     _lifecycleListener.dispose();
-    _volumePoller?.cancel();
     super.dispose();
   }
 
@@ -629,17 +625,6 @@ class _NotificationLinkState extends State<_NotificationLink> {
     final NotifyIssue? issue = await checkNotifyIssue(silent: widget.silent);
     if (!mounted) return;
     setState(() => _issue = issue);
-
-    // Volume changes don't trigger a resume, so poll while that warning shows
-    if (issue == .alarmVolume) {
-      _volumePoller ??= Timer.periodic(
-        const Duration(seconds: 2),
-        (_) => _checkIssue(),
-      );
-    } else {
-      _volumePoller?.cancel();
-      _volumePoller = null;
-    }
   }
 
   @override
@@ -668,7 +653,7 @@ class _NotificationLinkState extends State<_NotificationLink> {
           style: textStyleSubtitle,
         ),
         trailing: const SizedBox(height: double.infinity, child: launchIcon),
-        onTap: issue?.resolve ?? openNotificationSettings,
+        onTap: openNotificationSettings,
         contentPadding: listTilePadding,
         dense: true,
       ),
