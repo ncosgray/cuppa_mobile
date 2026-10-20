@@ -56,8 +56,13 @@ class TimerWidget extends StatelessWidget {
                   child: Selector<AppProvider, bool>(
                     selector: (_, provider) =>
                         provider.cupStyle == CupStyle.none,
-                    builder: (context, hideCup, child) {
-                      return Flex(
+                    builder: (context, hideCup, child) => SafeArea(
+                      // Keep clear of iPhone Duo's vertical strip
+                      left: inVerticalBarStrip(context),
+                      top: false,
+                      right: inVerticalBarStrip(context),
+                      bottom: false,
+                      child: Flex(
                         direction: layoutPortrait ? .vertical : .horizontal,
                         mainAxisAlignment: .center,
                         children: [
@@ -114,8 +119,8 @@ class TimerWidget extends StatelessWidget {
                             ),
                           ),
                         ],
-                      );
-                    },
+                      ),
+                    ),
                   ),
                 ),
                 // Tea brew start buttons

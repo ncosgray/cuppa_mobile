@@ -130,6 +130,10 @@ const EdgeInsetsGeometry navBarPadding = .fromLTRB(
   smallSpacing,
 );
 
+// Whether bars move into iPhone Duo's vertical strip beside the content
+bool inVerticalBarStrip(BuildContext context) =>
+    Platform.isIOS && GlassVerticalBar.maybeOf(context) != null;
+
 // Platform adaptive page scaffold
 Widget adaptiveScaffold({
   required Widget body,
@@ -151,28 +155,52 @@ Widget adaptiveScaffold({
           final bool isDark = theme.brightness == Brightness.dark;
           final Color bgColor =
               backgroundColor ?? theme.scaffoldBackgroundColor;
+          final bool tabBarInStrip =
+              bottomNavigationBar is PlatformAdaptiveBottomNavBar &&
+              inVerticalBarStrip(context);
+          // Built the same either side of a posture change so the page body
+          // is never remounted. The strip tab bar sits outside the Scaffold
+          // so the keyboard covers it rather than pushing it up.
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: isDark
                 ? SystemUiOverlayStyle.light
                 : SystemUiOverlayStyle.dark,
-            child: Scaffold(
-              appBar: appBar,
-              backgroundColor: backgroundColor,
-              resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-              extendBodyBehindAppBar: true,
-              extendBody: true,
-              body: Material(
-                type: .transparency,
-                child: GlassScrollEdgeEffect(
-                  fadeTop: showTopFade,
-                  topFadeHeight: _topScrollEdgeFadeHeight(context),
-                  bottomFadeHeight: _scrollEdgeFadeHeight,
-                  style: .hard,
-                  fadeColor: bgColor,
-                  child: body,
+            child: Stack(
+              fit: .expand,
+              children: [
+                Scaffold(
+                  appBar: appBar,
+                  backgroundColor: backgroundColor,
+                  resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+                  extendBodyBehindAppBar: true,
+                  extendBody: true,
+                  body: Material(
+                    type: .transparency,
+                    child: GlassScrollEdgeEffect(
+                      fadeTop: showTopFade,
+                      fadeBottom: !tabBarInStrip,
+                      topFadeHeight: _topScrollEdgeFadeHeight(context),
+                      bottomFadeHeight: _scrollEdgeFadeHeight,
+                      style: .hard,
+                      fadeColor: bgColor,
+                      child: body,
+                    ),
+                  ),
+                  bottomNavigationBar: tabBarInStrip
+                      ? null
+                      : bottomNavigationBar,
                 ),
-              ),
-              bottomNavigationBar: bottomNavigationBar,
+                // Fills the screen to align itself into the strip; its empty
+                // area passes taps through to the page
+                if (tabBarInStrip)
+                  Positioned.fill(
+                    key: const ValueKey('strip_tab_bar'),
+                    child: Material(
+                      type: .transparency,
+                      child: bottomNavigationBar,
+                    ),
+                  ),
+              ],
             ),
           );
         },
@@ -1183,35 +1211,35 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
       const double barBorderRadius = 32;
       final double barWidth = items.length * tabWidth + 2 * hPadding;
 
+      final Widget tabBar = GlassTabBar.bottom(
+        selectedIndex: currentIndex,
+        onTabSelected: onTap ?? (_) {},
+        tabs: items
+            .map((item) => GlassTab(icon: item.icon, label: item.label))
+            .toList(),
+        barHeight: 58,
+        verticalPadding: 0,
+        iconSize: _navBarIconSize,
+        horizontalPadding: 0,
+        barBorderRadius: barBorderRadius,
+        selectedIconColor: primaryColor,
+        unselectedIconColor: labelColor,
+        selectedLabelColor: primaryColor,
+        unselectedLabelColor: labelColor,
+        labelFontSize: 11,
+        indicatorColor: primaryColor.withValues(alpha: 0.1),
+        glowDuration: shortAnimationDuration,
+        settings: liquidGlassSettings,
+      );
+
+      // In iPhone Duo's vertical strip the bar positions itself
+      if (inVerticalBarStrip(context)) return tabBar;
+
       return Padding(
         padding: const EdgeInsets.only(bottom: 24),
         child: Row(
           mainAxisAlignment: .center,
-          children: [
-            SizedBox(
-              width: barWidth,
-              child: GlassTabBar.bottom(
-                selectedIndex: currentIndex,
-                onTabSelected: onTap ?? (_) {},
-                tabs: items
-                    .map((item) => GlassTab(icon: item.icon, label: item.label))
-                    .toList(),
-                barHeight: 58,
-                verticalPadding: 0,
-                iconSize: _navBarIconSize,
-                horizontalPadding: 0,
-                barBorderRadius: barBorderRadius,
-                selectedIconColor: primaryColor,
-                unselectedIconColor: labelColor,
-                selectedLabelColor: primaryColor,
-                unselectedLabelColor: labelColor,
-                labelFontSize: 11,
-                indicatorColor: primaryColor.withValues(alpha: 0.1),
-                glowDuration: shortAnimationDuration,
-                settings: liquidGlassSettings,
-              ),
-            ),
-          ],
+          children: [SizedBox(width: barWidth, child: tabBar)],
         ),
       );
     } else {
