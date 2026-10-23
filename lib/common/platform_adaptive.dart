@@ -116,6 +116,7 @@ const double navBarChromeInset = pageInset;
 // screen edge, i.e. iPhone landscape. Read from the view as preferredSize has
 // no context.
 double get navBarTopInset {
+  if (!Platform.isIOS) return 0;
   final FlutterView view =
       WidgetsBinding.instance.platformDispatcher.views.first;
   return view.padding.top / view.devicePixelRatio < pageInset ? pageInset : 0;
@@ -138,7 +139,7 @@ bool inVerticalBarStrip(BuildContext context) =>
 Widget adaptiveScaffold({
   required Widget body,
   ObstructingPreferredSizeWidget? appBar,
-  Widget? bottomNavigationBar,
+  PlatformAdaptiveBottomNavBar? bottomNavigationBar,
   Color? backgroundColor,
   bool resizeToAvoidBottomInset = true,
 }) {
@@ -155,9 +156,7 @@ Widget adaptiveScaffold({
           final bool isDark = theme.brightness == Brightness.dark;
           final Color bgColor =
               backgroundColor ?? theme.scaffoldBackgroundColor;
-          final bool tabBarInStrip =
-              bottomNavigationBar is PlatformAdaptiveBottomNavBar &&
-              inVerticalBarStrip(context);
+          final bool tabBarInStrip = inVerticalBarStrip(context);
           // Built the same either side of a posture change so the page body
           // is never remounted. The strip tab bar sits outside the Scaffold
           // so the keyboard covers it rather than pushing it up.

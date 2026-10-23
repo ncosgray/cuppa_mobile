@@ -39,6 +39,7 @@ class TimerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Determine layout based on device orientation
     bool layoutPortrait = getDeviceSize(context).isPortrait;
+    final bool inStrip = inVerticalBarStrip(context);
 
     return adaptiveScaffold(
       resizeToAvoidBottomInset: false,
@@ -58,9 +59,9 @@ class TimerWidget extends StatelessWidget {
                         provider.cupStyle == CupStyle.none,
                     builder: (context, hideCup, child) => SafeArea(
                       // Keep clear of iPhone Duo's vertical strip
-                      left: inVerticalBarStrip(context),
+                      left: inStrip,
                       top: false,
-                      right: inVerticalBarStrip(context),
+                      right: inStrip,
                       bottom: false,
                       child: Flex(
                         direction: layoutPortrait ? .vertical : .horizontal,

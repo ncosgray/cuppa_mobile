@@ -639,9 +639,7 @@ class _NotificationLinkState extends State<_NotificationLink> {
           child: issue == null
               ? infoIcon
               : IconTheme.merge(
-                  data: IconThemeData(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+                  data: .new(color: Theme.of(context).colorScheme.error),
                   child: warningIcon,
                 ),
         ),

@@ -46,13 +46,24 @@ class LiveActivityService {
     await _channel.invokeMethod<void>('endAllActivities');
   }
 
+  // Calls run one at a time so an end can't overtake a pending create
+  Future<void> _queue = Future.value();
+  Future<void> _enqueue(Future<void> Function() call) {
+    return _queue = _queue
+        .then((_) => call())
+        .catchError((Object e) => debugPrint('Live Activity error: $e'));
+  }
+
   // Create/update the Live Activity with the current active tea timers
   // or, if no teas are active, end the Live Activity
-  Future<void> startOrUpdate(List<Tea> activeTeas) async {
+  Future<void> startOrUpdate(List<Tea> activeTeas) =>
+      _enqueue(() => _startOrUpdate(activeTeas));
+
+  Future<void> _startOrUpdate(List<Tea> activeTeas) async {
     if (!_initialized) return;
 
     if (activeTeas.isEmpty) {
-      await end();
+      await _end();
       return;
     }
 
@@ -83,7 +94,9 @@ class LiveActivityService {
   }
 
   // End the current Live Activity and clear the tracked activity ID
-  Future<void> end() async {
+  Future<void> end() => _enqueue(_end);
+
+  Future<void> _end() async {
     if (!_initialized || _activityId == null) return;
     // Clear before the async gap so a following start creates a new activity
     final activityId = _activityId!;

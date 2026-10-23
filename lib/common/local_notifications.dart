@@ -301,11 +301,11 @@ Future<NotifyIssue?> _checkNotifyIssueAndroid({bool silent = false}) async {
       .resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin
       >();
+  final List<AndroidNotificationChannel>? channels = await android
+      ?.getNotificationChannels();
   return notifyIssueAndroid(
     enabled: await android?.areNotificationsEnabled(),
-    channel: (await android?.getNotificationChannels())?.firstWhereOrNull(
-      (channel) => channel.id == notifyChannel,
-    ),
+    channels: channels ?? [],
     silent: silent,
   );
 }
@@ -313,9 +313,13 @@ Future<NotifyIssue?> _checkNotifyIssueAndroid({bool silent = false}) async {
 @visibleForTesting
 NotifyIssue? notifyIssueAndroid({
   required bool? enabled,
-  required AndroidNotificationChannel? channel,
+  required List<AndroidNotificationChannel> channels,
   bool silent = false,
 }) {
+  // Channels are only created once a timer has run, after requesting permission
+  if (channels.isEmpty) {
+    return null;
+  }
   if (enabled == false) {
     return .disabled;
   }
@@ -323,7 +327,9 @@ NotifyIssue? notifyIssueAndroid({
     return null;
   }
 
-  // The channel only exists once a timer has run
+  final AndroidNotificationChannel? channel = channels.firstWhereOrNull(
+    (channel) => channel.id == notifyChannel,
+  );
   if (channel != null &&
       (!channel.playSound ||
           channel.importance.value < Importance.defaultImportance.value)) {
@@ -385,6 +391,6 @@ Future<void> warnIfAlarmVolumeLow() async {
       _alarmVolumeWarned = false;
       showAlarmVolume();
     },
-    duration: const Duration(seconds: 6),
+    duration: const .new(seconds: 6),
   );
 }

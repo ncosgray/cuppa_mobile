@@ -12,6 +12,7 @@
 
 // Cuppa unit tests: notification issue checks
 // - No iOS warning before permission has been requested
+// - No Android warning before permission has been requested
 // - Silent default suppressing the muted channel warning on Android
 
 import 'package:cuppa_mobile/common/constants.dart';
@@ -49,6 +50,11 @@ void main() {
     expect(await checkNotifyIssueIOS(), isNull);
   });
 
+  test('no Android warning before permission has been requested', () {
+    // Android 13+ reports notifications disabled until permission is asked
+    expect(notifyIssueAndroid(enabled: false, channels: []), isNull);
+  });
+
   test('silent default ignores Android muted channel but not disabled', () {
     const AndroidNotificationChannel mutedChannel = .new(
       notifyChannel,
@@ -56,11 +62,15 @@ void main() {
       playSound: false,
     );
     expect(
-      notifyIssueAndroid(enabled: true, channel: mutedChannel, silent: true),
+      notifyIssueAndroid(enabled: true, channels: [mutedChannel], silent: true),
       isNull,
     );
     expect(
-      notifyIssueAndroid(enabled: false, channel: mutedChannel, silent: true),
+      notifyIssueAndroid(
+        enabled: false,
+        channels: [mutedChannel],
+        silent: true,
+      ),
       NotifyIssue.disabled,
     );
   });
