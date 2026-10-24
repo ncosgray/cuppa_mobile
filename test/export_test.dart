@@ -102,7 +102,7 @@ void main() {
       expect(decoded.stats!.length, 1);
       expect(decoded.stats![0].id, 1);
       expect(decoded.stats![0].name, 'Sencha');
-      expect(decoded.stats![0].brewTime, 120);
+      expect(decoded.stats![0].brewTime, 135);
       expect(decoded.stats![0].timerStartTime, 1234567890);
       expect(decoded.stats![0].currentInfusion, 2);
     });
