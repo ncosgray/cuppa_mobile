@@ -1,0 +1,2 @@
+* Verschiedene Benutzerfreundlichkeitsanpassungen und kleine Fehlerbehebungen.
+* Sprachübersetzungs-Updates - über Weblate beitragen!
