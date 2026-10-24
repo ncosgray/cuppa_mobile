@@ -391,6 +391,7 @@ Future<void> warnIfAlarmVolumeLow() async {
       _alarmVolumeWarned = false;
       showAlarmVolume();
     },
+    position: .top,
     duration: const .new(seconds: 6),
   );
 }
