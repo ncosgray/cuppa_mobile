@@ -93,10 +93,10 @@ packages:
     dependency: "direct main"
     description:
       name: cupertino_ui
-      sha256: "8e14acc2817ff469b925b0e275ab85ecc6c769621360dd0af1331c47f916e247"
+      sha256: a47c4e7c66fd7444a063a602597fceb238f705c3f6b1322bc0053d0a2638ee6e
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.3"
+    version: "1.1.4"
   dbus:
     dependency: transitive
     description:
@@ -165,18 +165,18 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: "98c0b156b6380ba55bc767a14e2e6b3feb246e713ad40092424596fa79005bea"
+      sha256: f201f3cbbb38ea5cd4e6896549662690f445a66261484f8ad697351c1ca25581
       url: "https://pub.dev"
     source: hosted
-    version: "13.1.0"
+    version: "13.2.0"
   file_picker_darwin:
     dependency: transitive
     description:
       name: file_picker_darwin
-      sha256: a5a48960703e7faa880544ef188491f442a93959b6afb5cae57575e5dc836589
+      sha256: bd172f8ddec522f9bd9a26365545320f130a6ab7839eb2a634051fab4ced7eb7
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.2"
+    version: "2.3.4"
   file_picker_linux:
     dependency: transitive
     description:
@@ -213,10 +213,10 @@ packages:
     dependency: "direct main"
     description:
       name: fl_chart
-      sha256: b938f77d042cbcd822936a7a359a7235bad8bd72070de1f827efc2cc297ac888
+      sha256: "5ed69b8be550c6276c8f0bc25c09704fb061018ed1b1681867ad18fcf477e7b7"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.3.0"
   flex_color_picker:
     dependency: "direct main"
     description:
@@ -347,10 +347,10 @@ packages:
     dependency: transitive
     description:
       name: http_multi_server
-      sha256: aa6199f908078bb1c5efb8d8638d4ae191aac11b311132c3ef48ce352fb52ef8
+      sha256: "361668bdd71f0ae2dc6d17b75a593520f3c414af6534f9eed1aa72049dd71d18"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.2"
+    version: "3.2.3"
   http_parser:
     dependency: transitive
     description:
@@ -464,10 +464,10 @@ packages:
     dependency: "direct main"
     description:
       name: liquid_glass_widgets
-      sha256: "67358b806f0ac1c1dbd93b0cac004587d843e26dc2f5fb17baadcebf21120ac8"
+      sha256: "1fd7c1593f19d33fb166179c20b6a5158f67c2cb15ad2087ab3908a5b395a9ea"
       url: "https://pub.dev"
     source: hosted
-    version: "1.14.0"
+    version: "1.15.0"
   logging:
     dependency: transitive
     description:
@@ -496,10 +496,10 @@ packages:
     dependency: "direct main"
     description:
       name: material_ui
-      sha256: "27ea1af251a79728ee63068417f2ab469d294931a9bb8366ba8b85b0ef839060"
+      sha256: e4031746f96c8316864d9b92bce375f1320a36ed56e166307e1e1bda9d90b4ab
       url: "https://pub.dev"
     source: hosted
-    version: "1.7.0"
+    version: "1.8.0"
   meta:
     dependency: transitive
     description:
@@ -760,10 +760,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_android
-      sha256: a67a1a6a62b241ad4ddd8a97f5a12bb547c445190930233b63cd28cc0a104a76
+      sha256: "593034a16e82953ca31145db6c85174286262715f9c5e6a9d8c65ffd9fcdce09"
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.1"
+    version: "2.5.3"
   shared_preferences_foundation:
     dependency: transitive
     description:
@@ -845,18 +845,18 @@ packages:
     dependency: "direct main"
     description:
       name: sqflite
-      sha256: "273218a1678360a3127fcf15e543381d9b813d413d783bc6e9a53eed4d2eb8fe"
+      sha256: "21a9750de2deb464946e9f41c7ddf176e25553618afdfc774868cd454990c06a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.4+2"
+    version: "2.4.5"
   sqflite_android:
     dependency: transitive
     description:
       name: sqflite_android
-      sha256: e4f659c14bdd14464127fcd234a7a96f61fe0f539b8568e5a38f99f5a568a835
+      sha256: "3986f4cbdde19ca538aae877981c5a53400dcc4601499df18e7ed9e848a0bdd4"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.4+1"
+    version: "2.4.5"
   sqflite_common:
     dependency: transitive
     description:
@@ -877,10 +877,10 @@ packages:
     dependency: transitive
     description:
       name: sqflite_platform_interface
-      sha256: c9177b2f3150ed0647b90a94307c28452fe0a5401863044216aed83addd6c7c5
+      sha256: "5b611dbcb9bab33e7073594ecac111bf0a86ffc342652c2081160d7038a45fb6"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.2"
+    version: "2.4.3"
   stack_trace:
     dependency: transitive
     description:
@@ -1045,10 +1045,10 @@ packages:
     dependency: "direct main"
     description:
       name: wakelock_plus
-      sha256: "9a91139ee876c24a9ebe1484e4b9b7923b07d368566a5e0b2301870b0f5029c8"
+      sha256: "39a1d99085cf3190d41305bca05f0c0d77522f355f7f99bb648ee231192d9d68"
       url: "https://pub.dev"
     source: hosted
-    version: "1.8.1"
+    version: "1.8.2"
   wakelock_plus_platform_interface:
     dependency: transitive
     description:
@@ -1061,10 +1061,10 @@ packages:
     dependency: transitive
     description:
       name: web
-      sha256: "868d88a33d8a87b18ffc05f9f030ba328ffefba92d6c127917a2ba740f9cfe4a"
+      sha256: e119e82ac4795c7925103b7cf3768191f33941b99e7ccffbd6c645201d9f606b
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.1"
+    version: "1.1.2"
   webdriver:
     dependency: transitive
     description:
@@ -1115,4 +1115,4 @@ packages:
     version: "3.1.4"
 sdks:
   dart: ">=3.13.0 <4.0.0"
-  flutter: "3.47.7"
+  flutter: "3.47.8"
