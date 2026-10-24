@@ -1,0 +1,2 @@
+* Çeşitli kullanılabilirlik iyileştirmeleri ve küçük hata düzeltmeleri.
+* Dil çevirilerinde güncellemeler – Weblate aracılığıyla katkıda bulunun!

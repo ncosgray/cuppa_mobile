@@ -53,7 +53,7 @@
   "prefs_cup_style_none": "Heç bir",
   "prefs_header": "Çay adlarını, dəmləmə vaxtlarını, temperaturu və düymə üslublarını təyin et. Həmçinin çayları çeşidləyə (uzun basın) və ya silmək üçün sürüşdürə bilərsiniz. Tətbiq nişanı qısayolları kimi əlavə etmək üçün {{favorites_max}} sevimli çayı ulduzla.",
   "prefs_hide_increments_info": "Tənzimləmək üçün aktiv geri sayım taymerinə toxun",
-  "prefs_hide_increments": "Taymer tənzimləmə düymələrin gizlət",
+  "prefs_hide_increments": "Taymer tənzimləmə düymələrini avtomatik gizlət",
   "prefs_language": "Tətbiq dili seç",
   "prefs_notifications": "{{app_name}} bildirişlərini konfiqurasiya etmək üçün cihazınızın sistem tənzimləmələrini açın.",
   "prefs_show_extra_ratios": "Taymer düymələrində dəmləmə vaxtını, temperaturunu və nisbətini göstərin",

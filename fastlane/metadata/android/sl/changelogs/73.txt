@@ -1,0 +1,2 @@
+* Različne izboljšave uporabnosti in manjši popravki napak.
+* Posodobitve prevodov – prispevaj prek Weblate!
