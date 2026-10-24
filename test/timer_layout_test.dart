@@ -13,6 +13,7 @@
 // Cuppa widget tests: Timer page layout
 // - Lays the Timer page out across a range of devices and settings, then checks
 //   general layout health with no timer, one timer, and two timers running
+// - Checks the floating buttons move into iPhone Duo's vertical bar strip
 
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
@@ -29,6 +30,7 @@ import 'package:cuppa_mobile/widgets/timer_countdown.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 
@@ -110,6 +112,42 @@ const _scenarios = <_Scenario>[
   _Scenario('a right to left language', rightToLeft: true),
 ];
 
+// iPhone Duo's outer display, where bars move into a strip down one side,
+// with where the strip's first control sits as measured in each posture
+const _duoPostures = <({_Device device, double stripTop})>[
+  (device: _Device('iPhone Duo', Size(466, 678), 3, 0, 34), stripTop: 170),
+  (
+    device: _Device('iPhone Duo in landscape', Size(678, 466), 3, 0, 21),
+    stripTop: 24,
+  ),
+];
+const double _duoStripWidth = 84;
+
+// A side of the screen for the strip, in a given reading direction
+class _Strip {
+  const _Strip(
+    this.name,
+    this.edge, {
+    this.onLeft = false,
+    this.rightToLeft = false,
+  });
+
+  final String name;
+  final GlassVerticalBarEdge edge;
+  final bool onLeft;
+  final bool rightToLeft;
+}
+
+const _strips = <_Strip>[
+  _Strip('on the right', .trailing),
+  _Strip(
+    'on the right in a right to left language',
+    .leading,
+    rightToLeft: true,
+  ),
+  _Strip('on the left', .leading, onLeft: true),
+];
+
 void main() {
   setUp(() async {
     await setUpTestEnvironment();
@@ -125,6 +163,117 @@ void main() {
         await _checkLayout(tester, device, scenario);
       }
     });
+  }
+
+  for (final strip in _strips) {
+    testWidgets('Timer page layout with an iPhone Duo strip ${strip.name}', (
+      tester,
+    ) async {
+      addTearDown(tester.view.reset);
+
+      for (final posture in _duoPostures) {
+        await _checkStripLayout(
+          tester,
+          strip,
+          posture.device,
+          posture.stripTop,
+        );
+      }
+    });
+  }
+}
+
+// Lay out the Timer page under a strip, as GlassNavigationShell publishes it
+Future<void> _checkStripLayout(
+  WidgetTester tester,
+  _Strip strip,
+  _Device device,
+  double stripTop,
+) async {
+  final double ratio = device.pixelRatio;
+  final FakeViewPadding insets = FakeViewPadding(
+    left: strip.onLeft ? _duoStripWidth * ratio : 0,
+    right: strip.onLeft ? 0 : _duoStripWidth * ratio,
+    bottom: device.bottomInset * ratio,
+  );
+  tester.view
+    ..physicalSize = device.size * ratio
+    ..devicePixelRatio = ratio
+    ..padding = insets
+    ..viewPadding = insets;
+
+  await tester.pumpWidget(
+    ChangeNotifierProvider<AppProvider>.value(
+      value: AppProvider()
+        ..teaList = <Tea>[
+          for (int i = 1; i <= 3; i++) makeTea(id: i, name: 'Tea $i'),
+        ],
+      child: MaterialApp(
+        home: Directionality(
+          textDirection: strip.rightToLeft ? .rtl : .ltr,
+          child: GlassVerticalBar(
+            data: GlassVerticalBarData(
+              edge: strip.edge,
+              width: _duoStripWidth,
+              top: stripTop,
+            ),
+            child: const TimerWidget(),
+          ),
+        ),
+      ),
+    ),
+  );
+  await tester.pumpAndSettle();
+
+  String where = '${device.name} with the strip ${strip.name}';
+  _expectNoLayoutErrors(tester, where);
+
+  // The buttons stack down the strip from its first control, each centred a
+  // fixed inset from the strip's inner edge
+  final double innerEdge = strip.onLeft
+      ? _duoStripWidth
+      : device.size.width - _duoStripWidth;
+  const double halfControl = GlassVerticalBarMetrics.controlExtent / 2;
+  final Offset quickTimerCentre = Offset(
+    innerEdge +
+        (strip.onLeft ? -1 : 1) * (GlassVerticalBarMetrics.inset + halfControl),
+    stripTop + halfControl,
+  );
+  final Map<String, Offset> expectedCentres = <String, Offset>{
+    'the Quick Timer button': quickTimerCentre,
+    'the Preferences button':
+        quickTimerCentre +
+        const Offset(
+          0,
+          GlassVerticalBarMetrics.controlExtent +
+              GlassVerticalBarMetrics.spacing,
+        ),
+  };
+  final Map<String, Rect> regions = _regions(tester);
+  expectedCentres.forEach((String name, Offset expected) {
+    final Offset centre = regions[name]!.center;
+    expect(
+      (centre - expected).distance,
+      lessThanOrEqualTo(_tolerance),
+      reason: '$name is centred at $centre, not $expected in the strip: $where',
+    );
+  });
+
+  // Page content keeps clear of the strip
+  Rect stripArea = strip.onLeft
+      ? Rect.fromLTWH(0, 0, _duoStripWidth, device.size.height)
+      : Rect.fromLTWH(innerEdge, 0, _duoStripWidth, device.size.height);
+  for (final Finder content in [
+    find.byType(TimerCountdownWidget),
+    find.byType(Image),
+    find.byType(TeaButtonList),
+  ]) {
+    Rect region = tester.getRect(content.first);
+    expect(
+      region.overlaps(stripArea.deflate(_tolerance)),
+      isFalse,
+      reason: 'content at $region runs into the strip $stripArea: $where',
+    );
   }
 }
 

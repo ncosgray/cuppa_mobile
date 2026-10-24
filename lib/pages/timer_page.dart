@@ -27,6 +27,7 @@ import 'package:cuppa_mobile/widgets/teacup.dart';
 import 'package:cuppa_mobile/widgets/timer_countdown.dart';
 import 'package:cuppa_mobile/widgets/tutorial.dart';
 
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +40,8 @@ class TimerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Determine layout based on device orientation
     bool layoutPortrait = getDeviceSize(context).isPortrait;
-    final bool inStrip = inVerticalBarStrip(context);
+    final GlassVerticalBarData? strip = verticalBarStrip(context);
+    final bool inStrip = strip != null;
 
     return adaptiveScaffold(
       resizeToAvoidBottomInset: false,
@@ -155,20 +157,18 @@ class TimerWidget extends StatelessWidget {
                 ),
               ],
             ),
-            // Floating button to start a Quick Timer
-            _floatingNavButton(
-              isRight: false,
-              child: tutorialTooltip(
+            // Floating buttons to start a Quick Timer and navigate to
+            // Preferences page, moved into iPhone Duo's strip where it has one
+            ..._floatingNavButtons(
+              context,
+              strip: strip,
+              quickTimerButton: tutorialTooltip(
                 context: context,
                 key: tutorialKey6,
                 showBorder: true,
                 child: const QuickTimerButton(),
               ),
-            ),
-            // Floating button to navigate to Preferences page
-            _floatingNavButton(
-              isRight: true,
-              child: tutorialTooltip(
+              prefsButton: tutorialTooltip(
                 context: context,
                 key: tutorialKey2,
                 showBorder: true,
@@ -189,6 +189,42 @@ class TimerWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+// Positions the floating buttons in the top corners of the screen, or stacks
+// them down iPhone Duo's strip as the pinned chrome on other pages is
+List<Widget> _floatingNavButtons(
+  BuildContext context, {
+  required GlassVerticalBarData? strip,
+  required Widget quickTimerButton,
+  required Widget prefsButton,
+}) {
+  if (strip != null) {
+    // Controls sit a fixed inset from the strip's inner edge
+    final double edgeOffset =
+        strip.width -
+        GlassVerticalBarMetrics.inset -
+        GlassVerticalBarMetrics.controlExtent;
+    final bool stripOnRight =
+        (strip.edge == .trailing) == (Directionality.of(context) == .ltr);
+    return [
+      Positioned(
+        // The Stack is already inside a top SafeArea
+        top: strip.top - MediaQuery.viewPaddingOf(context).top,
+        left: stripOnRight ? null : edgeOffset,
+        right: stripOnRight ? edgeOffset : null,
+        child: Column(
+          spacing: GlassVerticalBarMetrics.spacing,
+          children: [quickTimerButton, prefsButton],
+        ),
+      ),
+    ];
+  }
+
+  return [
+    _floatingNavButton(isRight: false, child: quickTimerButton),
+    _floatingNavButton(isRight: true, child: prefsButton),
+  ];
 }
 
 // Positions a floating button in a top corner of the screen

@@ -131,9 +131,13 @@ const EdgeInsetsGeometry navBarPadding = .fromLTRB(
   smallSpacing,
 );
 
+// iPhone Duo's vertical strip, published by the iOS-only GlassNavigationShell
+GlassVerticalBarData? verticalBarStrip(BuildContext context) =>
+    GlassVerticalBar.maybeOf(context);
+
 // Whether bars move into iPhone Duo's vertical strip beside the content
 bool inVerticalBarStrip(BuildContext context) =>
-    Platform.isIOS && GlassVerticalBar.maybeOf(context) != null;
+    verticalBarStrip(context) != null;
 
 // Platform adaptive page scaffold
 Widget adaptiveScaffold({
@@ -260,13 +264,20 @@ Widget adaptiveNavBarActionButton(
 }) {
   if (Platform.isIOS) {
     final Color primaryColor = CupertinoTheme.of(context).primaryColor;
+    // Sized as a lone control in iPhone Duo's strip, to match hoisted chrome
+    final bool inStrip = inVerticalBarStrip(context);
+    final double size = inStrip
+        ? GlassVerticalBarMetrics.controlExtent
+        : _navBarButtonSize;
     return GlassButton.custom(
       onTap: onPressed ?? () {},
       enabled: onPressed != null,
       label: semanticLabel,
-      width: _navBarButtonSize,
-      height: _navBarButtonSize,
-      shape: const LiquidRoundedRectangle(borderRadius: _navBarButtonRadius),
+      width: size,
+      height: size,
+      shape: LiquidRoundedRectangle(
+        borderRadius: inStrip ? size / 2 : _navBarButtonRadius,
+      ),
       stretch: _navBarButtonStretch,
       useOwnLayer: true,
       child: IconTheme(
