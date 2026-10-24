@@ -86,6 +86,7 @@
     "stats_begin": "Timerdata siden",
     "stats_confirm_disable": "Hvis du deaktiverer statistikindsamling slettes dine aktuelle data.",
     "stats_confirm_enable": "{{app_name}} gemmer aldrig personlige oplysninger eller placeringsdata, men dine tedrikkevaner registreres.",
+    "stats_daily_average": "Timere pr. dag",
     "stats_enable": "Indsaml statistik over timerbrug",
     "stats_favorite_am": "Favorit før middagstid",
     "stats_favorite_pm": "Favorit efter middagstid",

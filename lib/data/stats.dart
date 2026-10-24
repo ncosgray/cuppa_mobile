@@ -326,7 +326,8 @@ enum MetricQuery {
 // Decimal queries
 enum DecimalQuery {
   totalAmountG(_totalAmountGSQL),
-  totalAmountTsp(_totalAmountTspSQL);
+  totalAmountTsp(_totalAmountTspSQL),
+  teasPerDay(_teasPerDaySQL);
 
   const DecimalQuery(this.sql);
 
@@ -343,6 +344,12 @@ enum DecimalQuery {
     FROM $statsTable
     WHERE $statsColumnBrewAmountMetric <> 1
     AND $statsColumnId <> $quickTimerTeaID''';
+  static const _teasPerDaySQL =
+      '''SELECT COUNT(*) /
+    (1 + JULIANDAY('now', 'localtime', 'start of day')
+      - JULIANDAY(MIN($statsColumnTimerStartTime) / 1000, 'unixepoch', 'localtime', 'start of day')
+    ) AS metric
+    FROM $statsTable''';
 }
 
 // String queries

@@ -86,6 +86,7 @@
   "stats_begin": "Data časovače od",
   "stats_confirm_disable": "Vypnutím shromažďování statistik odstraníte vaše aktuální data.",
   "stats_confirm_enable": "{{app_name}} nikdy neukládá osobní údaje ani údaje o poloze, ale vaše návyky při pití čaje budou zaznamenány.",
+  "stats_daily_average": "Časovače za den",
   "stats_enable": "Sbírejte statistiky využití časovače",
   "stats_favorite_am": "Oblíbené před polednem",
   "stats_favorite_pm": "Oblíbené po poledni",

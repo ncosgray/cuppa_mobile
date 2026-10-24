@@ -86,6 +86,7 @@
     "stats_begin": "Timer-Daten seit",
     "stats_confirm_disable": "Wenn Sie die Statistiksammlung deaktivieren, werden Ihre aktuellen Daten gelöscht.",
     "stats_confirm_enable": "{{app_name}} speichert niemals persönliche Informationen oder Standortdaten, aber Ihre Teetrinkgewohnheiten werden aufgezeichnet.",
+    "stats_daily_average": "Timer pro Tag",
     "stats_enable": "Timer-Nutzungsstatistiken erfassen",
     "stats_favorite_am": "Favorit vor Mittag",
     "stats_favorite_pm": "Favorit nach Mittag",

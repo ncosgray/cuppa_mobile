@@ -86,6 +86,7 @@
   "stats_begin": "Dati del timer dal",
   "stats_confirm_disable": "La disattivazione della raccolta delle statistiche eliminerà i dati correnti.",
   "stats_confirm_enable": "{{app_name}} non memorizza mai informazioni personali o dati sulla posizione, ma le tue abitudini di consumo di tè verranno registrate.",
+  "stats_daily_average": "Timer al giorno",
   "stats_enable": "Raccogli le statistiche sull'utilizzo del timer",
   "stats_favorite_am": "Preferito prima di mezzogiorno",
   "stats_favorite_pm": "Preferito dopo mezzogiorno",

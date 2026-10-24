@@ -86,6 +86,7 @@
   "stats_begin": "Tenporizadorearen datuak",
   "stats_confirm_disable": "Estatistikak biltzea desaktibatzen baduzu, zure uneko datuak ezabatuko dira.",
   "stats_confirm_enable": "{{app_name}}-k ez du inoiz informazio pertsonalik edo kokapen-daturik gordetzen, baina tea edateko ohiturak erregistratuko dira.",
+  "stats_daily_average": "Tenporizadoreak eguneko",
   "stats_enable": "Bildu tenporizadorearen erabilera estatistikak",
   "stats_favorite_am": "Eguerdia baino lehen gogokoena",
   "stats_favorite_pm": "Eguerdi ostean gogokoena",

@@ -86,6 +86,7 @@
   "stats_begin": "计时器数据开始于",
   "stats_confirm_disable": "关闭统计数据收集将删除您的当前数据。",
   "stats_confirm_enable": "{{app_name}} 从不存储个人信息或位置数据，但您的喝茶习惯会被记录下来。",
+  "stats_daily_average": "每日计时器次数",
   "stats_enable": "收集计时器使用情况统计数据",
   "stats_favorite_am": "中午之前最喜欢的",
   "stats_favorite_pm": "中午之后最喜欢的",

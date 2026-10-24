@@ -86,6 +86,7 @@
   "stats_begin": "Datos del temporizador desde",
   "stats_confirm_disable": "Si desactivas la recopilación de estadísticas, se borrarán tus datos actuales.",
   "stats_confirm_enable": "{{app_name}} nunca almacena información personal ni datos de localización, pero tus hábitos de consumo de té quedarán registrados.",
+  "stats_daily_average": "Temporizadores por día",
   "stats_enable": "Recopilar estadísticas de uso del temporizador",
   "stats_favorite_am": "Favoritos antes del mediodía",
   "stats_favorite_pm": "Favorito después del mediodía",

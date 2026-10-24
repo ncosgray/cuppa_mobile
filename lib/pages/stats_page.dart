@@ -63,6 +63,7 @@ class _StatsWidgetState extends State<StatsWidget> {
   int _totalTime = 0;
   double _totalAmountG = 0;
   double _totalAmountTsp = 0;
+  double _teasPerDay = 0;
   String _morningTea = '';
   String _afternoonTea = '';
   List<Stat> _summaryStats = [];
@@ -296,6 +297,7 @@ class _StatsWidgetState extends State<StatsWidget> {
     _summaryStats = await Stats.getTeaStats(ListQuery.summaryStats);
     _totalAmountG = await Stats.getDecimal(DecimalQuery.totalAmountG);
     _totalAmountTsp = await Stats.getDecimal(DecimalQuery.totalAmountTsp);
+    _teasPerDay = await Stats.getDecimal(DecimalQuery.teasPerDay);
 
     return true;
   }
@@ -508,6 +510,10 @@ class _StatsWidgetState extends State<StatsWidget> {
         _metricWidget(
           metricName: AppString.stats_quick_timer.translate(),
           metric: _quickTimerCount.toString(),
+        ),
+        _metricWidget(
+          metricName: AppString.stats_daily_average.translate(),
+          metric: AppLocalizations.numberString(_teasPerDay, decimalPlaces: 2),
         ),
         Visibility(
           visible: _totalCount - _quickTimerCount > 0,

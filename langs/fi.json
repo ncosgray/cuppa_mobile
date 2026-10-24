@@ -86,6 +86,7 @@
   "stats_begin": "Ajastimen tiedot alkaen",
   "stats_confirm_disable": "Tilastojen keräämisen poistaminen käytöstä poistaa nykyiset tietosi.",
   "stats_confirm_enable": "{{app_name}} ei koskaan tallenna henkilökohtaisia tietoja tai sijaintitietoja, mutta teen juomistottumuksesi tallennetaan.",
+  "stats_daily_average": "Ajastimia päivässä",
   "stats_enable": "Kerää ajastimen käyttötilastot",
   "stats_favorite_am": "Suosikki ennen keskipäivää",
   "stats_favorite_pm": "Suosikki keskipäivän jälkeen",

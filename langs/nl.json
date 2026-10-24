@@ -86,6 +86,7 @@
   "stats_begin": "Timergegevens sinds",
   "stats_confirm_disable": "Als je het verzamelen van statistieken uitschakelt, worden je huidige gegevens verwijderd.",
   "stats_confirm_enable": "{{app_name}} slaat nooit persoonlijke informatie of locatiegegevens op, maar je drinkgewoonten voor thee worden wel geregistreerd.",
+  "stats_daily_average": "Timers per dag",
   "stats_enable": "Statistieken over timergebruik verzamelen",
   "stats_favorite_am": "Favoriet voor de middag",
   "stats_favorite_pm": "Favoriet na de middag",

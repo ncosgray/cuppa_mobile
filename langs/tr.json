@@ -86,6 +86,7 @@
   "stats_begin": "Zamanlayıcı verilerinin başlangıcı",
   "stats_confirm_disable": "İstatistik toplamayı kapatmak mevcut verilerinizi silecektir.",
   "stats_confirm_enable": "{{app_name}} asla kişisel bilgileri veya konum verilerini saklamaz, ancak çay içme alışkanlıklarınız kaydedilecektir.",
+  "stats_daily_average": "Günlük zamanlayıcı",
   "stats_enable": "Zamanlayıcı kullanım istatistiklerini toplayın",
   "stats_favorite_am": "Öğleden önce favori",
   "stats_favorite_pm": "Öğleden sonra favori",

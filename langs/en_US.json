@@ -86,6 +86,7 @@
   "stats_begin": "Timer data since",
   "stats_confirm_disable": "Turning off stats collection will delete your current data.",
   "stats_confirm_enable": "{{app_name}} never stores personal info or location data, but your tea drinking habits will be recorded.",
+  "stats_daily_average": "Timers per day",
   "stats_enable": "Collect timer usage stats",
   "stats_favorite_am": "Favorite before noon",
   "stats_favorite_pm": "Favorite after noon",

@@ -169,6 +169,7 @@ enum AppString {
   stats_begin('stats_begin'),
   stats_confirm_disable('stats_confirm_disable'),
   stats_confirm_enable('stats_confirm_enable'),
+  stats_daily_average('stats_daily_average'),
   stats_enable('stats_enable'),
   stats_favorite_am('stats_favorite_am'),
   stats_favorite_pm('stats_favorite_pm'),

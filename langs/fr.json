@@ -86,6 +86,7 @@
   "stats_begin": "Données de chronométrage depuis",
   "stats_confirm_disable": "La désactivation de la collecte de statistiques supprimera vos données actuelles.",
   "stats_confirm_enable": "{{app_name}} ne stocke jamais d'informations personnelles ou de données de localisation, mais vos habitudes de consommation de thé seront enregistrées.",
+  "stats_daily_average": "Minuteurs par jour",
   "stats_enable": "Collectez les statistiques d'utilisation du minuteur",
   "stats_favorite_am": "Favori avant midi",
   "stats_favorite_pm": "Mon préféré après midi",

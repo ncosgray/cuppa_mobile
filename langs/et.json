@@ -86,6 +86,7 @@
   "stats_begin": "Taimeri andmed alates",
   "stats_confirm_disable": "Statistika kogumise väljalülitamine kustutab teie praegused andmed.",
   "stats_confirm_enable": "{{app_name}} ei salvesta kunagi isikuandmeid ega asukohaandmeid, kuid teie tee joomise harjumused salvestatakse.",
+  "stats_daily_average": "Taimereid päevas",
   "stats_enable": "Koguge taimeri kasutamise statistikat",
   "stats_favorite_am": "Lemmik enne keskpäeva",
   "stats_favorite_pm": "Lemmik pärast keskpäeva",

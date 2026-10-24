@@ -86,6 +86,7 @@
   "stats_begin": "Tempigilo-datenoj ekde",
   "stats_confirm_disable": "Malŝalti statistikan kolekton forigos viajn nunajn datumojn.",
   "stats_confirm_enable": "{{app_name}} neniam konservas personajn informojn aŭ lokajn datumojn, sed viaj kutimoj pri teo-trinkado estos registritaj.",
+  "stats_daily_average": "Tempigiloj tage",
   "stats_enable": "Kolektu statistikojn pri uzado de tempigilo",
   "stats_favorite_am": "Plej ŝatata antaŭ tagmezo",
   "stats_favorite_pm": "Plej ŝatata post tagmezo",
