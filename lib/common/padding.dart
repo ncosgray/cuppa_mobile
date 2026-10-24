@@ -25,7 +25,7 @@ const EdgeInsetsGeometry noPadding = .zero;
 const EdgeInsetsGeometry smallDefaultPadding = .all(4);
 const EdgeInsetsGeometry largeDefaultPadding = .all(8);
 const EdgeInsetsGeometry rowPadding = .symmetric(vertical: 0, horizontal: 4);
-const EdgeInsetsGeometry columnPadding = .only(bottom: 8);
+const EdgeInsetsGeometry columnPadding = .symmetric(vertical: 4, horizontal: 0);
 
 // Element specific padding
 const EdgeInsetsGeometry headerPadding = .symmetric(
@@ -54,6 +54,7 @@ const EdgeInsetsGeometry buttonColumnPadding = .symmetric(
   vertical: 6,
   horizontal: 0,
 );
+const EdgeInsetsGeometry prefsColumnPadding = .only(bottom: 8);
 const EdgeInsetsGeometry bottomSliverPadding = .fromLTRB(
   pageInset,
   6,

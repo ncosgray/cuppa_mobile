@@ -157,7 +157,7 @@ class _PrefsWidgetState extends State<PrefsWidget>
         child: SafeArea(
           top: false,
           child: Padding(
-            padding: columnPadding,
+            padding: prefsColumnPadding,
             child: Column(
               children: [
                 // Setting: teacup style selection

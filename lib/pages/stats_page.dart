@@ -240,7 +240,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                           child: SafeArea(
                             top: false,
                             child: Container(
-                              margin: bottomSliverPadding,
+                              margin: largeDefaultPadding,
                               child: Align(
                                 alignment: .bottomCenter,
                                 // General metrics
@@ -371,7 +371,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                 children: [
                   // Tea icon button
                   Padding(
-                    padding: rowPadding,
+                    padding: noPadding,
                     child: miniTeaButton(
                       color: stat.color,
                       icon: TeaIcon.values[stat.iconValue].getIcon(),
@@ -379,7 +379,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                   ),
                   // Tea name
                   Padding(
-                    padding: rowPadding,
+                    padding: largeDefaultPadding,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: maxWidth / 1.8),
                       child: Text(
