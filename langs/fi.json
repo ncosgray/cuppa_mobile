@@ -92,6 +92,7 @@
   "stats_favorite_pm": "Suosikki keskipäivän jälkeen",
   "stats_header": "Teeajastimen käyttöraportti",
   "stats_include_deleted": "Sisällytä poistetut teet kaavioon",
+  "stats_infusions": "Lisäinfuusiot",
   "stats_no_data_1": "Ei vielä tietoja!",
   "stats_no_data_2": "Käynnistä ajastin tilastojen keräämisen aloittamiseksi.",
   "stats_quick_timer": "Pika-ajastimet käynnistyivät",

@@ -242,6 +242,9 @@ void advanceRunningInfusion(Tea tea, AppProvider provider) {
   if (timer == null) return;
 
   provider.adjustTimerForInfusion(tea);
+  if (provider.collectStats) {
+    Stats.updateLatestInfusion(tea);
+  }
 
   // Sync progress arc denominator to the new infusion's brew time
   timer.brewTime = tea.currentBrewTime;

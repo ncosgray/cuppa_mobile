@@ -60,6 +60,7 @@ class _StatsWidgetState extends State<StatsWidget> {
   int _totalCount = 0;
   int _quickTimerCount = 0;
   int _starredCount = 0;
+  int _extraInfusionCount = 0;
   int _totalTime = 0;
   double _totalAmountG = 0;
   double _totalAmountTsp = 0;
@@ -291,6 +292,7 @@ class _StatsWidgetState extends State<StatsWidget> {
     _totalCount = await Stats.getMetric(MetricQuery.totalCount);
     _quickTimerCount = await Stats.getMetric(MetricQuery.quickTimerCount);
     _starredCount = await Stats.getMetric(MetricQuery.starredCount);
+    _extraInfusionCount = await Stats.getMetric(MetricQuery.extraInfusionCount);
     _totalTime = await Stats.getMetric(MetricQuery.totalTime);
     _morningTea = await Stats.getString(StringQuery.morningTea);
     _afternoonTea = await Stats.getString(StringQuery.afternoonTea);
@@ -510,6 +512,13 @@ class _StatsWidgetState extends State<StatsWidget> {
         _metricWidget(
           metricName: AppString.stats_quick_timer.translate(),
           metric: _quickTimerCount.toString(),
+        ),
+        Visibility(
+          visible: _extraInfusionCount > 0,
+          child: _metricWidget(
+            metricName: AppString.stats_infusions.translate(),
+            metric: _extraInfusionCount.toString(),
+          ),
         ),
         _metricWidget(
           metricName: AppString.stats_daily_average.translate(),

@@ -42,6 +42,7 @@ void main() {
         isFavorite: true,
         numInfusions: 3,
         infusionInterval: 15,
+        currentInfusion: 2,
       );
       Tea teaB = makeTea(id: 2, name: 'Rooibos', brewTime: 300);
       Stat stat = Stat(tea: teaA, timerStartTime: 1234567890);
@@ -103,6 +104,7 @@ void main() {
       expect(decoded.stats![0].name, 'Sencha');
       expect(decoded.stats![0].brewTime, 120);
       expect(decoded.stats![0].timerStartTime, 1234567890);
+      expect(decoded.stats![0].currentInfusion, 2);
     });
 
     test('returns null fields for malformed data', () {

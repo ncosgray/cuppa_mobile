@@ -175,6 +175,7 @@ enum AppString {
   stats_favorite_pm('stats_favorite_pm'),
   stats_header('stats_header'),
   stats_include_deleted('stats_include_deleted'),
+  stats_infusions('stats_infusions'),
   stats_no_data_1('stats_no_data_1'),
   stats_no_data_2('stats_no_data_2'),
   stats_quick_timer('stats_quick_timer'),
