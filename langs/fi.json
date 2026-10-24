@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} on ilmainen, avoimen lähdekoodin sovellus.",
+  "about_build": "koontiversio {{build_number}}",
   "about_license": "Avoimen lähdekoodin lisenssi",
   "about_title": "Tietoja {{app_name}}:sta",
   "add_tea_button": "Lisää tee",

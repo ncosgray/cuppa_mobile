@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} librea da, kode irekiko aplikazioa.",
+  "about_build": "konpilazioa {{build_number}}",
   "about_license": "Kode irekiko lizentzia",
   "about_title": "{{app_name}}ri buruz",
   "add_tea_button": "Tea Gehitu",

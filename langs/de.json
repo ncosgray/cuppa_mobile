@@ -1,5 +1,6 @@
 {
     "about_app": "{{app_name}} ist eine kostenlose, quelloffene Anwendung.",
+    "about_build": "Build {{build_number}}",
     "about_license": "Quelloffene-Lizenz",
     "about_title": "Über {{app_name}}",
     "add_tea_button": "Tee hinzufügen",

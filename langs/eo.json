@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} estas libera, malfermitkoda programo.",
+  "about_build": "muntaĵo {{build_number}}",
   "about_license": "Malfermfonta permesilo",
   "about_title": "Pri {{app_name}}",
   "add_tea_button": "Aldoni teon",

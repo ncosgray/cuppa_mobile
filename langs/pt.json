@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} é um aplicativo gratuito e de código aberto.",
+  "about_build": "compilação {{build_number}}",
   "about_license": "Licença de código aberto",
   "about_title": "Sobre {{app_name}}",
   "add_tea_button": "Adicionar chá",

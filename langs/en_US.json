@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} is a free, open-source app.",
+  "about_build": "build {{build_number}}",
   "about_license": "Open-source license",
   "about_title": "About {{app_name}}",
   "add_tea_button": "Add Tea",

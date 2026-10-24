@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} е безплатно приложение с отворен код.",
+  "about_build": "компилация {{build_number}}",
   "about_license": "Лиценз с Отворен код",
   "about_title": "За {{app_name}}",
   "add_tea_button": "Добавете чай",

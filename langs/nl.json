@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} is een gratis, opensource-app.",
+  "about_build": "build {{build_number}}",
   "about_license": "Opensourcelicentie",
   "about_title": "Over {{app_name}}",
   "add_tea_button": "Theesoort toevoegen",

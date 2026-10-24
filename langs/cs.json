@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} je bezplatná, open-source aplikace.",
+  "about_build": "sestavení {{build_number}}",
   "about_license": "Licence open-source",
   "about_title": "O {{app_name}}",
   "add_tea_button": "Přidat čaj",

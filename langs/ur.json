@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} ایک آزاد، اوپن سورس ایپ ہے۔",
+  "about_build": "بلڈ {{build_number}}",
   "about_license": "اوپن سورس لائسنس",
   "about_title": "{{app_name}} کے بارے میں",
   "add_tea_button": "چائے شامل کریں",

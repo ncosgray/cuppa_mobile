@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} se yon aplikasyon gratis ak lib.",
+  "about_build": "konpilasyon {{build_number}}",
   "about_license": "Lisans sous ouvè",
   "about_title": "Konsènan {{app_name}}",
   "add_tea_button": "Ajoute te",

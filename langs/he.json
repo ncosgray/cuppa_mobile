@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} הוא יישומון חינמי בקוד פתוח.",
+  "about_build": "גרסת בנייה {{build_number}}",
   "about_license": "רישיון קוד פתוח",
   "about_title": "על {{app_name}}",
   "add_tea_button": "הוספת תה",

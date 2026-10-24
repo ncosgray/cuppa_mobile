@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} er et gratis og fritt program.",
+  "about_build": "bygg {{build_number}}",
   "about_license": "Åpen kildekode-lisens",
   "about_title": "Om {{app_name}}",
   "add_tea_button": "Tilsett Te",

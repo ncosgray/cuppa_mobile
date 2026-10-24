@@ -1,5 +1,6 @@
 {
     "about_app": "{{app_name}} je brezplačna, odprtokodna aplikacija.",
+    "about_build": "gradnja {{build_number}}",
     "about_license": "Odprtokodna licenca",
     "about_title": "O {{app_name}}",
     "add_tea_button": "Dodajte čaj",

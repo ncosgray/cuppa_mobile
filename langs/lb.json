@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} ass eng gratis, open-source Applikatioun.",
+  "about_build": "Build {{build_number}}",
   "about_license": "Quelloffen Lizens",
   "about_title": "Iwwer {{app_name}}",
   "add_tea_button": "Téi dobäimaachen",

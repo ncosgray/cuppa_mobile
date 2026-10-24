@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} уҫӑ ҫӑмӑл котӑлӑ тӳлевсӗр приложени пур.",
+  "about_build": "сборка {{build_number}}",
   "about_license": "Ҫӑмӑл котлӑ лиҫенси",
   "about_title": "{{app_name}} ҫинчен",
   "add_tea_button": "Чей хуш",

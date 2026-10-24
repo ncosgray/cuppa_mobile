@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} özgür, açık kaynaklı bir uygulamadır.",
+  "about_build": "derleme {{build_number}}",
   "about_license": "Açık kaynak lisansı",
   "about_title": "{{app_name}} Hakkında",
   "add_tea_button": "Çay Ekle",

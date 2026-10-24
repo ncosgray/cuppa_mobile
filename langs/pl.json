@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} to darmowa, otwartoźródłowa aplikacja.",
+  "about_build": "kompilacja {{build_number}}",
   "about_license": "Otwartoźródlowa licencja",
   "about_title": "O {{app_name}}",
   "add_tea_button": "Dodaj herbatę",

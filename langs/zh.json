@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} 是一个免费的开源应用。",
+  "about_build": "构建 {{build_number}}",
   "about_license": "开放源代码许可证",
   "about_title": "关于 {{app_name}}",
   "add_tea_button": "添加茶叶",

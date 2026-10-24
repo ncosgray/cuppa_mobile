@@ -83,6 +83,7 @@ final List<String> fallbackLanguageCodes = supportedLanguageCodes
 // ignore_for_file: constant_identifier_names
 enum AppString {
   about_app('about_app'),
+  about_build('about_build'),
   about_license('about_license'),
   about_title('about_title'),
   add_tea_button('add_tea_button'),
@@ -246,11 +247,13 @@ enum AppString {
     String teaName = '',
     int currentInfusion = 0,
     int totalInfusions = 0,
+    String buildNumber = '',
   }) {
     return AppLocalizations.translate(key)
         .replaceAll('{{tea_name}}', teaName)
         .replaceAll('{{current_infusion}}', currentInfusion.toString())
         .replaceAll('{{total_infusions}}', totalInfusions.toString())
+        .replaceAll('{{build_number}}', buildNumber)
         .replaceAll('{{app_name}}', appName)
         .replaceAll('{{favorites_max}}', favoritesMaxCount.toString())
         .replaceAll('{{teas_max}}', teasMaxCount.toString())

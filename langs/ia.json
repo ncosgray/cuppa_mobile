@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} es un application libere e de codice aperte.",
+  "about_build": "compilation {{build_number}}",
   "about_license": "Licencia de codice aperte",
   "about_title": "A proposito de {{app_name}}",
   "add_tea_button": "Adder un the",

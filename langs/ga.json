@@ -1,5 +1,6 @@
 {
   "about_app": "Is aip foinse oscailte saor in aisce é {{app_name}}.",
+  "about_build": "tógáil {{build_number}}",
   "about_license": "Ceadúnas foinse oscailte",
   "about_title": "Maidir le {{app_name}}",
   "add_tea_button": "Cuir Tae Leis",

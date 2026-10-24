@@ -76,7 +76,7 @@ class _AboutWidgetState extends State<AboutWidget> {
             ),
             // Cuppa version and build
             title:
-                '$appName ${packageInfo.version} (${packageInfo.buildNumber})',
+                '$appName ${packageInfo.version} (${AppString.about_build.translate(buildNumber: packageInfo.buildNumber)})',
           ),
           SliverToBoxAdapter(
             child: SafeArea(

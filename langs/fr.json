@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} est une appli gratuite et à code source ouvert.",
+  "about_build": "build {{build_number}}",
   "about_license": "Licence à source ouverte",
   "about_title": "À propos de {{app_name}}",
   "add_tea_button": "Ajouter une infusion",

@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} a zo un arload dinask hag open source.",
+  "about_build": "savadur {{build_number}}",
   "about_license": "Aotre-implijout open source",
   "about_title": "Diwar-benn {{app_name}}",
   "add_tea_button": "Ouzhpennañ Evaj",

@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} pulsuz, açıq mənbəli tətbiqdir.",
+  "about_build": "yığım {{build_number}}",
   "about_license": "Açıq mənbə lisenziyası",
   "about_title": "{{app_name}} Haqqında",
   "add_tea_button": "Çay əlavə et",

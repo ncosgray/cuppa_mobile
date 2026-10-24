@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} on tasuta, avatud lähtekoodiga rakendus.",
+  "about_build": "järk {{build_number}}",
   "about_license": "Avatud lähtekoodiga litsents",
   "about_title": "Rakenduse {{app_name}} teave",
   "add_tea_button": "Lisa Tee",

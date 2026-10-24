@@ -1,5 +1,6 @@
 {
   "about_app": "{{app_name}} є безкоштовним застосунком з відкритим вихідним кодом.",
+  "about_build": "збірка {{build_number}}",
   "about_license": "Ліцензія з відкритим вихідним кодом",
   "about_title": "Про {{app_name}}",
   "add_tea_button": "Додати Чай",
