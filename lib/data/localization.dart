@@ -83,9 +83,11 @@ final List<String> fallbackLanguageCodes = supportedLanguageCodes
 // ignore_for_file: constant_identifier_names
 enum AppString {
   about_app('about_app'),
+  about_build('about_build'),
   about_license('about_license'),
   about_title('about_title'),
   add_tea_button('add_tea_button'),
+  adjust_button('adjust_button'),
   cancel_button('cancel_button'),
   confirm_continue('confirm_continue'),
   confirm_delete('confirm_delete'),
@@ -109,6 +111,11 @@ enum AppString {
   new_tea_default_name('new_tea_default_name'),
   new_tea_default_subtext('new_tea_default_subtext'),
   no_button('no_button'),
+  notify_issue_alarm_volume('notify_issue_alarm_volume'),
+  notify_issue_disabled('notify_issue_disabled'),
+  notify_issue_fix('notify_issue_fix'),
+  notify_issue_muted('notify_issue_muted'),
+  notify_issue_time_sensitive('notify_issue_time_sensitive'),
   notification_channel_name('notification_channel_name'),
   notification_channel_ongoing('notification_channel_ongoing'),
   notification_channel_silent('notification_channel_silent'),
@@ -163,11 +170,13 @@ enum AppString {
   stats_begin('stats_begin'),
   stats_confirm_disable('stats_confirm_disable'),
   stats_confirm_enable('stats_confirm_enable'),
+  stats_daily_average('stats_daily_average'),
   stats_enable('stats_enable'),
   stats_favorite_am('stats_favorite_am'),
   stats_favorite_pm('stats_favorite_pm'),
   stats_header('stats_header'),
   stats_include_deleted('stats_include_deleted'),
+  stats_infusions('stats_infusions'),
   stats_no_data_1('stats_no_data_1'),
   stats_no_data_2('stats_no_data_2'),
   stats_quick_timer('stats_quick_timer'),
@@ -238,11 +247,13 @@ enum AppString {
     String teaName = '',
     int currentInfusion = 0,
     int totalInfusions = 0,
+    String buildNumber = '',
   }) {
     return AppLocalizations.translate(key)
         .replaceAll('{{tea_name}}', teaName)
         .replaceAll('{{current_infusion}}', currentInfusion.toString())
         .replaceAll('{{total_infusions}}', totalInfusions.toString())
+        .replaceAll('{{build_number}}', buildNumber)
         .replaceAll('{{app_name}}', appName)
         .replaceAll('{{favorites_max}}', favoritesMaxCount.toString())
         .replaceAll('{{teas_max}}', teasMaxCount.toString())

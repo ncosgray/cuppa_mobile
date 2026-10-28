@@ -247,6 +247,7 @@ const statsColumnTimerStartTime = 'timerStartTime';
 const statsColumnCount = 'count';
 const statsColumnMetric = 'metric';
 const statsColumnString = 'string';
+const statsColumnCurrentInfusion = 'currentInfusion';
 
 // Opacities
 const noOpacity = 1.0;

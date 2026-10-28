@@ -1,0 +1,5 @@
+* Support for iPhone Duo.
+* Additional timer statistics.
+* Warn about notification settings problems.
+* Live Activity fixes and improvements.
+* Language translation updates - contribute via Weblate!

@@ -60,9 +60,11 @@ class _StatsWidgetState extends State<StatsWidget> {
   int _totalCount = 0;
   int _quickTimerCount = 0;
   int _starredCount = 0;
+  int _extraInfusionCount = 0;
   int _totalTime = 0;
   double _totalAmountG = 0;
   double _totalAmountTsp = 0;
+  double _teasPerDay = 0;
   String _morningTea = '';
   String _afternoonTea = '';
   List<Stat> _summaryStats = [];
@@ -240,7 +242,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                           child: SafeArea(
                             top: false,
                             child: Container(
-                              margin: bottomSliverPadding,
+                              margin: largeDefaultPadding,
                               child: Align(
                                 alignment: .bottomCenter,
                                 // General metrics
@@ -290,12 +292,14 @@ class _StatsWidgetState extends State<StatsWidget> {
     _totalCount = await Stats.getMetric(MetricQuery.totalCount);
     _quickTimerCount = await Stats.getMetric(MetricQuery.quickTimerCount);
     _starredCount = await Stats.getMetric(MetricQuery.starredCount);
+    _extraInfusionCount = await Stats.getMetric(MetricQuery.extraInfusionCount);
     _totalTime = await Stats.getMetric(MetricQuery.totalTime);
     _morningTea = await Stats.getString(StringQuery.morningTea);
     _afternoonTea = await Stats.getString(StringQuery.afternoonTea);
     _summaryStats = await Stats.getTeaStats(ListQuery.summaryStats);
     _totalAmountG = await Stats.getDecimal(DecimalQuery.totalAmountG);
     _totalAmountTsp = await Stats.getDecimal(DecimalQuery.totalAmountTsp);
+    _teasPerDay = await Stats.getDecimal(DecimalQuery.teasPerDay);
 
     return true;
   }
@@ -371,7 +375,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                 children: [
                   // Tea icon button
                   Padding(
-                    padding: rowPadding,
+                    padding: noPadding,
                     child: miniTeaButton(
                       color: stat.color,
                       icon: TeaIcon.values[stat.iconValue].getIcon(),
@@ -379,7 +383,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                   ),
                   // Tea name
                   Padding(
-                    padding: rowPadding,
+                    padding: largeDefaultPadding,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: maxWidth / 1.8),
                       child: Text(
@@ -508,6 +512,17 @@ class _StatsWidgetState extends State<StatsWidget> {
         _metricWidget(
           metricName: AppString.stats_quick_timer.translate(),
           metric: _quickTimerCount.toString(),
+        ),
+        Visibility(
+          visible: _extraInfusionCount > 0,
+          child: _metricWidget(
+            metricName: AppString.stats_infusions.translate(),
+            metric: _extraInfusionCount.toString(),
+          ),
+        ),
+        _metricWidget(
+          metricName: AppString.stats_daily_average.translate(),
+          metric: AppLocalizations.numberString(_teasPerDay, decimalPlaces: 2),
         ),
         Visibility(
           visible: _totalCount - _quickTimerCount > 0,

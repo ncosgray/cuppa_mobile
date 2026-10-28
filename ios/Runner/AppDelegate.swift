@@ -23,6 +23,33 @@ import intelligence
       with: engineBridge.pluginRegistry.registrar(forPlugin: "CuppaLiveActivityPlugin")!,
     )
 
+    // Notification settings that can keep timer alerts from being heard
+    let notifyChannel = FlutterMethodChannel(
+      name: "cuppa_notifications",
+      binaryMessenger: engineBridge.pluginRegistry.registrar(forPlugin: "CuppaNotifications")!.messenger(),
+    )
+    notifyChannel.setMethodCallHandler { call, result in
+      guard call.method == "getNotificationSettings" else {
+        result(FlutterMethodNotImplemented)
+        return
+      }
+      UNUserNotificationCenter.current().getNotificationSettings { settings in
+        let status: String
+        switch settings.authorizationStatus {
+        case .notDetermined: status = "notDetermined"
+        case .denied: status = "denied"
+        default: status = "authorized"
+        }
+        DispatchQueue.main.async {
+          result([
+            "status": status,
+            "soundEnabled": settings.soundSetting != .disabled,
+            "timeSensitiveEnabled": settings.timeSensitiveSetting != .disabled,
+          ])
+        }
+      }
+    }
+
     // Setup for intelligence plugin
     IntelligencePlugin.storage.attachListener {
       AppShortcuts.updateAppShortcutParameters()

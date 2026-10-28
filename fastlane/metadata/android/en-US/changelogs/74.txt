@@ -1,0 +1,3 @@
+* Additional timer statistics.
+* Warn about notification settings problems.
+* Language translation updates - contribute via Weblate!

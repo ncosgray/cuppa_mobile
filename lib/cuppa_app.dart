@@ -114,13 +114,20 @@ class CuppaApp extends StatelessWidget {
                 // Hosts pinned nav bar chrome above the Navigator. Portrait
                 // only: the shell ignores horizontal safe area insets.
                 builder: Platform.isIOS
-                    ? (context, child) => Overlay.wrap(
-                        child:
-                            MediaQuery.orientationOf(context) ==
-                                Orientation.portrait
-                            ? GlassNavigationShell(child: child!)
-                            : child!,
-                      )
+                    ? (context, child) {
+                        // iPhone Duo's strip insets one side, in any posture
+                        final EdgeInsets inset = MediaQuery.viewPaddingOf(
+                          context,
+                        );
+                        final bool useShell =
+                            MediaQuery.orientationOf(context) == .portrait ||
+                            (inset.left > 0) != (inset.right > 0);
+                        return Overlay.wrap(
+                          child: useShell
+                              ? GlassNavigationShell(child: child!)
+                              : child!,
+                        );
+                      }
                     : null,
                 // Initial route
                 home: const TimerWidget(),

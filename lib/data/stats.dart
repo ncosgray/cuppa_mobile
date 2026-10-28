@@ -40,11 +40,12 @@ class Stat {
     int? iconValue,
     bool? isFavorite,
     int? timerStartTime,
+    int? currentInfusion,
     int? count,
   }) {
     this.id = tea?.id ?? id ?? 0;
     this.name = tea?.name ?? name ?? unknownString;
-    this.brewTime = tea?.brewTime ?? brewTime ?? defaultBrewTime;
+    this.brewTime = tea?.currentBrewTime ?? brewTime ?? defaultBrewTime;
     this.brewTemp = tea?.brewTemp ?? brewTemp ?? boilDegreesC;
     this.brewAmount = tea?.brewRatio.ratioNumerator ?? brewAmount ?? 0.0;
     this.brewAmountMetric =
@@ -61,6 +62,7 @@ class Stat {
     this.isFavorite = tea?.isFavorite ?? isFavorite ?? false;
     this.timerStartTime =
         timerStartTime ?? DateTime.now().millisecondsSinceEpoch;
+    this.currentInfusion = tea?.currentInfusion ?? currentInfusion ?? 1;
     this.count = count ?? 0;
   }
 
@@ -84,6 +86,7 @@ class Stat {
       iconValue: tryCast<int>(json[jsonKeyIcon]) ?? defaultTeaIconValue,
       isFavorite: tryCast<bool>(json[jsonKeyIsFavorite]) ?? false,
       timerStartTime: tryCast<int>(json[jsonKeyTimerStartTime]) ?? 0,
+      currentInfusion: tryCast<int>(json[jsonKeyCurrentInfusion]) ?? 1,
     );
   }
 
@@ -100,6 +103,7 @@ class Stat {
     jsonKeyIcon: iconValue,
     jsonKeyIsFavorite: isFavorite,
     jsonKeyTimerStartTime: timerStartTime,
+    jsonKeyCurrentInfusion: currentInfusion,
   };
 
   // Convert a stat to a map for inserting
@@ -117,6 +121,7 @@ class Stat {
       statsColumnIconValue: iconValue,
       statsColumnIsFavorite: isFavorite ? 1 : 0,
       statsColumnTimerStartTime: timerStartTime,
+      statsColumnCurrentInfusion: currentInfusion,
     };
   }
 
@@ -133,6 +138,7 @@ class Stat {
   late int iconValue;
   late bool isFavorite;
   late int timerStartTime;
+  late int currentInfusion;
   late int count;
 
   // Getters
@@ -157,11 +163,14 @@ abstract class Stats {
       , $statsColumnTimerStartTime INTEGER
       , $statsColumnBrewAmount INTEGER
       , $statsColumnBrewAmountMetric INTEGER
+      , $statsColumnCurrentInfusion INTEGER
     )''';
   static const upgradeV2Step1SQL = '''ALTER TABLE $statsTable
     ADD $statsColumnBrewAmount INTEGER''';
   static const upgradeV2Step2SQL = '''ALTER TABLE $statsTable
     ADD $statsColumnBrewAmountMetric INTEGER''';
+  static const upgradeV3SQL = '''ALTER TABLE $statsTable
+    ADD $statsColumnCurrentInfusion INTEGER''';
   static const deleteAllSQL = 'DELETE FROM $statsTable';
 
   // Stats database getter
@@ -177,12 +186,15 @@ abstract class Stats {
   static Future<Database> openStats() async {
     return await openDatabase(
       join(await getDatabasesPath(), statsDatabase),
-      version: 2,
+      version: 3,
       onCreate: (Database db, _) async => await db.execute(createSQL),
       onUpgrade: (Database db, int oldVersion, int newVersion) async {
         if (oldVersion < 2) {
           await db.execute(upgradeV2Step1SQL);
           await db.execute(upgradeV2Step2SQL);
+        }
+        if (oldVersion < 3) {
+          await db.execute(upgradeV3SQL);
         }
       },
     );
@@ -202,6 +214,19 @@ abstract class Stats {
 
     // Insert a row into the stats table
     await db.insert(statsTable, stat.toMap(), conflictAlgorithm: .replace);
+  }
+
+  // Update the most recent stat for a tea after an infusion change
+  static Future<void> updateLatestInfusion(Tea tea) async {
+    final db = await statsData;
+    await db.rawUpdate(
+      '''UPDATE $statsTable
+      SET $statsColumnCurrentInfusion = ?, $statsColumnBrewTime = ?
+      WHERE $statsColumnId = ? AND $statsColumnTimerStartTime =
+        (SELECT MAX($statsColumnTimerStartTime) FROM $statsTable
+         WHERE $statsColumnId = ?)''',
+      [tea.currentInfusion, tea.currentBrewTime, tea.id, tea.id],
+    );
   }
 
   // Retrieve tea stats from the database
@@ -246,6 +271,9 @@ abstract class Stats {
             int.tryParse(results[i][statsColumnIsFavorite].toString()) == 1,
         timerStartTime: int.tryParse(
           results[i][statsColumnTimerStartTime].toString(),
+        ),
+        currentInfusion: int.tryParse(
+          results[i][statsColumnCurrentInfusion].toString(),
         ),
         count: int.tryParse(results[i][statsColumnCount].toString()),
       );
@@ -298,7 +326,8 @@ enum MetricQuery {
   totalCount(_totalCountSQL),
   totalTime(_totalTimeSQL),
   starredCount(_starredCountSQL),
-  quickTimerCount(_quickTimerCountSQL);
+  quickTimerCount(_quickTimerCountSQL),
+  extraInfusionCount(_extraInfusionCountSQL);
 
   const MetricQuery(this.sql);
 
@@ -321,12 +350,17 @@ enum MetricQuery {
       '''SELECT COUNT(*) AS metric
     FROM $statsTable
     WHERE $statsColumnId = $quickTimerTeaID''';
+  static const _extraInfusionCountSQL =
+      '''SELECT COUNT(*) AS metric
+    FROM $statsTable
+    WHERE $statsColumnCurrentInfusion > 1''';
 }
 
 // Decimal queries
 enum DecimalQuery {
   totalAmountG(_totalAmountGSQL),
-  totalAmountTsp(_totalAmountTspSQL);
+  totalAmountTsp(_totalAmountTspSQL),
+  teasPerDay(_teasPerDaySQL);
 
   const DecimalQuery(this.sql);
 
@@ -343,6 +377,12 @@ enum DecimalQuery {
     FROM $statsTable
     WHERE $statsColumnBrewAmountMetric <> 1
     AND $statsColumnId <> $quickTimerTeaID''';
+  static const _teasPerDaySQL =
+      '''SELECT COUNT(*) /
+    (1 + JULIANDAY('now', 'localtime', 'start of day')
+      - JULIANDAY(MIN($statsColumnTimerStartTime) / 1000, 'unixepoch', 'localtime', 'start of day')
+    ) AS metric
+    FROM $statsTable''';
 }
 
 // String queries

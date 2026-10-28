@@ -25,7 +25,7 @@ import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 
 import 'dart:io' show Platform;
-import 'dart:ui' show ImageFilter;
+import 'dart:ui' show FlutterView, ImageFilter;
 
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
@@ -93,7 +93,10 @@ const double _scrollEdgeFadeHeight = 88 * 2;
 // Top fade clears the whole bar, so content dissolves before it reaches the
 // nav title rather than passing legibly behind it
 double _topScrollEdgeFadeHeight(BuildContext context) =>
-    (MediaQuery.paddingOf(context).top + _navBarButtonSize + smallSpacing * 2) *
+    (MediaQuery.paddingOf(context).top +
+        navBarTopInset +
+        _navBarButtonSize +
+        smallSpacing * 2) *
     2;
 
 // Nav bar glass button dimensions, from the shell's metrics so the timer
@@ -106,23 +109,41 @@ const double _navBarIconSize = GlassNavPinnedMetrics.iconSize;
 const double _navBarButtonRadius = GlassNavPinnedMetrics.capsuleRadius;
 const double _navBarButtonStretch = GlassNavPinnedMetrics.capsuleStretch;
 
-// Edge inset of the pinned chrome, for buttons that must line up with it
-const double navBarChromeInset = GlassNavPinnedMetrics.horizontalPadding;
+// Edge inset of the pinned chrome, aligned with the page content
+const double navBarChromeInset = pageInset;
+
+// Top inset for nav buttons when there is no status bar to hold them off the
+// screen edge, i.e. iPhone landscape. Read from the view as preferredSize has
+// no context.
+double get navBarTopInset {
+  if (!Platform.isIOS) return 0;
+  final FlutterView view =
+      WidgetsBinding.instance.platformDispatcher.views.first;
+  return view.padding.top / view.devicePixelRatio < pageInset ? pageInset : 0;
+}
 
 // Must match the shell's geometry or the chrome jumps while a dialog is up.
 // Gap goes below the row: Scaffold insets the body by the bar's height.
 const EdgeInsetsGeometry navBarPadding = .fromLTRB(
-  GlassNavPinnedMetrics.horizontalPadding,
+  navBarChromeInset,
   0,
-  GlassNavPinnedMetrics.horizontalPadding,
+  navBarChromeInset,
   smallSpacing,
 );
+
+// iPhone Duo's vertical strip, published by the iOS-only GlassNavigationShell
+GlassVerticalBarData? verticalBarStrip(BuildContext context) =>
+    GlassVerticalBar.maybeOf(context);
+
+// Whether bars move into iPhone Duo's vertical strip beside the content
+bool inVerticalBarStrip(BuildContext context) =>
+    verticalBarStrip(context) != null;
 
 // Platform adaptive page scaffold
 Widget adaptiveScaffold({
   required Widget body,
   ObstructingPreferredSizeWidget? appBar,
-  Widget? bottomNavigationBar,
+  PlatformAdaptiveBottomNavBar? bottomNavigationBar,
   Color? backgroundColor,
   bool resizeToAvoidBottomInset = true,
 }) {
@@ -139,28 +160,50 @@ Widget adaptiveScaffold({
           final bool isDark = theme.brightness == Brightness.dark;
           final Color bgColor =
               backgroundColor ?? theme.scaffoldBackgroundColor;
+          final bool tabBarInStrip = inVerticalBarStrip(context);
+          // Built the same either side of a posture change so the page body
+          // is never remounted. The strip tab bar sits outside the Scaffold
+          // so the keyboard covers it rather than pushing it up.
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: isDark
                 ? SystemUiOverlayStyle.light
                 : SystemUiOverlayStyle.dark,
-            child: Scaffold(
-              appBar: appBar,
-              backgroundColor: backgroundColor,
-              resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-              extendBodyBehindAppBar: true,
-              extendBody: true,
-              body: Material(
-                type: .transparency,
-                child: GlassScrollEdgeEffect(
-                  fadeTop: showTopFade,
-                  topFadeHeight: _topScrollEdgeFadeHeight(context),
-                  bottomFadeHeight: _scrollEdgeFadeHeight,
-                  style: .hard,
-                  fadeColor: bgColor,
-                  child: body,
+            child: Stack(
+              fit: .expand,
+              children: [
+                Scaffold(
+                  appBar: appBar,
+                  backgroundColor: backgroundColor,
+                  resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+                  extendBodyBehindAppBar: true,
+                  extendBody: true,
+                  body: Material(
+                    type: .transparency,
+                    child: GlassScrollEdgeEffect(
+                      fadeTop: showTopFade,
+                      fadeBottom: !tabBarInStrip,
+                      topFadeHeight: _topScrollEdgeFadeHeight(context),
+                      bottomFadeHeight: _scrollEdgeFadeHeight,
+                      style: .hard,
+                      fadeColor: bgColor,
+                      child: body,
+                    ),
+                  ),
+                  bottomNavigationBar: tabBarInStrip
+                      ? null
+                      : bottomNavigationBar,
                 ),
-              ),
-              bottomNavigationBar: bottomNavigationBar,
+                // Fills the screen to align itself into the strip; its empty
+                // area passes taps through to the page
+                if (tabBarInStrip)
+                  Positioned.fill(
+                    key: const ValueKey('strip_tab_bar'),
+                    child: Material(
+                      type: .transparency,
+                      child: bottomNavigationBar,
+                    ),
+                  ),
+              ],
             ),
           );
         },
@@ -221,13 +264,20 @@ Widget adaptiveNavBarActionButton(
 }) {
   if (Platform.isIOS) {
     final Color primaryColor = CupertinoTheme.of(context).primaryColor;
+    // Sized as a lone control in iPhone Duo's strip, to match hoisted chrome
+    final bool inStrip = inVerticalBarStrip(context);
+    final double size = inStrip
+        ? GlassVerticalBarMetrics.controlExtent
+        : _navBarButtonSize;
     return GlassButton.custom(
       onTap: onPressed ?? () {},
       enabled: onPressed != null,
       label: semanticLabel,
-      width: _navBarButtonSize,
-      height: _navBarButtonSize,
-      shape: const LiquidRoundedRectangle(borderRadius: _navBarButtonRadius),
+      width: size,
+      height: size,
+      shape: LiquidRoundedRectangle(
+        borderRadius: inStrip ? size / 2 : _navBarButtonRadius,
+      ),
       stretch: _navBarButtonStretch,
       useOwnLayer: true,
       child: IconTheme(
@@ -990,7 +1040,9 @@ class PlatformAdaptiveNavBar extends StatelessWidget
 
   @override
   Size get preferredSize => .fromHeight(
-    Platform.isIOS ? _navBarButtonSize + smallSpacing : kToolbarHeight,
+    Platform.isIOS
+        ? navBarTopInset + _navBarButtonSize + smallSpacing
+        : kToolbarHeight,
   );
 
   @override
@@ -1001,25 +1053,11 @@ class PlatformAdaptiveNavBar extends StatelessWidget
 
     if (Platform.isIOS) {
       // Chrome declared as data so the shell can hoist it above the Navigator;
-      // a cluster of items renders as one capsule
-      return GlassAppBar.pinned(
-        padding: navBarPadding,
-        // No controller means the page opted out of a title entirely, rather
-        // than wanting one pinned on screen the whole time. The color is set
-        // from the app theme because CupertinoTheme's brightness does not
-        // track it, which left the title white on white in light mode.
-        title: largeTitleController == null
-            ? null
-            : Text(
-                title,
-                style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyLarge?.color,
-                ),
-              ),
+      // a cluster of items renders as one capsule. Registered directly since
+      // GlassAppBar.pinned can't set the shell's inset.
+      return GlassPinnedBarChrome(
+        horizontalInset: navBarChromeInset,
         largeTitleController: largeTitleController,
-        // Default 44 squashes the 46pt items, shrinking them while a dialog
-        // hands the chrome back to the route
-        toolbarHeight: _navBarButtonSize,
         // Supplied as a leading item; the shell's own back button can't be tinted
         backButton: false,
         leading: isPoppable
@@ -1055,6 +1093,27 @@ class PlatformAdaptiveNavBar extends StatelessWidget
               onTap: adaptiveOnPressed(context, route: actionRoute!)!,
             ),
         ],
+        builder: (context, chrome) => GlassAppBar(
+          padding: navBarPadding.add(.only(top: navBarTopInset)),
+          // No controller means the page opted out of a title entirely, rather
+          // than wanting one pinned on screen the whole time. The color is set
+          // from the app theme because CupertinoTheme's brightness does not
+          // track it, which left the title white on white in light mode.
+          title: largeTitleController == null
+              ? null
+              : Text(
+                  title,
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                ),
+          largeTitleController: largeTitleController,
+          // Default 44 squashes the 46pt items, shrinking them while a dialog
+          // hands the chrome back to the route
+          toolbarHeight: _navBarButtonSize,
+          leading: chrome.leading,
+          actions: chrome.actions.isEmpty ? null : chrome.actions,
+        ),
       );
     } else {
       return AppBar(
@@ -1162,35 +1221,35 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
       const double barBorderRadius = 32;
       final double barWidth = items.length * tabWidth + 2 * hPadding;
 
+      final Widget tabBar = GlassTabBar.bottom(
+        selectedIndex: currentIndex,
+        onTabSelected: onTap ?? (_) {},
+        tabs: items
+            .map((item) => GlassTab(icon: item.icon, label: item.label))
+            .toList(),
+        barHeight: 58,
+        verticalPadding: 0,
+        iconSize: _navBarIconSize,
+        horizontalPadding: 0,
+        barBorderRadius: barBorderRadius,
+        selectedIconColor: primaryColor,
+        unselectedIconColor: labelColor,
+        selectedLabelColor: primaryColor,
+        unselectedLabelColor: labelColor,
+        labelFontSize: 11,
+        indicatorColor: primaryColor.withValues(alpha: 0.1),
+        glowDuration: shortAnimationDuration,
+        settings: liquidGlassSettings,
+      );
+
+      // In iPhone Duo's vertical strip the bar positions itself
+      if (inVerticalBarStrip(context)) return tabBar;
+
       return Padding(
         padding: const EdgeInsets.only(bottom: 24),
         child: Row(
           mainAxisAlignment: .center,
-          children: [
-            SizedBox(
-              width: barWidth,
-              child: GlassTabBar.bottom(
-                selectedIndex: currentIndex,
-                onTabSelected: onTap ?? (_) {},
-                tabs: items
-                    .map((item) => GlassTab(icon: item.icon, label: item.label))
-                    .toList(),
-                barHeight: 58,
-                verticalPadding: 0,
-                iconSize: _navBarIconSize,
-                horizontalPadding: 0,
-                barBorderRadius: barBorderRadius,
-                selectedIconColor: primaryColor,
-                unselectedIconColor: labelColor,
-                selectedLabelColor: primaryColor,
-                unselectedLabelColor: labelColor,
-                labelFontSize: 11,
-                indicatorColor: primaryColor.withValues(alpha: 0.1),
-                glowDuration: shortAnimationDuration,
-                settings: liquidGlassSettings,
-              ),
-            ),
-          ],
+          children: [SizedBox(width: barWidth, child: tabBar)],
         ),
       );
     } else {

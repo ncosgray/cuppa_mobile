@@ -50,12 +50,14 @@ struct CuppaLiveActivityLiveActivity: Widget {
                 // Expanded view: tea icons in leading/trailing, countdowns in bottom
                 DynamicIslandExpandedRegion(.leading) {
                     teaIconImage(context: context, index: 1)
-                        .frame(width: 32, height: 32)
+                        .frame(height: 32)
+                        .padding(.leading, 2)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     if timerCount(context: context) >= 2 {
                         teaIconImage(context: context, index: 2)
-                            .frame(width: 32, height: 32)
+                            .frame(height: 32)
+                            .padding(.trailing, 2)
                     }
                 }
                 DynamicIslandExpandedRegion(.bottom) {
@@ -65,7 +67,7 @@ struct CuppaLiveActivityLiveActivity: Widget {
                             timerColumn(context: context, index: 2)
                         }
                     }
-                    .padding(.horizontal, 4)
+                    .padding(.horizontal, 2)
                 }
             } compactLeading: {
                 // Compact pill: leading side shows countdown for timer 1 (if 2 timers)
@@ -75,10 +77,12 @@ struct CuppaLiveActivityLiveActivity: Widget {
                         .font(.caption)
                         .fontWeight(.bold)
                         .foregroundColor(teaColor(context: context, index: 1))
-                        .frame(width: 50)
+                        .frame(width: compactCountdownWidth(end: endDate(context: context, index: 1)))
+                        .padding(.leading, 2)
                 } else {
                     teaIconImage(context: context, index: 1)
-                        .frame(width: 20, height: 20)
+                        .frame(height: 20)
+                        .padding(.leading, 2)
                 }
             } compactTrailing: {
                 // Compact pill: trailing side shows countdown for timer 2 (if 2 timers)
@@ -88,19 +92,22 @@ struct CuppaLiveActivityLiveActivity: Widget {
                         .font(.caption)
                         .fontWeight(.bold)
                         .foregroundColor(teaColor(context: context, index: 2))
-                        .frame(width: 50, alignment: .trailing)
+                        .frame(width: compactCountdownWidth(end: endDate(context: context, index: 2)), alignment: .trailing)
                         .multilineTextAlignment(.trailing)
-                } else {
+                        .padding(.trailing, 2)
+               } else {
                     countdownText(end: endDate(context: context, index: 1))
                         .fontWeight(.bold)
                         .foregroundColor(teaColor(context: context, index: 1))
-                        .frame(width: 50, alignment: .trailing)
+                        .frame(width: compactCountdownWidth(end: endDate(context: context, index: 1)), alignment: .trailing)
                         .multilineTextAlignment(.trailing)
+                        .padding(.trailing, 2)
                 }
             } minimal: {
                 // Minimal view: shown when multiple Live Activities compete for space
                 teaIconImage(context: context, index: 1)
-                    .frame(width: 20, height: 20)
+                    .frame(height: 20)
+                    .padding(.horizontal, 2)
             }
         }
     }
@@ -134,7 +141,7 @@ struct LockScreenView: View {
             // Single-timer layout: icon and name left, countdown right
             HStack {
                 teaIconImage(context: context, index: 1)
-                    .frame(width: 36, height: 36)
+                    .frame(height: 36)
                 Text(teaName(context: context, index: 1))
                     .font(.headline)
                     .fontWeight(.semibold)
@@ -169,7 +176,7 @@ func timerRow(context: ActivityViewContext<LiveActivitiesAppAttributes>, index: 
         if mirrorLayout { Spacer() }
         if !mirrorLayout {
             teaIconImage(context: context, index: index)
-                .frame(width: 28, height: 28)
+                .frame(height: 28)
         }
         VStack(alignment: mirrorLayout ? .trailing : .leading, spacing: 2) {
             Text(teaName(context: context, index: index))
@@ -185,7 +192,7 @@ func timerRow(context: ActivityViewContext<LiveActivitiesAppAttributes>, index: 
         }
         if mirrorLayout {
             teaIconImage(context: context, index: index)
-                .frame(width: 28, height: 28)
+                .frame(height: 28)
         }
         if !mirrorLayout { Spacer() }
     }
@@ -256,17 +263,20 @@ func teaIconName(context: ActivityViewContext<LiveActivitiesAppAttributes>, inde
     }
 }
 
-/// Build a countdown text view that uses the relative date style (e.g. "2 hr.")
-/// for timers with 1+ hour remaining, or the standard ticking countdown (m:ss)
-/// for shorter timers.
-@ViewBuilder
+/// Build a ticking countdown text view (m:ss, or h:mm:ss for 1+ hour remaining).
 func countdownText(end: Date) -> some View {
-    if end.timeIntervalSinceNow >= 3600 {
-        Text(end, style: .relative)
-    } else {
-        Text(timerInterval: Date()...end, countsDown: true)
-            .monospacedDigit()
-    }
+    Text(timerInterval: Date()...end, countsDown: true)
+        .monospacedDigit()
+}
+
+/// Width of a compact Dynamic Island countdown, sized for the longest string it can
+/// still show; the countdown only gets shorter, so the width never needs to grow.
+func compactCountdownWidth(end: Date) -> CGFloat {
+    let remaining = end.timeIntervalSinceNow
+    if remaining < 600 { return 34 }  // m:ss
+    if remaining < 3600 { return 47 }  // mm:ss
+    if remaining < 36000 { return 61 }  // h:mm:ss
+    return 67  // hh:mm:ss
 }
 
 /// Build a resizable, color-tinted tea icon image for display in the Live Activity.

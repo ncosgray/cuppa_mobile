@@ -34,7 +34,6 @@ import 'package:cuppa_mobile/widgets/tea_settings_list.dart';
 
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
-import 'package:transitioned_indexed_stack/transitioned_indexed_stack.dart';
 
 // Cuppa Preferences page
 class PrefsWidget extends StatefulWidget {
@@ -46,11 +45,22 @@ class PrefsWidget extends StatefulWidget {
   State<PrefsWidget> createState() => _PrefsWidgetState();
 }
 
-class _PrefsWidgetState extends State<PrefsWidget> {
+class _PrefsWidgetState extends State<PrefsWidget>
+    with SingleTickerProviderStateMixin {
   // Navigation state
   int _navIndex = 0;
-  bool _navInitial = true;
   bool _navSlideBack = false;
+  late final AnimationController _navController = AnimationController(
+    vsync: this,
+    duration: shortAnimationDuration,
+    value: 1,
+  );
+
+  @override
+  void dispose() {
+    _navController.dispose();
+    super.dispose();
+  }
 
   // Build Prefs page
   @override
@@ -86,32 +96,39 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                   ],
                 )
               // Use bottom nav bar with widget stack on small screens
-              : SlideIndexedStack(
-                  duration: shortAnimationDuration,
-                  beginSlideOffset: _navInitial
-                      // Do not transition on first build
-                      ? Offset.zero
+              : SlideTransition(
+                  position: _navController.drive(
+                    Tween<Offset>(
                       // Determine transition direction
-                      : _navSlideBack
-                      ? const Offset(-1, 0)
-                      : const Offset(1, 0),
-                  endSlideOffset: Offset.zero,
-                  index: _navIndex,
-                  children: [
-                    TeaSettingsList(launchAddTea: widget.launchAddTea),
-                    _otherSettingsList(),
-                  ],
+                      begin: _navSlideBack
+                          ? const Offset(-1, 0)
+                          : const Offset(1, 0),
+                      end: .zero,
+                    ),
+                  ),
+                  child: IndexedStack(
+                    index: _navIndex,
+                    sizing: .loose,
+                    alignment: AlignmentDirectional.topStart,
+                    children: [
+                      TeaSettingsList(launchAddTea: widget.launchAddTea),
+                      _otherSettingsList(),
+                    ],
+                  ),
                 ),
           bottomNavigationBar: layoutColumns
               ? null
               // Navigate between Teas and Settings
               : PlatformAdaptiveBottomNavBar(
                   currentIndex: _navIndex,
-                  onTap: (index) => setState(() {
-                    _navInitial = false;
-                    _navSlideBack = index < _navIndex;
-                    _navIndex = index;
-                  }),
+                  onTap: (index) {
+                    if (index == _navIndex) return;
+                    setState(() {
+                      _navSlideBack = index < _navIndex;
+                      _navIndex = index;
+                    });
+                    _navController.forward(from: 0);
+                  },
                   items: [
                     BottomNavigationBarItem(
                       icon: navBarTeasIcon,
@@ -140,7 +157,7 @@ class _PrefsWidgetState extends State<PrefsWidget> {
         child: SafeArea(
           top: false,
           child: Padding(
-            padding: columnPadding,
+            padding: prefsColumnPadding,
             child: Column(
               children: [
                 // Setting: teacup style selection
@@ -173,8 +190,12 @@ class _PrefsWidgetState extends State<PrefsWidget> {
                 _preNotifySetting,
                 // Setting: default to silent timer notifications
                 _defaultSilentSetting,
-                // Notification info
-                _notificationLink,
+                // Notification info and any issue warning
+                Selector<AppProvider, bool>(
+                  selector: (_, provider) => provider.silentDefault,
+                  builder: (context, silentDefault, child) =>
+                      _NotificationLink(silent: silentDefault),
+                ),
                 listDivider,
                 // Setting: collect timer usage stats
                 _collectStatsSetting,
@@ -561,21 +582,79 @@ class _PrefsWidgetState extends State<PrefsWidget> {
       }
     },
   );
+}
 
-  // Notification settings info text and link
-  Widget get _notificationLink => InkWell(
-    child: ListTile(
-      minLeadingWidth: 30,
-      leading: const SizedBox(height: double.infinity, child: infoIcon),
-      horizontalTitleGap: 0,
-      title: Text(
-        AppString.prefs_notifications.translate(),
-        style: textStyleSubtitle,
+// Notification settings info text and link, with a warning if timer alerts
+// may not be heard
+class _NotificationLink extends StatefulWidget {
+  const _NotificationLink({required this.silent});
+
+  final bool silent;
+
+  @override
+  State<_NotificationLink> createState() => _NotificationLinkState();
+}
+
+class _NotificationLinkState extends State<_NotificationLink> {
+  NotifyIssue? _issue;
+  late final AppLifecycleListener _lifecycleListener;
+
+  @override
+  void initState() {
+    super.initState();
+    // Recheck when returning from system settings
+    _lifecycleListener = AppLifecycleListener(onResume: _checkIssue);
+    _checkIssue();
+  }
+
+  @override
+  void didUpdateWidget(_NotificationLink oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.silent != oldWidget.silent) {
+      _checkIssue();
+    }
+  }
+
+  @override
+  void dispose() {
+    _lifecycleListener.dispose();
+    super.dispose();
+  }
+
+  Future<void> _checkIssue() async {
+    final NotifyIssue? issue = await checkNotifyIssue(silent: widget.silent);
+    if (!mounted) return;
+    setState(() => _issue = issue);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final NotifyIssue? issue = _issue;
+
+    return InkWell(
+      child: ListTile(
+        minLeadingWidth: 30,
+        leading: SizedBox(
+          height: double.infinity,
+          child: issue == null
+              ? infoIcon
+              : IconTheme.merge(
+                  data: .new(color: Theme.of(context).colorScheme.error),
+                  child: warningIcon,
+                ),
+        ),
+        horizontalTitleGap: 0,
+        title: Text(
+          issue == null
+              ? AppString.prefs_notifications.translate()
+              : '${issue.message} ${AppString.notify_issue_fix.translate()}',
+          style: textStyleSubtitle,
+        ),
+        trailing: const SizedBox(height: double.infinity, child: launchIcon),
+        onTap: openNotificationSettings,
+        contentPadding: listTilePadding,
+        dense: true,
       ),
-      trailing: const SizedBox(height: double.infinity, child: launchIcon),
-      onTap: () => openNotificationSettings(),
-      contentPadding: listTilePadding,
-      dense: true,
-    ),
-  );
+    );
+  }
 }

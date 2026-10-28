@@ -18,26 +18,29 @@ import 'package:material_ui/material_ui.dart';
 const double xsmallSpacing = 4;
 const double smallSpacing = 8;
 const double largeSpacing = 14;
+const double pageInset = 12;
 
 // General use padding
 const EdgeInsetsGeometry noPadding = .zero;
 const EdgeInsetsGeometry smallDefaultPadding = .all(4);
 const EdgeInsetsGeometry largeDefaultPadding = .all(8);
 const EdgeInsetsGeometry rowPadding = .symmetric(vertical: 0, horizontal: 4);
-const EdgeInsetsGeometry columnPadding = .only(bottom: 8);
+const EdgeInsetsGeometry columnPadding = .symmetric(vertical: 4, horizontal: 0);
 
 // Element specific padding
-const EdgeInsetsGeometry titlePadding = .symmetric(vertical: 0, horizontal: 12);
 const EdgeInsetsGeometry headerPadding = .symmetric(
   vertical: 0,
-  horizontal: 12,
+  horizontal: pageInset,
 );
-const EdgeInsetsGeometry bodyPadding = .symmetric(vertical: 4, horizontal: 12);
+const EdgeInsetsGeometry bodyPadding = .symmetric(
+  vertical: 4,
+  horizontal: pageInset,
+);
 const EdgeInsetsGeometry timerLayoutPadding = .fromLTRB(48, 48, 48, 12);
 const EdgeInsetsGeometry timerPadding = .symmetric(vertical: 2, horizontal: 12);
 const EdgeInsetsGeometry listTilePadding = .symmetric(
   vertical: 6,
-  horizontal: 12,
+  horizontal: pageInset,
 );
 const EdgeInsetsGeometry radioTilePadding = .symmetric(
   vertical: 0,
@@ -51,7 +54,13 @@ const EdgeInsetsGeometry buttonColumnPadding = .symmetric(
   vertical: 6,
   horizontal: 0,
 );
-const EdgeInsetsGeometry bottomSliverPadding = .fromLTRB(12, 6, 12, 12);
+const EdgeInsetsGeometry prefsColumnPadding = .only(bottom: 8);
+const EdgeInsetsGeometry bottomSliverPadding = .fromLTRB(
+  pageInset,
+  6,
+  pageInset,
+  12,
+);
 
 // Dialog padding, measured from iOS 26 system alerts
 const EdgeInsets dialogInsetPadding = .symmetric(horizontal: 40, vertical: 24);

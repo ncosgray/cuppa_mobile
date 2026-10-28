@@ -15,13 +15,18 @@
 import 'package:cuppa_mobile/common/colors.dart';
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
+import 'package:cuppa_mobile/common/icons.dart';
+import 'package:cuppa_mobile/common/toast.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 
 import 'dart:async' show Completer;
 import 'dart:io' show Platform;
 
+import 'package:collection/collection.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 final FlutterLocalNotificationsPlugin notify = .new();
@@ -231,3 +236,162 @@ Future<void> cancelOngoingNotification(int notifyID) async {
 // Open OS notification settings for the app
 Future<bool?> openNotificationSettings() =>
     notify.openAppNotificationSettings();
+
+// Native method channels for notification settings
+const _audioChannel = MethodChannel('cuppa_audio');
+const _notifyChannel = MethodChannel('cuppa_notifications');
+
+// Device settings that can keep timer alerts from being heard
+enum NotifyIssue {
+  disabled,
+  muted,
+  timeSensitive;
+
+  // Localized description of the issue
+  String get message => switch (this) {
+    .disabled => AppString.notify_issue_disabled.translate(),
+    .muted => AppString.notify_issue_muted.translate(),
+    .timeSensitive => AppString.notify_issue_time_sensitive.translate(),
+  };
+}
+
+// Check for the most severe notification issue, if any, ignoring sound issues
+// if timers default to silent
+Future<NotifyIssue?> checkNotifyIssue({bool silent = false}) async {
+  if (skipNotify) {
+    return null;
+  }
+
+  try {
+    return Platform.isIOS
+        ? await checkNotifyIssueIOS(silent: silent)
+        : await _checkNotifyIssueAndroid(silent: silent);
+  } catch (e) {
+    debugPrint('Notification check error: $e');
+    return null;
+  }
+}
+
+@visibleForTesting
+Future<NotifyIssue?> checkNotifyIssueIOS({bool silent = false}) async {
+  final Map<String, dynamic>? settings = await _notifyChannel
+      .invokeMapMethod<String, dynamic>('getNotificationSettings');
+  if (settings == null) {
+    return null;
+  }
+
+  // Permission is requested when the first timer starts
+  if (settings['status'] == 'denied') {
+    return .disabled;
+  }
+  if (settings['status'] == 'notDetermined') {
+    return null;
+  }
+  if (!silent && settings['soundEnabled'] == false) {
+    return .muted;
+  }
+  if (settings['timeSensitiveEnabled'] == false) {
+    return .timeSensitive;
+  }
+  return null;
+}
+
+Future<NotifyIssue?> _checkNotifyIssueAndroid({bool silent = false}) async {
+  final AndroidFlutterLocalNotificationsPlugin? android = notify
+      .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin
+      >();
+  final List<AndroidNotificationChannel>? channels = await android
+      ?.getNotificationChannels();
+  return notifyIssueAndroid(
+    enabled: await android?.areNotificationsEnabled(),
+    channels: channels ?? [],
+    silent: silent,
+  );
+}
+
+@visibleForTesting
+NotifyIssue? notifyIssueAndroid({
+  required bool? enabled,
+  required List<AndroidNotificationChannel> channels,
+  bool silent = false,
+}) {
+  // Channels are only created once a timer has run, after requesting permission
+  if (channels.isEmpty) {
+    return null;
+  }
+  if (enabled == false) {
+    return .disabled;
+  }
+  if (silent) {
+    return null;
+  }
+
+  final AndroidNotificationChannel? channel = channels.firstWhereOrNull(
+    (channel) => channel.id == notifyChannel,
+  );
+  if (channel != null &&
+      (!channel.playSound ||
+          channel.importance.value < Importance.defaultImportance.value)) {
+    return .muted;
+  }
+  return null;
+}
+
+// Whether alarm volume is at its minimum (Android only)
+Future<bool> isAlarmVolumeLow() async {
+  if (skipNotify || !Platform.isAndroid) {
+    return false;
+  }
+
+  try {
+    final Map<String, int>? volume = await _audioChannel
+        .invokeMapMethod<String, int>('getAlarmVolume');
+    return volume != null && volume['current']! <= volume['min']!;
+  } catch (e) {
+    debugPrint('Alarm volume error: $e');
+    return false;
+  }
+}
+
+// Show the system alarm volume slider (Android only)
+Future<void> showAlarmVolume() async {
+  if (!Platform.isAndroid) {
+    return;
+  }
+
+  await _audioChannel.invokeMethod<void>('showAlarmVolume');
+}
+
+// Warn if a timer alert would be inaudible, then not again until the user
+// adjusts the volume or it's found above minimum
+bool _alarmVolumeWarned = false;
+Future<void> warnIfAlarmVolumeLow() async {
+  if (!await isAlarmVolumeLow()) {
+    _alarmVolumeWarned = false;
+    return;
+  }
+  if (_alarmVolumeWarned) {
+    return;
+  }
+
+  final OverlayState? overlay = navigatorKey.currentState?.overlay;
+  if (overlay == null || !overlay.mounted) {
+    return;
+  }
+
+  _alarmVolumeWarned = true;
+  Toast.show(
+    overlay.context,
+    overlay: overlay,
+    message: AppString.notify_issue_alarm_volume.translate(),
+    actionLabel: AppString.adjust_button.translate(),
+    actionIcon: launchIcon.icon,
+    onActionPressed: () {
+      _alarmVolumeWarned = false;
+      showAlarmVolume();
+    },
+    position: .top,
+    duration: const .new(seconds: 6),
+  );
+}

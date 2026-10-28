@@ -115,6 +115,9 @@ void setTimer(Tea tea, AppProvider provider, {bool resume = false}) {
       preNotify: provider.preNotify,
     );
     sendOngoingNotification(timer.notifyID, tea.name, tea.timerEndTime);
+    if (!provider.silentDefault) {
+      warnIfAlarmVolumeLow();
+    }
 
     // Update timer stats, if enabled
     if (provider.collectStats) {
@@ -164,20 +167,10 @@ void Function(Timer? ticker) handleTimerTick(
 }
 
 // Cancel a timer
-Future<void> cancelTimer(TeaTimer timer, AppProvider provider) async {
-  // Capture active teas before async gap
-  final activeTeas = provider.activeTeas;
-
+Future<void> cancelTimer(TeaTimer timer) async {
   timer.stop();
   await notify.cancel(id: timer.notifyID);
   await cancelOngoingNotification(timer.notifyID);
-
-  // Update or end Live Activity
-  if (activeTeas.length <= 1) {
-    await liveActivityService.end();
-  } else {
-    await liveActivityService.startOrUpdate(activeTeas);
-  }
 }
 
 // Cancel the active Quick Timer
@@ -189,7 +182,7 @@ void cancelQuickTimer(AppProvider provider) {
 void cancelTimerForTea(Tea tea, AppProvider provider) {
   for (final timer in timerList) {
     if (timer.tea == tea) {
-      cancelTimer(timer, provider);
+      cancelTimer(timer);
     }
   }
   provider
@@ -197,6 +190,9 @@ void cancelTimerForTea(Tea tea, AppProvider provider) {
     // Cancelling a timer abandons the session: restart the infusion cycle
     ..resetInfusion(tea)
     ..notifyTimerTick();
+
+  // Update or end Live Activity
+  liveActivityService.startOrUpdate(provider.activeTeas);
 }
 
 // Adjust a running timer by the given seconds and update notifications
@@ -233,6 +229,9 @@ void toggleTimerSilence(TeaTimer timer, AppProvider provider) {
     silent: tea.isSilent,
     preNotify: provider.preNotify,
   );
+  if (!tea.isSilent) {
+    warnIfAlarmVolumeLow();
+  }
 }
 
 // Advance infusion for a running timer: update state, notification, and timer sync
@@ -243,6 +242,9 @@ void advanceRunningInfusion(Tea tea, AppProvider provider) {
   if (timer == null) return;
 
   provider.adjustTimerForInfusion(tea);
+  if (provider.collectStats) {
+    Stats.updateLatestInfusion(tea);
+  }
 
   // Sync progress arc denominator to the new infusion's brew time
   timer.brewTime = tea.currentBrewTime;
@@ -261,8 +263,11 @@ void advanceRunningInfusion(Tea tea, AppProvider provider) {
 // Force cancel and reset all timers
 void cancelAllTimers(AppProvider provider) {
   for (final timer in timerList) {
-    cancelTimer(timer, provider);
+    cancelTimer(timer);
   }
   cancelTimerForTea(provider.quickTimer, provider);
   provider.clearActiveTea();
+
+  // End Live Activity
+  liveActivityService.end();
 }
