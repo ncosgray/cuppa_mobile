@@ -37,7 +37,7 @@ Future showConfirmDialog({
     barrierDismissible: false,
     builder: (BuildContext context) {
       return PlatformAdaptiveDialog(
-        title: Text(AppString.confirm_title.translate()),
+        title: AppString.confirm_title.translate(),
         message: SingleChildScrollView(
           child: Column(
             mainAxisSize: .min,

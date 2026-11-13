@@ -82,7 +82,7 @@ Future<Null> openQuickTimerDialog(BuildContext context) async {
         initialSeconds: currentSeconds,
         secondOptions: brewTimeSecondOptions,
         buttonTextCancel: AppString.cancel_button.translate(),
-        title: Text(quickTimerLabel),
+        title: quickTimerLabel,
         buttonTextOK: AppString.start_button.translate(),
         showInfusionSettings: false,
       );

@@ -16,7 +16,6 @@
 import 'package:cuppa_mobile/common/constants.dart';
 import 'package:cuppa_mobile/common/globals.dart';
 import 'package:cuppa_mobile/common/local_notifications.dart';
-import 'package:cuppa_mobile/common/platform_adaptive.dart';
 import 'package:cuppa_mobile/common/themes.dart';
 import 'package:cuppa_mobile/data/localization.dart';
 import 'package:cuppa_mobile/data/prefs.dart';
@@ -67,7 +66,6 @@ Future<void> initializeApp({bool testing = false}) async {
   // Initialize Liquid Glass for iOS
   if (Platform.isIOS) {
     await LiquidGlassWidgets.initialize();
-    LiquidGlassWidgets.globalSettings = liquidGlassSettings;
   }
 }
 

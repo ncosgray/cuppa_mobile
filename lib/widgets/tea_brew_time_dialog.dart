@@ -53,7 +53,7 @@ class TeaBrewTimeDialog extends StatefulWidget {
     this.allowInfusionReset = true,
   });
 
-  final Widget? title;
+  final String? title;
   final int initialHours;
   final List<int> hourOptions;
   final String hourLabel;

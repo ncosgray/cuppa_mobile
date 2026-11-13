@@ -280,6 +280,7 @@ Widget adaptiveNavBarActionButton(
       ),
       stretch: _navBarButtonStretch,
       useOwnLayer: true,
+      settings: liquidGlassSettings,
       child: IconTheme(
         data: IconThemeData(color: primaryColor, size: _navBarIconSize),
         child: icon,
@@ -328,10 +329,7 @@ class _SelectListActionCapsule extends StatelessWidget {
   }
 }
 
-// Alert dialog appropriate to platform
-// iOS 26 draws alerts as a translucent window over a blurred backdrop with
-// rounded, tinted action buttons, which neither CupertinoAlertDialog nor a
-// Liquid Glass surface can produce, so the iOS look is built from a Dialog
+// Alert dialog appropriate to platform; on iOS, the native alert platter
 class PlatformAdaptiveDialog extends StatelessWidget {
   const PlatformAdaptiveDialog({
     super.key,
@@ -343,12 +341,13 @@ class PlatformAdaptiveDialog extends StatelessWidget {
     this.insetPadding,
   });
 
-  final Widget? title;
+  final String? title;
   // Alert body text, styled like an iOS alert message
   final Widget? message;
   // Arbitrary widgets, which keep their own styling
   final Widget? content;
   final List<AdaptiveDialogAction> actions;
+  // Android only: the iOS platter scrolls and avoids the keyboard by itself
   final bool scrollable;
   final EdgeInsets? insetPadding;
 
@@ -356,7 +355,7 @@ class PlatformAdaptiveDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!Platform.isIOS) {
       return AlertDialog(
-        title: title,
+        title: title != null ? Text(title!) : null,
         content: message ?? content,
         actions: actions,
         scrollable: scrollable,
@@ -364,108 +363,19 @@ class PlatformAdaptiveDialog extends StatelessWidget {
       );
     }
 
-    // A message is leading aligned in the secondary label color; content is
-    // left alone so that styles set by its widgets survive
-    Widget? dialogContent = content;
-    if (message != null) {
-      dialogContent = DefaultTextStyle.merge(
-        style: textStyleDialogContent.copyWith(
-          color: CupertinoColors.secondaryLabel.resolveFrom(context),
-        ),
-        textAlign: .start,
-        child: message!,
-      );
-    }
-    if (dialogContent != null && scrollable) {
-      dialogContent = SingleChildScrollView(child: dialogContent);
-    }
-
-    return _CupertinoAlertCard(
-      insetPadding: insetPadding,
-      header: title != null
-          ? Padding(
-              padding: dialogTitlePadding,
-              child: DefaultTextStyle(
-                style: textStyleDialogTitle.copyWith(
-                  color: CupertinoColors.label.resolveFrom(context),
-                ),
-                textAlign: .start,
-                child: title!,
-              ),
-            )
-          : null,
-      body: dialogContent != null
-          ? Padding(
-              padding: title != null
-                  ? dialogContentPadding
-                  : dialogContentNoTitlePadding,
-              child: dialogContent,
-            )
-          : null,
-      footer: SingleChildScrollView(
-        padding: dialogActionsPadding,
-        child: _actions(context),
-      ),
-    );
-  }
-
-  // iOS lays two actions out side by side with the default action trailing,
-  // and otherwise stacks them with the default action on top
-  Widget _actions(BuildContext context) {
-    final List<AdaptiveDialogAction> defaultActions = actions
-        .where((action) => action.isDefaultAction)
-        .toList();
-    final List<AdaptiveDialogAction> otherActions = actions
-        .where((action) => !action.isDefaultAction)
-        .toList();
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (actions.length == 2 &&
-            _actionsFitSideBySide(context, constraints.maxWidth)) {
-          return Row(
-            spacing: smallSpacing,
-            children: [
-              for (final action in [...otherActions, ...defaultActions])
-                Expanded(child: action),
-            ],
-          );
-        }
-
-        return Column(
-          mainAxisSize: .min,
-          crossAxisAlignment: .stretch,
-          spacing: smallSpacing,
-          children: [...defaultActions, ...otherActions],
-        );
-      },
-    );
-  }
-
-  // Check that both action labels fit in half of the available action width,
-  // measured the way CupertinoButton renders them
-  bool _actionsFitSideBySide(BuildContext context, double rowWidth) {
-    final double availableWidth =
-        (rowWidth - smallSpacing - (dialogActionPadding.horizontal * 2)) / 2;
-    final TextStyle baseStyle = CupertinoTheme.of(context)
-        .textTheme
-        .actionTextStyle
-        .merge(textStyleDialogAction);
-
-    return actions.every((action) {
-      final TextPainter painter = TextPainter(
-        text: TextSpan(
-          text: action.text,
-          style: baseStyle.copyWith(
-            fontWeight: action.isDefaultAction ? FontWeight.w600 : null,
+    return GlassDialog(
+      title: title,
+      content: message ?? content,
+      actions: [
+        for (final action in actions)
+          GlassDialogAction(
+            label: action.text,
+            onPressed: action.onPressed,
+            isPrimary: action.isDefaultAction,
+            isDestructive: action.isDestructiveAction,
           ),
-        ),
-        textDirection: Directionality.of(context),
-        textScaler: MediaQuery.textScalerOf(context),
-      )..layout();
-
-      return painter.width <= availableWidth;
-    });
+      ],
+    );
   }
 }
 
@@ -492,33 +402,26 @@ class AdaptiveDialogAction extends StatelessWidget {
           : FilledButton.tonal(onPressed: onPressed, child: Text(text));
     }
 
-    // iOS 26 gives actions a translucent neutral fill with label colored text,
-    // reserving the accent fill for the default action
+    // Neutral fill like the alert platter's actions; default is semibold
     final Color neutralColor = _dialogActionColor.resolveFrom(context);
-    final Color accentColor = isDestructiveAction
+    final Color foregroundColor = onPressed == null
+        ? CupertinoColors.tertiaryLabel.resolveFrom(context)
+        : isDestructiveAction
         ? CupertinoColors.systemRed.resolveFrom(context)
-        : CupertinoTheme.of(context).primaryColor;
-    final Color backgroundColor = isDefaultAction ? accentColor : neutralColor;
-    final Color foregroundColor = isDefaultAction
-        ? CupertinoColors.white
-        : (isDestructiveAction
-              ? accentColor
-              : CupertinoColors.label.resolveFrom(context));
+        : CupertinoColors.label.resolveFrom(context);
 
     return CupertinoButton(
       padding: dialogActionPadding,
       minimumSize: const Size(0, dialogActionHeight),
       borderRadius: .circular(dialogActionHeight / 2),
-      color: backgroundColor,
+      color: neutralColor,
       disabledColor: neutralColor,
       onPressed: onPressed,
       child: Text(
         text,
         style: textStyleDialogAction.copyWith(
           fontWeight: isDefaultAction ? FontWeight.w600 : null,
-          color: onPressed != null
-              ? foregroundColor
-              : CupertinoColors.placeholderText.resolveFrom(context),
+          color: foregroundColor,
         ),
         // Long labels wrap and grow the button, as iOS does, rather than
         // truncating at large text sizes
@@ -528,62 +431,43 @@ class AdaptiveDialogAction extends StatelessWidget {
   }
 }
 
-// The iOS 26 alert window: a translucent card of stacked capsules, centered over
-// a blurred backdrop. Alerts and action sheets are the same surface on iOS 26,
-// differing only in what they put inside, so both are built from this card
+// Alert platter card for action sheets whose options GlassDialog can't draw
 class _CupertinoAlertCard extends StatelessWidget {
-  const _CupertinoAlertCard({
-    this.header,
-    this.body,
-    this.footer,
-    this.insetPadding,
-  });
+  const _CupertinoAlertCard({this.header, this.body});
 
   final Widget? header;
   final Widget? body;
-  final Widget? footer;
-  final EdgeInsets? insetPadding;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Dialog(
-        backgroundColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        elevation: 0,
-        insetPadding: insetPadding ?? dialogInsetPadding,
-        shape: RoundedSuperellipseBorder(borderRadius: .circular(dialogRadius)),
-        clipBehavior: .antiAlias,
-        // CupertinoPopupSurface supplies the system blur and vibrancy filter;
-        // its own corner clip is squarer than the dialog shape, so the shape
-        // above is what gets seen. The surface color is painted here instead
-        // of by the popup surface, which is more opaque than an iOS 26 alert.
-        child: Semantics(
-          role: .alertDialog,
-          namesRoute: true,
-          scopesRoute: true,
-          explicitChildNodes: true,
-          label: MaterialLocalizations.of(context).alertDialogLabel,
-          child: CupertinoPopupSurface(
-            isSurfacePainted: false,
-            child: ColoredBox(
-              color: _dialogBackgroundColor.resolveFrom(context),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: dialogWidth),
-                child: LayoutBuilder(
-                  builder: (context, constraints) => Column(
+      child: Padding(
+        padding: .symmetric(vertical: dialogInsetPadding.vertical / 2),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: dialogWidth),
+            child: Semantics(
+              role: .dialog,
+              namesRoute: true,
+              scopesRoute: true,
+              explicitChildNodes: true,
+              label: MaterialLocalizations.of(context).alertDialogLabel,
+              child: DefaultTextStyle(
+                style: CupertinoTheme.of(context).textTheme.textStyle,
+                child: GlassContainer.card(
+                  useOwnLayer: true,
+                  settings: _overlayPlatterSettings(context),
+                  quality: .premium,
+                  shape: const LiquidRoundedSuperellipse(
+                    borderRadius: dialogRadius,
+                  ),
+                  padding: noPadding,
+                  child: Column(
                     mainAxisSize: .min,
                     crossAxisAlignment: .stretch,
                     children: [
                       ?header,
                       if (body != null) Flexible(child: body!),
-                      if (footer != null)
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxHeight: constraints.maxHeight,
-                          ),
-                          child: footer!,
-                        ),
                     ],
                   ),
                 ),
@@ -595,6 +479,13 @@ class _CupertinoAlertCard extends StatelessWidget {
     );
   }
 }
+
+// Theme glass with GlassDialog's full overlay frost, so text can't ghost through
+LiquidGlassSettings? _overlayPlatterSettings(BuildContext context) =>
+    GlassThemeData.of(context)
+        .settingsFor(context)
+        ?.applyTo(const LiquidGlassSettings())
+        .copyWith(frostOpacity: 1);
 
 // Selector list rendered as an iOS 26 action sheet
 class _CupertinoSelectList extends StatelessWidget {
@@ -632,7 +523,6 @@ class _CupertinoSelectList extends StatelessWidget {
         itemBuilder: (context, index) => index < itemCount
             ? itemBuilder(context, index)
             : AdaptiveDialogAction(
-                isDefaultAction: true,
                 text: buttonTextCancel,
                 onPressed: () => Navigator.of(context).pop(false),
               ),
@@ -643,14 +533,7 @@ class _CupertinoSelectList extends StatelessWidget {
   }
 }
 
-// Translucent iOS alert window background, painted over the blurred backdrop
-const CupertinoDynamicColor _dialogBackgroundColor =
-    CupertinoDynamicColor.withBrightness(
-      color: Color(0xacffffff),
-      darkColor: Color(0xac161616),
-    );
-
-// Translucent neutral fill behind a non-default action or a sheet option
+// Translucent neutral fill behind an action or a sheet option
 const CupertinoDynamicColor _dialogActionColor =
     CupertinoDynamicColor.withBrightness(
       color: Color(0x1f000000),
@@ -1057,6 +940,7 @@ class PlatformAdaptiveNavBar extends StatelessWidget
       // GlassAppBar.pinned can't set the shell's inset.
       return GlassPinnedBarChrome(
         horizontalInset: navBarChromeInset,
+        buttonSettings: liquidGlassSettings,
         largeTitleController: largeTitleController,
         // Supplied as a leading item; the shell's own back button can't be tinted
         backButton: false,
@@ -1263,8 +1147,7 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
   }
 }
 
-// Installed as LiquidGlassWidgets.globalSettings. The transparent glassColor
-// keeps the tab bar readable in dark mode; GlassTabBar.bottom needs it passed.
+// Chrome glass, passed explicitly: as globalSettings it unfrosts GlassDialog
 final liquidGlassSettings = LiquidGlassSettings(
   shadow: [BoxShadow(color: shadowColor, blurRadius: 12)],
 );
@@ -1299,7 +1182,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
       barrierDismissible: true,
       builder: (BuildContext context) {
         return PlatformAdaptiveDialog(
-          title: Text(titleText),
+          title: titleText,
           content: SizedBox(
             width: double.maxFinite,
             child: Scrollbar(

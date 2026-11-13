@@ -65,7 +65,5 @@ const EdgeInsetsGeometry bottomSliverPadding = .fromLTRB(
 // Dialog padding, measured from iOS 26 system alerts
 const EdgeInsets dialogInsetPadding = .symmetric(horizontal: 40, vertical: 24);
 const EdgeInsets dialogTitlePadding = .fromLTRB(30, 21, 30, 0);
-const EdgeInsets dialogContentPadding = .fromLTRB(30, 6, 30, 0);
-const EdgeInsets dialogContentNoTitlePadding = .fromLTRB(30, 21, 30, 0);
 const EdgeInsets dialogActionsPadding = .fromLTRB(16, 19, 16, 16);
 const EdgeInsets dialogActionPadding = .symmetric(horizontal: 12);

@@ -37,7 +37,7 @@ dependencies:
   flutter_timezone: ^5.1.1
   in_app_review: ^2.0.12
   intelligence: ^0.2.0
-  liquid_glass_widgets: ^1.15.0
+  liquid_glass_widgets: ^1.17.3
   material_ui: ^1.8.0
   package_info_plus: ^10.2.2
   path: ^1.9.1
