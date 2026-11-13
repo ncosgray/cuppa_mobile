@@ -1113,6 +1113,31 @@ final liquidGlassSettings = LiquidGlassSettings(
   shadow: [BoxShadow(color: shadowColor, blurRadius: 12)],
 );
 
+// Show a dialog route appropriate to platform; on iOS the glass materializes,
+// since a fade can't draw glass until it ends
+Future<T?> showPlatformAdaptiveDialog<T>({
+  required BuildContext context,
+  required WidgetBuilder builder,
+  bool barrierDismissible = false,
+}) {
+  if (!Platform.isIOS) {
+    return showAdaptiveDialog<T>(
+      context: context,
+      barrierDismissible: barrierDismissible,
+      builder: builder,
+    );
+  }
+  return Navigator.of(context, rootNavigator: true).push<T>(
+    CupertinoDialogRoute<T>(
+      context: context,
+      builder: builder,
+      barrierDismissible: barrierDismissible,
+      transitionBuilder: (context, animation, secondaryAnimation, child) =>
+          GlassMaterializeTransition(animation: animation, child: child),
+    ),
+  );
+}
+
 // Display a selector list that is Material on Android and Cupertino on iOS
 Future<bool?> openPlatformAdaptiveSelectList({
   required BuildContext context,
@@ -1124,7 +1149,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
 }) async {
   if (Platform.isIOS) {
     // iOS style action sheet
-    return showAdaptiveDialog<bool>(
+    return showPlatformAdaptiveDialog<bool>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
@@ -1138,7 +1163,7 @@ Future<bool?> openPlatformAdaptiveSelectList({
     );
   } else {
     // Scrolling dialog list
-    return showAdaptiveDialog<bool>(
+    return showPlatformAdaptiveDialog<bool>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {

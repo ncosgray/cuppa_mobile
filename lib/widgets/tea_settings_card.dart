@@ -285,7 +285,7 @@ class TeaSettingsCard extends StatelessWidget {
     String currentTeaName,
   ) async {
     subDialogNotifier?.value = true;
-    final result = await showAdaptiveDialog<String>(
+    final result = await showPlatformAdaptiveDialog<String>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
@@ -357,7 +357,9 @@ class TeaSettingsCard extends StatelessWidget {
   ) async {
     subDialogNotifier?.value = true;
     final result =
-        await showAdaptiveDialog<({TeaColor teaColor, Color? colorShade})>(
+        await showPlatformAdaptiveDialog<
+          ({TeaColor teaColor, Color? colorShade})
+        >(
           context: context,
           barrierDismissible: true,
           builder: (BuildContext context) {
@@ -431,7 +433,7 @@ class TeaSettingsCard extends StatelessWidget {
     int currentInfusionInterval,
   ) async {
     subDialogNotifier?.value = true;
-    final result = await showAdaptiveDialog<BrewTimeResult>(
+    final result = await showPlatformAdaptiveDialog<BrewTimeResult>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
@@ -501,7 +503,7 @@ class TeaSettingsCard extends StatelessWidget {
     int currentTemp,
   ) async {
     subDialogNotifier?.value = true;
-    final result = await showAdaptiveDialog<int>(
+    final result = await showPlatformAdaptiveDialog<int>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
@@ -558,7 +560,7 @@ class TeaSettingsCard extends StatelessWidget {
     BrewRatio currentRatio,
   ) async {
     subDialogNotifier?.value = true;
-    final result = await showAdaptiveDialog<BrewRatio?>(
+    final result = await showPlatformAdaptiveDialog<BrewRatio?>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
@@ -599,7 +601,7 @@ class TeaSettingsCard extends StatelessWidget {
   // Display a tea icon selection dialog box
   Future<bool?> _openIconDialog(BuildContext context, Tea tea) async {
     subDialogNotifier?.value = true;
-    final result = await showAdaptiveDialog<bool>(
+    final result = await showPlatformAdaptiveDialog<bool>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {

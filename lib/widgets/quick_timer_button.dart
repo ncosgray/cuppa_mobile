@@ -68,7 +68,7 @@ Future<Null> openQuickTimerDialog(BuildContext context) async {
   final String quickTimerLabel = AppString.quick_timer.translate();
 
   // Ask for Quick Timer brewing time
-  final result = await showAdaptiveDialog<BrewTimeResult>(
+  final result = await showPlatformAdaptiveDialog<BrewTimeResult>(
     context: context,
     barrierDismissible: true,
     builder: (BuildContext context) {

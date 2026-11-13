@@ -32,7 +32,7 @@ Future showConfirmDialog({
     listBody.add(bodyExtra);
   }
 
-  return showAdaptiveDialog<bool>(
+  return showPlatformAdaptiveDialog<bool>(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
@@ -69,7 +69,7 @@ Future showInfoDialog({
   required BuildContext context,
   required String message,
 }) {
-  return showAdaptiveDialog(
+  return showPlatformAdaptiveDialog(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
