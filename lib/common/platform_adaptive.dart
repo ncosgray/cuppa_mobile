@@ -25,7 +25,7 @@ import 'package:cuppa_mobile/common/padding.dart';
 import 'package:cuppa_mobile/common/text_styles.dart';
 
 import 'dart:io' show Platform;
-import 'dart:ui' show FlutterView, ImageFilter;
+import 'dart:ui' show FlutterView;
 
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
@@ -742,13 +742,7 @@ Widget adaptiveSwitch({
   required Function(bool) onChanged,
 }) {
   if (Platform.isIOS) {
-    return Builder(
-      builder: (context) => GlassSwitch(
-        value: value,
-        onChanged: onChanged,
-        inactiveColor: CupertinoColors.systemFill.resolveFrom(context),
-      ),
-    );
+    return GlassSwitch(value: value, onChanged: onChanged);
   } else {
     return Switch.adaptive(value: value, onChanged: onChanged);
   }
@@ -763,15 +757,12 @@ Widget adaptiveSlider({
   required Function(double) onChanged,
 }) {
   if (Platform.isIOS) {
-    return Builder(
-      builder: (context) => GlassSlider(
-        value: value,
-        min: min,
-        max: max,
-        divisions: divisions,
-        onChanged: onChanged,
-        activeColor: CupertinoColors.activeBlue.resolveFrom(context),
-      ),
+    return GlassSlider(
+      value: value,
+      min: min,
+      max: max,
+      divisions: divisions,
+      onChanged: onChanged,
     );
   } else {
     return Slider.adaptive(
@@ -792,28 +783,13 @@ Widget adaptiveSegmentedControl({
   required Function(bool?) onValueChanged,
 }) {
   if (Platform.isIOS) {
-    return Builder(
-      builder: (context) {
-        final Color primaryColor = CupertinoTheme.of(context).primaryColor;
-        return GlassSegmentedControl(
-          segments: [
-            GlassSegment(id: true, label: buttonTextTrue),
-            GlassSegment(id: false, label: buttonTextFalse),
-          ],
-          selectedIndex: groupValue ? 0 : 1,
-          onSegmentSelected: (i) => onValueChanged(i == 0),
-          backgroundColor: CupertinoColors.systemFill
-              .resolveFrom(context)
-              .withValues(alpha: 0.05),
-          indicatorColor: primaryColor.withValues(alpha: 0.1),
-          selectedTextStyle: textStyleSettingTertiary.copyWith(
-            color: primaryColor,
-          ),
-          unselectedTextStyle: textStyleSettingTertiary.copyWith(
-            color: CupertinoColors.label.resolveFrom(context),
-          ),
-        );
-      },
+    return GlassSegmentedControl(
+      segments: [
+        GlassSegment(id: true, label: buttonTextTrue),
+        GlassSegment(id: false, label: buttonTextFalse),
+      ],
+      selectedIndex: groupValue ? 0 : 1,
+      onSegmentSelected: (i) => onValueChanged(i == 0),
     );
   } else {
     return SegmentedButton<bool>(
@@ -851,20 +827,6 @@ Widget adaptivePageHeader(
         ? (Theme.of(context).brightness == Brightness.dark
               ? SystemUiOverlayStyle.light
               : SystemUiOverlayStyle.dark)
-        : null,
-    // Frosted glass background on pinned iOS headers
-    flexibleSpace: Platform.isIOS && pinned
-        ? Builder(
-            builder: (ctx) => ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                child: Container(
-                  color: Theme.of(ctx).scaffoldBackgroundColor
-                      .withValues(alpha: 0.75),
-                ),
-              ),
-            ),
-          )
         : null,
     automaticallyImplyLeading: false,
     leading: leading,
@@ -1073,7 +1035,7 @@ Function()? adaptiveOnPressed(
                   );
                 },
               )
-            : CupertinoPageRoute<void>(builder: (_) => route),
+            : GlassPageRoute<void>(builder: (_) => route),
       );
     } else {
       Navigator.of(context)
@@ -1120,7 +1082,6 @@ class PlatformAdaptiveBottomNavBar extends StatelessWidget {
         unselectedIconColor: labelColor,
         selectedLabelColor: primaryColor,
         unselectedLabelColor: labelColor,
-        labelFontSize: 11,
         indicatorColor: primaryColor.withValues(alpha: 0.1),
         glowDuration: shortAnimationDuration,
         settings: liquidGlassSettings,
