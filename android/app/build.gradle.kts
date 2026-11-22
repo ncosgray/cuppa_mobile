@@ -15,7 +15,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.nathanatos.Cuppa"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37 // Default = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
